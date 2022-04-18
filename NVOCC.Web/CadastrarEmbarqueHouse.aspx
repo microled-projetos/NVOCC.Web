@@ -94,7 +94,7 @@
                                                 <asp:TextBox ID="txtID_BasicoMaritimo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Número do Processo:</label>
                                                 <asp:TextBox ID="txtProcesso_BasicoMaritimo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
@@ -112,10 +112,17 @@
                                                 <asp:TextBox ID="txtMBL_BasicoMaritimo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label" style="color:white">:</label>
                                                 <asp:Button ID="btnVisualizarMBL_Maritimo" runat="server"  CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
+                                            </div>
+                                        </div>
+                                         <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label"></label>
+                                                <asp:CheckBox ID="ckTrakingAutomaticoMaritimo" runat="server" CssClass="form-control" Checked="true" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
+
                                             </div>
                                         </div>
                                         </div>
@@ -1268,13 +1275,13 @@ VENDAS:
                                                 <asp:TextBox ID="txtIDMaster_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Número do Processo:</label>
                                                         <asp:TextBox ID="txtProcesso_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">HAWB:</label>
                                                         <asp:TextBox ID="txtHBL_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
@@ -1293,13 +1300,21 @@ VENDAS:
                                                 <label class="control-label" style="color:white">:</label>
                                                 <asp:Button ID="btnVisualizarMBL_Aereo" runat="server" CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
                                             </div>
-                                        </div><div class="col-sm-2">
+                                        </div>
+                                                  <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label"></label>
                                                 <asp:CheckBox ID="ckbFreeHand_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Free Hand"></asp:CheckBox>
 
                                             </div>
                                                      </div>
+                                                <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label"></label>
+                                                <asp:CheckBox ID="ckTrakingAutomaticoAereo" runat="server" CssClass="form-control" Checked="true" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
+
+                                            </div>
+                                        </div>
                                                 </div>
                                                 <div class="row">
                                                 <div class="col-sm-3">
@@ -1593,7 +1608,7 @@ VENDAS:
                                     </div>
                                 </div>
 </div>
-                                                                                        <div class="row">
+                                                                                        <div class="row" style="display:none">
                                                
 
                                                

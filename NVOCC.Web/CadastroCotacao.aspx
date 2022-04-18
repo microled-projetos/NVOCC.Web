@@ -1022,11 +1022,11 @@
                                                                 <div class="col-sm-1"> 
                                                                     <div class="form-group">
                                                                             <label class="control-label" style="color:white">Adicionar:</label>
-                                                                            <asp:ImageButton ID="btnAdicionarMedidasAereo" src="Content/imagens/plus.png" runat="server" OnClientClick="adicionarTR();"/>
+                                                                            <asp:ImageButton ID="btnAdicionarMedidasAereo" src="Content/imagens/plus.png" runat="server" OnClientClick="adicionarTR();" visible="false"/>
                                                                        </div>    
                                                                 </div>
                                                        <div class="col-sm-12"> 
-                                                                    <div class="table-responsive tableFixHead" Style="height: 200px">
+                                                                    <div class="table-responsive tableFixHead" Style="max-height: 200px">
                                                                     <asp:GridView ID="dgvMedidasAereo" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="Id" DataSourceID="dsMedidasAereo" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false">
                                             <Columns>
                                                 <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" visible="false"/>
@@ -1071,7 +1071,7 @@
                                                                 
                                     <td class="col-sm-1">
                                          <label class="control-label" style="color:white">Adicionar:</label>
-                                        <asp:ImageButton ID="ImageButton2" src="Content/imagens/plus.png" runat="server" OnClientClick="adicionarTR();"/>
+                                        <asp:ImageButton ID="ImageButton2" src="Content/imagens/plus.png" runat="server" OnClientClick="adicionarTR();" visible="false"/>
                                     </td>
                                 </tr></table>
                                                             </div>

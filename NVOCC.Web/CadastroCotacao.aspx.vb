@@ -386,6 +386,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
         txtFreteCompraMinima.Text = ""
         txtFreteCompraMercadoriaUnitario.Text = ""
         txtFreteVendaMercadoriaUnitario.Text = ""
+        btnAdicionarMedidasAereo.Visible = False
 
         mpeNovoMercadoria.Hide()
     End Sub
@@ -860,6 +861,7 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
 
             Else
                 Con.ExecutarQuery("DELETE From TB_COTACAO_MERCADORIA Where ID_COTACAO_MERCADORIA = " & ID)
+                Con.ExecutarQuery("DELETE From TB_COTACAO_MERCADORIA_DIMENSAO Where ID_COTACAO_MERCADORIA = " & ID)
                 lblDeleteMercadoria.Text = "Registro deletado!"
                 divDeleteMercadoria.Visible = True
                 dgvMercadoria.DataBind()
@@ -874,15 +876,23 @@ A.ID_COTACAO_MERCADORIA,A.ID_COTACAO,A.ID_MERCADORIA,A.ID_TIPO_CONTAINER,A.QT_CO
 A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.OUTRAS_OBS,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,A.QT_MERCADORIA,A.VL_FRETE_COMPRA_MIN,A.VL_FRETE_VENDA_MIN,OBS_ENDERECO, ISNULL(ID_MOEDA_CARGA,0)ID_MOEDA_CARGA FROM TB_COTACAO_MERCADORIA A
 WHERE ID_COTACAO_MERCADORIA = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
+
+                If Session("servico") = 2 Or Session("servico") = 5 Then
+                    btnAdicionarMedidasAereo.Visible = True
+                End If
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_COTACAO_MERCADORIA")) Then
                     txtIDMercadoria.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO_MERCADORIA")
                 End If
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MERCADORIA")) Then
                     ddlMercadoria.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MERCADORIA")
                 End If
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER")) Then
                     ddlTipoContainerMercadoria.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER")
                 End If
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_CONTAINER")) Then
                     txtQtdContainerMercadoria.Text = ds.Tables(0).Rows(0).Item("QT_CONTAINER")
                 End If
@@ -1655,7 +1665,7 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
             lblErroMercadoria.Text = "Preencha todos os campos obrigatórios"
             divErroMercadoria.Visible = True
             mpeNovoMercadoria.Show()
-        ElseIf Session("estufagem") = 2 And txtQtdMercadoria.Text = "" Then
+        ElseIf Session("estufagem") = 2 And Session("servico") <> 2 And Session("servico") <> 5 And txtQtdMercadoria.Text = "" Then
             RedQTDMercadoria.Visible = True
             RedPesoBruto.Visible = True
             RedM3.Visible = True
@@ -1856,32 +1866,36 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
                 Else
 
                     'INSERE MERCADORIA
-                    Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO,
-ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_PESO_BRUTO,VL_M3,DS_MERCADORIA,VL_COMPRIMENTO,VL_LARGURA,VL_ALTURA,VL_CARGA,QT_DIAS_FREETIME,QT_MERCADORIA,VL_FRETE_COMPRA_MIN,VL_FRETE_VENDA_MIN,OBS_ENDERECO,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,OUTRAS_OBS,ID_MOEDA_CARGA) VALUES (" & txtID.Text & "," & ddlMercadoria.SelectedValue & " ," & ddlTipoContainerMercadoria.SelectedValue & "," & txtQtdContainerMercadoria.Text & "," & txtFreteCompraMercadoriaCalc.Text & "," & txtFreteVendaMercadoriaCalc.Text & "," & txtPesoBrutoMercadoria.Text & "," & txtM3Mercadoria.Text & ", " & DescMercadoria & " ," & txtComprimentoMercadoria.Text & ", " & txtLarguraMercadoria.Text & "," & txtAlturaMercadoria.Text & ", " & txtValorCargaMercadoria.Text & "," & txtFreeTimeMercadoria.Text & "," & txtQtdMercadoria.Text & "," & txtFreteCompraMinima.Text & "," & txtFreteVendaMinima.Text & ", " & OBSEndereco & "," & txtFreteCompraMercadoriaUnitario.Text & "," & txtFreteVendaMercadoriaUnitario.Text & "," & OutrasOBS & "," & ddlMoedaCarga.SelectedValue & ")")
+                    Dim dsMercadoria As DataSet = Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO,
+ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_PESO_BRUTO,VL_M3,DS_MERCADORIA,VL_COMPRIMENTO,VL_LARGURA,VL_ALTURA,VL_CARGA,QT_DIAS_FREETIME,QT_MERCADORIA,VL_FRETE_COMPRA_MIN,VL_FRETE_VENDA_MIN,OBS_ENDERECO,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,OUTRAS_OBS,ID_MOEDA_CARGA) VALUES (" & txtID.Text & "," & ddlMercadoria.SelectedValue & " ," & ddlTipoContainerMercadoria.SelectedValue & "," & txtQtdContainerMercadoria.Text & "," & txtFreteCompraMercadoriaCalc.Text & "," & txtFreteVendaMercadoriaCalc.Text & "," & txtPesoBrutoMercadoria.Text & "," & txtM3Mercadoria.Text & ", " & DescMercadoria & " ," & txtComprimentoMercadoria.Text & ", " & txtLarguraMercadoria.Text & "," & txtAlturaMercadoria.Text & ", " & txtValorCargaMercadoria.Text & "," & txtFreeTimeMercadoria.Text & "," & txtQtdMercadoria.Text & "," & txtFreteCompraMinima.Text & "," & txtFreteVendaMinima.Text & ", " & OBSEndereco & "," & txtFreteCompraMercadoriaUnitario.Text & "," & txtFreteVendaMercadoriaUnitario.Text & "," & OutrasOBS & "," & ddlMoedaCarga.SelectedValue & ")   Select SCOPE_IDENTITY() as ID_COTACAO_MERCADORIA ")
                     If ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
+                        txtIDMercadoria.Text = dsMercadoria.Tables(0).Rows(0).Item("ID_COTACAO_MERCADORIA").ToString()
+                        btnAdicionarMedidasAereo.Visible = True
                         AdicionarMedidasAereo()
-                    End If
+                    Else
 
-                    ddlMercadoria.SelectedValue = 0
-                    ddlTipoContainerMercadoria.SelectedValue = 0
-                    txtQtdContainerMercadoria.Text = ""
-                    txtFreteCompraMercadoriaCalc.Text = ""
-                    txtFreteVendaMercadoriaCalc.Text = ""
-                    txtPesoBrutoMercadoria.Text = ""
-                    txtM3Mercadoria.Text = ""
-                    txtDsMercadoria.Text = ""
-                    txtComprimentoMercadoria.Text = ""
-                    txtLarguraMercadoria.Text = ""
-                    txtAlturaMercadoria.Text = ""
-                    txtValorCargaMercadoria.Text = ""
-                    txtFreeTimeMercadoria.Text = ""
-                    txtQtdMercadoria.Text = ""
-                    txtFreteCompraMinima.Text = ""
-                    txtFreteVendaMinima.Text = ""
-                    txtOBS_Endereco.Text = ""
-                    txtOutrasOBS_Mercadoria.Text = ""
-                    txtFreteCompraMercadoriaUnitario.Text = ""
-                    txtFreteVendaMercadoriaUnitario.Text = ""
+                        ddlMercadoria.SelectedValue = 0
+                        ddlTipoContainerMercadoria.SelectedValue = 0
+                        txtQtdContainerMercadoria.Text = ""
+                        txtFreteCompraMercadoriaCalc.Text = ""
+                        txtFreteVendaMercadoriaCalc.Text = ""
+                        txtPesoBrutoMercadoria.Text = ""
+                        txtM3Mercadoria.Text = ""
+                        txtDsMercadoria.Text = ""
+                        txtComprimentoMercadoria.Text = ""
+                        txtLarguraMercadoria.Text = ""
+                        txtAlturaMercadoria.Text = ""
+                        txtValorCargaMercadoria.Text = ""
+                        txtFreeTimeMercadoria.Text = ""
+                        txtQtdMercadoria.Text = ""
+                        txtFreteCompraMinima.Text = ""
+                        txtFreteVendaMinima.Text = ""
+                        txtOBS_Endereco.Text = ""
+                        txtOutrasOBS_Mercadoria.Text = ""
+                        txtFreteCompraMercadoriaUnitario.Text = ""
+                        txtFreteVendaMercadoriaUnitario.Text = ""
+                        txtIDMercadoria.Text = ""
+                    End If
 
                     Con.Fechar()
                     dgvMercadoria.DataBind()
@@ -1927,18 +1941,6 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
                         AdicionarMedidasAereo()
                     End If
 
-
-
-
-
-                    'txtDsMercadoria.Text = txtDsMercadoria.Text.Replace("NULL", "")
-                    'txtDsMercadoria.Text = txtDsMercadoria.Text.Replace("'", "")
-
-                    'txtOBS_Endereco.Text = txtOBS_Endereco.Text.Replace("NULL", "")
-                    'txtOBS_Endereco.Text = txtOBS_Endereco.Text.Replace("'", "")
-
-                    'txtOutrasOBS_Mercadoria.Text = txtOutrasOBS_Mercadoria.Text.Replace("NULL", "")
-                    'txtOutrasOBS_Mercadoria.Text = txtOutrasOBS_Mercadoria.Text.Replace("'", "")
 
                     txtFreteCompraMercadoriaUnitario.Text = txtFreteCompraMercadoriaUnitario.Text.Replace(".", ",")
                     txtFreteCompraMinima.Text = txtFreteCompraMinima.Text.Replace(".", ",")
@@ -4602,38 +4604,59 @@ end ID_ORIGEM_PAGAMENTO
         End If
 
         Dim dsCarga As DataSet
-        If ddlEstufagem.SelectedValue = 1 Then
+        If ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
 
-            dsCarga = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA,QT_CONTAINER FROM TB_COTACAO_MERCADORIA
-         WHERE QT_CONTAINER is not null and QT_CONTAINER <> 0 and ID_COTACAO = " & txtID.Text)
+            dsCarga = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & txtID.Text)
             If dsCarga.Tables(0).Rows.Count > 0 Then
-                Dim QT_CONTAINER As Integer
                 For Each linha As DataRow In dsCarga.Tables(0).Rows
-                    QT_CONTAINER = linha.Item("QT_CONTAINER")
-
-                    For i As Integer = 1 To QT_CONTAINER Step 1
-                        Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_TIPO_CNTR,ID_COTACAO_MERCADORIA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,isnull(VL_PESO_BRUTO,0)/isnull(QT_CONTAINER,0)VL_PESO_BRUTO,isnull(VL_M3,0)/isnull(QT_CONTAINER,0)VL_M3," & ID_BL & ",ID_TIPO_CONTAINER, ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA
-                WHERE ID_COTACAO_MERCADORIA =  " & linha.Item("ID_COTACAO_MERCADORIA"))
-                    Next
+                    Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_ALTURA,VL_COMPRIMENTO,VL_LARGURA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_COTACAO_MERCADORIA,ID_COTACAO_MERCADORIA_DIMENSAO ) 
+select A.ID_MERCADORIA,A.ID_MERCADORIA,B.QTD_CAIXA,B.VL_ALTURA,B.VL_COMPRIMENTO,B.VL_LARGURA,
+isnull(VL_PESO_BRUTO,0)/(SELECT COUNT(*) FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA = " & linha.Item("ID_COTACAO_MERCADORIA") & " )VL_PESO_BRUTO,
+isnull(VL_M3,0)/(SELECT COUNT(*) FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA = " & linha.Item("ID_COTACAO_MERCADORIA") & " )VL_M3, " & ID_BL & " , A.ID_COTACAO_MERCADORIA, ID 
+from TB_COTACAO_MERCADORIA A
+INNER JOIN TB_COTACAO_MERCADORIA_DIMENSAO B ON A.ID_COTACAO_MERCADORIA = B.ID_COTACAO_MERCADORIA AND A.ID_COTACAO = B.ID_COTACAO
+where a.ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA"))
                 Next
-            Else
-                Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,ID_BL,ID_COTACAO_MERCADORIA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO," & ID_BL & ",ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA
+
+
+            End If
+
+        Else
+
+            If ddlEstufagem.SelectedValue = 1 Then
+
+                dsCarga = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA,QT_CONTAINER FROM TB_COTACAO_MERCADORIA
+         WHERE QT_CONTAINER is not null and QT_CONTAINER <> 0 and ID_COTACAO = " & txtID.Text)
+                If dsCarga.Tables(0).Rows.Count > 0 Then
+                    Dim QT_CONTAINER As Integer
+                    For Each linha As DataRow In dsCarga.Tables(0).Rows
+                        QT_CONTAINER = linha.Item("QT_CONTAINER")
+
+                        For i As Integer = 1 To QT_CONTAINER Step 1
+                            Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_TIPO_CNTR,ID_COTACAO_MERCADORIA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,isnull(VL_PESO_BRUTO,0)/isnull(QT_CONTAINER,0)VL_PESO_BRUTO,isnull(VL_M3,0)/isnull(QT_CONTAINER,0)VL_M3," & ID_BL & ",ID_TIPO_CONTAINER, ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA
+                WHERE ID_COTACAO_MERCADORIA =  " & linha.Item("ID_COTACAO_MERCADORIA"))
+                        Next
+                    Next
+                Else
+                    Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,ID_BL,ID_COTACAO_MERCADORIA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO," & ID_BL & ",ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA
          WHERE ID_COTACAO =  " & txtID.Text)
-            End If
+                End If
 
 
-        ElseIf ddlEstufagem.SelectedValue = 2 Then
+            ElseIf ddlEstufagem.SelectedValue = 2 Then
 
-            Dim ID_MERCADORIA As Integer = 11
-            dsCarga = Con.ExecutarQuery("SELECT DISTINCT ID_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & txtID.Text)
-            If dsCarga.Tables(0).Rows.Count = 1 Then
-                ID_MERCADORIA = dsCarga.Tables(0).Rows(0).Item("ID_MERCADORIA")
-            End If
+                Dim ID_MERCADORIA As Integer = 11
+                dsCarga = Con.ExecutarQuery("SELECT DISTINCT ID_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & txtID.Text)
+                If dsCarga.Tables(0).Rows.Count = 1 Then
+                    ID_MERCADORIA = dsCarga.Tables(0).Rows(0).Item("ID_MERCADORIA")
+                End If
 
-            Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_MERCADORIA,ID_EMBALAGEM) 
+                Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_MERCADORIA,ID_EMBALAGEM) 
         SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3)VL_M3," & ID_BL & ", " & ID_MERCADORIA & "," & ID_MERCADORIA & " FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text)
 
+            End If
         End If
+
 
 
 
@@ -5175,6 +5198,10 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             lblmsgErro.Text = "Necessário inserir cotação na Aba de Informações Básicas."
             diverro.Visible = True
 
+        ElseIf txtIDMercadoria.Text = "" Then
+            lblmsgErro.Text = "Necessário inserir mercadoria."
+            diverro.Visible = True
+
         ElseIf txtQtdCaixasAereo.Text = "" Or txtComprimentoMercadoriaAereo.Text = "" Or txtAlturaMercadoriaAereo.Text = "" Or txtLarguraMercadoriaAereo.Text = "" Then
             lblmsgErro.Text = "Preencha todos os campos de dimensoes!"
             diverro.Visible = True
@@ -5207,10 +5234,11 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
     Sub sumMedidasAereo()
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET QT_MERCADORIA =
+        If txtIDMercadoria.Text <> "" Then
+            Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QTD_CAIXA,0))QTD_CAIXA FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text & ") WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text)
 
-        Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_LARGURA =
+            Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_LARGURA =
 (SELECT SUM(ISNULL(VL_LARGURA,0))VL_LARGURA FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text & ") WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text)
 
         Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_ALTURA =
@@ -5218,6 +5246,7 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
 
         Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_COMPRIMENTO =
 (SELECT SUM(ISNULL(VL_COMPRIMENTO,0))VL_COMPRIMENTO FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text & ") WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text)
+        End If
     End Sub
     Private Sub btnAdicionarMedidasAereo_Click(sender As Object, e As ImageClickEventArgs) Handles btnAdicionarMedidasAereo.Click
         AdicionarMedidasAereo()

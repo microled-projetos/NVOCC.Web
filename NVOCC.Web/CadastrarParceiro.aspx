@@ -422,7 +422,13 @@
                                             </asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
+                                        <div class="form-group">
+                                             <label class="control-label" style="color:white">Tipo de Faturamento:</label>
+                                        <asp:button  ID="btnTipoFaturamento" runat="server" CssClass="btn btn-primary btn-block" Text="Cadastrar Tipo Faturamento" OnClientClick="TipoFaturamento()" />
+                                    </div>
+                                    </div>
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Regra de atualização:</label>
                                        <asp:DropDownList ID="ddlRegraAtualizacao" runat="server"  CssClass="form-control" Font-Size="11px"  >
@@ -863,6 +869,15 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
               console.log(ID);
 
              window.open('DadosBancariosAgente.aspx?tipo=p&id=' + ID, '_blank');
+         }
+
+         function TipoFaturamento() {
+
+
+             var ID = document.getElementById('<%= txtID.ClientID %>').value;
+              console.log(ID);
+
+             window.open('CadastrarTipoFaturamento.aspx?p=' + ID, '_blank');
           }
      </script>
 </asp:Content>

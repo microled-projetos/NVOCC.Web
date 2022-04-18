@@ -73,9 +73,6 @@ ISNULL(VL_ALIQUOTA_ISS,3)VL_ALIQUOTA_ISS, ISNULL(VL_ALIQUOTA_PIS,7.6)VL_ALIQUOTA
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_CIDADE")) Then
                         lblCidade.Text = ds.Tables(0).Rows(0).Item("NM_CIDADE")
                     End If
-                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")) Then
-                        lblTipoFaturamento.Text = ds.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")
-                    End If
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO")) Then
                         lblDiasFaturamento.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO")
                     End If
@@ -89,7 +86,7 @@ ISNULL(VL_ALIQUOTA_ISS,3)VL_ALIQUOTA_ISS, ISNULL(VL_ALIQUOTA_PIS,7.6)VL_ALIQUOTA
                         lbl_ISS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS")
                     End If
 
-                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_BL_MASTER,GRAU,ISNULL(ID_SERVICO,0)ID_SERVICO,(SELECT TP_SERVICO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)TP_SERVICO, CASE WHEN GRAU = 'C' THEN (SELECT CASE WHEN DT_CHEGADA < GETDATE() THEN GETDATE() ELSE DT_CHEGADA END FROM TB_BL B WHERE B.ID_BL = A.ID_BL_MASTER) WHEN GRAU = 'M' AND DT_CHEGADA < GETDATE() THEN GETDATE() WHEN GRAU = 'M' THEN DT_CHEGADA END DT_CHEGADA
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_BL_MASTER,GRAU,ISNULL(ID_SERVICO,0)ID_SERVICO,(SELECT TP_SERVICO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)TP_SERVICO, CASE WHEN GRAU = 'C' THEN (SELECT CASE WHEN DT_CHEGADA < GETDATE() THEN GETDATE() ELSE DT_CHEGADA END FROM TB_BL B WHERE B.ID_BL = A.ID_BL_MASTER) WHEN GRAU = 'M' AND DT_CHEGADA < GETDATE() THEN GETDATE() WHEN GRAU = 'M' THEN DT_CHEGADA END DT_CHEGADA, ISNULL(ID_INCOTERM,0)ID_INCOTERM, ISNULL(FL_FREE_HAND,0)FL_FREE_HAND 
 FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                     Dim DATA As Date
                     If IsDBNull(ds1.Tables(0).Rows(0).Item("DT_CHEGADA")) And ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
@@ -102,25 +99,225 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                         lblTpServico.Text = ds1.Tables(0).Rows(0).Item("TP_SERVICO")
                     End If
 
-                    If ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
-                        If ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
-                            DATA = Now.Date.ToString("dd-MM-yyyy")
 
-                        ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
-                            DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+                    'PROCURA COMBINAÇÃO COMPLETA
+                    Dim dsFaturamento As DataSet = Con.ExecutarQuery("SELECT ID_TIPO_FATURAMENTO, (SELECT NM_TIPO_FATURAMENTO FROM TB_TIPO_FATURAMENTO WHERE ID_TIPO_FATURAMENTO = A.ID_TIPO_FATURAMENTO)NM_TIPO_FATURAMENTO FROM TB_PARCEIRO_TIPO_FATURAMENTO A WHERE ID_INCOTERM = " & ds1.Tables(0).Rows(0).Item("ID_INCOTERM") & " AND ID_SERVICO = " & ds1.Tables(0).Rows(0).Item("ID_SERVICO") & " AND FL_FREE_HAND = '" & ds1.Tables(0).Rows(0).Item("FL_FREE_HAND") & "' AND ID_PARCEIRO = " & ddlFornecedor.SelectedValue)
 
-                            DATA = DATA.AddDays(lblDiasFaturamento.Text)
-                        ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 5 Then
-                            DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+                    'CASO ENCONTRE
+                    If dsFaturamento.Tables(0).Rows.Count > 0 Then
 
-                            DATA = DATA.AddMonths(1)
-
-                            DATA = "11/" & DATA.Month & "/" & DATA.Year
-                            DATA = FinalSemana(DATA)
-
+                        If Not IsDBNull(dsFaturamento.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")) Then
+                            lblTipoFaturamento.Text = dsFaturamento.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")
                         End If
-                        txtVencimento.Text = DATA
+
+                        If Not IsDBNull(dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")) Then
+                            lblIDTipoFaturamento.Text = dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")
+                        End If
+
+                        If ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
+                            If dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
+                                DATA = Now.Date.ToString("dd-MM-yyyy")
+
+                            ElseIf dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
+                                DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                                DATA = DATA.AddDays(lblDiasFaturamento.Text)
+                            ElseIf dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 5 Then
+                                DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                                DATA = DATA.AddMonths(1)
+
+                                DATA = "11/" & DATA.Month & "/" & DATA.Year
+                                DATA = FinalSemana(DATA)
+
+                            End If
+                            txtVencimento.Text = DATA
+                        End If
+
+
+                    Else
+
+                        'CASO NAO ENCONTRE PROCURA COMBINAÇÃO COM INCOTERM
+                        dsFaturamento = Con.ExecutarQuery("SELECT ID_TIPO_FATURAMENTO, (SELECT NM_TIPO_FATURAMENTO FROM TB_TIPO_FATURAMENTO WHERE ID_TIPO_FATURAMENTO = A.ID_TIPO_FATURAMENTO)NM_TIPO_FATURAMENTO FROM TB_PARCEIRO_TIPO_FATURAMENTO A WHERE FL_FREE_HAND = 0 AND ID_INCOTERM = " & ds1.Tables(0).Rows(0).Item("ID_INCOTERM") & " AND ID_SERVICO = " & ds1.Tables(0).Rows(0).Item("ID_SERVICO") & " AND ID_PARCEIRO = " & ddlFornecedor.SelectedValue)
+
+                        If dsFaturamento.Tables(0).Rows.Count > 0 Then
+
+                            If Not IsDBNull(dsFaturamento.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")) Then
+                                lblTipoFaturamento.Text = dsFaturamento.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")
+                            End If
+
+                            If Not IsDBNull(dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")) Then
+                                lblIDTipoFaturamento.Text = dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")
+                            End If
+
+                            If ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
+                                If dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
+                                    DATA = Now.Date.ToString("dd-MM-yyyy")
+
+                                ElseIf dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
+                                    DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                                    DATA = DATA.AddDays(lblDiasFaturamento.Text)
+                                ElseIf dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 5 Then
+                                    DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                                    DATA = DATA.AddMonths(1)
+
+                                    DATA = "11/" & DATA.Month & "/" & DATA.Year
+                                    DATA = FinalSemana(DATA)
+
+                                End If
+                                txtVencimento.Text = DATA
+                            End If
+
+
+                        Else
+
+                            'CASO NAO ENCONTRE PROCURA COMBINAÇÃO COM FREE HAND
+                            dsFaturamento = Con.ExecutarQuery("SELECT ID_TIPO_FATURAMENTO, (SELECT NM_TIPO_FATURAMENTO FROM TB_TIPO_FATURAMENTO WHERE ID_TIPO_FATURAMENTO = A.ID_TIPO_FATURAMENTO)NM_TIPO_FATURAMENTO FROM TB_PARCEIRO_TIPO_FATURAMENTO A WHERE ID_INCOTERM = 0 AND FL_FREE_HAND = '" & ds1.Tables(0).Rows(0).Item("FL_FREE_HAND") & "' AND ID_SERVICO = " & ds1.Tables(0).Rows(0).Item("ID_SERVICO") & " AND ID_PARCEIRO = " & ddlFornecedor.SelectedValue)
+
+                            If dsFaturamento.Tables(0).Rows.Count > 0 Then
+
+                                If Not IsDBNull(dsFaturamento.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")) Then
+                                    lblTipoFaturamento.Text = dsFaturamento.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")
+                                End If
+
+                                If Not IsDBNull(dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")) Then
+                                    lblIDTipoFaturamento.Text = dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")
+                                End If
+
+                                If ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
+                                    If dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
+                                        DATA = Now.Date.ToString("dd-MM-yyyy")
+
+                                    ElseIf dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
+                                        DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                                        DATA = DATA.AddDays(lblDiasFaturamento.Text)
+                                    ElseIf dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 5 Then
+                                        DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                                        DATA = DATA.AddMonths(1)
+
+                                        DATA = "11/" & DATA.Month & "/" & DATA.Year
+                                        DATA = FinalSemana(DATA)
+
+                                    End If
+                                    txtVencimento.Text = DATA
+                                End If
+
+                            Else
+
+                                'CASO NAO ENCONTRE PROCURA COMBINAÇÃO APENAS COM SERVICO
+
+                                dsFaturamento = Con.ExecutarQuery("SELECT ID_TIPO_FATURAMENTO, (SELECT NM_TIPO_FATURAMENTO FROM TB_TIPO_FATURAMENTO WHERE ID_TIPO_FATURAMENTO = A.ID_TIPO_FATURAMENTO)NM_TIPO_FATURAMENTO FROM TB_PARCEIRO_TIPO_FATURAMENTO A WHERE ID_SERVICO = " & ds1.Tables(0).Rows(0).Item("ID_SERVICO") & " AND ID_INCOTERM = 0  AND FL_FREE_HAND = 0 AND ID_PARCEIRO = " & ddlFornecedor.SelectedValue)
+                                If dsFaturamento.Tables(0).Rows.Count > 0 Then
+
+                                    If Not IsDBNull(dsFaturamento.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")) Then
+                                        lblTipoFaturamento.Text = dsFaturamento.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")
+                                    End If
+
+                                    If Not IsDBNull(dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")) Then
+                                        lblIDTipoFaturamento.Text = dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")
+                                    End If
+
+                                    If ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
+                                        If dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
+                                            DATA = Now.Date.ToString("dd-MM-yyyy")
+
+                                        ElseIf dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
+                                            DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                                            DATA = DATA.AddDays(lblDiasFaturamento.Text)
+                                        ElseIf dsFaturamento.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 5 Then
+                                            DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                                            DATA = DATA.AddMonths(1)
+
+                                            DATA = "11/" & DATA.Month & "/" & DATA.Year
+                                            DATA = FinalSemana(DATA)
+
+                                        End If
+                                        txtVencimento.Text = DATA
+                                    End If
+
+                                Else
+
+                                    'CASO NAO ENCONTRE USA O PADRÃO DA TABELA DE PARCEROS
+
+                                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")) Then
+                                        lblTipoFaturamento.Text = ds.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")
+                                    End If
+
+                                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")) Then
+                                        lblIDTipoFaturamento.Text = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")
+                                    End If
+
+                                    If ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
+                                        If ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
+                                            DATA = Now.Date.ToString("dd-MM-yyyy")
+
+                                        ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
+                                            DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                                            DATA = DATA.AddDays(lblDiasFaturamento.Text)
+                                        ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 5 Then
+                                            DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                                            DATA = DATA.AddMonths(1)
+
+                                            DATA = "11/" & DATA.Month & "/" & DATA.Year
+                                            DATA = FinalSemana(DATA)
+
+                                        End If
+                                        txtVencimento.Text = DATA
+                                    End If
+                                End If
+                            End If
+                        End If
+
+
+
+
+
+
+
+                        'Else
+                        '    'CASO NAO ENCONTRE 
+
+                        '    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")) Then
+                        '        lblTipoFaturamento.Text = ds.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")
+                        '    End If
+
+                        '    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")) Then
+                        '        lblIDTipoFaturamento.Text = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")
+                        '    End If
+
+                        '    If ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
+                        '        If ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
+                        '            DATA = Now.Date.ToString("dd-MM-yyyy")
+
+                        '        ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
+                        '            DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                        '            DATA = DATA.AddDays(lblDiasFaturamento.Text)
+                        '        ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 5 Then
+                        '            DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                        '            DATA = DATA.AddMonths(1)
+
+                        '            DATA = "11/" & DATA.Month & "/" & DATA.Year
+                        '            DATA = FinalSemana(DATA)
+
+                        '        End If
+                        '        txtVencimento.Text = DATA
+                        '    End If
+
                     End If
+
+
+
+
 
 
                     ds1 = Con.ExecutarQuery("SELECT ID_SERVICO, ID_TIPO_ESTUFAGEM FROM TB_BL WHERE ID_BL = " & txtID_BL.Text)
@@ -481,7 +678,7 @@ WHERE B.ID_STATUS_COTACAO  = 10 AND ID_BL = " & txtID_BL.Text)
             VerificaTaxas()
 
 
-            ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,VL_ALIQUOTA_ISS) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),1," & Session("ID_USUARIO") & ",'R',(SELECT ID_TIPO_FATURAMENTO FROM TB_PARCEIRO WHERE ID_PARCEIRO= " & Session("FORNECEDOR") & ")," & lblDiasFaturamento.Text & ", " & ISS_final & ")  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
+            ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,VL_ALIQUOTA_ISS) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),1," & Session("ID_USUARIO") & ",'R'," & lblIDTipoFaturamento.Text & "," & lblDiasFaturamento.Text & ", " & ISS_final & ")  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
             Dim ID_CONTA_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
             lblID_CONTA_PAGAR_RECEBER.Text = ID_CONTA_PAGAR_RECEBER
 

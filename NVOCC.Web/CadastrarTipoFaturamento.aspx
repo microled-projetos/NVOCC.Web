@@ -21,41 +21,41 @@
                         </li>
                     </ul>
                      <div class="tab-content">
-                        <div class="tab-pane fade active in" id="cadastro">
-                            <asp:TextBox ID="txtIDParceiro" runat="server" CssClass="form-control" Style="display: none"></asp:TextBox>
-                            <asp:UpdatePanel ID="UpdatePanel15" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                        <ContentTemplate>
-
-                                    <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
+                                <br />
+                         <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                         Ação realizada com sucesso!
                                     </div>
                                     <div class="alert alert-danger" id="divErro" runat="server" visible="false">
                                     <asp:Label runat="server"  ID="msgErro" />
                                     </div>
+                        <div class="tab-pane fade active in" id="cadastro">
+                            <asp:TextBox ID="txtIDParceiro" runat="server" CssClass="form-control" Style="display: none"></asp:TextBox>
+                           <br />
+                                    
                             <div class="row">
                                  <div class="col-sm-1">
                                     <div class="form-group">
                                         <label class="control-label">ID:</label>
-                                        <asp:TextBox ID="txtID" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox ID="txtID" runat="server" MaxLength="100" CssClass="form-control" Enabled="false"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Tipo de Faturamento:</label>
+                                        <label class="control-label">Tipo de Faturamento:</label><label runat="server" style="color: red">*</label>
                                        <asp:DropDownList ID="ddlTipoFaturamento" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
                                             </asp:DropDownList>
                                     </div>
                                 </div>
                                      <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label class="control-label">Serviço:</label></label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServico" DataValueField="ID_SERVICO" AutoPostBack="true">
+                                                <label class="control-label">Serviço:</label><label runat="server" style="color: red">*</label>
+                                                <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServico" DataValueField="ID_SERVICO" >
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
                                 <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label class="control-label">Incoterm:</label></label><label runat="server" style="color: red">*</label>
+                                                <label class="control-label">Incoterm:</label>
                                                 <asp:DropDownList ID="ddlIncoterm" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_INCOTERM" DataSourceID="dsIncoterm" DataValueField="ID_INCOTERM"></asp:DropDownList>
                                             </div>
                                         </div>
@@ -82,15 +82,15 @@
                                     </div>
                                 </div>
                             </div>
-                                            </ContentTemplate>
-                                        <Triggers>
-                                            <asp:AsyncPostBackTrigger ControlID="btnGravar" />
-                                        </Triggers>
-                                    </asp:UpdatePanel>
+                                            
                             </div><br />
                                      <div class="tab-pane fade" id="consulta">                   
                                             <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                         <ContentTemplate>
+                                            <div class="alert alert-success" id="divSuccessExclusao" runat="server" visible="false">
+                                    <asp:Label runat="server" Text = "Registro deletado!"  ID="lblSuccessExclusao" />
+                                    </div>
+                                            <br/>
                             <div class="row">
                                  <div class="col-sm-12">
                                              <div class="table-responsive tableFixHead">
@@ -101,7 +101,7 @@
                                                     <asp:BoundField DataField="NM_TIPO_FATURAMENTO" HeaderText="TIPO DE FATURAMENTO" SortExpression="NM_TIPO_FATURAMENTO" />
                                                     <asp:BoundField DataField="NM_SERVICO" HeaderText="SERVICO" SortExpression="NM_SERVICO" />
                                                     <asp:BoundField DataField="NM_INCOTERM" HeaderText="INCOTERM" SortExpression="NM_INCOTERM" />
-                                                     <asp:TemplateField HeaderText="FL_FREE_HAND" SortExpression="FREE HAND">
+                                                     <asp:TemplateField HeaderText="FREE HAND" SortExpression="FREE HAND">
                                                         <ItemTemplate>
                                                             <asp:CheckBox ID="ckbFL_FREE_HAND" Checked='<%# Eval("FL_FREE_HAND") %>' Enabled="false" runat="server"/>
                                                         </ItemTemplate>
@@ -109,10 +109,14 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="">
                                                         <ItemTemplate>
-                                                            <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID") %>'
-                                                                Text="Visualizar" title="Editar" CssClass="btn btn-info btn-sm"><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
+                                                              <a href="CadastrarTipoFaturamento.aspx?p=<%# Eval("ID_PARCEIRO") %>&id=<%# Eval("ID") %>" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></a>
+                                               <asp:LinkButton ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID") %>'
+                                                                            Text="Visualizar" ToolTip="Duplicar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i></div></asp:LinkButton>
+                                                                 <asp:linkButton ID="btnExcluir" title="Excluir" runat="server"  CssClass="btn btn-danger btn-sm" CommandName="Excluir"
+                                OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');"  CommandArgument='<%# Eval("ID") %>' Autopostback="true" ><span class="glyphicon glyphicon-trash" style="font-size:medium"></span></asp:linkButton>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                </asp:TemplateField>
             </Columns>
                                      <HeaderStyle CssClass="headerStyle" />
         </asp:GridView></div>
@@ -141,9 +145,9 @@ union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
 </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTipoFaturamentoParceiro" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="select A.ID,A.ID_TIPO_FATURAMENTO,B.NM_TIPO_FATURAMENTO, C.NM_SERVICO,D.NM_INCOTERM,A.FL_FREE_HAND FROM TB_TIPO_FATURAMENTO_PARCEIRO A
+        selectcommand="select A.ID,A.ID_PARCEIRO,A.ID_TIPO_FATURAMENTO,B.NM_TIPO_FATURAMENTO, C.NM_SERVICO,  cast((D.CD_INCOTERM)as varchar)+ ' - '+ D.NM_INCOTERM as NM_INCOTERM,A.FL_FREE_HAND FROM TB_PARCEIRO_TIPO_FATURAMENTO A
 INNER JOIN TB_TIPO_FATURAMENTO B ON  A.ID_TIPO_FATURAMENTO =B.ID_TIPO_FATURAMENTO
-INNER JOIN TB_SERVICO C ON  A.ID_SERVICO =C.ID_SERVICO
+LEFT JOIN TB_SERVICO C ON  A.ID_SERVICO =C.ID_SERVICO
 LEFT JOIN TB_INCOTERM D ON  A.ID_INCOTERM =D.ID_INCOTERM
 WHERE ID_PARCEIRO =  @ID_PARCEIRO
 

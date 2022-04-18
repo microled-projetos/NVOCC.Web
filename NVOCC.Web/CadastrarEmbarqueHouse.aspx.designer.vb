@@ -167,6 +167,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents btnVisualizarMBL_Maritimo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle ckTrakingAutomaticoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckTrakingAutomaticoMaritimo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle txtTipoBLMaritimo.
     '''</summary>
     '''<remarks>
@@ -1650,6 +1659,15 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ckbFreeHand_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckTrakingAutomaticoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckTrakingAutomaticoAereo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle ddlServico_BasicoAereo.

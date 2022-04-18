@@ -23,24 +23,6 @@ Partial Public Class CadastrarTipoFaturamento
     Protected WithEvents lblRazaoSocial As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtIDParceiro.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtIDParceiro As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle UpdatePanel15.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents UpdatePanel15 As Global.System.Web.UI.UpdatePanel
-
-    '''<summary>
     '''Controle divSuccess.
     '''</summary>
     '''<remarks>
@@ -66,6 +48,15 @@ Partial Public Class CadastrarTipoFaturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents msgErro As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtIDParceiro.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDParceiro As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtID.
@@ -138,6 +129,24 @@ Partial Public Class CadastrarTipoFaturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents UpdatePanel1 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
+    '''Controle divSuccessExclusao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divSuccessExclusao As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblSuccessExclusao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblSuccessExclusao As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle txtArquivoSelecionado.
