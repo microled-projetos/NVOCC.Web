@@ -2246,6 +2246,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlMercadoria_CargaAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ddlEmbalagem_CargaAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlEmbalagem_CargaAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle txtPesoBruto_CargaAereo.
     '''</summary>
     '''<remarks>

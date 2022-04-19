@@ -1761,6 +1761,7 @@ WHERE ID_CARGA_BL = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
                 btnAdicionarMedidasAereo.Visible = True
+                divMedidasAereo.Attributes.CssStyle.Add("display", "block")
 
                 'Taxas
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CARGA_BL")) Then
@@ -1777,6 +1778,10 @@ WHERE ID_CARGA_BL = " & ID)
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_CARGA")) Then
                     ddlMercadoria_CargaAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_CARGA")
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_EMBALAGEM")) Then
+                    ddlEmbalagem_CargaAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_EMBALAGEM").ToString()
                 End If
                 'If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_NCM")) Then
                 '    ddlNCM_CargaAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_NCM")
@@ -1855,6 +1860,7 @@ WHERE ID_CARGA_BL = " & ID)
         txtLarguraMercadoriaAereo.Text = ""
         txtComprimentoMercadoriaAereo.Text = ""
         txtQtdCaixasAereo.Text = ""
+        divMedidasAereo.Attributes.CssStyle.Add("display", "none")
 
         mpeCargaAereo.Hide()
     End Sub
@@ -2837,6 +2843,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
     End Sub
 
     Private Sub btnSalvar_CargaAereo_Click(sender As Object, e As EventArgs) Handles btnSalvar_CargaAereo.Click
+        lblSuccess_CargaAereo2.Text = "Registro cadastrado/atualizado com sucesso!"
 
         divSuccess_CargaAereo2.Visible = False
         divErro_CargaAereo2.Visible = False
@@ -2909,14 +2916,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
 
         If txtPesoVolumetrico_CargaAereo.Text = "" Then
-            divErro_CargaAereo2.Visible = True
-            lblErro_CargaAereo2.Text = "É necessário informar o Peso Volumetrico da carga."
+            txtPesoVolumetrico_CargaAereo.Text = 0
 
-        ElseIf txtPesoVolumetrico_CargaAereo.Text <= 0 Then
-            divErro_CargaAereo2.Visible = True
-            lblErro_CargaAereo2.Text = "Peso Volumetrico da carga deve ser maior que zero."
+        End If
 
-        ElseIf txtID_CargaAereo.Text = "" Then
+        If txtID_CargaAereo.Text = "" Then
 
             ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
@@ -2927,12 +2931,14 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             Else
 
                 'INSERE 
-                ds = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_BL,ID_TIPO_CARGA,ID_NCM,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,DS_MERCADORIA,QT_MERCADORIA,DS_GRUPO_NCM) VALUES (" & txtID_BasicoAereo.Text & "," & ddlMercadoria_CargaAereo.SelectedValue & ", " & ID_NCM & ", " & txtPesoBruto_CargaAereo.Text & "," & txtPesoVolumetrico_CargaAereo.Text & ", " & txtAltura_CargaAereo.Text & "," & txtLargura_CargaAereo.Text & "," & txtComprimento_CargaAereo.Text & "," & txtDescMercadoria_CargaAereo.Text & "," & txtQtdVolume_CargaAereo.Text & "," & txtGrupoNCM_CargaAereo.Text & " ) Select SCOPE_IDENTITY() as ID_CARGA_BL ")
+                ds = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_BL,ID_TIPO_CARGA,ID_NCM,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,DS_MERCADORIA,QT_MERCADORIA,DS_GRUPO_NCM,ID_EMBALAGEM) VALUES (" & txtID_BasicoAereo.Text & "," & ddlMercadoria_CargaAereo.SelectedValue & ", " & ID_NCM & ", " & txtPesoBruto_CargaAereo.Text & "," & txtPesoVolumetrico_CargaAereo.Text & ", " & txtAltura_CargaAereo.Text & "," & txtLargura_CargaAereo.Text & "," & txtComprimento_CargaAereo.Text & "," & txtDescMercadoria_CargaAereo.Text & "," & txtQtdVolume_CargaAereo.Text & "," & txtGrupoNCM_CargaAereo.Text & ", " & ddlEmbalagem_CargaAereo.SelectedValue & ") Select SCOPE_IDENTITY() as ID_CARGA_BL ")
                 Dim ID_CARGA_BL As String = ds.Tables(0).Rows(0).Item("ID_CARGA_BL")
                 txtID_CargaAereo.Text = ds.Tables(0).Rows(0).Item("ID_CARGA_BL")
 
                 AdicionarMedidasAereo()
+                divErro_CargaAereo2.Visible = False
                 btnAdicionarMedidasAereo.Visible = True
+                divMedidasAereo.Attributes.CssStyle.Add("display", "block")
 
                 Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
 (SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") WHERE ID_BL =  " & txtID_BasicoAereo.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
@@ -2973,7 +2979,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
 
                 'REALIZA UPDATE 
-                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_BL = " & txtID_BasicoAereo.Text & ",ID_TIPO_CARGA = " & ddlMercadoria_CargaAereo.SelectedValue & ",ID_NCM = " & ID_NCM & ",VL_PESO_BRUTO = " & txtPesoBruto_CargaAereo.Text & ",VL_M3 = " & txtPesoVolumetrico_CargaAereo.Text & ",VL_ALTURA =" & txtAltura_CargaAereo.Text & ",VL_LARGURA = " & txtLargura_CargaAereo.Text & ",VL_COMPRIMENTO = " & txtComprimento_CargaAereo.Text & ",DS_MERCADORIA = " & txtDescMercadoria_CargaAereo.Text & ", QT_MERCADORIA = " & txtQtdVolume_CargaAereo.Text & ",DS_GRUPO_NCM = " & txtGrupoNCM_CargaAereo.Text & " WHERE ID_CARGA_BL = " & txtID_CargaAereo.Text)
+                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_BL = " & txtID_BasicoAereo.Text & ",ID_TIPO_CARGA = " & ddlMercadoria_CargaAereo.SelectedValue & ",ID_NCM = " & ID_NCM & ",VL_PESO_BRUTO = " & txtPesoBruto_CargaAereo.Text & ",VL_M3 = " & txtPesoVolumetrico_CargaAereo.Text & ",VL_ALTURA =" & txtAltura_CargaAereo.Text & ",VL_LARGURA = " & txtLargura_CargaAereo.Text & ",VL_COMPRIMENTO = " & txtComprimento_CargaAereo.Text & ",DS_MERCADORIA = " & txtDescMercadoria_CargaAereo.Text & ", QT_MERCADORIA = " & txtQtdVolume_CargaAereo.Text & ",DS_GRUPO_NCM = " & txtGrupoNCM_CargaAereo.Text & ", ID_EMBALAGEM = " & ddlEmbalagem_CargaAereo.SelectedValue & " WHERE ID_CARGA_BL = " & txtID_CargaAereo.Text)
 
 
 
@@ -5000,7 +5006,6 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         divErro_CargaAereo2.Visible = False
         divSuccess_CargaAereo2.Visible = False
         Dim Con As New Conexao_sql
-        Dim ds As DataSet
         Con.Conectar()
         If e.CommandName = "Excluir" Then
             Dim ID As String = e.CommandArgument

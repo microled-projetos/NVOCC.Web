@@ -306,14 +306,9 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
                     Dim M3 As Decimal
                     Dim PESO_BRUTO As Decimal
                     Dim QT_CONTAINER As Integer
+                    Dim LCA As Decimal
+
                     'NUMERO SEQUENCIAL
-
-
-                    'ds = Con.ExecutarQuery("Select A.ID_TIPO_ESTUFAGEM,A.ID_SERVICO,isnull(B.VL_M3,0)VL_M3, isnull(B.VL_PESO_BRUTO,0)VL_PESO_BRUTO,isnull(A.VL_TOTAL_FRETE_VENDA_MIN,0)VL_TOTAL_FRETE_VENDA_MIN,isnull(A.VL_TOTAL_FRETE_VENDA,0)VL_TOTAL_FRETE_VENDA,
-                    '                                (SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO, isnull(B.QT_CONTAINER,0) AS QT_CONTAINER
-                    '                                from TB_COTACAO A 
-                    '                                left JOIN TB_COTACAO_MERCADORIA B ON B.ID_COTACAO = A.ID_COTACAO
-                    '                                Where A.ID_COTACAO = " & txtID.Text)
 
                     ds = Con.ExecutarQuery("Select A.ID_TIPO_ESTUFAGEM,
 A.ID_SERVICO,
@@ -322,7 +317,8 @@ isnull(A.VL_TOTAL_PESO_BRUTO,0)VL_PESO_BRUTO,
 isnull(A.VL_TOTAL_FRETE_VENDA_MIN,0)VL_TOTAL_FRETE_VENDA_MIN,
 isnull(A.VL_TOTAL_FRETE_VENDA,0)VL_TOTAL_FRETE_VENDA,
 (select sum(isnull(QT_CONTAINER,0)) FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )QT_CONTAINER,
-(SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO
+(SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO,
+(select (sum(isnull(QT_MERCADORIA,0)) * sum(isnull(VL_COMPRIMENTO,0)) * sum(isnull(VL_ALTURA,0)) * sum(isnull(VL_LARGURA,0)))/6000  FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )LCA 
 from TB_COTACAO A 
 Where A.ID_COTACAO = " & txtID.Text)
 
@@ -337,19 +333,42 @@ Where A.ID_COTACAO = " & txtID.Text)
 
                     '        CÁLCULO DO PESO TAXADO
                     Dim PESO_TAXADO As Decimal
-                    Dim PV As Decimal = M3
 
+
+                    'ANTIGO
+                    ' Dim PV As Decimal = M3
+                    'If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                    '    'AEREO
+
+                    '    PV = M3 * 167
+                    '    ' PESO_BRUTO = PESO_BRUTO / 1000
+                    '    If PESO_BRUTO >= PV Then
+                    '        PESO_TAXADO = PESO_BRUTO
+                    '    Else
+                    '        PESO_TAXADO = PV
+                    '    End If
+                    'End If
+
+
+                    'NOVO
                     If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
                         'AEREO
 
-                        PV = M3 * 167
-                        ' PESO_BRUTO = PESO_BRUTO / 1000
-                        If PESO_BRUTO >= PV Then
-                            PESO_TAXADO = PESO_BRUTO
+                        If Not IsDBNull(ds.Tables(0).Rows(0).Item("LCA")) Then
+                            LCA = ds.Tables(0).Rows(0).Item("LCA")
+                            Dim LCAFinal As String = LCA.ToString
+                            LCAFinal = LCAFinal.ToString.Replace(".", "")
+                            LCAFinal = LCAFinal.ToString.Replace(",", ".")
+                            Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 = " & LCAFinal & " WHERE ID_COTACAO = " & txtID.Text)
+                        End If
+
+                        If LCA >= PESO_BRUTO Then
+                            PESO_TAXADO = LCA
                         Else
-                            PESO_TAXADO = PV
+                            PESO_TAXADO = PESO_BRUTO
                         End If
                     End If
+
 
                     If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
                         'MARITIMO
@@ -1735,6 +1754,40 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                         End If
                         VendaCalc = z.ToString
 
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 42 Then
+                        'POR PESO TAXADO
+
+                        x = linha.Item("VL_PESO_TAXADO")
+
+                            y = linha.Item("VL_TAXA_VENDA")
+                            z = x * y
+                            If VENDA_MIN < 0 Then
+                                If z > VENDA_MIN Then
+                                    z = VENDA_MIN
+                                End If
+                            ElseIf VENDA_MIN > 0 Then
+                                If z < VENDA_MIN Then
+                                    z = VENDA_MIN
+                                End If
+                            End If
+                            VendaCalc = z.ToString
+
+                            y = linha.Item("VL_TAXA_COMPRA")
+                            z = x * y
+                            If COMPRA_MIN < 0 Then
+                                If z > COMPRA_MIN Then
+                                    z = COMPRA_MIN
+                                End If
+                            ElseIf COMPRA_MIN > 0 Then
+                                If z < COMPRA_MIN Then
+                                    z = COMPRA_MIN
+                                End If
+                            End If
+                            CompraCalc = z.ToString
+
+
+
+
                     End If
 
 
@@ -2169,9 +2222,9 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
         Con.ExecutarQuery("UPDATE TB_COTACAO SET NR_PROCESSO_GERADO = '" & PROCESSO_FINAL & "' WHERE ID_COTACAO = " & txtID.Text)
 
 
-        Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,ID_TIPO_PAGAMENTO,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,VL_CARGA,FINAL_DESTINATION,ID_PARCEIRO_RODOVIARIO ) 
+        Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,ID_TIPO_PAGAMENTO,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,VL_CARGA,FINAL_DESTINATION,ID_PARCEIRO_RODOVIARIO,VL_PESO_TAXADO ) 
 SELECT '" & PROCESSO_FINAL & "','C', " & txtServico.Text & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,ID_TIPO_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR,ID_TIPO_PAGAMENTO,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR,CASE WHEN ID_PARCEIRO_IMPORTADOR IS NULL THEN ID_CLIENTE WHEN ID_PARCEIRO_IMPORTADOR = 0 THEN ID_CLIENTE ELSE ID_PARCEIRO_IMPORTADOR END ID_PARCEIRO_IMPORTADOR, (SELECT (ISNULL(SUM(VL_CARGA),0))
-        FROM TB_COTACAO_MERCADORIA B WHERE A.ID_COTACAO = B.ID_COTACAO ),FINAL_DESTINATION,ID_PARCEIRO_RODOVIARIO FROM TB_COTACAO A WHERE A.ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
+        FROM TB_COTACAO_MERCADORIA B WHERE A.ID_COTACAO = B.ID_COTACAO ),FINAL_DESTINATION,ID_PARCEIRO_RODOVIARIO,VL_PESO_TAXADO FROM TB_COTACAO A WHERE A.ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
 
         ID_BL = dsBL.Tables(0).Rows(0).Item("ID_BL").ToString()
 
@@ -2247,6 +2300,7 @@ from TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
         End If
 
         If ID_SERVICO = 2 Or ID_SERVICO = 5 Then
+            ID_BASE_CALCULO = 42
 
             'FRETE VENDA AEREO
             Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,CD_ORIGEM_INF,ID_ORIGEM_PAGAMENTO,FL_DECLARADO)

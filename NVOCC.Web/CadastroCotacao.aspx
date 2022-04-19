@@ -455,7 +455,7 @@
                                 <Triggers>
                                     
                                     <asp:PostBackTrigger ControlID="btnCalcular" />
-                                    <asp:AsyncPostBackTrigger ControlID="ddlServico" />
+                                    <asp:PostBackTrigger ControlID="ddlServico" />
                                     <asp:PostBackTrigger ControlID="btnGravar" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeCliente" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeAgente" />
@@ -628,13 +628,13 @@
                                                                             <asp:TextBox ID="txtValorFrequenciaFrete" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                         </div>
                                                                     </div>
-
-                                                                    <div class="col-sm-4">
+                                                                     <div class="col-sm-4">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Valor Peso Taxado:</label>
                                                                             <asp:TextBox ID="txtPesoTaxadoFrete" Enabled="false" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                         </div>
                                                                     </div>
+                                                                    
 
                                                                 </div>
 
@@ -940,30 +940,36 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-sm-3">
+                                                                <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Valor Peso(Bruto):</label><asp:Label Visible="false" runat="server" ID="RedPesoBruto" Style="color: red">*</asp:Label>
                                                                         <asp:TextBox ID="txtPesoBrutoMercadoria" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="col-sm-3">
+                                                                <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Valor M3:</label><asp:Label Visible="false" runat="server" ID="RedM3" Style="color: red">*</asp:Label>
                                                                         <asp:TextBox ID="txtM3Mercadoria" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-sm-2">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label">Valor Peso Taxado:</label>
+                                                                            <asp:TextBox ID="txtPesoTaxadoMercadoria" Enabled="false" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        </div>
+                                                                    </div>
                                                      <%--       </div>
 
 
                                                             <div class="row">--%>
-                                                                <div class="col-sm-3">
+                                                                <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Valor da Carga:</label>
                                                                         <asp:TextBox ID="txtValorCargaMercadoria" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-3">
+                                                                <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Moeda da Carga:</label><asp:Label ID="Label1" runat="server" Style="color: red">*</asp:Label>
                                                                         <asp:DropDownList ID="ddlMoedaCarga" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
@@ -994,7 +1000,7 @@
                                                                 </div>
 
                                                             </div>
-                                                            <div class="row" runat="server" id="divMedidasAereo" style="display:block">
+                                                            <div class="row" runat="server" id="divMedidasAereo" style="display:none">
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Qtd. Caixas:</label>
@@ -2022,7 +2028,7 @@ FROM TB_COTACAO_TAXA A
       ,VL_COMPRIMENTO
   FROM TB_COTACAO_MERCADORIA_DIMENSAO
     WHERE ID_COTACAO_MERCADORIA = @ID_COTACAO_MERCADORIA
-
+        ORDER BY ID DESC
 ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_COTACAO_MERCADORIA" Type="Int32" ControlID="txtIDMercadoria" />

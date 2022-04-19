@@ -1373,6 +1373,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtM3Mercadoria As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtPesoTaxadoMercadoria.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtPesoTaxadoMercadoria As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtValorCargaMercadoria.
     '''</summary>
     '''<remarks>

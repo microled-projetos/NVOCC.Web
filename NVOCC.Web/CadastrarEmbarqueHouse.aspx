@@ -1770,21 +1770,26 @@ VENDAS:
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-sm-4">
+                                                                <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Tipo de Carga:</label>
                                                                         <asp:DropDownList ID="ddlMercadoria_CargaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCargas" DataValueField="ID_TIPO_CARGA"></asp:DropDownList>
                                                                     </div>
                                                                 </div>
-
+                                                                 <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                         <label class="control-label">Embalagem:</label>
+                                                                                <asp:DropDownList ID="ddlEmbalagem_CargaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MERCADORIA" DataSourceID="dsMercadoria" DataValueField="ID_MERCADORIA"></asp:DropDownList>
+                                                                    </div>
+                                                                </div>
                                    
-                                                                     <div class="col-sm-4">
+                                                                     <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Peso Bruto:</label>
                                                                         <asp:TextBox ID="txtPesoBruto_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-4">
+                                                                <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Peso Volumétrico:</label>
                                                                         <asp:TextBox ID="txtPesoVolumetrico_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
@@ -1799,7 +1804,7 @@ VENDAS:
 
                                                                     </div>
                                                                 </div>
-                                                               <div class="col-sm-6">
+                                                               <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">NCM:</label>
                                                                         <asp:DropDownList ID="ddlNCM_CargaAereo" runat="server" CssClass="form-control" Font-Size="11px">
@@ -1807,7 +1812,7 @@ VENDAS:
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                      </div>
-                                                                     <div class="col-sm-6">
+                                                                     <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Grupo NCM:</label>
                                                                                 <asp:TextBox ID="txtGrupoNCM_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
@@ -1839,7 +1844,7 @@ VENDAS:
                                                                 </div>
                                                             </div>
 
-                                                            <div class="row" runat="server" id="divMedidasAereo">
+                                                            <div class="row" runat="server" id="divMedidasAereo" style="display:none">
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Qtd. Caixas:</label>
@@ -1881,7 +1886,7 @@ VENDAS:
                                                 <asp:BoundField DataField="VL_ALTURA" HeaderText="Altura" ItemStyle-HorizontalAlign="Center"/>
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>                                                     
-                                                        <asp:LinkButton runat="server" Text="Excluir" ID="Button2" />
+                                                        <asp:LinkButton runat="server" Text="Excluir" ID="ButtonExcluir" CommandName="Excluir" CommandArgument='<%# Eval("ID") %>' OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  />
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>                                              
@@ -1967,6 +1972,7 @@ VENDAS:
                                                 <asp:AsyncPostBackTrigger ControlID="btnFechar_CargaAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoAereo" />
                                                  <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCargaAereo" />
+                                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvMedidasAereo" />
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>
@@ -2944,7 +2950,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT">
       ,VL_ALTURA
       ,VL_COMPRIMENTO
   FROM TB_CARGA_BL_DIMENSAO 
-    WHERE ID_CARGA_BL = @ID_CARGA_BL">
+    WHERE ID_CARGA_BL = @ID_CARGA_BL ORDER BY ID DESC ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_CARGA_BL" Type="Int32" ControlID="txtID_CargaAereo" />
         </SelectParameters>
