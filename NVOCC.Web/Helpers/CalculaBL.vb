@@ -11,7 +11,7 @@
 
         If GRAU = "M" Then
 
-            ds = Con.ExecutarQuery("SELECT B.ID_BL,isnull(A.ID_INCOTERM,0)ID_INCOTERM,A.ID_SERVICO,B.ID_BL_TAXA, isnull(B.VL_TAXA_MIN,0)VL_TAXA_MIN,isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,isnull(B.QTD_BASE_CALCULO,0)QTD_BASE_CALCULO,
+            ds = Con.ExecutarQuery("SELECT B.ID_BL,isnull(A.ID_INCOTERM,0)ID_INCOTERM,A.ID_SERVICO,B.ID_BL_TAXA,isnull(A.VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(B.VL_TAXA_MIN,0)VL_TAXA_MIN,isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,isnull(B.QTD_BASE_CALCULO,0)QTD_BASE_CALCULO,
 CASE WHEN B.ID_MOEDA = 124 THEN CONVERT(VARCHAR, GETDATE(), 103) ELSE
 (SELECT CONVERT(VARCHAR,MAX(DT_CAMBIO),103) FROM TB_MOEDA_FRETE WHERE ID_MOEDA = B.ID_MOEDA) END DT_CAMBIO
 FROM TB_BL A
@@ -733,6 +733,24 @@ WHERE  FL_DECLARADO = 1  AND CD_PR ='R'  AND A.ID_BL = " & ID_BL & " ")
                     End If
                     Taxa = z.ToString
 
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 42 Then
+                    ' POR PESO TAXADO
+
+                    x = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
+
                 Else
 
                     Return "Base de Calculo não encontrada"
@@ -754,7 +772,7 @@ WHERE  FL_DECLARADO = 1  AND CD_PR ='R'  AND A.ID_BL = " & ID_BL & " ")
 
         ElseIf GRAU = "C" Then
 
-            ds = Con.ExecutarQuery("SELECT B.ID_BL,isnull(A.ID_INCOTERM,0)ID_INCOTERM,A.ID_SERVICO,B.ID_BL_TAXA, isnull(B.VL_TAXA_MIN,0)VL_TAXA_MIN,isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,isnull(B.QTD_BASE_CALCULO,0)QTD_BASE_CALCULO,
+            ds = Con.ExecutarQuery("SELECT B.ID_BL,isnull(A.ID_INCOTERM,0)ID_INCOTERM,A.ID_SERVICO,B.ID_BL_TAXA,isnull(A.VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(B.VL_TAXA_MIN,0)VL_TAXA_MIN,isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,isnull(B.QTD_BASE_CALCULO,0)QTD_BASE_CALCULO,
 CASE WHEN B.ID_MOEDA = 124 THEN CONVERT(VARCHAR, GETDATE(), 103) ELSE
 (SELECT CONVERT(VARCHAR,MAX(DT_CAMBIO),103) FROM TB_MOEDA_FRETE WHERE ID_MOEDA = B.ID_MOEDA) END DT_CAMBIO
 FROM TB_BL A
@@ -1511,6 +1529,26 @@ WHERE  FL_DECLARADO = 1  AND CD_PR ='R'  AND A.ID_BL = " & ID_BL & " ")
                         End If
                     End If
                     Taxa = z.ToString
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 42 Then
+                    ' POR PESO TAXADO
+
+                    x = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
+
+
+
 
                 Else
 
