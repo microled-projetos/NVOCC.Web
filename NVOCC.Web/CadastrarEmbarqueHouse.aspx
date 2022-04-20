@@ -118,7 +118,7 @@
                                                 <asp:Button ID="btnVisualizarMBL_Maritimo" runat="server"  CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
                                             </div>
                                         </div>
-                                         <div class="col-sm-2">
+                                         <div class="col-sm-2"  style="display: none">
                                             <div class="form-group">
                                                 <label class="control-label"></label>
                                                 <asp:CheckBox ID="ckTrakingAutomaticoMaritimo" runat="server" CssClass="form-control" Checked="true" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
@@ -1308,7 +1308,7 @@ VENDAS:
 
                                             </div>
                                                      </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-2" style="display: none">
                                             <div class="form-group">
                                                 <label class="control-label"></label>
                                                 <asp:CheckBox ID="ckTrakingAutomaticoAereo" runat="server" CssClass="form-control" Checked="true" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
