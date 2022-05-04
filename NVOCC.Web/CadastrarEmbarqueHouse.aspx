@@ -809,17 +809,17 @@
 VENDAS:
                                                         <asp:GridView ID="dgvTaxaMaritimoVendas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasMaritimoVendas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                                             <Columns>
-                                                        <asp:BoundField DataField="ITEM_DESPESA" HeaderText="DESPESA" SortExpression="ITEM_DESPESA" />
-                                                                 <asp:BoundField DataField="PARCEIRO_EMPRESA" HeaderText="PARCEIRO" SortExpression="PARCEIRO_EMPRESA" />
-                                                        <asp:BoundField DataField="MOEDA" HeaderText="MOEDA" SortExpression="MOEDA" />
-                                                        <asp:BoundField DataField="VL_TAXA" HeaderText="VALOR" SortExpression="VL_TAXA" />
-                                                        <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="VALOR CALCULADO" SortExpression="VL_TAXA_CALCULADO" />
-                                                        <asp:BoundField DataField="BASE_CALCULO" HeaderText="BASE DE CALCULO" SortExpression="BASE_CALCULO" />
-                                                        <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
+                                                                <asp:BoundField DataField="ITEM_DESPESA" HeaderText="DESPESA" SortExpression="ITEM_DESPESA" />
+                                                                <asp:BoundField DataField="PARCEIRO_EMPRESA" HeaderText="PARCEIRO" SortExpression="PARCEIRO_EMPRESA" />
+                                                                <asp:BoundField DataField="MOEDA" HeaderText="MOEDA" SortExpression="MOEDA" />
+                                                                <asp:BoundField DataField="VL_TAXA" HeaderText="VALOR" SortExpression="VL_TAXA" />
+                                                                <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="VALOR CALCULADO" SortExpression="VL_TAXA_CALCULADO" />
+                                                                <asp:BoundField DataField="BASE_CALCULO" HeaderText="BASE DE CALCULO" SortExpression="BASE_CALCULO" />
+                                                                <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                                 <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
-                                                        <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
-                                                                 <asp:BoundField DataField="PROFIT" HeaderText="PROFIT" SortExpression="PROFIT" />
-                                                                 <asp:TemplateField HeaderText="ORIGEM" SortExpression="ORIGEM" >
+                                                                <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
+                                                                <asp:BoundField DataField="PROFIT" HeaderText="PROFIT" SortExpression="PROFIT" />
+                                                                <asp:TemplateField HeaderText="ORIGEM" SortExpression="ORIGEM" >
                     <ItemTemplate>                     
                          <asp:Label ID="lblORIGEM"  runat="server" Text='<%# Eval("ORIGEM") %>'  />
                     </ItemTemplate>
@@ -1884,6 +1884,12 @@ VENDAS:
                                                 <asp:BoundField DataField="VL_COMPRIMENTO" HeaderText="Comprimento" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" />
                                                 <asp:BoundField DataField="VL_LARGURA" HeaderText="Largura" ItemStyle-HorizontalAlign="Center"/>
                                                 <asp:BoundField DataField="VL_ALTURA" HeaderText="Altura" ItemStyle-HorizontalAlign="Center"/>
+                                                <asp:TemplateField HeaderText="Peso Cubado" ControlStyle-Width="150">
+                                                    <ItemTemplate>                                                     
+                                                        <asp:Label runat="server" Text='<%# Eval("PESO_CUBADO") %>' ID="peso_cubado"  />
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>                                                     
                                                         <asp:LinkButton runat="server" Text="Excluir" ID="ButtonExcluir" CommandName="Excluir" CommandArgument='<%# Eval("ID") %>' OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  />
@@ -2949,6 +2955,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT">
       ,VL_LARGURA
       ,VL_ALTURA
       ,VL_COMPRIMENTO
+      ,convert(decimal(18,2), VL_LARGURA * VL_ALTURA * VL_COMPRIMENTO/6000 * QTD_CAIXA) as PESO_CUBADO
   FROM TB_CARGA_BL_DIMENSAO 
     WHERE ID_CARGA_BL = @ID_CARGA_BL ORDER BY ID DESC ">
         <SelectParameters>
