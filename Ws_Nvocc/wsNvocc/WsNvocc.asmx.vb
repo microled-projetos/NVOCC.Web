@@ -194,7 +194,9 @@ Public Class WsNvocc
 
 
             ' rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS where ID_EMPRESA=" & Cod_Empresa)
-            rsEmpresa = Con.ExecutarQuery("SELECT CNPJ,NM_RAZAO,IM,NOME_CERTIFICADO,TIPO_RPS,NAT_OPERACAO,SIMPLES,INC_CULTURAL,CIDADE_IBGE,CD_ATIVIDADE_RPS AS 'COD_SERVICO',CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN' , CD_ATIVIDADE_COMISSAO_RPS AS 'COD_SERVICO_COMISSAO',CD_TRIBUTACAO_COMISSAO_RPS AS 'COD_TRIB_MUN_COMISSAO', FL_INTERMEDIACAO, B.ID_SERVICO 
+            rsEmpresa = Con.ExecutarQuery("SELECT CNPJ,NM_RAZAO,IM,NOME_CERTIFICADO,TIPO_RPS,NAT_OPERACAO,SIMPLES,INC_CULTURAL,CIDADE_IBGE,CD_ATIVIDADE_RPS AS 'COD_SERVICO',CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN' , CD_ATIVIDADE_COMISSAO_RPS AS 'COD_SERVICO_COMISSAO',CD_TRIBUTACAO_COMISSAO_RPS AS 'COD_TRIB_MUN_COMISSAO', FL_INTERMEDIACAO, B.ID_SERVICO, (SELECT CD_ISS_AER FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =394 AND FL_INTERMEDIACAO =1) AS 'COD_SERVICO_INTERMEDIACAO_AEREO',
+(SELECT CD_ISS_MAR FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =394 AND FL_INTERMEDIACAO =1) AS 'COD_SERVICO_INTERMEDIACAO_MARITIMO'
+
 FROM TB_EMPRESAS A
 CROSS JOIN View_Faturamento B 
 LEFT JOIN TB_SERVICO C On C.ID_SERVICO = B.ID_SERVICO
@@ -480,11 +482,60 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                 Dim dDescr As String
 
-                If rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1014 Or rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1015 Then
-                    dDescr = "COMISSÃO"
+                'If rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1014 Or rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1015 Then
+                '    dDescr = "COMISSÃO"
+                '    No = doc.CreateElement("ItemListaServico", NFeNamespacte)
+                '    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+                'Else
+                '    If NFDELUCRO = 1 Then
+                '        dDescr = " \n Emitida conforme PA 065598/2021-16 da PMS e Relatórios gerenciais emitidos pelo sistema ERP"
+                '        No = doc.CreateElement("ItemListaServico", NFeNamespacte)
+                '        noText = doc.CreateTextNode("1701")
+                '    Else
+                '        dDescr = "***Valor que levamos a debito, conforme nossa Fatura n " & Fatura & " | Processo: " & Processo & " | S/Ref: " & Ref & " | MASTER: " & MASTER & " | HOUSE: " & HOUSE & " | "
+
+                '        dDescr &= "SENDO: "
+                '        dDescr &= Funcoes.obtemDescricao(rsRPS.Tables(0).Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
+                '        dfinal = " Valor aproximado dos tributos R$ "
+                '        dfinal = dfinal & Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VL_IMPOSTOS").ToString, 0)
+                '        dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
+                '        dfinal = Funcoes.tiraCaracEspXML(dfinal)
+
+                '        dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)
+                '        dDescr = dDescr.Trim & " " & dfinal
+
+                '        No = doc.CreateElement("ItemListaServico", NFeNamespacte)
+                '        If rsEmpresa.Tables(0).Rows(0)("FL_INTERMEDIACAO").ToString = 1 Then
+                '            noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO_COMISSAO").ToString)
+                '        Else
+                '            noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+                '        End If
+
+                '    End If
+                'End If
+
+
+
+
+
+                If rsEmpresa.Tables(0).Rows(0)("FL_INTERMEDIACAO").ToString = 1 Then
+                    dDescr = "INTERMEDIAÇÃO "
                     No = doc.CreateElement("ItemListaServico", NFeNamespacte)
-                    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+                    If rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1 Or rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 4 Then
+                        'MARITIMO
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO_INTERMEDIACAO_MARITIMO").ToString)
+
+                    ElseIf rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 2 Or rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 5 Then
+                        'AEREO
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO_INTERMEDIACAO_AEREO").ToString)
+
+                    Else
+                        'OUTROS SERVICOS
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO_COMISSAO").ToString)
+                    End If
+
                 Else
+
                     If NFDELUCRO = 1 Then
                         dDescr = " \n Emitida conforme PA 065598/2021-16 da PMS e Relatórios gerenciais emitidos pelo sistema ERP"
                         No = doc.CreateElement("ItemListaServico", NFeNamespacte)
@@ -503,14 +554,16 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                         dDescr = dDescr.Trim & " " & dfinal
 
                         No = doc.CreateElement("ItemListaServico", NFeNamespacte)
-                        If rsEmpresa.Tables(0).Rows(0)("FL_INTERMEDIACAO").ToString = 1 Then
-                            noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO_COMISSAO").ToString)
-                        Else
-                            noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
-                        End If
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+
 
                     End If
+
                 End If
+
+
+
+
 
                 No.AppendChild(noText)
                 noServicos.AppendChild(No)
@@ -930,7 +983,8 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
             noLoteRPS.Attributes.Append(att)
 
 
-            rsEmpresa = Con.ExecutarQuery("SELECT CNPJ,NM_RAZAO,IM,NOME_CERTIFICADO,TIPO_RPS,NAT_OPERACAO,SIMPLES,INC_CULTURAL,CIDADE_IBGE,CD_ATIVIDADE_RPS AS 'COD_SERVICO',CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN' , CD_ATIVIDADE_COMISSAO_RPS AS 'COD_SERVICO_COMISSAO',CD_TRIBUTACAO_COMISSAO_RPS AS 'COD_TRIB_MUN_COMISSAO', FL_INTERMEDIACAO ,B.ID_SERVICO
+            rsEmpresa = Con.ExecutarQuery("SELECT CNPJ,NM_RAZAO,IM,NOME_CERTIFICADO,TIPO_RPS,NAT_OPERACAO,SIMPLES,INC_CULTURAL,CIDADE_IBGE,CD_ATIVIDADE_RPS AS 'COD_SERVICO',CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN' , CD_ATIVIDADE_COMISSAO_RPS AS 'COD_SERVICO_COMISSAO',CD_TRIBUTACAO_COMISSAO_RPS AS 'COD_TRIB_MUN_COMISSAO', FL_INTERMEDIACAO ,B.ID_SERVICO, (SELECT CD_ISS_AER FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =394 AND FL_INTERMEDIACAO =1) AS 'COD_SERVICO_INTERMEDIACAO_AEREO',
+(SELECT CD_ISS_MAR FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =394 AND FL_INTERMEDIACAO =1) AS 'COD_SERVICO_INTERMEDIACAO_MARITIMO' 
 FROM TB_EMPRESAS A
 CROSS JOIN View_Faturamento B 
 LEFT JOIN TB_SERVICO C On C.ID_SERVICO = B.ID_SERVICO
@@ -1333,11 +1387,56 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                 Dim dDescr As String = ""
 
-                If rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1014 Or rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1015 Then
-                    dDescr = "COMISSÃO"
+                'If rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1014 Or rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1015 Then
+                '    dDescr = "COMISSÃO"
+                '    No = doc.CreateElement("ItemListaServico", NFeNamespacte)
+                '    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+                'Else
+                '    If NFDELUCRO = 1 Then
+                '        dDescr = " \n Emitida conforme PA 065598/2021-16 da PMS e Relatórios gerenciais emitidos pelo sistema ERP"
+                '        No = doc.CreateElement("ItemListaServico", NFeNamespacte)
+                '        noText = doc.CreateTextNode("1701")
+                '    Else
+                '        dDescr = "***Valor que levamos a debito, conforme nossa Fatura n " & Fatura & " | Processo: " & Processo & " | S/Ref: " & Ref & " | MASTER: " & MASTER & " | HOUSE: " & HOUSE & " | "
+
+                '        dDescr &= "SENDO: "
+                '        dDescr &= Funcoes.obtemDescricao(rsRPS.Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
+                '        dfinal = " Valor aproximado dos tributos R$ "
+                '        dfinal = dfinal & Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VL_IMPOSTOS").ToString, 0)
+                '        dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
+                '        dfinal = Funcoes.tiraCaracEspXML(dfinal)
+
+                '        dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)
+                '        dDescr = dDescr.Trim & " " & dfinal
+
+                '        No = doc.CreateElement("ItemListaServico", NFeNamespacte)
+                '        If rsEmpresa.Tables(0).Rows(0)("FL_INTERMEDIACAO").ToString = 1 Then
+                '            noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO_COMISSAO").ToString)
+                '        Else
+                '            noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+                '        End If
+
+                '    End If
+                'End If
+
+                If rsEmpresa.Tables(0).Rows(0)("FL_INTERMEDIACAO").ToString = 1 Then
+                    dDescr = "INTERMEDIAÇÃO "
                     No = doc.CreateElement("ItemListaServico", NFeNamespacte)
-                    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+                    If rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1 Or rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 4 Then
+                        'MARITIMO
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO_INTERMEDIACAO_MARITIMO").ToString)
+
+                    ElseIf rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 2 Or rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 5 Then
+                        'AEREO
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO_INTERMEDIACAO_AEREO").ToString)
+
+                    Else
+                        'OUTROS SERVICOS
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO_COMISSAO").ToString)
+                    End If
+
                 Else
+
                     If NFDELUCRO = 1 Then
                         dDescr = " \n Emitida conforme PA 065598/2021-16 da PMS e Relatórios gerenciais emitidos pelo sistema ERP"
                         No = doc.CreateElement("ItemListaServico", NFeNamespacte)
@@ -1356,13 +1455,11 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                         dDescr = dDescr.Trim & " " & dfinal
 
                         No = doc.CreateElement("ItemListaServico", NFeNamespacte)
-                        If rsEmpresa.Tables(0).Rows(0)("FL_INTERMEDIACAO").ToString = 1 Then
-                            noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO_COMISSAO").ToString)
-                        Else
-                            noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
-                        End If
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+
 
                     End If
+
                 End If
 
 

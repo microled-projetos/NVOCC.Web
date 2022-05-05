@@ -1756,7 +1756,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select ID_CARGA_BL,ID_TIPO_CARGA,ID_MERCADORIA,ID_NCM,(select CD_NCM +' - '+ NM_NCM from TB_NCM WHERE ID_NCM = A.ID_NCM)NCM,VL_PESO_BRUTO,VL_M3,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,DS_MERCADORIA,QT_MERCADORIA,DS_GRUPO_NCM from TB_CARGA_BL A
+            ds = Con.ExecutarQuery("select ID_CARGA_BL,ID_TIPO_CARGA,ID_MERCADORIA,ID_NCM,(select CD_NCM +' - '+ NM_NCM from TB_NCM WHERE ID_NCM = A.ID_NCM)NCM,VL_PESO_BRUTO,VL_M3,(SELECT B.VL_PESO_TAXADO FROM TB_BL B WHERE ID_BL = A.ID_BL)VL_PESO_TAXADO,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,DS_MERCADORIA,QT_MERCADORIA,DS_GRUPO_NCM from TB_CARGA_BL A
 WHERE ID_CARGA_BL = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
@@ -1798,6 +1798,10 @@ WHERE ID_CARGA_BL = " & ID)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_M3")) Then
                     txtPesoVolumetrico_CargaAereo.Text = ds.Tables(0).Rows(0).Item("VL_M3")
                 End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
+                    txtPesoTaxado_CargaAereo.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
+                End If
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_COMPRIMENTO")) Then
                     txtComprimento_CargaAereo.Text = ds.Tables(0).Rows(0).Item("VL_COMPRIMENTO")
                 End If
@@ -1855,11 +1859,12 @@ WHERE ID_CARGA_BL = " & ID)
         txtID_CargaAereo.Text = ""
         txtGrupoNCM_CargaAereo.Text = ""
         txtQtdVolume_CargaAereo.Text = ""
-        'btnAdicionarMedidasAereo.Visible = False
+        btnAdicionarMedidasAereo.Visible = False
         txtAlturaMercadoriaAereo.Text = ""
         txtLarguraMercadoriaAereo.Text = ""
         txtComprimentoMercadoriaAereo.Text = ""
         txtQtdCaixasAereo.Text = ""
+        txtPesoTaxado_CargaAereo.Text = ""
         divMedidasAereo.Attributes.CssStyle.Add("display", "none")
         ddlEmbalagem_CargaAereo.SelectedValue = 0
         mpeCargaAereo.Hide()
@@ -2961,7 +2966,6 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
 
 
-
                 Con.Fechar()
                 divSuccess_CargaAereo2.Visible = True
                 dgvCargaAereo.DataBind()
@@ -3002,6 +3006,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 End If
 
                 CalculoProfit(txtID_BasicoAereo.Text)
+                CalculaCLA()
 
             End If
 
@@ -4941,8 +4946,6 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         Dim ds As DataSet
 
 
-
-
         sumMedidasAereo(txtID_BasicoAereo.Text)
 
         If txtID_BasicoAereo.Text = "" Then
@@ -4969,28 +4972,9 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             txtLarguraMercadoriaAereo.Text = txtLarguraMercadoriaAereo.Text.Replace(",", ".")
 
             ds = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL_DIMENSAO (ID_BL,ID_CARGA_BL, QTD_CAIXA, VL_LARGURA, VL_ALTURA, VL_COMPRIMENTO) VALUES (" & txtID_BasicoAereo.Text & "," & txtID_CargaAereo.Text & "," & txtQtdCaixasAereo.Text & "," & txtLarguraMercadoriaAereo.Text & "," & txtAlturaMercadoriaAereo.Text & "," & txtComprimentoMercadoriaAereo.Text & ")")
-
+            CalculaCLA()
             sumMedidasAereo(txtID_BasicoAereo.Text)
 
-
-            If ddlServico_BasicoAereo.SelectedValue = 2 AndAlso ddlServico_BasicoAereo.SelectedValue <> 5 Then
-
-
-                ds = Con.ExecutarQuery("SELECT 	  
-                      Sum(convert(decimal(18,2), VL_LARGURA * VL_ALTURA * VL_COMPRIMENTO/6000 * QTD_CAIXA)) as VL_PESO_CUBADO 
-                    FROM TB_CARGA_BL_DIMENSAO
-                    WHERE ID_BL = " & txtID_BasicoAereo.Text & "") 
-
-                Dim ptx As String = ds.Tables(0).Rows(0).Item("VL_PESO_CUBADO").ToString()
-                Dim pbr As String = txtPesoBruto_CargaAereo.Text
-
-                If Convert.ToDecimal(ds.Tables(0).Rows(0).Item("VL_PESO_CUBADO")) > Convert.ToDecimal(txtPesoBruto_CargaAereo.Text) Then
-                    Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & ptx.Replace(",", ".") & " WHERE ID_BL = " & Request.QueryString("id"))
-                Else
-                    Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & pbr.Replace(",", ".") & " WHERE ID_BL = " & Request.QueryString("id"))
-                End If
-
-            End If
 
             dgvMedidasAereo.DataBind()
             txtAlturaMercadoriaAereo.Text = ""
@@ -5000,6 +4984,42 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         End If
 
 
+    End Sub
+    Sub CalculaCLA()
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim LCA As Decimal
+        Dim PESO_BRUTO As Decimal
+        Dim PESO_TAXADO As Decimal
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT isnull(VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(VL_M3,0)VL_M3, isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
+(isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS LCA
+from TB_BL A 
+left join TB_CARGA_BL_DIMENSAO D ON D.ID_BL = A.ID_BL
+Where A.ID_BL = " & txtID_BasicoAereo.Text)
+        PESO_BRUTO = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
+        For Each linha As DataRow In ds.Tables(0).Rows
+            LCA = LCA + linha.Item("LCA")
+        Next
+
+
+        If LCA >= PESO_BRUTO Then
+            PESO_TAXADO = LCA
+        Else
+            PESO_TAXADO = PESO_BRUTO
+        End If
+
+        txtPesoTaxado_CargaAereo.Text = FormatNumber(PESO_TAXADO, 3)
+        txtPesoVolumetrico_CargaAereo.Text = FormatNumber(LCA, 3)
+        Dim LCAFinal As String = LCA.ToString
+        LCAFinal = LCAFinal.ToString.Replace(".", "")
+        LCAFinal = LCAFinal.ToString.Replace(",", ".")
+
+        Dim PESO_TAXADO_Final As String = PESO_TAXADO.ToString
+        PESO_TAXADO_Final = PESO_TAXADO_Final.ToString.Replace(".", "")
+        PESO_TAXADO_Final = PESO_TAXADO_Final.ToString.Replace(",", ".")
+        Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_M3 = " & LCAFinal & " WHERE ID_BL = " & txtID_BasicoAereo.Text)
+        Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 = " & LCAFinal & " WHERE ID_BL = " & txtID_BasicoAereo.Text)
+        Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & PESO_TAXADO_Final & " WHERE ID_BL = " & txtID_BasicoAereo.Text)
     End Sub
 
     Sub sumMedidasAereo(ID_CargaAereo As String)
@@ -5033,8 +5053,9 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Dim ID As String = e.CommandArgument
 
             Con.ExecutarQuery("DELETE From TB_CARGA_BL_DIMENSAO Where ID = " & ID)
+            CalculaCLA()
             sumMedidasAereo(txtID_CargaAereo.Text)
-            lblSuccess_CargaAereo2.Text = "Registro deletado!"
+            lblSuccess_CargaAereo2.Text = "Registro CLA deletado!"
             divSuccess_CargaAereo2.Visible = True
             dgvMedidasAereo.DataBind()
         End If
