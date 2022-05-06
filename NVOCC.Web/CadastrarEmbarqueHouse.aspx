@@ -22,7 +22,7 @@
                             <asp:LinkButton ID="btnCapaMaritimo" runat="server" Visible="False" CssClass="btn btn-success btn-block" Text="Imprimir Capa do Processo" href="#" OnClientClick="CapaMaritimo()" />
                             <asp:LinkButton ID="btnCapaAereo" runat="server" Visible="False" CssClass="btn btn-success btn-block" Text="Imprimir Capa do Processo" href="#" OnClientClick="CapaAereo()" />
                         </div>
-                    </div>
+                    </div><div id="tabs">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="active">
                             <a href="#Maritimo" role="tab" data-toggle="tab">
@@ -35,7 +35,7 @@
                             </a>
                         </li>
                     </ul>
-
+                    </div>
                     <div class="tab-content">
                         <br />
 
@@ -2966,7 +2966,25 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>
+       
 
+        $(window).load(function () {          
+            var url = window.location.href;
+            var Qtd = url.indexOf("&s=A");     
+            if (Qtd != -1) {  
+                console.log("A");              
+                activaTab('Aereo');
+
+            } else {
+                console.log("M");
+                activaTab('Maritimo');               
+            }
+        });
+       
+        function activaTab(tab) {
+            $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+        };
+    
         $('#ajuda').on("click", function () {
             $('#modal-ajuda').modal('show');
         });

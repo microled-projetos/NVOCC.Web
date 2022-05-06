@@ -1041,10 +1041,10 @@ WHERE A.ID_COTACAO = " & ID_COTACAO)
 
                 'CARGA AEREO 
 
-                dsProcesso = Con.ExecutarQuery("SELECT ID_CARGA_BL,ID_MERCADORIA, ID_EMBALAGEM, VL_PESO_BRUTO, VL_M3 FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                dsProcesso = Con.ExecutarQuery("SELECT ID_CARGA_BL,ID_MERCADORIA, ID_EMBALAGEM, VL_PESO_BRUTO, VL_M3,DS_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
 
                 If dsProcesso.Tables(0).Rows.Count > 0 Then
-                    Dim dsCotacaoMercadoria As DataSet = Con.ExecutarQuery("SELECT ID_MERCADORIA, VL_PESO_BRUTO, VL_M3 FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA =" & ID_COTACAO_MERCADORIA)
+                    Dim dsCotacaoMercadoria As DataSet = Con.ExecutarQuery("SELECT ID_MERCADORIA, VL_PESO_BRUTO, VL_M3,DS_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA =" & ID_COTACAO_MERCADORIA)
 
 
                     If dsCotacao.Tables(0).Rows.Count > 0 Then
@@ -1063,6 +1063,10 @@ WHERE A.ID_COTACAO = " & ID_COTACAO)
 
                         If dsCotacaoMercadoria.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_EMBALAGEM").ToString Then
                             Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_EMBALAGEM = " & dsCotacaoMercadoria.Tables(0).Rows(0).Item("ID_MERCADORIA") & " WHERE ID_BL = " & ID_BL & " AND ID_CARGA_BL = " & dsProcesso.Tables(0).Rows(0).Item("ID_CARGA_BL"))
+                        End If
+
+                        If dsCotacaoMercadoria.Tables(0).Rows(0).Item("DS_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("DS_MERCADORIA").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET DS_MERCADORIA = '" & dsCotacaoMercadoria.Tables(0).Rows(0).Item("DS_MERCADORIA") & "' WHERE ID_BL = " & ID_BL & " AND ID_CARGA_BL = " & dsProcesso.Tables(0).Rows(0).Item("ID_CARGA_BL"))
                         End If
 
                         If dsCotacaoMercadoria.Tables(0).Rows(0).Item("VL_M3").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_M3").ToString Then

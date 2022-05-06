@@ -271,6 +271,8 @@
     <Content Include="Content\imagens\Logo-Background.png" />
     <Content Include="Content\imagens\Logo-Inicio.png" />
     <Content Include="Content\imagens\Logo-Menu.png" />
+    <Content Include="Content\js\jquery-ui.css" />
+    <Content Include="Content\js\jquery-ui.min.js" />
     <Content Include="FaturamentoArquivo.aspx" />
     <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
