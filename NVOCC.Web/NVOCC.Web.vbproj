@@ -266,6 +266,7 @@
     <Content Include="AtendimentoNegado.aspx.cs" />
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
     <Content Include="CadastrarEquipe.aspx" />
+    <Content Include="CadastrarTipoFaturamento.aspx" />
     <Content Include="Content\imagens\fundo-conteineres.png" />
     <Content Include="Content\imagens\Logo-Background.png" />
     <Content Include="Content\imagens\Logo-Inicio.png" />
@@ -649,6 +650,13 @@
     <Compile Include="CadastrarEquipe.aspx.vb">
       <DependentUpon>CadastrarEquipe.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarTipoFaturamento.aspx.designer.vb">
+      <DependentUpon>CadastrarTipoFaturamento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarTipoFaturamento.aspx.vb">
+      <DependentUpon>CadastrarTipoFaturamento.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FaturamentoArquivo.aspx.designer.vb">
       <DependentUpon>FaturamentoArquivo.aspx</DependentUpon>

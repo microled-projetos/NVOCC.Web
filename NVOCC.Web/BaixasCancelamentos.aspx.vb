@@ -18,7 +18,6 @@
         Else
             If Request.QueryString("t") = "p" Then
                 lblTipo.Text = "CONTAS A PAGAR"
-                'btnBaixarPagamento.Visible = True
                 gridPagar.Visible = True
                 gridReceber.Visible = False
                 btnCambio.Visible = False
@@ -27,7 +26,6 @@
                 divErro.Visible = False
                 divSuccess.Visible = False
                 lblTipo.Text = "CONTAS A RECEBER"
-                'btnBaixarRecebimento.Visible = True
                 gridPagar.Visible = False
                 gridReceber.Visible = True
                 If rdStatus.SelectedValue = 1 Then
@@ -63,6 +61,7 @@
                     Else
 
                         Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "'  WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+                        Filtro()
                         lblSuccess.Text = "Cancelamento realizado com sucesso!"
                         divSuccess.Visible = True
                     End If
@@ -70,9 +69,6 @@
                 End If
             Next
 
-
-
-            dgvTaxasPagar.DataBind()
 
         ElseIf Request.QueryString("t") = "r" Then
 
@@ -89,6 +85,7 @@
                         Exit Sub
                     Else
                         Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "' WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+                        Filtro()
                         lblSuccess.Text = "Cancelamento realizado com sucesso!"
                         divSuccess.Visible = True
 
@@ -97,7 +94,6 @@
                 End If
             Next
 
-            dgvTaxasReceber.DataBind()
 
         End If
 
@@ -133,7 +129,7 @@
                     End If
                 Next
 
-                dgvTaxasPagar.DataBind()
+                Filtro()
 
             ElseIf Request.QueryString("t") = "r" Then
 
@@ -154,7 +150,7 @@
                     End If
                 Next
 
-                dgvTaxasReceber.DataBind()
+                Filtro()
 
             End If
 
@@ -775,5 +771,60 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
             dsMoeda.SelectCommand = "SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] WHERE ID_MOEDA in (SELECT DISTINCT ID_MOEDA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & txtID.Text & ") union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"
             ModalPopupExtender2.Show()
         End If
+    End Sub
+
+    Private Sub btnCancelarBaixa_Click(sender As Object, e As EventArgs) Handles btnCancelarBaixa.Click
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        If Request.QueryString("t") = "p" Then
+
+            For Each linha As GridViewRow In dgvTaxasPagar.Rows
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                If check.Checked Then
+                    Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                    Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER =" & ID)
+                    If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                        lblErro.Text = "Não foi possivel conclir a ação: Registro já faturado!"
+                        divErro.Visible = True
+                        Exit Sub
+                    Else
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = NULL, ID_USUARIO_LIQUIDACAO = NULL WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+                    End If
+
+                End If
+            Next
+
+            Filtro()
+
+        ElseIf Request.QueryString("t") = "r" Then
+
+            For Each linha As GridViewRow In dgvTaxasReceber.Rows
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                If check.Checked Then
+                    Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                    Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER =" & ID)
+                    If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                        lblErro.Text = "Não foi possivel conclir a ação: Registro já faturado!"
+                        divErro.Visible = True
+                        Exit Sub
+                    Else
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = NULL , ID_USUARIO_LIQUIDACAO = NULL WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+                    End If
+
+                End If
+            Next
+
+            Filtro()
+
+        End If
+
+
+        Con.Fechar()
+        lblSuccess.Text = "Baixa cancelada com sucesso!"
+        divSuccess.Visible = True
+        txtData.Text = ""
+        txtObs.Text = ""
+
     End Sub
 End Class

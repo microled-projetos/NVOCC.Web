@@ -195,7 +195,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
                 txtViaTransporte.Text = 4
                 divTTAereo.Attributes.CssStyle.Add("display", "block")
                 divCheckFrete.Attributes.CssStyle.Add("display", "block")
-                '  divMedidasAereo.Attributes.CssStyle.Add("display", "block")
                 divMedidasMaritimo.Attributes.CssStyle.Add("display", "none")
                 divQtdMercadoria.Attributes.CssStyle.Add("display", "none")
                 divCntr.Attributes.CssStyle.Add("display", "none")
@@ -203,6 +202,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
                 lbldestino.Text = "Aeroporto de Destino"
                 Session("servico") = ds.Tables(0).Rows(0).Item("ID_SERVICO").ToString()
                 lblM3.Text = "Peso Cubado"
+                divMinimosFCL.Visible = False
 
                 dsPorto.SelectCommand = "SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
                 ddlOrigemFrete.DataBind()
@@ -1903,6 +1903,21 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                         AdicionarMedidasAereo()
                         divErroMercadoria.Visible = False
                         divMedidasAereo.Attributes.CssStyle.Add("display", "block")
+                        txtFreteCompraMercadoriaUnitario.Text = txtFreteCompraMercadoriaUnitario.Text.Replace(".", ",")
+                        txtFreteCompraMinima.Text = txtFreteCompraMinima.Text.Replace(".", ",")
+                        txtFreteCompraMercadoriaCalc.Text = txtFreteCompraMercadoriaCalc.Text.Replace(".", ",")
+
+                        txtFreteVendaMercadoriaUnitario.Text = txtFreteVendaMercadoriaUnitario.Text.Replace(".", ",")
+                        txtFreteVendaMinima.Text = txtFreteVendaMinima.Text.Replace(".", ",")
+                        txtFreteVendaMercadoriaCalc.Text = txtFreteVendaMercadoriaCalc.Text.Replace(".", ",")
+
+                        txtValorCargaMercadoria.Text = txtValorCargaMercadoria.Text.Replace(".", ",")
+                        txtM3Mercadoria.Text = txtM3Mercadoria.Text.Replace(".", ",")
+                        txtPesoBrutoMercadoria.Text = txtPesoBrutoMercadoria.Text.Replace(".", ",")
+
+                        txtComprimentoMercadoria.Text = txtComprimentoMercadoria.Text.Replace(".", ",")
+                        txtLarguraMercadoria.Text = txtLarguraMercadoria.Text.Replace(".", ",")
+                        txtAlturaMercadoria.Text = txtAlturaMercadoria.Text.Replace(".", ",")
                     Else
 
                         ddlMercadoria.SelectedValue = 0
@@ -3951,6 +3966,8 @@ union SELECT  0, '    Selecione' ORDER BY NM_CLIENTE_FINAL"
             divMedidasMaritimo.Attributes.CssStyle.Add("display", "none")
             divQtdMercadoria.Attributes.CssStyle.Add("display", "none")
             RedM3.Visible = False
+            divMinimosFCL.Visible = False
+
         Else
             lblM3.Text = "Valor M3"
             If Session("estufagem") = 1 Then
@@ -4731,8 +4748,8 @@ end ID_ORIGEM_PAGAMENTO
             If dsCarga.Tables(0).Rows.Count > 0 Then
 
                 For Each linha As DataRow In dsCarga.Tables(0).Rows
-                    Dim dsInsertCarga As DataSet = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,VL_PESO_BRUTO,VL_M3,ID_BL,ID_COTACAO_MERCADORIA) 
-SELECT ID_MERCADORIA, ID_MERCADORIA, VL_PESO_BRUTO, VL_M3, " & ID_BL & " , ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA") & " Select SCOPE_IDENTITY() as ID_CARGA_BL")
+                    Dim dsInsertCarga As DataSet = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,VL_PESO_BRUTO,VL_M3,ID_BL,ID_COTACAO_MERCADORIA,DS_MERCADORIA) 
+SELECT ID_MERCADORIA, ID_MERCADORIA, VL_PESO_BRUTO, VL_M3, " & ID_BL & " , ID_COTACAO_MERCADORIA,DS_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA") & " Select SCOPE_IDENTITY() as ID_CARGA_BL")
 
                     Dim ID_CARGA_BL As String = dsInsertCarga.Tables(0).Rows(0).Item("ID_CARGA_BL")
 
@@ -4981,6 +4998,8 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
             ddlOrigemFrete.DataBind()
             ddlDestinoFrete.DataBind()
             lblM3.Text = "Peso Cubado"
+            divMinimosFCL.Visible = False
+
         Else
             txtViaTransporte.Text = 1
             divCheckFrete.Attributes.CssStyle.Add("display", "none")
