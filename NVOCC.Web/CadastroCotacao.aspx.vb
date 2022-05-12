@@ -53,7 +53,7 @@
         Con.Conectar()
         Dim ds As DataSet
 
-        ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,ID_FRETE_TRANSPORTADOR,A.NR_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ORIGEM,ID_TRANSPORTADOR,ID_PARCEIRO_INDICADOR,DT_FOLLOWUP,
+        ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,ISNULL(ID_FRETE_TRANSPORTADOR,0)ID_FRETE_TRANSPORTADOR,A.NR_COTACAO,ISNULL(ID_PORTO_DESTINO,0)ID_PORTO_DESTINO,ISNULL(ID_PORTO_ORIGEM,0)ID_PORTO_ORIGEM,ISNULL(ID_TRANSPORTADOR,0)ID_TRANSPORTADOR,ID_PARCEIRO_INDICADOR,DT_FOLLOWUP,
 CONVERT(varchar,A.DT_ABERTURA,103)DT_ABERTURA,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,REF_AUXILIAR,REF_CONSIGNEE,REF_SHIPPER,
 A.ID_STATUS_COTACAO,
 CONVERT(varchar,A.DT_STATUS_COTACAO,103)DT_STATUS_COTACAO,
@@ -203,11 +203,15 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
                 Session("servico") = ds.Tables(0).Rows(0).Item("ID_SERVICO").ToString()
                 lblM3.Text = "Peso Cubado"
                 divMinimosFCL.Visible = False
-
+                divPesoTaxado.Attributes.CssStyle.Add("display", "block")
                 dsPorto.SelectCommand = "SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
                 ddlOrigemFrete.DataBind()
                 ddlDestinoFrete.DataBind()
-
+                divCamposMaritimos.Attributes.CssStyle.Add("display", "none")
+                modalFrete.InnerText = "ROTAS"
+                lblAbaFrete.Text = "Rotas"
+                modalMercaoria.InnerText = "EMBALAGEM/FRETE"
+                lblAbaEmbalagem.Text = "Embalagem/Frete"
             Else
                 txtViaTransporte.Text = 1
                 divTTAereo.Attributes.CssStyle.Add("display", "none")
@@ -220,9 +224,16 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
                 lbldestino.Text = "Porto de Destino"
                 Session("servico") = ds.Tables(0).Rows(0).Item("ID_SERVICO").ToString()
                 lblM3.Text = "Valor M3"
-                dsPorto.SelectCommand = "SELECT ID_PORTO, NM_PORTO + ' - ' +  CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
+                dsPorto.SelectCommand = "Select ID_PORTO, NM_PORTO + ' - ' +  CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
                 ddlOrigemFrete.DataBind()
                 ddlDestinoFrete.DataBind()
+                divPesoTaxado.Attributes.CssStyle.Add("display", "none")
+                divCamposMaritimos.Attributes.CssStyle.Add("display", "block")
+                modalFrete.InnerText = "FRETE"
+                lblAbaFrete.Text = "Frete"
+                modalMercaoria.InnerText = "EMBALAGEM"
+                lblAbaEmbalagem.Text = "Embalagem"
+
             End If
 
             ddlDestinoFrete.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO").ToString()
@@ -406,6 +417,10 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
         txtQtdCaixasAereo.Text = ""
         divMedidasAereo.Attributes.CssStyle.Add("display", "none")
         txtPesoTaxadoMercadoria.Text = ""
+        ddlProfitMercadoria.SelectedValue = 0
+        ddlMoedaFreteMercadoria.SelectedValue = 0
+        txtValorProfitMercadoria.Text = ""
+
         mpeNovoMercadoria.Hide()
     End Sub
 
@@ -897,8 +912,10 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
 
             ds = Con.ExecutarQuery("SELECT 
 A.ID_COTACAO_MERCADORIA,A.ID_COTACAO,A.ID_MERCADORIA,A.ID_TIPO_CONTAINER,A.QT_CONTAINER,A.VL_FRETE_COMPRA,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,
-A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.OUTRAS_OBS,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,A.QT_MERCADORIA,A.VL_FRETE_COMPRA_MIN,A.VL_FRETE_VENDA_MIN,OBS_ENDERECO, ISNULL(ID_MOEDA_CARGA,0)ID_MOEDA_CARGA,(SELECT B.VL_PESO_TAXADO FROM TB_COTACAO B WHERE A.ID_COTACAO = B.ID_COTACAO )VL_PESO_TAXADO FROM TB_COTACAO_MERCADORIA A
-WHERE ID_COTACAO_MERCADORIA = " & ID)
+A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.OUTRAS_OBS,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,A.QT_MERCADORIA,A.VL_FRETE_COMPRA_MIN,A.VL_FRETE_VENDA_MIN,OBS_ENDERECO, ISNULL(ID_MOEDA_CARGA,0)ID_MOEDA_CARGA, B.VL_PESO_TAXADO,B.ID_MOEDA_FRETE,B.ID_TIPO_DIVISAO_FRETE, B.VL_DIVISAO_FRETE, B.FL_FRETE_DECLARADO ,B.FL_FRETE_PROFIT
+FROM TB_COTACAO_MERCADORIA A
+INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO
+WHERE A.ID_COTACAO_MERCADORIA = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
                 If Session("servico") = 2 Or Session("servico") = 5 Then
@@ -908,6 +925,27 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
                         txtPesoTaxadoMercadoria.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
                     End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MOEDA_FRETE")) Then
+                        ddlMoedaFreteMercadoria.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA_FRETE")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_DIVISAO_FRETE")) Then
+                        ddlProfitMercadoria.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_DIVISAO_FRETE")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_DIVISAO_FRETE")) Then
+                        txtValorProfitMercadoria.Text = ds.Tables(0).Rows(0).Item("VL_DIVISAO_FRETE")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_FRETE_DECLARADO")) Then
+                        ckFreteDeclarado.Checked = ds.Tables(0).Rows(0).Item("FL_FRETE_DECLARADO")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_FRETE_PROFIT")) Then
+                        ckFreteProfit.Checked = ds.Tables(0).Rows(0).Item("FL_FRETE_PROFIT")
+                    End If
+
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_COTACAO_MERCADORIA")) Then
@@ -1514,9 +1552,9 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
 
             Else
 
-
-                'ALTERA FRETE
-                ds = Con.ExecutarQuery("UPDATE TB_COTACAO SET 
+                If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 5 Then
+                    'ALTERA FRETE
+                    ds = Con.ExecutarQuery("UPDATE TB_COTACAO SET 
 ID_PORTO_ORIGEM = " & ddlOrigemFrete.SelectedValue & ",
 ID_PORTO_DESTINO = " & ddlDestinoFrete.SelectedValue & ", 
 ID_PORTO_ESCALA1 = " & ddlEscala1Frete.SelectedValue & ",
@@ -1546,6 +1584,33 @@ FL_FRETE_DECLARADO = '" & ckFreteDeclarado.Checked & "',
 FL_FRETE_PROFIT = '" & ckFreteProfit.Checked & "' 
 WHERE ID_COTACAO = " & txtID.Text)
 
+                ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 4 Then
+
+
+                    'ALTERA FRETE
+                    ds = Con.ExecutarQuery("UPDATE TB_COTACAO SET 
+ID_PORTO_ORIGEM = " & ddlOrigemFrete.SelectedValue & ",
+ID_PORTO_DESTINO = " & ddlDestinoFrete.SelectedValue & ", 
+ID_PORTO_ESCALA1 = " & ddlEscala1Frete.SelectedValue & ",
+ID_PORTO_ESCALA2 = " & ddlEscala2Frete.SelectedValue & ",
+ID_PORTO_ESCALA3 = " & ddlEscala3Frete.SelectedValue & ",
+QT_TRANSITTIME_FINAL  = " & txtTTimeFreteFinal.Text & ",
+QT_TRANSITTIME_INICIAL = " & txtTTimeFreteInicial.Text & ",
+QT_TRANSITTIME_MEDIA = " & txtTTimeFreteMedia.Text & ",
+ID_TIPO_FREQUENCIA = " & ddlFrequenciaFrete.SelectedValue & ",
+VL_FREQUENCIA = '" & txtValorFrequenciaFrete.Text & "', 
+NM_TAXAS_INCLUDED =  " & TaxasIncluded & ", 
+ID_FRETE_TRANSPORTADOR = " & ddlFreteTransportador_Frete.SelectedValue & ",
+ID_TIPO_BL = " & ddlTipoBL.SelectedValue & ",
+ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & ",
+ID_TIPO_CARGA = " & ddlTipoCargaFrete.SelectedValue & ",
+ID_VIA_ROTA = " & ddlRotaFrete.SelectedValue & ", 
+ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_Frete.SelectedValue & " ,
+TRANSITTIME_TRUCKING_AEREO = " & txtTTimeFreteTruckingAereo.Text & " ,
+FINAL_DESTINATION = " & ddlFinalDestination.SelectedValue & "
+WHERE ID_COTACAO = " & txtID.Text)
+
+                End If
 
                 txtVendaMinimaFCL.Text = txtVendaMinimaFCL.Text.Replace(".", ",")
                 txtCompraMinimaFCL.Text = txtCompraMinimaFCL.Text.Replace(".", ",")
@@ -1592,6 +1657,20 @@ WHERE ID_COTACAO = " & txtID.Text)
 
     End Sub
 
+    Sub AlteraMercadoriaAereo()
+
+        'ALTERA FRETE
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Con.ExecutarQuery("UPDATE TB_COTACAO SET 
+ID_MOEDA_FRETE = " & ddlMoedaFreteMercadoria.SelectedValue & ",
+ID_TIPO_DIVISAO_FRETE = " & ddlProfitMercadoria.SelectedValue & ",
+VL_DIVISAO_FRETE = " & txtValorProfitMercadoria.Text.Replace(",", ".") & ", 
+FL_FRETE_DECLARADO = '" & ckFreteDeclarado.Checked & "',
+FL_FRETE_PROFIT = '" & ckFreteProfit.Checked & "' 
+WHERE ID_COTACAO = " & txtID.Text)
+
+    End Sub
     Sub AtualizaFreteMercadoria()
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -1901,6 +1980,8 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                         txtIDMercadoria.Text = dsMercadoria.Tables(0).Rows(0).Item("ID_COTACAO_MERCADORIA").ToString()
                         btnAdicionarMedidasAereo.Visible = True
                         AdicionarMedidasAereo()
+                        AlteraMercadoriaAereo()
+
                         divErroMercadoria.Visible = False
                         divMedidasAereo.Attributes.CssStyle.Add("display", "block")
                         txtFreteCompraMercadoriaUnitario.Text = txtFreteCompraMercadoriaUnitario.Text.Replace(".", ",")
@@ -1918,6 +1999,7 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                         txtComprimentoMercadoria.Text = txtComprimentoMercadoria.Text.Replace(".", ",")
                         txtLarguraMercadoria.Text = txtLarguraMercadoria.Text.Replace(".", ",")
                         txtAlturaMercadoria.Text = txtAlturaMercadoria.Text.Replace(".", ",")
+                        txtValorProfitMercadoria.Text = txtValorProfitMercadoria.Text.Replace(".", ",")
                     Else
 
                         ddlMercadoria.SelectedValue = 0
@@ -1985,6 +2067,7 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
 
                     If ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
                         AdicionarMedidasAereo()
+                        AlteraMercadoriaAereo()
                         divErroMercadoria.Visible = False
                     End If
 
@@ -2005,6 +2088,7 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
                     txtComprimentoMercadoria.Text = txtComprimentoMercadoria.Text.Replace(".", ",")
                     txtLarguraMercadoria.Text = txtLarguraMercadoria.Text.Replace(".", ",")
                     txtAlturaMercadoria.Text = txtAlturaMercadoria.Text.Replace(".", ",")
+                    txtValorProfitMercadoria.Text = txtValorProfitMercadoria.Text.Replace(".", ",")
 
                     divSuccessMercadoria.Visible = True
                     Con.Fechar()
@@ -3962,13 +4046,24 @@ union SELECT  0, '    Selecione' ORDER BY NM_CLIENTE_FINAL"
             lblorigem.Text = "Aeroporto de Origem"
             lbldestino.Text = "Aeroporto de Destino"
             lblM3.Text = "Peso Cubado"
-            ' divMedidasAereo.Attributes.CssStyle.Add("display", "block")
             divMedidasMaritimo.Attributes.CssStyle.Add("display", "none")
             divQtdMercadoria.Attributes.CssStyle.Add("display", "none")
             RedM3.Visible = False
             divMinimosFCL.Visible = False
+            divPesoTaxado.Attributes.CssStyle.Add("display", "block")
+            divCamposMaritimos.Attributes.CssStyle.Add("display", "none")
+            modalFrete.InnerText = "ROTAS"
+            lblAbaFrete.Text = "Rotas"
+            modalMercaoria.InnerText = "EMBALAGEM/FRETE"
+            lblAbaEmbalagem.Text = "Embalagem/Frete"
 
         Else
+            modalFrete.InnerText = "FRETE"
+            lblAbaFrete.Text = "Frete"
+            modalMercaoria.InnerText = "EMBALAGEM"
+            lblAbaEmbalagem.Text = "Embalagem"
+            divCamposMaritimos.Attributes.CssStyle.Add("display", "block")
+            divPesoTaxado.Attributes.CssStyle.Add("display", "none")
             lblM3.Text = "Valor M3"
             If Session("estufagem") = 1 Then
                 DivFreetime.Attributes.CssStyle.Add("display", "block")
@@ -3983,6 +4078,7 @@ union SELECT  0, '    Selecione' ORDER BY NM_CLIENTE_FINAL"
                 divMinimosFCL.Visible = True
                 divCompraMinimaLCL.Visible = False
                 divVendaMinimaLCL.Visible = False
+                divCntr.Attributes.CssStyle.Add("display", "block")
 
 
             ElseIf Session("estufagem") = 2 Then
@@ -3999,7 +4095,7 @@ union SELECT  0, '    Selecione' ORDER BY NM_CLIENTE_FINAL"
                 divMinimosFCL.Visible = False
                 divCompraMinimaLCL.Visible = True
                 divVendaMinimaLCL.Visible = True
-
+                divCntr.Attributes.CssStyle.Add("display", "none")
             Else
                 DivFreetime.Attributes.CssStyle.Add("display", "none")
                 divQtdMercadoria.Attributes.CssStyle.Add("display", "none")
@@ -4991,15 +5087,19 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
             divCntr.Attributes.CssStyle.Add("display", "none")
             lblorigem.Text = "Aeroporto de Origem"
             lbldestino.Text = "Aeroporto de Destino"
-            ' divMedidasAereo.Attributes.CssStyle.Add("display", "block")
             divMedidasMaritimo.Attributes.CssStyle.Add("display", "none")
+            divCamposMaritimos.Attributes.CssStyle.Add("display", "none")
             divQtdMercadoria.Attributes.CssStyle.Add("display", "none")
             dsPorto.SelectCommand = "SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
             ddlOrigemFrete.DataBind()
             ddlDestinoFrete.DataBind()
             lblM3.Text = "Peso Cubado"
             divMinimosFCL.Visible = False
-
+            divPesoTaxado.Attributes.CssStyle.Add("display", "block")
+            modalFrete.InnerText = "ROTAS"
+            lblAbaFrete.Text = "Rotas"
+            modalMercaoria.InnerText = "EMBALAGEM/FRETE"
+            lblAbaEmbalagem.Text = "Embalagem/Frete"
         Else
             txtViaTransporte.Text = 1
             divCheckFrete.Attributes.CssStyle.Add("display", "none")
@@ -5014,6 +5114,12 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
             ddlOrigemFrete.DataBind()
             ddlDestinoFrete.DataBind()
             lblM3.Text = "Valor M3"
+            divPesoTaxado.Attributes.CssStyle.Add("display", "none")
+            divCamposMaritimos.Attributes.CssStyle.Add("display", "block")
+            modalFrete.InnerText = "FRETE"
+            lblAbaFrete.Text = "Frete"
+            modalMercaoria.InnerText = "EMBALAGEM"
+            lblAbaEmbalagem.Text = "Embalagem"
         End If
     End Sub
 
