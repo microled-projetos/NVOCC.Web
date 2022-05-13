@@ -276,6 +276,9 @@ WHERE ID_PARCEIRO =" & ID)
         divmsg.Visible = False
         divmsg1.Visible = False
         divInformativa.Visible = False
+        divSuccesgrid.Visible = False
+        divErrogrid.Visible = False
+        btnSalvarContato.Visible = False
         Dim ds As DataSet
 
         Dim Con As New Conexao_sql
@@ -721,7 +724,8 @@ WHERE ID_PARCEIRO =" & ID)
                             If txtNomeContato.Text = "" And txtTelContato.Text = "" And txtEmailContato.Text = "" And txtDepartamento.Text = "" Then
                                 divInformativa.Visible = True
                                 lblInformacao.Text = "Parceiro cadastrado sem informações de contato"
-                            Else
+
+                            ElseIf txtIDContato.Text = "" Then
                                 If txtNomeContato.Text = "" Then
                                     msgErro.Text = "Preencha o campo de nome na aba contatos."
                                     divmsg1.Visible = True
@@ -1083,7 +1087,7 @@ WHERE ID_PARCEIRO =" & ID)
                             INNER JOIN TB_PARCEIRO P on P.ID_PARCEIRO = F.ID_PARCEIRO_CLIENTE
                             WHERE F.NR_RPS IS NULL AND F.NR_NOTA_FISCAL IS NULL AND P.ID_PARCEIRO = " & ID)
 
-                            If txtNomeContato.Text <> "" Then
+                            If txtNomeContato.Text <> "" And txtIDContato.Text = "" Then
 
                                 If txtNomeContato.Text = "" Then
                                     txtNomeContato.Text = "NULL"
@@ -1200,6 +1204,8 @@ WHERE ID_PARCEIRO =" & ID)
 
                             End If
                             Call Limpar(Me)
+                            dgvContato.DataBind()
+                            dgvEmailvento.DataBind()
                             Con.Fechar()
                             divmsg.Visible = True
                             If ckbAgenteInternacional.Checked = True Then
@@ -1445,5 +1451,87 @@ WHERE ID_PARCEIRO =" & ID)
 
     Private Sub btnSimDadosBancarios_Click(sender As Object, e As EventArgs) Handles btnSimDadosBancarios.Click
         Response.Redirect("DadosBancariosAgente.aspx?id=" & Session("ID_Parceiro"))
+    End Sub
+
+    Private Sub dgvContato_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvContato.RowCommand
+        divSuccesgrid.Visible = False
+        divErrogrid.Visible = False
+        Dim ID As String = e.CommandArgument
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If e.CommandName = "Editar" Then
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT  A.ID_CONTATO as Id, A.NM_CONTATO,A.TELEFONE_CONTATO,A.CELULAR_CONTATO,A.NM_DEPARTAMENTO,A.EMAIL_CONTATO FROM [dbo].[TB_CONTATO] A WHERE A.ID_CONTATO = " & ID)
+            If ds.Tables(0).Rows.Count > 0 Then
+                txtIDContato.Text = ID
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_CONTATO")) Then
+                    txtNomeContato.Text = ds.Tables(0).Rows(0).Item("NM_CONTATO").ToString()
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("TELEFONE_CONTATO")) Then
+                    txtTelContato.Text = ds.Tables(0).Rows(0).Item("TELEFONE_CONTATO").ToString()
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CELULAR_CONTATO")) Then
+                    txtCelularContato.Text = ds.Tables(0).Rows(0).Item("CELULAR_CONTATO").ToString()
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMAIL_CONTATO")) Then
+                    txtEmailContato.Text = ds.Tables(0).Rows(0).Item("EMAIL_CONTATO").ToString()
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_DEPARTAMENTO")) Then
+                    txtDepartamento.Text = ds.Tables(0).Rows(0).Item("NM_DEPARTAMENTO").ToString()
+                End If
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "EditaContato()", True)
+                btnSalvarContato.Visible = True
+            End If
+        End If
+
+    End Sub
+
+    Private Sub btnSalvarContato_Click(sender As Object, e As EventArgs) Handles btnSalvarContato.Click
+        divSuccesgrid.Visible = False
+        divErrogrid.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtNomeContato.Text = "" Then
+            'ERRO
+            divErrogrid.Visible = True
+            lblErrogrid.Text = "Obrigatorio o preenchimento de nome do contato!"
+        Else
+
+            Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_CONTATO] = '" & txtNomeContato.Text & "' WHERE ID_CONTATO = " & txtIDContato.Text)
+
+
+            If txtTelContato.Text <> "" Then
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [TELEFONE_CONTATO] = '" & txtTelContato.Text & "'  WHERE ID_CONTATO = " & txtIDContato.Text)
+            Else
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [TELEFONE_CONTATO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
+            End If
+
+            If txtEmailContato.Text <> "" Then
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [EMAIL_CONTATO] = '" & txtEmailContato.Text & "'  where ID_CONTATO = " & txtIDContato.Text)
+            Else
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [EMAIL_CONTATO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
+            End If
+
+            If txtCelularContato.Text <> "" Then
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [CELULAR_CONTATO] = '" & txtCelularContato.Text & "'  where ID_CONTATO = " & txtIDContato.Text)
+            Else
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [CELULAR_CONTATO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
+            End If
+
+            If txtDepartamento.Text <> "" Then
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_DEPARTAMENTO] = '" & txtDepartamento.Text & "'  where ID_CONTATO = " & txtIDContato.Text)
+            Else
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_DEPARTAMENTO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
+            End If
+            divSuccesgrid.Visible = True
+            lblSuccesgrid.Text = "Contato alterado com sucesso!"
+            btnSalvarContato.Visible = False
+            txtIDContato.Text = ""
+            txtNomeContato.Text = ""
+            txtTelContato.Text = ""
+            txtCelularContato.Text = ""
+            txtEmailContato.Text = ""
+            txtDepartamento.Text = ""
+            dgvContato.DataBind()
+        End If
     End Sub
 End Class

@@ -588,6 +588,10 @@
 
                     </div>    
                         <div class="tab-pane fade" id="contatos" >
+                    <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+    <ContentTemplate>
+
+
    <br />     <ul class="nav nav-tabs" role="tablist">
                         <li class="active">
                             <a href="#detalhesContato" role="tab" data-toggle="tab">
@@ -602,10 +606,18 @@
                     </ul>
    <br />
                  <div class="tab-content">
+                     <div class="alert alert-success" id="divSuccesgrid" runat="server" visible="false" >
+                                    <asp:Label runat="server"  ID="lblSuccesgrid" />
+                                    </div>
+                                    <div class="alert alert-danger" id="divErrogrid" runat="server" visible="false">
+                                    <asp:Label runat="server"  ID="lblErrogrid" />
+                                    </div>
                         <div class="tab-pane fade active in" id="detalhesContato">
                             <div class="row">
+                                
                                 <div class="col-sm-6">
                                     <div class="form-group">
+                                        <asp:TextBox ID="txtIDContato" runat="server"  CssClass="form-control" MaxLength="50" style="display:none" ></asp:TextBox>
                                         <label class="control-label">Nome:</label>
                                         <asp:TextBox ID="txtNomeContato" runat="server"  CssClass="form-control" MaxLength="50"></asp:TextBox>
                                     </div>
@@ -639,17 +651,15 @@
                                     </div>
                                 </div>
                                  </div> 
-
+                             <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group"><asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarContato" Visible="false" text="Salvar Contato" /> </div> </div> </div>
                         </div>
                     
                            
                        <div class="tab-pane fade" id="listaContato">
-                           <div class="alert alert-success" id="divSuccesgrid" runat="server" visible="false" >
-                                    <asp:Label runat="server"  ID="lblSuccesgrid" />
-                                    </div>
-                                    <div class="alert alert-danger" id="divErrogrid" runat="server" visible="false">
-                                    <asp:Label runat="server"  ID="lblErrogrid" />
-                                    </div>
+ 
+                           
                                <asp:GridView ID="dgvContato" DataKeyNames="Id" DataSourceID="dsContato" EmptyDataText="Esse parceiro não possui contato cadastrado."  CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AllowSorting="true" AutoGenerateColumns="false">
                                     <Columns>
                                         <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" />   
@@ -657,7 +667,13 @@
                                         <asp:BoundField DataField="NM_CONTATO" HeaderText="Nome" SortExpression="NM_CONTATO" />
                                         <asp:BoundField DataField="EMAIL_CONTATO" HeaderText="Email" SortExpression="EMAIL_CONTATO" />
                                         <asp:BoundField DataField="CELULAR_CONTATO" HeaderText="Celular" SortExpression="CELULAR_CONTATO" />
-                         
+                          <asp:TemplateField HeaderText="">
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CommandName="Editar" CommandArgument='<%# Eval("Id") %>'
+                                Text="Editar" CssClass="btn btn-info btn-sm" ><span class="glyphicon glyphicon-edit"  style="font-size:medium" ></span></asp:LinkButton>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                        </asp:TemplateField>
                                          <asp:TemplateField HeaderText="">
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="Delete"
@@ -668,9 +684,30 @@
                                     </Columns>
                                     <HeaderStyle CssClass="headerStyle" />
                                 </asp:GridView>
+
+
+        
+     
                        </div>
-                     </div>
-                             </div>
+
+           
+
+
+                 </div>
+                           
+                        </ContentTemplate>
+                                 <Triggers>
+                                                                               <ASP:AsyncPostBackTrigger ControlID="dgvContato" EventName="RowCommand" />
+                            </Triggers>
+</asp:UpdatePanel>       
+                        
+                        
+                        </div>
+
+
+
+
+
                         <div class="tab-pane fade" id="email" >
                              <ul class="nav nav-tabs" role="tablist">
                         <li class="active">
@@ -808,7 +845,8 @@ LEFT JOIN TB_PORTO B ON A.ID_TERMINAL = B.ID_PORTO
 LEFT  JOIN TB_TIPOAVISO C ON C.IDTIPOAVISO = ID_EVENTO
 LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
           <SelectParameters>
-          <asp:QueryStringParameter Name="ID" QueryStringField="id" />
+<%--          <asp:QueryStringParameter Name="ID" QueryStringField="id" />--%>
+                 <asp:ControlParameter Name="ID" Type="Int32" ControlID="txtID" DefaultValue ="0" />
         </SelectParameters>
 </asp:SqlDataSource>
     
@@ -820,7 +858,9 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
                     <asp:Parameter Name="ID" Type="Int32" />
                 </DeleteParameters>
         <SelectParameters>
-          <asp:QueryStringParameter Name="ID" QueryStringField="id" />
+         <%-- <asp:QueryStringParameter Name="ID" QueryStringField="id" />--%>
+                        <asp:ControlParameter Name="ID" Type="Int32" ControlID="txtID" DefaultValue ="0" />
+
         </SelectParameters>
 </asp:SqlDataSource>
 
@@ -863,6 +903,16 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
               console.log(ID);
 
              window.open('DadosBancariosAgente.aspx?tipo=p&id=' + ID, '_blank');
-          }
+         }
+
+         function EditaContato() {
+             console.log("detalhesContato");
+            // activaTab('detalhesContato');
+             $('.nav-tabs a[href="#detalhesContato"]').tab('show');        
+         }
+
+         //function activaTab(tab) {
+         //    $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+         //};
      </script>
 </asp:Content>
