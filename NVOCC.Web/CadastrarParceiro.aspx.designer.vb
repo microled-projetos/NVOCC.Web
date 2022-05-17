@@ -338,6 +338,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlCidade As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ddlPais.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlPais As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle txtOBSComplementares.
     '''</summary>
     '''<remarks>
@@ -1065,6 +1074,15 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsCidades As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsPais.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsPais As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsParceiros.

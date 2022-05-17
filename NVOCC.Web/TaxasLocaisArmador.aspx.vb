@@ -170,14 +170,13 @@ INNER JOIN TB_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRA
             dsTaxas.SelectParameters("ID").DefaultValue = Request.QueryString("id")
             dgvTaxas.DataBind()
         Else
-            If ddlConsulta.SelectedValue = 1 Then
-                FILTRO = " AND NM_PORTO LIKE '%" & txtConsulta.Text & "%' "
-            ElseIf ddlConsulta.SelectedValue = 3 Then
-                FILTRO = " AND NM_TIPO_COMEX LIKE '%" & txtConsulta.Text & "%' "
-            Else
-                FILTRO = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
 
+            If ddlConsulta.SelectedValue = 1 Then
+                FILTRO = " And NM_PORTO Like '%" & txtConsulta.Text & "%' "
+            ElseIf ddlConsulta.SelectedValue = 2 Then
+                FILTRO = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
             End If
+
             dsTaxas.SelectCommand = "SELECT A.ID_TAXA_LOCAL_TRANSPORTADOR,
 a.ID_TRANSPORTADOR,
 a.ID_PORTO, b.NM_PORTO,
@@ -194,7 +193,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX
 Left Join TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
 Left Join TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO
 Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA     
-        WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO & " ORDER BY B.NM_PORTO"
+        WHERE a.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue & " AND ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO & " ORDER BY B.NM_PORTO"
             dgvTaxas.DataBind()
         End If
 
@@ -839,5 +838,9 @@ INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_STATUS_COTACAO
             txtQtdBaseCalculo.Enabled = False
             txtQtdBaseCalculo.Text = ""
         End If
+    End Sub
+
+    Private Sub ddlComexConsulta_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlComexConsulta.SelectedIndexChanged
+        Pesquisa()
     End Sub
 End Class

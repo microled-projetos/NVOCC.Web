@@ -72,6 +72,7 @@ NR_ENDERECO,
 BAIRRO,
 COMPL_ENDERECO,
 ISNULL(ID_CIDADE,0)ID_CIDADE,
+ISNULL(ID_PAIS,0)ID_PAIS,
 TELEFONE,
 CEP,
 ISNULL(ID_VENDEDOR,0)ID_VENDEDOR,
@@ -222,7 +223,7 @@ WHERE ID_PARCEIRO =" & ID)
 
                 txtAliquotaCOFINS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_COFINS").ToString()
 
-
+                ddlPais.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PAIS")
                 txtEmailNF.Text = ds.Tables(0).Rows(0).Item("EMAIL_NF_ELETRONICA").ToString()
                 txtCDIATA.Text = ds.Tables(0).Rows(0).Item("CD_IATA").ToString()
                 ckbSimplesNacional.Checked = ds.Tables(0).Rows(0).Item("FL_SIMPLES_NACIONAL")
@@ -392,13 +393,38 @@ WHERE ID_PARCEIRO =" & ID)
             msgErro.Visible = True
 
 
+
         Else
 
+            If txtCDIATA.Text <> "" And ddlTipoPessoa.SelectedValue = 3 And ddlPais.SelectedValue <> 0 Then
+                Dim dspais As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_PAIS,0)ID_PAIS FROM TB_PAIS WHERE CD_IATA_PAIS='" & txtCDIATA.Text & "'")
+                If dspais.Tables(0).Rows.Count > 0 Then
+                    If ddlPais.SelectedValue <> dspais.Tables(0).Rows(0).Item("ID_PAIS").ToString() Then
+                        msgErro.Text = "Codigo IATA não corresponde ao do pais selecionado"
+                        divmsg1.Visible = True
+                        msgErro.Visible = True
+                        Exit Sub
+                    End If
+                End If
+            End If
+
+            If ddlTipoPessoa.SelectedValue <> 3 And ddlPais.SelectedValue <> 0 And ddlCidade.SelectedValue <> 0 Then
+                Dim dspais As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_PAIS,0)ID_PAIS FROM TB_PAIS WHERE ID_PAIS=(SELECT ISNULL(ID_PAIS,0)ID_PAIS FROM TB_CIDADE WHERE ID_CIDADE = " & ddlCidade.SelectedValue & ")")
+                If dspais.Tables(0).Rows.Count > 0 Then
+                    If ddlPais.SelectedValue <> dspais.Tables(0).Rows(0).Item("ID_PAIS").ToString() Then
+                        msgErro.Text = "Cidade não corresponde ao do pais selecionado"
+                        divmsg1.Visible = True
+                        msgErro.Visible = True
+                        Exit Sub
+                    End If
+                End If
+            End If
 
             If ddlTipoPessoa.SelectedValue = 1 And ValidaInscricao(UF, txtInscEstadual.Text) = False Then
                 lblInformacao.Text = "Averigue a Inscrição Estadual!"
                 divInformativa.Visible = True
             End If
+
 
 
             txtInscEstadual.Text = txtInscEstadual.Text.Replace(".", String.Empty)
@@ -649,8 +675,8 @@ WHERE ID_PARCEIRO =" & ID)
             FL_SHIPPER,
             FL_CNEE,
             FL_RODOVIARIO,
-            REGRA_ATUALIZACAO
-
+            REGRA_ATUALIZACAO,
+            ID_PAIS
             ) 
             VALUES ( 
             '" & ckbImportador.Checked & "',
@@ -710,7 +736,8 @@ WHERE ID_PARCEIRO =" & ID)
             '" & ckbShipper.Checked & "',
             '" & ckbCNEE.Checked & "',
             '" & ckbTranspRodoviario.Checked & "',
-            " & ddlRegraAtualizacao.SelectedValue & "
+            " & ddlRegraAtualizacao.SelectedValue & ",
+            " & ddlPais.SelectedValue & " 
             ) Select SCOPE_IDENTITY() as ID_PARCEIRO ")
 
 
@@ -1069,7 +1096,8 @@ WHERE ID_PARCEIRO =" & ID)
             FL_SHIPPER = '" & ckbShipper.Checked & "',
             FL_CNEE = '" & ckbCNEE.Checked & "',
             FL_RODOVIARIO = '" & ckbTranspRodoviario.Checked & "',
-            REGRA_ATUALIZACAO = " & ddlRegraAtualizacao.SelectedValue & " 
+            REGRA_ATUALIZACAO = " & ddlRegraAtualizacao.SelectedValue & " ,
+            ID_PAIS=" & ddlPais.SelectedValue & " 
             where ID_PARCEIRO = " & ID)
                             Session("ID_Parceiro") = ID
 
@@ -1262,6 +1290,7 @@ WHERE ID_PARCEIRO =" & ID)
             divCPF.Visible = True
             divCNPJ.Visible = False
             txtCPF.Text = ""
+            txtCDIATA.Text = ""
             btnConsultaCNPJ.Visible = False
             RedCidade.Visible = True
             RedBairro.Visible = True
@@ -1273,6 +1302,7 @@ WHERE ID_PARCEIRO =" & ID)
             divCPF.Visible = False
             divCNPJ.Visible = True
             txtCNPJ.Text = ""
+            txtCDIATA.Text = ""
             btnConsultaCNPJ.Visible = True
             RedCidade.Visible = True
             RedBairro.Visible = True
@@ -1532,6 +1562,81 @@ WHERE ID_PARCEIRO =" & ID)
             txtEmailContato.Text = ""
             txtDepartamento.Text = ""
             dgvContato.DataBind()
+        End If
+    End Sub
+
+    Private Sub txtCNPJ_TextChanged(sender As Object, e As EventArgs) Handles txtCNPJ.TextChanged
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        divmsg1.Visible = False
+
+        'Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "'")
+        'If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
+        '    msgErro.Text = "Já existe Parceiro com este CNPJ"
+        '    divmsg1.Visible = True
+        '    msgErro.Visible = True
+        'Else
+        If ddlTipoPessoa.SelectedValue = 1 And ValidaCNPJ.Validar(txtCNPJ.Text) = False Then
+            msgErro.Text = "CNPJ Inválido."
+            divmsg1.Visible = True
+            msgErro.Visible = True
+        Else
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "' and TP_PESSOA <> 3")
+            If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
+                msgErro.Text = "Já existe Parceiro com este CNPJ"
+                divmsg1.Visible = True
+                msgErro.Visible = True
+            End If
+        End If
+        ' End If
+
+    End Sub
+
+    Private Sub txtCPF_TextChanged(sender As Object, e As EventArgs) Handles txtCPF.TextChanged
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        divmsg1.Visible = False
+
+        'Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "'")
+        'If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
+        '    msgErro.Text = "Já existe Parceiro com este CPF"
+        '    divmsg1.Visible = True
+        '    msgErro.Visible = True
+        'Else
+        If ddlTipoPessoa.SelectedValue = 2 And ValidaCPF.Validar(txtCPF.Text) = False Then
+            msgErro.Text = "CPF Inválido."
+            divmsg1.Visible = True
+            msgErro.Visible = True
+        Else
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "'")
+            If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
+                msgErro.Text = "Já existe Parceiro com este CPF"
+                divmsg1.Visible = True
+                msgErro.Visible = True
+            End If
+        End If
+        ''  End If
+    End Sub
+
+    Private Sub txtCDIATA_TextChanged(sender As Object, e As EventArgs) Handles txtCDIATA.TextChanged
+        If txtCDIATA.Text <> "" Then
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_PAIS,0)ID_PAIS FROM TB_PAIS WHERE CD_IATA_PAIS='" & txtCDIATA.Text & "'")
+            If ds.Tables(0).Rows.Count > 0 Then
+                ddlPais.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PAIS").ToString()
+            End If
+        End If
+    End Sub
+
+    Private Sub ddlCidade_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlCidade.SelectedIndexChanged
+        If ddlCidade.SelectedValue > 0 Then
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_PAIS,0)ID_PAIS FROM TB_PAIS WHERE ID_PAIS=(SELECT ISNULL(ID_PAIS,0)ID_PAIS FROM TB_CIDADE WHERE ID_CIDADE = " & ddlCidade.SelectedValue & ")")
+            If ds.Tables(0).Rows.Count > 0 Then
+                ddlPais.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PAIS").ToString()
+            End If
         End If
     End Sub
 End Class

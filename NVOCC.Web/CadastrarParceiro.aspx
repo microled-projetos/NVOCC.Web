@@ -83,7 +83,7 @@
 
                                             <div class="form-group">
                                                 <label class="control-label">Código IATA:</label>
-                                                <asp:TextBox ID="txtCDIATA" runat="server" CssClass="form-control inteiro" MaxLength="15"></asp:TextBox>
+                                                <asp:TextBox ID="txtCDIATA" runat="server" CssClass="form-control inteiro" MaxLength="15" AutoPostBack="true"></asp:TextBox>
 
                                             </div>
                                         </div>
@@ -113,7 +113,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="control-label">CNPJ:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtCNPJ" runat="server" CssClass="form-control cnpj" MaxLength="18"></asp:TextBox>
+                                                <asp:TextBox ID="txtCNPJ" runat="server" CssClass="form-control cnpj" MaxLength="18"  AutoPostBack="true"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -127,7 +127,7 @@
                                         <div class="col-sm-6" id="divCPF" runat="server" visible="false">
                                             <div class="form-group">
                                                 <label class="control-label">CPF:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtCPF" runat="server" CssClass="form-control cpf" MaxLength="18"></asp:TextBox>
+                                                <asp:TextBox ID="txtCPF" runat="server" CssClass="form-control cpf" MaxLength="18" AutoPostBack="true"></asp:TextBox>
                                             </div>
                                         </div>
                                     </div>
@@ -174,7 +174,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-1">
                                             <div class="form-group">
                                                 <label class="control-label">Número:</label><asp:Label ID="RedNum" runat="server" Style="color: red">*</asp:Label>
                                                 <asp:TextBox ID="txtNumero" runat="server" CssClass="form-control inteiro" MaxLength="10"></asp:TextBox>
@@ -192,10 +192,17 @@
                                                 <asp:TextBox ID="txtBairro" runat="server" CssClass="form-control" MaxLength="120"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Cidade:</label><asp:Label ID="RedCidade" runat="server" Style="color: red">*</asp:Label>
-                                                <asp:DropDownList ID="ddlCidade" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CIDADE" DataSourceID="dsCidades" DataValueField="ID_CIDADE">
+                                                <asp:DropDownList ID="ddlCidade" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CIDADE" DataSourceID="dsCidades" DataValueField="ID_CIDADE" AutoPostBack="true">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                         <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Pais:</label>
+                                                <asp:DropDownList ID="ddlPais" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PAIS" DataSourceID="dsPais" DataValueField="ID_PAIS">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -267,9 +274,11 @@
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:PostBackTrigger ControlID="ddlTipoPessoa" />
-                                    <asp:AsyncPostBackTrigger ControlID="txtCEP" />
-
-
+                                      <asp:PostBackTrigger ControlID="ddlCidade" />
+                                     <asp:PostBackTrigger ControlID="txtCDIATA" />
+                                    <asp:PostBackTrigger ControlID="txtCPF" />
+                                     <asp:PostBackTrigger ControlID="txtCNPJ" />
+                                    <asp:AsyncPostBackTrigger ControlID="txtCEP" />                                    
                                 </Triggers>
 
                             </asp:UpdatePanel>
@@ -805,6 +814,9 @@
 
         <asp:SqlDataSource ID="dsCidades" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
             SelectCommand="SELECT ID_CIDADE,upper( NM_CIDADE) + ' - ' + (SELECT SIGLA_ESTADO FROM TB_ESTADO B WHERE B.ID_ESTADO = A.ID_ESTADO) AS NM_CIDADE FROM [dbo].[TB_CIDADE] A  union SELECT  0 as Id, '  Selecione' as Descricao FROM [dbo].[TB_CIDADE] A Order by NM_CIDADE"></asp:SqlDataSource>
+
+         <asp:SqlDataSource ID="dsPais" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+            SelectCommand="SELECT ID_PAIS, NM_PAIS FROM TB_PAIS A  union SELECT  0 as Id, '  Selecione' as Descricao FROM [dbo].[TB_CIDADE] A Order by NM_PAIS"></asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
             SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>

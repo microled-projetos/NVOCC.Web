@@ -10,6 +10,32 @@
         cnpj = cnpj.Trim()
         cnpj = cnpj.Replace(".", "").Replace("-", "").Replace("/", "")
         If cnpj.Length <> 14 Then Return False
+
+        Select Case cnpj
+            Case "11111111111111"
+                Return False
+            Case "00000000000000"
+                Return False
+            Case "2222222222222"
+                Return False
+            Case "33333333333333"
+                Return False
+            Case "44444444444444"
+                Return False
+            Case "55555555555555"
+                Return False
+            Case "66666666666666"
+                Return False
+            Case "77777777777777"
+                Return False
+            Case "88888888888888"
+                Return False
+            Case "99999999999999"
+                Return False
+        End Select
+
+
+
         tempCnpj = cnpj.Substring(0, 12)
         soma = 0
 
