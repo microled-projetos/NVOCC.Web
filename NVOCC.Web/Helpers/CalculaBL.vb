@@ -751,6 +751,139 @@ WHERE  FL_DECLARADO = 1  AND CD_PR ='R'  AND A.ID_BL = " & ID_BL & " ")
                     End If
                     Taxa = z.ToString
 
+
+
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 43 Then
+                    ' 40 HC
+
+
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR In (1)")
+
+
+                    x = ds1.Tables(0).Rows(0).Item("QTD")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
+
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 44 Then
+                    ' 20 DRY
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR In (2)")
+
+                    x = ds1.Tables(0).Rows(0).Item("QTD")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
+
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 45 Then
+                    ' 40 DRY
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR In (3)")
+
+                    x = ds1.Tables(0).Rows(0).Item("QTD")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
+
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 46 Then
+                    ' 40 NOR
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR In (14)")
+
+                    x = ds1.Tables(0).Rows(0).Item("QTD")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
+
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 47 Then
+                    ' 20 ISOTANK
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR In (18)")
+
+                    x = ds1.Tables(0).Rows(0).Item("QTD")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
+
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
+
+
+
                 Else
 
                     Return "Base de Calculo não encontrada"
@@ -1548,8 +1681,125 @@ WHERE  FL_DECLARADO = 1  AND CD_PR ='R'  AND A.ID_BL = " & ID_BL & " ")
                     Taxa = z.ToString
 
 
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 43 Then
+                    ' 40 HC
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL
+        WHERE  ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN  (1)")
+                    x = ds1.Tables(0).Rows(0).Item("QTD")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
 
 
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 44 Then
+                    ' 20 DRY
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL
+        WHERE  ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN  (2)")
+                    x = ds1.Tables(0).Rows(0).Item("QTD")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
+
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 45 Then
+                    ' 40 DRY
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL
+        WHERE  ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN  (3)")
+                    x = ds1.Tables(0).Rows(0).Item("QTD")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
+
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 46 Then
+                    ' 40 NOR
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL
+        WHERE  ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN  (14)")
+                    x = ds1.Tables(0).Rows(0).Item("QTD")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
+
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 47 Then
+                    ' 20 ISOTANK
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL
+        WHERE  ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN  (18)")
+                    x = ds1.Tables(0).Rows(0).Item("QTD")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
+
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
                 Else
 
                     Return "Base de Calculo não encontrada"

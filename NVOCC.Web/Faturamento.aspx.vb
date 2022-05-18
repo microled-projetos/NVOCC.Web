@@ -1135,11 +1135,14 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("STATUS_NFE")) Then
                     If ds.Tables(0).Rows(0).Item("STATUS_NFE") = 1 Or ds.Tables(0).Rows(0).Item("STATUS_NFE") = 4 Or ds.Tables(0).Rows(0).Item("STATUS_NFE") = 5 Then
                         lkReenviarRPS.Visible = True
+                        lkGerarRPS.Visible = False
                     Else
                         lkReenviarRPS.Visible = False
+                        lkGerarRPS.Visible = True
                     End If
                 Else
                     lkReenviarRPS.Visible = False
+                    lkGerarRPS.Visible = True
                 End If
 
             End If
