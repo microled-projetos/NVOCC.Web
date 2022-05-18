@@ -392,23 +392,16 @@
                                                                         <div class="row" style="padding:10px">                        
                                 <div class="col-sm-2">
                                     <div class="form-group">
-                                        <label class="control-label">Comex:</label>
-                                         <asp:DropDownList ID="ddlComexConsulta" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_TIPO_COMEX" DataSourceID="dsComexConsulta" DataValueField="ID_TIPO_COMEX" AutoPostBack="True">
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
-                                                                            <div class="col-sm-2">
-                                    <div class="form-group">
                                         <label class="control-label">Consultar por:</label>
                                          <asp:DropDownList ID="ddlConsulta" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="True">
                                             <asp:ListItem Value="0" Selected="True">Selecione</asp:ListItem>
                                             <asp:ListItem Value="1">Porto</asp:ListItem>
+                                            <asp:ListItem Value="3">Comex</asp:ListItem>
                                             <asp:ListItem Value="2">Via Transporte</asp:ListItem>
 
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                
                                 <div class="col-sm-2" id="divPesquisa" runat="server">
                                     <div class="form-group">   
                                         <label class="control-label">Pesquisar</label>
@@ -495,7 +488,7 @@
                                <asp:AsyncPostBackTrigger  ControlID="btnSalvarNovo" />
                                     <asp:AsyncPostBackTrigger  ControlID="txtConsulta" />
 
-     <asp:AsyncPostBackTrigger  ControlID="ddlComexConsulta" />
+
 
 </Triggers>
    </asp:UpdatePanel>
@@ -533,11 +526,9 @@ LEFT JOIN TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX
 LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
 LEFT JOIN TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO
 LEFT JOIN TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA         
-        WHERE a.ID_TIPO_COMEX = @ComexConsulta  AND  ID_TRANSPORTADOR = @ID  ORDER BY B.NM_PORTO,A.ID_TAXA_LOCAL_TRANSPORTADOR">
+        WHERE ID_TRANSPORTADOR = @ID  ORDER BY B.NM_PORTO,A.ID_TAXA_LOCAL_TRANSPORTADOR">
            <SelectParameters>
                 <asp:Parameter Name="ID" Type="Int32"  />
-                               <asp:ControlParameter Name="ComexConsulta" Type="Int32" ControlID="ddlComexConsulta" DefaultValue="1" />
-
             </SelectParameters>
 
 </asp:SqlDataSource>
@@ -592,10 +583,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_ORIGEM_PAGAMENTO">
 
     <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione'  ORDER BY ID_MOEDA">
-</asp:SqlDataSource>
-
-    <asp:SqlDataSource ID="dsComexConsulta" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM TB_TIPO_COMEX ORDER BY ID_TIPO_COMEX">
 </asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"

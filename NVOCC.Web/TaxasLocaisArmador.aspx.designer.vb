@@ -635,15 +635,6 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents btnFecharAjustaTaxa As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle ddlComexConsulta.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlComexConsulta As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle ddlConsulta.
     '''</summary>
     '''<remarks>
@@ -867,15 +858,6 @@ Partial Public Class TaxasLocaisArmador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsMoeda As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsComexConsulta.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsComexConsulta As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsBaseCalculo.

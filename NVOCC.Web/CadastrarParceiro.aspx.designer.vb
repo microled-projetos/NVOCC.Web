@@ -338,15 +338,6 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlCidade As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlPais.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlPais As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle txtOBSComplementares.
     '''</summary>
     '''<remarks>
@@ -869,60 +860,6 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlVendedor As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle UpdatePanel5.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents UpdatePanel5 As Global.System.Web.UI.UpdatePanel
-
-    '''<summary>
-    '''Controle divSuccesgrid.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divSuccesgrid As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle lblSuccesgrid.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblSuccesgrid As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle divErrogrid.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divErrogrid As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle lblErrogrid.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblErrogrid As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle txtIDContato.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtIDContato As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle txtNomeContato.
     '''</summary>
     '''<remarks>
@@ -968,13 +905,40 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtDepartamento As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle btnSalvarContato.
+    '''Controle divSuccesgrid.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnSalvarContato As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents divSuccesgrid As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblSuccesgrid.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblSuccesgrid As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divErrogrid.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErrogrid As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErrogrid.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErrogrid As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle dgvContato.
@@ -1074,15 +1038,6 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsCidades As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsPais.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsPais As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsParceiros.
