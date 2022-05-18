@@ -19,7 +19,7 @@
                 <div class="panel-body">
 
                     <ul class="nav nav-tabs" role="tablist">
-                        <li class="active">
+                        <li ID="infoB" class="active">
                             <a href="#basico" role="tab" data-toggle="tab">
                                 <i class="fa fa-edit" style="padding-right: 8px;"></i>Inf. Básicas
                             </a>
@@ -29,7 +29,7 @@
                                 <i class="fa fa-edit" style="padding-right: 8px;"></i>Frete
                             </a>
                         </li>
-                        <li>
+                        <li ID="hMercadorias">
                             <a href="#mercadorias" role="tab" data-toggle="tab">
                                 <i class="fa fa-edit" style="padding-right: 8px;"></i>Embalagem
                             </a>
@@ -52,7 +52,7 @@
                     </ul>
                     <asp:Button runat="server" Style="display: none" ID="Button5" CssClass="btn btn-primary" />
                     <div class="tab-content">
-                        <div class="tab-pane fade active in" id="basico">
+                        <div class="tab-pane fade active in" id="basico"  >
                             <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                 <ContentTemplate>
                                     <br />
@@ -672,21 +672,18 @@
                                                                         </div>
 
                                                                     </div>
-                                                                    <div class="col-sm-4">
+                                                                    <div class="col-sm-4" id="divFreteCompra" runat="server" visible="false"> 
                                                                         <div class="form-group">
                                                                             <label class="control-label">Valor Frete (Compra):</label>
                                                                             <asp:TextBox ID="txtFreteCompra" runat="server" Enabled="false" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-sm-4">
+                                                                    <div class="col-sm-4" id="divFreteVenda" runat ="server" visible="false"> 
                                                                         <div class="form-group">
                                                                             <label class="control-label">Valor Frete (Venda):</label>
                                                                             <asp:TextBox ID="txtFreteVenda" runat="server" Enabled="false" CssClass="form-control" MaxLength="100" AutoPostBack="true"></asp:TextBox>
                                                                         </div>
                                                                     </div>
-
-                                                                </div>
-                                                                <div class="row">
                                                                     <div class="col-sm-4" style="display: block">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Final Destination:</label><label runat="server" style="color: red">*</label>
@@ -694,13 +691,16 @@
                                                                             </asp:DropDownList>
                                                                         </div>
                                                                     </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    
                                                                     <div id="divCheckFrete" runat="server">
                                                                        <div class="col-sm-4">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label"></label>
-                                                                        <asp:CheckBox ID="ckFreteDeclarado" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Frete Declarado"></asp:CheckBox>
-                                                                    </div>
-                                                                </div>
+                                                                            <div class="form-group">
+                                                                                <label class="control-label"></label>
+                                                                                <asp:CheckBox ID="ckFreteDeclarado" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Frete Declarado"></asp:CheckBox>
+                                                                            </div>
+                                                                        </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label"></label>
@@ -821,8 +821,7 @@
                             </asp:UpdatePanel>
                         </div>
 
-                        <div class="tab-pane fade" id="mercadorias">
-
+                        <div class="tab-pane fade" id="mercadorias">                          
                             <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                 <ContentTemplate>
                                     <ajaxToolkit:ModalPopupExtender ID="mpeNovoMercadoria" runat="server" PopupControlID="Panel1" TargetControlID="btnNovaMercadoria"></ajaxToolkit:ModalPopupExtender>
@@ -836,9 +835,10 @@
                                                             <h5 class="modal-title" id="modalMercaoriaNova">Embalagem</h5>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <div class="alert alert-success" id="divSuccessMercadoria" runat="server" visible="false">
-                                                                <asp:Label ID="lblSuccessMercadoria" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
+                                                            <div class="alert alert-success" id="divSuccessMercadoria" runat="server"  style="display:none;">
+                                                                
                                                             </div>
+                                                            <asp:Label ID="lblSuccessMercadoria" CssClass ="alert alert-success" Width ="700"  runat="server" Text="Registro cadastrado/atualizado com sucesso!" Visible ="False"></asp:Label>    
                                                             <div class="alert alert-danger" id="divErroMercadoria" runat="server" visible="false">
                                                                 <asp:Label ID="lblErroMercadoria" runat="server"></asp:Label>
                                                             </div>
@@ -866,6 +866,12 @@
                                                                 </div>
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
+                                                                        <label class="control-label">Cotação:</label>
+                                                                        <asp:TextBox ID="txtCotacaoMercadoria" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
                                                                         <label class="control-label">Tipo Embalagem:</label><label runat="server" style="color: red">*</label>
                                                                         <asp:DropDownList ID="ddlMercadoria" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MERCADORIA" DataSourceID="dsMercadoria" DataValueField="ID_MERCADORIA">
                                                                         </asp:DropDownList>
@@ -886,7 +892,11 @@
                                                                         <asp:TextBox ID="txtQtdContainerMercadoria" AutoPostBack="true" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>  </div>
+<<<<<<< HEAD
                                                                 <div class="col-sm-2" id="divQtdMercadoria" runat="server">
+=======
+                                                                <div class="col-sm-2" id="divQtdMercadoria" runat="server" visible="false">
+>>>>>>> master
                                                                     <div class="form-group">
                                                                         <label class="control-label">Qtd. Mercadoria:</label><asp:Label Visible="false" runat="server" ID="RedQTDMercadoria" Style="color: red">*</asp:Label>
                                                                         <asp:TextBox ID="txtQtdMercadoria" runat="server" CssClass="form-control"></asp:TextBox>
@@ -898,8 +908,11 @@
                                                                         <asp:TextBox ID="txtFreeTimeMercadoria" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
+<<<<<<< HEAD
                                                             </div>
                                                             <div class="row">
+=======
+>>>>>>> master
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Compra Unit.):</label>
@@ -918,42 +931,75 @@
                                                                         <asp:TextBox ID="txtFreteCompraMinima" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
+<<<<<<< HEAD
                                                             <%--</div>
                                                             <div class="row">--%>
                                                                 <div class="col-sm-2">
+=======
+                                                            </div>
+                                                            <div class="row">
+                                                                
+                                                                
+                                                            <%--</div>
+                                                            <div class="row">--%>
+                                                                <div class="col-sm-3">
+>>>>>>> master
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Venda Unit.):</label>
                                                                         <asp:TextBox ID="txtFreteVendaMercadoriaUnitario" runat="server" AutoPostBack="true" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
+<<<<<<< HEAD
                                                                 <div class="col-sm-2">
+=======
+                                                                <div class="col-sm-3">
+>>>>>>> master
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Venda Calc.):</label>
                                                                         <asp:TextBox ID="txtFreteVendaMercadoriaCalc" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
+<<<<<<< HEAD
                                                                 <div class="col-sm-2" runat="server" id="divVendaMinimaLCL">
+=======
+                                                                <div class="col-sm-3" runat="server" id="divVendaMinimaLCL">
+>>>>>>> master
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Venda Mín.):</label>
                                                                         <asp:TextBox ID="txtFreteVendaMinima" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
+<<<<<<< HEAD
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-sm-2">
+=======
+                                                                <div class="col-sm-3">
+>>>>>>> master
                                                                     <div class="form-group">
                                                                         <label class="control-label">Valor Peso(Bruto):</label><asp:Label Visible="false" runat="server" ID="RedPesoBruto" Style="color: red">*</asp:Label>
                                                                         <asp:TextBox ID="txtPesoBrutoMercadoria" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                
 
+<<<<<<< HEAD
                                                                 <div class="col-sm-2">
+=======
+                                                                <div class="col-sm-3">
+>>>>>>> master
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Valor M3:</label><asp:Label Visible="false" runat="server" ID="RedM3" Style="color: red">*</asp:Label>
+                                                                        <label class="control-label">Peso Cubado:</label><asp:Label Visible="false" runat="server" ID="RedM3" Style="color: red">*</asp:Label>
                                                                         <asp:TextBox ID="txtM3Mercadoria" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
+<<<<<<< HEAD
                                                                 <div class="col-sm-2">
+=======
+                                                                <div class="col-sm-3">
+>>>>>>> master
                                                                         <div class="form-group">
                                                                             <label class="control-label">Valor Peso Taxado:</label>
                                                                             <asp:TextBox ID="txtPesoTaxadoMercadoria" Enabled="false" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
@@ -963,13 +1009,17 @@
 
 
                                                             <div class="row">--%>
+<<<<<<< HEAD
                                                                 <div class="col-sm-2">
+=======
+                                                                <div class="col-sm-3">
+>>>>>>> master
                                                                     <div class="form-group">
                                                                         <label class="control-label">Valor da Carga:</label>
                                                                         <asp:TextBox ID="txtValorCargaMercadoria" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-4">
+                                                                <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Moeda da Carga:</label><asp:Label ID="Label1" runat="server" Style="color: red">*</asp:Label>
                                                                         <asp:DropDownList ID="ddlMoedaCarga" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
@@ -1028,6 +1078,7 @@
                                                                 <div class="col-sm-1"> 
                                                                     <div class="form-group">
                                                                             <label class="control-label" style="color:white">Adicionar:</label>
+<<<<<<< HEAD
                                                                             <asp:ImageButton ID="btnAdicionarMedidasAereo" src="Content/imagens/plus.png" runat="server" visible="false"/>
                                                                        </div>    
                                                                 </div>
@@ -1052,6 +1103,38 @@
                                         </div>
                                            </div>
                                               </div>                
+=======
+                                                                            <asp:ImageButton ID="btnAdicionarMedidasAereo" src="Content/imagens/plus.png" runat="server" />
+                                                                       </div>    
+                                                                </div>
+                                                               <div class="col-sm-12"> 
+                                                                            <div class="table-responsive tableFixHead" Style="max-height: 200px">
+                                                                            <asp:GridView ID="dgvMedidasAereo" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="Id" DataSourceID="dsMedidasAereo" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false">
+                                                    <Columns>
+                                                        <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" visible="false"/>
+                                                        <asp:BoundField DataField="QTD_CAIXA" HeaderText="Qtd. Caixas" ItemStyle-HorizontalAlign="Center"/>
+                                                        <asp:BoundField DataField="VL_COMPRIMENTO" HeaderText="Comprimento" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" />
+                                                        <asp:BoundField DataField="VL_LARGURA" HeaderText="Largura" ItemStyle-HorizontalAlign="Center"/>
+                                                        <asp:BoundField DataField="VL_ALTURA" HeaderText="Altura" ItemStyle-HorizontalAlign="Center"/>                                                        
+                                                        <asp:TemplateField HeaderText="Peso Cubado" ControlStyle-Width="150">
+                                                            <ItemTemplate>                                                     
+                                                                <asp:Label runat="server" Text='<%# Eval("PESO_CUBADO") %>' ID="peso_cubado"  />
+                                                            </ItemTemplate>
+                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="">
+                                                            <ItemTemplate>                                                     
+                                                                <asp:LinkButton runat="server" Text="Excluir" ID="ButtonExcluir" CommandName="Excluir" CommandArgument='<%# Eval("ID") %>' OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  />
+                                                            </ItemTemplate>
+                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                        </asp:TemplateField>                                              
+                                                    </Columns>
+                                                     <HeaderStyle HorizontalAlign="Center"/>
+                                                </asp:GridView>
+                                                </div>
+                                                   </div>
+                                                      </div>                
+>>>>>>> master
                                                             <div class="row" runat="server" id="divTesteMedidasAereo" style="display:none">
                                                                 <table id="tbMedidasAereo" class="table-responsive" Style="max-height: 100px; overflow: auto;">
                                                                 <tr>
@@ -1121,7 +1204,11 @@
                                             </ContentTemplate>
                                             <Triggers>
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvarFrete" />
+<<<<<<< HEAD
                                               <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvMedidasAereo" />
+=======
+                                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvMedidasAereo" />
+>>>>>>> master
                                                 <asp:AsyncPostBackTrigger ControlID="ddlEstufagem" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtFreteVendaMercadoriaUnitario" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtQtdContainerMercadoria" />
@@ -1129,7 +1216,12 @@
                                                 <asp:AsyncPostBackTrigger ControlID="txtFreteCompraMercadoriaUnitario" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvarMercadoria" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnFecharMercadoria" />
+<<<<<<< HEAD
                                                      <asp:AsyncPostBackTrigger ControlID="btnAdicionarMedidasAereo" />
+=======
+                                                <asp:AsyncPostBackTrigger ControlID="btnAdicionarMedidasAereo" />                                                
+                                                
+>>>>>>> master
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>
@@ -1140,8 +1232,8 @@
                                     <div class="row">
 
                                         <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <asp:Button runat="server" Text="Nova Embalagem" ID="btnNovaMercadoria" CssClass="btn btn-primary" />
+                                            <div class="form-group"> 
+                                                <asp:Button runat="server" OnClientClick="carregaDivAerea();" Text="Nova Embalagem" ID="btnNovaMercadoria"  CssClass="btn btn-primary" />
                                             </div>
                                         </div>
                                     </div>
@@ -2020,12 +2112,20 @@ FROM TB_COTACAO_TAXA A
 
     <asp:SqlDataSource ID="dsMedidasAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID
+<<<<<<< HEAD
       ,ID_COTACAO
+=======
+      ,ID_COTACAO 
+>>>>>>> master
       ,ID_COTACAO_MERCADORIA
       ,QTD_CAIXA
       ,VL_LARGURA
       ,VL_ALTURA
       ,VL_COMPRIMENTO
+<<<<<<< HEAD
+=======
+      ,convert(decimal(18,2), VL_LARGURA * VL_ALTURA * VL_COMPRIMENTO/6000 * QTD_CAIXA) as PESO_CUBADO
+>>>>>>> master
   FROM TB_COTACAO_MERCADORIA_DIMENSAO
     WHERE ID_COTACAO_MERCADORIA = @ID_COTACAO_MERCADORIA
         ORDER BY ID DESC
@@ -2070,6 +2170,31 @@ FROM TB_COTACAO_TAXA A
             cel3.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Largura" + qtdRows + "'></div>";
             cel4.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Altura" + qtdRows + "'></div>";
             cel5.innerHTML = "<div class='col-sm-12'><a href='#' onClick='removerTR(" + "composto_" + qtdRows + ");'><img src='Content/imagens/minus.png'></a></div>";
+<<<<<<< HEAD
+=======
+        }       
+    </script>    
+    <script>
+        //$("#MainContent_btnNovaMercadoria").on('click', function () {
+        //    carregaDivAerea();
+        //});
+
+        function carregaDivAerea() {
+            var idServico = $('#MainContent_ddlServico option:selected').val();            
+            $('#MainContent_lblSuccessMercadoria').hide();
+            if (idServico == 2 || idServico == 5) {
+
+                $('#MainContent_divMedidasAereo').show();
+                $('#MainContent_divMedidasMaritimo').hide();
+                $('#MainContent_btnAdicionarMedidasAereo').show();
+            }
+            else {
+                $('#MainContent_divMedidasAereo').hide();
+                $('#MainContent_divMedidasMaritimo').show();
+                $('#MainContent_btnAdicionarMedidasAereo').hide();
+
+            }
+>>>>>>> master
         }
     </script>
 </asp:Content>
