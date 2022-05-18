@@ -1746,14 +1746,14 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
             mpeNovoMercadoria.Show()
 
 
-        ElseIf Session("estufagem") = 1 And txtQtdContainerMercadoria.Text = "" Then
+        ElseIf (Session("servico") <> 2 And Session("servico") <> 5) And Session("estufagem") = 1 And txtQtdContainerMercadoria.Text = "" Then
             RedQTDContainer.Visible = True
             RedContainer.Visible = True
 
             lblErroMercadoria.Text = "Preencha todos os campos obrigatórios"
             divErroMercadoria.Visible = True
             mpeNovoMercadoria.Show()
-        ElseIf Session("estufagem") = 1 And ddlTipoContainerMercadoria.SelectedValue = 0 Then
+        ElseIf (Session("servico") <> 2 And Session("servico") <> 5) And Session("estufagem") = 1 And ddlTipoContainerMercadoria.SelectedValue = 0 Then
             RedQTDContainer.Visible = True
             RedContainer.Visible = True
 
@@ -2032,7 +2032,10 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                     AtualizaFreteMercadoria()
 
                     If Session("ID_STATUS") = 10 Then
-                        CalculaCotacao()
+                        'CalculaCotacao()
+                        Dim CalCotacao As New CalculaCotacao
+                        Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
+
                         Dim RotinaUpdate As New RotinaUpdate
                         RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, Session("RefPeso"), Session("RefVolume"), Session("RefPesoSum"), Session("RefVolumeSum"))
                         ' RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
@@ -2097,9 +2100,13 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
 
 
                     AtualizaFreteMercadoria()
-                    CalculaCotacao()
+                    ' CalculaCotacao()
+                    Dim CalCotacao As New CalculaCotacao
+                    Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
+
                     If Session("ID_STATUS") = 10 Then
-                        CalculaCotacao()
+                        'CalculaCotacao()
+
                         Dim RotinaUpdate As New RotinaUpdate
                         RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, Session("RefPeso"), Session("RefVolume"), Session("RefPesoSum"), Session("RefVolumeSum"))
                         RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
@@ -2279,7 +2286,8 @@ isnull(B.ID_MOEDA_VENDA,0)ID_MOEDA_VENDA,
 isnull(B.QTD_BASE_CALCULO,0)QTD_BASE_CALCULO
 From TB_COTACAO A 
 Left Join TB_COTACAO_TAXA B ON A.ID_COTACAO = B.ID_COTACAO 
-WHERE A.ID_COTACAO =" & txtID.Text & " ORDER BY ID_BASE_CALCULO_TAXA")
+Left Join TB_BASE_CALCULO_TAXA C ON B.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA
+WHERE A.ID_COTACAO =" & txtID.Text & " ORDER BY NM_BASE_CALCULO_TAXA desc")
         If ds.Tables(0).Rows.Count > 0 Then
             For Each linha As DataRow In ds.Tables(0).Rows
                 Dim COMPRA_MIN As Decimal = linha.Item("VL_TAXA_COMPRA_MIN")
@@ -2437,8 +2445,6 @@ GROUP BY A.ID_COTACAO,VL_TOTAL_FRETE_VENDA_CALCULADO,VL_TOTAL_FRETE_COMPRA")
                             x = 0 / 100
                         End If
 
-
-
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -2450,8 +2456,8 @@ GROUP BY A.ID_COTACAO,VL_TOTAL_FRETE_VENDA_CALCULADO,VL_TOTAL_FRETE_COMPRA")
                                 z = COMPRA_MIN
                             End If
                         End If
-
                         CompraCalc = z.ToString
+
 
                         If ds1.Tables(0).Rows.Count > 0 Then
                             If Not IsDBNull(ds1.Tables(0).Rows(0).Item("TOTAL_VENDA")) Then
@@ -3784,7 +3790,12 @@ QTD_BASE_CALCULO
                     divSuccessTaxa.Visible = True
 
                     If Session("ID_STATUS") = 10 Then
-                        CalculaCotacao()
+                        'CalculaCotacao()
+
+                        Dim CalCotacao As New CalculaCotacao
+                        Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
+
+
 
                         Dim RotinaUpdate As New RotinaUpdate
                         RotinaUpdate.UpdateTaxas(txtID.Text, ID_COTACAO_TAXA, txtProcessoCotacao.Text)
@@ -3840,7 +3851,10 @@ QTD_BASE_CALCULO = " & txtQtdBaseCalculo.Text & "
                     dgvTaxas.DataBind()
 
                     If Session("ID_STATUS") = 10 Then
-                        CalculaCotacao()
+                        'CalculaCotacao()
+
+                        Dim CalCotacao As New CalculaCotacao
+                        Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
 
                         Dim RotinaUpdate As New RotinaUpdate
                         RotinaUpdate.UpdateTaxas(txtID.Text, txtIDTaxa.Text, txtProcessoCotacao.Text)
@@ -5439,7 +5453,19 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
         divsuccess.Visible = False
         diverro.Visible = False
 
-        CalculaCotacao()
+        ' CalculaCotacao()
+
+        Dim CalCotacao As New CalculaCotacao
+        Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
+
+        If retorno = "Calculo realizado com sucesso" Then
+            lblmsgSuccess.Text = "Calculo realizado com sucesso"
+            divsuccess.Visible = True
+            txtDataCalculo.Text = Now.Date
+        Else
+            diverro.Visible = True
+            lblmsgErro.Text = retorno
+        End If
     End Sub
 
     Sub AdicionarMedidasAereo()
@@ -5483,7 +5509,10 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
                 Dim RotinaUpdate As New RotinaUpdate
                 RotinaUpdate.InsereDimensaoCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, ds.Tables(0).Rows(0).Item("ID").ToString())
             End If
-            CalculaCotacao()
+            'CalculaCotacao()
+            Dim CalCotacao As New CalculaCotacao
+            Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
+
             ds = Con.ExecutarQuery("SELECT isnull(VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(VL_TOTAL_M3,0)VL_TOTAL_M3 from TB_COTACAO where ID_COTACAO =" & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
@@ -5545,7 +5574,10 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
                 RotinaUpdate.DeletaDimensaoCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, ID)
             End If
 
-            CalculaCotacao()
+            ' CalculaCotacao()
+            Dim CalCotacao As New CalculaCotacao
+            Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
+
             ds = Con.ExecutarQuery("SELECT isnull(VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(VL_TOTAL_M3,0)VL_TOTAL_M3 from TB_COTACAO where ID_COTACAO =" & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then

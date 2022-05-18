@@ -497,9 +497,8 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
         Dim filtro As String = ""
         If ddlConsulta.SelectedValue = 1 Then
             filtro = " AND NM_PORTO LIKE '%" & txtConsulta.Text & "%' "
-        ElseIf ddlConsulta.SelectedValue = 3 Then
-            filtro = " AND NM_TIPO_COMEX LIKE '%" & txtConsulta.Text & "%' "
-        Else
+
+        ElseIf ddlConsulta.SelectedValue = 2 Then
             filtro = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
 
         End If
@@ -509,7 +508,7 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ROW_NUMBER() OVER(ORDER BY NM_PORTO,ID_TAXA_LOCAL_TRANSPORTADOR) AS num,ID_TAXA_LOCAL_TRANSPORTADOR FROM TB_TAXA_LOCAL_TRANSPORTADOR A
 Left Join TB_PORTO B ON B.ID_PORTO = A.ID_PORTO
 Left Join TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
-Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & filtro & " order by NM_PORTO,ID_TAXA_LOCAL_TRANSPORTADOR ")
+Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue & " AND ID_TRANSPORTADOR =  " & Request.QueryString("id") & filtro & " order by NM_PORTO,ID_TAXA_LOCAL_TRANSPORTADOR ")
         If ds.Tables(0).Rows.Count > 0 Then
             PrimeiraTaxa = ds.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR")
             For Each linha As DataRow In ds.Tables(0).Rows
@@ -580,9 +579,8 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
         Dim filtro As String = ""
         If ddlConsulta.SelectedValue = 1 Then
             filtro = " AND NM_PORTO LIKE '%" & txtConsulta.Text & "%' "
-        ElseIf ddlConsulta.SelectedValue = 3 Then
-            filtro = " AND NM_TIPO_COMEX LIKE '%" & txtConsulta.Text & "%' "
-        Else
+
+        ElseIf ddlConsulta.SelectedValue = 2 Then
             filtro = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
 
         End If
@@ -592,7 +590,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ROW_NUMBER() OVER(ORDER BY NM_PORTO,ID_TAXA_LOCAL_TRANSPORTADOR desc) AS num,ID_TAXA_LOCAL_TRANSPORTADOR FROM TB_TAXA_LOCAL_TRANSPORTADOR A
 Left Join TB_PORTO B ON B.ID_PORTO = A.ID_PORTO
 Left Join TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
-Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & filtro & " ORDER BY NM_PORTO,ID_TAXA_LOCAL_TRANSPORTADOR desc ")
+Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue & " AND ID_TRANSPORTADOR =  " & Request.QueryString("id") & filtro & " ORDER BY NM_PORTO,ID_TAXA_LOCAL_TRANSPORTADOR desc ")
         If ds.Tables(0).Rows.Count > 0 Then
             PrimeiraTaxa = ds.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR")
             For Each linha As DataRow In ds.Tables(0).Rows

@@ -297,130 +297,175 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
 
 
                 ds = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO FROM TB_COTACAO WHERE ID_COTACAO =" & txtID.Text)
+
                 If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
                     divErro.Visible = True
                     lblmsgErro.Text = "Não é possivel calcular pois a cotação já esta aprovada!"
                 Else
+                    Dim CalCotacao As New CalculaCotacao
+                    Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
+                    If retorno = "Calculo realizado com sucesso" Then
 
-                    Dim VENDA_MIN As Decimal
-                    Dim M3 As Decimal
-                    Dim PESO_BRUTO As Decimal
-                    Dim QT_CONTAINER As Integer
-                    Dim LCA As Decimal
-
-                    'NUMERO SEQUENCIAL
-
-                    ds = Con.ExecutarQuery("Select A.ID_TIPO_ESTUFAGEM,
-A.ID_SERVICO,
-isnull(A.VL_TOTAL_M3,0)VL_M3, 
-isnull(A.VL_TOTAL_PESO_BRUTO,0)VL_PESO_BRUTO,
-isnull(A.VL_TOTAL_FRETE_VENDA_MIN,0)VL_TOTAL_FRETE_VENDA_MIN,
-isnull(A.VL_TOTAL_FRETE_VENDA,0)VL_TOTAL_FRETE_VENDA,
-(select sum(isnull(QT_CONTAINER,0)) FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )QT_CONTAINER,
-(SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO,
-(select (sum(isnull(QT_MERCADORIA,0)) * sum(isnull(VL_COMPRIMENTO,0)) * sum(isnull(VL_ALTURA,0)) * sum(isnull(VL_LARGURA,0)))/6000  FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )LCA 
-from TB_COTACAO A 
-Where A.ID_COTACAO = " & txtID.Text)
-
-                    M3 = ds.Tables(0).Rows(0).Item("VL_M3")
-                    PESO_BRUTO = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
-                    VENDA_MIN = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_MIN")
-                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_CONTAINER")) Then
-                        QT_CONTAINER = ds.Tables(0).Rows(0).Item("QT_CONTAINER")
+                        divSuccess.Visible = True
+                        lblmsgSuccess.Text = "Calculo realizado com sucesso"
+                        dgvCotacao.DataBind()
+                    Else
+                        divErro.Visible = True
+                        lblmsgErro.Text = retorno
                     End If
 
 
 
-                    '        CÁLCULO DO PESO TAXADO
-                    Dim PESO_TAXADO As Decimal
-
-
-                    'ANTIGO
-                    ' Dim PV As Decimal = M3
-                    'If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
-                    '    'AEREO
-
-                    '    PV = M3 * 167
-                    '    ' PESO_BRUTO = PESO_BRUTO / 1000
-                    '    If PESO_BRUTO >= PV Then
-                    '        PESO_TAXADO = PESO_BRUTO
-                    '    Else
-                    '        PESO_TAXADO = PV
-                    '    End If
-                    'End If
-
-
-                    'NOVO
-                    If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
-                        'AEREO
-
-                        If Not IsDBNull(ds.Tables(0).Rows(0).Item("LCA")) Then
-                            LCA = ds.Tables(0).Rows(0).Item("LCA")
-                            Dim LCAFinal As String = LCA.ToString
-                            LCAFinal = LCAFinal.ToString.Replace(".", "")
-                            LCAFinal = LCAFinal.ToString.Replace(",", ".")
-                            Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 = " & LCAFinal & " WHERE ID_COTACAO = " & txtID.Text)
-                        End If
-
-                        If LCA >= PESO_BRUTO Then
-                            PESO_TAXADO = LCA
-                        Else
-                            PESO_TAXADO = PESO_BRUTO
-                        End If
-                    End If
-
-
-                    If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
-                        'MARITIMO
-                        PESO_BRUTO = PESO_BRUTO / 1000
-
-                        If PESO_BRUTO >= M3 Then
-                            PESO_TAXADO = PESO_BRUTO
-                        Else
-                            PESO_TAXADO = M3
-                        End If
-                    End If
-
-
-                    Dim FRETE_CALCULADO As Decimal = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA")
-
-
-                    If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
-                        'ID_BASE_CALCULO 34 - POR CNTR
-                        '  FRETE_CALCULADO = (FRETE_CALCULADO * QT_CONTAINER)
-                        If FRETE_CALCULADO < VENDA_MIN Then
-                            FRETE_CALCULADO = VENDA_MIN
-                        End If
-                    ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
-                        'ID_BASE_CALCULO 13 - POR TON / M³
-                        FRETE_CALCULADO = (FRETE_CALCULADO * PESO_TAXADO)
-                        If FRETE_CALCULADO < VENDA_MIN Then
-                            FRETE_CALCULADO = VENDA_MIN
-                        End If
-
-                    End If
-
-
-
-
-                    Dim Peso_Final As String = PESO_TAXADO.ToString
-                    Peso_Final = Peso_Final.ToString.Replace(".", "")
-                    Peso_Final = Peso_Final.ToString.Replace(",", ".")
-
-                    Dim frete_Final As String = FRETE_CALCULADO.ToString
-                    frete_Final = frete_Final.ToString.Replace(".", "")
-                    frete_Final = frete_Final.ToString.Replace(",", ".")
-
-                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_PESO_TAXADO = " & Peso_Final & ",VL_TOTAL_FRETE_VENDA_CALCULADO = " & frete_Final & "  WHERE ID_COTACAO = " & txtID.Text)
-
-                    divSuccess.Visible = True
-                    lblmsgSuccess.Text = "Taxa calculada com sucesso"
-                    CalcTaxas()
-                    Con.ExecutarQuery("UPDATE TB_COTACAO SET Dt_Calculo_Cotacao = GETDATE() WHERE ID_COTACAO = " & txtID.Text)
-
-
-                    dgvCotacao.DataBind()
                 End If
+
+
+
+
+
+
+                '                If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
+                '                    divErro.Visible = True
+                '                    lblmsgErro.Text = "Não é possivel calcular pois a cotação já esta aprovada!"
+                '                Else
+
+                '                    Dim VENDA_MIN As Decimal
+                '                    Dim M3 As Decimal
+                '                    Dim PESO_BRUTO As Decimal
+                '                    Dim QT_CONTAINER As Integer
+                '                    Dim LCA As Decimal
+
+                '                    'NUMERO SEQUENCIAL
+
+                '                    ds = Con.ExecutarQuery("Select A.ID_TIPO_ESTUFAGEM,
+                'A.ID_SERVICO,
+                'isnull(A.VL_TOTAL_M3,0)VL_M3, 
+                'isnull(A.VL_TOTAL_PESO_BRUTO,0)VL_PESO_BRUTO,
+                'isnull(A.VL_TOTAL_FRETE_VENDA_MIN,0)VL_TOTAL_FRETE_VENDA_MIN,
+                'isnull(A.VL_TOTAL_FRETE_VENDA,0)VL_TOTAL_FRETE_VENDA,
+                '(select sum(isnull(QT_CONTAINER,0)) FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )QT_CONTAINER,
+                '(SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO,
+                '(isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS LCA
+                'from TB_COTACAO A 
+                'left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
+                'Where A.ID_COTACAO = " & txtID.Text)
+
+                '                    M3 = ds.Tables(0).Rows(0).Item("VL_M3")
+                '                    PESO_BRUTO = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
+                '                    VENDA_MIN = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_MIN")
+                '                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_CONTAINER")) Then
+                '                        QT_CONTAINER = ds.Tables(0).Rows(0).Item("QT_CONTAINER")
+                '                    End If
+
+
+
+                '                    '        CÁLCULO DO PESO TAXADO
+                '                    Dim PESO_TAXADO As Decimal
+
+
+                '                    'ANTIGO
+                '                    ' Dim PV As Decimal = M3
+                '                    'If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                '                    '    'AEREO
+
+                '                    '    PV = M3 * 167
+                '                    '    ' PESO_BRUTO = PESO_BRUTO / 1000
+                '                    '    If PESO_BRUTO >= PV Then
+                '                    '        PESO_TAXADO = PESO_BRUTO
+                '                    '    Else
+                '                    '        PESO_TAXADO = PV
+                '                    '    End If
+                '                    'End If
+
+
+                '                    'NOVO
+                '                    If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                '                        'AEREO
+
+                '                        'AEREO
+                '                        For Each linha As DataRow In ds.Tables(0).Rows
+                '                            LCA = LCA + linha.Item("LCA")
+                '                        Next
+                '                        Dim LCAFinal As String = LCA.ToString
+                '                        LCAFinal = LCAFinal.ToString.Replace(".", "")
+                '                        LCAFinal = LCAFinal.ToString.Replace(",", ".")
+                '                        Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 = " & LCAFinal & " WHERE ID_COTACAO = " & txtID.Text)
+                '                        Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_M3 = " & LCAFinal & " WHERE ID_COTACAO = " & txtID.Text)
+
+                '                        If LCA >= PESO_BRUTO Then
+                '                            PESO_TAXADO = LCA
+                '                        Else
+                '                            PESO_TAXADO = PESO_BRUTO
+                '                        End If
+
+
+
+                '                        'If Not IsDBNull(ds.Tables(0).Rows(0).Item("LCA")) Then
+                '                        '    LCA = ds.Tables(0).Rows(0).Item("LCA")
+                '                        '    Dim LCAFinal As String = LCA.ToString
+                '                        '    LCAFinal = LCAFinal.ToString.Replace(".", "")
+                '                        '    LCAFinal = LCAFinal.ToString.Replace(",", ".")
+                '                        '    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 = " & LCAFinal & " WHERE ID_COTACAO = " & txtID.Text)
+                '                        'End If
+
+                '                        'If LCA >= PESO_BRUTO Then
+                '                        '    PESO_TAXADO = LCA
+                '                        'Else
+                '                        '    PESO_TAXADO = PESO_BRUTO
+                '                        'End If
+                '                    End If
+
+
+                '                    If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
+                '                        'MARITIMO
+                '                        PESO_BRUTO = PESO_BRUTO / 1000
+
+                '                        If PESO_BRUTO >= M3 Then
+                '                            PESO_TAXADO = PESO_BRUTO
+                '                        Else
+                '                            PESO_TAXADO = M3
+                '                        End If
+                '                    End If
+
+
+                '                    Dim FRETE_CALCULADO As Decimal = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA")
+
+
+                '                    If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
+                '                        'ID_BASE_CALCULO 34 - POR CNTR
+                '                        '  FRETE_CALCULADO = (FRETE_CALCULADO * QT_CONTAINER)
+                '                        If FRETE_CALCULADO < VENDA_MIN Then
+                '                            FRETE_CALCULADO = VENDA_MIN
+                '                        End If
+                '                    ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                '                        'ID_BASE_CALCULO 13 - POR TON / M³
+                '                        FRETE_CALCULADO = (FRETE_CALCULADO * PESO_TAXADO)
+                '                        If FRETE_CALCULADO < VENDA_MIN Then
+                '                            FRETE_CALCULADO = VENDA_MIN
+                '                        End If
+
+                '                    End If
+
+
+
+
+                '                    Dim Peso_Final As String = PESO_TAXADO.ToString
+                '                    Peso_Final = Peso_Final.ToString.Replace(".", "")
+                '                    Peso_Final = Peso_Final.ToString.Replace(",", ".")
+
+                '                    Dim frete_Final As String = FRETE_CALCULADO.ToString
+                '                    frete_Final = frete_Final.ToString.Replace(".", "")
+                '                    frete_Final = frete_Final.ToString.Replace(",", ".")
+
+                '                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_PESO_TAXADO = " & Peso_Final & ",VL_TOTAL_FRETE_VENDA_CALCULADO = " & frete_Final & "  WHERE ID_COTACAO = " & txtID.Text)
+
+                '                    divSuccess.Visible = True
+                '                    lblmsgSuccess.Text = "Taxa calculada com sucesso"
+                '                    CalcTaxas()
+                '                    Con.ExecutarQuery("UPDATE TB_COTACAO SET Dt_Calculo_Cotacao = GETDATE() WHERE ID_COTACAO = " & txtID.Text)
+
+
+                '                    dgvCotacao.DataBind()
+                '                End If
 
 
 
@@ -456,7 +501,8 @@ isnull(B.ID_MOEDA_VENDA,0)ID_MOEDA_VENDA,
 isnull(B.QTD_BASE_CALCULO,0)QTD_BASE_CALCULO
 From TB_COTACAO A 
 Left Join TB_COTACAO_TAXA B ON A.ID_COTACAO = B.ID_COTACAO 
-WHERE A.ID_COTACAO =" & txtID.Text & " ORDER BY ID_BASE_CALCULO_TAXA")
+Left Join TB_BASE_CALCULO_TAXA C ON B.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA 
+WHERE A.ID_COTACAO =" & txtID.Text & " ORDER BY NM_BASE_CALCULO_TAXA desc")
         If ds.Tables(0).Rows.Count > 0 Then
             For Each linha As DataRow In ds.Tables(0).Rows
                 Dim COMPRA_MIN As Decimal = linha.Item("VL_TAXA_COMPRA_MIN")
