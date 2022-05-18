@@ -76,7 +76,7 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
 
             End If
 
-            If Not Page.IsPostBack And Request.QueryString("s") = "a" Then
+            If Not Page.IsPostBack And Request.QueryString("s") = "A" Then
 
                 ddlServico_BasicoAereo.Text = Session("ddlServico_BasicoAereo")
                 ddltransportador_BasicoAereo.SelectedValue = Session("ddlTransportador_BasicoAereo")
@@ -93,7 +93,7 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
 
 
 
-            ElseIf Not Page.IsPostBack And Request.QueryString("s") = "m" Then
+            ElseIf Not Page.IsPostBack And Request.QueryString("s") = "M" Then
 
 
 
