@@ -2043,7 +2043,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
                 End If
 
-                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO, ISNULL(NR_PROCESSO_GERADO,'')NR_PROCESSO_GERADO, DT_VALIDADE_COTACAO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO, ISNULL(NR_PROCESSO_GERADO,'')NR_PROCESSO_GERADO, DT_VALIDADE_COTACAO, ISNULL(ID_TIPO_DIVISAO_FRETE,0)ID_TIPO_DIVISAO_FRETE, ISNULL(ID_SERVICO,0)ID_SERVICO,ISNULL(ID_TIPO_ESTUFAGEM,0)ID_TIPO_ESTUFAGEM FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
                 If ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL") = 0 Then
                     divErro.Visible = True
@@ -2067,7 +2067,9 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                     If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 10 Then
 
                         If ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO") = "" Then
-                            NumeroProcesso()
+                            ' NumeroProcesso()
+                            Dim AprovaCotacao As New AprovaCotacao
+                            AprovaCotacao.AprovaCotacao(txtID.Text, ds.Tables(0).Rows(0).Item("ID_SERVICO"), ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM"), ds.Tables(0).Rows(0).Item("ID_TIPO_DIVISAO_FRETE"))
                         End If
 
                     End If

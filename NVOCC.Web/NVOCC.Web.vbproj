@@ -780,6 +780,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Helpers\AtualizaBancoEudmarco.vb" />
+    <Compile Include="Helpers\AprovaCotacao.vb" />
     <Compile Include="Helpers\CalculaCotacao.vb" />
     <Compile Include="Helpers\Conexao_oracle.vb" />
     <Compile Include="Class\Aduana.vb" />

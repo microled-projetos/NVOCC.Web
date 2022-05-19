@@ -805,7 +805,7 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
 
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
-
+            dsNCM_CargaMaritimo.DataBind()
             ds = Con.ExecutarQuery("select ID_CARGA_BL,ID_TIPO_CARGA,ID_MERCADORIA,ID_NCM,(select CD_NCM +' - '+ NM_NCM from TB_NCM WHERE ID_NCM = A.ID_NCM)NCM,VL_PESO_BRUTO,VL_M3,ID_EMBALAGEM,DS_GRUPO_NCM,isnull(ID_CNTR_BL,0)ID_CNTR_BL,QT_MERCADORIA,DS_MERCADORIA,ID_TIPO_CNTR from TB_CARGA_BL A
 WHERE ID_CARGA_BL = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
@@ -822,9 +822,16 @@ WHERE ID_CARGA_BL = " & ID)
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_NCM")) Then
+
                     If ds.Tables(0).Rows(0).Item("ID_NCM") > 0 Then
-                        ddlNCM_CargaMaritimo.Items.Insert(1, ds.Tables(0).Rows(0).Item("NCM"))
-                        ddlNCM_CargaMaritimo.SelectedIndex = 1
+                        txtIDNCM_CargaMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_NCM")
+                        dsNCM_CargaMaritimo.DataBind()
+                        ddlNCM_CargaMaritimo.DataBind()
+                        ddlNCM_CargaMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_NCM")
+                    Else
+                        txtIDNCM_CargaMaritimo.Text = 0
+                        dsNCM_CargaMaritimo.DataBind()
+                        ddlNCM_CargaMaritimo.DataBind()
                     End If
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")) Then
@@ -1759,6 +1766,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
             ds = Con.ExecutarQuery("select ID_CARGA_BL,ID_TIPO_CARGA,ID_MERCADORIA,ID_NCM,(select CD_NCM +' - '+ NM_NCM from TB_NCM WHERE ID_NCM = A.ID_NCM)NCM,VL_PESO_BRUTO,VL_M3,(SELECT B.VL_PESO_TAXADO FROM TB_BL B WHERE ID_BL = A.ID_BL)VL_PESO_TAXADO,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,DS_MERCADORIA,QT_MERCADORIA,DS_GRUPO_NCM from TB_CARGA_BL A
 WHERE ID_CARGA_BL = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
+                dsNCM_CargaAereo.DataBind()
 
                 btnAdicionarMedidasAereo.Visible = True
                 divMedidasAereo.Attributes.CssStyle.Add("display", "block")
@@ -1783,13 +1791,17 @@ WHERE ID_CARGA_BL = " & ID)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_EMBALAGEM")) Then
                     ddlEmbalagem_CargaAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_EMBALAGEM").ToString()
                 End If
-                'If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_NCM")) Then
-                '    ddlNCM_CargaAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_NCM")
-                'End If
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_NCM")) Then
                     If ds.Tables(0).Rows(0).Item("ID_NCM") > 0 Then
-                        ddlNCM_CargaAereo.Items.Insert(1, ds.Tables(0).Rows(0).Item("NCM"))
-                        ddlNCM_CargaAereo.SelectedIndex = 1
+                        txtIDNCM_CargaAereo.Text = ds.Tables(0).Rows(0).Item("ID_NCM")
+                        dsNCM_CargaAereo.DataBind()
+                        ddlNCM_CargaAereo.DataBind()
+                        ddlNCM_CargaAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_NCM")
+                    Else
+                        txtIDNCM_CargaAereo.Text = 0
+                        dsNCM_CargaAereo.DataBind()
+                        ddlNCM_CargaAereo.DataBind()
                     End If
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")) Then
@@ -1850,6 +1862,8 @@ WHERE ID_CARGA_BL = " & ID)
         divSuccess_CargaAereo2.Visible = False
         ddlMercadoria_CargaAereo.SelectedValue = 0
         ddlNCM_CargaAereo.SelectedValue = 0
+        txtNCMFiltro_CargaAereo.Text = ""
+        txtIDNCM_CargaAereo.Text = ""
         txtLargura_CargaAereo.Text = ""
         txtAltura_CargaAereo.Text = ""
         txtComprimento_CargaAereo.Text = ""
@@ -1874,6 +1888,8 @@ WHERE ID_CARGA_BL = " & ID)
         divErro_CargaMaritimo2.Visible = False
         divSuccess_CargaMaritimo2.Visible = False
         ddlMercadoria_CargaMaritimo.SelectedValue = 0
+        txtNCMFiltro_CargaMaritimo.Text = ""
+        txtIDNCM_CargaMaritimo.Text = ""
         ddlNCM_CargaMaritimo.SelectedValue = 0
         txtNumeroLacre_CargaMaritimo.Text = ""
         txtValorTara_CargaMaritimo.Text = ""
@@ -2916,7 +2932,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         Dim ID_NCM As String = 0
 
         If ddlNCM_CargaAereo.SelectedIndex <> 0 Then
-            ID_NCM = SeparaNCM(ddlNCM_CargaAereo.SelectedValue)
+            ID_NCM = ddlNCM_CargaAereo.SelectedValue 'SeparaNCM(ddlNCM_CargaAereo.SelectedValue)
         End If
 
 
@@ -3064,7 +3080,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         Dim ID_NCM As String = 0
 
         If ddlNCM_CargaMaritimo.SelectedIndex <> 0 Then
-            ID_NCM = SeparaNCM(ddlNCM_CargaMaritimo.SelectedValue)
+            ID_NCM = ddlNCM_CargaMaritimo.SelectedValue 'SeparaNCM(ddlNCM_CargaMaritimo.SelectedValue)
         End If
 
         If txtDescMercadoriaCNTR_Maritimo.Text = "" Then
@@ -4083,58 +4099,58 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         End If
     End Sub
 
-    Private Sub btnSalvarNCM_CargaMaritimo_Click(sender As Object, e As EventArgs) Handles btnSalvarNCM_CargaMaritimo.Click
-        Dim id As String = rdNCM_CargaMaritimo.SelectedValue
-        Dim nome As String = rdNCM_CargaMaritimo.SelectedItem.Text
+    'Private Sub btnSalvarNCM_CargaMaritimo_Click(sender As Object, e As EventArgs) Handles btnSalvarNCM_CargaMaritimo.Click
+    '    Dim id As String = rdNCM_CargaMaritimo.SelectedValue
+    '    Dim nome As String = rdNCM_CargaMaritimo.SelectedItem.Text
 
-        ddlNCM_CargaMaritimo.Items.Insert(1, nome)
-        ddlNCM_CargaMaritimo.SelectedIndex = 1
-        mpeNCM_CargaMaritimo.Hide()
-    End Sub
+    '    ddlNCM_CargaMaritimo.Items.Insert(1, nome)
+    '    ddlNCM_CargaMaritimo.SelectedIndex = 1
+    '    mpeNCM_CargaMaritimo.Hide()
+    'End Sub
 
-    Private Sub btnSalvarNCM_CargaAereo_Click(sender As Object, e As EventArgs) Handles btnSalvarNCM_CargaAereo.Click
-        Dim id As String = rdNCM_CargaAereo.SelectedValue
-        Dim nome As String = rdNCM_CargaAereo.SelectedItem.Text
+    'Private Sub btnSalvarNCM_CargaAereo_Click(sender As Object, e As EventArgs) Handles btnSalvarNCM_CargaAereo.Click
+    '    Dim id As String = rdNCM_CargaAereo.SelectedValue
+    '    Dim nome As String = rdNCM_CargaAereo.SelectedItem.Text
 
-        ddlNCM_CargaAereo.Items.Insert(1, nome)
-        ddlNCM_CargaAereo.SelectedIndex = 1
-        mpeNCM_CargaAereo.Hide()
+    '    ddlNCM_CargaAereo.Items.Insert(1, nome)
+    '    ddlNCM_CargaAereo.SelectedIndex = 1
+    '    mpeNCM_CargaAereo.Hide()
 
-    End Sub
+    'End Sub
 
-    Private Sub txtNCMFiltro_CargaMaritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNCMFiltro_CargaMaritimo.TextChanged
-        mpeNCM_CargaMaritimo.Show()
+    'Private Sub txtNCMFiltro_CargaMaritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNCMFiltro_CargaMaritimo.TextChanged
+    '    mpeNCM_CargaMaritimo.Show()
 
-    End Sub
-
-
-    Private Sub txtNCMFiltro_CargaAereo_TextChanged(sender As Object, e As EventArgs) Handles txtNCMFiltro_CargaAereo.TextChanged
-        mpeNCM_CargaAereo.Show()
-
-    End Sub
+    'End Sub
 
 
-    Function SeparaNCM(TEXTO As String) As String
-        Dim ID As String = ""
+    'Private Sub txtNCMFiltro_CargaAereo_TextChanged(sender As Object, e As EventArgs) Handles txtNCMFiltro_CargaAereo.TextChanged
+    '     mpeNCM_CargaAereo.Show()
 
-        If TEXTO <> "" Then
-            TEXTO = TEXTO.Substring(0, TEXTO.IndexOf("-"))
-
-            Dim Con As New Conexao_sql
-            Con.Conectar()
-            Dim ds As DataSet
-
-            ds = Con.ExecutarQuery("SELECT ID_NCM FROM TB_NCM WHERE CD_NCM = '" & TEXTO & "'")
-            If ds.Tables(0).Rows.Count > 0 Then
-                ID = ds.Tables(0).Rows(0).Item("ID_NCM")
-            Else
-                ID = 0
-            End If
-        End If
+    'End Sub
 
 
-        Return ID
-    End Function
+    'Function SeparaNCM(TEXTO As String) As String
+    '    Dim ID As String = ""
+
+    '    If TEXTO <> "" Then
+    '        TEXTO = TEXTO.Substring(0, TEXTO.IndexOf("-"))
+
+    '        Dim Con As New Conexao_sql
+    '        Con.Conectar()
+    '        Dim ds As DataSet
+
+    '        ds = Con.ExecutarQuery("SELECT ID_NCM FROM TB_NCM WHERE CD_NCM = '" & TEXTO & "'")
+    '        If ds.Tables(0).Rows.Count > 0 Then
+    '            ID = ds.Tables(0).Rows(0).Item("ID_NCM")
+    '        Else
+    '            ID = 0
+    '        End If
+    '    End If
+
+
+    '    Return ID
+    'End Function
 
 
     Private Sub ddlEstufagem_BasicoMaritimo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlEstufagem_BasicoMaritimo.SelectedIndexChanged
@@ -5061,4 +5077,27 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
         End If
 
     End Sub
+
+
+
+    'Private Sub txtNCMFiltro_CargaMaritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNCMFiltro_CargaMaritimo.TextChanged
+    '    Dim Con As New Conexao_sql
+    '    Con.Conectar()
+    '    If txtIDNCM_CargaMaritimo.Text = "" Then
+    '        txtIDNCM_CargaMaritimo.Text = 0
+    '    End If
+    '    If txtNCMFiltro_CargaMaritimo.Text = "" Then
+    '        txtNCMFiltro_CargaMaritimo.Text = "NULL"
+    '    End If
+
+    '    Dim Sql As String = "SELECT ID_NCM,CD_NCM +' - '+ NM_NCM AS NCM FROM [dbo].[TB_NCM] WHERE (NM_NCM like '%" & txtNCMFiltro_CargaMaritimo.Text & "%' OR CD_NCM like '%" & txtNCMFiltro_CargaMaritimo.Text & "%' OR ID_NCM =  " & txtIDNCM_CargaMaritimo.Text & ") union SELECT  0, '    Selecione' ORDER BY ID_NCM"
+    '    Dim ds As DataSet = Con.ExecutarQuery(Sql)
+    '    If ds.Tables(0).Rows.Count > 0 Then
+    '        dsNCM_CargaMaritimo.SelectCommand = Sql
+    '        dsNCM_CargaMaritimo.DataBind()
+    '        ddlNCM_CargaMaritimo.DataBind()
+
+    '    End If
+    '    txtNCMFiltro_CargaMaritimo.Text = txtNCMFiltro_CargaMaritimo.Text.Replace("NULL", "")
+    'End Sub
 End Class
