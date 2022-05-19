@@ -267,6 +267,7 @@
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
     <Content Include="CadastrarEquipe.aspx" />
     <Content Include="CadastrarTipoFaturamento.aspx" />
+    <Content Include="Content\imagens\FCA-Log - Copia.png" />
     <Content Include="Content\imagens\fundo-conteineres.png" />
     <Content Include="Content\imagens\Logo-Background.png" />
     <Content Include="Content\imagens\Logo-Inicio.png" />
