@@ -4474,7 +4474,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
                 Session("ID_STATUS_FRETE_AGENTE") = ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE").ToString()
             End If
 
-            Response.Redirect("CadastrarMaster.aspx?&s=M")
+            Response.Redirect("CadastrarMaster.aspx?g=M&s=M")
 
         ElseIf Request.QueryString("tipo") = "h" Then
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MBLMaritimo()", True)
@@ -4506,7 +4506,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             End If
 
 
-            Response.Redirect("CadastrarMaster.aspx?&s=A")
+            Response.Redirect("CadastrarMaster.aspx?g=A&s=A")
 
 
         ElseIf Request.QueryString("tipo") = "h" Then
