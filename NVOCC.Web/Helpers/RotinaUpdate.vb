@@ -110,6 +110,7 @@ CASE WHEN ID_PARCEIRO_IMPORTADOR IS NULL THEN ID_CLIENTE WHEN ID_PARCEIRO_IMPORT
 
             If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CARGA").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_TIPO_CARGA").ToString Then
                 Con.ExecutarQuery("UPDATE TB_BL SET ID_TIPO_CARGA = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CARGA").ToString & " WHERE ID_BL = " & ID_BL)
+                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_TIPO_CARGA = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CARGA").ToString & " WHERE ID_BL = " & ID_BL)
             End If
 
             If dsCotacao.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR").ToString Then

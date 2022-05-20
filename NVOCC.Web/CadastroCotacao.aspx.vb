@@ -1305,7 +1305,9 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                             ddlStatusCotacao.Enabled = False
 
                             If Session("ID_STATUS") <> 10 And txtProcessoCotacao.Text = "" Then
-                                NumeroProcesso()
+                                ' NumeroProcesso()
+                                Dim AprovaCotacao As New AprovaCotacao
+                                txtProcessoCotacao.Text = AprovaCotacao.AprovaCotacao(txtID.Text, ddlServico.SelectedValue, ddlEstufagem.SelectedValue, ddlDivisaoProfit.SelectedValue)
                             Else
 
                                 Dim RotinaUpdate As New RotinaUpdate

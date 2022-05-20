@@ -223,8 +223,15 @@ WHERE ID_PARCEIRO =" & ID)
 
                 txtAliquotaCOFINS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_COFINS").ToString()
 
+<<<<<<< HEAD
                 ddlPais.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PAIS")
                 txtEmailNF.Text = ds.Tables(0).Rows(0).Item("EMAIL_NF_ELETRONICA").ToString()
+=======
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMAIL_NF_ELETRONICA")) Then
+                    txtEmailNF.Text = ds.Tables(0).Rows(0).Item("EMAIL_NF_ELETRONICA").ToString()
+
+                End If
+>>>>>>> master
                 txtCDIATA.Text = ds.Tables(0).Rows(0).Item("CD_IATA").ToString()
                 ckbSimplesNacional.Checked = ds.Tables(0).Rows(0).Item("FL_SIMPLES_NACIONAL")
                 ckbAtivo.Checked = ds.Tables(0).Rows(0).Item("FL_ATIVO")

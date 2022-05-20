@@ -1436,6 +1436,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & ID_COTACAO & " ")
                         CompraCalc = z.ToString
 
 
+<<<<<<< HEAD
                     ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 43 Then
                         ' 40 HC
 
@@ -1658,6 +1659,8 @@ WHERE A.ID_COTACAO =" & ID_COTACAO & " AND ID_TIPO_CONTAINER IN (18)")
                         End If
                         VendaCalc = z.ToString
 
+=======
+>>>>>>> master
                     End If
 
 
