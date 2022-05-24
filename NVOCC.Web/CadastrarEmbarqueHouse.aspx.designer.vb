@@ -761,17 +761,11 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlMercadoria_CargaMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-<<<<<<< HEAD
-    '''Controle ddlNCM_CargaMaritimo.
-=======
     '''Controle txtIDNCM_CargaMaritimo.
->>>>>>> master
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-<<<<<<< HEAD
-=======
     '''</remarks>
     Protected WithEvents txtIDNCM_CargaMaritimo As Global.System.Web.UI.WebControls.TextBox
 
@@ -790,7 +784,6 @@ Partial Public Class CadastrarEmbarqueHouse
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
->>>>>>> master
     '''</remarks>
     Protected WithEvents ddlNCM_CargaMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
@@ -921,81 +914,11 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents btnFechar_CargaMaritimo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-<<<<<<< HEAD
-    '''Controle mpeNCM_CargaMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents mpeNCM_CargaMaritimo As Global.AjaxControlToolkit.ModalPopupExtender
-
-    '''<summary>
-    '''Controle PanelNCM_CargaMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents PanelNCM_CargaMaritimo As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''Controle Label1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle txtNCMFiltro_CargaMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtNCMFiltro_CargaMaritimo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle rdNCM_CargaMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents rdNCM_CargaMaritimo As Global.System.Web.UI.WebControls.RadioButtonList
-
-    '''<summary>
-    '''Controle btnFecharNCM_CargaMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnFecharNCM_CargaMaritimo As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle btnSalvarNCM_CargaMaritimo.
-=======
-    '''Controle UpdatePanel13.
->>>>>>> master
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-<<<<<<< HEAD
-    '''</remarks>
-    Protected WithEvents btnSalvarNCM_CargaMaritimo As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle UpdatePanel13.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-=======
->>>>>>> master
     '''</remarks>
     Protected WithEvents UpdatePanel13 As Global.System.Web.UI.UpdatePanel
 
@@ -2305,8 +2228,6 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents txtPesoVolumetrico_CargaAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-<<<<<<< HEAD
-=======
     '''Controle txtPesoTaxado_CargaAereo.
     '''</summary>
     '''<remarks>
@@ -2316,7 +2237,6 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents txtPesoTaxado_CargaAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
->>>>>>> master
     '''Controle txtQtdVolume_CargaAereo.
     '''</summary>
     '''<remarks>
@@ -2326,19 +2246,12 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents txtQtdVolume_CargaAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-<<<<<<< HEAD
-    '''Controle txtPesoTaxado_CargaAereo.
-=======
     '''Controle txtIDNCM_CargaAereo.
->>>>>>> master
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-<<<<<<< HEAD
-    Protected WithEvents txtPesoTaxado_CargaAereo As Global.System.Web.UI.WebControls.TextBox
-=======
     Protected WithEvents txtIDNCM_CargaAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
@@ -2349,7 +2262,6 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtNCMFiltro_CargaAereo As Global.System.Web.UI.WebControls.TextBox
->>>>>>> master
 
     '''<summary>
     '''Controle ddlNCM_CargaAereo.
@@ -2496,81 +2408,11 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents btnFechar_CargaAereo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-<<<<<<< HEAD
-    '''Controle mpeNCM_CargaAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents mpeNCM_CargaAereo As Global.AjaxControlToolkit.ModalPopupExtender
-
-    '''<summary>
-    '''Controle PanelNCM_CargaAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents PanelNCM_CargaAereo As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''Controle Label2.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle txtNCMFiltro_CargaAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtNCMFiltro_CargaAereo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle rdNCM_CargaAereo.
-=======
-    '''Controle btnNovaTaxaAereo.
->>>>>>> master
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-<<<<<<< HEAD
-    '''</remarks>
-    Protected WithEvents rdNCM_CargaAereo As Global.System.Web.UI.WebControls.RadioButtonList
-
-    '''<summary>
-    '''Controle btnFecharNCM_CargaAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnFecharNCM_CargaAereo As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle btnSalvarNCM_CargaAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnSalvarNCM_CargaAereo As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle btnNovaTaxaAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-=======
->>>>>>> master
     '''</remarks>
     Protected WithEvents btnNovaTaxaAereo As Global.System.Web.UI.WebControls.Button
 
@@ -3160,11 +3002,7 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents dsMoeda As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-<<<<<<< HEAD
-    '''Controle dsNCM_CargaMaritimo.
-=======
     '''Controle dsNCM_CargaMaritimo1.
->>>>>>> master
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
@@ -3191,8 +3029,6 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents dsNCM_CargaAereo As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-<<<<<<< HEAD
-=======
     '''Controle dsNCM_CargaMaritimo.
     '''</summary>
     '''<remarks>
@@ -3202,7 +3038,6 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents dsNCM_CargaMaritimo As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
->>>>>>> master
     '''Controle dsItemDespesa.
     '''</summary>
     '''<remarks>

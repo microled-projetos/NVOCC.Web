@@ -1795,16 +1795,12 @@ VENDAS:
                                                                         <asp:TextBox ID="txtPesoVolumetrico_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                                     </div>
                                                                 </div>
-<<<<<<< HEAD
-                                                               
-=======
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Peso Taxado:</label>
                                                                         <asp:TextBox ID="txtPesoTaxado_CargaAereo" Enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
                                                                     </div>
                                                                 </div>
->>>>>>> master
                                                                 </div>
                                                             <div class="row">
                                                                 <div class="col-sm-4" style="display:none">
@@ -1814,14 +1810,6 @@ VENDAS:
 
                                                                     </div>
                                                                 </div>
-<<<<<<< HEAD
-                                                                 <div class="col-sm-4">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Peso Taxado:</label>
-                                                                        <asp:TextBox ID="txtPesoTaxado_CargaAereo" Enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-=======
                                                                 
                                                                 <div class="col-sm-4">
                                                                         <div class="form-group">
@@ -1831,7 +1819,6 @@ VENDAS:
                                                                         </div>
                                                                     </div>
 
->>>>>>> master
                                                                <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">NCM:</label>
