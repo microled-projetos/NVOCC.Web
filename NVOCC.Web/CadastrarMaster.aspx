@@ -1214,13 +1214,13 @@
 
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-2"  style="display: none" >
                                                     <div class="form-group">
                                                         <label class="control-label">Valor M3:</label>
                                                         <asp:TextBox ID="txtM3_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Tarifa Master:</label>
                                                         <asp:TextBox ID="txtTarifaMaster_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
@@ -1241,7 +1241,7 @@
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Data de emissão do conhecimento:</label>
                                                         <asp:TextBox ID="txtDataConhecimento_BasicoAereo" runat="server" CssClass="form-control data"></asp:TextBox>
@@ -2007,6 +2007,23 @@ union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>
+        $(window).load(function () {
+            var url = window.location.href;
+            var Qtd = url.indexOf("&s=A");
+            if (Qtd != -1) {
+                console.log("A");
+                activaTab('Aereo');
+
+            } else {
+                console.log("M");
+                activaTab('Maritimo');
+            }
+        });
+
+        function activaTab(tab) {
+            $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+        };
+
 
         $('#ajuda').on("click", function () {
             $('#modal-ajuda').modal('show');

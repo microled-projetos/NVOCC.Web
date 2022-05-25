@@ -32,7 +32,11 @@ Public Class ListagemBL
             lblmsgErro.Text = "Usuário não possui permissão."
             Exit Sub
         Else
-            Response.Redirect("CadastrarMaster.aspx")
+            If rdTransporteMaster.SelectedValue = 2 Then
+                Response.Redirect("CadastrarMaster.aspx?&s=A")
+            Else
+                Response.Redirect("CadastrarMaster.aspx?&s=M")
+            End If
         End If
 
     End Sub
@@ -48,7 +52,11 @@ Public Class ListagemBL
             lblmsgErro.Text = "Usuário não possui permissão."
             Exit Sub
         Else
-            Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=e")
+            If rdTRansporteEmbarque.SelectedValue = 2 Then
+                Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=e&s=A")
+            Else
+                Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=e&s=M")
+            End If
         End If
 
     End Sub
@@ -64,7 +72,11 @@ Public Class ListagemBL
             lblErroHouse.Text = "Usuário não possui permissão."
             Exit Sub
         Else
-            Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=h")
+            If rdTransporteHouse.SelectedValue = 2 Then
+                Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=h&s=A")
+            Else
+                Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=h&s=M")
+            End If
         End If
 
     End Sub
@@ -316,7 +328,14 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
                 divErroHouse.Visible = True
                 lblErroHouse.Text = "Selecione o registro que deseja editar!"
             Else
-                Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}"
+                Dim url As String = ""
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_SERVICO,0)ID_SERVICO FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text)
+                If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                    url = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}&s=A"
+                Else
+                    url = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}&s=M"
+                End If
+
                 url = String.Format(url, txtIDHouse.Text)
                 Response.Redirect(url)
             End If
@@ -674,7 +693,13 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 divErroEmbarque.Visible = True
                 lblErroEmbarque.Text = "Selecione o registro que deseja editar!"
             Else
-                Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=e&id={0}"
+                Dim url As String = ""
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_SERVICO,0)ID_SERVICO FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Text)
+                If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                    url = "CadastrarEmbarqueHouse.aspx?tipo=e&id={0}&s=A"
+                Else
+                    url = "CadastrarEmbarqueHouse.aspx?tipo=e&id={0}&s=M"
+                End If
                 url = String.Format(url, txtID_Embarque.Text)
                 Response.Redirect(url)
             End If
@@ -698,7 +723,14 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 divErroMaster.Visible = True
                 lblErroMaster.Text = "Selecione o registro que deseja editar!"
             Else
-                Dim url As String = "CadastrarMaster.aspx?id={0}"
+                Dim url As String = ""
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_SERVICO,0)ID_SERVICO FROM TB_BL WHERE ID_BL = " & txtID_Master.Text)
+                If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                    url = "CadastrarMaster.aspx?id={0}&s=A"
+                Else
+                    url = "CadastrarMaster.aspx?id={0}&s=M"
+                End If
+
                 url = String.Format(url, txtID_Master.Text)
                 Response.Redirect(url)
             End If

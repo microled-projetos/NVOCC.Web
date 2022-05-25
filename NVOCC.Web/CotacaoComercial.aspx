@@ -252,7 +252,7 @@ FROM TB_COTACAO A ORDER BY ID_COTACAO DESC">
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript">
      function SalvaPosicao() {
-         var posicao = document.getElementById('DivGrid').scrollTop;         
+          var posicao = document.getElementById('DivGrid').scrollTop;
             if (posicao) {
                 document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
                 console.log('if:' + posicao);

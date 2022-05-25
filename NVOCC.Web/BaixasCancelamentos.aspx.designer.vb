@@ -158,6 +158,15 @@ Partial Public Class BaixasCancelamentos
     Protected WithEvents btnBaixar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle btnCancelarBaixa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnCancelarBaixa As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle btnCancelar.
     '''</summary>
     '''<remarks>

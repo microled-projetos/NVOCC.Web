@@ -170,14 +170,13 @@ INNER JOIN TB_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRA
             dsTaxas.SelectParameters("ID").DefaultValue = Request.QueryString("id")
             dgvTaxas.DataBind()
         Else
-            If ddlConsulta.SelectedValue = 1 Then
-                FILTRO = " AND NM_PORTO LIKE '%" & txtConsulta.Text & "%' "
-            ElseIf ddlConsulta.SelectedValue = 3 Then
-                FILTRO = " AND NM_TIPO_COMEX LIKE '%" & txtConsulta.Text & "%' "
-            Else
-                FILTRO = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
 
+            If ddlConsulta.SelectedValue = 1 Then
+                FILTRO = " And NM_PORTO Like '%" & txtConsulta.Text & "%' "
+            ElseIf ddlConsulta.SelectedValue = 2 Then
+                FILTRO = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
             End If
+
             dsTaxas.SelectCommand = "SELECT A.ID_TAXA_LOCAL_TRANSPORTADOR,
 a.ID_TRANSPORTADOR,
 a.ID_PORTO, b.NM_PORTO,
@@ -194,7 +193,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX
 Left Join TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
 Left Join TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO
 Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA     
-        WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO & " ORDER BY B.NM_PORTO"
+        WHERE a.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue & " AND ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO & " ORDER BY B.NM_PORTO"
             dgvTaxas.DataBind()
         End If
 
@@ -498,9 +497,8 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
         Dim filtro As String = ""
         If ddlConsulta.SelectedValue = 1 Then
             filtro = " AND NM_PORTO LIKE '%" & txtConsulta.Text & "%' "
-        ElseIf ddlConsulta.SelectedValue = 3 Then
-            filtro = " AND NM_TIPO_COMEX LIKE '%" & txtConsulta.Text & "%' "
-        Else
+
+        ElseIf ddlConsulta.SelectedValue = 2 Then
             filtro = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
 
         End If
@@ -510,7 +508,7 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ROW_NUMBER() OVER(ORDER BY NM_PORTO,ID_TAXA_LOCAL_TRANSPORTADOR) AS num,ID_TAXA_LOCAL_TRANSPORTADOR FROM TB_TAXA_LOCAL_TRANSPORTADOR A
 Left Join TB_PORTO B ON B.ID_PORTO = A.ID_PORTO
 Left Join TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
-Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & filtro & " order by NM_PORTO,ID_TAXA_LOCAL_TRANSPORTADOR ")
+Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue & " AND ID_TRANSPORTADOR =  " & Request.QueryString("id") & filtro & " order by NM_PORTO,ID_TAXA_LOCAL_TRANSPORTADOR ")
         If ds.Tables(0).Rows.Count > 0 Then
             PrimeiraTaxa = ds.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR")
             For Each linha As DataRow In ds.Tables(0).Rows
@@ -581,9 +579,8 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
         Dim filtro As String = ""
         If ddlConsulta.SelectedValue = 1 Then
             filtro = " AND NM_PORTO LIKE '%" & txtConsulta.Text & "%' "
-        ElseIf ddlConsulta.SelectedValue = 3 Then
-            filtro = " AND NM_TIPO_COMEX LIKE '%" & txtConsulta.Text & "%' "
-        Else
+
+        ElseIf ddlConsulta.SelectedValue = 2 Then
             filtro = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
 
         End If
@@ -593,7 +590,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ROW_NUMBER() OVER(ORDER BY NM_PORTO,ID_TAXA_LOCAL_TRANSPORTADOR desc) AS num,ID_TAXA_LOCAL_TRANSPORTADOR FROM TB_TAXA_LOCAL_TRANSPORTADOR A
 Left Join TB_PORTO B ON B.ID_PORTO = A.ID_PORTO
 Left Join TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
-Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & filtro & " ORDER BY NM_PORTO,ID_TAXA_LOCAL_TRANSPORTADOR desc ")
+Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue & " AND ID_TRANSPORTADOR =  " & Request.QueryString("id") & filtro & " ORDER BY NM_PORTO,ID_TAXA_LOCAL_TRANSPORTADOR desc ")
         If ds.Tables(0).Rows.Count > 0 Then
             PrimeiraTaxa = ds.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR")
             For Each linha As DataRow In ds.Tables(0).Rows
@@ -839,5 +836,9 @@ INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_STATUS_COTACAO
             txtQtdBaseCalculo.Enabled = False
             txtQtdBaseCalculo.Text = ""
         End If
+    End Sub
+
+    Private Sub ddlComexConsulta_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlComexConsulta.SelectedIndexChanged
+        Pesquisa()
     End Sub
 End Class

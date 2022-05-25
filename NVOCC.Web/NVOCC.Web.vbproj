@@ -266,10 +266,14 @@
     <Content Include="AtendimentoNegado.aspx.cs" />
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
     <Content Include="CadastrarEquipe.aspx" />
+    <Content Include="CadastrarTipoFaturamento.aspx" />
+    <Content Include="Content\imagens\FCA-Log - Copia.png" />
     <Content Include="Content\imagens\fundo-conteineres.png" />
     <Content Include="Content\imagens\Logo-Background.png" />
     <Content Include="Content\imagens\Logo-Inicio.png" />
     <Content Include="Content\imagens\Logo-Menu.png" />
+    <Content Include="Content\js\jquery-ui.css" />
+    <Content Include="Content\js\jquery-ui.min.js" />
     <Content Include="FaturamentoArquivo.aspx" />
     <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
@@ -650,6 +654,13 @@
       <DependentUpon>CadastrarEquipe.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="CadastrarTipoFaturamento.aspx.designer.vb">
+      <DependentUpon>CadastrarTipoFaturamento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarTipoFaturamento.aspx.vb">
+      <DependentUpon>CadastrarTipoFaturamento.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="FaturamentoArquivo.aspx.designer.vb">
       <DependentUpon>FaturamentoArquivo.aspx</DependentUpon>
     </Compile>
@@ -770,6 +781,8 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Helpers\AtualizaBancoEudmarco.vb" />
+    <Compile Include="Helpers\AprovaCotacao.vb" />
+    <Compile Include="Helpers\CalculaCotacao.vb" />
     <Compile Include="Helpers\Conexao_oracle.vb" />
     <Compile Include="Class\Aduana.vb" />
     <Compile Include="Class\BL.vb" />

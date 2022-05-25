@@ -79,9 +79,10 @@
 
                                         <div class="form-group"><br />
                                             <asp:Button runat="server" Text="Gerar CSV" ID="btnCSV" CssClass="btn btn-info" />
-                                            <asp:Button runat="server" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-warning" Visible="true" />
+                                            <asp:Button runat="server" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-success" Visible="true" />
                                             <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-primary" />
-                                            <asp:Button runat="server" Text="Cancelar Fatura" ID="btnCancelar" CssClass="btn btn-danger" />
+                                            <asp:Button runat="server" Text="Cancelar Baixa" ID="btnCancelarBaixa" CssClass="btn btn-warning" OnClientClick="javascript:return confirm('Deseja realmente cancelar a baixa deste registro?');"/>
+                                            <asp:Button runat="server" Text="Cancelar Conta Corrente" ID="btnCancelar" CssClass="btn btn-danger" />
                                         </div>
                                     </div>
 
