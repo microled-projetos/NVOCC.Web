@@ -90,6 +90,19 @@ WHERE A.ID_STATUS_COTACAO = 8")
                 txtNumeroCotacao.Text = ds.Tables(0).Rows(0).Item("NR_COTACAO")
             End If
 
+
+        ElseIf e.CommandName = "Status" Then
+
+            Dim ID As String = e.CommandArgument.Substring(0, e.CommandArgument.IndexOf("|"))
+
+            'dsHistoricoFrete.SelectCommand = "SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= " & txtQtd.Text & " and cnpj = '" & txtcnpj.Text & "' "
+            'dgvHistoricoFrete.DataBind()
+
+
+            dsHistoricoStatus.SelectParameters("ID_COTACAO").DefaultValue = ID
+            dgvHistoricoStatus.DataBind()
+            mpeStatus.Show()
+
         End If
 
 
