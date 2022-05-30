@@ -60,7 +60,7 @@ ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORT
 (SELECT B.OB_CLIENTE FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO)OB_CLIENTE_COTACAO,
 (SELECT B.OB_OPERACIONAL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO)OB_OPERACIONAL_COTACAO,
 (SELECT NM_TIPO_BL FROM TB_TIPO_BL WHERE ID_TIPO_BL = (SELECT ID_TIPO_BL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO))NM_TIPO_BL,
-(SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = (SELECT ID_CLIENTE_FINAL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO))NM_CLIENTE_FINAL, VL_CARGA, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO,ISNULL(FINAL_DESTINATION,0)FINAL_DESTINATION
+(SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = (SELECT ID_CLIENTE_FINAL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO))NM_CLIENTE_FINAL, VL_CARGA, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO,ISNULL(FINAL_DESTINATION,0)FINAL_DESTINATION,ISNULL(FL_EMAIL_COTACAO,0)FL_EMAIL_COTACAO, EMAIL_COTACAO 
 
 FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
         If ds.Tables(0).Rows.Count > 0 Then
@@ -239,6 +239,11 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO_CALCULADO")) Then
                         txtProfitCalculado_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO_CALCULADO")
+                    End If
+
+                    ckbEmailCotacao_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_EMAIL_COTACAO")
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMAIL_COTACAO")) Then
+                        txtEmailCotacao_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("EMAIL_COTACAO").ToString()
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE")) Then
@@ -457,6 +462,11 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")) Then
                         txtValorDivisaoProfit_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                    End If
+
+                    ckbEmailCotacao_BasicoAereo.Checked = ds.Tables(0).Rows(0).Item("FL_EMAIL_COTACAO")
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMAIL_COTACAO")) Then
+                        txtEmailCotacao_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("EMAIL_COTACAO").ToString()
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_RESUMO_MERCADORIA")) Then
@@ -688,6 +698,11 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO_CALCULADO")) Then
                         txtProfitCalculado_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO_CALCULADO")
+                    End If
+
+                    ckbEmailCotacao_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_EMAIL_COTACAO")
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMAIL_COTACAO")) Then
+                        txtEmailCotacao_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("EMAIL_COTACAO").ToString()
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE")) Then
@@ -2571,8 +2586,15 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 txtHBL_BasicoMaritimo.Text = "'" & txtHBL_BasicoMaritimo.Text & "'"
             End If
 
+            Dim EmailCotacao As String = ""
 
-
+            If txtEmailCotacao_BasicoMaritimo.Text = "" Then
+                EmailCotacao = "NULL"
+            Else
+                EmailCotacao = txtEmailCotacao_BasicoMaritimo.Text
+                EmailCotacao = EmailCotacao.Replace("'", "''")
+                EmailCotacao = "'" & EmailCotacao & "'"
+            End If
 
 
             If txtID_BasicoMaritimo.Text = "" Then
@@ -2606,7 +2628,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                             End If
 
                             'INSERE 
-                            ds = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,NR_BL,ID_PARCEIRO_TRANSPORTADOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_EXPORTADOR, ID_PARCEIRO_COMISSARIA,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,FL_FREE_HAND,ID_TIPO_ESTUFAGEM,ID_TIPO_PAGAMENTO,ID_TIPO_CARGA,NR_CE,DT_CE,OB_REFERENCIA_AUXILIAR,OB_REFERENCIA_COMERCIAL,NM_RESUMO_MERCADORIA, ID_SERVICO,GRAU,ID_PARCEIRO_IMPORTADOR,DT_ABERTURA,ID_PARCEIRO_INDICADOR,ID_PROFIT_DIVISAO,VL_PROFIT_DIVISAO,VL_CARGA,ID_PARCEIRO_RODOVIARIO,FINAL_DESTINATION,FL_TRAKING_AUTOMATICO) VALUES (" & txtProcesso_BasicoMaritimo.Text & "," & txtHBL_BasicoMaritimo.Text & "," & ddlTransportador_BasicoMaritimo.SelectedValue & ", " & ddlOrigem_BasicoMaritimo.SelectedValue & ", " & ddlDestino_BasicoMaritimo.SelectedValue & "," & ddlCliente_BasicoMaritimo.SelectedValue & ", " & ddlExportador_BasicoMaritimo.SelectedValue & "," & ddlComissaria_BasicoMaritimo.SelectedValue & "," & ddlAgente_BasicoMaritimo.SelectedValue & "," & ddlIncoterm_BasicoMaritimo.SelectedValue & ",'" & ckbFreeHand_BasicoMaritimo.Checked & "'," & ddlEstufagem_BasicoMaritimo.SelectedValue & "," & ddlTipoPagamento_BasicoMaritimo.SelectedValue & "," & ddlTipoCarga_BasicoMaritimo.SelectedValue & "," & txtCE_BasicoMaritimo.Text & "," & txtDataCE_BasicoMaritimo.Text & "," & txtRefAuxiliar_BasicoMaritimo.Text & "," & txtRefComercial_BasicoMaritimo.Text & ", " & txtResumoMercadoria_BasicoMaritimo.Text & ", " & ddlServico_BasicoMaritimo.SelectedValue & ", 'C'," & ddlImportador_BasicoMaritimo.SelectedValue & ",GETDATE()," & ddlIndicador_BasicoMaritimo.SelectedValue & "," & ddlDivisaoProfit_BasicoMaritimo.SelectedValue & ", " & txtValorDivisaoProfit_BasicoMaritimo.Text & "," & txtValorCarga_BasicoMaritimo.Text & "," & ddlTranspRodoviario_BasicoMaritimo.SelectedValue & "," & ddlFinalDestination_BasicoMaritimo.SelectedValue & ",'" & ckTrakingAutomaticoMaritimo.Checked & "') Select SCOPE_IDENTITY() as ID_BL ")
+                            ds = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,NR_BL,ID_PARCEIRO_TRANSPORTADOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_EXPORTADOR, ID_PARCEIRO_COMISSARIA,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,FL_FREE_HAND,ID_TIPO_ESTUFAGEM,ID_TIPO_PAGAMENTO,ID_TIPO_CARGA,NR_CE,DT_CE,OB_REFERENCIA_AUXILIAR,OB_REFERENCIA_COMERCIAL,NM_RESUMO_MERCADORIA, ID_SERVICO,GRAU,ID_PARCEIRO_IMPORTADOR,DT_ABERTURA,ID_PARCEIRO_INDICADOR,ID_PROFIT_DIVISAO,VL_PROFIT_DIVISAO,VL_CARGA,ID_PARCEIRO_RODOVIARIO,FINAL_DESTINATION,FL_TRAKING_AUTOMATICO,FL_EMAIL_COTACAO, EMAIL_COTACAO) VALUES (" & txtProcesso_BasicoMaritimo.Text & "," & txtHBL_BasicoMaritimo.Text & "," & ddlTransportador_BasicoMaritimo.SelectedValue & ", " & ddlOrigem_BasicoMaritimo.SelectedValue & ", " & ddlDestino_BasicoMaritimo.SelectedValue & "," & ddlCliente_BasicoMaritimo.SelectedValue & ", " & ddlExportador_BasicoMaritimo.SelectedValue & "," & ddlComissaria_BasicoMaritimo.SelectedValue & "," & ddlAgente_BasicoMaritimo.SelectedValue & "," & ddlIncoterm_BasicoMaritimo.SelectedValue & ",'" & ckbFreeHand_BasicoMaritimo.Checked & "'," & ddlEstufagem_BasicoMaritimo.SelectedValue & "," & ddlTipoPagamento_BasicoMaritimo.SelectedValue & "," & ddlTipoCarga_BasicoMaritimo.SelectedValue & "," & txtCE_BasicoMaritimo.Text & "," & txtDataCE_BasicoMaritimo.Text & "," & txtRefAuxiliar_BasicoMaritimo.Text & "," & txtRefComercial_BasicoMaritimo.Text & ", " & txtResumoMercadoria_BasicoMaritimo.Text & ", " & ddlServico_BasicoMaritimo.SelectedValue & ", 'C'," & ddlImportador_BasicoMaritimo.SelectedValue & ",GETDATE()," & ddlIndicador_BasicoMaritimo.SelectedValue & "," & ddlDivisaoProfit_BasicoMaritimo.SelectedValue & ", " & txtValorDivisaoProfit_BasicoMaritimo.Text & "," & txtValorCarga_BasicoMaritimo.Text & "," & ddlTranspRodoviario_BasicoMaritimo.SelectedValue & "," & ddlFinalDestination_BasicoMaritimo.SelectedValue & ",'" & ckTrakingAutomaticoMaritimo.Checked & "','" & ckbEmailCotacao_BasicoMaritimo.Checked & "'," & EmailCotacao & " ) Select SCOPE_IDENTITY() as ID_BL ")
 
                             'PREENCHE SESSÃO E CAMPO DE ID
                             Session("ID_BL") = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
@@ -2647,7 +2669,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
 
                     'REALIZA UPDATE 
-                    Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = " & txtProcesso_BasicoMaritimo.Text & " , NR_BL = " & txtHBL_BasicoMaritimo.Text & ", ID_PARCEIRO_TRANSPORTADOR = " & ddlTransportador_BasicoMaritimo.SelectedValue & ", ID_PORTO_ORIGEM = " & ddlOrigem_BasicoMaritimo.SelectedValue & ", ID_PORTO_DESTINO = " & ddlDestino_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_CLIENTE = " & ddlCliente_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_EXPORTADOR = " & ddlExportador_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_COMISSARIA = " & ddlComissaria_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoMaritimo.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm_BasicoMaritimo.SelectedValue & ", ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoMaritimo.SelectedValue & ", ID_TIPO_CARGA = " & ddlTipoCarga_BasicoMaritimo.SelectedValue & ", OB_REFERENCIA_AUXILIAR =" & txtRefAuxiliar_BasicoMaritimo.Text & ", OB_REFERENCIA_COMERCIAL = " & txtRefComercial_BasicoMaritimo.Text & ", NM_RESUMO_MERCADORIA = " & txtResumoMercadoria_BasicoMaritimo.Text & ",FL_FREE_HAND = '" & ckbFreeHand_BasicoMaritimo.Checked & "', ID_TIPO_ESTUFAGEM = " & ddlEstufagem_BasicoMaritimo.SelectedValue & ",ID_SERVICO =" & ddlServico_BasicoMaritimo.SelectedValue & ", GRAU = 'C', ID_PARCEIRO_IMPORTADOR = " & ddlImportador_BasicoMaritimo.SelectedValue & ",ID_PARCEIRO_INDICADOR = " & ddlIndicador_BasicoMaritimo.SelectedValue & ",ID_PROFIT_DIVISAO = " & ddlDivisaoProfit_BasicoMaritimo.SelectedValue & ", VL_PROFIT_DIVISAO = " & txtValorDivisaoProfit_BasicoMaritimo.Text & " , VL_CARGA = " & txtValorCarga_BasicoMaritimo.Text & ", ID_PARCEIRO_RODOVIARIO = " & ddlTranspRodoviario_BasicoMaritimo.SelectedValue & " ,FINAL_DESTINATION = " & ddlFinalDestination_BasicoMaritimo.SelectedValue & ", FL_TRAKING_AUTOMATICO = '" & ckTrakingAutomaticoMaritimo.Checked & "' WHERE ID_BL = " & txtID_BasicoMaritimo.Text)
+                    Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = " & txtProcesso_BasicoMaritimo.Text & " , NR_BL = " & txtHBL_BasicoMaritimo.Text & ", ID_PARCEIRO_TRANSPORTADOR = " & ddlTransportador_BasicoMaritimo.SelectedValue & ", ID_PORTO_ORIGEM = " & ddlOrigem_BasicoMaritimo.SelectedValue & ", ID_PORTO_DESTINO = " & ddlDestino_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_CLIENTE = " & ddlCliente_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_EXPORTADOR = " & ddlExportador_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_COMISSARIA = " & ddlComissaria_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoMaritimo.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm_BasicoMaritimo.SelectedValue & ", ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoMaritimo.SelectedValue & ", ID_TIPO_CARGA = " & ddlTipoCarga_BasicoMaritimo.SelectedValue & ", OB_REFERENCIA_AUXILIAR =" & txtRefAuxiliar_BasicoMaritimo.Text & ", OB_REFERENCIA_COMERCIAL = " & txtRefComercial_BasicoMaritimo.Text & ", NM_RESUMO_MERCADORIA = " & txtResumoMercadoria_BasicoMaritimo.Text & ",FL_FREE_HAND = '" & ckbFreeHand_BasicoMaritimo.Checked & "', ID_TIPO_ESTUFAGEM = " & ddlEstufagem_BasicoMaritimo.SelectedValue & ",ID_SERVICO =" & ddlServico_BasicoMaritimo.SelectedValue & ", GRAU = 'C', ID_PARCEIRO_IMPORTADOR = " & ddlImportador_BasicoMaritimo.SelectedValue & ",ID_PARCEIRO_INDICADOR = " & ddlIndicador_BasicoMaritimo.SelectedValue & ",ID_PROFIT_DIVISAO = " & ddlDivisaoProfit_BasicoMaritimo.SelectedValue & ", VL_PROFIT_DIVISAO = " & txtValorDivisaoProfit_BasicoMaritimo.Text & " , VL_CARGA = " & txtValorCarga_BasicoMaritimo.Text & ", ID_PARCEIRO_RODOVIARIO = " & ddlTranspRodoviario_BasicoMaritimo.SelectedValue & " ,FINAL_DESTINATION = " & ddlFinalDestination_BasicoMaritimo.SelectedValue & ", FL_TRAKING_AUTOMATICO = '" & ckTrakingAutomaticoMaritimo.Checked & "', FL_EMAIL_COTACAO = '" & ckbEmailCotacao_BasicoMaritimo.Checked & "', EMAIL_COTACAO = " & EmailCotacao & "  WHERE ID_BL = " & txtID_BasicoMaritimo.Text)
 
 
                     If txtCE_BasicoMaritimo.Text <> "" Then
@@ -2749,7 +2771,15 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 txtHBL_BasicoAereo.Text = "'" & txtHBL_BasicoAereo.Text & "'"
             End If
 
+            Dim EmailCotacao As String = ""
 
+            If txtEmailCotacao_BasicoAereo.Text = "" Then
+                EmailCotacao = "NULL"
+            Else
+                EmailCotacao = txtEmailCotacao_BasicoAereo.Text
+                EmailCotacao = EmailCotacao.Replace("'", "''")
+                EmailCotacao = "'" & EmailCotacao & "'"
+            End If
 
 
             If txtID_BasicoAereo.Text = "" Then
@@ -2783,7 +2813,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                             End If
 
                             'INSERE 
-                            ds = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,NR_BL, ID_PARCEIRO_TRANSPORTADOR, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_PARCEIRO_CLIENTE, ID_PARCEIRO_EXPORTADOR, ID_PARCEIRO_COMISSARIA, ID_PARCEIRO_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_PARCEIRO_ARMAZEM_DESEMBARACO, ID_TIPO_PAGAMENTO, ID_TIPO_CARGA, NR_CE, DT_CE, OB_REFERENCIA_AUXILIAR, OB_REFERENCIA_COMERCIAL, NM_RESUMO_MERCADORIA,ID_SERVICO,GRAU,ID_PARCEIRO_IMPORTADOR,DT_ABERTURA,FL_FREE_HAND,ID_PARCEIRO_INDICADOR,ID_PROFIT_DIVISAO,VL_PROFIT_DIVISAO,VL_CARGA,ID_PARCEIRO_RODOVIARIO,FL_TRAKING_AUTOMATICO) VALUES (" & txtProcesso_BasicoAereo.Text & ", " & txtHBL_BasicoAereo.Text & "," & ddlTransportador_BasicoAereo.SelectedValue & ", " & ddlOrigem_BasicoAereo.SelectedValue & ", " & ddlDestino_BasicoAereo.SelectedValue & "," & ddlCliente_BasicoAereo.SelectedValue & ", " & ddlExportador_BasicoAereo.SelectedValue & "," & ddlComissaria_BasicoAereo.SelectedValue & "," & ddlAgente_BasicoAereo.SelectedValue & "," & ddlIncoterm_BasicoAereo.SelectedValue & "," & ddlArmazem_BasicoAereo.SelectedValue & "," & ddlTipoPagamento_BasicoAereo.SelectedValue & "," & ddlTipoCarga_BasicoAereo.SelectedValue & "," & txtNumeroCE_BasicoAereo.Text & ", " & txtDataCE_BasicoAereo.Text & "," & txtRefAuxiliar_BasicoAereo.Text & "," & txtRefComercial_BasicoAereo.Text & ", " & txtResumoMercadoria_BasicoAereo.Text & "," & ddlServico_BasicoAereo.SelectedValue & ",'C'," & ddlImportador_BasicoAereo.SelectedValue & ",GETDATE(),'" & ckbFreeHand_BasicoAereo.Checked & "'," & ddlIndicador_BasicoAereo.SelectedValue & "," & ddlDivisaoProfit_BasicoAereo.SelectedValue & ", " & txtValorDivisaoProfit_BasicoAereo.Text & ", " & txtValorCarga_BasicoAereo.Text & "," & ddlTranspRodoviario_BasicoMaritimo.SelectedValue & ",'" & ckTrakingAutomaticoAereo.Checked & "') Select SCOPE_IDENTITY() as ID_BL ")
+                            ds = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,NR_BL, ID_PARCEIRO_TRANSPORTADOR, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_PARCEIRO_CLIENTE, ID_PARCEIRO_EXPORTADOR, ID_PARCEIRO_COMISSARIA, ID_PARCEIRO_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_PARCEIRO_ARMAZEM_DESEMBARACO, ID_TIPO_PAGAMENTO, ID_TIPO_CARGA, NR_CE, DT_CE, OB_REFERENCIA_AUXILIAR, OB_REFERENCIA_COMERCIAL, NM_RESUMO_MERCADORIA,ID_SERVICO,GRAU,ID_PARCEIRO_IMPORTADOR,DT_ABERTURA,FL_FREE_HAND,ID_PARCEIRO_INDICADOR,ID_PROFIT_DIVISAO,VL_PROFIT_DIVISAO,VL_CARGA,ID_PARCEIRO_RODOVIARIO,FL_TRAKING_AUTOMATICO,FL_EMAIL_COTACAO, EMAIL_COTACAO) VALUES (" & txtProcesso_BasicoAereo.Text & ", " & txtHBL_BasicoAereo.Text & "," & ddlTransportador_BasicoAereo.SelectedValue & ", " & ddlOrigem_BasicoAereo.SelectedValue & ", " & ddlDestino_BasicoAereo.SelectedValue & "," & ddlCliente_BasicoAereo.SelectedValue & ", " & ddlExportador_BasicoAereo.SelectedValue & "," & ddlComissaria_BasicoAereo.SelectedValue & "," & ddlAgente_BasicoAereo.SelectedValue & "," & ddlIncoterm_BasicoAereo.SelectedValue & "," & ddlArmazem_BasicoAereo.SelectedValue & "," & ddlTipoPagamento_BasicoAereo.SelectedValue & "," & ddlTipoCarga_BasicoAereo.SelectedValue & "," & txtNumeroCE_BasicoAereo.Text & ", " & txtDataCE_BasicoAereo.Text & "," & txtRefAuxiliar_BasicoAereo.Text & "," & txtRefComercial_BasicoAereo.Text & ", " & txtResumoMercadoria_BasicoAereo.Text & "," & ddlServico_BasicoAereo.SelectedValue & ",'C'," & ddlImportador_BasicoAereo.SelectedValue & ",GETDATE(),'" & ckbFreeHand_BasicoAereo.Checked & "'," & ddlIndicador_BasicoAereo.SelectedValue & "," & ddlDivisaoProfit_BasicoAereo.SelectedValue & ", " & txtValorDivisaoProfit_BasicoAereo.Text & ", " & txtValorCarga_BasicoAereo.Text & "," & ddlTranspRodoviario_BasicoMaritimo.SelectedValue & ",'" & ckTrakingAutomaticoAereo.Checked & "', '" & ckbEmailCotacao_BasicoAereo.Checked & "'," & EmailCotacao & " ) Select SCOPE_IDENTITY() as ID_BL ")
 
 
                             'PREENCHE SESSÃO E CAMPO DE ID
@@ -2823,7 +2853,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
 
                     'REALIZA UPDATE 
-                    Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = " & txtProcesso_BasicoAereo.Text & " , NR_BL = " & txtHBL_BasicoAereo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddlTransportador_BasicoAereo.SelectedValue & ", ID_PORTO_ORIGEM = " & ddlOrigem_BasicoAereo.SelectedValue & ", ID_PORTO_DESTINO = " & ddlDestino_BasicoAereo.SelectedValue & ", ID_PARCEIRO_CLIENTE = " & ddlCliente_BasicoAereo.SelectedValue & ", ID_PARCEIRO_EXPORTADOR = " & ddlExportador_BasicoAereo.SelectedValue & ", ID_PARCEIRO_COMISSARIA = " & ddlComissaria_BasicoAereo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoAereo.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm_BasicoAereo.SelectedValue & ", ID_PARCEIRO_ARMAZEM_DESEMBARACO = " & ddlArmazem_BasicoAereo.SelectedValue & ", ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ", ID_TIPO_CARGA = " & ddlTipoCarga_BasicoAereo.SelectedValue & ",  OB_REFERENCIA_AUXILIAR =" & txtRefAuxiliar_BasicoAereo.Text & ", OB_REFERENCIA_COMERCIAL = " & txtRefComercial_BasicoAereo.Text & ", NM_RESUMO_MERCADORIA = " & txtResumoMercadoria_BasicoAereo.Text & ",ID_SERVICO = " & ddlServico_BasicoAereo.SelectedValue & ", ID_PARCEIRO_IMPORTADOR = " & ddlImportador_BasicoAereo.SelectedValue & ",FL_FREE_HAND = '" & ckbFreeHand_BasicoAereo.Checked & "' ,ID_PARCEIRO_INDICADOR = " & ddlIndicador_BasicoAereo.SelectedValue & ",ID_PROFIT_DIVISAO = " & ddlDivisaoProfit_BasicoAereo.SelectedValue & ",VL_PROFIT_DIVISAO = " & txtValorDivisaoProfit_BasicoAereo.Text & ", VL_CARGA = " & txtValorCarga_BasicoAereo.Text & ",ID_PARCEIRO_RODOVIARIO = " & ddlTranspRodoviario_BasicoAereo.SelectedValue & ", FL_TRAKING_AUTOMATICO = '" & ckTrakingAutomaticoAereo.Checked & "'   WHERE ID_BL = " & txtID_BasicoAereo.Text)
+                    Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = " & txtProcesso_BasicoAereo.Text & " , NR_BL = " & txtHBL_BasicoAereo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddlTransportador_BasicoAereo.SelectedValue & ", ID_PORTO_ORIGEM = " & ddlOrigem_BasicoAereo.SelectedValue & ", ID_PORTO_DESTINO = " & ddlDestino_BasicoAereo.SelectedValue & ", ID_PARCEIRO_CLIENTE = " & ddlCliente_BasicoAereo.SelectedValue & ", ID_PARCEIRO_EXPORTADOR = " & ddlExportador_BasicoAereo.SelectedValue & ", ID_PARCEIRO_COMISSARIA = " & ddlComissaria_BasicoAereo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoAereo.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm_BasicoAereo.SelectedValue & ", ID_PARCEIRO_ARMAZEM_DESEMBARACO = " & ddlArmazem_BasicoAereo.SelectedValue & ", ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ", ID_TIPO_CARGA = " & ddlTipoCarga_BasicoAereo.SelectedValue & ",  OB_REFERENCIA_AUXILIAR =" & txtRefAuxiliar_BasicoAereo.Text & ", OB_REFERENCIA_COMERCIAL = " & txtRefComercial_BasicoAereo.Text & ", NM_RESUMO_MERCADORIA = " & txtResumoMercadoria_BasicoAereo.Text & ",ID_SERVICO = " & ddlServico_BasicoAereo.SelectedValue & ", ID_PARCEIRO_IMPORTADOR = " & ddlImportador_BasicoAereo.SelectedValue & ",FL_FREE_HAND = '" & ckbFreeHand_BasicoAereo.Checked & "' ,ID_PARCEIRO_INDICADOR = " & ddlIndicador_BasicoAereo.SelectedValue & ",ID_PROFIT_DIVISAO = " & ddlDivisaoProfit_BasicoAereo.SelectedValue & ",VL_PROFIT_DIVISAO = " & txtValorDivisaoProfit_BasicoAereo.Text & ", VL_CARGA = " & txtValorCarga_BasicoAereo.Text & ",ID_PARCEIRO_RODOVIARIO = " & ddlTranspRodoviario_BasicoAereo.SelectedValue & ", FL_TRAKING_AUTOMATICO = '" & ckTrakingAutomaticoAereo.Checked & "' FL_EMAIL_COTACAO = '" & ckbEmailCotacao_BasicoAereo.Checked & "', EMAIL_COTACAO = " & EmailCotacao & "   WHERE ID_BL = " & txtID_BasicoAereo.Text)
 
                     If txtNumeroCE_BasicoAereo.Text <> "" Then
                         ds = Con.ExecutarQuery("SELECT ISNULL(NR_CE,'')NR_CE, DT_CE FROM TB_BL WHERE ID_BL = " & txtID_BasicoAereo.Text & "")

@@ -536,6 +536,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents btnCalcular As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle ckbEmailCotacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbEmailCotacao As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle ddlMotivoCancelamento.
     '''</summary>
     '''<remarks>
@@ -561,6 +570,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtObsOperacional As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtEmailCotacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtEmailCotacao As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtObsCancelamento.

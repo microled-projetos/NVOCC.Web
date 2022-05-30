@@ -61,7 +61,7 @@ CONVERT(varchar,A.DT_VALIDADE_COTACAO,103)DT_VALIDADE_COTACAO,
 CONVERT(varchar,A.DT_ENVIO_COTACAO,103)DT_ENVIO_COTACAO,
 A.ID_ANALISTA_COTACAO,A.ID_AGENTE_INTERNACIONAL,A.ID_TIPO_BL,A.ID_INCOTERM,A.ID_TIPO_ESTUFAGEM,A.ID_DESTINATARIO_COMERCIAL,ISNULL(A.ID_CLIENTE,0)ID_CLIENTE,ISNULL(A.ID_CLIENTE_FINAL,0)ID_CLIENTE_FINAL,A.ID_CONTATO,A.ID_SERVICO,A.ID_VENDEDOR,A.OB_CLIENTE,A.OB_MOTIVO_CANCELAMENTO,A.OB_OPERACIONAL,A.ID_MOTIVO_CANCELAMENTO,
 CONVERT(varchar,A.DT_CALCULO_COTACAO,103)DT_CALCULO_COTACAO,ID_TIPO_CARGA, 
-NR_PROCESSO_GERADO,ID_PROCESSO, ID_USUARIO_STATUS,(SELECT FL_COTACAO_APROVADA FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_COTACAO_APROVADA, (SELECT FL_ENCERRA_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_ENCERRA_COTACAO, ISNULL(FL_LTL,0)FL_LTL,ISNULL(FL_DTA_HUB,0)FL_DTA_HUB,ISNULL(FL_TRANSP_DEDICADO,0)FL_TRANSP_DEDICADO, VL_TOTAL_PESO_BRUTO,VL_TOTAL_M3, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO 
+NR_PROCESSO_GERADO,ID_PROCESSO, ID_USUARIO_STATUS,(SELECT FL_COTACAO_APROVADA FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_COTACAO_APROVADA, (SELECT FL_ENCERRA_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_ENCERRA_COTACAO, ISNULL(FL_LTL,0)FL_LTL,ISNULL(FL_DTA_HUB,0)FL_DTA_HUB,ISNULL(FL_TRANSP_DEDICADO,0)FL_TRANSP_DEDICADO, VL_TOTAL_PESO_BRUTO,VL_TOTAL_M3, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO, ISNULL(FL_EMAIL_COTACAO,0)FL_EMAIL_COTACAO, EMAIL_COTACAO 
 FROM  TB_COTACAO A
     WHERE A.ID_COTACAO = " & Request.QueryString("id"))
         If ds.Tables(0).Rows.Count > 0 Then
@@ -161,7 +161,10 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 End If
             End If
 
-
+            ckbEmailCotacao.Checked = ds.Tables(0).Rows(0).Item("FL_EMAIL_COTACAO")
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMAIL_COTACAO")) Then
+                txtEmailCotacao.Text = ds.Tables(0).Rows(0).Item("EMAIL_COTACAO").ToString()
+            End If
 
             txtCodAgente.Text = ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL").ToString()
             ddlAgente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL").ToString()
@@ -1159,6 +1162,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
             Dim ObsCliente As String = ""
             Dim ObsCancelamento As String = ""
             Dim ObsOperacional As String = ""
+            Dim EmailCotacao As String = ""
 
             If txtObsCliente.Text = "" Then
                 ObsCliente = "NULL"
@@ -1185,7 +1189,13 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                 ObsOperacional = "'" & ObsOperacional & "'"
             End If
 
-
+            If txtEmailCotacao.Text = "" Then
+                EmailCotacao = "NULL"
+            Else
+                EmailCotacao = txtEmailCotacao.Text
+                EmailCotacao = EmailCotacao.Replace("'", "''")
+                EmailCotacao = "'" & EmailCotacao & "'"
+            End If
 
 
             If txtID.Text = "" Then
@@ -1224,7 +1234,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     End If
 
 
-                    ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO,ID_TIPO_BL, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, ID_USUARIO_STATUS, DT_VALIDADE_COTACAO,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO,DT_FOLLOWUP,ID_PARCEIRO_RODOVIARIO) VALUES ('" & txtNumeroCotacao.Text & "'," & ddlTipoBL.SelectedValue & ", getdate(), " & ddlStatusCotacao.SelectedValue & ", Convert(datetime, '" & txtDataStatus.Text & "', 103)," & ddlAnalista.SelectedValue & ", " & ddlAgente.SelectedValue & "," & ddlIncoterm.SelectedValue & "," & ddlEstufagem.SelectedValue & ", " & ddlDestinatarioComercial.SelectedValue & "," & ddlCliente.SelectedValue & "," & ddlClienteFinal.SelectedValue & ", " & ddlContato.SelectedValue & " , " & ddlServico.SelectedValue & " , " & ddlVendedor.SelectedValue & "," & ObsCliente & "," & ObsCancelamento & "," & ObsOperacional & "," & ddlMotivoCancelamento.SelectedValue & "," & ddlUsuarioStatus.SelectedValue & ",Convert(datetime, '" & txtValidade.Text & "', 103),'" & ckbFreeHand.Checked & "'," & ddlStatusFreteAgente.SelectedValue & ", " & ddlIndicador.SelectedValue & "," & ddlExportador.SelectedValue & "," & ddlImportador.SelectedValue & ",'" & ckbLTL.Checked & "','" & ckbDtaHub.Checked & "','" & ckbTranspDedicado.Checked & "'," & txtDataFollowUp.Text & "," & ddlTranspRodoviario.SelectedValue & ") Select SCOPE_IDENTITY() as ID_COTACAO ")
+                    ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO,ID_TIPO_BL, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, ID_USUARIO_STATUS, DT_VALIDADE_COTACAO,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO,DT_FOLLOWUP,ID_PARCEIRO_RODOVIARIO,FL_EMAIL_COTACAO) VALUES ('" & txtNumeroCotacao.Text & "'," & ddlTipoBL.SelectedValue & ", getdate(), " & ddlStatusCotacao.SelectedValue & ", Convert(datetime, '" & txtDataStatus.Text & "', 103)," & ddlAnalista.SelectedValue & ", " & ddlAgente.SelectedValue & "," & ddlIncoterm.SelectedValue & "," & ddlEstufagem.SelectedValue & ", " & ddlDestinatarioComercial.SelectedValue & "," & ddlCliente.SelectedValue & "," & ddlClienteFinal.SelectedValue & ", " & ddlContato.SelectedValue & " , " & ddlServico.SelectedValue & " , " & ddlVendedor.SelectedValue & "," & ObsCliente & "," & ObsCancelamento & "," & ObsOperacional & "," & ddlMotivoCancelamento.SelectedValue & "," & ddlUsuarioStatus.SelectedValue & ",Convert(datetime, '" & txtValidade.Text & "', 103),'" & ckbFreeHand.Checked & "'," & ddlStatusFreteAgente.SelectedValue & ", " & ddlIndicador.SelectedValue & "," & ddlExportador.SelectedValue & "," & ddlImportador.SelectedValue & ",'" & ckbLTL.Checked & "','" & ckbDtaHub.Checked & "','" & ckbTranspDedicado.Checked & "'," & txtDataFollowUp.Text & "," & ddlTranspRodoviario.SelectedValue & ",'" & ckbEmailCotacao.Checked & "'," & EmailCotacao & ") Select SCOPE_IDENTITY() as ID_COTACAO ")
 
                     Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALCOTACAO =  " & Session("NR_COTACAO") & ", ANOSEQUENCIALCOTACAO = YEAR(GETDATE())")
 
@@ -1295,7 +1305,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
 
                     'REALIZA UPDATE  
-                    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = " & ddlStatusCotacao.SelectedValue & ", DT_VALIDADE_COTACAO = Convert(datetime, '" & txtValidade.Text & "', 103), ID_AGENTE_INTERNACIONAL = " & ddlAgente.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm.SelectedValue & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & ", ID_DESTINATARIO_COMERCIAL = " & ddlDestinatarioComercial.SelectedValue & ", ID_CLIENTE = " & ddlCliente.SelectedValue & ", ID_CLIENTE_FINAL = " & ddlClienteFinal.SelectedValue & ", ID_CONTATO = " & ddlContato.SelectedValue & ", ID_SERVICO = " & ddlServico.SelectedValue & ", ID_VENDEDOR = " & ddlVendedor.SelectedValue & ", OB_CLIENTE = " & ObsCliente & ", OB_MOTIVO_CANCELAMENTO = " & ObsCancelamento & ", OB_OPERACIONAL = " & ObsOperacional & ", ID_MOTIVO_CANCELAMENTO = " & ddlMotivoCancelamento.SelectedValue & ", ID_TIPO_BL = " & ddlTipoBL.SelectedValue & ", FL_FREE_HAND = '" & ckbFreeHand.Checked & "', ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente.SelectedValue & ",ID_PARCEIRO_INDICADOR = " & ddlIndicador.SelectedValue & ", ID_PARCEIRO_EXPORTADOR  = " & ddlExportador.SelectedValue & ", ID_PARCEIRO_IMPORTADOR = " & ddlImportador.SelectedValue & ",FL_LTL = '" & ckbLTL.Checked & "',FL_DTA_HUB = '" & ckbDtaHub.Checked & "',FL_TRANSP_DEDICADO  = '" & ckbTranspDedicado.Checked & "', DT_FOLLOWUP = " & txtDataFollowUp.Text & ", ID_PARCEIRO_RODOVIARIO = " & ddlTranspRodoviario.SelectedValue & " WHERE ID_COTACAO = " & txtID.Text)
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = " & ddlStatusCotacao.SelectedValue & ", DT_VALIDADE_COTACAO = Convert(datetime, '" & txtValidade.Text & "', 103), ID_AGENTE_INTERNACIONAL = " & ddlAgente.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm.SelectedValue & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & ", ID_DESTINATARIO_COMERCIAL = " & ddlDestinatarioComercial.SelectedValue & ", ID_CLIENTE = " & ddlCliente.SelectedValue & ", ID_CLIENTE_FINAL = " & ddlClienteFinal.SelectedValue & ", ID_CONTATO = " & ddlContato.SelectedValue & ", ID_SERVICO = " & ddlServico.SelectedValue & ", ID_VENDEDOR = " & ddlVendedor.SelectedValue & ", OB_CLIENTE = " & ObsCliente & ", OB_MOTIVO_CANCELAMENTO = " & ObsCancelamento & ", OB_OPERACIONAL = " & ObsOperacional & ", ID_MOTIVO_CANCELAMENTO = " & ddlMotivoCancelamento.SelectedValue & ", ID_TIPO_BL = " & ddlTipoBL.SelectedValue & ", FL_FREE_HAND = '" & ckbFreeHand.Checked & "', ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente.SelectedValue & ",ID_PARCEIRO_INDICADOR = " & ddlIndicador.SelectedValue & ", ID_PARCEIRO_EXPORTADOR  = " & ddlExportador.SelectedValue & ", ID_PARCEIRO_IMPORTADOR = " & ddlImportador.SelectedValue & ",FL_LTL = '" & ckbLTL.Checked & "',FL_DTA_HUB = '" & ckbDtaHub.Checked & "',FL_TRANSP_DEDICADO  = '" & ckbTranspDedicado.Checked & "', DT_FOLLOWUP = " & txtDataFollowUp.Text & ", ID_PARCEIRO_RODOVIARIO = " & ddlTranspRodoviario.SelectedValue & ",FL_EMAIL_COTACAO = '" & ckbEmailCotacao.Checked & "', EMAIL_COTACAO = " & EmailCotacao & "  WHERE ID_COTACAO = " & txtID.Text)
 
 
                     If ddlStatusCotacao.SelectedValue <> Session("ID_STATUS") Then
