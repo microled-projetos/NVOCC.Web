@@ -1888,9 +1888,9 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
             ElseIf ddlConsultas.SelectedValue = 3 Then
                 FILTRO = " CLIENTE LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 4 Then
-                FILTRO = " Origem LIKE '%" & txtPesquisa.Text & "%' "
+                FILTRO = " ORIGEM LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 5 Then
-                FILTRO = " Destino LIKE '%" & txtPesquisa.Text & "%' "
+                FILTRO = " DESTINO LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 6 Then
                 FILTRO = " AGENTE LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 7 Then
@@ -1903,6 +1903,16 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 FILTRO = " CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 11 Then
                 FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 12 Then
+                FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 13 Then
+                FILTRO = " INCOTERM LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 14 Then
+                FILTRO = " ARMADOR LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 15 Then
+                FILTRO = " ANALISTA_COTACAO_INSIDE LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 16 Then
+                FILTRO = " ANALISTA_COTACAO_PRICING LIKE '%" & txtPesquisa.Text & "%' "
             End If
 
             Dim sql As String = "select * from [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO

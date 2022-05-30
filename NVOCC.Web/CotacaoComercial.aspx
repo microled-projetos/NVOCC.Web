@@ -87,6 +87,11 @@
                                                     <asp:ListItem Value="9">Nome Inside</asp:ListItem>
                                                     <asp:ListItem Value="10">Cliente Final</asp:ListItem>
                                                     <asp:ListItem Value="11">Via Transporte</asp:ListItem>
+                                                    <asp:ListItem Value="12">Estufagem</asp:ListItem>
+                                                    <asp:ListItem Value="13">Incoterm</asp:ListItem>
+                                                    <asp:ListItem Value="14">Armador</asp:ListItem>
+                                                    <asp:ListItem Value="15">Analista Inside</asp:ListItem>
+                                                    <asp:ListItem Value="16">Analista Pricing</asp:ListItem>
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -218,14 +223,18 @@
                                                     </asp:LinkButton>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="Cliente" HeaderText="Cliente" SortExpression="Cliente" />
-                                            <asp:BoundField DataField="Origem" HeaderText="Origem" SortExpression="Origem" />
-                                            <asp:BoundField DataField="Destino" HeaderText="Destino" SortExpression="Destino" />
+                                            <asp:BoundField DataField="CLIENTE" HeaderText="Cliente" SortExpression="CLIENTE" />
+                                            <asp:BoundField DataField="ORIGEM" HeaderText="Origem" SortExpression="ORIGEM" />
+                                            <asp:BoundField DataField="DESTINO" HeaderText="Destino" SortExpression="DESTINO" />
                                             <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="TIPO_ESTUFAGEM" />
                                             <asp:BoundField DataField="NR_PROCESSO_GERADO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO_GERADO" />
-                                            <asp:BoundField DataField="Servico" HeaderText="Serviço" SortExpression="Servico" />
-                                            <asp:BoundField DataField="Agente" HeaderText="Agente" SortExpression="Agente" />
+                                            <asp:BoundField DataField="SERVICO" HeaderText="Serviço" SortExpression="SERVICO" />
+                                            <asp:BoundField DataField="AGENTE" HeaderText="Agente" SortExpression="AGENTE" />
                                             <asp:BoundField DataField="CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="CLIENTE_FINAL" />
+                                            <asp:BoundField DataField="INCOTERM" HeaderText="Incoterm" SortExpression="INCOTERM" />
+                                            <asp:BoundField DataField="ARMADOR" HeaderText="Armador" SortExpression="ARMADOR" />
+                                            <asp:BoundField DataField="ANALISTA_COTACAO_INSIDE" HeaderText="Analista Inside" SortExpression="ANALISTA_COTACAO_INSIDE" />
+                                            <asp:BoundField DataField="ANALISTA_COTACAO_PRICING" HeaderText="Analista Pricing" SortExpression="ANALISTA_COTACAO_PRICING" />
                                         </Columns>
                                         <HeaderStyle CssClass="headerStyle" />
                                     </asp:GridView>
@@ -252,39 +261,7 @@
 
 
 
-
-
-    <%--<asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_COTACAO,NR_COTACAO,
-A.ID_PORTO_ORIGEM,
-(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM) Origem,
-
-A.ID_PORTO_DESTINO, 
-(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) Destino,
-
-A.ID_PORTO_ESCALA1,
-(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA1) Escala,
-
-A.ID_CLIENTE_FINAL,
-(SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = A.ID_CLIENTE_FINAL) CLIENTE_FINAL,
-ID_CLIENTE ,
-            (SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_CLIENTE )AS CLIENTE,
-(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_AGENTE_INTERNACIONAL and FL_AGENTE_INTERNACIONAL = 1) AGENTE,
-(SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = A.ID_CLIENTE_FINAL ) CLIENTE_FINAL,
-A.ID_TIPO_ESTUFAGEM,
-(SELECT NM_TIPO_ESTUFAGEM FROM TB_TIPO_ESTUFAGEM WHERE ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM) TIPO_ESTUFAGEM,
-
-A.NR_PROCESSO_GERADO,
-(SELECT NM_SERVICO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SERVICO,
-NR_COTACAO, 
-DT_ABERTURA,
-ID_STATUS_COTACAO,
-(SELECT NM_STATUS_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO)STATUS,
-(SELECT CD_COR FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO)COR,
-CASE WHEN DT_FOLLOWUP IS NOT NULL THEN 'REALIZADO' ELSE 'NÃO REALIZADO' END FOLLOWUP 
-FROM TB_COTACAO A ORDER BY ID_COTACAO DESC">
-</asp:SqlDataSource>--%>
-
+  
     <asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM View_Filtro_Cotacao ORDER BY ID_COTACAO DESC"></asp:SqlDataSource>
 
