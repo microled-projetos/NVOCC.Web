@@ -1565,7 +1565,7 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
 
             Else
 
-                If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 5 Then
+                If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 4 Then
                     'ALTERA FRETE
                     ds = Con.ExecutarQuery("UPDATE TB_COTACAO SET 
 ID_PORTO_ORIGEM = " & ddlOrigemFrete.SelectedValue & ",
@@ -1597,7 +1597,7 @@ FL_FRETE_DECLARADO = '" & ckFreteDeclarado.Checked & "',
 FL_FRETE_PROFIT = '" & ckFreteProfit.Checked & "' 
 WHERE ID_COTACAO = " & txtID.Text)
 
-                ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 4 Then
+                ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
 
 
                     'ALTERA FRETE
@@ -1643,6 +1643,10 @@ WHERE ID_COTACAO = " & txtID.Text)
 
                 AtualizaFreteMercadoria()
 
+                If (ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 1) And ddlEstufagemFrete.SelectedValue = 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
+                    AtualizaTaxaAgente()
+                End If
+
                 If Session("ID_STATUS") = 10 Then
                     Dim RotinaUpdate As New RotinaUpdate
                     RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
@@ -1684,6 +1688,21 @@ FL_FRETE_PROFIT = '" & ckFreteProfit.Checked & "'
 WHERE ID_COTACAO = " & txtID.Text)
 
     End Sub
+
+    Sub AtualizaTaxaAgente()
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet
+        If ddlFreteTransportador_Frete.SelectedValue <> 0 Then
+            ds = Con.ExecutarQuery("select ISNULL(ID_AGENTE,0)ID_AGENTE from TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & ddlFreteTransportador_Frete.SelectedValue)
+            If ds.Tables(0).Rows.Count > 0 Then
+                Dim ID_AGENTE As Integer = ds.Tables(0).Rows(0).Item("ID_AGENTE").ToString()
+                Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET ID_FORNECEDOR = " & ID_AGENTE & " WHERE FL_DECLARADO = 1 AND ID_COTACAO = " & txtID.Text)
+
+            End If
+        End If
+    End Sub
+
     Sub AtualizaFreteMercadoria()
         Dim Con As New Conexao_sql
         Con.Conectar()
