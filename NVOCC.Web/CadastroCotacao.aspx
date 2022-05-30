@@ -1261,7 +1261,7 @@
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Tipo de Item(Despesa):</label><label runat="server" style="color: red">*</label>
-                                                                        <asp:DropDownList ID="ddlItemDespesaTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA">
+                                                                        <asp:DropDownList ID="ddlItemDespesaTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA" AutoPostBack="true">
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
@@ -1413,6 +1413,7 @@
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvarTaxa" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnFecharTaxa" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlBaseCalculoTaxa" />
+                                                <asp:AsyncPostBackTrigger ControlID="ddlItemDespesaTaxa" />
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>

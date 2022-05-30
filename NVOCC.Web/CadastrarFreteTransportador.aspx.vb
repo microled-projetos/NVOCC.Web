@@ -956,4 +956,19 @@ SELECT " & txtID_FreteTransportador.Text & ", ID_ITEM_DESPESA, VL_TAXA_LOCAL_COM
             txtQtdBaseCalculo.Text = ""
         End If
     End Sub
+
+    Private Sub ddlItemDespesa_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlItemDespesa.SelectedIndexChanged
+        If ddlItemDespesa.SelectedValue = 71 Then
+            txtValorTaxaVenda.Enabled = False
+            txtValorTaxaVenda.Text = 0
+            txtValorTaxaVendaMin.Enabled = False
+            txtValorTaxaVendaMin.Text = 0
+            ddlMoedaVenda.Enabled = False
+            ddlMoedaVenda.SelectedValue = 0
+        Else
+            txtValorTaxaVenda.Enabled = True
+            txtValorTaxaVendaMin.Enabled = True
+            ddlMoedaVenda.Enabled = True
+        End If
+    End Sub
 End Class

@@ -4069,6 +4069,21 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
         If ds.Tables(0).Rows.Count > 0 Then
             ckbPremiacao_TaxaMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_PREMIACAO")
         End If
+        If ddlDespesa_TaxaMaritimo.SelectedValue = 71 Then
+            txtValorVenda_TaxaMaritimo.Enabled = False
+            txtValorVenda_TaxaMaritimo.Text = 0
+            txtMinVenda_TaxaMaritimo.Enabled = False
+            txtMinVenda_TaxaMaritimo.Text = 0
+            ddlMoedaVenda_TaxaMaritimo.Enabled = False
+            ddlMoedaVenda_TaxaMaritimo.SelectedValue = 0
+            ddlDestinatarioCob_TaxaMaritimo.Enabled = False
+            ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 3
+        Else
+            txtValorVenda_TaxaMaritimo.Enabled = True
+            txtMinVenda_TaxaMaritimo.Enabled = True
+            ddlMoedaVenda_TaxaMaritimo.Enabled = True
+            ddlDestinatarioCob_TaxaMaritimo.Enabled = True
+        End If
 
     End Sub
 
@@ -4080,6 +4095,22 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
         ds = Con.ExecutarQuery("SELECT FL_PREMIACAO FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue)
         If ds.Tables(0).Rows.Count > 0 Then
             ckbPremiacao_TaxaAereo.Checked = ds.Tables(0).Rows(0).Item("FL_PREMIACAO")
+        End If
+
+        If ddlDespesa_TaxaAereo.SelectedValue = 71 Then
+            txtValorVenda_TaxaAereo.Enabled = False
+            txtValorVenda_TaxaAereo.Text = 0
+            txtMinVenda_TaxaAereo.Enabled = False
+            txtMinVenda_TaxaAereo.Text = 0
+            ddlMoedaVenda_TaxaAereo.Enabled = False
+            ddlMoedaVenda_TaxaAereo.SelectedValue = 0
+            ddlDestinatarioCob_TaxaAereo.Enabled = False
+            ddlDestinatarioCob_TaxaAereo.SelectedValue = 3
+        Else
+            txtValorVenda_TaxaAereo.Enabled = True
+            txtMinVenda_TaxaAereo.Enabled = True
+            ddlMoedaVenda_TaxaAereo.Enabled = True
+            ddlDestinatarioCob_TaxaAereo.Enabled = True
         End If
 
     End Sub
