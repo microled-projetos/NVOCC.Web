@@ -1554,7 +1554,7 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
 
             Else
 
-                If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 5 Then
+                If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 4 Then
                     'ALTERA FRETE
                     ds = Con.ExecutarQuery("UPDATE TB_COTACAO SET 
 ID_PORTO_ORIGEM = " & ddlOrigemFrete.SelectedValue & ",
@@ -1586,7 +1586,7 @@ FL_FRETE_DECLARADO = '" & ckFreteDeclarado.Checked & "',
 FL_FRETE_PROFIT = '" & ckFreteProfit.Checked & "' 
 WHERE ID_COTACAO = " & txtID.Text)
 
-                ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 4 Then
+                ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
 
 
                     'ALTERA FRETE

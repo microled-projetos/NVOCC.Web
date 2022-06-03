@@ -779,7 +779,8 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                 Con.ExecutarQuery("DELETE From TB_CARGA_BL Where ID_CARGA_BL = " & ID)
 
                 If ds.Tables(0).Rows.Count > 0 Then
-                    Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL") & " AND ID_BL = " & txtID_BasicoMaritimo.Text)
+                    'Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL") & " AND ID_BL = " & txtID_BasicoMaritimo.Text)
+					 Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL") & "AND ID_CNTR_BL NOT IN (SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_BL = " & txtID_BasicoMaritimo.Text & ") AND ID_BL = " & txtID_BasicoMaritimo.Text)
                 End If
 
                 Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =

@@ -2040,33 +2040,33 @@ FROM TB_COTACAO_TAXA A
         }
 
 
-        function removerTR(id) {
-            id.remove();
-        }
+        //function removerTR(id) {
+        //    id.remove();
+        //}
 
-        function adicionarTR() {
-            // // Quantidade de linha da tabela
-            var qtdRows = document.getElementById("tbMedidasAereo").rows.length;
+        //function adicionarTR() {
+        //     // Quantidade de linha da tabela
+        //    var qtdRows = document.getElementById("tbMedidasAereo").rows.length;
 
-            var table = document.getElementById("tbMedidasAereo");
-            var newRow = table.insertRow(qtdRows);
-            var chave = "composto_" + qtdRows
-            newRow.id = chave;
+        //    var table = document.getElementById("tbMedidasAereo");
+        //    var newRow = table.insertRow(qtdRows);
+        //    var chave = "composto_" + qtdRows
+        //    newRow.id = chave;
 
-            // add cells to the row
-            var cel1 = newRow.insertCell(0);
-            var cel2 = newRow.insertCell(1);
-            var cel3 = newRow.insertCell(2);
-            var cel4 = newRow.insertCell(3);
-            var cel5 = newRow.insertCell(4);
+        //     add cells to the row
+        //    var cel1 = newRow.insertCell(0);
+        //    var cel2 = newRow.insertCell(1);
+        //    var cel3 = newRow.insertCell(2);
+        //    var cel4 = newRow.insertCell(3);
+        //    var cel5 = newRow.insertCell(4);
 
 
-            // add values to the cells
-            cel1.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "QtdCaixas" + qtdRows + "'></div>";
-            cel2.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Comprimento" + qtdRows + "'></div>";
-            cel3.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Largura" + qtdRows + "'></div>";
-            cel4.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Altura" + qtdRows + "'></div>";
-            cel5.innerHTML = "<div class='col-sm-12'><a href='#' onClick='removerTR(" + "composto_" + qtdRows + ");'><img src='Content/imagens/minus.png'></a></div>";
-        }
+        //     add values to the cells
+        //    cel1.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "QtdCaixas" + qtdRows + "'></div>";
+        //    cel2.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Comprimento" + qtdRows + "'></div>";
+        //    cel3.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Largura" + qtdRows + "'></div>";
+        //    cel4.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Altura" + qtdRows + "'></div>";
+        //    cel5.innerHTML = "<div class='col-sm-12'><a href='#' onClick='removerTR(" + "composto_" + qtdRows + ");'><img src='Content/imagens/minus.png'></a></div>";
+        //}
     </script>
 </asp:Content>
