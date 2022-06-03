@@ -3560,18 +3560,24 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             Else
                 'VERIFICA SE HÁ AMARRAÇÃO DE CNTR SELECIONADO NO FORMULARIO
                 Dim dsAMRNovo As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
-                'CASO EXISTA
+
                 If dsAMRNovo.Tables(0).Rows.Count = 0 Then
-                    'CASO SIM, CHAMA ROTINA DE INSERÇÃO
+                    'CASO NAO EXISTA, CHAMA ROTINA DE INSERÇÃO
                     Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
-
-
                 End If
 
 
             End If
 
+        Else
 
+            'VERIFICA SE HÁ AMARRAÇÃO DE CNTR SELECIONADO NO FORMULARIO
+            Dim dsAMRNovo As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
+
+            If dsAMRNovo.Tables(0).Rows.Count = 0 Then
+                'CASO NAO EXISTA, CHAMA ROTINA DE INSERÇÃO
+                Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
+            End If
         End If
     End Sub
 
