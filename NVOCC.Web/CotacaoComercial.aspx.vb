@@ -1913,6 +1913,8 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 FILTRO = " ANALISTA_COTACAO_INSIDE LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 16 Then
                 FILTRO = " ANALISTA_COTACAO_PRICING LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 17 Then
+                FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
             End If
 
             Dim sql As String = "select * from [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO

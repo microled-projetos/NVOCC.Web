@@ -455,7 +455,9 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
     Private Sub btnFecharTaxa_Click(sender As Object, e As EventArgs) Handles btnFecharTaxa.Click
         divSuccessTaxa.Visible = False
         divErroTaxa.Visible = False
-
+        txtValorTaxaVenda.Enabled = True
+        txtValorTaxaVendaMin.Enabled = True
+        ddlMoedaVenda.Enabled = True
         txtIDTaxa.Text = ""
         ddlItemDespesa.SelectedValue = 0
         ddlOrigemPagamento.SelectedValue = 0

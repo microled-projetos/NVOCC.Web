@@ -794,7 +794,8 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                 Con.ExecutarQuery("DELETE From TB_CARGA_BL Where ID_CARGA_BL = " & ID)
 
                 If ds.Tables(0).Rows.Count > 0 Then
-                    Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL") & " AND ID_BL = " & txtID_BasicoMaritimo.Text)
+
+                    Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL") & "AND ID_CNTR_BL NOT IN (SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_BL = " & txtID_BasicoMaritimo.Text & ") AND ID_BL = " & txtID_BasicoMaritimo.Text)
                 End If
 
                 Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
@@ -1924,6 +1925,10 @@ WHERE ID_CARGA_BL = " & ID)
     End Sub
 
     Private Sub btnFechar_TaxaAereo_Click(sender As Object, e As EventArgs) Handles btnFechar_TaxaAereo.Click
+        txtValorVenda_TaxaAereo.Enabled = True
+        txtMinVenda_TaxaAereo.Enabled = True
+        ddlMoedaVenda_TaxaAereo.Enabled = True
+        ddlDestinatarioCob_TaxaAereo.Enabled = True
         divErro_TaxaAereo2.Visible = False
         divSuccess_TaxaAereo2.Visible = False
         ddlDespesa_TaxaAereo.SelectedValue = 0
@@ -1949,6 +1954,10 @@ WHERE ID_CARGA_BL = " & ID)
     End Sub
 
     Private Sub btnFechar_TaxaMaritimo_Click(sender As Object, e As EventArgs) Handles btnFechar_TaxaMaritimo.Click
+        txtValorVenda_TaxaMaritimo.Enabled = True
+        txtMinVenda_TaxaMaritimo.Enabled = True
+        ddlMoedaVenda_TaxaMaritimo.Enabled = True
+        ddlDestinatarioCob_TaxaMaritimo.Enabled = True
         divErro_TaxaMaritimo2.Visible = False
         divSuccess_TaxaMaritimo2.Visible = False
         txtID_TaxaMaritimo.Text = ""
@@ -1972,6 +1981,7 @@ WHERE ID_CARGA_BL = " & ID)
         lblTipoEmpresa_Maritimo.Text = "Fornecedor:"
         ddlDestinatarioCob_TaxaMaritimo.Enabled = True
         mpeTaxaMaritimo.Hide()
+
     End Sub
 
     Private Sub btnGravar_ObsAereo_Click(sender As Object, e As EventArgs) Handles btnGravar_ObsAereo.Click

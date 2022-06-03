@@ -92,6 +92,7 @@
                                                     <asp:ListItem Value="14">Armador</asp:ListItem>
                                                     <asp:ListItem Value="15">Analista Inside</asp:ListItem>
                                                     <asp:ListItem Value="16">Analista Pricing</asp:ListItem>
+                                                    <asp:ListItem Value="17">Serviço</asp:ListItem>
                                                 </asp:DropDownList>
                                             </div>
                                         </div>

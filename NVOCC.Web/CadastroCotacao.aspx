@@ -411,7 +411,7 @@
                                          <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label" style="color: white">X</label>
-                                                <asp:CheckBox ID="ckbEmailCotacao" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;EMAIL COTAÇÃO"></asp:CheckBox>
+                                                <asp:CheckBox ID="ckbEmailCotacao" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;ENVIAR E-MAIL PARA O CLIENTE"></asp:CheckBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -438,7 +438,7 @@
                                         </div>
                                          <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label class="control-label">Emails:</label>
+                                                <label class="control-label">Email's para envio da cotação:</label>                      
                                                 <asp:TextBox ID="txtEmailCotacao" runat="server" CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
                                             </div>
                                         </div>
