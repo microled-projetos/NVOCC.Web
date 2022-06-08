@@ -1116,27 +1116,33 @@ WHERE A.ID_COTACAO_MERCADORIA = " & ID)
         txtAbertura.Text = txtAbertura.Text.Replace("-", "/")
 
         If txtAbertura.Text = "" Or ddlStatusCotacao.SelectedValue = 0 Or ddlUsuarioStatus.SelectedValue = 0 Or txtValidade.Text = "" Or ddlDestinatarioComercial.SelectedValue = 0 Or ddlAnalista.SelectedValue = 0 Or ddlCliente.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlEstufagem.SelectedValue = 0 Or ddlTipoBL.SelectedValue = 0 Or ddlServico.SelectedValue = 0 Or ddlVendedor.SelectedValue = 0 Then
+            ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
             lblmsgErro.Text = "Preencha todos os campos obrigatórios na Aba de Informações Básicas."
             diverro.Visible = True
 
         ElseIf v.ValidaData(txtAbertura.Text) = False Or IsDate(txtAbertura.Text) = False Then
+            ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
             diverro.Visible = True
             lblmsgErro.Text = "A data de abertura é inválida."
 
         ElseIf v.ValidaData(txtValidade.Text) = False Or IsDate(txtValidade.Text) = False Then
+            ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
             diverro.Visible = True
             lblmsgErro.Text = "A data de validade é inválida."
 
         ElseIf txtProcessoCotacao.Text = "" And ddlStatusCotacao.SelectedValue = 10 Then
+            ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
             diverro.Visible = True
             lblmsgErro.Text = "Apenas cotações com número de processo gerado podem ser colocadas em update!"
 
 
         ElseIf ddlAgente.SelectedValue = 0 And (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) Then
+            ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
             diverro.Visible = True
             lblmsgErro.Text = "Apenas cotações com agente preechido podem ser aprovadas!"
 
         ElseIf (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) And txtDataCalculo.Text = "" Then
+            ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
             diverro.Visible = True
             lblmsgErro.Text = "Necessário calcular cotação!"
             Exit Sub
@@ -1145,6 +1151,7 @@ WHERE A.ID_COTACAO_MERCADORIA = " & ID)
 
             If txtDataFollowUp.Text <> "" Then
                 If v.ValidaData(txtDataFollowUp.Text) = False Or IsDate(txtDataFollowUp.Text) = False Then
+                    ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
                     lblmsgErro.Text = "Preencha todos os campos obrigatórios na Aba de Informações Básicas."
                     diverro.Visible = True
                     Exit Sub
@@ -1158,6 +1165,7 @@ WHERE A.ID_COTACAO_MERCADORIA = " & ID)
             Dim dsContatos As DataSet = Con.ExecutarQuery("SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_PARCEIRO = " & ddlCliente.SelectedValue & "
 union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
             If dsContatos.Tables(0).Rows.Count > 1 And ddlContato.SelectedValue = 0 Then
+                ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
                 lblmsgErro.Text = "Preencha todos os campos obrigatórios na Aba de Informações Básicas."
                 diverro.Visible = True
                 Exit Sub
@@ -1206,6 +1214,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
                     diverro.Visible = True
                     lblmsgErro.Text = "Usuário não possui permissão para cadastrar."
                     Exit Sub
@@ -1213,6 +1222,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                 Else
 
                     If ddlTipoPagamento_Frete.SelectedValue = 0 And (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) Then
+                        ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
                         lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
                         diverro.Visible = True
                         Exit Sub
@@ -1231,6 +1241,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     txtNumeroCotacao.Text = NumeroCotacao()
 
                     If txtNumeroCotacao.Text = "" Then
+                        ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
                         lblmsgErro.Text = "Preencha todos os campos obrigatórios na Aba de Informações Básicas."
                         diverro.Visible = True
                         Exit Sub
@@ -1265,6 +1276,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
             Else
 
                 If (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) And ValorMinimoPendente(txtID.Text) = True Then
+                    ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
                     diverro.Visible = True
                     lblmsgErro.Text = "Cotação contém taxa(s) com valor minimo vazio!"
                     Exit Sub
@@ -1273,6 +1285,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
                     diverro.Visible = True
                     lblmsgErro.Text = "Usuário não possui permissão para alterar."
                     Exit Sub
@@ -1283,6 +1296,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     If d1.Tables(0).Rows.Count > 0 Then
 
                         If d1.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO") = 0 And (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) Then
+                            ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
                             lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
                             diverro.Visible = True
 
@@ -1293,6 +1307,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                         End If
                         If txtValidade.Text < Now.Date And (ddlStatusCotacao.SelectedValue = 9) Then
                             If txtProcessoCotacao.Text = "" Then
+                                ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
                                 diverro.Visible = True
                                 lblmsgErro.Text = "Cotação com data de validade inferior a data atual!"
 
