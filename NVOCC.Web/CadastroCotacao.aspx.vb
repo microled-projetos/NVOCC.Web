@@ -290,7 +290,14 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
 
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR")) Then
-                Dim sql As String = "SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR As varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE  ( ID_FRETE_TRANSPORTADOR = " & ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR").ToString() & ") or (ID_PORTO_ORIGEM =  " & ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString() & " AND ID_PORTO_DESTINO = " & ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO").ToString() & " ) union SELECT  0, 'Selecione' ORDER BY ID_FRETE_TRANSPORTADOR "
+                Dim sql As String = ""
+                If ds.Tables(0).Rows(0).Item("ID_SERVICO").ToString() <= 2 And ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM").ToString() = 2 And ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL").ToString() <> 0 Then
+                    sql = "SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR As varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE  ( ID_FRETE_TRANSPORTADOR = " & ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR").ToString() & ") or (ID_PORTO_ORIGEM =  " & ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString() & " AND ID_PORTO_DESTINO = " & ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO").ToString() & "  AND ID_AGENTE = " & ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL").ToString() & " ) union SELECT  0, 'Selecione' ORDER BY ID_FRETE_TRANSPORTADOR "
+                Else
+
+                    sql = "SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR As varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE  ( ID_FRETE_TRANSPORTADOR = " & ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR").ToString() & ") or (ID_PORTO_ORIGEM =  " & ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString() & " AND ID_PORTO_DESTINO = " & ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO").ToString() & " ) union SELECT  0, 'Selecione' ORDER BY ID_FRETE_TRANSPORTADOR "
+
+                End If
 
                 Dim ds1 As DataSet = Con.ExecutarQuery(sql)
                 If ds1.Tables(0).Rows.Count > 0 Then
@@ -550,7 +557,7 @@ FROM TB_COTACAO A where ID_CLIENTE = " & Session("ID_CLIENTE") & " AND ID_TIPO_E
             divSuccessFrete.Visible = False
             divInfoFrete.Visible = False
             ds = Con.ExecutarQuery("
-SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TIPO_PAGAMENTO,ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN ,VL_TOTAL_FRETE_COMPRA_MIN,TRANSITTIME_TRUCKING_AEREO ,FINAL_DESTINATION,ISNULL(FL_FRETE_DECLARADO,0)FL_FRETE_DECLARADO,ISNULL(FL_FRETE_PROFIT,0)FL_FRETE_PROFIT FROM TB_COTACAO WHERE ID_COTACAO = " & ID)
+SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TIPO_PAGAMENTO,ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN ,VL_TOTAL_FRETE_COMPRA_MIN,TRANSITTIME_TRUCKING_AEREO ,FINAL_DESTINATION,ISNULL(FL_FRETE_DECLARADO,0)FL_FRETE_DECLARADO,ISNULL(FL_FRETE_PROFIT,0)FL_FRETE_PROFIT, ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL FROM TB_COTACAO WHERE ID_COTACAO = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
                 'Frete
@@ -623,7 +630,18 @@ SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ES
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR")) Then
 
-                    Dim sql As String = "SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR As varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE  ( ID_FRETE_TRANSPORTADOR = " & ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR").ToString() & ") or (ID_PORTO_ORIGEM =  " & ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString() & " AND ID_PORTO_DESTINO = " & ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO").ToString() & " AND ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & " ) union SELECT  0, 'Selecione' ORDER BY ID_FRETE_TRANSPORTADOR "
+
+
+                    Dim sql As String = ""
+
+                    If ddlServico.SelectedValue <= 2 And ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM").ToString() = 2 And ddlAgente.SelectedValue <> 0 Then
+                        sql = "SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR As varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE  ( ID_FRETE_TRANSPORTADOR = " & ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR").ToString() & ") or (ID_PORTO_ORIGEM =  " & ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString() & " AND ID_PORTO_DESTINO = " & ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO").ToString() & " AND ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & "  AND ID_AGENTE = " & ddlAgente.SelectedValue & ") union SELECT  0, 'Selecione' ORDER BY ID_FRETE_TRANSPORTADOR "
+
+                    Else
+                        sql = "SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR As varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE  ( ID_FRETE_TRANSPORTADOR = " & ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR").ToString() & ") or (ID_PORTO_ORIGEM =  " & ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString() & " AND ID_PORTO_DESTINO = " & ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO").ToString() & " AND ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & " ) union SELECT  0, 'Selecione' ORDER BY ID_FRETE_TRANSPORTADOR "
+
+                    End If
+
 
                     Dim ds1 As DataSet = Con.ExecutarQuery(sql)
                     If ds1.Tables(0).Rows.Count > 0 Then
@@ -3956,9 +3974,27 @@ QTD_BASE_CALCULO = " & txtQtdBaseCalculo.Text & "
         Next
     End Sub
     Private Sub ddlDestinoFrete_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlDestinoFrete.SelectedIndexChanged
-        If ddlDestinoFrete.SelectedValue <> 0 And ddlOrigemFrete.SelectedValue <> 0 And ddlTransportadorFrete.SelectedValue <> 0 Then
+        CarregaTabelaFrete()
+    End Sub
 
-            Dim sql As String = "SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR As varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE convert(date,DT_VALIDADE_FINAL,103) >= convert(date, getdate(),103) AND ID_PORTO_ORIGEM = " & ddlOrigemFrete.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestinoFrete.SelectedValue & " AND ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & " union SELECT  0, 'Selecione' ORDER BY ID_FRETE_TRANSPORTADOR "
+    Private Sub ddlOrigemFrete_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlOrigemFrete.SelectedIndexChanged
+        CarregaTabelaFrete()
+    End Sub
+
+    Private Sub ddlTransportadorFrete_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTransportadorFrete.SelectedIndexChanged
+        CarregaTabelaFrete()
+    End Sub
+
+    Sub CarregaTabelaFrete()
+        If ddlDestinoFrete.SelectedValue <> 0 And ddlOrigemFrete.SelectedValue <> 0 And ddlTransportadorFrete.SelectedValue <> 0 Then
+            Dim sql As String = ""
+
+            If ddlServico.SelectedValue <= 2 And ddlEstufagemFrete.SelectedValue = 2 And ddlAgente.SelectedValue <> 0 Then
+                sql = "SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR As varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE convert(date,DT_VALIDADE_FINAL,103) >= convert(date, getdate(),103) AND ID_PORTO_ORIGEM = " & ddlOrigemFrete.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestinoFrete.SelectedValue & " AND ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & " AND ID_AGENTE = " & ddlAgente.SelectedValue & "  union SELECT  0, 'Selecione' ORDER BY ID_FRETE_TRANSPORTADOR "
+            Else
+                sql = "SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR As varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE convert(date,DT_VALIDADE_FINAL,103) >= convert(date, getdate(),103) AND ID_PORTO_ORIGEM = " & ddlOrigemFrete.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestinoFrete.SelectedValue & " AND ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & " union SELECT  0, 'Selecione' ORDER BY ID_FRETE_TRANSPORTADOR "
+            End If
+
             Dim Con As New Conexao_sql
             Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery(sql)
@@ -5203,35 +5239,7 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         End If
     End Sub
 
-    Private Sub ddlOrigemFrete_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlOrigemFrete.SelectedIndexChanged
-        If ddlDestinoFrete.SelectedValue <> 0 And ddlOrigemFrete.SelectedValue <> 0 And ddlTransportadorFrete.SelectedValue <> 0 Then
 
-            Dim sql As String = "SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR As varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE convert(date,DT_VALIDADE_FINAL,103) >= convert(date, getdate(),103) AND ID_PORTO_ORIGEM = " & ddlOrigemFrete.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestinoFrete.SelectedValue & " AND ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & " union SELECT  0, 'Selecione' ORDER BY ID_FRETE_TRANSPORTADOR "
-            Dim Con As New Conexao_sql
-            Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery(sql)
-            If ds.Tables(0).Rows.Count > 0 Then
-                dsFreteTransportador.SelectCommand = sql
-                ddlFreteTransportador_Frete.DataBind()
-            End If
-            Con.Fechar()
-        End If
-    End Sub
-
-    Private Sub ddlTransportadorFrete_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTransportadorFrete.SelectedIndexChanged
-        If ddlDestinoFrete.SelectedValue <> 0 And ddlOrigemFrete.SelectedValue <> 0 And ddlTransportadorFrete.SelectedValue <> 0 Then
-
-            Dim sql As String = "SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR As varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE convert(date,DT_VALIDADE_FINAL,103) >= convert(date, getdate(),103) AND ID_PORTO_ORIGEM = " & ddlOrigemFrete.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestinoFrete.SelectedValue & " AND ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & " union SELECT  0, 'Selecione' ORDER BY ID_FRETE_TRANSPORTADOR "
-            Dim Con As New Conexao_sql
-            Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery(sql)
-            If ds.Tables(0).Rows.Count > 0 Then
-                dsFreteTransportador.SelectCommand = sql
-                ddlFreteTransportador_Frete.DataBind()
-            End If
-            Con.Fechar()
-        End If
-    End Sub
 
     Private Sub ddlTipoContainerMercadoria_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoContainerMercadoria.SelectedIndexChanged
         If ddlTipoContainerMercadoria.SelectedValue <> 0 Then
