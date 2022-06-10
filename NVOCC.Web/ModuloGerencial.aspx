@@ -97,6 +97,8 @@
                                             <th class="text-center" scope="col">TIPO</th>
                                             <th class="text-center" scope="col">ORIGEM</th>
                                             <th class="text-center" scope="col">DESTINO</th>
+                                            <th class="text-center" scope="col">STATUS COTAÇÃO</th>
+                                            <th class="text-center" scope="col">DATA CANCELAMENTO</th>
                                             <th class="text-center" scope="col">S.I</th>
                                             <th class="text-center" scope="col">ETD</th>
                                             <th class="text-center" scope="col">ETA</th>
@@ -175,6 +177,8 @@
                                 "<td class='text-center'>" + dado[i]["TIPO"] + "</td>" +
                                 "<td class='text-center' title='" + dado[i]["ORIGEM"] + "' style='max-width: 10ch;'>" + dado[i]["ORIGEM"] + "</td>" +
                                 "<td class='text-center'  title='" + dado[i]["DESTINO"] + "' style='max-width: 10ch;'>" + dado[i]["DESTINO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["STATUS_COTACAO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DTCANCELAMENTO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DTABERTURA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["ETD"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["ETA"] + "</td>" +

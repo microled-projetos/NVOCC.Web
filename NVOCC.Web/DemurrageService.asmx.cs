@@ -2292,7 +2292,7 @@ namespace ABAINFRA.Web
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE DT_COMPETENCIA = '" + idFatura + "' ";
                     string deleteContaPagarReceber = DBS.ExecuteScalar(SQL);
 
-                    SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', DT_EXPORTACAO_DEMURRAGE = NULL ";
+                    SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', DT_EXPORTACAO_DEMURRAGE = NULL, ";
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
                     string updateFatura = DBS.ExecuteScalar(SQL);
 
@@ -2328,7 +2328,7 @@ namespace ABAINFRA.Web
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE DT_COMPETENCIA = '" + idFatura + "' ";
                     string deleteContaPagarReceber = DBS.ExecuteScalar(SQL);
 
-                    SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', DT_EXPORTACAO_DEMURRAGE_COMPRA = NULL ";
+                    SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', DT_EXPORTACAO_DEMURRAGE_COMPRA = NULL, ";
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
                     string updateFatura = DBS.ExecuteScalar(SQL);
 
@@ -2682,7 +2682,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(N.NM_NAVIO,'') AS NAVIO, ISNULL(M.NR_BL,'') AS MASTER, ISNULL(B.NR_BL,'') AS HOUSE ";
             SQL += "from TB_DEMURRAGE_FATURA A ";
             SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
-            SQL += "LEFT JOIN TB_PARCEIRO P1 ON B.ID_PARCEIRO_CLIENTE = P1.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P1 ON B.ID_PARCEIRO_IMPORTADOR = P1.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON B.ID_PARCEIRO_EXPORTADOR = P2.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_NAVIO N ON B.ID_NAVIO = N.ID_NAVIO ";
             SQL += "LEFT JOIN TB_PORTO ORIGEM ON B.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
@@ -7602,9 +7602,11 @@ namespace ABAINFRA.Web
             SQL = "select ISNULL(FORMAT(DT_SOLICITACAO,'dd/MM/yyyy'),'') AS SOLICITACAO, ISNULL(INSIDE,'') AS INSIDE, ";
             SQL += "ISNULL(NR_COTACAO, '') AS NR_COTACAO, ISNULL(MODAL, '') AS MODAL, ISNULL(CD_INCOTERM, '') AS INCOTERM, ";
             SQL += "ISNULL(NM_CLIENTE, '') AS CLIENTE, ISNULL(NM_SUB_CLIENTE, '') AS SUB_CLIENTE, ISNULL(NM_ORIGEM, '') AS  ORIGEM, ";
-            SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ISNULL(NM_STATUS_COTACAO, '') AS STATUS_COTACAO, ";
+            SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,SOLICITACAO,103),'') AS SOLICITACAO, ISNULL(CONVERT(VARCHAR,ANALISE,103),'') AS ANALISE, ISNULL(CONVERT(VARCHAR,INFO_PEND,103),'') AS INFO_PEND, ISNULL(CONVERT(VARCHAR,LIBERADA_INSIDE,103),'') AS LIBERADA_INSIDE, ISNULL(CONVERT(VARCHAR,RENEG,103),'') AS RENEG, ISNULL(CONVERT(VARCHAR,AGUARD_APROV,103),'') AS AGUARD_APROV, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,CANCELADA,103),'') AS CANCELADA, ISNULL(CONVERT(VARCHAR,REJEITADA,103),'') AS REJEITADA, ISNULL(CONVERT(VARCHAR,APROVADA,103),'') AS APROVADA, ISNULL(CONVERT(VARCHAR,EM_UPDATE,103),'') AS EM_UPDATE, ISNULL(CONVERT(VARCHAR,DECLINADA,103),'') AS DECLINADA, ISNULL(CONVERT(VARCHAR,FINALIZADA_PAG,103),'') AS FINALIZADA_PAG, ISNULL(CONVERT(VARCHAR,EM_FUP,103),'') AS EM_FUP, ISNULL(CONVERT(VARCHAR,APROV_EDIT,103),'') AS APROV_EDIT, ";
             SQL += "ISNULL(NM_MOTIVO_CANCELAMENTO,'') AS MOTIVO, ISNULL(OB_MOTIVO_CANCELAMENTO,'') AS OBS_MOTIVO ";
-            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "', "+Session["ID_USUARIO"]+") ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
             SQL += "ORDER BY DT_SOLICITACAO ";
@@ -7989,7 +7991,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarContasAReceberAPagar(string dataI, string dataF, string nota, string filter)
+        public string listarContasAReceberAPagar(string dataI, string dataF, string nota, string filter, string origem)
         {
             string SQL;
 
@@ -8009,10 +8011,10 @@ namespace ABAINFRA.Web
                     nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
                     break;
                 case "2":
-                    nota = "AND NM_CLIENTE_REC LIKE '" + nota + "%' ";
+                    nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
                     break;
                 case "3":
-                    nota = "AND NM_FORNECEDOR_PAG LIKE '" + nota + "%' ";
+                    nota = "AND NM_FORNECEDOR LIKE '" + nota + "%' ";
                     break;
                 case "4":
                     nota = "AND NR_BL_MASTER LIKE '" + nota + "%' ";
@@ -8021,6 +8023,20 @@ namespace ABAINFRA.Web
                     nota = "";
                     break;
             }
+
+            switch (origem)
+            {
+                case "1":
+                    origem = "AND ID_ORIGEM_PAGAMENTO = " + origem + " ";
+                    break;
+                case "2":
+                    origem = "AND ID_ORIGEM_PAGAMENTO = " + origem + " ";
+                    break;
+                default:
+                    origem = "";
+                    break;
+            }
+
             SQL = "SELECT ISNULL(NR_PROCESSO,'') AS PROCESSO, ";
             SQL += "ISNULL(NR_BL_MASTER, '') AS MBL, ";
             SQL += "ISNULL(TP_SERVICO, '') AS SERVICO, ";
@@ -8040,6 +8056,7 @@ namespace ABAINFRA.Web
             SQL += "FROM dbo.FN_PREVISIBILIDADE_SALDO('" + dataI + "','" + dataF + "','') "; 
             SQL += "WHERE RIGHT(NR_PROCESSO,2) >= 18 ";
             SQL += "" + nota + "";
+            SQL += "" + origem + "";
             SQL += "ORDER BY NR_PROCESSO, NM_ITEM_DESPESA ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
