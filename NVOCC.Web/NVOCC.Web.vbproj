@@ -267,8 +267,6 @@
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
     <Content Include="CadastrarEquipe.aspx" />
     <Content Include="CadastrarTipoFaturamento.aspx" />
-    <Content Include="Content\Arquivos\Agente236682\teste.png" />
-    <Content Include="Content\Arquivos\Faturamento420\teste.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -363,7 +361,6 @@
     <Content Include="Content\js\webcam.js" />
     <Content Include="Content\js\webcam.min.js" />
     <Content Include="Content\PDFAuxiliar.pdf" />
-    <Content Include="Content\remessa\arquivo_remessa_2835.txt" />
     <Content Include="Content\ScrollableGridPlugin.js" />
     <Content Include="Content\Site.css" />
     <Content Include="FaturamentoArquivo.aspx" />
@@ -559,21 +556,6 @@
     <Content Include="RelatorioProcessos.aspx.designer.cs" />
     <Content Include="RelatorioVendedor.aspx" />
     <Content Include="RemessaBoletos.aspx" />
-    <Content Include="Content\Arquivos\Faturamento0\OF FCALOG  COMISSÃO DE AGENTES PARCEIROS  TRANSPORTE  REF. WS 1221 JDL 0121 HH1121.msg" />
-    <Content Include="Content\Arquivos\Faturamento0\Re M4968-1221 - PREVISÃO DE CHEGADA - SHANGHAI x SANTOS - HBL SHSTS2201226EGM LOGISTICA INTERNACIONA" />
-    <Content Include="Content\Arquivos\Faturamento0\Re M4968-1221 - PREVISÃO DE CHEGADA - SHANGHAI x SANTOS - HBL SHSTS2201226EGM LOGISTICA INTERNACIONAL LTDA - 31.968.6590001-60IMPORTADOR EGM LOGISTICA" />
-    <Content Include="Content\Arquivos\Faturamento0\Re M4968-1221 - PREVISÃO DE CHEGADA - SHANGHAI x SANTOS - HBL SHSTS2201226EGM LOGISTICA INTERNACIONAL LTDA - 31.968.6590001-60IMPORTADOR EGM LOGISTICA INTE" />
-    <Content Include="Content\Arquivos\Faturamento0\Re M4968-1221 - PREVISÃO DE CHEGADA - SHANGHAI x SANTOS - HBL SHSTS2201226EGM LOGISTICA INTERNACIONAL LTDA - 31.968.6590001-60IMPORTADOR EGM LOGISTICA.msg" />
-    <Content Include="Content\Arquivos\Faturamento0\RES_ AVISO DE COBRANÇA M0283-01_22 HBL FCA20210637 - SHENZHEN x SANTOSNAVIO_ KURE - DATA DE CHEGADA_ 03_03_2022REFERÊNCIA_ MARS #20 %283%29.msg" />
-    <Content Include="Content\Arquivos\Faturamento0\teste.msg" />
-    <Content Include="Content\Arquivos\Faturamento417\Parte 2.eml" />
-    <Content Include="Content\Arquivos\Faturamento424\RES_ AVISO DE COBRANÇA M0283-01_22 HBL FCA20210637 - SHENZHEN x SANTOSNAVIO_ KURE - DATA DE CHEGADA_ 03_03_2022REFERÊNCIA_ MARS #20.msg" />
-    <Content Include="Content\Arquivos\Faturamento440\Re M4968-1221 - PREVISÃO DE CHEGADA - SHANGHAI x SANTOS - HBL SHSTS2201226EGM LOGISTICA INTERNACIONAL LTDA - 31.968.6590001-60IMPORTADOR EGM LOGISTICA" />
-    <Content Include="Content\boletos\BOLETO M0600-02-22.pdf" />
-    <Content Include="Content\cotacoes\CotacaoPDF_0000037.pdf" />
-    <Content Include="Content\cotacoes\CotacaoPDF_0000041.pdf" />
-    <Content Include="Content\cotacoes\CotacaoPDF_0001601.pdf" />
-    <Content Include="Content\imagens\os fca 040450222 # 1129.pdf" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1247,10 +1229,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Arquivos\Agente9302\" />
-    <Folder Include="Content\Arquivos\Faturamento437\" />
-    <Folder Include="Content\Arquivos\Faturamento438\" />
-    <Folder Include="Content\Arquivos\Faturamento439\" />
+    <Folder Include="Content\Arquivos\" />
+    <Folder Include="Content\boletos\" />
+    <Folder Include="Content\cotacoes\" />
+    <Folder Include="Content\remessa\" />
     <Folder Include="UPLOADS\" />
   </ItemGroup>
   <ItemGroup>
