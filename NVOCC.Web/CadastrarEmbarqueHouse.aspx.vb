@@ -3089,6 +3089,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         Dim ds As DataSet
         Dim v As New VerificaData
 
+        If ddlExportador_BasicoAereo.SelectedValue = 71 Then
+            txtValorVenda_TaxaAereo.Text = "0"
+            txtMinVenda_TaxaAereo.Text = "0"
+            ddlDestinatarioCob_TaxaAereo.SelectedValue = 3
+        End If
 
         If txtQtdVolumes_CargaMaritimo.Text = "" Then
             txtQtdVolumes_CargaMaritimo.Text = 0
@@ -3317,7 +3322,92 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         mpeCargaMaritimo.Show()
 
     End Sub
+    Sub AMR_CNTR_UPDATE(ID_BL As Integer, ID_CARGA_BL As Integer)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim cntr As Integer
 
+        'COMPARARA CNTR ATUAL(ANTES DO UPDATE) COM O CNTR DO FORMULARIO
+        Dim dsCNTR As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_CNTR_BL,0)ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL)
+        If dsCNTR.Tables(0).Rows.Count > 0 Then
+            cntr = dsCNTR.Tables(0).Rows(0).Item("ID_CNTR_BL")
+        End If
+        'CASO SEJAM DIFERENTES
+        If cntr <> ddlNumeroCNTR_CargaMaritimo.SelectedValue Then
+
+            'VERIFICA SE HÁ AMARRAÇÃO DE CNTR ATUAL(ANTES DO UPDATE)
+            Dim dsAMRAtual As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL =(SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL & ")")
+
+
+            'CASO EXISTA
+            If dsAMRAtual.Tables(0).Rows.Count > 0 Then
+                'VERIFICA SE HÁ AMARRAÇÃO DE CNTR SELECIONADO NO FORMULARIO
+                Dim dsAMRNovo As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
+                'CASO EXISTA
+                If dsAMRNovo.Tables(0).Rows.Count > 0 Then
+
+                    'VERIFICA SE ALGUMA OUTRA CARGA DESSE BL UTILIZA O CNTR ATUAL(ANTES DO UPDATE)
+                    Dim dsAMROutro As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = (SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL & ") AND ID_CARGA_BL <> " & ID_CARGA_BL)
+
+                    'CASO NÃO REALIZA O DELETE DO CNTR ATUAL(ANTES DO UPDATE)
+                    If dsAMROutro.Tables(0).Rows(0).Item("QTD") = 0 Then
+                        Con.ExecutarQuery("DELETE FROM TB_AMR_CNTR_BL WHERE ID_AMR_CNTR_BL = " & dsAMRNovo.Tables(0).Rows(0).Item("ID_AMR_CNTR_BL"))
+
+                    End If
+                Else
+
+                    'VERIFICA SE ALGUMA OUTRA CARGA DESSE BL UTILIZA O CNTR ATUAL(ANTES DO UPDATE)
+                    Dim dsAMROutro As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = (SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL & ") AND ID_CARGA_BL <> " & ID_CARGA_BL)
+
+                    'CASO NÃO REALIZA, O DELETE DO CNTR ATUAL(ANTES DO UPDATE)
+                    If dsAMROutro.Tables(0).Rows(0).Item("QTD") = 0 Then
+                        'CASO NÃO REALIZA O UPDATE DO CNTR ATUAL(ANTES DO UPDATE) PARA O CNTR SELECIONADO NO FORMULARIO
+                        Con.ExecutarQuery("UPDATE TB_AMR_CNTR_BL SET ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text & " WHERE ID_AMR_CNTR_BL = " & dsAMRAtual.Tables(0).Rows(0).Item("ID_AMR_CNTR_BL"))
+                    Else
+                        'CASO SIM, CHAMA ROTINA DE INSERÇÃO
+                        Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
+
+                    End If
+                End If
+            Else
+                'VERIFICA SE HÁ AMARRAÇÃO DE CNTR SELECIONADO NO FORMULARIO
+                Dim dsAMRNovo As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
+
+                If dsAMRNovo.Tables(0).Rows.Count = 0 Then
+                    'CASO NAO EXISTA, CHAMA ROTINA DE INSERÇÃO
+                    Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
+
+
+                End If
+
+
+            End If
+        Else
+
+            'VERIFICA SE HÁ AMARRAÇÃO DE CNTR SELECIONADO NO FORMULARIO
+            Dim dsAMRNovo As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
+
+            If dsAMRNovo.Tables(0).Rows.Count = 0 Then
+                'CASO NAO EXISTA, CHAMA ROTINA DE INSERÇÃO
+                Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
+
+
+            End If
+
+        End If
+    End Sub
+
+
+    Sub AMR_CNTR_INSERT(ID_BL As Integer, ID_CARGA_BL As Integer)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim dsAMR As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_AMR_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
+
+        If dsAMR.Tables(0).Rows(0).Item("QTD") = 0 Then
+            Con.ExecutarQuery("INSERT INTO TB_AMR_CNTR_BL (ID_BL,ID_CNTR_BL) VALUES(" & ID_BL & "," & ddlNumeroCNTR_CargaMaritimo.Text & ")")
+        End If
+
+    End Sub
     Private Sub btnSalvar_TaxaAereo_Click(sender As Object, e As EventArgs) Handles btnSalvar_TaxaAereo.Click
 
         divSuccess_TaxaAereo2.Visible = False
@@ -3328,6 +3418,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         Dim ds As DataSet
         Dim v As New VerificaData
 
+        If ddlDespesa_TaxaAereo.SelectedValue = 71 Then
+            txtValorVenda_TaxaAereo.Text = "0"
+            txtMinVenda_TaxaAereo.Text = "0"
+            ddlDestinatarioCob_TaxaAereo.SelectedValue = 3
+        End If
 
         If txtMinCompra_TaxaAereo.Text = "" Then
             txtMinCompra_TaxaAereo.Text = 0
@@ -3372,6 +3467,12 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             Exit Sub
 
         ElseIf txtValorVenda_TaxaAereo.Text <> 0 And ddlDestinatarioCob_TaxaAereo.SelectedValue = 0 Then
+            divErro_TaxaAereo2.Visible = True
+            lblErro_TaxaAereo2.Text = "Necessário preencher destinatario cobrança!"
+            mpeTaxaAereo.Show()
+            Exit Sub
+
+        ElseIf ddlDespesa_TaxaAereo.SelectedValue = 71 And txtValorVenda_TaxaAereo.Text <> 0 And txtMinVenda_TaxaAereo.Text <> 0 Then
             divErro_TaxaAereo2.Visible = True
             lblErro_TaxaAereo2.Text = "Necessário preencher destinatario cobrança!"
             mpeTaxaAereo.Show()
@@ -3549,93 +3650,6 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
 
     End Sub
 
-    Sub AMR_CNTR_UPDATE(ID_BL As Integer, ID_CARGA_BL As Integer)
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim cntr As Integer
-
-        'COMPARARA CNTR ATUAL(ANTES DO UPDATE) COM O CNTR DO FORMULARIO
-        Dim dsCNTR As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_CNTR_BL,0)ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL)
-        If dsCNTR.Tables(0).Rows.Count > 0 Then
-            cntr = dsCNTR.Tables(0).Rows(0).Item("ID_CNTR_BL")
-        End If
-        'CASO SEJAM DIFERENTES
-        If cntr <> ddlNumeroCNTR_CargaMaritimo.SelectedValue Then
-
-            'VERIFICA SE HÁ AMARRAÇÃO DE CNTR ATUAL(ANTES DO UPDATE)
-            Dim dsAMRAtual As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL =(SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL & ")")
-
-
-            'CASO EXISTA
-            If dsAMRAtual.Tables(0).Rows.Count > 0 Then
-                'VERIFICA SE HÁ AMARRAÇÃO DE CNTR SELECIONADO NO FORMULARIO
-                Dim dsAMRNovo As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
-                'CASO EXISTA
-                If dsAMRNovo.Tables(0).Rows.Count > 0 Then
-
-                    'VERIFICA SE ALGUMA OUTRA CARGA DESSE BL UTILIZA O CNTR ATUAL(ANTES DO UPDATE)
-                    Dim dsAMROutro As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = (SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL & ") AND ID_CARGA_BL <> " & ID_CARGA_BL)
-
-                    'CASO NÃO REALIZA O DELETE DO CNTR ATUAL(ANTES DO UPDATE)
-                    If dsAMROutro.Tables(0).Rows(0).Item("QTD") = 0 Then
-                        Con.ExecutarQuery("DELETE FROM TB_AMR_CNTR_BL WHERE ID_AMR_CNTR_BL = " & dsAMRNovo.Tables(0).Rows(0).Item("ID_AMR_CNTR_BL"))
-
-                    End If
-                Else
-
-                    'VERIFICA SE ALGUMA OUTRA CARGA DESSE BL UTILIZA O CNTR ATUAL(ANTES DO UPDATE)
-                    Dim dsAMROutro As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = (SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL & ") AND ID_CARGA_BL <> " & ID_CARGA_BL)
-
-                    'CASO NÃO REALIZA, O DELETE DO CNTR ATUAL(ANTES DO UPDATE)
-                    If dsAMROutro.Tables(0).Rows(0).Item("QTD") = 0 Then
-                        'CASO NÃO REALIZA O UPDATE DO CNTR ATUAL(ANTES DO UPDATE) PARA O CNTR SELECIONADO NO FORMULARIO
-                        Con.ExecutarQuery("UPDATE TB_AMR_CNTR_BL SET ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text & " WHERE ID_AMR_CNTR_BL = " & dsAMRAtual.Tables(0).Rows(0).Item("ID_AMR_CNTR_BL"))
-                    Else
-                        'CASO SIM, CHAMA ROTINA DE INSERÇÃO
-                        Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
-
-                    End If
-                End If
-            Else
-                'VERIFICA SE HÁ AMARRAÇÃO DE CNTR SELECIONADO NO FORMULARIO
-                Dim dsAMRNovo As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
-
-                If dsAMRNovo.Tables(0).Rows.Count = 0 Then
-                    'CASO NAO EXISTA, CHAMA ROTINA DE INSERÇÃO
-                    Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
-
-
-                End If
-
-
-            End If
-        Else
-
-            'VERIFICA SE HÁ AMARRAÇÃO DE CNTR SELECIONADO NO FORMULARIO
-            Dim dsAMRNovo As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
-
-            If dsAMRNovo.Tables(0).Rows.Count = 0 Then
-                'CASO NAO EXISTA, CHAMA ROTINA DE INSERÇÃO
-                Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
-
-
-            End If
-
-        End If
-    End Sub
-
-
-    Sub AMR_CNTR_INSERT(ID_BL As Integer, ID_CARGA_BL As Integer)
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim dsAMR As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_AMR_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
-
-        If dsAMR.Tables(0).Rows(0).Item("QTD") = 0 Then
-            Con.ExecutarQuery("INSERT INTO TB_AMR_CNTR_BL (ID_BL,ID_CNTR_BL) VALUES(" & ID_BL & "," & ddlNumeroCNTR_CargaMaritimo.Text & ")")
-        End If
-
-    End Sub
-
     Private Sub btnSalvar_TaxaMaritimo_Click(sender As Object, e As EventArgs) Handles btnSalvar_TaxaMaritimo.Click
         divSuccess_TaxaMaritimo2.Visible = False
         divErro_TaxaMaritimo2.Visible = False
@@ -3644,6 +3658,13 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
         Con.Conectar()
         Dim ds As DataSet
         Dim v As New VerificaData
+
+
+        If ddlDespesa_TaxaMaritimo.SelectedValue = 71 Then
+            txtValorVenda_TaxaMaritimo.Text = "0"
+            txtMinVenda_TaxaMaritimo.Text = "0"
+            ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 3
+        End If
 
         If txtMinCompra_TaxaMaritimo.Text = "" Then
             txtMinCompra_TaxaMaritimo.Text = 0
@@ -3684,24 +3705,17 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             Exit Sub
 
         ElseIf txtValorVenda_TaxaMaritimo.Text <> 0 And ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 0 Then
-            divErro_TaxaAereo2.Visible = True
-            lblErro_TaxaAereo2.Text = "Necessário preencher destinatario cobrança!"
-            mpeTaxaAereo.Show()
+            lblErro_TaxaMaritimo2.Visible = True
+            lblErro_TaxaMaritimo2.Text = "Necessário preencher destinatario cobrança!"
+            mpeTaxaMaritimo.Show()
+            Exit Sub
+
+        ElseIf ddlDespesa_TaxaMaritimo.SelectedValue = 71 And txtValorVenda_TaxaMaritimo.Text <> 0 And txtMinVenda_TaxaMaritimo.Text <> 0 Then
+            lblErro_TaxaMaritimo2.Visible = True
+            lblErro_TaxaMaritimo2.Text = "Necessário preencher destinatario cobrança!"
+            mpeTaxaMaritimo.Show()
             Exit Sub
         Else
-
-
-
-
-            'If txtID_TaxaMaritimo.Text <> "" And Session("ID_COTACAO") <> 0 Then
-            '    If VerificaDiferencaCotacao(txtID_TaxaMaritimo.Text, "TAXA", Session("ID_COTACAO"), "M") = True Then
-            '        divErro_TaxaMaritimo2.Visible = True
-            '        lblErro_TaxaMaritimo2.Text = "Não é possivel alterar informaçoes de origem da cotação."
-            '        mpeTaxaMaritimo.Show()
-            '        Exit Sub
-            '    End If
-            'End If
-
 
 
 
@@ -4180,60 +4194,6 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         End If
     End Sub
 
-    'Private Sub btnSalvarNCM_CargaMaritimo_Click(sender As Object, e As EventArgs) Handles btnSalvarNCM_CargaMaritimo.Click
-    '    Dim id As String = rdNCM_CargaMaritimo.SelectedValue
-    '    Dim nome As String = rdNCM_CargaMaritimo.SelectedItem.Text
-
-    '    ddlNCM_CargaMaritimo.Items.Insert(1, nome)
-    '    ddlNCM_CargaMaritimo.SelectedIndex = 1
-    '    mpeNCM_CargaMaritimo.Hide()
-    'End Sub
-
-    'Private Sub btnSalvarNCM_CargaAereo_Click(sender As Object, e As EventArgs) Handles btnSalvarNCM_CargaAereo.Click
-    '    Dim id As String = rdNCM_CargaAereo.SelectedValue
-    '    Dim nome As String = rdNCM_CargaAereo.SelectedItem.Text
-
-    '    ddlNCM_CargaAereo.Items.Insert(1, nome)
-    '    ddlNCM_CargaAereo.SelectedIndex = 1
-    '    mpeNCM_CargaAereo.Hide()
-
-    'End Sub
-
-    'Private Sub txtNCMFiltro_CargaMaritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNCMFiltro_CargaMaritimo.TextChanged
-    '    mpeNCM_CargaMaritimo.Show()
-
-    'End Sub
-
-
-    'Private Sub txtNCMFiltro_CargaAereo_TextChanged(sender As Object, e As EventArgs) Handles txtNCMFiltro_CargaAereo.TextChanged
-    '     mpeNCM_CargaAereo.Show()
-
-    'End Sub
-
-
-    'Function SeparaNCM(TEXTO As String) As String
-    '    Dim ID As String = ""
-
-    '    If TEXTO <> "" Then
-    '        TEXTO = TEXTO.Substring(0, TEXTO.IndexOf("-"))
-
-    '        Dim Con As New Conexao_sql
-    '        Con.Conectar()
-    '        Dim ds As DataSet
-
-    '        ds = Con.ExecutarQuery("SELECT ID_NCM FROM TB_NCM WHERE CD_NCM = '" & TEXTO & "'")
-    '        If ds.Tables(0).Rows.Count > 0 Then
-    '            ID = ds.Tables(0).Rows(0).Item("ID_NCM")
-    '        Else
-    '            ID = 0
-    '        End If
-    '    End If
-
-
-    '    Return ID
-    'End Function
-
-
     Private Sub ddlEstufagem_BasicoMaritimo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlEstufagem_BasicoMaritimo.SelectedIndexChanged
         If ddlEstufagem_BasicoMaritimo.SelectedValue = 1 Then
             divMercadoriaCNTR_Maritimo.Attributes.CssStyle.Add("display", "block")
@@ -4595,86 +4555,6 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         End If
     End Sub
 
-    Sub NumeroProcessoMaster()
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim ds As DataSet
-
-        ds = Con.ExecutarQuery("SELECT NRSEQUENCIALPROCESSO, AnoSequencialProcesso FROM TB_PARAMETROS")
-
-        Dim PROCESSO_FINAL As String
-
-        Dim NRSEQUENCIALPROCESSO As Integer = ds.Tables(0).Rows(0).Item("NRSEQUENCIALPROCESSO")
-        Dim AnoSequencialProcesso = ds.Tables(0).Rows(0).Item("AnoSequencialProcesso")
-        Dim ano_atual = Now.Year.ToString.Substring(2)
-        Dim SIGLA_PROCESSO As String
-        Dim mes_atual As String
-        If Now.Month < 10 Then
-            mes_atual = "0" & Now.Month.ToString
-        Else
-            mes_atual = Now.Month.ToString
-        End If
-
-
-        If txtIDMaster_BasicoMaritimo.Text <> "" Then
-            'MARITIMO
-
-            ds = Con.ExecutarQuery("Select A.ID_SERVICO,(SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO from TB_BL A Where ID_SERVICO <> 0 AND A.ID_BL = " & txtIDMaster_BasicoMaritimo.Text)
-
-            If ds.Tables(0).Rows.Count > 0 Then
-                SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
-
-                If AnoSequencialProcesso = ano_atual Then
-
-                    NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
-
-                Else
-
-                    Con.ExecutarQuery("UPDATE TB_PARAMETROS SET AnoSequencialProcesso = '" & ano_atual & "' ")
-
-                    NRSEQUENCIALPROCESSO = 1
-
-                End If
-
-                PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
-
-                Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = '" & PROCESSO_FINAL & "' WHERE ID_BL = " & txtIDMaster_BasicoMaritimo.Text)
-
-            End If
-
-
-        ElseIf txtIDMaster_BasicoAereo.Text <> "" Then
-            'AEREO
-
-            ds = Con.ExecutarQuery("Select A.ID_SERVICO,(SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO from TB_BL A Where ID_SERVICO <> 0 AND A.ID_BL = " & txtIDMaster_BasicoAereo.Text)
-
-            If ds.Tables(0).Rows.Count > 0 Then
-                SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
-
-                If AnoSequencialProcesso = ano_atual Then
-
-                    NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
-
-                Else
-
-                    Con.ExecutarQuery("UPDATE TB_PARAMETROS SET AnoSequencialProcesso = '" & ano_atual & "'")
-
-                    NRSEQUENCIALPROCESSO = 1
-
-                End If
-
-                PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
-
-                Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = '" & PROCESSO_FINAL & "' WHERE ID_BL = " & txtIDMaster_BasicoAereo.Text)
-
-            End If
-
-        End If
-    End Sub
 
     Private Sub txtNomeIndicador_Maritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeIndicador_Maritimo.TextChanged
         divErro_BasicoMaritimo.Visible = False
@@ -5160,25 +5040,4 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
     End Sub
 
 
-
-    'Private Sub txtNCMFiltro_CargaMaritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNCMFiltro_CargaMaritimo.TextChanged
-    '    Dim Con As New Conexao_sql
-    '    Con.Conectar()
-    '    If txtIDNCM_CargaMaritimo.Text = "" Then
-    '        txtIDNCM_CargaMaritimo.Text = 0
-    '    End If
-    '    If txtNCMFiltro_CargaMaritimo.Text = "" Then
-    '        txtNCMFiltro_CargaMaritimo.Text = "NULL"
-    '    End If
-
-    '    Dim Sql As String = "SELECT ID_NCM,CD_NCM +' - '+ NM_NCM AS NCM FROM [dbo].[TB_NCM] WHERE (NM_NCM like '%" & txtNCMFiltro_CargaMaritimo.Text & "%' OR CD_NCM like '%" & txtNCMFiltro_CargaMaritimo.Text & "%' OR ID_NCM =  " & txtIDNCM_CargaMaritimo.Text & ") union SELECT  0, '    Selecione' ORDER BY ID_NCM"
-    '    Dim ds As DataSet = Con.ExecutarQuery(Sql)
-    '    If ds.Tables(0).Rows.Count > 0 Then
-    '        dsNCM_CargaMaritimo.SelectCommand = Sql
-    '        dsNCM_CargaMaritimo.DataBind()
-    '        ddlNCM_CargaMaritimo.DataBind()
-
-    '    End If
-    '    txtNCMFiltro_CargaMaritimo.Text = txtNCMFiltro_CargaMaritimo.Text.Replace("NULL", "")
-    'End Sub
 End Class

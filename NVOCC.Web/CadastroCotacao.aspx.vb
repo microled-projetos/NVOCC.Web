@@ -817,9 +817,7 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
                 ckbDeclaradoTaxa.Checked = ds.Tables(0).Rows(0).Item("FL_DECLARADO")
                 ckbProfitTaxa.Checked = ds.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT")
 
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_ITEM_DESPESA")) Then
-                    ddlItemDespesaTaxa.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ITEM_DESPESA")
-                End If
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO")) Then
                     ddlTipoPagamentoTaxa.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO")
                 End If
@@ -871,6 +869,10 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_TAXAS")) Then
                     txtObsTaxa.Text = ds.Tables(0).Rows(0).Item("OB_TAXAS")
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_ITEM_DESPESA")) Then
+                    ddlItemDespesaTaxa.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ITEM_DESPESA")
                 End If
 
                 Dim finaliza As New FinalizaCotacao
@@ -3725,6 +3727,23 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
             txtQtdBaseCalculo.Text = "0"
         End If
 
+        If txtValorTaxaCompraMin.Text = "" Then
+            txtValorTaxaCompraMin.Text = "0"
+        End If
+
+        If txtValorTaxaCompra.Text = "" Then
+            txtValorTaxaCompra.Text = "0"
+        End If
+
+        If txtValorTaxaVenda.Text = "" Then
+            txtValorTaxaVenda.Text = "0"
+        End If
+
+        If txtValorTaxaVendaMin.Text = "" Then
+            txtValorTaxaVendaMin.Text = "0"
+        End If
+
+
         If txtID.Text = "" Then
 
             lblErroTaxa.Text = "Antes de inserir Taxa é necessario cadastrar as Informações Basicas"
@@ -3734,6 +3753,9 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
             lblErroTaxa.Text = "Selecione o item de despesa"
             divErroTaxa.Visible = True
 
+        ElseIf ddlItemDespesaTaxa.SelectedValue = 71 And (txtValorTaxaVenda.Text <> 0 Or txtValorTaxaVendamin.Text <> 0) Then
+            lblErroTaxa.Text = "Não é possivel cadastrar taxa de venda de premiação!"
+            divErroTaxa.Visible = True
 
         ElseIf txtQtdBaseCalculo.Text = 0 And (ddlBaseCalculoTaxa.SelectedValue = 38 Or ddlBaseCalculoTaxa.SelectedValue = 40 Or ddlBaseCalculoTaxa.SelectedValue = 41) Then
             lblErroTaxa.Text = "Necessário informar quantidade para base de calculo selecionada!"
@@ -3763,6 +3785,14 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
         Else
 
+            If ddlItemDespesaTaxa.SelectedValue = 71 Then
+                txtValorTaxaVenda.Text = "0"
+                txtValorTaxaVendaCalc.Text = "0"
+                txtValorTaxaVendaMin.Text = "0"
+                ddlMoedaVendaTaxa.SelectedValue = 0
+                ddlDestinatarioCobrancaTaxa.SelectedValue = 3
+            End If
+
             txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace(".", "")
             txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace(",", ".")
 
@@ -3787,17 +3817,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
 
 
-            If txtValorTaxaCompraMin.Text = "" Then
-                txtValorTaxaCompraMin.Text = "0"
-            End If
 
-            If txtValorTaxaCompra.Text = "" Then
-                txtValorTaxaCompra.Text = "0"
-            End If
-
-            If txtValorTaxaVendaMin.Text = "" Then
-                txtValorTaxaVendaMin.Text = "0"
-            End If
 
 
             Dim ObsTaxa As String = ""
@@ -5249,8 +5269,6 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         End If
     End Sub
 
-
-
     Private Sub ddlTipoContainerMercadoria_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoContainerMercadoria.SelectedIndexChanged
         If ddlTipoContainerMercadoria.SelectedValue <> 0 Then
             If txtQtdContainerMercadoria.Text = "" Then
@@ -5293,7 +5311,6 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
             End If
         End If
     End Sub
-
     Private Sub btnDeletarTaxas_Click(sender As Object, e As EventArgs) Handles btnDeletarTaxas.Click
         divDeleteTaxas.Visible = False
         divDeleteErroTaxas.Visible = False

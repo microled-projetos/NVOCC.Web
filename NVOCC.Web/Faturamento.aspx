@@ -154,6 +154,8 @@
                                             <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
                                             <asp:BoundField DataField="NM_CLIENTE_REDUZIDO" HeaderText="Cliente" SortExpression="NM_CLIENTE_REDUZIDO" />
                                             <asp:BoundField DataField="REFERENCIA_CLIENTE" HeaderText="Ref. Cliente" SortExpression="REFERENCIA_CLIENTE" />
+                                            <asp:BoundField DataField="REFERENCIA_SHIPPER" HeaderText="Ref. Shipper" SortExpression="REFERENCIA_SHIPPER" />
+                                            <asp:BoundField DataField="REFERENCIA_AUXILIAR" HeaderText="Ref. Auxiliar" SortExpression="REFERENCIA_AUXILIAR" />
                                             <asp:BoundField DataField="VL_NOTA_DEBITO" HeaderText="Valor Nota de Deb." SortExpression="VL_NOTA_DEBITO" />
                                             <asp:BoundField DataField="NR_NOTA_DEBITO" HeaderText="Nota de Deb." SortExpression="NR_NOTA_DEBITO" />
                                             <asp:BoundField DataField="DT_NOTA_DEBITO" HeaderText="Data de Nota de Deb." SortExpression="DT_NOTA_DEBITO" />
@@ -761,7 +763,7 @@
     <asp:TextBox ID="txtResultado" runat="server" Style="display: none" CssClass="form-control"></asp:TextBox>
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_FATURAMENTO,DT_VENCIMENTO,NR_PROCESSO,NM_CLIENTE_REDUZIDO,REFERENCIA_CLIENTE,VL_NOTA_DEBITO,NR_NOTA_DEBITO,DT_NOTA_DEBITO,NR_RPS,DT_RPS,
+        SelectCommand="SELECT ID_FATURAMENTO,DT_VENCIMENTO,NR_PROCESSO,NM_CLIENTE_REDUZIDO,REFERENCIA_CLIENTE,REFERENCIA_AUXILIAR,REFERENCIA_SHIPPER,VL_NOTA_DEBITO,NR_NOTA_DEBITO,DT_NOTA_DEBITO,NR_RPS,DT_RPS,
 NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_LIQUIDACAO,DT_CANCELAMENTO,NOSSONUMERO,ARQ_REM,NM_TIPO_FATURAMENTO,DT_ENVIO_FATURAMENTO FROM [dbo].[View_Faturamento]"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
