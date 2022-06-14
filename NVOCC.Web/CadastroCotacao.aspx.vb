@@ -1682,7 +1682,7 @@ WHERE ID_COTACAO = " & txtID.Text)
 
                 AtualizaFreteMercadoria()
 
-                If ddlServico.SelectedValue <= 2 And ddlEstufagemFrete.SelectedValue = 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
+                If ddlServico.SelectedValue <= 2 And ddlEstufagem.SelectedValue = 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
                     AtualizaTaxaAgente()
                 End If
 
@@ -3888,7 +3888,7 @@ QTD_BASE_CALCULO
                     txtValorTaxaCompraCalc.Text = ""
                     ckbDeclaradoTaxa.Checked = False
 
-                    If ddlServico.SelectedValue <= 2 And ddlEstufagemFrete.SelectedValue = 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
+                    If ddlServico.SelectedValue <= 2 And ddlEstufagem.SelectedValue = 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
                         AtualizaTaxaAgente()
                     End If
 
@@ -3957,7 +3957,7 @@ QTD_BASE_CALCULO = " & txtQtdBaseCalculo.Text & "
                     Con.Fechar()
                     dgvTaxas.DataBind()
 
-                    If ddlServico.SelectedValue <= 2 And ddlEstufagemFrete.SelectedValue = 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
+                    If ddlServico.SelectedValue <= 2 And ddlEstufagem.SelectedValue = 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
                         AtualizaTaxaAgente()
                     End If
 
@@ -5049,7 +5049,7 @@ WHERE A.ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA"))
         divDeleteErroTaxas.Visible = False
         divinfo.Visible = False
         ImportaTaxas()
-        If ddlServico.SelectedValue <= 2 And ddlEstufagemFrete.SelectedValue = 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
+        If ddlServico.SelectedValue <= 2 And ddlEstufagem.SelectedValue = 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
             AtualizaTaxaAgente()
         End If
         dgvTaxas.DataBind()
