@@ -455,7 +455,9 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
     Private Sub btnFecharTaxa_Click(sender As Object, e As EventArgs) Handles btnFecharTaxa.Click
         divSuccessTaxa.Visible = False
         divErroTaxa.Visible = False
-
+        txtValorTaxaVenda.Enabled = True
+        txtValorTaxaVendaMin.Enabled = True
+        ddlMoedaVenda.Enabled = True
         txtIDTaxa.Text = ""
         ddlItemDespesa.SelectedValue = 0
         ddlOrigemPagamento.SelectedValue = 0
@@ -708,13 +710,33 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
             txtQtdBaseCalculo.Text = 0
         End If
 
+        If txtValorTaxaCompra.Text = "" Then
+            txtValorTaxaCompra.Text = 0
+        End If
+
+        If txtValorTaxaCompraMin.Text = "" Then
+            txtValorTaxaCompraMin.Text = 0
+        End If
+
+        If txtValorTaxaVenda.Text = "" Then
+            txtValorTaxaVenda.Text = 0
+        End If
+
+        If txtValorTaxaVendaMin.Text = "" Then
+            txtValorTaxaVendaMin.Text = 0
+        End If
+
         If txtFreteTransportadorTaxa.Text = "" Then
 
             lblErroTaxa.Text = "Antes de inserir Taxa é necessario cadastrar Frete Transportador na Aba de Informações Basicas"
             divErroTaxa.Visible = True
 
-        ElseIf ddlItemDespesa.SelectedValue = 0 Or ddlOrigemPagamento.SelectedValue = 0 Or ddlBaseCalculoTaxa.SelectedValue = 0 Or ddlMoedaCompra.SelectedValue = 0 Or txtValorTaxaCompra.Text = "" Or ddlEstufagemTaxa.SelectedValue = 0 Then
+        ElseIf ddlItemDespesa.SelectedValue = 0 Or ddlOrigemPagamento.SelectedValue = 0 Or ddlBaseCalculoTaxa.SelectedValue = 0 Or ddlMoedaCompra.SelectedValue = 0 Or txtValorTaxaCompra.Text = 0 Or ddlEstufagemTaxa.SelectedValue = 0 Then
             lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
+            divErroTaxa.Visible = True
+
+        ElseIf ddlItemDespesa.SelectedValue = 71 And (txtValorTaxaVenda.Text <> 0 Or txtValorTaxaVendamin.Text <> 0) Then
+            lblErroTaxa.Text = "Não é possivel cadastrar taxa de venda de premiação!"
             divErroTaxa.Visible = True
 
         ElseIf (ddlBaseCalculoTaxa.SelectedValue = 38 Or ddlBaseCalculoTaxa.SelectedValue = 40 Or ddlBaseCalculoTaxa.SelectedValue = 41) And txtQtdBaseCalculo.Text = 0 Then
@@ -722,6 +744,8 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
             divErroTaxa.Visible = True
 
         Else
+
+
 
 
             txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace(".", "")
@@ -736,26 +760,24 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
             txtValorTaxaCompraMin.Text = txtValorTaxaCompraMin.Text.Replace(".", "")
             txtValorTaxaCompraMin.Text = txtValorTaxaCompraMin.Text.Replace(",", ".")
 
-            If ddlMoedaVenda.SelectedValue = 0 Then
+
+
+            If ddlMoedaVenda.SelectedValue = 0 And ddlItemDespesa.SelectedValue <> 71 Then
                 ddlMoedaVenda.SelectedValue = ddlMoedaCompra.SelectedValue
             End If
 
-            If txtValorTaxaVenda.Text = "" Then
+            If txtValorTaxaVenda.Text = 0 And ddlItemDespesa.SelectedValue <> 71 Then
                 txtValorTaxaVenda.Text = txtValorTaxaCompra.Text
-            Else
-                txtValorTaxaVenda.Text = "" & txtValorTaxaVenda.Text & ""
             End If
 
-            If txtValorTaxaVendaMin.Text = "" Then
-                txtValorTaxaVendaMin.Text = "NULL"
-            Else
-                txtValorTaxaVendaMin.Text = "" & txtValorTaxaVendaMin.Text & ""
+            If txtValorTaxaVendaMin.Text = 0 And ddlItemDespesa.SelectedValue <> 71 Then
+                txtValorTaxaVendaMin.Text = 0
             End If
 
-            If txtValorTaxaCompraMin.Text = "" Then
-                txtValorTaxaCompraMin.Text = "NULL"
-            Else
-                txtValorTaxaCompraMin.Text = "" & txtValorTaxaCompraMin.Text & ""
+            If ddlItemDespesa.SelectedValue = 71 Then
+                txtValorTaxaVenda.Text = "0"
+                txtValorTaxaVendaMin.Text = "0"
+                ddlMoedaVenda.SelectedValue = 0
             End If
 
 
@@ -954,6 +976,21 @@ SELECT " & txtID_FreteTransportador.Text & ", ID_ITEM_DESPESA, VL_TAXA_LOCAL_COM
         Else
             txtQtdBaseCalculo.Enabled = False
             txtQtdBaseCalculo.Text = ""
+        End If
+    End Sub
+
+    Private Sub ddlItemDespesa_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlItemDespesa.SelectedIndexChanged
+        If ddlItemDespesa.SelectedValue = 71 Then
+            txtValorTaxaVenda.Enabled = False
+            txtValorTaxaVenda.Text = 0
+            txtValorTaxaVendaMin.Enabled = False
+            txtValorTaxaVendaMin.Text = 0
+            ddlMoedaVenda.Enabled = False
+            ddlMoedaVenda.SelectedValue = 0
+        Else
+            txtValorTaxaVenda.Enabled = True
+            txtValorTaxaVendaMin.Enabled = True
+            ddlMoedaVenda.Enabled = True
         End If
     End Sub
 End Class

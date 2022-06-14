@@ -90,6 +90,19 @@ WHERE A.ID_STATUS_COTACAO = 8")
                 txtNumeroCotacao.Text = ds.Tables(0).Rows(0).Item("NR_COTACAO")
             End If
 
+
+        ElseIf e.CommandName = "Status" Then
+
+            Dim ID As String = e.CommandArgument.Substring(0, e.CommandArgument.IndexOf("|"))
+
+            'dsHistoricoFrete.SelectCommand = "SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= " & txtQtd.Text & " and cnpj = '" & txtcnpj.Text & "' "
+            'dgvHistoricoFrete.DataBind()
+
+
+            dsHistoricoStatus.SelectParameters("ID_COTACAO").DefaultValue = ID
+            dgvHistoricoStatus.DataBind()
+            mpeStatus.Show()
+
         End If
 
 
@@ -1875,9 +1888,9 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
             ElseIf ddlConsultas.SelectedValue = 3 Then
                 FILTRO = " CLIENTE LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 4 Then
-                FILTRO = " Origem LIKE '%" & txtPesquisa.Text & "%' "
+                FILTRO = " ORIGEM LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 5 Then
-                FILTRO = " Destino LIKE '%" & txtPesquisa.Text & "%' "
+                FILTRO = " DESTINO LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 6 Then
                 FILTRO = " AGENTE LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 7 Then
@@ -1889,6 +1902,18 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
             ElseIf ddlConsultas.SelectedValue = 10 Then
                 FILTRO = " CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 11 Then
+                FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 12 Then
+                FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 13 Then
+                FILTRO = " INCOTERM LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 14 Then
+                FILTRO = " ARMADOR LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 15 Then
+                FILTRO = " ANALISTA_COTACAO_INSIDE LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 16 Then
+                FILTRO = " ANALISTA_COTACAO_PRICING LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 17 Then
                 FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
             End If
 

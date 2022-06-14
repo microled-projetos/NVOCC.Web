@@ -78,7 +78,20 @@
                                                 <th class="text-center" scope="col">ORIGEM</th>
                                                 <th class="text-center" scope="col">DESTINO</th>
                                                 <th class="text-center" scope="col">VENDEDOR</th>
-                                                <th class="text-center" scope="col">STATUS DA COTAÇÃO</th>
+                                                <th class="text-center" scope="col">SOLICITACAO/PRICING</th>
+                                                <th class="text-center" scope="col">ANALISE</th>
+                                                <th class="text-center" scope="col">INFORMAÇÕES PENDENTES</th>
+                                                <th class="text-center" scope="col">LIBERADA INSIDE</th>
+                                                <th class="text-center" scope="col">RENEGOCIAÇÃO</th>
+                                                <th class="text-center" scope="col">AGUARDANDO APROVAÇÃO</th>
+                                                <th class="text-center" scope="col">CANCELADA</th>
+                                                <th class="text-center" scope="col">REJEITADA</th>
+                                                <th class="text-center" scope="col">APROVADA</th>
+                                                <th class="text-center" scope="col">EM UPDATE</th>
+                                                <th class="text-center" scope="col">DECLINADA</th>
+                                                <th class="text-center" scope="col">FINALIZADA COM PAGAMENTO</th>
+                                                <th class="text-center" scope="col">EM FUP</th>
+                                                <th class="text-center" scope="col">APROVADA COM EDIÇÃO</th>
                                                 <th class="text-center" scope="col">MOTIVO CANCELAMENTO</th>
                                                 <th class="text-center" scope="col">OBS MOTIVO CANCELAMENTO</th>
                                             </tr>
@@ -131,12 +144,25 @@
                                     "<td class='text-center'>" + dado[i]["NR_COTACAO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MODAL"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["INCOTERM"] + "</td>" +
-                                    "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["CLIENTE"] +"'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["CLIENTE"] + "'>" + dado[i]["CLIENTE"] + "</td>" +
                                     "<td class='text-center' style='max-width: 14ch;' title='" + dado[i]["SUB_CLIENTE"] + "'>" + dado[i]["SUB_CLIENTE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ORIGEM"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VENDEDOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["STATUS_COTACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["SOLICITACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ANALISE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["INFO_PEND"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["LIBERADA_INSIDE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["RENEG"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["AGUARD_APROV"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["CANCELADA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["REJEITADA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["APROVADA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["EM_UPDATE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DECLINADA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["FINALIZADA_PAG"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["EM_FUP"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["APROV_EDIT"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MOTIVO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["OBS_MOTIVO"] + "</td></tr > ");
                             }
@@ -145,7 +171,7 @@
                             $("#grdRelacaoCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='13' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
                         }
                     }
-                })
+                });
             } else {
 
             }

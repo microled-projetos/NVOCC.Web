@@ -581,6 +581,24 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents txtResumoMercadoria_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ckbEmailCotacao_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbEmailCotacao_BasicoMaritimo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle txtEmailCotacao_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtEmailCotacao_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle btnLimpar_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -2028,6 +2046,24 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtResumoMercadoria_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ckbEmailCotacao_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbEmailCotacao_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle txtEmailCotacao_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtEmailCotacao_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnLimpar_BasicoAereo.

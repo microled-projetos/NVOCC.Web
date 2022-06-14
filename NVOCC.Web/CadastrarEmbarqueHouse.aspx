@@ -441,7 +441,21 @@
                                             </div>
                                         </div>
                                     </div>
-                                            
+                                             <div class="row">
+                                                 <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label" style="color: white">X</label>
+                                                <asp:CheckBox ID="ckbEmailCotacao_BasicoMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;EMAIL COTAÇÃO"></asp:CheckBox>
+                                            </div>
+                                        </div>
+
+										 <div class="col-sm-10">
+                                            <div class="form-group">
+                                                <label class="control-label">Emails:</label>
+                                                <asp:TextBox ID="txtEmailCotacao_BasicoMaritimo" runat="server" CssClass="form-control" MaxLength="1000" ></asp:TextBox>
+                                            </div>
+                                        </div>
+                                          </div>   
                                     <div class="row">
 
                                         <div class="col-sm-3 col-sm-offset-6">
@@ -1642,7 +1656,21 @@ VENDAS:
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                 <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label" style="color: white">X</label>
+                                                <asp:CheckBox ID="ckbEmailCotacao_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;EMAIL COTAÇÃO"></asp:CheckBox>
+                                            </div>
+                                        </div>
 
+										 <div class="col-sm-10">
+                                            <div class="form-group">
+                                                <label class="control-label">Emails:</label>
+                                                <asp:TextBox ID="txtEmailCotacao_BasicoAereo" runat="server" CssClass="form-control" MaxLength="1000" ></asp:TextBox>
+                                            </div>
+                                        </div>
+                                          </div>   
                                             <div class="row">
 
                                                 <div class="col-sm-3 col-sm-offset-6">

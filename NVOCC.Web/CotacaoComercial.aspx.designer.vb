@@ -293,6 +293,42 @@ Partial Public Class CotacaoComercial
     Protected WithEvents btnEnviar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle mpeStatus.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeStatus As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle Panel2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Panel2 As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle dgvHistoricoStatus.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvHistoricoStatus As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnFecharStatus.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharStatus As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle updPainel1.
     '''</summary>
     '''<remarks>
@@ -408,4 +444,13 @@ Partial Public Class CotacaoComercial
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle dsHistoricoStatus.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsHistoricoStatus As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

@@ -95,6 +95,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ddlServico_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ckTrakingAutomaticoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckTrakingAutomaticoMaritimo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle ddlTransportador_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -1416,6 +1425,15 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlEstufagem_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ckTrakingAutomaticoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckTrakingAutomaticoAereo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle txtNumeroVoo_BasicoAereo.

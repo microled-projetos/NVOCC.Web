@@ -195,7 +195,7 @@
                                      </div>
                                 <div class="col-sm-1">
                                     <div class="form-group">
-                                         <label class="control-label" style="color:white">Empresa:</label>
+                                         <label class="control-label" style="color:white;font-size: 8px;">Empresa:</label>
                                         <asp:ImageButton ID="ImageButton1" src="Content/imagens/plus.png" runat="server" Width="50%" />
                                     </div>
                                 </div>

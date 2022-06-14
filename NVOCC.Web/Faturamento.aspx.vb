@@ -198,7 +198,7 @@ Public Class Faturamento
         End If
 
 
-        dsFaturamento.SelectCommand = "SELECT ID_FATURAMENTO,DT_VENCIMENTO,NR_PROCESSO,NM_CLIENTE_REDUZIDO,REFERENCIA_CLIENTE,VL_NOTA_DEBITO,NR_NOTA_DEBITO,DT_NOTA_DEBITO,NR_RPS,DT_RPS,
+        dsFaturamento.SelectCommand = "SELECT ID_FATURAMENTO,DT_VENCIMENTO,NR_PROCESSO,NM_CLIENTE_REDUZIDO,REFERENCIA_CLIENTE,REFERENCIA_AUXILIAR,REFERENCIA_SHIPPER,VL_NOTA_DEBITO,NR_NOTA_DEBITO,DT_NOTA_DEBITO,NR_RPS,DT_RPS,
 NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_LIQUIDACAO,DT_CANCELAMENTO,NOSSONUMERO,ARQ_REM,NM_TIPO_FATURAMENTO,DT_ENVIO_FATURAMENTO FROM [dbo].[View_Faturamento] WHERE CONVERT(DATE,DT_ENVIO_FATURAMENTO,103) BETWEEN CONVERT(DATE,'" & txtDataCheckInicial.Text & "',103) AND CONVERT(DATE,'" & txtDataCheckFim.Text & "',103) " & FiltroDrop & FiltroCheck
         dgvFaturamento.DataBind()
 
@@ -1135,11 +1135,14 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("STATUS_NFE")) Then
                     If ds.Tables(0).Rows(0).Item("STATUS_NFE") = 1 Or ds.Tables(0).Rows(0).Item("STATUS_NFE") = 4 Or ds.Tables(0).Rows(0).Item("STATUS_NFE") = 5 Then
                         lkReenviarRPS.Visible = True
+                        lkGerarRPS.Visible = False
                     Else
                         lkReenviarRPS.Visible = False
+                        lkGerarRPS.Visible = True
                     End If
                 Else
                     lkReenviarRPS.Visible = False
+                    lkGerarRPS.Visible = True
                 End If
 
             End If

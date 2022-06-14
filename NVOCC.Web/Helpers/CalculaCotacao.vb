@@ -101,7 +101,7 @@ Where A.ID_COTACAO = " & ID_COTACAO)
         'Calcula Taxas
         Dim dataatual As Date = Now.Date.ToString("dd/MM/yyyy")
 
-        ds = Con.ExecutarQuery("SELECT a.ID_SERVICO,b.ID_COTACAO_TAXA,isnull(A.VL_PESO_TAXADO,0) VL_PESO_TAXADO,a.ID_MOEDA_FRETE,isnull(A.ID_INCOTERM,0)ID_INCOTERM,
+        ds = Con.ExecutarQuery("SELECT a.ID_SERVICO,b.ID_COTACAO_TAXA,isnull(A.VL_PESO_TAXADO,0) VL_PESO_TAXADO,isnull(A.ID_MOEDA_FRETE,0)ID_MOEDA_FRETE,isnull(A.ID_INCOTERM,0)ID_INCOTERM,
 isnull(B.VL_TAXA_COMPRA,0)VL_TAXA_COMPRA,
 isnull(B.VL_TAXA_VENDA,0)VL_TAXA_VENDA,
 B.ID_BASE_CALCULO_TAXA,isnull(A.VL_TOTAL_M3,0)VL_M3, 

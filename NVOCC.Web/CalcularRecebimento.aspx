@@ -75,6 +75,7 @@
                                         <div class="form-group">
                                             <label class="control-label">TIPO FATURAMENTO:</label><br />
                                             <asp:Label ID="lblTipoFaturamento" runat="server" CssClass="control-label" />
+                                            <asp:Label ID="lblIDTipoFaturamento" runat="server" CssClass="control-label" Style="Display:none" />
                                         </div>
                                     </div>
                                     <div class="col-sm-2">

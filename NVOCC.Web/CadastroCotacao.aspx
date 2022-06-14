@@ -76,7 +76,7 @@
                                     </div>
                                     <div class="row">
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Número de Cotação:</label></label><label runat="server" style="color: red">*</label>
                                                 <asp:TextBox ID="txtNumeroCotacao" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
@@ -100,6 +100,13 @@
                                                 <asp:CheckBox ID="ckbTranspDedicado" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;TRANSP. DEDICADO"></asp:CheckBox>
                                             </div>
                                         </div>
+                                         
+                                           <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label" style="color: white">X</label>
+                                                <asp:CheckBox ID="ckbFreeHand" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;FREE HAND"></asp:CheckBox>
+                                            </div>
+                                        </div>
                                         <div class="col-sm-2" style="display: block">
                                             <div class="form-group">
                                                 <label class="control-label">Data Follow Up:</label></label>
@@ -112,6 +119,12 @@
                                             <div class="form-group">
                                                 <label class="control-label">Data de Abertura:</label></label><label runat="server" style="color: red">*</label>
                                                 <asp:TextBox ID="txtAbertura" runat="server" CssClass="form-control data"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                           <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Data de Validade:</label></label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="txtValidade" runat="server" CssClass="form-control data" MaxLength="100"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -134,12 +147,8 @@
                                                 <asp:DropDownList ID="ddlIncoterm" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_INCOTERM" DataSourceID="dsIncoterm" DataValueField="ID_INCOTERM"></asp:DropDownList>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label class="control-label" style="color: white">X</label>
-                                                <asp:CheckBox ID="ckbFreeHand" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;FREE HAND"></asp:CheckBox>
-                                            </div>
-                                        </div>
+                                     
+                                        
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-2">
@@ -149,10 +158,11 @@
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2">
+                                     <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label class="control-label">Data de Validade:</label></label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtValidade" runat="server" CssClass="form-control data" MaxLength="100"></asp:TextBox>
+                                                <label class="control-label">Analista Pricing:</label>
+                                                <asp:DropDownList ID="ddlAnalistaPricing" runat="server" CssClass="form-control" Enabled="false" Font-Size="11px" DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsUsuario">
+                                                </asp:DropDownList>
                                             </div>
                                         </div>
 
@@ -187,6 +197,7 @@
                                     </div>
                                     <div class="row">
 
+                                      
 
                                         <div class="col-sm-2">
                                             <div class="form-group">
@@ -196,7 +207,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-2">
+                                       <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Tipo BL:</label></label><label runat="server" style="color: red">*</label>
                                                 <asp:DropDownList ID="ddlTipoBL" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_BL" DataSourceID="dsBL" DataValueField="ID_TIPO_BL">
@@ -376,13 +387,12 @@
                                     <div class="row">
 
 
-                                        <div class="col-sm-4">
+                                          <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Número Processo:</label>
                                                 <asp:TextBox ID="txtProcessoCotacao" runat="server" Enabled="false" CssClass="form-control" MaxLength="18"></asp:TextBox>
                                             </div>
                                         </div>
-
 
 
 
@@ -398,7 +408,13 @@
                                                 <asp:Button ID="btnCalcular" runat="server" CssClass="btn btn-block btn-info" Text="Calcular" />
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label" style="color: white">X</label>
+                                                <asp:CheckBox ID="ckbEmailCotacao" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;ENVIAR E-MAIL PARA O CLIENTE"></asp:CheckBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Motivo Cancelamento:</label>
                                                 <asp:DropDownList ID="ddlMotivoCancelamento" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOTIVO_CANCELAMENTO" DataSourceID="dsMotivoCancelamento" DataValueField="ID_MOTIVO_CANCELAMENTO">
@@ -408,25 +424,31 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Obs Cliente:</label>
                                                 <asp:TextBox ID="txtObsCliente" runat="server" CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Obs Operacional:</label>
                                                 <asp:TextBox ID="txtObsOperacional" runat="server" CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
                                             </div>
                                         </div>
-
-                                        <div class="col-sm-4">
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Email's para envio da cotação:</label>                         
+                                                <asp:TextBox ID="txtEmailCotacao" runat="server" CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox><small style="color:gray">(Informe 1 ou mais endereços de email's separados por ponto e vírgula)</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Obs Motivo Cancelamento:</label>
                                                 <asp:TextBox ID="txtObsCancelamento" runat="server" CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
                                             </div>
                                         </div>
+                                       
                                     </div>
 
 
@@ -1239,7 +1261,7 @@
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Tipo de Item(Despesa):</label><label runat="server" style="color: red">*</label>
-                                                                        <asp:DropDownList ID="ddlItemDespesaTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA">
+                                                                        <asp:DropDownList ID="ddlItemDespesaTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA" AutoPostBack="true">
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
@@ -1391,6 +1413,7 @@
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvarTaxa" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnFecharTaxa" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlBaseCalculoTaxa" />
+                                                <asp:AsyncPostBackTrigger ControlID="ddlItemDespesaTaxa" />
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>
@@ -1940,7 +1963,7 @@ ORDER BY NM_RAZAO">
 
     <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA]
-union SELECT  0, 'Selecione' ORDER BY ID_BASE_CALCULO_TAXA"></asp:SqlDataSource>
+union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsDivisaoProfit" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_DIVISAO_PROFIT,NM_TIPO_DIVISAO_PROFIT FROM [dbo].TB_TIPO_DIVISAO_PROFIT
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT"></asp:SqlDataSource>
