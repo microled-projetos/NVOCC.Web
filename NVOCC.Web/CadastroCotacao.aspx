@@ -438,8 +438,8 @@
                                         </div>
                                          <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label class="control-label">Email's para envio da cotação:</label>                      
-                                                <asp:TextBox ID="txtEmailCotacao" runat="server" CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
+                                                <label class="control-label">Email's para envio da cotação:</label>                         
+                                                <asp:TextBox ID="txtEmailCotacao" runat="server" CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox><small style="color:gray">(Informe 1 ou mais endereços de email's separados por ponto e vírgula)</small>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">

@@ -3418,11 +3418,6 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         Dim ds As DataSet
         Dim v As New VerificaData
 
-        If ddlDespesa_TaxaAereo.SelectedValue = 71 Then
-            txtValorVenda_TaxaAereo.Text = "0"
-            txtMinVenda_TaxaAereo.Text = "0"
-            ddlDestinatarioCob_TaxaAereo.SelectedValue = 3
-        End If
 
         If txtMinCompra_TaxaAereo.Text = "" Then
             txtMinCompra_TaxaAereo.Text = 0
@@ -3472,12 +3467,19 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             mpeTaxaAereo.Show()
             Exit Sub
 
-        ElseIf ddlDespesa_TaxaAereo.SelectedValue = 71 And txtValorVenda_TaxaAereo.Text <> 0 And txtMinVenda_TaxaAereo.Text <> 0 Then
+        ElseIf ddlDespesa_TaxaAereo.SelectedValue = 71 And (txtValorVenda_TaxaAereo.Text <> 0 Or txtMinVenda_TaxaAereo.Text <> 0) Then
             divErro_TaxaAereo2.Visible = True
-            lblErro_TaxaAereo2.Text = "Necessário preencher destinatario cobrança!"
+            lblErro_TaxaAereo2.Text = "Não possivel cadastrar taxa de premiação de venda!"
             mpeTaxaAereo.Show()
             Exit Sub
         Else
+
+            If ddlDespesa_TaxaAereo.SelectedValue = 71 Then
+                txtValorVenda_TaxaAereo.Text = "0"
+                txtMinVenda_TaxaAereo.Text = "0"
+                ddlDestinatarioCob_TaxaAereo.SelectedValue = 3
+            End If
+
 
             Dim ObsTaxa As String = ""
             If txtObs_TaxaAereo.Text = "" Then
@@ -3660,11 +3662,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
         Dim v As New VerificaData
 
 
-        If ddlDespesa_TaxaMaritimo.SelectedValue = 71 Then
-            txtValorVenda_TaxaMaritimo.Text = "0"
-            txtMinVenda_TaxaMaritimo.Text = "0"
-            ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 3
-        End If
+
 
         If txtMinCompra_TaxaMaritimo.Text = "" Then
             txtMinCompra_TaxaMaritimo.Text = 0
@@ -3705,19 +3703,23 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             Exit Sub
 
         ElseIf txtValorVenda_TaxaMaritimo.Text <> 0 And ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 0 Then
-            lblErro_TaxaMaritimo2.Visible = True
+            divErro_TaxaMaritimo2.Visible = True
             lblErro_TaxaMaritimo2.Text = "Necessário preencher destinatario cobrança!"
             mpeTaxaMaritimo.Show()
             Exit Sub
 
-        ElseIf ddlDespesa_TaxaMaritimo.SelectedValue = 71 And txtValorVenda_TaxaMaritimo.Text <> 0 And txtMinVenda_TaxaMaritimo.Text <> 0 Then
-            lblErro_TaxaMaritimo2.Visible = True
-            lblErro_TaxaMaritimo2.Text = "Necessário preencher destinatario cobrança!"
+        ElseIf ddlDespesa_TaxaMaritimo.SelectedValue = 71 And ((txtValorVenda_TaxaMaritimo.Text <> 0) Or (txtMinVenda_TaxaMaritimo.Text <> 0)) Then
+            divErro_TaxaMaritimo2.Visible = True
+            lblErro_TaxaMaritimo2.Text = "Não possivel cadastrar taxa de premiação de venda!"
             mpeTaxaMaritimo.Show()
             Exit Sub
         Else
 
-
+            If ddlDespesa_TaxaMaritimo.SelectedValue = 71 Then
+                txtValorVenda_TaxaMaritimo.Text = "0"
+                txtMinVenda_TaxaMaritimo.Text = "0"
+                ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 3
+            End If
 
             Dim ObsTaxa As String = ""
             If txtObs_TaxaMaritimo.Text = "" Then
