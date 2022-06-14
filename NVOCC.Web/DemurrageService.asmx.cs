@@ -4133,6 +4133,9 @@ namespace ABAINFRA.Web
         {
             string SQL;
             SQL = "WHERE SUBSTRING(BL.NR_PROCESSO,10,2)>= '18' ";
+            SQL += "AND LEFT(BL.NR_PROCESSO,1) = 'M' ";
+            SQL += "AND BL.ID_BL_MASTER IS NOT NULL ";
+            SQL += "AND BL.DT_EMBARQUE IS NOT NULL ";
 
             if (dados.BLHOUSE != "")
             {
@@ -4341,6 +4344,8 @@ namespace ABAINFRA.Web
         {
             string SQL;
             SQL = "WHERE SUBSTRING(BL.NR_PROCESSO,10,2)>= '18' ";
+            SQL += "AND LEFT(BL.NR_PROCESSO,1) = 'M' ";
+            SQL += "AND BL.ID_BL_MASTER IS NOT NULL ";
 
             if (dados.BLHOUSE != "")
             {
@@ -4546,7 +4551,7 @@ namespace ABAINFRA.Web
 
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string BuscarCourrier(int id)
         {
             string SQL;
@@ -4580,6 +4585,7 @@ namespace ABAINFRA.Web
                 resultado.NR_FATURA_COURRIER = carregarDados.Rows[0]["NR_FATURA_COURRIER"].ToString();
                 resultado.DT_RETIRADA_PERSONAL = carregarDados.Rows[0]["DT_RETIRADA_PERSONAL"].ToString();
                 resultado.FL_TROCA = carregarDados.Rows[0]["FL_TROCA"].ToString();
+                resultado.ID_USUARIO = "56";
 
                 return JsonConvert.SerializeObject(resultado);
 			}
@@ -4652,6 +4658,28 @@ namespace ABAINFRA.Web
             SQL += "WHERE ID_BL = '" + idblmaster + "' ";
 
             string editCourrierMaster = DBS.ExecuteScalar(SQL);
+
+            return "1";
+
+        }
+
+        [WebMethod]
+        public string editarCourrierPersonal(CourrierInfo dadosEdit)
+        {
+            string SQL;
+            SQL = "UPDATE TB_BL SET ";
+            if (dadosEdit.DT_RETIRADA_COURRIER == "")
+            {
+                SQL += "DT_RETIRADA_COURRIER = NULL, ";
+            }
+            else
+            {
+                SQL += "DT_RETIRADA_COURRIER = '" + dadosEdit.DT_RETIRADA_COURRIER + "', ";
+            }
+            SQL += "NM_RETIRADO_POR_COURRIER = '" + dadosEdit.NM_RETIRADO_POR_COURRIER + "' ";
+            SQL += "WHERE ID_BL = '" + dadosEdit.ID_BL + "' ";
+
+            string editCourrier = DBS.ExecuteScalar(SQL);
 
             return "1";
 
@@ -7617,6 +7645,232 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod(EnableSession = true)]
+        public string listarStatusCotacao(string dataI, string dataF, string filter, string nota)
+        {
+            string SQL;
+            string SQL2;
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    filter = " AND NM_VENDEDOR LIKE '%" + nota + "%' ";
+                    break;
+                case "2":
+                    filter = " AND INSIDE LIKE '%" + nota + "%' ";
+                    break;
+                case "3":
+                    filter = " AND NM_CLIENTE LIKE '%" + nota + "%' ";
+                    break;
+                case "4":
+                    filter = " AND NM_STATUS_COTACAO LIKE '%" + nota + "%' ";
+                    break;
+                default:
+                    filter = "";
+                    break;
+            }
+
+            SQL = "select NM_STATUS_COTACAO, COUNT(NR_COTACAO) as QUANTIDADE ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','"+Session["ID_USUARIO"]+"') ";
+            SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
+            SQL += " " + filter + "";
+            SQL += "GROUP BY NM_STATUS_COTACAO ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarModalCotacao(string dataI, string dataF, string filter, string nota)
+        {
+            string SQL;
+            string SQL2;
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    filter = " AND NM_VENDEDOR LIKE '%" + nota + "%' ";
+                    break;
+                case "2":
+                    filter = " AND INSIDE LIKE '%" + nota + "%' ";
+                    break;
+                case "3":
+                    filter = " AND NM_CLIENTE LIKE '%" + nota + "%' ";
+                    break;
+                case "4":
+                    filter = " AND NM_STATUS_COTACAO LIKE '%" + nota + "%' ";
+                    break;
+                default:
+                    filter = "";
+                    break;
+            }
+
+            SQL = "select MODAL, COUNT(NR_COTACAO) AS QUANTIDADE ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
+            SQL += " " + filter + "";
+            SQL += "GROUP BY MODAL ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarIncotermCotacao(string dataI, string dataF, string filter, string nota)
+        {
+            string SQL;
+            string SQL2;
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    filter = " AND NM_VENDEDOR LIKE '%" + nota + "%' ";
+                    break;
+                case "2":
+                    filter = " AND INSIDE LIKE '%" + nota + "%' ";
+                    break;
+                case "3":
+                    filter = " AND NM_CLIENTE LIKE '%" + nota + "%' ";
+                    break;
+                case "4":
+                    filter = " AND NM_STATUS_COTACAO LIKE '%" + nota + "%' ";
+                    break;
+                default:
+                    filter = "";
+                    break;
+            }
+
+            SQL = "select CD_INCOTERM, COUNT(NR_COTACAO) AS QUANTIDADE ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
+            SQL += " " + filter + "";
+            SQL += "GROUP BY CD_INCOTERM ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarVendedorCotacao(string dataI, string dataF, string filter, string nota)
+        {
+            string SQL;
+            string SQL2;
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    filter = " AND NM_VENDEDOR LIKE '%" + nota + "%' ";
+                    break;
+                case "2":
+                    filter = " AND INSIDE LIKE '%" + nota + "%' ";
+                    break;
+                case "3":
+                    filter = " AND NM_CLIENTE LIKE '%" + nota + "%' ";
+                    break;
+                case "4":
+                    filter = " AND NM_STATUS_COTACAO LIKE '%" + nota + "%' ";
+                    break;
+                default:
+                    filter = "";
+                    break;
+            }
+
+            SQL = "select NM_VENDEDOR, COUNT(NR_COTACAO) AS QUANTIDADE ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
+            SQL += " " + filter + "";
+            SQL += "GROUP BY NM_VENDEDOR ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarInsideCotacao(string dataI, string dataF, string filter, string nota)
+        {
+            string SQL;
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    filter = " AND NM_VENDEDOR LIKE '%" + nota + "%' ";
+                    break;
+                case "2":
+                    filter = " AND INSIDE LIKE '%" + nota + "%' ";
+                    break;
+                case "3":
+                    filter = " AND NM_CLIENTE LIKE '%" + nota + "%' ";
+                    break;
+                case "4":
+                    filter = " AND NM_STATUS_COTACAO LIKE '%" + nota + "%' ";
+                    break;
+                default:
+                    filter = "";
+                    break;
+            }
+
+            SQL = "select INSIDE, COUNT(NR_COTACAO) AS QUANTIDADE ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
+            SQL += " " + filter + "";
+            SQL += "GROUP BY INSIDE ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+
+
+        [WebMethod(EnableSession = true)]
         public string listarConferenciaContaCorrente(string dataI, string dataF, string filter, string nota)
         {
             string SQL;
@@ -8357,6 +8611,49 @@ namespace ABAINFRA.Web
             SQL += "" + filter + " ";
             SQL += "" + estufagem + " ";
             SQL += " AND CONVERT(DATE,A.DT_FINALIZACAO_PROCESSO,103) BETWEEN CONVERT(DATE,'"+ sqlFormattedDate + "',103) AND CONVERT(DATE,'"+ sqlFormattedDate2 + "',103) ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+
+        }
+
+        [WebMethod]
+        public string listarRelatorioConsolidada(string dataI, string dataF)
+        {
+            string sqlFormattedDate;
+            string sqlFormattedDate2;
+            string SQL;
+
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+            sqlFormattedDate = diaI + "/" + mesI + "/" + anoI;
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            sqlFormattedDate2 = diaF + "/" + mesF + "/" + anoF;
+
+
+            SQL = "SELECT X.NM_NAVIO, FORMAT(MAX(X.DT_PREVISAO_CHEGADA),'dd/MM/yyyy') AS PREVISAO_CHEGADA, ";
+            SQL += "X.NR_CNTR, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM,COUNT(X.NR_BL) AS BL ";
+            SQL += "FROM(SELECT C.NR_CNTR, A.NR_BL, ";
+            SQL += "CONVERT(DATE, A.DT_PREVISAO_CHEGADA, 103) AS DT_PREVISAO_CHEGADA, ";
+            SQL += "D.NM_NAVIO, ";
+            SQL += "E.NM_TIPO_CARGA, ";
+            SQL += "F.NM_TIPO_ESTUFAGEM ";
+            SQL += "FROM TB_BL A ";
+            SQL += "JOIN TB_AMR_CNTR_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "JOIN TB_CNTR_BL C ON B.ID_CNTR_BL = C.ID_CNTR_BL ";
+            SQL += "JOIN TB_NAVIO D ON A.ID_NAVIO = D.ID_NAVIO ";
+            SQL += "JOIN TB_TIPO_CARGA E ON  A.ID_TIPO_CARGA = E.ID_TIPO_CARGA ";
+            SQL += "JOIN TB_TIPO_ESTUFAGEM F ON A.ID_TIPO_ESTUFAGEM = F.ID_TIPO_ESTUFAGEM ";
+            SQL += "WHERE A.ID_TIPO_ESTUFAGEM = 2 ";
+            SQL += "AND CONVERT(DATE, A.DT_PREVISAO_CHEGADA, 103) ";
+            SQL += "BETWEEN CONVERT(DATE,'" + sqlFormattedDate + "',103) AND  CONVERT(DATE,'" + sqlFormattedDate2 + "',103)) X ";
+            SQL += "GROUP BY X.NR_CNTR, X.NM_NAVIO, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);

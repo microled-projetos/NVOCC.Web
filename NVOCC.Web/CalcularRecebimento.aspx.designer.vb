@@ -194,15 +194,6 @@ Partial Public Class CalcularRecebimento
     Protected WithEvents lblTipoFaturamento As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblIDTipoFaturamento.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblIDTipoFaturamento As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Controle lblDiasFaturamento.
     '''</summary>
     '''<remarks>
