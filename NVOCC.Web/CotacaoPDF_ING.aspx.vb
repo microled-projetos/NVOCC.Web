@@ -207,7 +207,11 @@ FROM  TB_COTACAO A
                         End If
 
 
-                        tabela &= "<td style='padding-right:10px'>POR TON / M³</td>"
+                        If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                            tabela &= "<td style='padding-right:10px'>PESO TAXADO</td>"
+                        Else
+                            tabela &= "<td style='padding-right:10px'>POR TON / M³</td>"
+                        End If
                         ' tabela &= "<td style='padding-right:10px'>" & String.Format("{0:N}", linha("VL_TOTAL_FRETE_VENDA_MIN")) & "</td>"
                         If linha("MOEDA") = "USD" Then
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format(CultureInfo.GetCultureInfo("en-US"), "{0:C}", linha("VL_TOTAL_FRETE_VENDA_MIN")).Replace("$", "") & "</td>"

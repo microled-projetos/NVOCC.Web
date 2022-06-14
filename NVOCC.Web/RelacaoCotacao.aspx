@@ -15,6 +15,11 @@
                                 <i class="fa fa-edit" style="padding-right: 8px;"></i>Relação Cotação
                             </a>
                         </li>
+                        <li id="tabTotaisCotacao">
+                            <a href="#totaisCotacao" id="linkTotaisCotacao" role="tab" data-toggle="tab">
+                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Totais Cotação
+                            </a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="processoExpectGrid">
@@ -102,11 +107,95 @@
                                     </table>
                                 </div>
                             </div>
+
+                        <div class="tab-pane fade" id="totaisCotacao">
+                            <div class="row topMarg">
+                                <div class="row" style="display: flex; margin:auto; margin-top:10px;">
+                                    <div style="margin: auto">
+                                        <button type="button" id="btnExportTotaisCotacao" class="btn btn-primary" onclick="exportRelacaoCotacaoCSV('Relacao_Cotacao.csv')">Exportar Grid - CSV</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div id="tableTotalStatusCot" class="table-responsive fixedDoubleHead topMarg" style="width: 100%; padding: 5px;">
+                                    <h3 style="text-align:center">Total p/ Status</h3>
+                                    <table id="grdTotalStatusCotacao" class="table tablecont">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" scope="col">STATUS</th>
+                                                <th class="text-center" scope="col">QUANTIDADE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="grdTotalStatusCotacaoBody">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="tableTotalModalCot" class="table-responsive fixedDoubleHead topMarg" style="width: 100%; padding: 5px;">
+                                    <h3 style="text-align:center">Total p/ Modal</h3>
+                                    <table id="grdTotalModalCotacao" class="table tablecont">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" scope="col">MODAL</th>
+                                                <th class="text-center" scope="col">QUANTIDADE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="grdTotalModalCotacaoBody">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="tableTotalIncotermCot" class="table-responsive fixedDoubleHead topMarg" style="width: 100%; padding: 5px;">
+                                    <h3 style="text-align:center">Total p/ Incoterm</h3>
+                                    <table id="grdTotalIncotermCotacao" class="table tablecont">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" scope="col">INCOTERM</th>
+                                                <th class="text-center" scope="col">QUANTIDADE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="grdTotalIncotermCotacaoBody">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div id="tableTotalVendedorCot" class="table-responsive fixedDoubleHead topMarg" style="width: 100%; padding: 5px;">
+                                    <h3 style="text-align:center">Total p/ Vendedor</h3>
+                                    <table id="grdTotalVendedorCotacao" class="table tablecont">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" scope="col">VENDEDOR</th>
+                                                <th class="text-center" scope="col">QUANTIDADE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="grdTotalVendedorCotacaoBody">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="tableTotalInsideCot" class="table-responsive fixedDoubleHead topMarg" style="width: 100%; padding: 5px;">
+                                    <h3 style="text-align:center">Total p/ Inside</h3>
+                                    <table id="grdTotalInsideCotacao" class="table tablecont">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" scope="col">INSIDE</th>
+                                                <th class="text-center" scope="col">QUANTIDADE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="grdTotalInsideCotacaoBody">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
@@ -172,6 +261,141 @@
                         }
                     }
                 });
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarStatusCotacao",
+                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend: function () {
+                        $("#grdTotalStatusCotacaoBody").empty();
+                        $("#grdTotalStatusCotacaoBody").append("<tr><td colspan='2'><div class='loader'></div></td></tr>");
+                    },
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        $("#grdTotalStatusCotacaoBody").empty();
+                        if (dado != null) {
+                            for (let i = 0; i < dado.length; i++) {
+                                $("#grdTotalStatusCotacaoBody").append("<tr style='word-break: break-word'>" +
+                                    "<td class='text-center'> " + dado[i]["NM_STATUS_COTACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QUANTIDADE"] + "</td>" +
+                                    "</tr>");
+                            }
+                        }
+                        else {
+                            $("#grdTotalStatusCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='2' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                        }
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarModalCotacao",
+                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend: function () {
+                        $("#grdTotalModalCotacaoBody").empty();
+                        $("#grdTotalModalCotacaoBody").append("<tr><td colspan='2'><div class='loader'></div></td></tr>");
+                    },
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        $("#grdTotalModalCotacaoBody").empty();
+                        if (dado != null) {
+                            for (let i = 0; i < dado.length; i++) {
+                                $("#grdTotalModalCotacaoBody").append("<tr style='word-break: break-word'>" +
+                                    "<td class='text-center'> " + dado[i]["MODAL"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QUANTIDADE"] + "</td>" +
+                                    "</tr>");
+                            }
+                        }
+                        else {
+                            $("#grdTotalModalCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='2' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                        }
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarIncotermCotacao",
+                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend: function () {
+                        $("#grdTotalIncotermCotacaoBody").empty();
+                        $("#grdTotalIncotermCotacaoBody").append("<tr><td colspan='2'><div class='loader'></div></td></tr>");
+                    },
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        $("#grdTotalIncotermCotacaoBody").empty();
+                        if (dado != null) {
+                            for (let i = 0; i < dado.length; i++) {
+                                $("#grdTotalIncotermCotacaoBody").append("<tr style='word-break: break-word'>" +
+                                    "<td class='text-center'> " + dado[i]["CD_INCOTERM"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QUANTIDADE"] + "</td>" +
+                                    "</tr>");
+                            }
+                        }
+                        else {
+                            $("#grdTotalIncotermCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='2' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                        }
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarVendedorCotacao",
+                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend: function () {
+                        $("#grdTotalVendedorCotacaoBody").empty();
+                        $("#grdTotalVendedorCotacaoBody").append("<tr><td colspan='2'><div class='loader'></div></td></tr>");
+                    },
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        $("#grdTotalVendedorCotacaoBody").empty();
+                        if (dado != null) {
+                            for (let i = 0; i < dado.length; i++) {
+                                $("#grdTotalVendedorCotacaoBody").append("<tr style='word-break: break-word'>" +
+                                    "<td class='text-center'> " + dado[i]["NM_VENDEDOR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QUANTIDADE"] + "</td>" +
+                                    "</tr>");
+                            }
+                        }
+                        else {
+                            $("#grdTotalVendedorCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='2' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                        }
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarInsideCotacao",
+                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend: function () {
+                        $("#grdTotalInsideCotacaoBody").empty();
+                        $("#grdTotalInsideCotacaoBody").append("<tr><td colspan='2'><div class='loader'></div></td></tr>");
+                    },
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        $("#grdTotalInsideCotacaoBody").empty();
+                        if (dado != null) {
+                            for (let i = 0; i < dado.length; i++) {
+                                $("#grdTotalInsideCotacaoBody").append("<tr style='word-break: break-word'>" +
+                                    "<td class='text-center'> " + dado[i]["INSIDE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QUANTIDADE"] + "</td>" +
+                                    "</tr>");
+                            }
+                        }
+                        else {
+                            $("#grdTotalInsideCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='2' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                        }
+                    }
+                });
             } else {
 
             }
@@ -183,6 +407,88 @@
 
             for (var i = 0; i < rows.length; i++) {
                 var row = [], cols = rows[i].querySelectorAll("#grdRelacaoCotacao td, #grdRelacaoCotacao th");
+
+                for (var j = 0; j < cols.length; j++)
+                    row.push(cols[j].innerText);
+
+                csv.push(row.join(";"));
+            }
+
+            // Download CSV file
+            exportTableToCSVRelacaoCotacao(csv.join("\n"), filename);
+        }
+
+        function exportTableToCSVRelacaoCotacao(csv, filename) {
+            var csvFile;
+
+            var downloadLink;
+
+            // CSV file
+            csvFile = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+            // Download link
+            downloadLink = document.createElement("a");
+            // File name
+            downloadLink.download = filename;
+            // Create a link to the file
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            // Hide download link
+            downloadLink.style.display = "none";
+            // Add the link to DOM
+            document.body.appendChild(downloadLink);
+            // Click download link
+            downloadLink.click();
+        }
+
+        function exportRelacaoCotacaoCSV(filename) {
+            var csv = [];
+            var rows = document.querySelectorAll("#grdTotalStatusCotacao tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("#grdTotalStatusCotacao td, #grdTotalStatusCotacao th");
+
+                for (var j = 0; j < cols.length; j++)
+                    row.push(cols[j].innerText);
+
+                csv.push(row.join(";"));
+            }
+
+            var rows = document.querySelectorAll("#grdTotalModalCotacao tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("#grdTotalModalCotacao td, #grdTotalModalCotacao th");
+
+                for (var j = 0; j < cols.length; j++)
+                    row.push(cols[j].innerText);
+
+                csv.push(row.join(";"));
+            }
+
+            var rows = document.querySelectorAll("#grdTotalIncotermCotacao tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("#grdTotalIncotermCotacao td, #grdTotalIncotermCotacao th");
+
+                for (var j = 0; j < cols.length; j++)
+                    row.push(cols[j].innerText);
+
+                csv.push(row.join(";"));
+            }
+
+            var rows = document.querySelectorAll("#grdTotalVendedorCotacao tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("#grdTotalVendedorCotacao td, #grdTotalVendedorCotacao th");
+
+                for (var j = 0; j < cols.length; j++)
+                    row.push(cols[j].innerText);
+
+                csv.push(row.join(";"));
+            }
+
+            var rows = document.querySelectorAll("#grdTotalInsideCotacao tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("#grdTotalInsideCotacao td, #grdTotalInsideCotacao th");
 
                 for (var j = 0; j < cols.length; j++)
                     row.push(cols[j].innerText);

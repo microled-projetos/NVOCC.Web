@@ -871,7 +871,7 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
                 divErro_CNTRMaritimo1.Visible = True
             Else
                 Con.ExecutarQuery("DELETE From TB_CNTR_BL Where ID_CNTR_BL = " & ID)
-                Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ID & " AND ID_BL = " & txtID_BasicoMaritimo.Text)
+                Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ID)
                 Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_CNTR_BL = 0 WHERE ID_CNTR_BL = " & ID)
                 lblSuccess_CNTRMaritimo1.Text = "Registro deletado!"
                 divSuccess_CNTRMaritimo1.Visible = True
