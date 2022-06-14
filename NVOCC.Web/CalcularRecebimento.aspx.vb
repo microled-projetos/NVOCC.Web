@@ -678,11 +678,8 @@ WHERE B.ID_STATUS_COTACAO  = 10 AND ID_BL = " & txtID_BL.Text)
             VerificaTaxas()
 
 
-<<<<<<< HEAD
             ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,VL_ALIQUOTA_ISS) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),1," & Session("ID_USUARIO") & ",'R',(SELECT ID_TIPO_FATURAMENTO FROM TB_PARCEIRO WHERE ID_PARCEIRO= " & ddlFornecedor.SelectedValue & ")," & lblDiasFaturamento.Text & ", " & ISS_final & ")  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
-=======
             ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,VL_ALIQUOTA_ISS) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),1," & Session("ID_USUARIO") & ",'R'," & lblIDTipoFaturamento.Text & "," & lblDiasFaturamento.Text & ", " & ISS_final & ")  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
->>>>>>> devjuliane
             Dim ID_CONTA_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
             lblID_CONTA_PAGAR_RECEBER.Text = ID_CONTA_PAGAR_RECEBER
 

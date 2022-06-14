@@ -794,13 +794,7 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                 Con.ExecutarQuery("DELETE From TB_CARGA_BL Where ID_CARGA_BL = " & ID)
 
                 If ds.Tables(0).Rows.Count > 0 Then
-<<<<<<< HEAD
-                    'Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL") & " AND ID_BL = " & txtID_BasicoMaritimo.Text)
-					 Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL") & "AND ID_CNTR_BL NOT IN (SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_BL = " & txtID_BasicoMaritimo.Text & ") AND ID_BL = " & txtID_BasicoMaritimo.Text)
-=======
-
                     Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL") & "AND ID_CNTR_BL NOT IN (SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_BL = " & txtID_BasicoMaritimo.Text & ") AND ID_BL = " & txtID_BasicoMaritimo.Text)
->>>>>>> devjuliane
                 End If
 
                 Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
@@ -3327,92 +3321,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         mpeCargaMaritimo.Show()
 
     End Sub
-    Sub AMR_CNTR_UPDATE(ID_BL As Integer, ID_CARGA_BL As Integer)
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim cntr As Integer
-
-        'COMPARARA CNTR ATUAL(ANTES DO UPDATE) COM O CNTR DO FORMULARIO
-        Dim dsCNTR As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_CNTR_BL,0)ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL)
-        If dsCNTR.Tables(0).Rows.Count > 0 Then
-            cntr = dsCNTR.Tables(0).Rows(0).Item("ID_CNTR_BL")
-        End If
-        'CASO SEJAM DIFERENTES
-        If cntr <> ddlNumeroCNTR_CargaMaritimo.SelectedValue Then
-
-            'VERIFICA SE HÁ AMARRAÇÃO DE CNTR ATUAL(ANTES DO UPDATE)
-            Dim dsAMRAtual As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL =(SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL & ")")
 
 
-            'CASO EXISTA
-            If dsAMRAtual.Tables(0).Rows.Count > 0 Then
-                'VERIFICA SE HÁ AMARRAÇÃO DE CNTR SELECIONADO NO FORMULARIO
-                Dim dsAMRNovo As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
-                'CASO EXISTA
-                If dsAMRNovo.Tables(0).Rows.Count > 0 Then
-
-                    'VERIFICA SE ALGUMA OUTRA CARGA DESSE BL UTILIZA O CNTR ATUAL(ANTES DO UPDATE)
-                    Dim dsAMROutro As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = (SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL & ") AND ID_CARGA_BL <> " & ID_CARGA_BL)
-
-                    'CASO NÃO REALIZA O DELETE DO CNTR ATUAL(ANTES DO UPDATE)
-                    If dsAMROutro.Tables(0).Rows(0).Item("QTD") = 0 Then
-                        Con.ExecutarQuery("DELETE FROM TB_AMR_CNTR_BL WHERE ID_AMR_CNTR_BL = " & dsAMRNovo.Tables(0).Rows(0).Item("ID_AMR_CNTR_BL"))
-
-                    End If
-                Else
-
-                    'VERIFICA SE ALGUMA OUTRA CARGA DESSE BL UTILIZA O CNTR ATUAL(ANTES DO UPDATE)
-                    Dim dsAMROutro As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = (SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL & ") AND ID_CARGA_BL <> " & ID_CARGA_BL)
-
-                    'CASO NÃO REALIZA, O DELETE DO CNTR ATUAL(ANTES DO UPDATE)
-                    If dsAMROutro.Tables(0).Rows(0).Item("QTD") = 0 Then
-                        'CASO NÃO REALIZA O UPDATE DO CNTR ATUAL(ANTES DO UPDATE) PARA O CNTR SELECIONADO NO FORMULARIO
-                        Con.ExecutarQuery("UPDATE TB_AMR_CNTR_BL SET ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text & " WHERE ID_AMR_CNTR_BL = " & dsAMRAtual.Tables(0).Rows(0).Item("ID_AMR_CNTR_BL"))
-                    Else
-                        'CASO SIM, CHAMA ROTINA DE INSERÇÃO
-                        Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
-
-                    End If
-                End If
-            Else
-                'VERIFICA SE HÁ AMARRAÇÃO DE CNTR SELECIONADO NO FORMULARIO
-                Dim dsAMRNovo As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
-
-                If dsAMRNovo.Tables(0).Rows.Count = 0 Then
-                    'CASO NAO EXISTA, CHAMA ROTINA DE INSERÇÃO
-                    Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
-
-
-                End If
-
-
-            End If
-        Else
-
-            'VERIFICA SE HÁ AMARRAÇÃO DE CNTR SELECIONADO NO FORMULARIO
-            Dim dsAMRNovo As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
-
-            If dsAMRNovo.Tables(0).Rows.Count = 0 Then
-                'CASO NAO EXISTA, CHAMA ROTINA DE INSERÇÃO
-                Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
-
-
-            End If
-
-        End If
-    End Sub
-
-
-    Sub AMR_CNTR_INSERT(ID_BL As Integer, ID_CARGA_BL As Integer)
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim dsAMR As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_AMR_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
-
-        If dsAMR.Tables(0).Rows(0).Item("QTD") = 0 Then
-            Con.ExecutarQuery("INSERT INTO TB_AMR_CNTR_BL (ID_BL,ID_CNTR_BL) VALUES(" & ID_BL & "," & ddlNumeroCNTR_CargaMaritimo.Text & ")")
-        End If
-
-    End Sub
     Private Sub btnSalvar_TaxaAereo_Click(sender As Object, e As EventArgs) Handles btnSalvar_TaxaAereo.Click
 
         divSuccess_TaxaAereo2.Visible = False
@@ -3657,7 +3567,6 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
 
     End Sub
 
-<<<<<<< HEAD
     Sub AMR_CNTR_UPDATE(ID_BL As Integer, ID_CARGA_BL As Integer)
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -3712,11 +3621,12 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                 If dsAMRNovo.Tables(0).Rows.Count = 0 Then
                     'CASO NAO EXISTA, CHAMA ROTINA DE INSERÇÃO
                     Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
+
+
                 End If
 
 
             End If
-
         Else
 
             'VERIFICA SE HÁ AMARRAÇÃO DE CNTR SELECIONADO NO FORMULARIO
@@ -3725,7 +3635,10 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             If dsAMRNovo.Tables(0).Rows.Count = 0 Then
                 'CASO NAO EXISTA, CHAMA ROTINA DE INSERÇÃO
                 Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
+
+
             End If
+
         End If
     End Sub
 
@@ -3741,8 +3654,6 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
 
     End Sub
 
-=======
->>>>>>> devjuliane
     Private Sub btnSalvar_TaxaMaritimo_Click(sender As Object, e As EventArgs) Handles btnSalvar_TaxaMaritimo.Click
         divSuccess_TaxaMaritimo2.Visible = False
         divErro_TaxaMaritimo2.Visible = False
