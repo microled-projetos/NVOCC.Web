@@ -1605,6 +1605,7 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
             Else
 
                 If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 4 Then
+                    'AGENCIAMENTO DE IMPORTACAO MARITIMA + AGENCIAMENTO DE EXPORTACAO MARITIMA
                     'ALTERA FRETE
                     ds = Con.ExecutarQuery("UPDATE TB_COTACAO SET 
 ID_PORTO_ORIGEM = " & ddlOrigemFrete.SelectedValue & ",
@@ -1637,7 +1638,7 @@ FL_FRETE_PROFIT = '" & ckFreteProfit.Checked & "'
 WHERE ID_COTACAO = " & txtID.Text)
 
                 ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
-
+                    'AGENCIAMENTO DE IMPORTACAO AEREO + AGENCIAMENTO DE EXPORTAÇÃO AEREO
 
                     'ALTERA FRETE
                     ds = Con.ExecutarQuery("UPDATE TB_COTACAO SET 
@@ -1682,7 +1683,7 @@ WHERE ID_COTACAO = " & txtID.Text)
 
                 AtualizaFreteMercadoria()
 
-                If ddlServico.SelectedValue <= 2 And ddlEstufagem.SelectedValue = 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
+                If ddlServico.SelectedValue <= 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
                     AtualizaTaxaAgente()
                 End If
 
@@ -3888,7 +3889,7 @@ QTD_BASE_CALCULO
                     txtValorTaxaCompraCalc.Text = ""
                     ckbDeclaradoTaxa.Checked = False
 
-                    If ddlServico.SelectedValue <= 2 And ddlEstufagem.SelectedValue = 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
+                    If ddlServico.SelectedValue <= 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
                         AtualizaTaxaAgente()
                     End If
 
@@ -3957,7 +3958,7 @@ QTD_BASE_CALCULO = " & txtQtdBaseCalculo.Text & "
                     Con.Fechar()
                     dgvTaxas.DataBind()
 
-                    If ddlServico.SelectedValue <= 2 And ddlEstufagem.SelectedValue = 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
+                    If ddlServico.SelectedValue <= 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
                         AtualizaTaxaAgente()
                     End If
 
@@ -5049,7 +5050,7 @@ WHERE A.ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA"))
         divDeleteErroTaxas.Visible = False
         divinfo.Visible = False
         ImportaTaxas()
-        If ddlServico.SelectedValue <= 2 And ddlEstufagem.SelectedValue = 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
+        If ddlServico.SelectedValue <= 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
             AtualizaTaxaAgente()
         End If
         dgvTaxas.DataBind()
@@ -5703,6 +5704,7 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             ddlMoedaVendaTaxa.SelectedValue = 0
             ddlDestinatarioCobrancaTaxa.Enabled = False
             ddlDestinatarioCobrancaTaxa.SelectedValue = 3
+            ddlFornecedor.SelectedValue = ddlIndicador.SelectedValue
         Else
             txtValorTaxaVenda.Enabled = True
             txtValorTaxaVendaMin.Enabled = True
