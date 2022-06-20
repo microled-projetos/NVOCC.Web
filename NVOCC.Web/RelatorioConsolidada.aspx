@@ -5,14 +5,14 @@
             <br />
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Relatório Processos
+                    <h3 class="panel-title">Relatório Consolidada
                     </h3>
                 </div>
                 <div class="panel-body">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="active" id="tabprocessoExpectGrid">
                             <a href="#processoExpectGrid" id="linkprocessoExcepctGrid" role="tab" data-toggle="tab">
-                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Relatório Processos s/ Saldo
+                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Relatório Consolidada
                             </a>
                         </li>
                     </ul>
@@ -31,18 +31,18 @@
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
                                     <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label class="control-label">Data Inicial:</label>
+                                                <label class="control-label">Data Previsão de Chegada Inicial:</label>
                                                 <input id="txtDtInicialConferenciaProcesso" class="form-control" type="date" required="required"/>
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label class="control-label">Data Final:</label>
+                                                <label class="control-label">Data Previsão de Chegada Final:</label>
                                                 <input id="txtDtFinalConferenciaProcesso" class="form-control" type="date" required="required"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="button" id="btnConsultarConferenciaProcesso" onclick="listarProcessoSaldo()" class="btn btn-primary">Consultar</button>
+                                            <button type="button" id="btnConsultarConferenciaProcesso" onclick="listarRelatorioConsolidada()" class="btn btn-primary">Consultar</button>
                                         </div>
                                     </div>
                                 </div> 
@@ -51,6 +51,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center" scope="col">NAVIO</th>
+                                                <th class="text-center" scope="col">DATA EMBARQUE</th>
                                                 <th class="text-center" scope="col">PREVISAO CHEGADA</th>
                                                 <th class="text-center" scope="col">Nº CONTAINER</th>
                                                 <th class="text-center" scope="col">TIPO CARGA</th>
@@ -78,7 +79,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 
     <script>
-        function listarProcessoSaldo() {
+        function listarRelatorioConsolidada() {
             var dtInicial = document.getElementById("txtDtInicialConferenciaProcesso").value;
             var dtFinal = document.getElementById("txtDtFinalConferenciaProcesso").value;
                 $.ajax({
@@ -89,7 +90,7 @@
                     dataType: "json",
                     beforeSend: function () {
                         $("#grdConferenciaProcessoBody").empty();
-                        $("#grdConferenciaProcessoBody").append("<tr><td colspan='5'><div class='loader'></div></td></tr>");
+                        $("#grdConferenciaProcessoBody").append("<tr><td colspan='6'><div class='loader'></div></td></tr>");
                     },
                     success: function (dado) {
                         var dado = dado.d;
@@ -99,6 +100,7 @@
                             for (let i = 0; i < dado.length; i++) {
                                 $("#grdConferenciaProcessoBody").append("<tr style='word-break: break-word'>" +
                                     "<td class='text-center'> " + dado[i]["NM_NAVIO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["EMBARQUE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["PREVISAO_CHEGADA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NM_TIPO_CARGA"] + "</td>" +
@@ -107,7 +109,7 @@
                             }
                         }
                         else {
-                            $("#grdConferenciaProcessoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='5' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                            $("#grdConferenciaProcessoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='6' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
                         }
                     }
                 })

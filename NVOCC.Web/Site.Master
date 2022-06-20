@@ -266,6 +266,16 @@
                             </li>                            
                         </ul>
                     </li>
+                </ul> 
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" id="MenuServicos" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-tasks"></i>&nbsp;Serviços<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="CourrierPersonal.aspx" runat="server" id="mnCourrierPersonal">Courrier Personal</a>
+                            </li>                            
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="header-box-menu nav navbar-nav navbar-right">
                     <li class="dropdown">

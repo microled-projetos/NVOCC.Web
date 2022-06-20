@@ -8638,9 +8638,11 @@ namespace ABAINFRA.Web
 
 
             SQL = "SELECT X.NM_NAVIO, FORMAT(MAX(X.DT_PREVISAO_CHEGADA),'dd/MM/yyyy') AS PREVISAO_CHEGADA, ";
+            SQL += "FORMAT(MAX(X.DT_EMBARQUE),'dd/MM/yyyy') AS EMBARQUE, ";
             SQL += "X.NR_CNTR, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM,COUNT(X.NR_BL) AS BL ";
             SQL += "FROM(SELECT C.NR_CNTR, A.NR_BL, ";
             SQL += "CONVERT(DATE, A.DT_PREVISAO_CHEGADA, 103) AS DT_PREVISAO_CHEGADA, ";
+            SQL += "CONVERT(DATE, A.DT_EMBARQUE, 103) AS DT_EMBARQUE, ";
             SQL += "D.NM_NAVIO, ";
             SQL += "E.NM_TIPO_CARGA, ";
             SQL += "F.NM_TIPO_ESTUFAGEM ";

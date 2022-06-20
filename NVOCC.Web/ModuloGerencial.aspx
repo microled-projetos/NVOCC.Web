@@ -59,11 +59,6 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label class="control-label">Via</label>
-                                        <asp:DropDownList ID="ddlVia" runat="server" CssClass="form-control"></asp:DropDownList>                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
                                         <label class="control-label">Serviço</label>
                                         <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
@@ -147,7 +142,6 @@
         function listarProcessos() {
             var nmfilter = document.getElementById("MainContent_ddlFiltro").value;
             var txtfilter = document.getElementById("txtConsulta").value;
-            var via = document.getElementById("MainContent_ddlVia").value;
             var servico = document.getElementById("MainContent_ddlServico").value;
             var estufagem = document.getElementById("MainContent_ddlTipoEstufagem").value;
             var dtSiIni = document.getElementById("dtSiInicio").value;
@@ -155,7 +149,7 @@
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/listarProcessos",
-                data: '{nmfilter:"' + nmfilter + '",txtfilter: "' + txtfilter + '",estufagem: "' + estufagem + '",via:"' + via + '",servico:"' + servico + '", dtSiIni:"' + dtSiIni + '", dtSiFim:"' + dtSiFim + '"}',
+                data: '{nmfilter:"' + nmfilter + '",txtfilter: "' + txtfilter + '",estufagem: "' + estufagem + '",servico:"' + servico + '", dtSiIni:"' + dtSiIni + '", dtSiFim:"' + dtSiFim + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
