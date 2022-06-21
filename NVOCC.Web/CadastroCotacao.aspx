@@ -1458,8 +1458,10 @@
                                                     <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="Origem de Pagamento" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                     <asp:BoundField DataField="DECLARADO" HeaderText="Declarado" SortExpression="DECLARADO" />
                                                     <asp:BoundField DataField="NM_BASE_CALCULO_TAXA" HeaderText="Base de Cálc." SortExpression="NM_BASE_CALCULO_TAXA" />
+                                                    <asp:BoundField DataField="FORNECEDOR" HeaderText="Fornecedor" SortExpression="FORNECEDOR" />
                                                     <asp:BoundField DataField="NM_MOEDA_COMPRA" HeaderText="Moeda de Compra" SortExpression="NM_MOEDA_COMPRA" />
                                                     <asp:BoundField DataField="VL_TAXA_COMPRA" HeaderText="Valor de Compra" SortExpression="VL_TAXA_COMPRA" />
+                                                    <asp:BoundField DataField="NM_DESTINATARIO_COBRANCA" HeaderText="Destinatario Cob." SortExpression="NM_DESTINATARIO_COBRANCA" />
                                                     <asp:BoundField DataField="NM_MOEDA_VENDA" HeaderText="Moeda de Venda" SortExpression="NM_MOEDA_VENDA" />
                                                     <asp:BoundField DataField="VL_TAXA_VENDA" HeaderText="Valor de Venda" SortExpression="VL_TAXA_VENDA" />
                                                     <asp:TemplateField HeaderText="">
@@ -1883,37 +1885,19 @@ union SELECT  0, 'Selecione' ORDER BY ID_MERCADORIA"></asp:SqlDataSource>
         SelectCommand="SELECT 
 ID_COTACAO_TAXA,
 ID_COTACAO,
-
-ID_ITEM_DESPESA,
 (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)NM_TIPO_ITEM_DESPESA,
-
-ID_ORIGEM_PAGAMENTO,
 (SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
 (SELECT NM_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA WHERE ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA)NM_BASE_CALCULO_TAXA,
-FL_DECLARADO,
 case when FL_DECLARADO = 1 then 'Sim' else 'Não' end as DECLARADO,
-
-FL_DIVISAO_PROFIT,
 case when FL_DIVISAO_PROFIT = 1 then 'Sim' else 'Não' end as PROFIT,
-
-ID_DESTINATARIO_COBRANCA,
+(SELECT SUBSTRING(NM_RAZAO,0,15) FROM TB_PARCEIRO WHERE ID_PARCEIRO =A.ID_FORNECEDOR)FORNECEDOR,
 (SELECT NM_DESTINATARIO_COBRANCA FROM TB_DESTINATARIO_COBRANCA WHERE ID_DESTINATARIO_COBRANCA =A.ID_DESTINATARIO_COBRANCA)NM_DESTINATARIO_COBRANCA,
-
-ID_MOEDA_COMPRA,
 (SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_COMPRA)NM_MOEDA_COMPRA,
-
 VL_TAXA_COMPRA,
-
-ID_MOEDA_VENDA,
 (SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA)NM_MOEDA_VENDA,
-
-VL_TAXA_VENDA,
-    VL_TAXA_COMPRA_MIN,
-    VL_TAXA_VENDA_MIN
-
+VL_TAXA_VENDA
 FROM TB_COTACAO_TAXA A
     WHERE ID_COTACAO = @ID_COTACAO
-
 ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" />

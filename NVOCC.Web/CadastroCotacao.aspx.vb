@@ -1731,7 +1731,7 @@ WHERE ID_COTACAO = " & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
                 Dim ID_AGENTE As Integer = ds.Tables(0).Rows(0).Item("ID_AGENTE").ToString()
                 Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET ID_FORNECEDOR = " & ID_AGENTE & " WHERE FL_DECLARADO = 1 AND ID_COTACAO = " & txtID.Text)
-
+                dgvTaxas.DataBind()
             End If
         End If
     End Sub
