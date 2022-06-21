@@ -213,8 +213,8 @@
                                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="ID_COTACAO" HeaderText="#" Visible="false" />
+											<asp:BoundField DataField="DT_ABERTURA" HeaderText="Abertura" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_ABERTURA" />
                                             <asp:BoundField DataField="NR_COTACAO" HeaderText="Nº Cotação" SortExpression="NR_COTACAO" />
-                                            <asp:BoundField DataField="DT_ABERTURA" HeaderText="Abertura" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_ABERTURA" />
                                             <asp:TemplateField HeaderText="Status" SortExpression="Status">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnStatus" runat="server" CssClass="btn-default"
@@ -224,15 +224,15 @@
                                                     </asp:LinkButton>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
+										    <asp:BoundField DataField="NR_PROCESSO_GERADO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO_GERADO" />
                                             <asp:BoundField DataField="CLIENTE" HeaderText="Cliente" SortExpression="CLIENTE" /> 
                                             <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="TIPO_ESTUFAGEM" />                              
                                             <asp:BoundField DataField="INCOTERM" HeaderText="Incoterm" SortExpression="INCOTERM" />
                                             <asp:BoundField DataField="ORIGEM" HeaderText="Origem" SortExpression="ORIGEM" />
                                             <asp:BoundField DataField="DESTINO" HeaderText="Destino" SortExpression="DESTINO" />  
-                                            <asp:BoundField DataField="NR_PROCESSO_GERADO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO_GERADO" />
                                             <asp:BoundField DataField="SERVICO" HeaderText="Serviço" SortExpression="SERVICO" />
+											<asp:BoundField DataField="CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="CLIENTE_FINAL" />
                                             <asp:BoundField DataField="AGENTE" HeaderText="Agente" SortExpression="AGENTE" />
-                                            <asp:BoundField DataField="CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="CLIENTE_FINAL" />
                                             <asp:BoundField DataField="ARMADOR" HeaderText="Armador" SortExpression="ARMADOR" />
                                             <asp:BoundField DataField="ANALISTA_COTACAO_INSIDE" HeaderText="Analista Inside" SortExpression="ANALISTA_COTACAO_INSIDE" />
                                             <asp:BoundField DataField="ANALISTA_COTACAO_PRICING" HeaderText="Analista Pricing" SortExpression="ANALISTA_COTACAO_PRICING" />

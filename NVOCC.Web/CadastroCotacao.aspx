@@ -1268,7 +1268,7 @@
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label"></label>
-                                                                        <asp:CheckBox ID="ckbDeclaradoTaxa" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Declarado"></asp:CheckBox>
+                                                                        <asp:CheckBox ID="ckbDeclaradoTaxa" runat="server" CssClass="form-control" AutoPostBack="true" Text="&nbsp;&nbsp;Declarado"></asp:CheckBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
@@ -1414,6 +1414,7 @@
                                                 <asp:AsyncPostBackTrigger ControlID="btnFecharTaxa" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlBaseCalculoTaxa" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlItemDespesaTaxa" />
+                                                <asp:AsyncPostBackTrigger ControlID="ckbDeclaradoTaxa" />
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>
