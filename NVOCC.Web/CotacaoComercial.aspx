@@ -259,12 +259,9 @@
 
     </div>
 
-
-
-
   
     <asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM View_Filtro_Cotacao ORDER BY ID_COTACAO DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT top 500 * FROM View_Filtro_Cotacao ORDER BY ID_COTACAO DESC"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
@@ -281,7 +278,6 @@ ORDER BY D.DT_STATUS_COTACAO DESC">
             <asp:Parameter Name="ID_COTACAO" Type="Int32" />
         </SelectParameters>
     </asp:SqlDataSource>
-
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

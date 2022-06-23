@@ -1917,7 +1917,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
             End If
 
-            Dim sql As String = "select * from [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO
+            Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO
             dsCotacao.SelectCommand = sql
             dgvCotacao.DataBind()
 
