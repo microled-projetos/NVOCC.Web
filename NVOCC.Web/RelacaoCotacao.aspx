@@ -116,78 +116,127 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex">
-                                <div id="tableTotalStatusCot" class="table-responsive fixedDoubleHead topMarg" style="width: 100%; padding: 5px;">
-                                    <h3 style="text-align:center">Total p/ Status</h3>
-                                    <table id="grdTotalStatusCotacao" class="table tablecont">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center" scope="col">STATUS</th>
-                                                <th class="text-center" scope="col">QUANTIDADE</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="grdTotalStatusCotacaoBody">
-
-                                        </tbody>
-                                    </table>
+                            <div class="boxMainIndicador">
+                                <div id="totCot" class="flex" style="width: 200px;
+                                background: whitesmoke;
+                                display: flex;
+                                justify-content: center;
+                                flex-direction: column;
+                                align-items: center;
+                                margin: auto;
+                                margin-top: 20px;
+                                border-radius: 7px">
+                                    
                                 </div>
-                                <div id="tableTotalModalCot" class="table-responsive fixedDoubleHead topMarg" style="width: 100%; padding: 5px;">
-                                    <h3 style="text-align:center">Total p/ Modal</h3>
-                                    <table id="grdTotalModalCotacao" class="table tablecont">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center" scope="col">MODAL</th>
-                                                <th class="text-center" scope="col">QUANTIDADE</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="grdTotalModalCotacaoBody">
+                                
+                                <div class="boxImpo">
+                                    <div class="flex" style="width:100%; flex-direction:column">
+                                        <h3 style="text-align:center">Total p/ Status</h3>
+                                        <div class="boxProcImpo">
+                                            <div class="table-responsive tableFixHead" style="max-height: 300px">
+                                                <table id="grdTotalStatusCotacao" class="table tablecont">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center" scope="col">STATUS</th>
+                                                            <th class="text-center" scope="col">QUANTIDADE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="grdTotalStatusCotacaoBody">
 
-                                        </tbody>
-                                    </table>
+                                                    </tbody>
+                                                    <tfoot id="grdTotalStatusCotacaoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex" style="width:100%; flex-direction:column">
+                                        <h3 style="text-align:center">Total p/ Modal</h3>
+                                        <div class="boxTeusImpo">                                        
+                                            <div class="table-responsive tableFixHead" style="max-height: 300px">
+                                                <table id="grdTotalModalCotacao" class="table tablecont">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center" scope="col">MODAL</th>
+                                                            <th class="text-center" scope="col">QUANTIDADE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="grdTotalModalCotacaoBody">
+
+                                                    </tbody>
+                                                    <tfoot id="grdTotalModalCotacaoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex" style="width:100%; flex-direction:column">
+                                        <h3 style="text-align:center">Total p/ Incoterm</h3>
+                                        <div class="boxCntrImpo">                                        
+                                            <div class="table-responsive tableFixHead" style="max-height: 300px">
+                                                <table id="grdTotalIncotermCotacao" class="table tablecont">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center" scope="col">INCOTERM</th>
+                                                            <th class="text-center" scope="col">QUANTIDADE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="grdTotalIncotermCotacaoBody">
+
+                                                    </tbody>
+                                                    <tfoot id="grdTotalIncotermCotacaoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div id="tableTotalIncotermCot" class="table-responsive fixedDoubleHead topMarg" style="width: 100%; padding: 5px;">
-                                    <h3 style="text-align:center">Total p/ Incoterm</h3>
-                                    <table id="grdTotalIncotermCotacao" class="table tablecont">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center" scope="col">INCOTERM</th>
-                                                <th class="text-center" scope="col">QUANTIDADE</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="grdTotalIncotermCotacaoBody">
+                                <div class="boxImpo">
+                                    <div class="flex" style="width:100%; flex-direction:column">
+                                        <h3 style="text-align:center">Total p/ Vendedor</h3>
+                                        <div class="boxProcImpo">
+                                            <div class="table-responsive tableFixHead" style="max-height: 300px">
+                                                <table id="grdTotalVendedorCotacao" class="table tablecont">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center" scope="col">VENDEDOR</th>
+                                                            <th class="text-center" scope="col">QUANTIDADE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="grdTotalVendedorCotacaoBody">
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="flex">
-                                <div id="tableTotalVendedorCot" class="table-responsive fixedDoubleHead topMarg" style="width: 100%; padding: 5px;">
-                                    <h3 style="text-align:center">Total p/ Vendedor</h3>
-                                    <table id="grdTotalVendedorCotacao" class="table tablecont">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center" scope="col">VENDEDOR</th>
-                                                <th class="text-center" scope="col">QUANTIDADE</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="grdTotalVendedorCotacaoBody">
+                                                    </tbody>
+                                                    <tfoot id="grdTotalVendedorCotacaoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div id="tableTotalInsideCot" class="table-responsive fixedDoubleHead topMarg" style="width: 100%; padding: 5px;">
-                                    <h3 style="text-align:center">Total p/ Inside</h3>
-                                    <table id="grdTotalInsideCotacao" class="table tablecont">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center" scope="col">INSIDE</th>
-                                                <th class="text-center" scope="col">QUANTIDADE</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="grdTotalInsideCotacaoBody">
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex" style="width:100%; flex-direction:column">
+                                        <h3 style="text-align:center">Total p/ Inside</h3>
+                                        <div class="boxProcImpo">                                        
+                                            <div class="table-responsive tableFixHead" style="max-height: 300px">
+                                                <table id="grdTotalInsideCotacao" class="table tablecont">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center" scope="col">INSIDE</th>
+                                                            <th class="text-center" scope="col">QUANTIDADE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="grdTotalInsideCotacaoBody">
 
-                                        </tbody>
-                                    </table>
+                                                    </tbody>
+                                                    <tfoot id="grdTotalInsideCotacaoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -206,6 +255,11 @@
 
     <script>
         function RelacaoCotacao() {
+            var totalCot = 0;
+            var totalCotM = 0;
+            var totalCotI = 0;
+            var totalCotV = 0;
+            var totalCotIn = 0;
             var dtInicial = document.getElementById("txtDtInicialRelacaoCotacao").value;
             var dtFinal = document.getElementById("txtDtFinalRelacaoCotacao").value;
             var nota = document.getElementById("txtRelacaoCotacao").value;
@@ -270,6 +324,8 @@
                     beforeSend: function () {
                         $("#grdTotalStatusCotacaoBody").empty();
                         $("#grdTotalStatusCotacaoBody").append("<tr><td colspan='2'><div class='loader'></div></td></tr>");
+                        $("#totCot").empty();
+                        $("#grdTotalStatusCotacaoFooter").empty();
                     },
                     success: function (dado) {
                         var dado = dado.d;
@@ -281,7 +337,14 @@
                                     "<td class='text-center'> " + dado[i]["NM_STATUS_COTACAO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QUANTIDADE"] + "</td>" +
                                     "</tr>");
+                                totalCot += parseFloat(dado[i]["QUANTIDADE"]);
                             }
+                            $("#grdTotalStatusCotacaoFooter").append("<tr style='word-break: break-word'>" +
+                                "<td class='text-center'>Total</td>" +
+                                "<td class='text-center'>" + totalCot + "</td>" +
+                                "</tr>");
+                            $("#totCot").append("<p style='margin: 0px!important; '>Total</p> " +
+                                "<p style='margin:0px !important; font-size:40px;'>" + totalCot + "</p >");
                         }
                         else {
                             $("#grdTotalStatusCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='2' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
@@ -296,6 +359,7 @@
                     dataType: "json",
                     beforeSend: function () {
                         $("#grdTotalModalCotacaoBody").empty();
+                        $("#grdTotalModalCotacaoFooter").empty();
                         $("#grdTotalModalCotacaoBody").append("<tr><td colspan='2'><div class='loader'></div></td></tr>");
                     },
                     success: function (dado) {
@@ -308,7 +372,13 @@
                                     "<td class='text-center'> " + dado[i]["MODAL"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QUANTIDADE"] + "</td>" +
                                     "</tr>");
+
+                                totalCotM += parseFloat(dado[i]["QUANTIDADE"]);
                             }
+                            $("#grdTotalModalCotacaoFooter").append("<tr style='word-break: break-word'>" +
+                                "<td class='text-center'>Total</td>" +
+                                "<td class='text-center'>" + totalCotM + "</td>" +
+                                "</tr>");
                         }
                         else {
                             $("#grdTotalModalCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='2' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
@@ -323,6 +393,7 @@
                     dataType: "json",
                     beforeSend: function () {
                         $("#grdTotalIncotermCotacaoBody").empty();
+                        $("#grdTotalIncotermCotacaoFooter").empty();
                         $("#grdTotalIncotermCotacaoBody").append("<tr><td colspan='2'><div class='loader'></div></td></tr>");
                     },
                     success: function (dado) {
@@ -335,7 +406,13 @@
                                     "<td class='text-center'> " + dado[i]["CD_INCOTERM"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QUANTIDADE"] + "</td>" +
                                     "</tr>");
+
+                                totalCotI += parseFloat(dado[i]["QUANTIDADE"]);
                             }
+                            $("#grdTotalIncotermCotacaoFooter").append("<tr style='word-break: break-word'>" +
+                                "<td class='text-center'>Total</td>" +
+                                "<td class='text-center'>" + totalCotI + "</td>" +
+                                "</tr>");
                         }
                         else {
                             $("#grdTotalIncotermCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='2' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
@@ -350,6 +427,7 @@
                     dataType: "json",
                     beforeSend: function () {
                         $("#grdTotalVendedorCotacaoBody").empty();
+                        $("#grdTotalVendedorCotacaoFooter").empty();
                         $("#grdTotalVendedorCotacaoBody").append("<tr><td colspan='2'><div class='loader'></div></td></tr>");
                     },
                     success: function (dado) {
@@ -362,7 +440,14 @@
                                     "<td class='text-center'> " + dado[i]["NM_VENDEDOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QUANTIDADE"] + "</td>" +
                                     "</tr>");
+
+                                totalCotV += parseFloat(dado[i]["QUANTIDADE"]);
                             }
+
+                            $("#grdTotalVendedorCotacaoFooter").append("<tr style='word-break: break-word'>" +
+                                "<td class='text-center'>Total</td>" +
+                                "<td class='text-center'>" + totalCotV + "</td>" +
+                                "</tr>");
                         }
                         else {
                             $("#grdTotalVendedorCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='2' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
@@ -377,6 +462,7 @@
                     dataType: "json",
                     beforeSend: function () {
                         $("#grdTotalInsideCotacaoBody").empty();
+                        $("#grdTotalInsideCotacaoFooter").empty();
                         $("#grdTotalInsideCotacaoBody").append("<tr><td colspan='2'><div class='loader'></div></td></tr>");
                     },
                     success: function (dado) {
@@ -389,7 +475,14 @@
                                     "<td class='text-center'> " + dado[i]["INSIDE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QUANTIDADE"] + "</td>" +
                                     "</tr>");
+
+                                totalCotIn += parseFloat(dado[i]["QUANTIDADE"]);
                             }
+
+                            $("#grdTotalInsideCotacaoFooter").append("<tr style='word-break: break-word'>" +
+                                "<td class='text-center'>Total</td>" +
+                                "<td class='text-center'>" + totalCotIn + "</td>" +
+                                "</tr>");
                         }
                         else {
                             $("#grdTotalInsideCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='2' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
