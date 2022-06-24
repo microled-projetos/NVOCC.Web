@@ -84,7 +84,6 @@
                                                     <asp:ListItem Value="6">Nome do agente</asp:ListItem>
                                                     <asp:ListItem Value="7">Nome do vendedor</asp:ListItem>
                                                     <asp:ListItem Value="8">Número processo</asp:ListItem>
-                                                    <asp:ListItem Value="9">Nome Inside</asp:ListItem>
                                                     <asp:ListItem Value="10">Cliente Final</asp:ListItem>
                                                     <asp:ListItem Value="11">Via Transporte</asp:ListItem>
                                                     <asp:ListItem Value="12">Estufagem</asp:ListItem>
