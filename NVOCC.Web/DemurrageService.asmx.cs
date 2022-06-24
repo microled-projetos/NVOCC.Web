@@ -7634,7 +7634,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(CONVERT(VARCHAR,SOLICITACAO,103),'') AS SOLICITACAO, ISNULL(CONVERT(VARCHAR,ANALISE,103),'') AS ANALISE, ISNULL(CONVERT(VARCHAR,INFO_PEND,103),'') AS INFO_PEND, ISNULL(CONVERT(VARCHAR,LIBERADA_INSIDE,103),'') AS LIBERADA_INSIDE, ISNULL(CONVERT(VARCHAR,RENEG,103),'') AS RENEG, ISNULL(CONVERT(VARCHAR,AGUARD_APROV,103),'') AS AGUARD_APROV, ";
             SQL += "ISNULL(CONVERT(VARCHAR,CANCELADA,103),'') AS CANCELADA, ISNULL(CONVERT(VARCHAR,REJEITADA,103),'') AS REJEITADA, ISNULL(CONVERT(VARCHAR,APROVADA,103),'') AS APROVADA, ISNULL(CONVERT(VARCHAR,EM_UPDATE,103),'') AS EM_UPDATE, ISNULL(CONVERT(VARCHAR,DECLINADA,103),'') AS DECLINADA, ISNULL(CONVERT(VARCHAR,FINALIZADA_PAG,103),'') AS FINALIZADA_PAG, ISNULL(CONVERT(VARCHAR,EM_FUP,103),'') AS EM_FUP, ISNULL(CONVERT(VARCHAR,APROV_EDIT,103),'') AS APROV_EDIT, ";
             SQL += "ISNULL(NM_MOTIVO_CANCELAMENTO,'') AS MOTIVO, ISNULL(OB_MOTIVO_CANCELAMENTO,'') AS OBS_MOTIVO ";
-            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "'," + Session["ID_USUARIO"] + ") ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
             SQL += "ORDER BY DT_SOLICITACAO ";
@@ -7679,7 +7679,7 @@ namespace ABAINFRA.Web
             }
 
             SQL = "select NM_STATUS_COTACAO, COUNT(NR_COTACAO) as QUANTIDADE ";
-            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','"+Session["ID_USUARIO"]+"') ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "'," + Session["ID_USUARIO"] + ") ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
             SQL += "GROUP BY NM_STATUS_COTACAO ";
@@ -7724,7 +7724,7 @@ namespace ABAINFRA.Web
             }
 
             SQL = "select MODAL, COUNT(NR_COTACAO) AS QUANTIDADE ";
-            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "',"+Session["ID_USUARIO"]+") ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
             SQL += "GROUP BY MODAL ";
@@ -7769,7 +7769,7 @@ namespace ABAINFRA.Web
             }
 
             SQL = "select CD_INCOTERM, COUNT(NR_COTACAO) AS QUANTIDADE ";
-            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "'," + Session["ID_USUARIO"] + ") ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
             SQL += "GROUP BY CD_INCOTERM ";
@@ -7814,7 +7814,7 @@ namespace ABAINFRA.Web
             }
 
             SQL = "select NM_VENDEDOR, COUNT(NR_COTACAO) AS QUANTIDADE ";
-            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "'," + Session["ID_USUARIO"] + ") ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
             SQL += "GROUP BY NM_VENDEDOR ";
@@ -7858,7 +7858,7 @@ namespace ABAINFRA.Web
             }
 
             SQL = "select INSIDE, COUNT(NR_COTACAO) AS QUANTIDADE ";
-            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "'," + Session["ID_USUARIO"] + ") ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
             SQL += "GROUP BY INSIDE ";
@@ -8638,9 +8638,11 @@ namespace ABAINFRA.Web
 
 
             SQL = "SELECT X.NM_NAVIO, FORMAT(MAX(X.DT_PREVISAO_CHEGADA),'dd/MM/yyyy') AS PREVISAO_CHEGADA, ";
+            SQL += "FORMAT(MAX(X.DT_EMBARQUE),'dd/MM/yyyy') AS EMBARQUE, ";
             SQL += "X.NR_CNTR, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM,COUNT(X.NR_BL) AS BL ";
             SQL += "FROM(SELECT C.NR_CNTR, A.NR_BL, ";
             SQL += "CONVERT(DATE, A.DT_PREVISAO_CHEGADA, 103) AS DT_PREVISAO_CHEGADA, ";
+            SQL += "CONVERT(DATE, A.DT_EMBARQUE, 103) AS DT_EMBARQUE, ";
             SQL += "D.NM_NAVIO, ";
             SQL += "E.NM_TIPO_CARGA, ";
             SQL += "F.NM_TIPO_ESTUFAGEM ";

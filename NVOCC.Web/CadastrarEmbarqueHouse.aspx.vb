@@ -2530,7 +2530,6 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
 
     End Sub
-
     Private Sub btnGravar_BasicoMaritimo_Click(sender As Object, e As EventArgs) Handles btnGravar_BasicoMaritimo.Click
 
         divSuccess_BasicoMaritimo.Visible = False

@@ -11,7 +11,7 @@ namespace ABAINFRA.Web
 {
 
 
-	public partial class ModuloGerencial
+	public partial class CourrierPersonal
 	{
 
 		/// <summary>
@@ -24,21 +24,21 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.DropDownList ddlFiltro;
 
 		/// <summary>
-		/// Controle ddlTipoEstufagem.
+		/// Controle chkFCL.
 		/// </summary>
 		/// <remarks>
 		/// Campo gerado automaticamente.
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlTipoEstufagem;
+		protected global::System.Web.UI.WebControls.RadioButton chkFCL;
 
 		/// <summary>
-		/// Controle ddlServico.
+		/// Controle chkLCL.
 		/// </summary>
 		/// <remarks>
 		/// Campo gerado automaticamente.
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlServico;
+		protected global::System.Web.UI.WebControls.RadioButton chkLCL;
 	}
 }

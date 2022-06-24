@@ -94,10 +94,12 @@ namespace ABAINFRA.Web
             else if (tipo == "2")
             {
                 SQL += " AND A.NM_TIPO_ESTUFAGEM ='LCL' ";
+                SQL += " AND LEFT(A.NR_PROCESSO,1) != 'A' ";
             }
             else if (tipo == "3")
             {
                 SQL += " AND A.NM_TIPO_ESTUFAGEM IN('FCL','LCL') ";
+                SQL += " AND LEFT(A.NR_PROCESSO,1) != 'A' ";
             }
             else if (tipo == "4")
             {
@@ -164,10 +166,12 @@ namespace ABAINFRA.Web
             else if (tipo == "2")
             {
                 SQL += " AND A.ID_TIPO_ESTUFAGEM ='2' ";
+                SQL += " AND LEFT(A.NR_PROCESSO,1) != 'A' ";
             }
             else if (tipo == "3")
             {
                 SQL += " AND A.ID_TIPO_ESTUFAGEM IN('1','2') ";
+                SQL += " AND LEFT(A.NR_PROCESSO,1) != 'A' ";
             }
           
 
@@ -230,10 +234,12 @@ namespace ABAINFRA.Web
             else if (tipo == "2")
             {
                 SQL += " AND C.ID_TIPO_ESTUFAGEM ='2' ";
+                SQL += " AND LEFT(C.NR_PROCESSO,1) != 'A' ";
             }
             else if (tipo == "3")
             {
                 SQL += " AND C.ID_TIPO_ESTUFAGEM IN('1','2') ";
+                SQL += " AND LEFT(C.NR_PROCESSO,1) != 'A' ";
             }
 
 
@@ -296,10 +302,12 @@ namespace ABAINFRA.Web
             else if (tipo == "2")
             {
                 SQL += " AND C.ID_TIPO_ESTUFAGEM ='2' ";
+                SQL += " AND LEFT(C.NR_PROCESSO,1) != 'A' ";
             }
             else if (tipo == "3")
             {
                 SQL += " AND C.ID_TIPO_ESTUFAGEM IN('1','2') ";
+                SQL += " AND LEFT(C.NR_PROCESSO,1) != 'A' ";
             }
 
 
@@ -771,7 +779,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarProcessos(string nmfilter, string txtfilter, string estufagem, string via, string servico, string dtSiIni, string dtSiFim)
+        public string listarProcessos(string nmfilter, string txtfilter, string estufagem, string servico, string dtSiIni, string dtSiFim)
         {
             if (dtSiIni != "")
             {
@@ -816,23 +824,13 @@ namespace ABAINFRA.Web
                     estufagem = "AND TP.NM_TIPO_ESTUFAGEM = 'FCL' ";
                     break;
                 case "2":
-                    estufagem = "AND TP.NM_TIPO_ESTUFAGEM = 'LCL' ";
+                    estufagem = "AND TP.NM_TIPO_ESTUFAGEM = 'LCL' AND LEFT(A.NR_PROCESSO,1) != 'A' ";
+                    break;
+                case "3":
+                    estufagem = "AND LEFT(A.NR_PROCESSO,1) = 'A' ";
                     break;
                 default:
                     estufagem = "";
-                    break;
-            }
-
-            switch (via)
-            {
-                case "1":
-                    via = "AND V.ID_VIATRANSPORTE = '4' ";
-                    break;
-                case "2":
-                    via = "AND V.ID_VIATRANSPORTE = '1' ";
-                    break;
-                default:
-                    via = "";
                     break;
             }
 
@@ -886,7 +884,6 @@ namespace ABAINFRA.Web
             SQL += "WHERE A.GRAU = 'C' ";
             SQL += "" + nmfilter + " ";
             SQL += "" + estufagem + " ";
-            SQL += "" + via + " ";
             SQL += "" + servico + " ";
             SQL += " AND CONVERT(DATE,A.DT_ABERTURA,103) BETWEEN CONVERT(DATE,'" + dtSiIni + "',103) AND CONVERT(DATE,'" + dtSiFim + "',103) ";
             DataTable listTable = new DataTable();

@@ -149,6 +149,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnRelatorioProcessos.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2060 And linha.Item("Acessar").ToString() = 0 Then
                         mnRelatorioConsolidada.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2061 And linha.Item("Acessar").ToString() = 0 Then
+                        mnCourrierPersonal.Visible = False
                     End If
 
 
@@ -221,6 +223,10 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
 
             If mnRelatorioConsolidada.Visible = False Then
                 MenuRelatorios.Visible = False
+            End If
+
+            If mnCourrierPersonal.Visible = False Then
+                MenuServicos.Visible = False
             End If
         End If
 
