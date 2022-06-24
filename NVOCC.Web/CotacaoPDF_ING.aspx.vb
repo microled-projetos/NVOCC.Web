@@ -72,6 +72,14 @@ FROM  TB_COTACAO A
                 lblTitulo.Text = ds.Tables(0).Rows(0).Item("NOME_SERVICO") & " (" & ds.Tables(0).Rows(0).Item("NOME_ESTUFAGEM") & ")"
             End If
 
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_COTACAO")) Then
+                lblInfoSuperior.Text = ds.Tables(0).Rows(0).Item("NR_COTACAO")
+            End If
+
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("NOME_SERVICO")) Then
+                lblInfoSuperior.Text = lblInfoSuperior.Text & " - " & ds.Tables(0).Rows(0).Item("NOME_SERVICO")
+            End If
+
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("MOEDA")) Then
                 Session("MOEDA_CNTR") = ds.Tables(0).Rows(0).Item("MOEDA")
             End If
@@ -114,7 +122,7 @@ FROM  TB_COTACAO A
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_PESO_BRUTO")) Then
-                lblPesoBruto.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_PESO_BRUTO").ToString
+                lblPesoBruto.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_PESO_BRUTO").ToString & " KG"
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_TIPO_FREQUENCIA")) Then
@@ -252,6 +260,7 @@ FROM  TB_COTACAO A
             lblTitulo.Text = SubstituiCaracteresEspeciais(lblTitulo.Text)
             lblINCOTERM.Text = SubstituiCaracteresEspeciais(lblINCOTERM.Text)
             lblObsCliente.Text = SubstituiCaracteresEspeciais(lblObsCliente.Text)
+            lblFrequencia.Text = SubstituiCaracteresEspeciais(lblFrequencia.Text)
 
             TAXAS()
 

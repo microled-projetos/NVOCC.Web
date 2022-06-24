@@ -280,17 +280,17 @@ AND A.ID_BL =" & ID_BL & " AND CD_PR =  '" & ds.Tables(0).Rows(0).Item("CD_PR") 
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 14 Then
                     'POR KG
-                    If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
-                        'MARITIMO
-                        x = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
+                    'If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
+                    '    'MARITIMO
+                    '    x = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
 
-                    ElseIf ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
-                        'AEREO
-                        x = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
+                    'ElseIf ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                    '    'AEREO
+                    '    x = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
 
-                    End If
+                    'End If
 
-
+                    x = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = x * y
 
@@ -559,8 +559,8 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
                     Taxa = ds.Tables(0).Rows(0).Item("VL_TAXA").ToString()
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 30 Then
-                    'POR UNIDADE - quantidade de conteineres do processo
-
+                    'POR UNIDADE 
+                    'MARITIMO - quantidade de conteineres do processo
                     Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL WHERE ID_BL_MASTER =" & ID_BL)
                     x = ds1.Tables(0).Rows(0).Item("QTD")
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
@@ -1485,10 +1485,21 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
                     Taxa = Taxa * QTD_BASE_CALCULO
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 30 Then
-                    'POR UNIDADE - quantidade de conteineres do processo
+                    'POR UNIDADE 
+                    Dim ds1 As DataSet
 
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL)
-                    x = ds1.Tables(0).Rows(0).Item("QTD")
+                    If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
+                        'MARITIMO - quantidade de conteineres do processo
+                        Con.ExecutarQuery("SELECT COUNT(ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL)
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    ElseIf ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                        'AEREO  - quantidade de caixas de mercadoria do processo
+                        Con.ExecutarQuery("SELECT ISNULL(SUM(QTD_CAIXA),0)QTD FROM TB_CARGA_BL_DIMENSAO WHERE ID_BL =" & ID_BL)
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                    End If
+
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then

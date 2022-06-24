@@ -39,8 +39,8 @@
     <form id="form" runat="server" style="font-family:Arial;font-size:10px;">  
 
         <div runat="server" id="Div">
-          
-             <div class="interna" style="z-index: 2; position: absolute;" >
+            <div runat="server" id="DivTopo" style="font-weight:bold;float:right;margin-bottom:155px;color:white"><asp:label runat="server" ID="lblInfoSuperior" class="control-label" /></div>
+             <div class="interna" style="z-index: 2; position: absolute;padding-top:195px" >
                  <div style="font-weight:bold;">
             FCA COM&Eacute;RCIO EXTERIOR E LOG&Iacute;STICA LTDA            <br/>
             <br/>
@@ -63,7 +63,7 @@ Issuance date: <asp:label runat="server" ID="lblDataAtual" class="control-label"
 <strong>Taxed Weight:</strong> <asp:label runat="server" ID="lblPesoTaxado" class="control-label" />
 <asp:label runat="server" ID="lblTipoCargaLCL" class="control-label" /><br />
     <div id="divCargaLCL" style="font-family:Arial;font-size:10px;" runat="server"></div>
-     </div></div>
+     </div>
 <div class="linha-colorida2">INCOTERM: <asp:label runat="server" ID="lblINCOTERM" class="control-label" /></div>
 <strong>Origin: </strong><asp:label runat="server" ID="lblOrigem" class="control-label" /><br />
 <strong>Destination: </strong><asp:label runat="server" ID="lblDestino" class="control-label" /><br />
@@ -102,12 +102,12 @@ do faturamento. Essa poder&aacute; divergir da taxa de convers&atilde;o do dia d
 FCA COM&Eacute;RCIO EXTERIOR E LOG&Iacute;STICA LTDA<br/>
 Tel No.<asp:label runat="server" ID="lblTelefoneAnalista" class="control-label" /><br/>
 <asp:label runat="server" ID="Label1" Text="www.fcalog.com.br" class="control-label" /><br/>
-</div>
-             
+
+    </div>         
           
                     <br/><br/>
     <asp:label runat="server" ID="lblTexto" class="control-label" />     
-    </form>
-    
+   </div>   </form>
+  
 </body>
 </html>

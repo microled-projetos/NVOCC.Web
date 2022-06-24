@@ -38,7 +38,7 @@
 <body style="margin:0;">
     <form id="form" runat="server" style="font-family:Arial;font-size:10px;">  
         <div runat="server" id="DivPortugues">
-          <div runat="server" id="DivTopo" style="font-weight:bold;float:right;margin-bottom:155px;color:white"><asp:label runat="server" ID="Label1" class="control-label" /></div>
+          <div runat="server" id="DivTopo" style="font-weight:bold;float:right;margin-bottom:155px;color:white"><asp:label runat="server" ID="lblInfoSuperior" class="control-label" /></div>
              <div class="interna" style="z-index: 2; position: absolute;padding-top:195px" >
                  <div style="font-weight:bold;">
             FCA COM&Eacute;RCIO EXTERIOR E LOG&Iacute;STICA LTDA  <br/>
