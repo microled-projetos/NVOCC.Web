@@ -140,6 +140,16 @@
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
+                                            <label class="control-label">Origem Pagamento</label>
+                                            <select id="ddlFilterEstimativaPagamentoRecebimentoOrigem" class="form-control">
+                                                <option value="">Todas</option>
+                                                <option value="1">Brasil</option>
+                                                <option value="2">Exterior</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
                                             <label class="control-label">*</label>
                                             <input id="txtEstimativaPagamentoRecebimento" class="form-control" type="text" />
                                         </div>
@@ -198,10 +208,6 @@
         var dia = String(data.getDate()).padStart(2, '0');
         var mes = String(data.getMonth() + 1).padStart(2, '0');
         var ano = data.getFullYear();
-
-        $(document).ready(function () {
-            mudarTitulo();
-        });
 
         function validaDat(data) {
             var date = data;
@@ -686,6 +692,7 @@
             $("#modalEstimativaPagamentoRecebimento").modal('show');
             var dtInicial = document.getElementById("txtDtInicialEstimativaPagamentoRecebimento").value;
             var dtFinal = document.getElementById("txtDtFinalEstimativaPagamentoRecebimento").value;
+            var origem = document.getElementById("ddlFilterEstimativaPagamentoRecebimentoOrigem").value;
             var nota = document.getElementById("txtEstimativaPagamentoRecebimento").value;
             var filter = document.getElementById("ddlFilterEstimativaPagamentoRecebimento").value;
             if (dtInicial == "" && dtFinal == "") {
@@ -695,7 +702,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarContasAReceberAPagar",
-                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '", origem: "' + origem + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {

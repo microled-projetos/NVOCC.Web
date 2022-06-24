@@ -59,11 +59,6 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label class="control-label">Via</label>
-                                        <asp:DropDownList ID="ddlVia" runat="server" CssClass="form-control"></asp:DropDownList>                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
                                         <label class="control-label">Serviço</label>
                                         <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
@@ -97,6 +92,8 @@
                                             <th class="text-center" scope="col">TIPO</th>
                                             <th class="text-center" scope="col">ORIGEM</th>
                                             <th class="text-center" scope="col">DESTINO</th>
+                                            <th class="text-center" scope="col">STATUS COTAÇÃO</th>
+                                            <th class="text-center" scope="col">DATA CANCELAMENTO</th>
                                             <th class="text-center" scope="col">S.I</th>
                                             <th class="text-center" scope="col">ETD</th>
                                             <th class="text-center" scope="col">ETA</th>
@@ -145,7 +142,6 @@
         function listarProcessos() {
             var nmfilter = document.getElementById("MainContent_ddlFiltro").value;
             var txtfilter = document.getElementById("txtConsulta").value;
-            var via = document.getElementById("MainContent_ddlVia").value;
             var servico = document.getElementById("MainContent_ddlServico").value;
             var estufagem = document.getElementById("MainContent_ddlTipoEstufagem").value;
             var dtSiIni = document.getElementById("dtSiInicio").value;
@@ -153,7 +149,7 @@
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/listarProcessos",
-                data: '{nmfilter:"' + nmfilter + '",txtfilter: "' + txtfilter + '",estufagem: "' + estufagem + '",via:"' + via + '",servico:"' + servico + '", dtSiIni:"' + dtSiIni + '", dtSiFim:"' + dtSiFim + '"}',
+                data: '{nmfilter:"' + nmfilter + '",txtfilter: "' + txtfilter + '",estufagem: "' + estufagem + '",servico:"' + servico + '", dtSiIni:"' + dtSiIni + '", dtSiFim:"' + dtSiFim + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
@@ -175,6 +171,8 @@
                                 "<td class='text-center'>" + dado[i]["TIPO"] + "</td>" +
                                 "<td class='text-center' title='" + dado[i]["ORIGEM"] + "' style='max-width: 10ch;'>" + dado[i]["ORIGEM"] + "</td>" +
                                 "<td class='text-center'  title='" + dado[i]["DESTINO"] + "' style='max-width: 10ch;'>" + dado[i]["DESTINO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["STATUS_COTACAO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DTCANCELAMENTO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DTABERTURA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["ETD"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["ETA"] + "</td>" +

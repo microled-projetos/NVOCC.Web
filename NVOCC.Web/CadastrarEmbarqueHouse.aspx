@@ -9,7 +9,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">MÓDULO OPERACIONAL - 
-                    <asp:Label ID="lblTipoModulo" runat="server" /> <asp:Label ID="lblHouse_Titulo" runat="server"/></h3>
+                   <asp:Label ID="lblTipoModulo" runat="server" /> <asp:Label ID="lblHouse_Titulo" runat="server"/></h3>
                     
                    <asp:Linkbutton ID="lkProximo" runat="server" BackColor="White" ForeColor="Black" style="float: right;MARGIN-TOP: -25PX;
     POSITION: static;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-forward"></i></asp:Linkbutton>
@@ -445,13 +445,13 @@
                                                  <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label" style="color: white">X</label>
-                                                <asp:CheckBox ID="ckbEmailCotacao_BasicoMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;EMAIL COTAÇÃO"></asp:CheckBox>
+                                                <asp:CheckBox ID="ckbEmailCotacao_BasicoMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Avisos Automáticos para o Parceiro"></asp:CheckBox>
                                             </div>
                                         </div>
 
 										 <div class="col-sm-10">
                                             <div class="form-group">
-                                                <label class="control-label">Emails:</label>
+                                                <label class="control-label">Endereços de e-mail do Processo:</label>
                                                 <asp:TextBox ID="txtEmailCotacao_BasicoMaritimo" runat="server" CssClass="form-control" MaxLength="1000" ></asp:TextBox>
                                             </div>
                                         </div>

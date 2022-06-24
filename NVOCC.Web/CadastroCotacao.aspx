@@ -426,7 +426,7 @@
                                          <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label" style="color: white">X</label>
-                                                <asp:CheckBox ID="ckbEmailCotacao" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;ENVIAR E-MAIL PARA O CLIENTE"></asp:CheckBox>
+                                                <asp:CheckBox ID="ckbEmailCotacao" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Avisos Automáticos para o Parceiro"></asp:CheckBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -453,8 +453,8 @@
                                         </div>
                                          <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label class="control-label">Email's para envio da cotação:</label>                      
-                                                <asp:TextBox ID="txtEmailCotacao" runat="server" CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
+                                                <label class="control-label">Endereços de e-mail do Processo:</label>                         
+                                                <asp:TextBox ID="txtEmailCotacao" runat="server" CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox><small style="color:gray">(Informe 1 ou mais endereços de email's separados por ponto e vírgula)</small>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -1292,7 +1292,7 @@
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label"></label>
-                                                                        <asp:CheckBox ID="ckbDeclaradoTaxa" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Declarado"></asp:CheckBox>
+                                                                        <asp:CheckBox ID="ckbDeclaradoTaxa" runat="server" CssClass="form-control" AutoPostBack="true" Text="&nbsp;&nbsp;Declarado"></asp:CheckBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
@@ -1440,6 +1440,7 @@
                                                 <asp:AsyncPostBackTrigger ControlID="btnFecharTaxa" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlBaseCalculoTaxa" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlItemDespesaTaxa" />
+                                                <asp:AsyncPostBackTrigger ControlID="ckbDeclaradoTaxa" />
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>
@@ -1483,8 +1484,10 @@
                                                     <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="Origem de Pagamento" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                     <asp:BoundField DataField="DECLARADO" HeaderText="Declarado" SortExpression="DECLARADO" />
                                                     <asp:BoundField DataField="NM_BASE_CALCULO_TAXA" HeaderText="Base de Cálc." SortExpression="NM_BASE_CALCULO_TAXA" />
+                                                    <asp:BoundField DataField="FORNECEDOR" HeaderText="Fornecedor" SortExpression="FORNECEDOR" />
                                                     <asp:BoundField DataField="NM_MOEDA_COMPRA" HeaderText="Moeda de Compra" SortExpression="NM_MOEDA_COMPRA" />
                                                     <asp:BoundField DataField="VL_TAXA_COMPRA" HeaderText="Valor de Compra" SortExpression="VL_TAXA_COMPRA" />
+                                                    <asp:BoundField DataField="NM_DESTINATARIO_COBRANCA" HeaderText="Destinatario Cob." SortExpression="NM_DESTINATARIO_COBRANCA" />
                                                     <asp:BoundField DataField="NM_MOEDA_VENDA" HeaderText="Moeda de Venda" SortExpression="NM_MOEDA_VENDA" />
                                                     <asp:BoundField DataField="VL_TAXA_VENDA" HeaderText="Valor de Venda" SortExpression="VL_TAXA_VENDA" />
                                                     <asp:TemplateField HeaderText="">
@@ -1932,37 +1935,19 @@ union SELECT  0, 'Selecione' ORDER BY ID_MERCADORIA"></asp:SqlDataSource>
         SelectCommand="SELECT 
 ID_COTACAO_TAXA,
 ID_COTACAO,
-
-ID_ITEM_DESPESA,
 (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)NM_TIPO_ITEM_DESPESA,
-
-ID_ORIGEM_PAGAMENTO,
 (SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
 (SELECT NM_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA WHERE ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA)NM_BASE_CALCULO_TAXA,
-FL_DECLARADO,
 case when FL_DECLARADO = 1 then 'Sim' else 'Não' end as DECLARADO,
-
-FL_DIVISAO_PROFIT,
 case when FL_DIVISAO_PROFIT = 1 then 'Sim' else 'Não' end as PROFIT,
-
-ID_DESTINATARIO_COBRANCA,
+(SELECT SUBSTRING(NM_RAZAO,0,15) FROM TB_PARCEIRO WHERE ID_PARCEIRO =A.ID_FORNECEDOR)FORNECEDOR,
 (SELECT NM_DESTINATARIO_COBRANCA FROM TB_DESTINATARIO_COBRANCA WHERE ID_DESTINATARIO_COBRANCA =A.ID_DESTINATARIO_COBRANCA)NM_DESTINATARIO_COBRANCA,
-
-ID_MOEDA_COMPRA,
 (SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_COMPRA)NM_MOEDA_COMPRA,
-
 VL_TAXA_COMPRA,
-
-ID_MOEDA_VENDA,
 (SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA)NM_MOEDA_VENDA,
-
-VL_TAXA_VENDA,
-    VL_TAXA_COMPRA_MIN,
-    VL_TAXA_VENDA_MIN
-
+VL_TAXA_VENDA
 FROM TB_COTACAO_TAXA A
     WHERE ID_COTACAO = @ID_COTACAO
-
 ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" />
@@ -1997,13 +1982,13 @@ FROM TB_COTACAO A where ID_CLIENTE = @ID_CLIENTE AND ID_TIPO_ESTUFAGEM = @ID_TIP
     <asp:SqlDataSource ID="dsFornecedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN((SELECT ID_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
 UNION 
-SELECT ID_TRANSPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
+SELECT ISNULL(ID_TRANSPORTADOR,0)ID_TRANSPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
 UNION 
-SELECT ID_AGENTE_INTERNACIONAL FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
+SELECT ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
 UNION 
-SELECT ID_PARCEIRO_INDICADOR FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
+SELECT ISNULL(ID_PARCEIRO_INDICADOR,0)ID_PARCEIRO_INDICADOR FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
 UNION
-SELECT DISTINCT ID_FORNECEDOR FROM TB_COTACAO_TAXA WHERE ID_COTACAO = @ID_COTACAO AND ID_FORNECEDOR IS NOT NULL)) OR FL_PRESTADOR = 1 
+SELECT DISTINCT ISNULL(ID_FORNECEDOR,0)ID_FORNECEDOR FROM TB_COTACAO_TAXA WHERE ID_COTACAO = @ID_COTACAO AND ID_FORNECEDOR IS NOT NULL)) OR FL_PRESTADOR = 1 
 union SELECT 0, ' Selecione'  
 ORDER BY NM_RAZAO">
         <SelectParameters>
@@ -2113,33 +2098,33 @@ FROM TB_COTACAO_TAXA A
         }
 
 
-        function removerTR(id) {
-            id.remove();
-        }
+        //function removerTR(id) {
+        //    id.remove();
+        //}
 
-        function adicionarTR() {
-            // // Quantidade de linha da tabela
-            var qtdRows = document.getElementById("tbMedidasAereo").rows.length;
+        //function adicionarTR() {
+        //     // Quantidade de linha da tabela
+        //    var qtdRows = document.getElementById("tbMedidasAereo").rows.length;
 
-            var table = document.getElementById("tbMedidasAereo");
-            var newRow = table.insertRow(qtdRows);
-            var chave = "composto_" + qtdRows
-            newRow.id = chave;
+        //    var table = document.getElementById("tbMedidasAereo");
+        //    var newRow = table.insertRow(qtdRows);
+        //    var chave = "composto_" + qtdRows
+        //    newRow.id = chave;
 
-            // add cells to the row
-            var cel1 = newRow.insertCell(0);
-            var cel2 = newRow.insertCell(1);
-            var cel3 = newRow.insertCell(2);
-            var cel4 = newRow.insertCell(3);
-            var cel5 = newRow.insertCell(4);
+        //     add cells to the row
+        //    var cel1 = newRow.insertCell(0);
+        //    var cel2 = newRow.insertCell(1);
+        //    var cel3 = newRow.insertCell(2);
+        //    var cel4 = newRow.insertCell(3);
+        //    var cel5 = newRow.insertCell(4);
 
 
-            // add values to the cells
-            cel1.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "QtdCaixas" + qtdRows + "'></div>";
-            cel2.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Comprimento" + qtdRows + "'></div>";
-            cel3.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Largura" + qtdRows + "'></div>";
-            cel4.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Altura" + qtdRows + "'></div>";
-            cel5.innerHTML = "<div class='col-sm-12'><a href='#' onClick='removerTR(" + "composto_" + qtdRows + ");'><img src='Content/imagens/minus.png'></a></div>";
-        }
+        //     add values to the cells
+        //    cel1.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "QtdCaixas" + qtdRows + "'></div>";
+        //    cel2.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Comprimento" + qtdRows + "'></div>";
+        //    cel3.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Largura" + qtdRows + "'></div>";
+        //    cel4.innerHTML = "<div class='col-sm-12'><input type='text' class='form-control' id='" + "Altura" + qtdRows + "'></div>";
+        //    cel5.innerHTML = "<div class='col-sm-12'><a href='#' onClick='removerTR(" + "composto_" + qtdRows + ");'><img src='Content/imagens/minus.png'></a></div>";
+        //}
     </script>
 </asp:Content>
