@@ -54,6 +54,9 @@ ID_PORTO_DESTINO,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO )PORTO_DESTINO,
 ID_PORTO_ORIGEM,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM )PORTO_ORIGEM,
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_CLIENTE )PORTO_CLIENTE,
+
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCOLHIDO )PORTO_ESCOLHIDO,
 ID_VIA_ROTA,
 (SELECT NM_VIA_ROTA FROM TB_VIA_ROTA WHERE ID_VIA_ROTA = A.ID_VIA_ROTA )VIA_ROTA,
 QT_TRANSITTIME_MEDIA,
@@ -141,9 +144,17 @@ FROM  TB_COTACAO A
                 lblPesoTaxado.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString
             End If
 
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ORIGEM")) Then
+
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ESCOLHIDO")) Then
+                lblOrigem.Text = ds.Tables(0).Rows(0).Item("PORTO_ESCOLHIDO").ToString
+
+            ElseIf Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_CLIENTE")) Then
+                lblOrigem.Text = ds.Tables(0).Rows(0).Item("PORTO_CLIENTE").ToString
+
+            ElseIf Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ORIGEM")) Then
                 lblOrigem.Text = ds.Tables(0).Rows(0).Item("PORTO_ORIGEM").ToString
             End If
+
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_DESTINO")) Then
                 lblDestino.Text = ds.Tables(0).Rows(0).Item("PORTO_DESTINO").ToString
             End If
@@ -220,6 +231,7 @@ FROM  TB_COTACAO A
                         Else
                             tabela &= "<td style='padding-right:10px'>POR TON / M³</td>"
                         End If
+
                         ' tabela &= "<td style='padding-right:10px'>" & String.Format("{0:N}", linha("VL_TOTAL_FRETE_VENDA_MIN")) & "</td>"
                         If linha("MOEDA") = "USD" Then
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format(CultureInfo.GetCultureInfo("en-US"), "{0:C}", linha("VL_TOTAL_FRETE_VENDA_MIN")).Replace("$", "") & "</td>"

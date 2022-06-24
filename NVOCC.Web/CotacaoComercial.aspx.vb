@@ -1917,7 +1917,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
             End If
 
-            Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO
+            Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO & " order by DT_abertura desc"
             dsCotacao.SelectCommand = sql
             dgvCotacao.DataBind()
 
@@ -2068,7 +2068,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
                 End If
 
-                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO, ISNULL(NR_PROCESSO_GERADO,'')NR_PROCESSO_GERADO, DT_VALIDADE_COTACAO, ISNULL(ID_TIPO_DIVISAO_FRETE,0)ID_TIPO_DIVISAO_FRETE, ISNULL(ID_SERVICO,0)ID_SERVICO,ISNULL(ID_TIPO_ESTUFAGEM,0)ID_TIPO_ESTUFAGEM FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO, ISNULL(NR_PROCESSO_GERADO,'')NR_PROCESSO_GERADO, DT_VALIDADE_COTACAO, ISNULL(ID_TIPO_DIVISAO_FRETE,0)ID_TIPO_DIVISAO_FRETE, ISNULL(ID_SERVICO,0)ID_SERVICO,ISNULL(ID_TIPO_ESTUFAGEM,0)ID_TIPO_ESTUFAGEM,(ID_PORTO_ESCOLHIDO,0)ID_PORTO_ESCOLHIDO,(ID_PORTO_CLIENTE,0)ID_PORTO_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
                 If ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL") = 0 Then
                     divErro.Visible = True
@@ -2087,6 +2087,12 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                     divErro.Visible = True
                     lblmsgErro.Text = "Cotação contém taxa(s) com valor minimo vazio!"
                     Exit Sub
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_PORTO_CLIENTE") <> 0 And ds.Tables(0).Rows(0).Item("ID_PORTO_ESCOLHIDO") = 0 Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Necessario escolher um porto para cotação!"
+                    Exit Sub
+
                 Else
 
                     If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 10 Then

@@ -256,13 +256,11 @@ Public Class Funcoes
     End Function
     Public Function obtemDescricao(ByVal idFatura As Long, Optional ByVal Tipo As String = "IPA", Optional Cod_Empresa As Integer = 1) As String
         Dim ret As String = ""
-        Dim sSql As String
         Dim rsDescr As DataSet
         Con.Conectar()
 
         Try
 
-            ' rsDescr = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA AS ITEM,(SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =  A.ID_ITEM_DESPESA)AS DESCRICAO, VL_TAXA_CALCULADO AS VALOR FROM TB_CONTA_PAGAR_RECEBER_ITENS A WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & idFatura & ") ORDER BY ITEM ")
 
             rsDescr = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA AS ITEM,(SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =  A.ID_ITEM_DESPESA)AS DESCRICAO, VL_LIQUIDO AS VALOR 
 FROM TB_CONTA_PAGAR_RECEBER_ITENS A 

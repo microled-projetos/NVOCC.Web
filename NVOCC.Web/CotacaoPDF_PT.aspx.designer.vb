@@ -32,7 +32,6 @@ Partial Public Class CotacaoPDF_PT
     Protected WithEvents DivPortugues As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-<<<<<<< HEAD
     '''Controle DivTopo.
     '''</summary>
     '''<remarks>
@@ -51,8 +50,6 @@ Partial Public Class CotacaoPDF_PT
     Protected WithEvents lblInfoSuperior As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-=======
->>>>>>> af80992b0f1b21be3ddb8d1da002d6087e3d9a24
     '''Controle lblEnderecoFCA.
     '''</summary>
     '''<remarks>

@@ -131,33 +131,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtNumeroCotacao As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtViaTransporte.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtViaTransporte As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle ddlServico.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlServico As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlEstufagem.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlEstufagem As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle divFlagMaritimo.
     '''</summary>
     '''<remarks>
@@ -183,6 +156,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ckbDtaHub As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbTranspDedicado.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbTranspDedicado As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle divFlagAereo.
@@ -212,15 +194,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ckbTC6 As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
-    '''Controle ckbTranspDedicado.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ckbTranspDedicado As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
     '''Controle ckbFreeHand.
     '''</summary>
     '''<remarks>
@@ -228,6 +201,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ckbFreeHand As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle txtDataFollowUp.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDataFollowUp As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtAbertura.
@@ -248,13 +230,31 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtValidade As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtDataFollowUp.
+    '''Controle txtViaTransporte.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtDataFollowUp As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtViaTransporte As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlServico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlServico As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlEstufagem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlEstufagem As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlIncoterm.
@@ -2417,15 +2417,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents dsPorto As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsPortoEscolhido.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsPortoEscolhido As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
     '''Controle dsComex.
     '''</summary>
     '''<remarks>
@@ -2496,15 +2487,6 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsCarga As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsTipoAeronave.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsTipoAeronave As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsContainer.
@@ -2802,4 +2784,22 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsMedidasAereo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsPortoEscolhido.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsPortoEscolhido As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTipoAeronave.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTipoAeronave As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

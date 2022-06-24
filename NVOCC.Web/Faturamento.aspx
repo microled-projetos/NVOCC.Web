@@ -154,13 +154,8 @@
                                             <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
                                             <asp:BoundField DataField="NM_CLIENTE_REDUZIDO" HeaderText="Cliente" SortExpression="NM_CLIENTE_REDUZIDO" />
                                             <asp:BoundField DataField="REFERENCIA_CLIENTE" HeaderText="Ref. Cliente" SortExpression="REFERENCIA_CLIENTE" />
-<<<<<<< HEAD
-                                            <asp:BoundField DataField="REFERENCIA_SHIPPER" HeaderText="Ref. Shipper" SortExpression="REFERENCIA_CLIENTE" />
-                                            <asp:BoundField DataField="REFERENCIA_AUXILIAR" HeaderText="Ref. Auxiliar" SortExpression="REFERENCIA_CLIENTE" />
-=======
                                             <asp:BoundField DataField="REFERENCIA_SHIPPER" HeaderText="Ref. Shipper" SortExpression="REFERENCIA_SHIPPER" />
                                             <asp:BoundField DataField="REFERENCIA_AUXILIAR" HeaderText="Ref. Auxiliar" SortExpression="REFERENCIA_AUXILIAR" />
->>>>>>> af80992b0f1b21be3ddb8d1da002d6087e3d9a24
                                             <asp:BoundField DataField="VL_NOTA_DEBITO" HeaderText="Valor Nota de Deb." SortExpression="VL_NOTA_DEBITO" />
                                             <asp:BoundField DataField="NR_NOTA_DEBITO" HeaderText="Nota de Deb." SortExpression="NR_NOTA_DEBITO" />
                                             <asp:BoundField DataField="DT_NOTA_DEBITO" HeaderText="Data de Nota de Deb." SortExpression="DT_NOTA_DEBITO" />

@@ -84,7 +84,6 @@
                                                     <asp:ListItem Value="6">Nome do agente</asp:ListItem>
                                                     <asp:ListItem Value="7">Nome do vendedor</asp:ListItem>
                                                     <asp:ListItem Value="8">Número processo</asp:ListItem>
-                                                    <asp:ListItem Value="9">Nome Inside</asp:ListItem>
                                                     <asp:ListItem Value="10">Cliente Final</asp:ListItem>
                                                     <asp:ListItem Value="11">Via Transporte</asp:ListItem>
                                                     <asp:ListItem Value="12">Estufagem</asp:ListItem>
@@ -112,45 +111,31 @@
 
                                 <ajaxToolkit:ModalPopupExtender ID="mpeImprimir" runat="server" PopupControlID="Panel1" TargetControlID="lkImprimir" CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Imprimir</h5>
+                                                            <h5 class="modal-title" id="modalMercaoriaNova">Imprimir</h5>
                                                         </div>
                                                         <div class="modal-body">    
                                                              <br/>
                                    
                                   
-                            <div class="row"  >
+                            <div class="row"  style="padding-left:18px">
+                               <asp:label ID="Label2" runat="server">Selecione o idioma:</asp:label> 
                                 <div>
-                                     <div class="col-sm-4">
-                                    <div class="form-group"><asp:label ID="Label4" runat="server">Idioma:</asp:label> 
+                                   <div class="row">
+                                     <div class="col-sm-3">
+                                    <div class="form-group">
                                              <asp:DropDownList ID="ddlLinguagem" Width="230px" runat="server"  CssClass="form-control" Font-Size="15px" >
                                              <asp:ListItem Value="p" Selected="True">PORTUGUÊS</asp:ListItem>
                                             <asp:ListItem Value="i">INGLÊS</asp:ListItem>
                                         </asp:DropDownList>
                                         </div>
                                          </div>
-                                   
-                                     <div class="col-sm-4">
-                                    <div class="form-group"><asp:label ID="Label3" runat="server">Porto ao Cliente:</asp:label> 
-                                             <asp:DropDownList ID="DropDownList1" Width="230px" runat="server"  CssClass="form-control" Font-Size="15px" >
-                                             <asp:ListItem Value="p" Selected="True">PORTO DE ORIGEM</asp:ListItem>
-                                            <asp:ListItem Value="i">PORTO 1</asp:ListItem>
-                                                 <asp:ListItem Value="i">PORTO 2</asp:ListItem>
-                                                 <asp:ListItem Value="i">PORTO 3</asp:ListItem>
-                                                 <asp:ListItem Value="i">PORTO 4</asp:ListItem>
-                                        </asp:DropDownList>
-                                        </div>
-                                         </div>
-                                        <div class="col-sm-4">
-                                    <div class="form-group"><label class="control-label" style="color: white">X</label>
-                                        <asp:CheckBox ID="CheckBox1" runat="server" CssClass="form-control" Checked="TRUE" Text="&nbsp;&nbsp;Definir como porto da cotação"></asp:CheckBox>
-                                        </div>
-                                         </div>
                                    </div>      
                                 </div>  
-                             </div>                     
+                             </div>
+                                                                                  </div>                     
                                <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar" text="Close" />
                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnImprimir" text="Imprimir" />
