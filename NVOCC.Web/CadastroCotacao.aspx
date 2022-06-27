@@ -2104,7 +2104,7 @@ FROM TB_COTACAO_TAXA A
         </SelectParameters>
     </asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsPortoEscolhido" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+     <asp:SqlDataSource ID="dsPortoEscolhido" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT A.ID_PORTO_ORIGEM AS ID_PORTO, B.CD_PORTO +' - '+ B.NM_PORTO DESCR FROM TB_COTACAO A
 INNER JOIN TB_PORTO B ON A.ID_PORTO_ORIGEM = B.ID_PORTO WHERE ID_COTACAO =  @ID_COTACAO
 union 
@@ -2112,13 +2112,18 @@ SELECT A.ID_PORTO_CLIENTE AS ID_PORTO, B.CD_PORTO +' - '+ B.NM_PORTO PORTO FROM 
 INNER JOIN TB_PORTO B ON A.ID_PORTO_CLIENTE = B.ID_PORTO WHERE ID_COTACAO =  @ID_COTACAO 
         union 
 SELECT B.ID_PORTO AS ID_PORTO, B.CD_PORTO +' - '+ B.NM_PORTO PORTO FROM TB_PORTO B WHERE B.ID_PORTO =  @PORTO_CLIENTE 
+         union
+         SELECT B.ID_PORTO AS ID_PORTO, B.CD_PORTO +' - '+ B.NM_PORTO PORTO FROM TB_PORTO B WHERE B.ID_PORTO =  @PORTO_ORIGEM 
+
 union 
 SELECT  0, '      Selecione' ORDER BY ID_PORTO_ORIGEM ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" DefaultValue="0" />
-            <asp:ControlParameter Name="PORTO_CLIENTE" Type="Int32" ControlID="ddlPortoCliente" DefaultValue="0" />
+            <asp:ControlParameter Name="PORTO_CLIENTE" Type="Int32" ControlID="ddlPortoCliente" DefaultValue="0"  />
+            <asp:ControlParameter Name="PORTO_ORIGEM" Type="Int32" ControlID="ddlOrigemFrete" DefaultValue="0"  />
         </SelectParameters>
     </asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsTipoAeronave" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_TIPO_AERONAVE,NM_TIPO_AERONAVE from TB_TIPO_AERONAVE
 union 
