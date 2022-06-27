@@ -1972,7 +1972,8 @@ FROM TB_COTACAO_TAXA A
 union SELECT  0, 'Selecione'  ORDER BY ID_ORIGEM_PAGAMENTO"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsDestinatarioCobranca" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_DESTINATARIO_COBRANCA,NM_DESTINATARIO_COBRANCA from TB_DESTINATARIO_COBRANCA
-union SELECT  0, 'Selecione'  ORDER BY ID_DESTINATARIO_COBRANCA"></asp:SqlDataSource>
+union SELECT  0, 'Selecione'  ORDER BY ID_DESTINATARIO_COBRANCA">
+    </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsHistoricoCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT top 10
 ID_COTACAO, 

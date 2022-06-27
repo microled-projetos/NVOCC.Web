@@ -221,6 +221,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlTransportador_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtContratoArmador_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtContratoArmador_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlOrigem_BasicoMaritimo.
     '''</summary>
     '''<remarks>

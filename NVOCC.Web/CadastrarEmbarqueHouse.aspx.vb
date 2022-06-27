@@ -119,6 +119,10 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                         ddlTransportador_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_CONTRATO_ARMADOR")) Then
+                        txtContratoArmador_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("NR_CONTRATO_ARMADOR").ToString()
+                    End If
+
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")) Then
                         txtCodTranspRodoviario_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")
                         ddlTranspRodoviario_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")

@@ -128,13 +128,13 @@
                                         </div>
                                      <div class="row">
   
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Tipo BL:</label>
                                                 <asp:TextBox ID="txtTipoBLMaritimo" runat="server" CssClass="form-control" Enabled="false" ToolTip="Campo preenchido na cotação"></asp:TextBox>
                                             </div>
                                         </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Cliente Final:</label>
                                                 <asp:TextBox ID="txtClienteFinalMaritimo" runat="server" CssClass="form-control" Enabled="false" ToolTip="Campo preenchido na cotação"></asp:TextBox>
@@ -158,7 +158,12 @@
                                                 <asp:DropDownList ID="ddlTransportador_BasicoMaritimo" runat="server" Enabled="false" CssClass="form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsTransportador_Maritimo" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                             </div>
                                         </div>
-                                        
+                                        <div class="col-sm-2">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label">Nº Contrato Armador:</label>
+                                                                            <asp:TextBox ID="txtContratoArmador_BasicoMaritimo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        </div>
+                                                                    </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-3">

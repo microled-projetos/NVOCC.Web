@@ -326,6 +326,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             DivFreetime.Attributes.CssStyle.Add("display", "none")
             RedM3.Visible = False
             'dsBaseCalculo.SelectCommand = "SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE  ID_VIATRANSPORTE <> 1 union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"
+
+
         Else
             'MARITIMO
             ddlEstufagem.SelectedValue = 0
@@ -389,6 +391,18 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
                 divCntr.Attributes.CssStyle.Add("display", "none")
 
             End If
+        End If
+
+
+        If (Session("servico") <> 4) And (Session("servico") <> 5) Then
+            'SE NAO FOR EXP
+            dsDestinatarioCobranca.SelectCommand = "select ID_DESTINATARIO_COBRANCA,NM_DESTINATARIO_COBRANCA from TB_DESTINATARIO_COBRANCA WHERE ISNULL(TP_SERVICO,'') <> 'EXP' 
+union SELECT  0, 'Selecione'  ORDER BY ID_DESTINATARIO_COBRANCA"
+            ddlDestinatarioCobrancaTaxa.DataBind()
+        Else
+            'SE FOR EXP PODE EXIBIR TODOS OS TIPOS
+            dsDestinatarioCobranca.DataBind()
+            ddlDestinatarioCobrancaTaxa.DataBind()
         End If
 
     End Sub
@@ -4686,12 +4700,20 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
 
     End Sub
     Sub CalculaM3MaritimoLCL()
-        If txtQtdMercadoria.Text <> "" And txtComprimentoMercadoria.Text <> "" And txtLarguraMercadoria.Text <> "" And txtAlturaMercadoria.Text <> "" Then
-            Dim QTD As Decimal = txtQtdMercadoria.Text
+        'If txtQtdMercadoria.Text <> "" And txtComprimentoMercadoria.Text <> "" And txtLarguraMercadoria.Text <> "" And txtAlturaMercadoria.Text <> "" Then
+        '    Dim QTD As Decimal = txtQtdMercadoria.Text
+        '    Dim COMP As Decimal = txtComprimentoMercadoria.Text
+        '    Dim LARG As Decimal = txtLarguraMercadoria.Text
+        '    Dim ALT As Decimal = txtAlturaMercadoria.Text
+        '    Dim M3 As Decimal = QTD * COMP * LARG * ALT
+
+        '    txtM3Mercadoria.Text = M3.ToString("0.000")
+        'End If
+        If txtComprimentoMercadoria.Text <> "" And txtLarguraMercadoria.Text <> "" And txtAlturaMercadoria.Text <> "" Then
             Dim COMP As Decimal = txtComprimentoMercadoria.Text
             Dim LARG As Decimal = txtLarguraMercadoria.Text
             Dim ALT As Decimal = txtAlturaMercadoria.Text
-            Dim M3 As Decimal = QTD * COMP * LARG * ALT
+            Dim M3 As Decimal = COMP * LARG * ALT
 
             txtM3Mercadoria.Text = M3.ToString("0.000")
         End If
