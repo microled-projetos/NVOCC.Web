@@ -84,26 +84,30 @@
                                                 <asp:TextBox ID="txtNumeroCotacao" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                             </div>
                                         </div>
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <asp:TextBox ID="txtViaTransporte" runat="server" Style="display: none" CssClass="form-control" />
+                                                <label class="control-label">Serviço:</label></label><label runat="server" style="color: red">*</label>
+                                                <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServico" DataValueField="ID_SERVICO" AutoPostBack="true">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>                                          
                                         <div id="divFlagMaritimo" runat="server">
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-1">
                                                 <div class="form-group">
                                                     <label class="control-label" style="color: white">X</label>
                                                     <asp:CheckBox ID="ckbLTL" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;LTL"></asp:CheckBox>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-1">
                                                 <div class="form-group">
                                                     <label class="control-label" style="color: white">X</label>
                                                     <asp:CheckBox ID="ckbDtaHub" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;DTA HUB"></asp:CheckBox>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <div class="form-group">
-                                                    <label class="control-label" style="color: white">X</label>
-                                                    <asp:CheckBox ID="ckbTranspDedicado" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;TRANSP. DEDICADO"></asp:CheckBox>
-                                                </div>
-                                            </div>
+                                           
                                         </div>
+                                        
                                         <div id="divFlagAereo" runat="server" style="display: none">
                                             <div class="col-sm-1">
                                                 <div class="form-group">
@@ -118,18 +122,19 @@
                                                 </div>
                                             </div>
                                         </div>
+                                         <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label class="control-label" style="color: white">X</label>
+                                                    <asp:CheckBox ID="ckbTranspDedicado" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;TRANSP. DEDICADO"></asp:CheckBox>
+                                                </div>
+                                            </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label" style="color: white">X</label>
                                                 <asp:CheckBox ID="ckbFreeHand" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;FREE HAND"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2" style="display: block">
-                                            <div class="form-group">
-                                                <label class="control-label">Data Follow Up:</label></label>
-                                        <asp:TextBox ID="txtDataFollowUp" runat="server" CssClass="form-control data"></asp:TextBox>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-2">
@@ -144,12 +149,11 @@
                                                 <asp:TextBox ID="txtValidade" runat="server" CssClass="form-control data" MaxLength="100"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+                                       
+                                     <div class="col-sm-2" style="display: block">
                                             <div class="form-group">
-                                                <asp:TextBox ID="txtViaTransporte" runat="server" Style="display: none" CssClass="form-control" />
-                                                <label class="control-label">Serviço:</label></label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServico" DataValueField="ID_SERVICO" AutoPostBack="true">
-                                                </asp:DropDownList>
+                                                <label class="control-label">Data Follow Up:</label></label>
+                                        <asp:TextBox ID="txtDataFollowUp" runat="server" CssClass="form-control data"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
@@ -1032,7 +1036,7 @@
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Compra Calc.):</label>
-                                                                        <asp:TextBox ID="txtFreteCompraMercadoriaCalc" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtFreteCompraMercadoriaCalc" runat="server" enabled="false" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-2" runat="server" id="divCompraMinimaLCL">
@@ -1053,7 +1057,7 @@
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Venda Calc.):</label>
-                                                                        <asp:TextBox ID="txtFreteVendaMercadoriaCalc" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtFreteVendaMercadoriaCalc" runat="server" enabled="false" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-2" runat="server" id="divVendaMinimaLCL">
