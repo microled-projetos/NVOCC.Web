@@ -415,7 +415,7 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(DT_CAMBIO)QTD FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ") 
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(DT_CAMBIO)QTD FROM [FN_TAXAS_BL_CALCULO](" & txtIDHouse.Text & ") 
 WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
             If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
                 divErroHouse.Visible = True
@@ -436,7 +436,7 @@ UPDATE TB_BL SET QT_MERCADORIA = (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADOR
 
                 Dim i As Integer = 0
 
-                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ")")
+                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL_CALCULO](" & txtIDHouse.Text & ")")
 
                 Dim IDs As String = "0"
                 If dsTaxa.Tables(0).Rows.Count > 0 Then

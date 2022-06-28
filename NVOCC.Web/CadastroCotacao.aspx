@@ -661,25 +661,25 @@
                                                                     <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Transttime Inicial:</label>
-                                                                            <asp:TextBox ID="txtTTimeFreteInicial" AutoPostBack="true" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                            <asp:TextBox ID="txtTTimeFreteInicial" AutoPostBack="true" runat="server" CssClass="form-control ApenasNumeros" MaxLength="100"></asp:TextBox>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Transttime Final:</label>
-                                                                            <asp:TextBox ID="txtTTimeFreteFinal" AutoPostBack="true" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                            <asp:TextBox ID="txtTTimeFreteFinal" AutoPostBack="true" runat="server" CssClass="form-control ApenasNumeros" MaxLength="100"></asp:TextBox>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Transttime Média:</label>
-                                                                            <asp:TextBox ID="txtTTimeFreteMedia" Enabled="false" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                            <asp:TextBox ID="txtTTimeFreteMedia" Enabled="false" runat="server" CssClass="form-control ApenasNumeros" MaxLength="100"></asp:TextBox>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-3" id="divTTAereo" runat="server" style="display: none">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Transttime Trucking(Aéreo):</label>
-                                                                            <asp:TextBox ID="txtTTimeFreteTruckingAereo" Enabled="true" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                            <asp:TextBox ID="txtTTimeFreteTruckingAereo" Enabled="true" runat="server" CssClass="form-control ApenasNumeros" MaxLength="100"></asp:TextBox>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -696,7 +696,7 @@
                                                                     <div class="col-sm-4">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Valor Frequencia:</label>
-                                                                            <asp:TextBox ID="txtValorFrequenciaFrete" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                            <asp:TextBox ID="txtValorFrequenciaFrete" runat="server" CssClass="form-control ApenasNumeros" MaxLength="100"></asp:TextBox>
                                                                         </div>
                                                                     </div>
 
@@ -903,12 +903,6 @@
                                                                     <div class="form-group">
                                                                         <label class="control-label">Código:</label>
                                                                         <asp:TextBox ID="txtIDMercadoria" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-3">
-                                                                    <div class="form-group">
-                                                                        <%--<label class="control-label">Cotação:</label>
-                                                                        <asp:TextBox ID="txtCotacaoMercadoria" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>--%>
                                                                     </div>
                                                                 </div>
                                                             </div>

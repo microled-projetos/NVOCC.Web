@@ -3012,7 +3012,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
 
 
-                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL](" & txtID_BasicoAereo.Text & ") where id_bl= " & txtID_BasicoAereo.Text)
+                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL_CALCULO](" & txtID_BasicoAereo.Text & ") where id_bl= " & txtID_BasicoAereo.Text)
                 If dsTaxa.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In dsTaxa.Tables(0).Rows
                         Dim Calcula As New CalculaBL
@@ -3056,7 +3056,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 Con.Fechar()
                 dgvCargaAereo.DataBind()
 
-                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL](" & txtID_BasicoAereo.Text & ") where id_bl= " & txtID_BasicoAereo.Text)
+                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL_CALCULO](" & txtID_BasicoAereo.Text & ") where id_bl= " & txtID_BasicoAereo.Text)
                 If dsTaxa.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In dsTaxa.Tables(0).Rows
                         Dim Calcula As New CalculaBL
