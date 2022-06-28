@@ -1208,7 +1208,6 @@
                                                 <asp:AsyncPostBackTrigger ControlID="txtLarguraMercadoria" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtAlturaMercadoria" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtComprimentoMercadoria" />
-                                                <asp:AsyncPostBackTrigger ControlID="txtQtdMercadoria" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtCBMAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtPesoBrutoMercadoria" />
                                             </Triggers>

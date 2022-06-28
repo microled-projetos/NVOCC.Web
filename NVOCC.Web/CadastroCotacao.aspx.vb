@@ -325,7 +325,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             lblTaxaIncluded.Text = "Obs:"
             DivFreetime.Attributes.CssStyle.Add("display", "none")
             RedM3.Visible = False
-            'dsBaseCalculo.SelectCommand = "SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE  ID_VIATRANSPORTE <> 1 union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"
+            dsBaseCalculo.SelectCommand = "SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE  ID_VIATRANSPORTE <> 1 union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"
 
 
         Else
@@ -354,7 +354,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             lblAbaFrete.Text = "Frete"
             modalMercaoria.InnerText = "EMBALAGEM"
             lblAbaEmbalagem.Text = "Embalagem"
-            'dsBaseCalculo.SelectCommand = "SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE  ID_VIATRANSPORTE <> 4 union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"
+            dsBaseCalculo.SelectCommand = "SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE  ID_VIATRANSPORTE <> 4 union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"
 
             If Session("estufagem") = 1 Then
                 'FCL
@@ -4699,7 +4699,7 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
 
 
     End Sub
-    Sub CalculaM3MaritimoLCL()
+    Sub CalculaM3Maritimo()
         'If txtQtdMercadoria.Text <> "" And txtComprimentoMercadoria.Text <> "" And txtLarguraMercadoria.Text <> "" And txtAlturaMercadoria.Text <> "" Then
         '    Dim QTD As Decimal = txtQtdMercadoria.Text
         '    Dim COMP As Decimal = txtComprimentoMercadoria.Text
@@ -4735,20 +4735,16 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
             End If
         End If
     End Sub
-    Private Sub txtQtdMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtQtdMercadoria.TextChanged
-        CalculaM3MaritimoLCL()
-    End Sub
-
     Private Sub txtComprimentoMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtComprimentoMercadoria.TextChanged
-        CalculaM3MaritimoLCL()
+        CalculaM3Maritimo()
     End Sub
 
     Private Sub txtLarguraMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtLarguraMercadoria.TextChanged
-        CalculaM3MaritimoLCL()
+        CalculaM3Maritimo()
     End Sub
 
     Private Sub txtAlturaMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtAlturaMercadoria.TextChanged
-        CalculaM3MaritimoLCL()
+        CalculaM3Maritimo()
     End Sub
 
     Private Sub txtCBMAereo_TextChanged(sender As Object, e As EventArgs) Handles txtCBMAereo.TextChanged
