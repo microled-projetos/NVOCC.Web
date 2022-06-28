@@ -77,23 +77,34 @@ A.ID_VENDEDOR,
 A.VL_PESO_TAXADO,
 A.VL_TOTAL_PESO_BRUTO,
 A.VL_TOTAL_M3,
-ID_PORTO_DESTINO,
-(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO )PORTO_DESTINO,
+
 ID_PORTO_ORIGEM,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM )PORTO_ORIGEM,
+(SELECT CD_PORTO + ' - ' + NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM )CD_PORTO_ORIGEM,
+
+ID_PORTO_DESTINO,
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO )PORTO_DESTINO,
+(SELECT CD_PORTO + ' - ' + NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO )CD_PORTO_DESTINO,
+
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_CLIENTE )PORTO_CLIENTE,
+(SELECT CD_PORTO + ' - ' + NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_CLIENTE )CD_PORTO_CLIENTE,
 
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCOLHIDO )PORTO_ESCOLHIDO,
+(SELECT CD_PORTO + ' - ' + NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCOLHIDO )CD_PORTO_ESCOLHIDO,
+
 ID_VIA_ROTA,
 (SELECT NM_VIA_ROTA FROM TB_VIA_ROTA WHERE ID_VIA_ROTA = A.ID_VIA_ROTA )VIA_ROTA,
 QT_TRANSITTIME_MEDIA,
+TRANSITTIME_TRUCKING_AEREO,
+
 VL_TOTAL_FRETE_VENDA,
 VL_TOTAL_FRETE_VENDA_MIN,
 VL_TOTAL_FRETE_VENDA_CALCULADO,
 (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_FRETE )MOEDA,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA1 )PORTO_ESCALA1,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA2 )PORTO_ESCALA2,
-(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA3 )PORTO_ESCALA3
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA3 )PORTO_ESCALA3,
+(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_TRANSPORTADOR)CIA_AEREA
 FROM  TB_COTACAO A
     WHERE A.ID_COTACAO = " & Request.QueryString("c"))
         If ds.Tables(0).Rows.Count > 0 Then
@@ -182,8 +193,42 @@ FROM  TB_COTACAO A
                 lblOrigem.Text = ds.Tables(0).Rows(0).Item("PORTO_ORIGEM").ToString
             End If
 
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_DESTINO")) Then
-                lblDestino.Text = ds.Tables(0).Rows(0).Item("PORTO_DESTINO").ToString
+
+            If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_PORTO_ESCOLHIDO")) Then
+                    lblOrigem.Text = ds.Tables(0).Rows(0).Item("CD_PORTO_ESCOLHIDO").ToString
+
+                ElseIf Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_PORTO_CLIENTE")) Then
+                    lblOrigem.Text = ds.Tables(0).Rows(0).Item("CD_PORTO_CLIENTE").ToString
+
+                ElseIf Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_PORTO_ORIGEM")) Then
+                    lblOrigem.Text = ds.Tables(0).Rows(0).Item("CD_PORTO_ORIGEM").ToString
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_PORTO_DESTINO")) Then
+                    lblDestino.Text = ds.Tables(0).Rows(0).Item("CD_PORTO_DESTINO").ToString
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_TRANSITTIME_MEDIA")) Then
+                    lblTTime.Text = ds.Tables(0).Rows(0).Item("QT_TRANSITTIME_MEDIA").ToString & " dias"
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRANSITTIME_TRUCKING_AEREO")) Then
+                    lblTTimeAereo.Text = "  -  <strong>TransitTime Trucking: </strong>" & ds.Tables(0).Rows(0).Item("TRANSITTIME_TRUCKING_AEREO").ToString & " dias"
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CIA_AEREA")) Then
+                    lblCiaAerea.Text = "<strong>Cia Aerea: </strong>" & ds.Tables(0).Rows(0).Item("CIA_AEREA").ToString
+                End If
+
+            Else
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ORIGEM")) Then
+                    lblOrigem.Text = ds.Tables(0).Rows(0).Item("PORTO_ORIGEM").ToString
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_DESTINO")) Then
+                    lblDestino.Text = ds.Tables(0).Rows(0).Item("PORTO_DESTINO").ToString
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_TRANSITTIME_MEDIA")) Then
+                    lblTTime.Text = ds.Tables(0).Rows(0).Item("QT_TRANSITTIME_MEDIA").ToString & " dias"
+                End If
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_VIA_ROTA")) Then
@@ -205,9 +250,7 @@ FROM  TB_COTACAO A
                 lblVia.Text = ds.Tables(0).Rows(0).Item("VIA_ROTA").ToString
             End If
 
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_TRANSITTIME_MEDIA")) Then
-                lblTTime.Text = ds.Tables(0).Rows(0).Item("QT_TRANSITTIME_MEDIA").ToString & " dias"
-            End If
+
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VALIDADE_COTACAO")) Then
                 lblValidade.Text = ds.Tables(0).Rows(0).Item("DT_VALIDADE_COTACAO").ToString
@@ -775,6 +818,9 @@ LEFT JOIN TB_TIPO_CONTAINER B ON B.ID_TIPO_CONTAINER = A.ID_TIPO_CONTAINER WHERE
         strline = strline.Replace("º", "o")
         strline = strline.Replace("°", "o")
         strline = strline.Replace("•", "&bull;")
+        strline = strline.Replace("–", "&mdash;")
+
+
         Return strline
 
     End Function

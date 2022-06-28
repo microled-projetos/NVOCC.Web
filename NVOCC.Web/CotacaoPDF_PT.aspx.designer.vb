@@ -221,6 +221,15 @@ Partial Public Class CotacaoPDF_PT
     Protected WithEvents lblDestino As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblCiaAerea.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCiaAerea As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblVia.
     '''</summary>
     '''<remarks>
@@ -246,6 +255,15 @@ Partial Public Class CotacaoPDF_PT
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblTTime As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblTTimeAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTTimeAereo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblValidade.
