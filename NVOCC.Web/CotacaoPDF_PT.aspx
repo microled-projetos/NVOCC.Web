@@ -33,36 +33,39 @@
 </head>
 
 <body style="margin: 0;">
-    <form id="form" runat="server" style="font-family: Arial; font-size: 10px;">
-        <div runat="server" id="DivPortugues">
-            <div runat="server" id="DivTopo" style="font-weight: bold; float: right; margin-bottom: 155px; color: white">
-                <asp:Label runat="server" ID="lblInfoSuperior" class="control-label" /></div>
-            <div class="interna" style="z-index: 2; position: absolute; padding-top: 195px">
+    <form id="form" runat="server" style="font-family: Arial; font-size: 10px;">      
+           <div class="interna" style="z-index: 2; position: absolute;">
                 <div style="font-weight: bold;">
-                    FCA COM&Eacute;RCIO EXTERIOR E LOG&Iacute;STICA LTDA 
-                    <br />
-                    <br />
-
-                    <asp:Label runat="server" ID="lblEnderecoFCA" class="control-label" /><br />
+                  <table  style="font-family: Arial; font-size: 10px; font-weight:bold">
+                        <tr>
+                        <td>   FCA COM&Eacute;RCIO EXTERIOR E LOG&Iacute;STICA LTDA <br /><br />
+                              <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Label runat="server" ID="Label1" class="control-label" /><br />
+                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Label runat="server" ID="Label2" class="control-label" /> --%>
+                            <asp:Label runat="server" ID="lblEnderecoFCA" class="control-label" /><br />
                     <asp:Label runat="server" ID="lblCidadeFCA" class="control-label" />
                     - SP - BRASIL<br />
                     Fone:<asp:Label runat="server" ID="lblTelefoneFCA" class="control-label" /><br />
-                    CNPJ:<asp:Label runat="server" ID="lblCNPJFCA" class="control-label" /><br />
-                    <br />
-                    Cliente:
-                    <asp:Label runat="server" ID="lblCliente" class="control-label" /><br />
-                    CNPJ:<asp:Label runat="server" ID="lblCnpjCliente" class="control-label" /><br />
-                    <br />
-                    Prezado (a), 
-                    <asp:Label runat="server" ID="lblNome" class="control-label" />
-                    Segue sua proposta visando uma oportunidade de embarque.<br />
-                    <br />
-                    <asp:Label runat="server" ID="lblTitulo" class="control-label" /><br />
+                    CNPJ:<asp:Label runat="server" ID="lblCNPJFCA" class="control-label" />
+                        </td>                           
+                            <td >
+                             <asp:Label runat="server" ID="lblTitulo" class="control-label" /><br />
                     N&uacute;mero:<asp:Label runat="server" ID="lblNumeroCotacao" class="control-label" /><br />
-                    Data emiss&atilde;o:
-                    <asp:Label runat="server" ID="lblDataAtual" class="control-label" /><br />
+                    Data emiss&atilde;o:<asp:Label runat="server" ID="lblDataAtual" class="control-label" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Label runat="server" ID="Label1" class="control-label" /><br />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Label runat="server" ID="Label2" class="control-label" /><br />
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Label runat="server" ID="Label3" class="control-label" /><br />
+                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Label runat="server" ID="Label4" class="control-label" />
+                        </td></tr>
+                    </table>                     
+                      <br /> 
+                    &nbsp;Cliente:
+                    <asp:Label runat="server" ID="lblCliente" class="control-label" /><br />
+                    &nbsp;CNPJ:<asp:Label runat="server" ID="lblCnpjCliente" class="control-label" /> <br /><br />
+                    &nbsp;Prezado (a), 
+                    <asp:Label runat="server" ID="lblNome" class="control-label" />
+                    Segue sua proposta visando uma oportunidade de embarque.<br /><br />
                 </div>
-                <br />
+                
                 <div id="detalhesCarga" runat="server">
                     <div class="linha-colorida2">Detalhes da carga</div>
                     <strong>&nbsp;Peso bruto:</strong>
@@ -140,11 +143,6 @@ do faturamento. Essa poder&aacute; divergir da taxa de convers&atilde;o do dia d
                 <br />
                 www.fcalog.com.br
             </div>
-        </div>
-
-
-
-
     </form>
 
 </body>

@@ -179,6 +179,9 @@
                                 <ul class="dropdown-sub">                                  
                                     <li><a id="mnAccount" style="font-size: 13px;" runat="server" href="Account.aspx">Invoices</a></li>
                                      <li><a id="mnFechamentoCambio" style="font-size: 13px;" runat="server" href="FechamentoCambio.aspx">Fechamento de Câmbio</a></li>
+                                   <li><a id="mnRelatorioDebitCredit" style="font-size: 13px;" runat="server" href="RelatorioDebitCredit.aspx">Relatório de debit /credit - Emissão FCA</a></li>
+                                      <li><a id="mnRelatorioAccountDeclarada" style="font-size: 13px;" runat="server" href="RelatorioAccountDeclarada.aspx">Contas pagar/receber</a></li>
+
                                 </ul>
                             </li>
                             <li>
@@ -212,6 +215,7 @@
                                     <li><a style="font-size: 13px;" href="DemonstrativoRateio.aspx" runat="server" id="mnDemonstrativoRateio">Demonstrativo Rateio</a></li> 
                                     <li><a style="font-size: 13px;" href="Premiacao.aspx" runat="server" id="mnPremiacao">Premiação Nacional - Rateamento</a></li>
                                     <li><a style="font-size: 13px;" href="RelatorioProcessos.aspx" runat="server" id="mnRelatorioProcessos">Relatório Processos</a></li>
+                                    <li><a style="font-size: 13px;" href="TaxasAberto.aspx" runat="server" id="mnTaxasAberto">Processos pagos - Taxas em aberto</a></li>
                                 </ul>
                             </li>
                             <li>

@@ -151,6 +151,12 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnRelatorioConsolidada.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2061 And linha.Item("Acessar").ToString() = 0 Then
                         mnCourrierPersonal.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2062 And linha.Item("Acessar").ToString() = 0 Then
+                        mnRelatorioAccountDeclarada.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2063 And linha.Item("Acessar").ToString() = 0 Then
+                        mnRelatorioDebitCredit.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2064 And linha.Item("Acessar").ToString() = 0 Then
+                        mnTaxasAberto.Visible = False
                     End If
 
 
@@ -205,7 +211,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuRelatoriosFinanceiros.Visible = False
             End If
 
-            If mnAccount.Visible = False And mnFechamentoCambio.Visible = False Then
+            If mnAccount.Visible = False And mnFechamentoCambio.Visible = False And mnRelatorioDebitCredit.Visible = False And mnRelatorioAccountDeclarada.Visible = False Then
                 MenuAccount.Visible = False
             End If
 
@@ -217,7 +223,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuTotvs.Visible = False
             End If
 
-            If mnFinanceiro.Visible = False And mnModuloDemurrage.Visible = False And MenuAccount.Visible = False And MenuComissoes.Visible = False And MenuTotvs.Visible = False And MenuRelatoriosFinanceiros.Visible = False And mnCaixaSaida.Visible = False Then
+            If mnFinanceiro.Visible = False And mnModuloDemurrage.Visible = False And MenuAccount.Visible = False And MenuComissoes.Visible = False And MenuTotvs.Visible = False And MenuRelatoriosFinanceiros.Visible = False And mnCaixaSaida.Visible = False And mnTaxasAberto.Visible = False Then
                 MenuFinanceiro.Visible = False
             End If
 

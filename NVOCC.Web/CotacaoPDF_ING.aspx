@@ -34,10 +34,7 @@
 
 <body style="margin: 0;">
     <form id="form" runat="server" style="font-family: Arial; font-size: 10px;">
-        <div runat="server" id="DivIngles">
-            <div runat="server" id="DivTopo" style="font-weight: bold; float: right; margin-bottom: 155px; color: white">
-                <asp:Label runat="server" ID="lblInfoSuperior" class="control-label" /></div>
-            <div class="interna" style="z-index: 2; position: absolute; padding-top: 195px">
+            <div runat="server" class="interna" style="z-index: 2; position: absolute; ">
                 <div style="font-weight: bold;">
                     FCA COM&Eacute;RCIO EXTERIOR E LOG&Iacute;STICA LTDA           
                     <br />
@@ -142,9 +139,6 @@ do faturamento. Essa poder&aacute; divergir da taxa de convers&atilde;o do dia d
 
             </div>
 
-            <br />
-            <br />
-        </div>
     </form>
 
 </body>

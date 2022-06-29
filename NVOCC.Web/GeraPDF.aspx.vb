@@ -45,8 +45,7 @@ Public Class GeraPDF
             Dim ms As New MemoryStream()
 
 
-            ' Dim Documento As New Document(PageSize.A4, 8, 8, 155, 71)
-            Dim Documento As New Document(PageSize.A4, 8, 8, 0, 71)
+            Dim Documento As New Document(PageSize.A4, 8, 8, 155, 71)
 
             Dim writer As PdfWriter = PdfWriter.GetInstance(Documento, fs)
             Dim writer1 As PdfWriter = PdfWriter.GetInstance(Documento, ms)

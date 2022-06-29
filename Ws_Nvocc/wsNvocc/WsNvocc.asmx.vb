@@ -193,13 +193,13 @@ Public Class WsNvocc
 
 
 
-            ' rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS where ID_EMPRESA=" & Cod_Empresa)
             rsEmpresa = Con.ExecutarQuery("SELECT CNPJ,NM_RAZAO,IM,NOME_CERTIFICADO,TIPO_RPS,NAT_OPERACAO,SIMPLES,INC_CULTURAL,CIDADE_IBGE,
 CD_ATIVIDADE_RPS AS 'COD_SERVICO',
 CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN', 
 CD_ATIVIDADE_COMISSAO_RPS AS 'COD_SERVICO_COMISSAO',
 CD_TRIBUTACAO_COMISSAO_RPS AS 'COD_TRIB_MUN_COMISSAO', 
 FL_INTERMEDIACAO,
+FL_PROFIT,
 B.ID_SERVICO, 
 '10.05' AS 'COD_SERVICO_INTERMEDIACAO' , 
 '5250803' AS 'CD_TRIBUTACAO_INTERMEDIACAO' 
@@ -494,6 +494,10 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     No = doc.CreateElement("ItemListaServico", NFeNamespacte)
                     noText = doc.CreateTextNode("1005")
 
+                ElseIf rsEmpresa.Tables(0).Rows(0)("FL_PROFIT").ToString = 1 Then
+                    dDescr = "COMISSÃO "
+                    No = doc.CreateElement("ItemListaServico", NFeNamespacte)
+                    noText = doc.CreateTextNode("1005")
                 Else
 
                     If NFDELUCRO = 1 Then
@@ -532,6 +536,10 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 No = doc.CreateElement("CodigoTributacaoMunicipio", NFeNamespacte)
                 If rsEmpresa.Tables(0).Rows(0)("FL_INTERMEDIACAO").ToString = 1 Then
                     noText = doc.CreateTextNode("5250803")
+
+                ElseIf rsEmpresa.Tables(0).Rows(0)("FL_PROFIT").ToString = 1 Then
+                    noText = doc.CreateTextNode("5250803")
+
                 Else
                     If NFDELUCRO = 1 Then
                         noText = doc.CreateTextNode("829979910")
@@ -950,6 +958,7 @@ CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN',
 CD_ATIVIDADE_COMISSAO_RPS AS 'COD_SERVICO_COMISSAO',
 CD_TRIBUTACAO_COMISSAO_RPS AS 'COD_TRIB_MUN_COMISSAO', 
 FL_INTERMEDIACAO,
+FL_PROFIT,
 B.ID_SERVICO, 
 '10.05' AS 'COD_SERVICO_INTERMEDIACAO' , 
 '5250803' AS 'CD_TRIBUTACAO_INTERMEDIACAO' 
@@ -1362,6 +1371,10 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     No = doc.CreateElement("ItemListaServico", NFeNamespacte)
                     noText = doc.CreateTextNode("1005")
 
+                ElseIf rsEmpresa.Tables(0).Rows(0)("FL_PROFIT").ToString = 1 Then
+                    dDescr = "COMISSÃO "
+                    No = doc.CreateElement("ItemListaServico", NFeNamespacte)
+                    noText = doc.CreateTextNode("1005")
                 Else
 
                     If NFDELUCRO = 1 Then
@@ -1384,7 +1397,6 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                         No = doc.CreateElement("ItemListaServico", NFeNamespacte)
                         noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
 
-
                     End If
 
                 End If
@@ -1401,7 +1413,12 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 If rsEmpresa.Tables(0).Rows(0)("FL_INTERMEDIACAO").ToString = 1 Then
                     noText = doc.CreateTextNode("5250803")
 
+                ElseIf rsEmpresa.Tables(0).Rows(0)("FL_PROFIT").ToString = 1 Then
+                    noText = doc.CreateTextNode("5250803")
                 Else
+
+
+
                     If NFDELUCRO = 1 Then
                         noText = doc.CreateTextNode("829979910")
 

@@ -18,7 +18,6 @@
                 dsDestinatarioComercial.DataBind()
 
                 CarregaCampos()
-                MaritimoXAereo()
             End If
 
         Else
@@ -1649,6 +1648,15 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
                 TaxasIncluded = " '" & TaxasIncluded & "' "
             End If
 
+            Dim Contrato As String
+            If txtContratoArmador.Text = "" Then
+                Contrato = " NULL "
+            Else
+                Contrato = txtContratoArmador.Text
+                Contrato = Contrato.Replace("'", "''")
+                Contrato = " '" & Contrato & "' "
+            End If
+
 
             txtPesoTaxadoFrete.Text = txtPesoTaxadoFrete.Text.Replace(".", "")
             txtPesoTaxadoFrete.Text = txtPesoTaxadoFrete.Text.Replace(",", ".")
@@ -1718,6 +1726,7 @@ ID_TIPO_ESTUFAGEM = " & ddlEstufagemFrete.SelectedValue & " ,
 ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_Frete.SelectedValue & " ,
 TRANSITTIME_TRUCKING_AEREO = " & txtTTimeFreteTruckingAereo.Text & " ,
 FINAL_DESTINATION = " & ddlFinalDestination.SelectedValue & ",
+NR_CONTRATO_ARMADOR = " & Contrato & ", 
 FL_FRETE_DECLARADO = '" & ckFreteDeclarado.Checked & "',
 FL_FRETE_PROFIT = '" & ckFreteProfit.Checked & "' 
 WHERE ID_COTACAO = " & txtID.Text)
@@ -1746,7 +1755,7 @@ ID_VIA_ROTA = " & ddlRotaFrete.SelectedValue & ",
 ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_Frete.SelectedValue & " ,
 TRANSITTIME_TRUCKING_AEREO = " & txtTTimeFreteTruckingAereo.Text & " ,
 FINAL_DESTINATION = " & ddlFinalDestination.SelectedValue & ",
-NR_CONTRATO_ARMADOR = '" & txtContratoArmador.Text & "', 
+NR_CONTRATO_ARMADOR = " & Contrato & ", 
 ID_TIPO_AERONAVE = " & ddlTipoAeronave.SelectedValue & " 
 WHERE ID_COTACAO = " & txtID.Text)
 
