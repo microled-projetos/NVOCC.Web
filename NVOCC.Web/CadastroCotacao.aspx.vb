@@ -206,8 +206,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
 
             ddlDestinoFrete.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO").ToString()
             ddlOrigemFrete.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString()
-            ddlPortoCliente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_CLIENTE").ToString()
-            ddlPortoEscolhido.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ESCOLHIDO").ToString()
             ddlTipoAeronave.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_AERONAVE").ToString()
             txtID_Vendedor.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR").ToString
             dsVendedor.SelectParameters("ID_PARCEIRO").DefaultValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR").ToString
@@ -640,7 +638,7 @@ FROM TB_COTACAO A where ID_CLIENTE = " & Session("ID_CLIENTE") & " AND ID_TIPO_E
             divSuccessFrete.Visible = False
             divInfoFrete.Visible = False
             ds = Con.ExecutarQuery("
-SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TIPO_PAGAMENTO,ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN ,VL_TOTAL_FRETE_COMPRA_MIN,TRANSITTIME_TRUCKING_AEREO ,FINAL_DESTINATION,ISNULL(FL_FRETE_DECLARADO,0)FL_FRETE_DECLARADO,ISNULL(FL_FRETE_PROFIT,0)FL_FRETE_PROFIT,NR_CONTRATO_ARMADOR,ID_PORTO_CLIENTE,ID_PORTO_ESCOLHIDO,ID_TIPO_AERONAVE, ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL FROM TB_COTACAO WHERE ID_COTACAO = " & ID)
+SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TIPO_PAGAMENTO,ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN ,VL_TOTAL_FRETE_COMPRA_MIN,TRANSITTIME_TRUCKING_AEREO ,FINAL_DESTINATION,ISNULL(FL_FRETE_DECLARADO,0)FL_FRETE_DECLARADO,ISNULL(FL_FRETE_PROFIT,0)FL_FRETE_PROFIT,NR_CONTRATO_ARMADOR,ID_TIPO_AERONAVE, ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL FROM TB_COTACAO WHERE ID_COTACAO = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
                 'Frete
@@ -653,14 +651,6 @@ SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ES
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO")) Then
                     ddlDestinoFrete.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO")
-                End If
-
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PORTO_CLIENTE")) Then
-                    ddlPortoCliente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_CLIENTE")
-                End If
-
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PORTO_ESCOLHIDO")) Then
-                    ddlPortoEscolhido.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ESCOLHIDO")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_AERONAVE")) Then
@@ -1259,12 +1249,6 @@ WHERE A.ID_COTACAO_MERCADORIA = " & ID)
             lblmsgErro.Text = "Necessário calcular cotação!"
             Exit Sub
 
-        ElseIf (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) And ddlPortoCliente.SelectedValue <> 0 And ddlOrigemFrete.SelectedValue <> 0 And ddlPortoEscolhido.SelectedValue = 0 Then
-            ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
-            diverro.Visible = True
-            lblmsgErro.Text = "Necessário escolher um porto para aprovação da cotação!"
-            Exit Sub
-
         ElseIf ckbFreeHand.Checked = True And ddlStatusFreteAgente.SelectedValue = 0 Then
             ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
             diverro.Visible = True
@@ -1763,9 +1747,7 @@ ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_Frete.SelectedValue & " ,
 TRANSITTIME_TRUCKING_AEREO = " & txtTTimeFreteTruckingAereo.Text & " ,
 FINAL_DESTINATION = " & ddlFinalDestination.SelectedValue & ",
 NR_CONTRATO_ARMADOR = '" & txtContratoArmador.Text & "', 
-ID_TIPO_AERONAVE = " & ddlTipoAeronave.SelectedValue & ",
-ID_PORTO_CLIENTE = " & ddlPortoCliente.SelectedValue & ",
-ID_PORTO_ESCOLHIDO = " & ddlPortoEscolhido.SelectedValue & "
+ID_TIPO_AERONAVE = " & ddlTipoAeronave.SelectedValue & " 
 WHERE ID_COTACAO = " & txtID.Text)
 
                 End If

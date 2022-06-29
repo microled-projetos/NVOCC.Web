@@ -11,13 +11,23 @@
                 <div class="panel-body">
                 
                     <div class="row">
-                     <div class="col-sm-12">
+                     <div class="col-sm-6">
 
                            <div class="form-group">
                                <label class="control-label" style="text-align: left">Linguagem da cotação:</label>
-                                   <asp:RadioButtonList ID="rdTipo" runat="server" AutoPostBack="true">
+                                   <asp:RadioButtonList ID="rdTipoLinguagem" runat="server" AutoPostBack="true">
                                                         <asp:ListItem Value="1" Selected="True">&nbsp;PORTUGUES</asp:ListItem>
                                                         <asp:ListItem Value="2">&nbsp;INGLÊS</asp:ListItem>
+                                                    </asp:RadioButtonList>      
+                           </div>
+                       </div>
+                        <div class="col-sm-6">
+
+                           <div class="form-group">
+                               <label class="control-label" style="text-align: left">Via Transporte:</label>
+                                   <asp:RadioButtonList ID="rdTipoTransporte" runat="server" AutoPostBack="true">
+                                                        <asp:ListItem Value="1" Selected="True">&nbsp;MARITMO</asp:ListItem>
+                                                        <asp:ListItem Value="2">&nbsp;AEREO</asp:ListItem>
                                                     </asp:RadioButtonList>      
                            </div>
                        </div>

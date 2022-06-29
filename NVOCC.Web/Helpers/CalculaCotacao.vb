@@ -63,9 +63,9 @@ Where A.ID_COTACAO = " & ID_COTACAO)
             x = x.Substring(x.IndexOf(","), 2)
             x = x.Replace(",", "")
 
-            If x >= 5 Then
+            If x > 5 Then
                 PESO_TAXADO = Math.Ceiling(PESO_TAXADO)
-            ElseIf x < 5 Then
+            ElseIf x < 5 And x > 0 Then
                 Dim PESO_TAXADO_INTEIRO As Decimal = Math.Truncate(PESO_TAXADO)
                 PESO_TAXADO = PESO_TAXADO_INTEIRO + 0.5
             End If

@@ -585,22 +585,8 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row" id="divAereo" runat="server">
-                                                                    <div class="col-sm-4">
-                                                                        <div class="form-group">
-                                                                            <label class="control-label">Porto ao Cliente:</label>
-                                                                            <asp:DropDownList ID="ddlPortoCliente" runat="server" AutoPostBack="true" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
-                                                                            </asp:DropDownList>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-4">
-                                                                        <div class="form-group">
-                                                                            <label class="control-label">Porto Escolhido:</label>
-                                                                            <asp:DropDownList ID="ddlPortoEscolhido" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="DESCR" DataSourceID="dsPortoEscolhido" DataValueField="ID_PORTO">
-                                                                            </asp:DropDownList>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-4">
+                                                                <div class="row">    
+                                                                    <div class="col-sm-3" id="divAereo" runat="server">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Tipo Aeronave:</label>
                                                                             <asp:DropDownList ID="ddlTipoAeronave" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_AERONAVE" DataSourceID="dsTipoAeronave" DataValueField="ID_TIPO_AERONAVE">
@@ -608,23 +594,22 @@
                                                                         </div>
                                                                     </div>
 
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-4">
+                                                               
+                                                                    <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Tipo Pagamento:</label>
                                                                             <asp:DropDownList ID="ddlTipoPagamento_Frete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO"></asp:DropDownList>
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="col-sm-4">
+                                                                    <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Tipo de Carga:</label>
                                                                             <asp:DropDownList ID="ddlTipoCargaFrete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCarga" DataValueField="ID_TIPO_CARGA">
                                                                             </asp:DropDownList>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-sm-4">
+                                                                    <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Via Rota:</label>
                                                                             <asp:DropDownList ID="ddlRotaFrete" runat="server" AutoPostBack="true" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIA_ROTA" DataSourceID="dsRota" DataValueField="ID_VIA_ROTA">
@@ -700,7 +685,7 @@
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="col-sm-4" style="display: block">
+                                                                    <div class="col-sm-4">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Final Destination:</label>
                                                                             <asp:DropDownList ID="ddlFinalDestination" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CIDADE" DataSourceID="dsFinalDestination" DataValueField="ID_CIDADE">
@@ -810,7 +795,6 @@
                                                 <asp:AsyncPostBackTrigger ControlID="ddlRotaFrete" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtTTimeFreteFinal" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtTTimeFreteInicial" />
-                                                <asp:AsyncPostBackTrigger ControlID="ddlPortoCliente" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlOrigemFrete" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlTransportadorFrete" />
                                             </Triggers>
@@ -1062,7 +1046,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row" id="divCheckFrete" runat="server">
-                                                                <div class="col-sm-3">
+                                                                <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Moeda Frete:</label>
                                                                         <asp:DropDownList ID="ddlMoedaFreteMercadoria" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
@@ -1070,7 +1054,7 @@
                                                                     </div>
 
                                                                 </div>
-                                                                <div class="col-sm-2">
+                                                                <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label"></label>
                                                                         <asp:CheckBox ID="ckFreteDeclarado" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Frete Declarado"></asp:CheckBox>
@@ -1289,7 +1273,7 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <asp:Linkbutton ID="lkAnterior" runat="server" BackColor="White" ForeColor="Black" style="float: left;" visible="false" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-backward"></i></asp:Linkbutton> <h5 class="modal-title" id="modalTaxaNova">TAXA</h5> <asp:Linkbutton ID="lkProximo" visible="false" runat="server" BackColor="White" ForeColor="Black" style="float: right;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-forward"></i></asp:Linkbutton>
+                                                            <h5 class="modal-title" id="modalFCLimpoTitle">TAXAS</h5><asp:Linkbutton ID="lkAnterior" runat="server" BackColor="White" ForeColor="Black" style="float: right;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-backward"></i></asp:Linkbutton><asp:Linkbutton ID="lkProximo" runat="server" BackColor="White" ForeColor="Black" style="float: right;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-forward"></i></asp:Linkbutton>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="alert alert-success" id="divSuccessTaxa" runat="server" visible="false">
@@ -2098,25 +2082,7 @@ FROM TB_COTACAO_TAXA A
         </SelectParameters>
     </asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsPortoEscolhido" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT A.ID_PORTO_ORIGEM AS ID_PORTO, B.CD_PORTO +' - '+ B.NM_PORTO DESCR FROM TB_COTACAO A
-INNER JOIN TB_PORTO B ON A.ID_PORTO_ORIGEM = B.ID_PORTO WHERE ID_COTACAO =  @ID_COTACAO
-union 
-SELECT A.ID_PORTO_CLIENTE AS ID_PORTO, B.CD_PORTO +' - '+ B.NM_PORTO PORTO FROM TB_COTACAO A 
-INNER JOIN TB_PORTO B ON A.ID_PORTO_CLIENTE = B.ID_PORTO WHERE ID_COTACAO =  @ID_COTACAO 
-        union 
-SELECT B.ID_PORTO AS ID_PORTO, B.CD_PORTO +' - '+ B.NM_PORTO PORTO FROM TB_PORTO B WHERE B.ID_PORTO =  @PORTO_CLIENTE 
-         union
-         SELECT B.ID_PORTO AS ID_PORTO, B.CD_PORTO +' - '+ B.NM_PORTO PORTO FROM TB_PORTO B WHERE B.ID_PORTO =  @PORTO_ORIGEM 
-
-union 
-SELECT  0, '      Selecione' ORDER BY ID_PORTO_ORIGEM ">
-        <SelectParameters>
-            <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" DefaultValue="0" />
-            <asp:ControlParameter Name="PORTO_CLIENTE" Type="Int32" ControlID="ddlPortoCliente" DefaultValue="0"  />
-            <asp:ControlParameter Name="PORTO_ORIGEM" Type="Int32" ControlID="ddlOrigemFrete" DefaultValue="0"  />
-        </SelectParameters>
-    </asp:SqlDataSource>
+     
 
     <asp:SqlDataSource ID="dsTipoAeronave" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_TIPO_AERONAVE,NM_TIPO_AERONAVE from TB_TIPO_AERONAVE

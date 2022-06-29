@@ -851,24 +851,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents divAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle ddlPortoCliente.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlPortoCliente As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlPortoEscolhido.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlPortoEscolhido As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle ddlTipoAeronave.
     '''</summary>
     '''<remarks>
@@ -2784,15 +2766,6 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsMedidasAereo As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsPortoEscolhido.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsPortoEscolhido As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsTipoAeronave.
