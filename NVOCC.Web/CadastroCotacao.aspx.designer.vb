@@ -788,15 +788,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlTransportadorFrete As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtContratoArmador.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtContratoArmador As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle lblorigem.
     '''</summary>
     '''<remarks>
@@ -858,6 +849,24 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlTipoAeronave As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle divContratoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divContratoMaritimo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtContratoArmador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtContratoArmador As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlTipoPagamento_Frete.

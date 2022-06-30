@@ -1805,15 +1805,6 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlTransportador_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtContratoArmador_BasicoAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtContratoArmador_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle txtCodAgente_Aereo.
     '''</summary>
     '''<remarks>

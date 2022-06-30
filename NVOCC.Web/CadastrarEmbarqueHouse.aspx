@@ -1444,24 +1444,24 @@ VENDAS:
                                                 <asp:TextBox ID="txtCodTransportador_Aereo" runat="server"  CssClass="form-control" ></asp:TextBox>
                                             </div>
                                         </div>
-										<div class="col-sm-2">
+										<div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Busca Transportador:</label>
                                                 <asp:TextBox ID="txtNomeTransportador_Aereo" runat="server" CssClass="form-control" Enabled="false" AutoPostBack="true"></asp:TextBox>
                                             </div>
                                         </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-5">
                                                     <div class="form-group">
                                                         <label class="control-label">Transportador:</label>
                                                         <asp:DropDownList ID="ddlTransportador_BasicoAereo" runat="server" Enabled="false" CssClass="form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsTransportador_Aereo" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                    <div class="col-sm-2">
+                                                   <%-- <div class="col-sm-2">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Nº Contrato Armador:</label>
                                                                             <asp:TextBox ID="txtContratoArmador_BasicoAereo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                         </div>
-                                                                    </div>
+                                                                    </div>--%>
                                                 </div>
                                             <div class="row">
                                                 <div class="col-sm-1" style="display:none">

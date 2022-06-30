@@ -295,33 +295,34 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
         If Session("servico") = 2 Or Session("servico") = 5 Then
             'AEREO
             txtViaTransporte.Text = 4
+            divPesoTaxadoCBM.Attributes.CssStyle.Add("display", "block")
             divCheckFrete.Attributes.CssStyle.Add("display", "block")
             divTTAereo.Attributes.CssStyle.Add("display", "block")
             divAereo.Attributes.CssStyle.Add("display", "block")
             divFlagAereo.Attributes.CssStyle.Add("display", "block")
             divFlagMaritimo.Attributes.CssStyle.Add("display", "none")
+            divContratoMaritimo.Attributes.CssStyle.Add("display", "none")
             divCntr.Attributes.CssStyle.Add("display", "none")
-            lblorigem.Text = "Aeroporto de Origem"
-            lbldestino.Text = "Aeroporto de Destino"
             divMedidasMaritimo.Attributes.CssStyle.Add("display", "none")
             divCamposMaritimos.Attributes.CssStyle.Add("display", "none")
             divQtdMercadoria.Attributes.CssStyle.Add("display", "none")
-            dsPorto.SelectCommand = "SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
-            ddlOrigemFrete.DataBind()
-            ddlDestinoFrete.DataBind()
-            lblM3.Text = "Peso Cubado"
+            DivFreetime.Attributes.CssStyle.Add("display", "none")
+            RedM3.Visible = False
             divMinimosFCL.Visible = False
-            divPesoTaxadoCBM.Attributes.CssStyle.Add("display", "block")
+            ddlEstufagem.SelectedValue = 2
+            ddlTipoBL.SelectedValue = 2
+            lblM3.Text = "Peso Cubado"
             modalFrete.InnerText = "ROTAS"
             lblAbaFrete.Text = "Rotas"
             modalMercaoria.InnerText = "EMBALAGEM/FRETE"
             lblAbaEmbalagem.Text = "Embalagem/Frete"
-            ddlEstufagem.SelectedValue = 2
-            ddlTipoBL.SelectedValue = 2
             lblTipoBL.Text = "Tipo AWB:"
             lblTaxaIncluded.Text = "Obs:"
-            DivFreetime.Attributes.CssStyle.Add("display", "none")
-            RedM3.Visible = False
+            lblorigem.Text = "Aeroporto de Origem"
+            lbldestino.Text = "Aeroporto de Destino"
+            dsPorto.SelectCommand = "SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
+            ddlOrigemFrete.DataBind()
+            ddlDestinoFrete.DataBind()
             dsBaseCalculo.SelectCommand = "SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE  ID_VIATRANSPORTE <> 1 union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"
 
 
@@ -336,26 +337,28 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             divTTAereo.Attributes.CssStyle.Add("display", "none")
             divAereo.Attributes.CssStyle.Add("display", "none")
             divFlagAereo.Attributes.CssStyle.Add("display", "none")
-            divFlagMaritimo.Attributes.CssStyle.Add("display", "block")
-            lblorigem.Text = "Porto de Origem"
-            lbldestino.Text = "Porto de Destino"
             divMedidasAereo.Attributes.CssStyle.Add("display", "none")
-            divMedidasMaritimo.Attributes.CssStyle.Add("display", "block")
-            dsPorto.SelectCommand = "SELECT ID_PORTO, NM_PORTO + ' - ' +  CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
-            ddlOrigemFrete.DataBind()
-            ddlDestinoFrete.DataBind()
-            lblM3.Text = "Valor M3"
             divPesoTaxadoCBM.Attributes.CssStyle.Add("display", "none")
             divCamposMaritimos.Attributes.CssStyle.Add("display", "block")
+            divMedidasMaritimo.Attributes.CssStyle.Add("display", "block")
+            divFlagMaritimo.Attributes.CssStyle.Add("display", "block")
+            lblM3.Text = "Valor M3"
             modalFrete.InnerText = "FRETE"
             lblAbaFrete.Text = "Frete"
             modalMercaoria.InnerText = "EMBALAGEM"
             lblAbaEmbalagem.Text = "Embalagem"
+            lblorigem.Text = "Porto de Origem"
+            lbldestino.Text = "Porto de Destino"
+            dsPorto.SelectCommand = "SELECT ID_PORTO, NM_PORTO + ' - ' +  CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
+            ddlOrigemFrete.DataBind()
+            ddlDestinoFrete.DataBind()
             dsBaseCalculo.SelectCommand = "SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE  ID_VIATRANSPORTE <> 4 union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"
 
             If Session("estufagem") = 1 Then
                 'FCL
+                divCntr.Attributes.CssStyle.Add("display", "block")
                 DivFreetime.Attributes.CssStyle.Add("display", "block")
+                divContratoMaritimo.Attributes.CssStyle.Add("display", "block")
                 divQtdMercadoria.Attributes.CssStyle.Add("display", "none")
                 RedQTDContainer.Visible = True
                 RedContainer.Visible = True
@@ -367,11 +370,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
                 divMinimosFCL.Visible = True
                 divCompraMinimaLCL.Visible = False
                 divVendaMinimaLCL.Visible = False
-                divCntr.Attributes.CssStyle.Add("display", "block")
 
 
             ElseIf Session("estufagem") = 2 Then
                 'LCL
+                divCntr.Attributes.CssStyle.Add("display", "none")
                 DivFreetime.Attributes.CssStyle.Add("display", "none")
                 divQtdMercadoria.Attributes.CssStyle.Add("display", "block")
                 RedQTDMercadoria.Visible = True
@@ -385,7 +388,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
                 divMinimosFCL.Visible = False
                 divCompraMinimaLCL.Visible = True
                 divVendaMinimaLCL.Visible = True
-                divCntr.Attributes.CssStyle.Add("display", "none")
 
             End If
         End If

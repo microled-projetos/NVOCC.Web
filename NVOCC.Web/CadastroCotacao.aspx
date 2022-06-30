@@ -541,24 +541,19 @@
                                                                             <asp:TextBox ID="txtCodTransportador" runat="server" CssClass="form-control"></asp:TextBox>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-sm-3">
+                                                                    <div class="col-sm-4">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Busca Transportador:</label>
                                                                             <asp:TextBox ID="txtNomeTransportador" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-sm-5">
+                                                                    <div class="col-sm-8">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Transportador:</label>
                                                                             <asp:DropDownList ID="ddlTransportadorFrete" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="true" DataTextField="Descricao" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-sm-4">
-                                                                        <div class="form-group">
-                                                                            <label class="control-label">Nº Contrato Armador:</label>
-                                                                            <asp:TextBox ID="txtContratoArmador" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
-                                                                        </div>
-                                                                    </div>
+                                                                    
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-sm-4">
@@ -593,7 +588,12 @@
                                                                             </asp:DropDownList>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="col-sm-3" id="divContratoMaritimo" runat="server" style="display: none">
 
+                                                                        <div class="form-group">
+                                                                            <label class="control-label">Nº Contrato Armador:</label>
+                                                                            <asp:TextBox ID="txtContratoArmador" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                    </div>   </div>
                                                                
                                                                     <div class="col-sm-3">
                                                                         <div class="form-group">
@@ -667,6 +667,8 @@
                                                                             <asp:TextBox ID="txtTTimeFreteTruckingAereo" Enabled="true" runat="server" CssClass="form-control ApenasNumeros" MaxLength="100"></asp:TextBox>
                                                                         </div>
                                                                     </div>
+
+                                                                     
                                                                 </div>
 
                                                                 <div class="row">

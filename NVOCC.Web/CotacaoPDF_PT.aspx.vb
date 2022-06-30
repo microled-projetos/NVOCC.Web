@@ -321,6 +321,7 @@ FROM  TB_COTACAO A
 
             If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
                 MEDIDASAEREO()
+                lblTitulo.Text = lblTitulo.Text & "&nbsp;&nbsp;&nbsp;"
             End If
 
             TAXAS()
