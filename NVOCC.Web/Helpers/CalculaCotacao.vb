@@ -1098,7 +1098,7 @@ WHERE A.ID_COTACAO = " & ID_COTACAO & " AND ID_TIPO_CONTAINER IN (13)")
 
                         If linha.Item("ID_SERVICO") = 1 Or linha.Item("ID_SERVICO") = 4 Then
                             'MARITIMO - quantidade de conteineres do processo
-                            ds = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+                            ds1 = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
 FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & ID_COTACAO & "")
 
@@ -1106,7 +1106,7 @@ WHERE A.ID_COTACAO = " & ID_COTACAO & "")
 
                         ElseIf linha.Item("ID_SERVICO") = 2 Or linha.Item("ID_SERVICO") = 5 Then
                             'AEREO  - quantidade de caixas de mercadoria do processo
-                            ds = Con.ExecutarQuery("SELECT ISNULL(SUM(QTD_CAIXA),0)QTD
+                            ds1 = Con.ExecutarQuery("SELECT ISNULL(SUM(QTD_CAIXA),0)QTD
 FROM TB_COTACAO_MERCADORIA_DIMENSAO A
 WHERE A.ID_COTACAO = " & ID_COTACAO & "")
 

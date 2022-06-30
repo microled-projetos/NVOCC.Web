@@ -448,7 +448,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Obs Cliente:</label>
-                                                <asp:TextBox ID="txtObsCliente" runat="server" CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
+                                                <asp:TextBox ID="txtObsCliente" runat="server" CssClass="form-control" MaxLength="8000" Rows="4" TextMode="MultiLine"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
