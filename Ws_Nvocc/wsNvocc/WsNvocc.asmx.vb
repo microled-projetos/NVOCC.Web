@@ -471,7 +471,12 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 No = doc.CreateElement("ValorLiquidoNfse", NFeNamespacte)
                 If NFDELUCRO = 1 Then
                     noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+
+                ElseIf rsEmpresa.Tables(0).Rows(0)("FL_PROFIT").ToString = 1 Then
+                    noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+
                 Else
+
                     If rsRPS.Tables(0).Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
                         noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_LIQUIDO").ToString), "0.00").Replace(",", "."))
                     Else
@@ -1353,6 +1358,8 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 No = doc.CreateElement("ValorLiquidoNfse", NFeNamespacte)
                 If NFDELUCRO = 1 Then
                     noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+                ElseIf rsEmpresa.Tables(0).Rows(0)("FL_PROFIT").ToString = 1 Then
+                    noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
                 Else
                     If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
                         noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_LIQUIDO").ToString), "0.00").Replace(",", "."))
@@ -1622,9 +1629,9 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
         GRAVARLOG(loteNumero, "ANTES DO CLIENT DO GINFES")
 
-        ' Dim client As New ginfes2.ServiceGinfesImplClient
+        Dim client As New ginfes2.ServiceGinfesImplClient
 
-        Dim client As New GinfesTeste.ServiceGinfesImplClient
+        'Dim client As New GinfesTeste.ServiceGinfesImplClient
 
         GRAVARLOG(loteNumero, "PROCURA CERTIFICADO DE NOVO")
         client.ClientCredentials.ClientCertificate.Certificate = Funcoes.ObtemCertificado(codEmpresa)(0)
