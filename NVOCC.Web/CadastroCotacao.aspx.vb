@@ -2117,6 +2117,12 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
                 txtCBMAereo.Text = "0"
             End If
 
+            If txtValorProfitMercadoria.Text = "" Then
+                txtValorProfitMercadoria.Text = "0"
+            End If
+
+
+
             If Session("estufagem") = 2 Then
 
                 If txtFreteCompraMercadoriaCalc.Text = 0 Then
