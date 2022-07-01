@@ -79,8 +79,7 @@
                 <div class="linha-colorida2">Detalhes da carga</div>
                 <strong>&nbsp;Peso bruto:</strong>
                 <asp:Label runat="server" ID="lblPesoBruto" class="control-label" /><br />
-                <asp:Label runat="server" ID="lblM3" class="control-label" /><br />
-                <strong>&nbsp;Peso taxado:</strong>
+                <asp:Label runat="server" ID="lblM3" class="control-label" />
                 <asp:Label runat="server" ID="lblPesoTaxado" class="control-label" />
                 <asp:Label runat="server" ID="lblTipoCargaLCL" class="control-label" /><br />
                 <div id="divCargaLCL" style="font-family: Arial; font-size: 10px;" runat="server"></div>

@@ -132,15 +132,17 @@ FROM  TB_COTACAO A
 
 
 
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE")) Then
-                lblObsCliente.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE").ToString
-            End If
+            'If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE")) Then
+            '    lblObsCliente.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE").ToString
+            'End If
 
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
-                lblPesoTaxado.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString
-            End If
+
 
             If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
+                    lblPesoTaxado.Text = "<br /><strong>&nbsp;Taxed Weight:</strong>" & ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString & " KG"
+                End If
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_PORTO_ORIGEM")) Then
                     lblOrigem.Text = ds.Tables(0).Rows(0).Item("CD_PORTO_ORIGEM").ToString
                 End If
@@ -158,9 +160,8 @@ FROM  TB_COTACAO A
                     lblCiaAerea.Text = "<strong>Cia Aérea: </strong>" & ds.Tables(0).Rows(0).Item("CIA_AEREA").ToString & " <br />"
                 End If
 
-                'If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
-                '    lblM3.Text = "<strong>&nbsp;Peso Cubado:</strong>" & ds.Tables(0).Rows(0).Item("VL_TOTAL_M3").ToString
-                'End If
+                MEDIDASAEREO()
+
             Else
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ORIGEM")) Then
                     lblOrigem.Text = ds.Tables(0).Rows(0).Item("PORTO_ORIGEM").ToString
@@ -173,10 +174,8 @@ FROM  TB_COTACAO A
                     lblTTime.Text = ds.Tables(0).Rows(0).Item("QT_TRANSITTIME_MEDIA").ToString & " dias"
                 End If
 
-                'If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
-                '    lblM3.Text = "<strong>&nbsp;Volume m3:</strong>" & ds.Tables(0).Rows(0).Item("VL_TOTAL_M3").ToString
-                'End If
             End If
+
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
                 lblM3.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_M3").ToString
             End If
@@ -298,13 +297,11 @@ FROM  TB_COTACAO A
             lblOrigem.Text = SubstituiCaracteresEspeciais(lblOrigem.Text)
             lblTitulo.Text = SubstituiCaracteresEspeciais(lblTitulo.Text)
             lblINCOTERM.Text = SubstituiCaracteresEspeciais(lblINCOTERM.Text)
-            lblObsCliente.Text = SubstituiCaracteresEspeciais(lblObsCliente.Text)
+            ' lblObsCliente.Text = SubstituiCaracteresEspeciais(lblObsCliente.Text)
             lblFrequencia.Text = SubstituiCaracteresEspeciais(lblFrequencia.Text)
             lblCiaAerea.Text = SubstituiCaracteresEspeciais(lblCiaAerea.Text)
 
-            If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
-                MEDIDASAEREO()
-            End If
+
 
             TAXAS()
 
@@ -673,7 +670,7 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_ITEM_DESPESA IN 
         If ds.Tables(0).Rows.Count > 0 Then
 
             Dim tabela As String = "<table style='font-family:Arial;font-size:10px;'><tr>"
-            tabela &= "<th style='padding-right:20px'>Qtd. Caixas</th>"
+            tabela &= "<th style='padding-right:20px'>Qtd. Embalagem</th>"
             tabela &= "<th style='padding-right:20px'>Comprimento</th>"
             tabela &= "<th style='padding-right:20px'>Largura</th>"
             tabela &= "<th style='padding-right:20px'>Altura</th></tr>"
@@ -788,6 +785,8 @@ LEFT JOIN TB_TIPO_CONTAINER B ON B.ID_TIPO_CONTAINER = A.ID_TIPO_CONTAINER WHERE
         strline = strline.Replace("º"c, "o"c)
         strline = strline.Replace("°"c, "o"c)
         strline = strline.Replace("&"c, "e"c)
+        strline = strline.Replace("–", "&mdash;")
+
         Return strline
 
     End Function

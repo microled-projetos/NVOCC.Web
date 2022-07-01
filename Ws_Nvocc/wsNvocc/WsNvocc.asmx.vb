@@ -117,7 +117,6 @@ Public Class WsNvocc
     End Function
 
     Public Sub montaLoteRPSSUB(ByVal RpsOld As String, ByVal RpsNew As String, IDFatura As String)
-        '  Dim sP As New ServicoEspecial()
         Dim sql As String
         Dim rsaux As New DataSet
         Dim rsRPS As DataSet
@@ -397,7 +396,13 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
 
                 No = doc.CreateElement("ValorIr", NFeNamespacte)
-                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_IR").ToString), "0.00").Replace(",", "."))
+                If rsEmpresa.Tables(0).Rows(0)("FL_PROFIT").ToString = 1 Then
+                    Dim ValorIr As Double = Funcoes.NNull(0, 0)
+                    ValorIr = FormatNumber(ValorIr, 2)
+                    noText = doc.CreateTextNode(Format(Double.Parse(ValorIr), "0.00").Replace(",", "."))
+                Else
+                    noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_IR").ToString), "0.00").Replace(",", "."))
+                End If
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
@@ -1273,7 +1278,13 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
 
                 No = doc.CreateElement("ValorIr", NFeNamespacte)
-                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_IR").ToString), "0.00").Replace(",", "."))
+                If rsEmpresa.Tables(0).Rows(0)("FL_PROFIT").ToString = 1 Then
+                    Dim ValorIr As Double = Funcoes.NNull(0, 0)
+                    ValorIr = FormatNumber(ValorIr, 2)
+                    noText = doc.CreateTextNode(Format(Double.Parse(ValorIr), "0.00").Replace(",", "."))
+                Else
+                    noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_IR").ToString), "0.00").Replace(",", "."))
+                End If
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
@@ -1611,9 +1622,9 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
         GRAVARLOG(loteNumero, "ANTES DO CLIENT DO GINFES")
 
-        Dim client As New ginfes2.ServiceGinfesImplClient
+        ' Dim client As New ginfes2.ServiceGinfesImplClient
 
-        'Dim client As New GinfesTeste.ServiceGinfesImplClient
+        Dim client As New GinfesTeste.ServiceGinfesImplClient
 
         GRAVARLOG(loteNumero, "PROCURA CERTIFICADO DE NOVO")
         client.ClientCredentials.ClientCertificate.Certificate = Funcoes.ObtemCertificado(codEmpresa)(0)

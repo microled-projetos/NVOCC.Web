@@ -1899,7 +1899,7 @@ VENDAS:
                                                             <div class="row" runat="server" id="divMedidasAereo" style="display:none">
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Qtd. Caixas:</label>
+                                                                        <label class="control-label">Qtd. Embalagem:</label>
                                                                         <asp:TextBox ID="txtQtdCaixasAereo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>

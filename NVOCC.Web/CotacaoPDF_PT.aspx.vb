@@ -159,15 +159,17 @@ FROM  TB_COTACAO A
 
 
 
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE")) Then
-                lblObsCliente.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE").ToString
-            End If
+            'If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE")) Then
+            '    lblObsCliente.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE").ToString
+            'End If
 
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
-                lblPesoTaxado.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString
-            End If
+
 
             If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
+                    lblPesoTaxado.Text = "<br /><strong>&nbsp;Peso taxado:</strong>" & ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString & " KG"
+                End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_PORTO_ORIGEM")) Then
                     lblOrigem.Text = ds.Tables(0).Rows(0).Item("CD_PORTO_ORIGEM").ToString
@@ -189,7 +191,12 @@ FROM  TB_COTACAO A
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
                     lblM3.Text = "<strong>&nbsp;Peso Cubado:</strong>" & ds.Tables(0).Rows(0).Item("VL_TOTAL_M3").ToString
                 End If
+
+                MEDIDASAEREO()
+                'lblTitulo.Text = lblTitulo.Text & "&nbsp;&nbsp;&nbsp;"
+
             Else
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ORIGEM")) Then
                     lblOrigem.Text = ds.Tables(0).Rows(0).Item("PORTO_ORIGEM").ToString
                 End If
@@ -315,14 +322,11 @@ FROM  TB_COTACAO A
             lblOrigem.Text = SubstituiCaracteresEspeciais(lblOrigem.Text)
             lblTitulo.Text = SubstituiCaracteresEspeciais(lblTitulo.Text)
             lblINCOTERM.Text = SubstituiCaracteresEspeciais(lblINCOTERM.Text)
-            lblObsCliente.Text = SubstituiCaracteresEspeciais(lblObsCliente.Text)
+            ' lblObsCliente.Text = SubstituiCaracteresEspeciais(lblObsCliente.Text)
             lblFrequencia.Text = SubstituiCaracteresEspeciais(lblFrequencia.Text)
             lblCiaAerea.Text = SubstituiCaracteresEspeciais(lblCiaAerea.Text)
 
-            If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
-                MEDIDASAEREO()
-                lblTitulo.Text = lblTitulo.Text & "&nbsp;&nbsp;&nbsp;"
-            End If
+
 
             TAXAS()
 
@@ -356,7 +360,7 @@ FROM  TB_COTACAO A
         If ds.Tables(0).Rows.Count > 0 Then
 
             Dim tabela As String = "<table style='font-family:Arial;font-size:10px;'><tr>"
-            tabela &= "<th style='padding-right:20px'>Qtd. Caixas</th>"
+            tabela &= "<th style='padding-right:20px'>Qtd. Embalagem</th>"
             tabela &= "<th style='padding-right:20px'>Comprimento</th>"
             tabela &= "<th style='padding-right:20px'>Largura</th>"
             tabela &= "<th style='padding-right:20px'>Altura</th></tr>"

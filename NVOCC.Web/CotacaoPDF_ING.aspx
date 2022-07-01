@@ -80,8 +80,7 @@
                 <strong>&nbsp;Gross weight:</strong>
                 <asp:Label runat="server" ID="lblPesoBruto" class="control-label" /><br />
                 <strong>&nbsp;Measurement CBM:</strong>
-                <asp:Label runat="server" ID="lblM3" class="control-label" /><br />
-                <strong>&nbsp;Taxed Weight:</strong>
+                <asp:Label runat="server" ID="lblM3" class="control-label" />
                 <asp:Label runat="server" ID="lblPesoTaxado" class="control-label" />
                 <asp:Label runat="server" ID="lblTipoCargaLCL" class="control-label" /><br />
                 <div id="divCargaLCL" style="font-family: Arial; font-size: 10px;" runat="server"></div>

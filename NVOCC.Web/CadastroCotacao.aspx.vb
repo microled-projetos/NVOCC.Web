@@ -1022,7 +1022,7 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
 
             ds = Con.ExecutarQuery("SELECT 
 A.ID_COTACAO_MERCADORIA,A.ID_COTACAO,A.ID_MERCADORIA,A.ID_TIPO_CONTAINER,A.QT_CONTAINER,A.VL_FRETE_COMPRA,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,
-A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.OUTRAS_OBS,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,A.QT_MERCADORIA,A.VL_FRETE_COMPRA_MIN,A.VL_FRETE_VENDA_MIN,OBS_ENDERECO, ISNULL(ID_MOEDA_CARGA,0)ID_MOEDA_CARGA, B.VL_PESO_TAXADO,B.ID_MOEDA_FRETE,B.ID_TIPO_DIVISAO_FRETE, B.VL_DIVISAO_FRETE, B.FL_FRETE_DECLARADO ,B.FL_FRETE_PROFIT
+A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.OUTRAS_OBS,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,A.QT_MERCADORIA,A.VL_FRETE_COMPRA_MIN,A.VL_FRETE_VENDA_MIN,OBS_ENDERECO, ISNULL(ID_MOEDA_CARGA,0)ID_MOEDA_CARGA, B.VL_PESO_TAXADO,B.ID_MOEDA_FRETE,B.ID_TIPO_DIVISAO_FRETE, B.VL_DIVISAO_FRETE, B.FL_FRETE_DECLARADO ,B.FL_FRETE_PROFIT,VL_CBM 
 FROM TB_COTACAO_MERCADORIA A
 INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO
 WHERE A.ID_COTACAO_MERCADORIA = " & ID)
@@ -1054,6 +1054,10 @@ WHERE A.ID_COTACAO_MERCADORIA = " & ID)
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_FRETE_PROFIT")) Then
                         ckFreteProfit.Checked = ds.Tables(0).Rows(0).Item("FL_FRETE_PROFIT")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_CBM")) Then
+                        txtCBMAereo.Text = ds.Tables(0).Rows(0).Item("VL_CBM")
                     End If
 
                 End If
@@ -1757,7 +1761,6 @@ ID_VIA_ROTA = " & ddlRotaFrete.SelectedValue & ",
 ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_Frete.SelectedValue & " ,
 TRANSITTIME_TRUCKING_AEREO = " & txtTTimeFreteTruckingAereo.Text & " ,
 FINAL_DESTINATION = " & ddlFinalDestination.SelectedValue & ",
-NR_CONTRATO_ARMADOR = " & Contrato & ", 
 ID_TIPO_AERONAVE = " & ddlTipoAeronave.SelectedValue & " 
 WHERE ID_COTACAO = " & txtID.Text)
 
@@ -1819,6 +1822,7 @@ WHERE ID_COTACAO = " & txtID.Text)
         Dim Con As New Conexao_sql
         Con.Conectar()
         Con.ExecutarQuery("UPDATE TB_COTACAO SET 
+VL_PESO_TAXADO = " & txtPesoTaxadoMercadoria.Text.Replace(",", ".") & ", 
 ID_MOEDA_FRETE = " & ddlMoedaFreteMercadoria.SelectedValue & ",
 ID_TIPO_DIVISAO_FRETE = " & ddlProfitMercadoria.SelectedValue & ",
 VL_DIVISAO_FRETE = " & txtValorProfitMercadoria.Text.Replace(",", ".") & ", 
@@ -2044,6 +2048,10 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
 
             If txtFreteCompraMercadoriaUnitario.Text = "" Then
                 txtFreteCompraMercadoriaUnitario.Text = "0"
+            End If
+
+            If txtPesoTaxadoMercadoria.Text = "" Then
+                txtPesoTaxadoMercadoria.Text = "0"
             End If
 
             If txtPesoBrutoMercadoria.Text = "" Then
@@ -4043,7 +4051,20 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             txtLarguraMercadoriaAereo.Text = txtLarguraMercadoriaAereo.Text.Replace(".", "")
             txtLarguraMercadoriaAereo.Text = txtLarguraMercadoriaAereo.Text.Replace(",", ".")
 
-            ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA_DIMENSAO (ID_COTACAO,ID_COTACAO_MERCADORIA, QTD_CAIXA, VL_LARGURA, VL_ALTURA, VL_COMPRIMENTO) VALUES (" & txtID.Text & "," & txtIDMercadoria.Text & "," & txtQtdCaixasAereo.Text & "," & txtLarguraMercadoriaAereo.Text & "," & txtAlturaMercadoriaAereo.Text & "," & txtComprimentoMercadoriaAereo.Text & ") Select SCOPE_IDENTITY() as ID ")
+            Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA_DIMENSAO (ID_COTACAO,ID_COTACAO_MERCADORIA, QTD_CAIXA, VL_LARGURA, VL_ALTURA, VL_COMPRIMENTO) VALUES (" & txtID.Text & "," & txtIDMercadoria.Text & "," & txtQtdCaixasAereo.Text & "," & txtLarguraMercadoriaAereo.Text & "," & txtAlturaMercadoriaAereo.Text & "," & txtComprimentoMercadoriaAereo.Text & ") Select SCOPE_IDENTITY() as ID ")
+
+            ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS CLA
+from TB_COTACAO A  
+left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
+Where A.ID_COTACAO = " & txtID.Text)
+            Dim CLA As Decimal
+
+            If ds.Tables(0).Rows.Count > 0 Then
+                For Each linha As DataRow In ds.Tables(0).Rows
+                    CLA = CLA + linha.Item("CLA")
+                Next
+            End If
+            txtM3Mercadoria.Text = CLA.ToString("0.000")
 
             sumMedidasAereo(txtIDMercadoria.Text)
             If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
@@ -4051,18 +4072,21 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
                 RotinaUpdate.InsereDimensaoCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, ds.Tables(0).Rows(0).Item("ID").ToString())
             End If
 
-            Dim CalCotacao As New CalculaCotacao
-            Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
 
-            ds = Con.ExecutarQuery("SELECT isnull(VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(VL_TOTAL_M3,0)VL_TOTAL_M3 from TB_COTACAO where ID_COTACAO =" & txtID.Text)
-            If ds.Tables(0).Rows.Count > 0 Then
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
-                    txtPesoTaxadoMercadoria.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
-                    txtM3Mercadoria.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")
-                End If
-            End If
+            txtPesoTaxadoMercadoria.Text = ArredondarPesoTaxado(txtID.Text)
+
+            'Dim CalCotacao As New CalculaCotacao
+            'Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
+
+            'ds = Con.ExecutarQuery("SELECT isnull(VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(VL_TOTAL_M3,0)VL_TOTAL_M3 from TB_COTACAO where ID_COTACAO =" & txtID.Text)
+            'If ds.Tables(0).Rows.Count > 0 Then
+            '    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
+            '        txtPesoTaxadoMercadoria.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
+            '    End If
+            '    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
+            '        txtM3Mercadoria.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")
+            '    End If
+            'End If
 
             dgvMedidasAereo.DataBind()
             txtAlturaMercadoriaAereo.Text = ""
@@ -4115,18 +4139,33 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
                 RotinaUpdate.DeletaDimensaoCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, ID)
             End If
 
-            Dim CalCotacao As New CalculaCotacao
-            Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
 
-            ds = Con.ExecutarQuery("SELECT isnull(VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(VL_TOTAL_M3,0)VL_TOTAL_M3 from TB_COTACAO where ID_COTACAO =" & txtID.Text)
+            ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS CLA
+from TB_COTACAO A  
+left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
+Where A.ID_COTACAO = " & txtID.Text)
+            Dim CLA As Decimal
+
             If ds.Tables(0).Rows.Count > 0 Then
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
-                    txtPesoTaxadoMercadoria.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
-                    txtM3Mercadoria.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")
-                End If
+                For Each linha As DataRow In ds.Tables(0).Rows
+                    CLA = CLA + linha.Item("CLA")
+                Next
             End If
+            txtM3Mercadoria.Text = CLA.ToString("0.000")
+            txtPesoTaxadoMercadoria.Text = ArredondarPesoTaxado(txtID.Text)
+
+            'Dim CalCotacao As New CalculaCotacao
+            'Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
+
+            'ds = Con.ExecutarQuery("SELECT isnull(VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(VL_TOTAL_M3,0)VL_TOTAL_M3 from TB_COTACAO where ID_COTACAO =" & txtID.Text)
+            'If ds.Tables(0).Rows.Count > 0 Then
+            '    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
+            '        txtPesoTaxadoMercadoria.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
+            '    End If
+            '    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
+            '        txtM3Mercadoria.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")
+            '    End If
+            'End If
 
         End If
 
@@ -4697,26 +4736,177 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
 
 
     End Sub
-    Sub CalculaM3Maritimo()
-        'If txtQtdMercadoria.Text <> "" And txtComprimentoMercadoria.Text <> "" And txtLarguraMercadoria.Text <> "" And txtAlturaMercadoria.Text <> "" Then
-        '    Dim QTD As Decimal = txtQtdMercadoria.Text
-        '    Dim COMP As Decimal = txtComprimentoMercadoria.Text
-        '    Dim LARG As Decimal = txtLarguraMercadoria.Text
-        '    Dim ALT As Decimal = txtAlturaMercadoria.Text
-        '    Dim M3 As Decimal = QTD * COMP * LARG * ALT
 
-        '    txtM3Mercadoria.Text = M3.ToString("0.000")
-        'End If
-        If txtComprimentoMercadoria.Text <> "" And txtLarguraMercadoria.Text <> "" And txtAlturaMercadoria.Text <> "" Then
-            Dim COMP As Decimal = txtComprimentoMercadoria.Text
-            Dim LARG As Decimal = txtLarguraMercadoria.Text
-            Dim ALT As Decimal = txtAlturaMercadoria.Text
-            Dim M3 As Decimal = COMP * LARG * ALT
 
-            txtM3Mercadoria.Text = M3.ToString("0.000")
+    Function ArredondarPesoTaxado(ID_COTACAO As String, Optional PESO_TAXADO As Decimal = 0) As Decimal
+
+
+        '    Dim Con As New Conexao_sql
+        '    Con.Conectar()
+        '    Dim CLA As Decimal
+        '    Dim CBM As Decimal
+        '    Dim PESO_BRUTO As Decimal
+
+        '    If PESO_TAXADO = 0 Then
+
+
+        '        Dim ds As DataSet = Con.ExecutarQuery("Select A.ID_TIPO_ESTUFAGEM,
+        'A.ID_SERVICO,
+        'isnull(A.VL_TOTAL_PESO_BRUTO,0)VL_PESO_BRUTO,
+        'isnull((select sum(isnull(VL_CBM,0)) FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )* 1.67,0) AS CBM,
+        '(isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS CLA
+        'from TB_COTACAO A  
+        'left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
+        'Where A.ID_COTACAO = " & ID_COTACAO)
+        '        If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+        '            'AEREO
+        '            PESO_BRUTO = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
+        '            CBM = ds.Tables(0).Rows(0).Item("CBM")
+
+        '            For Each linha As DataRow In ds.Tables(0).Rows
+        '                CLA = CLA + linha.Item("CLA")
+        '            Next
+
+        '            If CLA = 0 Then
+        '                CLA = CBM
+        '            End If
+        '            Dim CLAFinal As String = CLA.ToString
+        '            CLAFinal = CLAFinal.ToString.Replace(".", "")
+        '            CLAFinal = CLAFinal.ToString.Replace(",", ".")
+        '            Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 = " & CLAFinal & " WHERE ID_COTACAO = " & ID_COTACAO)
+        '            Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_M3 = " & CLAFinal & " WHERE ID_COTACAO = " & ID_COTACAO)
+
+        '            If CLA >= PESO_BRUTO Then
+        '                PESO_TAXADO = CLA
+        '            Else
+        '                PESO_TAXADO = PESO_BRUTO
+        '            End If
+
+        '        End If
+        '    End If
+
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim M3 As Decimal = 0
+        Dim PESO_BRUTO As Decimal = 0
+
+        If txtM3Mercadoria.Text <> "" Then
+            M3 = txtM3Mercadoria.Text
         End If
+
+        If txtPesoBrutoMercadoria.Text <> "" Then
+            PESO_BRUTO = txtPesoBrutoMercadoria.Text
+        End If
+
+
+        If PESO_TAXADO = 0 Then
+            Dim ds As DataSet = Con.ExecutarQuery("Select A.ID_TIPO_ESTUFAGEM, A.ID_SERVICO from TB_COTACAO A Where A.ID_COTACAO = " & ID_COTACAO)
+            If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                'AEREO
+
+
+                If M3 >= PESO_BRUTO Then
+                    PESO_TAXADO = M3
+                Else
+                    PESO_TAXADO = PESO_BRUTO
+                End If
+
+            End If
+        End If
+
+        If PESO_TAXADO <> 0 Then
+            Dim tamanho As Integer = Len(PESO_TAXADO)
+            Dim PrimeiraCasa As String = PESO_TAXADO.ToString
+            PrimeiraCasa = PrimeiraCasa.Substring(PrimeiraCasa.IndexOf(","), 2)
+            PrimeiraCasa = PrimeiraCasa.Replace(",", "")
+
+            If PrimeiraCasa = 5 Then
+                Dim SegundaCasa As String = PESO_TAXADO.ToString
+                SegundaCasa = SegundaCasa.Substring(SegundaCasa.IndexOf("," & PrimeiraCasa), 3)
+                SegundaCasa = SegundaCasa.Replace("," & PrimeiraCasa, "")
+                If SegundaCasa > 0 Then
+                    PESO_TAXADO = Math.Ceiling(PESO_TAXADO)
+                End If
+
+            ElseIf PrimeiraCasa = 0 Then
+
+                Dim SegundaCasa As String = PESO_TAXADO.ToString
+                SegundaCasa = SegundaCasa.Substring(SegundaCasa.IndexOf("," & PrimeiraCasa), 3)
+                SegundaCasa = SegundaCasa.Replace("," & PrimeiraCasa, "")
+                If SegundaCasa > 0 Then
+                    Dim PESO_TAXADO_INTEIRO As Decimal = Math.Truncate(PESO_TAXADO)
+                    PESO_TAXADO = PESO_TAXADO_INTEIRO + 0.5
+                End If
+
+
+            ElseIf PrimeiraCasa > 5 Then
+                PESO_TAXADO = Math.Ceiling(PESO_TAXADO)
+
+            ElseIf PrimeiraCasa < 5 Then
+
+                Dim PESO_TAXADO_INTEIRO As Decimal = Math.Truncate(PESO_TAXADO)
+                PESO_TAXADO = PESO_TAXADO_INTEIRO + 0.5
+            End If
+
+        End If        'Dim Peso_Final As String = PESO_TAXADO.ToString
+        'Peso_Final = Peso_Final.ToString.Replace(".", "")
+        'Peso_Final = Peso_Final.ToString.Replace(",", ".")
+        'Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_PESO_TAXADO = " & Peso_Final & "  WHERE ID_COTACAO = " & ID_COTACAO)
+
+        Return PESO_TAXADO.ToString("0.000")
+
+    End Function
+
+    Private Sub txtPesoBrutoMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtPesoBrutoMercadoria.TextChanged
+
+        'Dim Con As New Conexao_sql
+        'Con.Conectar()
+        'Dim ds As DataSet
+
+        ''SALVA PESO BRUTO
+        'Dim PESO_BRUTO_FINAL As String = txtPesoBrutoMercadoria.Text.ToString
+        'PESO_BRUTO_FINAL = PESO_BRUTO_FINAL.ToString.Replace(".", "")
+        'PESO_BRUTO_FINAL = PESO_BRUTO_FINAL.ToString.Replace(",", ".")
+        'If txtIDMercadoria.Text = "" Then
+        '    ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA (VL_PESO_BRUTO , ID_COTACAO) VALUES (" & PESO_BRUTO_FINAL & ", " & txtID.Text & ") Select SCOPE_IDENTITY() as ID_COTACAO_MERCADORIA")
+        '    txtIDMercadoria.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO_MERCADORIA").ToString()
+        'Else
+        '    Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_CBM = " & PESO_BRUTO_FINAL & " WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
+        'End If
+
+        txtPesoTaxadoMercadoria.Text = ArredondarPesoTaxado(txtID.Text)
     End Sub
-    Sub PesoTaxadoCBM()
+
+    Private Sub txtPesoTaxadoMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtPesoTaxadoMercadoria.TextChanged
+        txtPesoTaxadoMercadoria.Text = ArredondarPesoTaxado(txtID.Text, txtPesoTaxadoMercadoria.Text)
+    End Sub
+    Private Sub txtM3Mercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtM3Mercadoria.TextChanged
+        txtPesoTaxadoMercadoria.Text = ArredondarPesoTaxado(txtID.Text)
+    End Sub
+    Private Sub txtCBMAereo_TextChanged(sender As Object, e As EventArgs) Handles txtCBMAereo.TextChanged
+        'Dim Con As New Conexao_sql
+        'Con.Conectar()
+        'Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM  TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO =" & txtID.Text)
+        'If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+        '    If txtPesoBrutoMercadoria.Text <> "" And txtCBMAereo.Text <> "" Then
+
+        '        'SALVA CBM
+        '        Dim CBMFinal As String = txtCBMAereo.Text.ToString
+        '        CBMFinal = CBMFinal.ToString.Replace(".", "")
+        '        CBMFinal = CBMFinal.ToString.Replace(",", ".")
+        '        If txtIDMercadoria.Text = "" Then
+        '            ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA (VL_CBM , ID_COTACAO) VALUES (" & CBMFinal & ", " & txtID.Text & ") Select SCOPE_IDENTITY() as ID_COTACAO_MERCADORIA")
+        '            txtIDMercadoria.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO_MERCADORIA").ToString()
+        '        Else
+        '            Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_CBM = " & CBMFinal & " WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
+        '        End If
+
+        '        txtPesoTaxadoMercadoria.Text = ArredondarPesoTaxado(txtID.Text)
+
+        '    End If
+        'End If
+
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM  TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO =" & txtID.Text)
@@ -4724,13 +4914,21 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
             If txtPesoBrutoMercadoria.Text <> "" And txtCBMAereo.Text <> "" Then
                 Dim PesoBruto As Decimal = txtPesoBrutoMercadoria.Text
                 Dim CBM As Decimal = txtCBMAereo.Text
-                CBM = CBM / 6000
-                If PesoBruto >= CBM Then
-                    txtPesoTaxadoMercadoria.Text = txtPesoBrutoMercadoria.Text
-                Else
-                    txtPesoTaxadoMercadoria.Text = CBM.ToString("0.000")
-                End If
+                CBM = CBM * 1.67
+                txtM3Mercadoria.Text = CBM.ToString("0.000")
             End If
+        End If
+
+        txtPesoTaxadoMercadoria.Text = ArredondarPesoTaxado(txtID.Text)
+    End Sub
+    Sub CalculaM3Maritimo()
+        If txtComprimentoMercadoria.Text <> "" And txtLarguraMercadoria.Text <> "" And txtAlturaMercadoria.Text <> "" Then
+            Dim COMP As Decimal = txtComprimentoMercadoria.Text
+            Dim LARG As Decimal = txtLarguraMercadoria.Text
+            Dim ALT As Decimal = txtAlturaMercadoria.Text
+            Dim M3 As Decimal = COMP * LARG * ALT
+
+            txtM3Mercadoria.Text = M3.ToString("0.000")
         End If
     End Sub
     Private Sub txtComprimentoMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtComprimentoMercadoria.TextChanged
@@ -4745,11 +4943,5 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         CalculaM3Maritimo()
     End Sub
 
-    Private Sub txtCBMAereo_TextChanged(sender As Object, e As EventArgs) Handles txtCBMAereo.TextChanged
-        PesoTaxadoCBM()
-    End Sub
 
-    Private Sub txtPesoBrutoMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtPesoBrutoMercadoria.TextChanged
-        PesoTaxadoCBM()
-    End Sub
 End Class

@@ -941,21 +941,21 @@
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Valor Peso(Bruto):</label><asp:Label Visible="false" runat="server" ID="RedPesoBruto" Style="color: red">*</asp:Label>
-                                                                        <asp:TextBox ID="txtPesoBrutoMercadoria" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtPesoBrutoMercadoria" runat="server"  AutoPostback="true"  CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <asp:Label runat="server" ID="lblM3" class="control-label" Style="font-weight: bold">Valor M3:</asp:Label><asp:Label Visible="false" runat="server" ID="RedM3" Style="color: red">*</asp:Label>
-                                                                        <asp:TextBox ID="txtM3Mercadoria" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtM3Mercadoria" runat="server" Autopostback="true" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                          <div runat="server" id="divPesoTaxadoCBM" style="display: none">
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Valor Peso Taxado:</label>
-                                                                        <asp:TextBox ID="txtPesoTaxadoMercadoria" Enabled="false" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtPesoTaxadoMercadoria"  runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-2">
@@ -1088,7 +1088,7 @@
                                                             <div class="row" runat="server" id="divMedidasAereo" style="display: none">
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Qtd. Caixas:</label>
+                                                                        <label class="control-label">Qtd. Embalagem:</label>
                                                                         <asp:TextBox ID="txtQtdCaixasAereo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
@@ -1190,6 +1190,8 @@
                                                 <asp:AsyncPostBackTrigger ControlID="txtComprimentoMercadoria" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtCBMAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtPesoBrutoMercadoria" />
+                                                <asp:AsyncPostBackTrigger ControlID="txtPesoTaxadoMercadoria" />
+                                                <asp:AsyncPostBackTrigger ControlID="txtM3Mercadoria" /> 
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>
