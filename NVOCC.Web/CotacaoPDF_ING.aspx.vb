@@ -132,9 +132,9 @@ FROM  TB_COTACAO A
 
 
 
-            'If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE")) Then
-            '    lblObsCliente.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE").ToString
-            'End If
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE")) Then
+                lblObsCliente.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE").ToString
+            End If
 
 
 
@@ -297,7 +297,7 @@ FROM  TB_COTACAO A
             lblOrigem.Text = SubstituiCaracteresEspeciais(lblOrigem.Text)
             lblTitulo.Text = SubstituiCaracteresEspeciais(lblTitulo.Text)
             lblINCOTERM.Text = SubstituiCaracteresEspeciais(lblINCOTERM.Text)
-            ' lblObsCliente.Text = SubstituiCaracteresEspeciais(lblObsCliente.Text)
+            lblObsCliente.Text = SubstituiCaracteresEspeciais(lblObsCliente.Text)
             lblFrequencia.Text = SubstituiCaracteresEspeciais(lblFrequencia.Text)
             lblCiaAerea.Text = SubstituiCaracteresEspeciais(lblCiaAerea.Text)
 

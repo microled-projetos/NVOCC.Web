@@ -1345,7 +1345,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                     Session("estufagem") = ddlEstufagem.SelectedValue
                     Session("servico") = ddlServico.SelectedValue
-                    MaritimoXAereo()
+                  
 
 
                     txtEnvio.Text = Now.Date.ToString("dd-MM-yyyy")
@@ -1514,7 +1514,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                         End If
                     End If
 
-                    MaritimoXAereo()
 
 
                     txtDataCalculo.Text = txtDataCalculo.Text.Replace("'", "")
@@ -1986,42 +1985,92 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
         Else
             txtFreteCompraMercadoriaUnitario.Text = txtFreteCompraMercadoriaUnitario.Text.Replace(".", "")
             txtFreteCompraMercadoriaUnitario.Text = txtFreteCompraMercadoriaUnitario.Text.Replace(",", ".")
+            If txtFreteCompraMercadoriaUnitario.Text = "" Then
+                txtFreteCompraMercadoriaUnitario.Text = "0"
+            End If
+
+
 
             txtFreteVendaMercadoriaUnitario.Text = txtFreteVendaMercadoriaUnitario.Text.Replace(".", "")
             txtFreteVendaMercadoriaUnitario.Text = txtFreteVendaMercadoriaUnitario.Text.Replace(",", ".")
+            If txtFreteVendaMercadoriaUnitario.Text = "" Then
+                txtFreteVendaMercadoriaUnitario.Text = "0"
+            End If
+
 
             txtFreteCompraMercadoriaCalc.Text = txtFreteCompraMercadoriaCalc.Text.Replace(".", "")
             txtFreteCompraMercadoriaCalc.Text = txtFreteCompraMercadoriaCalc.Text.Replace(",", ".")
+            If txtFreteCompraMercadoriaCalc.Text = "" Then
+                txtFreteCompraMercadoriaCalc.Text = "0"
+            End If
+
 
             txtFreteVendaMercadoriaCalc.Text = txtFreteVendaMercadoriaCalc.Text.Replace(".", "")
             txtFreteVendaMercadoriaCalc.Text = txtFreteVendaMercadoriaCalc.Text.Replace(",", ".")
+            If txtFreteVendaMercadoriaCalc.Text = "" Then
+                txtFreteVendaMercadoriaCalc.Text = "0"
+            End If
+
 
             txtPesoBrutoMercadoria.Text = txtPesoBrutoMercadoria.Text.Replace(".", "")
             txtPesoBrutoMercadoria.Text = txtPesoBrutoMercadoria.Text.Replace(",", ".")
+            If txtPesoBrutoMercadoria.Text = "" Then
+                txtPesoBrutoMercadoria.Text = "0"
+            End If
+
 
             txtM3Mercadoria.Text = txtM3Mercadoria.Text.Replace(".", "")
             txtM3Mercadoria.Text = txtM3Mercadoria.Text.Replace(",", ".")
+            If txtM3Mercadoria.Text = "" Then
+                txtM3Mercadoria.Text = "0"
+            End If
+
 
             txtComprimentoMercadoria.Text = txtComprimentoMercadoria.Text.Replace(".", "")
             txtComprimentoMercadoria.Text = txtComprimentoMercadoria.Text.Replace(",", ".")
+            If txtComprimentoMercadoria.Text = "" Then
+                txtComprimentoMercadoria.Text = "0"
+            End If
+
 
             txtLarguraMercadoria.Text = txtLarguraMercadoria.Text.Replace(".", "")
             txtLarguraMercadoria.Text = txtLarguraMercadoria.Text.Replace(",", ".")
+            If txtLarguraMercadoria.Text = "" Then
+                txtLarguraMercadoria.Text = "0"
+            End If
 
             txtAlturaMercadoria.Text = txtAlturaMercadoria.Text.Replace(".", "")
             txtAlturaMercadoria.Text = txtAlturaMercadoria.Text.Replace(",", ".")
+            If txtAlturaMercadoria.Text = "" Then
+                txtAlturaMercadoria.Text = "0"
+            End If
+
 
             txtValorCargaMercadoria.Text = txtValorCargaMercadoria.Text.Replace(".", "")
             txtValorCargaMercadoria.Text = txtValorCargaMercadoria.Text.Replace(",", ".")
+            If txtValorCargaMercadoria.Text = "" Then
+                txtValorCargaMercadoria.Text = "0"
+            End If
+
 
             txtFreteVendaMinima.Text = txtFreteVendaMinima.Text.Replace(".", "")
             txtFreteVendaMinima.Text = txtFreteVendaMinima.Text.Replace(",", ".")
+            If txtFreteVendaMinima.Text = "" Then
+                txtFreteVendaMinima.Text = "0"
+            End If
 
             txtFreteCompraMinima.Text = txtFreteCompraMinima.Text.Replace(".", "")
             txtFreteCompraMinima.Text = txtFreteCompraMinima.Text.Replace(",", ".")
+            If txtFreteCompraMinima.Text = "" Then
+                txtFreteCompraMinima.Text = "0"
+            End If
 
             txtCBMAereo.Text = txtCBMAereo.Text.Replace(".", "")
             txtCBMAereo.Text = txtCBMAereo.Text.Replace(",", ".")
+            If txtCBMAereo.Text = "" Then
+                txtCBMAereo.Text = "0"
+            End If
+
 
             If txtFreeTimeMercadoria.Text = "" Then
                 txtFreeTimeMercadoria.Text = "0"
@@ -2035,48 +2084,14 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
                 txtQtdContainerMercadoria.Text = "0"
             End If
 
-            If txtFreteCompraMercadoriaCalc.Text = "" Then
-                txtFreteCompraMercadoriaCalc.Text = "0"
-            End If
-
-            If txtFreteVendaMercadoriaUnitario.Text = "" Then
-                txtFreteVendaMercadoriaUnitario.Text = "0"
-            End If
-            If txtFreteVendaMercadoriaCalc.Text = "" Then
-                txtFreteVendaMercadoriaCalc.Text = "0"
-            End If
-
-            If txtFreteCompraMercadoriaUnitario.Text = "" Then
-                txtFreteCompraMercadoriaUnitario.Text = "0"
-            End If
-
             If txtPesoTaxadoMercadoria.Text = "" Then
                 txtPesoTaxadoMercadoria.Text = "0"
             End If
 
-            If txtPesoBrutoMercadoria.Text = "" Then
-                txtPesoBrutoMercadoria.Text = "0"
+            If txtValorProfitMercadoria.Text = "" Then
+                txtValorProfitMercadoria.Text = "0"
             End If
 
-            If txtM3Mercadoria.Text = "" Then
-                txtM3Mercadoria.Text = "0"
-            End If
-
-            If txtComprimentoMercadoria.Text = "" Then
-                txtComprimentoMercadoria.Text = "0"
-            End If
-
-            If txtAlturaMercadoria.Text = "" Then
-                txtAlturaMercadoria.Text = "0"
-            End If
-
-            If txtLarguraMercadoria.Text = "" Then
-                txtLarguraMercadoria.Text = "0"
-            End If
-
-            If txtValorCargaMercadoria.Text = "" Then
-                txtValorCargaMercadoria.Text = "0"
-            End If
 
             Dim DescMercadoria As String = ""
             If txtDsMercadoria.Text = "" Then
@@ -2105,21 +2120,7 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
                 OBSEndereco = "'" & OBSEndereco & "'"
             End If
 
-            If txtFreteCompraMinima.Text = "" Then
-                txtFreteCompraMinima.Text = "0"
-            End If
 
-            If txtFreteVendaMinima.Text = "" Then
-                txtFreteVendaMinima.Text = "0"
-            End If
-
-            If txtCBMAereo.Text = "" Then
-                txtCBMAereo.Text = "0"
-            End If
-
-            If txtValorProfitMercadoria.Text = "" Then
-                txtValorProfitMercadoria.Text = "0"
-            End If
 
 
 
@@ -4928,13 +4929,28 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         txtPesoTaxadoMercadoria.Text = ArredondarPesoTaxado(txtID.Text)
     End Sub
     Sub CalculaM3Maritimo()
-        If txtComprimentoMercadoria.Text <> "" And txtLarguraMercadoria.Text <> "" And txtAlturaMercadoria.Text <> "" Then
-            Dim COMP As Decimal = txtComprimentoMercadoria.Text
-            Dim LARG As Decimal = txtLarguraMercadoria.Text
-            Dim ALT As Decimal = txtAlturaMercadoria.Text
-            Dim M3 As Decimal = COMP * LARG * ALT
+        If Session("estufagem") = 2 Then
 
-            txtM3Mercadoria.Text = M3.ToString("0.000")
+            If txtQtdMercadoria.Text <> "" And txtComprimentoMercadoria.Text <> "" And txtLarguraMercadoria.Text <> "" And txtAlturaMercadoria.Text <> "" Then
+                Dim QTD As Decimal = txtQtdMercadoria.Text
+                Dim COMP As Decimal = txtComprimentoMercadoria.Text
+                Dim LARG As Decimal = txtLarguraMercadoria.Text
+                Dim ALT As Decimal = txtAlturaMercadoria.Text
+                Dim M3 As Decimal = QTD * COMP * LARG * ALT
+
+                txtM3Mercadoria.Text = M3.ToString("0.000")
+            End If
+
+        Else
+
+            If txtComprimentoMercadoria.Text <> "" And txtLarguraMercadoria.Text <> "" And txtAlturaMercadoria.Text <> "" Then
+                Dim COMP As Decimal = txtComprimentoMercadoria.Text
+                Dim LARG As Decimal = txtLarguraMercadoria.Text
+                Dim ALT As Decimal = txtAlturaMercadoria.Text
+                Dim M3 As Decimal = COMP * LARG * ALT
+
+                txtM3Mercadoria.Text = M3.ToString("0.000")
+            End If
         End If
     End Sub
     Private Sub txtComprimentoMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtComprimentoMercadoria.TextChanged
@@ -4949,5 +4965,7 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         CalculaM3Maritimo()
     End Sub
 
-
+    Private Sub txtQtdMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtQtdMercadoria.TextChanged
+        CalculaM3Maritimo()
+    End Sub
 End Class

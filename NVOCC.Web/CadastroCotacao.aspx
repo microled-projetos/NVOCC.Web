@@ -926,7 +926,7 @@
                                                                 <div class="col-sm-2" id="divQtdMercadoria" runat="server">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Qtd. Mercadoria:</label><asp:Label Visible="false" runat="server" ID="RedQTDMercadoria" Style="color: red">*</asp:Label>
-                                                                        <asp:TextBox ID="txtQtdMercadoria" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtQtdMercadoria" runat="server" AutoPostBack="true" CssClass="form-control"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-2" id="DivFreetime" runat="server">
@@ -1192,6 +1192,7 @@
                                                 <asp:AsyncPostBackTrigger ControlID="txtPesoBrutoMercadoria" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtPesoTaxadoMercadoria" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtM3Mercadoria" /> 
+                                                <asp:AsyncPostBackTrigger ControlID="txtQtdMercadoria" /> 
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>
