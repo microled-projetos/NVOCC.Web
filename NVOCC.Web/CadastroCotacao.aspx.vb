@@ -329,9 +329,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
 
 
         Else
-            'MARITIMO
-            ddlEstufagem.SelectedValue = 0
-            ddlTipoBL.SelectedValue = 0
+            'MARITIMO      
             lblTipoBL.Text = "Tipo BL:"
             lblTaxaIncluded.Text = "Taxas Included:"
             txtViaTransporte.Text = 1
@@ -378,6 +376,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
                 'LCL
                 divCntr.Attributes.CssStyle.Add("display", "none")
                 DivFreetime.Attributes.CssStyle.Add("display", "none")
+                divContratoMaritimo.Attributes.CssStyle.Add("display", "none")
                 divQtdMercadoria.Attributes.CssStyle.Add("display", "block")
                 RedQTDMercadoria.Visible = True
                 RedPesoBruto.Visible = True
@@ -4968,5 +4967,12 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
 
     Private Sub txtQtdMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtQtdMercadoria.TextChanged
         CalculaM3Maritimo()
+    End Sub
+
+    Private Sub ddlEstufagem_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlEstufagem.SelectedIndexChanged
+
+        Session("estufagem") = ddlEstufagem.SelectedValue
+        MaritimoXAereo()
+
     End Sub
 End Class

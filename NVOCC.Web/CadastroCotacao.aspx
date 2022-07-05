@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="CadastroCotacao.aspx.vb" Inherits="NVOCC.Web.CadastroCotacao" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="CadastroCotacao.aspx.vb" Inherits="NVOCC.Web.CadastroCotacao"  %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
@@ -9,7 +9,7 @@
     <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">
 
-            <div class="panel panel-primary">
+            <div class="panel panel-primary"> 
                 <div class="panel-heading">
                     <h3 class="panel-title">COTAÇÃO
                     </h3>
@@ -497,6 +497,7 @@
 
                                     <asp:PostBackTrigger ControlID="btnCalcular" />
                                     <asp:PostBackTrigger ControlID="ddlServico" />
+                                    <asp:PostBackTrigger ControlID="ddlEstufagem" />
                                     <asp:PostBackTrigger ControlID="btnGravar" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeCliente" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeAgente" />
@@ -1177,7 +1178,7 @@
                                             <Triggers>
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvarFrete" />
                                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvMedidasAereo" />
-                                                <asp:AsyncPostBackTrigger ControlID="ddlEstufagem" />
+<%--                                                <asp:AsyncPostBackTrigger ControlID="ddlEstufagem" />--%>
                                                 <asp:AsyncPostBackTrigger ControlID="txtFreteVendaMercadoriaUnitario" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtQtdContainerMercadoria" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlTipoContainerMercadoria" />
