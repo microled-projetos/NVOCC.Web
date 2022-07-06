@@ -3253,7 +3253,7 @@ ELSE " & ID_DESTINATARIO_COBRANCA & " END ID_DESTINATARIO_COBRANCA ,
     End Sub
 
     Private Sub txtTTimeFreteFinal_TextChanged(sender As Object, e As EventArgs) Handles txtTTimeFreteFinal.TextChanged
-        If txtTTimeFreteInicial.Text <> "" And txtTTimeFreteInicial.Text <> "" Then
+        If txtTTimeFreteInicial.Text <> "" And txtTTimeFreteFinal.Text <> "" Then
 
             Dim TTInicial As Integer = txtTTimeFreteInicial.Text
             Dim TTFinal As Integer = txtTTimeFreteFinal.Text
@@ -3265,7 +3265,7 @@ ELSE " & ID_DESTINATARIO_COBRANCA & " END ID_DESTINATARIO_COBRANCA ,
     End Sub
 
     Private Sub txtTTimeFreteInicial_TextChanged(sender As Object, e As EventArgs) Handles txtTTimeFreteInicial.TextChanged
-        If txtTTimeFreteInicial.Text <> "" And txtTTimeFreteInicial.Text <> "" Then
+        If txtTTimeFreteInicial.Text <> "" And txtTTimeFreteFinal.Text <> "" Then
 
             Dim TTInicial As Integer = txtTTimeFreteInicial.Text
             Dim TTFinal As Integer = txtTTimeFreteFinal.Text
