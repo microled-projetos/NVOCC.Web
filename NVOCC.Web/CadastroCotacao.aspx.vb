@@ -4058,13 +4058,15 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             txtLarguraMercadoriaAereo.Text = txtLarguraMercadoriaAereo.Text.Replace(".", "")
             txtLarguraMercadoriaAereo.Text = txtLarguraMercadoriaAereo.Text.Replace(",", ".")
 
-            Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA_DIMENSAO (ID_COTACAO,ID_COTACAO_MERCADORIA, QTD_CAIXA, VL_LARGURA, VL_ALTURA, VL_COMPRIMENTO) VALUES (" & txtID.Text & "," & txtIDMercadoria.Text & "," & txtQtdCaixasAereo.Text & "," & txtLarguraMercadoriaAereo.Text & "," & txtAlturaMercadoriaAereo.Text & "," & txtComprimentoMercadoriaAereo.Text & ") Select SCOPE_IDENTITY() as ID ")
+            ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA_DIMENSAO (ID_COTACAO,ID_COTACAO_MERCADORIA, QTD_CAIXA, VL_LARGURA, VL_ALTURA, VL_COMPRIMENTO) VALUES (" & txtID.Text & "," & txtIDMercadoria.Text & "," & txtQtdCaixasAereo.Text & "," & txtLarguraMercadoriaAereo.Text & "," & txtAlturaMercadoriaAereo.Text & "," & txtComprimentoMercadoriaAereo.Text & ") Select SCOPE_IDENTITY() as ID ")
+            Dim ID As String = ds.Tables(0).Rows(0).Item("ID").ToString()
+            Dim CLA As Decimal
 
             ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS CLA
 from TB_COTACAO A  
 left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
 Where A.ID_COTACAO = " & txtID.Text)
-            Dim CLA As Decimal
+
 
             If ds.Tables(0).Rows.Count > 0 Then
                 For Each linha As DataRow In ds.Tables(0).Rows
@@ -4076,7 +4078,7 @@ Where A.ID_COTACAO = " & txtID.Text)
             sumMedidasAereo(txtIDMercadoria.Text)
             If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
                 Dim RotinaUpdate As New RotinaUpdate
-                RotinaUpdate.InsereDimensaoCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, ds.Tables(0).Rows(0).Item("ID").ToString())
+                RotinaUpdate.InsereDimensaoCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, ID)
             End If
 
 
