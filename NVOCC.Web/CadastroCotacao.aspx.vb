@@ -1346,7 +1346,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                     Session("estufagem") = ddlEstufagem.SelectedValue
                     Session("servico") = ddlServico.SelectedValue
-                  
+
 
 
                     txtEnvio.Text = Now.Date.ToString("dd-MM-yyyy")
@@ -4823,44 +4823,47 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         End If
 
         If PESO_TAXADO <> 0 Then
-            Dim tamanho As Integer = Len(PESO_TAXADO)
             Dim PrimeiraCasa As String = PESO_TAXADO.ToString
-            PrimeiraCasa = PrimeiraCasa.Substring(PrimeiraCasa.IndexOf(","), 2)
-            PrimeiraCasa = PrimeiraCasa.Replace(",", "")
+            If PrimeiraCasa.IndexOf(",") > 0 Then
+                PrimeiraCasa = PrimeiraCasa.Substring(PrimeiraCasa.IndexOf(","), 2)
+                PrimeiraCasa = PrimeiraCasa.Replace(",", "")
+                If PrimeiraCasa = 5 Then
+                    Dim SegundaCasa As String = PESO_TAXADO.ToString
+                    Dim tamanho = SegundaCasa.Substring(SegundaCasa.IndexOf("," & PrimeiraCasa))
+                    If tamanho.Length > 2 Then
+                        SegundaCasa = SegundaCasa.Substring(SegundaCasa.IndexOf("," & PrimeiraCasa), 3)
+                        SegundaCasa = SegundaCasa.Replace("," & PrimeiraCasa, "")
+                        If SegundaCasa > 0 Then
+                            PESO_TAXADO = Math.Ceiling(PESO_TAXADO)
+                        End If
+                    End If
+                ElseIf PrimeiraCasa = 0 Then
 
-            If PrimeiraCasa = 5 Then
-                Dim SegundaCasa As String = PESO_TAXADO.ToString
-                SegundaCasa = SegundaCasa.Substring(SegundaCasa.IndexOf("," & PrimeiraCasa), 3)
-                SegundaCasa = SegundaCasa.Replace("," & PrimeiraCasa, "")
-                If SegundaCasa > 0 Then
+                    Dim SegundaCasa As String = PESO_TAXADO.ToString
+                    Dim tamanho = SegundaCasa.Substring(SegundaCasa.IndexOf("," & PrimeiraCasa))
+                    If tamanho.Length > 2 Then
+                        SegundaCasa = SegundaCasa.Substring(SegundaCasa.IndexOf("," & PrimeiraCasa), 3)
+                        SegundaCasa = SegundaCasa.Replace("," & PrimeiraCasa, "")
+                        If SegundaCasa > 0 Then
+                            Dim PESO_TAXADO_INTEIRO As Decimal = Math.Truncate(PESO_TAXADO)
+                            PESO_TAXADO = PESO_TAXADO_INTEIRO + 0.5
+                        End If
+                    End If
+
+                ElseIf PrimeiraCasa > 5 Then
                     PESO_TAXADO = Math.Ceiling(PESO_TAXADO)
-                End If
 
-            ElseIf PrimeiraCasa = 0 Then
+                ElseIf PrimeiraCasa < 5 Then
 
-                Dim SegundaCasa As String = PESO_TAXADO.ToString
-                SegundaCasa = SegundaCasa.Substring(SegundaCasa.IndexOf("," & PrimeiraCasa), 3)
-                SegundaCasa = SegundaCasa.Replace("," & PrimeiraCasa, "")
-                If SegundaCasa > 0 Then
                     Dim PESO_TAXADO_INTEIRO As Decimal = Math.Truncate(PESO_TAXADO)
                     PESO_TAXADO = PESO_TAXADO_INTEIRO + 0.5
                 End If
 
-
-            ElseIf PrimeiraCasa > 5 Then
-                PESO_TAXADO = Math.Ceiling(PESO_TAXADO)
-
-            ElseIf PrimeiraCasa < 5 Then
-
-                Dim PESO_TAXADO_INTEIRO As Decimal = Math.Truncate(PESO_TAXADO)
-                PESO_TAXADO = PESO_TAXADO_INTEIRO + 0.5
-            End If
-
-        End If        'Dim Peso_Final As String = PESO_TAXADO.ToString
-        'Peso_Final = Peso_Final.ToString.Replace(".", "")
-        'Peso_Final = Peso_Final.ToString.Replace(",", ".")
-        'Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_PESO_TAXADO = " & Peso_Final & "  WHERE ID_COTACAO = " & ID_COTACAO)
-
+            End If        'Dim Peso_Final As String = PESO_TAXADO.ToString
+            'Peso_Final = Peso_Final.ToString.Replace(".", "")
+            'Peso_Final = Peso_Final.ToString.Replace(",", ".")
+            'Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_PESO_TAXADO = " & Peso_Final & "  WHERE ID_COTACAO = " & ID_COTACAO)
+        End If
         Return PESO_TAXADO.ToString("0.000")
 
     End Function
