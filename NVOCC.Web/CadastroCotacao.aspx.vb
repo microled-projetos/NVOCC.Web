@@ -1268,7 +1268,7 @@ WHERE A.ID_COTACAO_MERCADORIA = " & ID)
             If txtDataFollowUp.Text <> "" Then
                 If v.ValidaData(txtDataFollowUp.Text) = False Or IsDate(txtDataFollowUp.Text) = False Then
                     ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
-                    lblmsgErro.Text = "Preencha todos os campos obrigatórios na Aba de Informações Básicas."
+                    lblmsgErro.Text = "A data de FollowUp é inválida."
                     diverro.Visible = True
                     Exit Sub
                 Else
