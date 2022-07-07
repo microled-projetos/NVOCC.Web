@@ -77,25 +77,32 @@ A.ID_VENDEDOR,
 A.VL_PESO_TAXADO,
 A.VL_TOTAL_PESO_BRUTO,
 A.VL_TOTAL_M3,
-ID_PORTO_DESTINO,
-(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO )PORTO_DESTINO,
+
 ID_PORTO_ORIGEM,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM )PORTO_ORIGEM,
+(SELECT CD_PORTO + ' - ' + NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM )CD_PORTO_ORIGEM,
+
+ID_PORTO_DESTINO,
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO )PORTO_DESTINO,
+(SELECT CD_PORTO + ' - ' + NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO )CD_PORTO_DESTINO,
+
 ID_VIA_ROTA,
 (SELECT NM_VIA_ROTA FROM TB_VIA_ROTA WHERE ID_VIA_ROTA = A.ID_VIA_ROTA )VIA_ROTA,
 QT_TRANSITTIME_MEDIA,
+TRANSITTIME_TRUCKING_AEREO,
+
 VL_TOTAL_FRETE_VENDA,
 VL_TOTAL_FRETE_VENDA_MIN,
 VL_TOTAL_FRETE_VENDA_CALCULADO,
 (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_FRETE )MOEDA,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA1 )PORTO_ESCALA1,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA2 )PORTO_ESCALA2,
-(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA3 )PORTO_ESCALA3
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA3 )PORTO_ESCALA3,
+(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_TRANSPORTADOR)CIA_AEREA
 FROM  TB_COTACAO A
     WHERE A.ID_COTACAO = " & Request.QueryString("c"))
         If ds.Tables(0).Rows.Count > 0 Then
 
-            ' PORTUGUES
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("NOME_SERVICO")) Then
                 lblTitulo.Text = ds.Tables(0).Rows(0).Item("NOME_SERVICO") & " (" & ds.Tables(0).Rows(0).Item("NOME_ESTUFAGEM") & ")"
             End If
@@ -139,7 +146,7 @@ FROM  TB_COTACAO A
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_PESO_BRUTO")) Then
-                lblPesoBruto.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_PESO_BRUTO").ToString
+                lblPesoBruto.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_PESO_BRUTO").ToString & " KG"
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_TIPO_FREQUENCIA")) Then
@@ -150,23 +157,59 @@ FROM  TB_COTACAO A
                 lblValorFrequencia.Text = " - " & ds.Tables(0).Rows(0).Item("VL_FREQUENCIA").ToString
             End If
 
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
-                lblM3.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_M3").ToString
-            End If
+
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE")) Then
                 lblObsCliente.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE").ToString
             End If
 
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
-                lblPesoTaxado.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString
-            End If
 
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ORIGEM")) Then
-                lblOrigem.Text = ds.Tables(0).Rows(0).Item("PORTO_ORIGEM").ToString
-            End If
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_DESTINO")) Then
-                lblDestino.Text = ds.Tables(0).Rows(0).Item("PORTO_DESTINO").ToString
+
+            If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
+                    lblPesoTaxado.Text = "<br /><strong>&nbsp;Peso taxado:</strong>" & ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString & " KG"
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_PORTO_ORIGEM")) Then
+                    lblOrigem.Text = ds.Tables(0).Rows(0).Item("CD_PORTO_ORIGEM").ToString
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_PORTO_DESTINO")) Then
+                    lblDestino.Text = ds.Tables(0).Rows(0).Item("CD_PORTO_DESTINO").ToString
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_TRANSITTIME_MEDIA")) Then
+                    lblTTime.Text = ds.Tables(0).Rows(0).Item("QT_TRANSITTIME_MEDIA").ToString & " dias"
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRANSITTIME_TRUCKING_AEREO")) Then
+                    lblTTimeAereo.Text = "  -  <strong>TransitTime Trucking: </strong>" & ds.Tables(0).Rows(0).Item("TRANSITTIME_TRUCKING_AEREO").ToString & " dias"
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CIA_AEREA")) Then
+                    lblCiaAerea.Text = "<strong>Cia Aérea: </strong>" & ds.Tables(0).Rows(0).Item("CIA_AEREA").ToString & " <br />"
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
+                    lblM3.Text = "<strong>&nbsp;Peso Cubado:</strong>" & ds.Tables(0).Rows(0).Item("VL_TOTAL_M3").ToString
+                End If
+
+                MEDIDASAEREO()
+                'lblTitulo.Text = lblTitulo.Text & "&nbsp;&nbsp;&nbsp;"
+
+            Else
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ORIGEM")) Then
+                    lblOrigem.Text = ds.Tables(0).Rows(0).Item("PORTO_ORIGEM").ToString
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_DESTINO")) Then
+                    lblDestino.Text = ds.Tables(0).Rows(0).Item("PORTO_DESTINO").ToString
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_TRANSITTIME_MEDIA")) Then
+                    lblTTime.Text = ds.Tables(0).Rows(0).Item("QT_TRANSITTIME_MEDIA").ToString & " dias"
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
+                    lblM3.Text = "<strong>&nbsp;Volume m3:</strong>" & ds.Tables(0).Rows(0).Item("VL_TOTAL_M3").ToString
+                End If
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_VIA_ROTA")) Then
@@ -188,9 +231,7 @@ FROM  TB_COTACAO A
                 lblVia.Text = ds.Tables(0).Rows(0).Item("VIA_ROTA").ToString
             End If
 
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_TRANSITTIME_MEDIA")) Then
-                lblTTime.Text = ds.Tables(0).Rows(0).Item("QT_TRANSITTIME_MEDIA").ToString & " dias"
-            End If
+
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VALIDADE_COTACAO")) Then
                 lblValidade.Text = ds.Tables(0).Rows(0).Item("DT_VALIDADE_COTACAO").ToString
@@ -228,7 +269,6 @@ FROM  TB_COTACAO A
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
 
                     If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
-                        ' tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("VL_TOTAL_FRETE_VENDA")) & "</td>"
                         If linha("MOEDA") = "USD" Then
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format(CultureInfo.GetCultureInfo("en-US"), "{0:C}", linha("VL_TOTAL_FRETE_VENDA")).Replace("$", "") & "</td>"
                         Else
@@ -241,7 +281,6 @@ FROM  TB_COTACAO A
                             tabela &= "<td style='padding-right:10px'>POR TON / M³</td>"
                         End If
 
-                        ' tabela &= "<td style='padding-right:10px'>" & String.Format("{0:N}", linha("VL_TOTAL_FRETE_VENDA_MIN")) & "</td>"
                         If linha("MOEDA") = "USD" Then
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format(CultureInfo.GetCultureInfo("en-US"), "{0:C}", linha("VL_TOTAL_FRETE_VENDA_MIN")).Replace("$", "") & "</td>"
                         Else
@@ -251,7 +290,6 @@ FROM  TB_COTACAO A
 
 
 
-                    'tabela &= "<td style='padding-right:10px'>" & String.Format("{0:N}", linha("VL_TOTAL_FRETE_VENDA_CALCULADO")) & "</td>"
                     If linha("MOEDA") = "USD" Then
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format(CultureInfo.GetCultureInfo("en-US"), "{0:C}", linha("VL_TOTAL_FRETE_VENDA_CALCULADO")).Replace("$", "") & "</td>"
                     Else
@@ -285,24 +323,59 @@ FROM  TB_COTACAO A
             lblTitulo.Text = SubstituiCaracteresEspeciais(lblTitulo.Text)
             lblINCOTERM.Text = SubstituiCaracteresEspeciais(lblINCOTERM.Text)
             lblObsCliente.Text = SubstituiCaracteresEspeciais(lblObsCliente.Text)
+            lblFrequencia.Text = SubstituiCaracteresEspeciais(lblFrequencia.Text)
+            lblCiaAerea.Text = SubstituiCaracteresEspeciais(lblCiaAerea.Text)
+
+
 
             TAXAS()
 
         End If
+        If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
 
-        ds = Con.ExecutarQuery("select ISNULL(TEXTO_COTACAO_PORTUGUES,'')TEXTO_COTACAO from TB_PARAMETROS")
-        If ds.Tables(0).Rows.Count > 0 Then
-            Dim texto As String = ds.Tables(0).Rows(0).Item("TEXTO_COTACAO").ToString
-            texto = SubstituiCaracteresEspeciais(texto)
-            'divTexto.InnerHtml = "<div style='page-break-after: always;'></div>" & texto
-            divTexto.InnerHtml = "<br/><br/>" & texto
+            ds = Con.ExecutarQuery("select ISNULL(TEXTO_COTACAO_PT_AER,'')TEXTO_COTACAO from TB_PARAMETROS")
+            If ds.Tables(0).Rows.Count > 0 Then
+                Dim texto As String = ds.Tables(0).Rows(0).Item("TEXTO_COTACAO").ToString
+                texto = SubstituiCaracteresEspeciais(texto)
+                divTexto.InnerHtml = "<br/><br/>" & texto
+            End If
+
+        Else
+            ds = Con.ExecutarQuery("select ISNULL(TEXTO_COTACAO_PT_MAR,'')TEXTO_COTACAO from TB_PARAMETROS")
+            If ds.Tables(0).Rows.Count > 0 Then
+                Dim texto As String = ds.Tables(0).Rows(0).Item("TEXTO_COTACAO").ToString
+                texto = SubstituiCaracteresEspeciais(texto)
+                divTexto.InnerHtml = "<br/><br/>" & texto
+            End If
         End If
-
 
         Con.Fechar()
 
     End Sub
+    Sub MEDIDASAEREO()
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet
+        ds = Con.ExecutarQuery("SELECT QTD_CAIXA ,VL_LARGURA ,VL_ALTURA ,VL_COMPRIMENTO FROM TB_COTACAO_MERCADORIA_DIMENSAO  WHERE ID_COTACAO = " & Request.QueryString("c") & " ORDER BY ID DESC ")
+        If ds.Tables(0).Rows.Count > 0 Then
 
+            Dim tabela As String = "<table style='font-family:Arial;font-size:10px;'><tr>"
+            tabela &= "<th style='padding-right:20px'>Qtd. Embalagem</th>"
+            tabela &= "<th style='padding-right:20px'>Comprimento</th>"
+            tabela &= "<th style='padding-right:20px'>Largura</th>"
+            tabela &= "<th style='padding-right:20px'>Altura</th></tr>"
+            For Each linha As DataRow In ds.Tables(0).Rows
+                tabela &= "<tr><td style='padding-right:20px'>" & linha("QTD_CAIXA") & "</td>"
+                tabela &= "<td style='padding-right:20px'>" & linha("VL_COMPRIMENTO") & "</td>"
+                tabela &= "<td style='padding-right:20px'>" & linha("VL_LARGURA") & "</td>"
+                tabela &= "<td style='padding-right:20px'>" & linha("VL_ALTURA") & "</td></tr>"
+
+
+            Next
+            tabela &= "</table>"
+            divMedidasAereo.InnerHtml = tabela
+        End If
+    End Sub
     Sub CARGA()
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -312,20 +385,19 @@ FROM  TB_COTACAO A
         If ds.Tables(0).Rows.Count > 0 Then
             NM_TIPO_CARGA = ds.Tables(0).Rows(0).Item("NM_TIPO_CARGA").ToString
             lblTipoCargaFCL.Text = "<br/><strong>Tipo:</strong>" & NM_TIPO_CARGA
-            lblTipoCargaLCL.Text = "<br/><strong>Tipo:</strong>" & NM_TIPO_CARGA
+            lblTipoCargaLCL.Text = "<br/><strong>&nbsp;Tipo:</strong>" & NM_TIPO_CARGA
             ds = Con.ExecutarQuery("SELECT sum(VL_CARGA)VL_CARGA,ID_MOEDA_CARGA, (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = ID_MOEDA_CARGA)MOEDA_CARGA FROM TB_COTACAO_MERCADORIA  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND ISNULL(ID_MOEDA_CARGA,0) <>  0  group by ID_MOEDA_CARGA")
             If ds.Tables(0).Rows.Count > 0 Then
-                Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
-                tabela &= "<th style='padding-right:10px;padding-right:10px'>Moeda</th>"
-                tabela &= "<th style='padding-left:10px;padding-right:10px'>Valor da Mercadoria</th></tr>"
+                Dim tabela As String = "<table style='font-family:Arial;font-size:10px;'><tr>"
+                tabela &= "<th style='padding-right:20px'>Moeda</th>"
+                tabela &= "<th style='padding-right:20px'>Valor da Mercadoria</th></tr>"
 
                 For Each linha As DataRow In ds.Tables(0).Rows
-                    tabela &= "<tr><td style='padding-right:10px'>" & linha("MOEDA_CARGA") & "</td>"
-                    'tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_CARGA") & "</td></tr>"
+                    tabela &= "<tr><td style='padding-right:20px'>" & linha("MOEDA_CARGA") & "</td>"
                     If linha("MOEDA_CARGA") = "USD" Then
-                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format(CultureInfo.GetCultureInfo("en-US"), "{0:C}", linha("VL_CARGA")).Replace("$", "") & "</td></tr>"
+                        tabela &= "<td style='padding-right:20px'>" & String.Format(CultureInfo.GetCultureInfo("en-US"), "{0:C}", linha("VL_CARGA")).Replace("$", "") & "</td></tr>"
                     Else
-                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", linha("VL_CARGA")).Replace("R$", "") & "</td></tr>"
+                        tabela &= "<td style='padding-right:20px'>" & String.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", linha("VL_CARGA")).Replace("R$", "") & "</td></tr>"
                     End If
 
 
@@ -342,6 +414,7 @@ FROM  TB_COTACAO A
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet
+
         'ORIGEM
         ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,
 A.ID_COTACAO_TAXA,
@@ -374,7 +447,6 @@ WHERE FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_ITEM_DESPESA IN 
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
 
 
-                ' tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("VL_TAXA_VENDA")) & "</td>"
                 If linha.Item("MOEDA") = "USD" Then
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format(CultureInfo.GetCultureInfo("en-US"), "{0:C}", linha("VL_TAXA_VENDA")).Replace("$", "") & "</td>"
                 Else
@@ -385,7 +457,6 @@ WHERE FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_ITEM_DESPESA IN 
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("BASE_CALCULO") & "</td>"
 
 
-                'tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("VL_TAXA_VENDA_MIN")) & "</td>"
                 If linha.Item("MOEDA") = "USD" Then
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format(CultureInfo.GetCultureInfo("en-US"), "{0:C}", linha("VL_TAXA_VENDA_MIN")).Replace("$", "") & "</td>"
                 Else
@@ -406,7 +477,6 @@ WHERE FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_ITEM_DESPESA IN 
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("CALCULADO") & "</td>"
 
                     End If
-                    ' tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("CALCULADO")) & "</td>"
                 End If
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("TIPO_PAGAMENTO") & "</td>"
                 tabela &= "</tr>"
@@ -474,7 +544,6 @@ FROM TB_COTACAO_TAXA A
 WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA  AND FL_INTERMEDIACAO = 0 ) AND A.ID_COTACAO = " & Request.QueryString("c"))
         If ds.Tables(0).Rows.Count > 0 Then
 
-            'Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'>"
             Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
             tabela &= "<th style='padding-right:10px'>Taxa</th>"
             tabela &= "<th style='padding-left:10px;padding-right:10px'>Moeda</th>"
@@ -490,7 +559,6 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_ITEM_DESPESA IN 
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
 
 
-                ' tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("VL_TAXA_VENDA")) & "</td>"
                 If linha.Item("MOEDA") = "USD" Then
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format(CultureInfo.GetCultureInfo("en-US"), "{0:C}", linha("VL_TAXA_VENDA")).Replace("$", "") & "</td>"
                 Else
@@ -501,7 +569,6 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_ITEM_DESPESA IN 
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("BASE_CALCULO") & "</td>"
 
 
-                'tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("VL_TAXA_VENDA_MIN")) & "</td>"
                 If linha.Item("MOEDA") = "USD" Then
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format(CultureInfo.GetCultureInfo("en-US"), "{0:C}", linha("VL_TAXA_VENDA_MIN")).Replace("$", "") & "</td>"
                 Else
@@ -520,7 +587,6 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_ITEM_DESPESA IN 
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("CALCULADO") & "</td>"
 
                     End If
-                    'tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("CALCULADO")) & "</td>"
                 End If
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("TIPO_PAGAMENTO") & "</td>"
                 tabela &= "</tr>"
@@ -535,7 +601,6 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_ITEM_DESPESA IN 
 
             Dim DescTotalDestino As String = ""
 
-            ' lblTaxasDestinoCalc.Text = taxasDestinoCalc
 
 
             'total destino
@@ -605,7 +670,6 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_ITEM_DESPESA IN 
 
         TotalFinalTaxas = TotalFinalTaxas.Replace("+ -", "-")
 
-
         lblTotalFinalTaxas.Text = TotalFinalTaxas
 
 
@@ -625,13 +689,13 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_ITEM_DESPESA IN 
 
 
 
+        'total final geral
         Dim ExtensoEstrangeira As New ExtensoEstrangeira
         Dim Extenso As New ValorExtenso
         Dim ExtensoDolar As String = ""
         Dim ExtensoReal As String = ""
         Dim ExtensoEuro As String = ""
 
-        'total final geral
         ds = Con.ExecutarQuery("select ID_MOEDA, moeda, SUM(valor) valor, case  when ID_MOEDA = 1 then
  FORMAT(SUM(valor) , 'C', 'en-us') 
  else
@@ -663,7 +727,7 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_ITEM_DESPESA IN 
         End If
         TotalFinal = TotalFinal.Replace("+ -", "-").Replace("R$", "").Replace("$", "")
 
-        lblTotalFinal.Text = SubstituiCaracteresEspeciais(TotalFinal) ' TotalFinal.
+        lblTotalFinal.Text = SubstituiCaracteresEspeciais(TotalFinal)
 
 
     End Sub
@@ -701,40 +765,6 @@ LEFT JOIN TB_TIPO_CONTAINER B ON B.ID_TIPO_CONTAINER = A.ID_TIPO_CONTAINER WHERE
 
     End Sub
 
-    Public Shared Function SubstituiCaracteresEspeciais2(ByVal strline As String) As String
-        strline = strline.Replace("&"c, "e"c)
-        strline = strline.Replace("ã", "a")
-        strline = strline.Replace("Ã"c, "A"c)
-        strline = strline.Replace("â"c, "a"c)
-        strline = strline.Replace("Â"c, "A"c)
-        strline = strline.Replace("á"c, "a"c)
-        strline = strline.Replace("Á"c, "A"c)
-        strline = strline.Replace("à"c, "a"c)
-        strline = strline.Replace("À"c, "A"c)
-        strline = strline.Replace("ç"c, "c"c)
-        strline = strline.Replace("Ç"c, "C"c)
-        strline = strline.Replace("é"c, "e"c)
-        strline = strline.Replace("É"c, "E"c)
-        strline = strline.Replace("Ê"c, "E"c)
-        strline = strline.Replace("ê"c, "e"c)
-        strline = strline.Replace("õ"c, "o"c)
-        strline = strline.Replace("Õ"c, "O"c)
-        strline = strline.Replace("ó"c, "o"c)
-        strline = strline.Replace("Ó"c, "O"c)
-        strline = strline.Replace("ô"c, "o"c)
-        strline = strline.Replace("Ô"c, "O"c)
-        strline = strline.Replace("ú"c, "u"c)
-        strline = strline.Replace("Ú"c, "U"c)
-        strline = strline.Replace("ü"c, "u"c)
-        strline = strline.Replace("Ü"c, "U"c)
-        strline = strline.Replace("í"c, "i"c)
-        strline = strline.Replace("Í"c, "I"c)
-        strline = strline.Replace("ª"c, "a"c)
-        strline = strline.Replace("º"c, "o"c)
-        strline = strline.Replace("°"c, "o"c)
-        Return strline
-
-    End Function
 
     Public Shared Function SubstituiCaracteresEspeciais(ByVal strline As String) As String
         strline = strline.Replace("&", "e")
@@ -768,6 +798,9 @@ LEFT JOIN TB_TIPO_CONTAINER B ON B.ID_TIPO_CONTAINER = A.ID_TIPO_CONTAINER WHERE
         strline = strline.Replace("º", "o")
         strline = strline.Replace("°", "o")
         strline = strline.Replace("•", "&bull;")
+        strline = strline.Replace("–", "&mdash;")
+
+
         Return strline
 
     End Function

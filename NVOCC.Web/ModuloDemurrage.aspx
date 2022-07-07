@@ -1214,6 +1214,7 @@
                                                 <tr>
                                                     <th class="text-center" scope="col">Nº Processo</th>
                                                     <th class="text-center" scope="col">Nº CNTR</th>
+                                                    <th class="text-center" scope="col">Tipo Carga</th>
                                                     <th class="text-center" scope="col">Tipo CNTR</th>
                                                     <th class="text-center" scope="col">MBL</th>
                                                     <th class="text-center" scope="col">Cliente</th>
@@ -1278,6 +1279,7 @@
                                     <th class="text-center" scope="col">#</th>
                                     <th class="text-center" scope="col">Nº Processo</th>
                                     <th class="text-center" scope="col">Tipo Container</th>
+                                    <th class="text-center" scope="col">Tipo Carga</th>
                                     <th class="text-center" scope="col">Nº Container</th>
                                     <th class="text-center" scope="col">MBL</th>
                                     <th class="text-center" scope="col">Cliente</th>
@@ -1310,7 +1312,6 @@
             </div>
         </div>
     </div>
-    <p>versão 19/07/2021 08:29</p>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
@@ -4215,6 +4216,7 @@
                                     "<td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CARGA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
@@ -4226,7 +4228,7 @@
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE_COMPRA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["DS_OBSERVACAO"] +"' style='max-width: 14ch;'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +
@@ -4244,6 +4246,7 @@
                                     "<td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CARGA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
@@ -4255,7 +4258,7 @@
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE_COMPRA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["DS_OBSERVACAO"] + "' style='max-width: 14ch;'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +
@@ -4272,6 +4275,7 @@
                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CARGA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
@@ -4283,7 +4287,7 @@
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE_COMPRA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["DS_OBSERVACAO"] + "' style='max-width: 14ch;'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +

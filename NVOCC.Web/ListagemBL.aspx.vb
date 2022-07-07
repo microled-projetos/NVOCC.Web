@@ -415,7 +415,7 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(DT_CAMBIO)QTD FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ") 
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(DT_CAMBIO)QTD FROM [FN_TAXAS_BL_CALCULO](" & txtIDHouse.Text & ") 
 WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
             If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
                 divErroHouse.Visible = True
@@ -424,19 +424,20 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
 
             Else
 
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 = 
-(SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
-(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
-(SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text)
 
+                CalculaCLA(txtIDHouse.Text)
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 = (SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text & " ;
+UPDATE TB_BL SET VL_PESO_BRUTO =(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text & " ; 
+UPDATE TB_BL SET QT_MERCADORIA = (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text)
 
 
                 CalculoProfit()
 
                 Dim i As Integer = 0
 
-                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ")")
-                ' Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,A.ID_BL_TAXA)ID_BL_TAXA FROM TB_BL_TAXA A WHERE ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND ID_BASE_CALCULO_TAXA <> 1 AND ID_MOEDA <> 0 AND A.ID_BL_MASTER IS NULL AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL AND ID_BL_TAXA IS NOT NULL)")
+                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL_CALCULO](" & txtIDHouse.Text & ")")
+
                 Dim IDs As String = "0"
                 If dsTaxa.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In dsTaxa.Tables(0).Rows
@@ -475,6 +476,41 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
 
     End Sub
 
+    Sub CalculaCLA(ID_BL)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim LCA As Decimal
+        Dim PESO_BRUTO As Decimal
+        Dim PESO_TAXADO As Decimal
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT isnull(VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(VL_M3,0)VL_M3, isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
+(isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS LCA
+from TB_BL A 
+left join TB_CARGA_BL_DIMENSAO D ON D.ID_BL = A.ID_BL
+Where A.ID_BL = " & ID_BL)
+        PESO_BRUTO = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
+        For Each linha As DataRow In ds.Tables(0).Rows
+            LCA = LCA + linha.Item("LCA")
+        Next
+
+
+        If LCA >= PESO_BRUTO Then
+            PESO_TAXADO = LCA
+        Else
+            PESO_TAXADO = PESO_BRUTO
+        End If
+
+
+        Dim LCAFinal As String = LCA.ToString
+        LCAFinal = LCAFinal.ToString.Replace(".", "")
+        LCAFinal = LCAFinal.ToString.Replace(",", ".")
+
+        Dim PESO_TAXADO_Final As String = PESO_TAXADO.ToString
+        PESO_TAXADO_Final = PESO_TAXADO_Final.ToString.Replace(".", "")
+        PESO_TAXADO_Final = PESO_TAXADO_Final.ToString.Replace(",", ".")
+        Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_M3 = " & LCAFinal & " WHERE ID_BL = " & ID_BL)
+        Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 = " & LCAFinal & " WHERE ID_BL = " & ID_BL)
+        Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & PESO_TAXADO_Final & " WHERE ID_BL = " & ID_BL)
+    End Sub
     Sub CalculoProfit()
         Dim Profit As String = ""
         Dim x As Double

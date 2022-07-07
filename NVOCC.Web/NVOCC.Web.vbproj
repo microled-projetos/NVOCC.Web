@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 23062022\ABAINFRA.Web\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 29062022\ABAINFRA.Web\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -541,6 +541,9 @@
     <Content Include="RelacaoCotacao.aspx" />
     <Content Include="RelacaoCotacao.aspx.cs" />
     <Content Include="RelacaoCotacao.aspx.designer.cs" />
+    <Content Include="RelatorioAccountDeclarado.aspx" />
+    <Content Include="RelatorioAccountDeclarado.aspx.cs" />
+    <Content Include="RelatorioAccountDeclarado.aspx.designer.cs" />
     <Content Include="RelatorioComissaoInternacional.aspx" />
     <Content Include="RelatorioComissaoInternacional.aspx.cs" />
     <Content Include="RelatorioComissaoInternacional.aspx.designer.cs" />
@@ -553,6 +556,9 @@
     <Content Include="RelatorioConsolidada.aspx" />
     <Content Include="RelatorioConsolidada.aspx.cs" />
     <Content Include="RelatorioConsolidada.aspx.designer.cs" />
+    <Content Include="RelatorioDebitCredit.aspx" />
+    <Content Include="RelatorioDebitCredit.aspx.cs" />
+    <Content Include="RelatorioDebitCredit.aspx.designer.cs" />
     <Content Include="RelatorioFaturamento.aspx" />
     <Content Include="RelatorioInvoice.aspx" />
     <Content Include="RelatorioInvoice.aspx.cs" />
@@ -592,6 +598,9 @@
     <Content Include="TaxaParceiro.aspx.cs" />
     <Content Include="TaxaParceiro.aspx.designer.cs" />
     <Content Include="Taxas.cs" />
+    <Content Include="TaxasAberto.aspx" />
+    <Content Include="TaxasAberto.aspx.cs" />
+    <Content Include="TaxasAberto.aspx.designer.cs" />
     <Content Include="TaxasLocaisArmador.aspx" />
     <Content Include="TaxasLocaisImpo_PDF.aspx" />
     <Content Include="TaxasLocaisExpo_PDF.aspx" />

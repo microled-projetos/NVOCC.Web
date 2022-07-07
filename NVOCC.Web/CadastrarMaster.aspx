@@ -89,7 +89,11 @@
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label"></label>
+<<<<<<< HEAD
                                                 <asp:CheckBox ID="ckTrakingAutomaticoMaritimo" runat="server" CssClass="form-control" Checked="true" Visible="false" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
+=======
+                                                <asp:CheckBox ID="ckTrakingAutomaticoMaritimo" runat="server" CssClass="form-control" Checked="true"  visible="false" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
+>>>>>>> devjuliane
 
                                             </div>
                                         </div>
@@ -367,7 +371,7 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalMercaoriaNova">Selecione um navio</h5>
+                                                            <h5 class="modal-title">Selecione um navio</h5>
                                                         </div>
                                                         <div class="modal-body">
                                                             <br />
@@ -1165,7 +1169,11 @@
                                                 <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label"></label>
+<<<<<<< HEAD
                                                 <asp:CheckBox ID="ckTrakingAutomaticoAereo" runat="server" CssClass="form-control" Checked="true" Visible="false" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
+=======
+                                                <asp:CheckBox ID="ckTrakingAutomaticoAereo" runat="server" CssClass="form-control" Checked="true" visible="false" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
+>>>>>>> devjuliane
 
                                             </div>
                                         </div>

@@ -135,10 +135,7 @@
                                    </div>      
                                 </div>  
                              </div>
-                           
-                      
-                                                       
-                                                        </div>                     
+                                                                                  </div>                     
                                <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar" text="Close" />
                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnImprimir" text="Imprimir" />

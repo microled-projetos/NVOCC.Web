@@ -23,15 +23,6 @@ Partial Public Class CotacaoPDF_PT
     Protected WithEvents form As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
-    '''Controle DivPortugues.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents DivPortugues As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
     '''Controle lblEnderecoFCA.
     '''</summary>
     '''<remarks>
@@ -68,33 +59,6 @@ Partial Public Class CotacaoPDF_PT
     Protected WithEvents lblCNPJFCA As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblCliente.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblCliente As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblCnpjCliente.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblCnpjCliente As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblNome.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblNome As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Controle lblTitulo.
     '''</summary>
     '''<remarks>
@@ -120,6 +84,69 @@ Partial Public Class CotacaoPDF_PT
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblDataAtual As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle Label1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle Label2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle Label3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label3 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle Label4.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label4 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblCliente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCliente As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblCnpjCliente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCnpjCliente As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblNome.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblNome As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle detalhesCarga.
@@ -176,6 +203,15 @@ Partial Public Class CotacaoPDF_PT
     Protected WithEvents divCargaLCL As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
+    '''Controle divMedidasAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divMedidasAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
     '''Controle lblINCOTERM.
     '''</summary>
     '''<remarks>
@@ -203,6 +239,15 @@ Partial Public Class CotacaoPDF_PT
     Protected WithEvents lblDestino As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblCiaAerea.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCiaAerea As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblVia.
     '''</summary>
     '''<remarks>
@@ -228,6 +273,15 @@ Partial Public Class CotacaoPDF_PT
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblTTime As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblTTimeAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTTimeAereo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblValidade.

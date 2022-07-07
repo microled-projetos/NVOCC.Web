@@ -7,7 +7,8 @@
         Dim PESO_BRUTO As Decimal
         Dim QT_CONTAINER As Integer
         Dim PESO_TAXADO As Decimal
-        Dim LCA As Decimal
+        Dim CLA As Decimal
+        Dim CBM As Decimal
 
         'Calcula Frete
         Dim ds As DataSet = Con.ExecutarQuery("Select A.ID_TIPO_ESTUFAGEM,
@@ -18,12 +19,9 @@ isnull(A.VL_TOTAL_FRETE_VENDA_MIN,0)VL_TOTAL_FRETE_VENDA_MIN,
 isnull(A.VL_TOTAL_FRETE_VENDA,0)VL_TOTAL_FRETE_VENDA,
 (select sum(isnull(QT_CONTAINER,0)) FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )QT_CONTAINER,
 (SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO,
-(select sum(isnull(VL_LARGURA,0)) FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )VL_LARGURA,
-(select sum(isnull(VL_ALTURA,0)) FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )VL_ALTURA,
-(select sum(isnull(VL_COMPRIMENTO,0)) FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )VL_COMPRIMENTO,
-(select sum(isnull(QT_MERCADORIA,0)) FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )QT_MERCADORIA,
-(isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS LCA
-from TB_COTACAO A 
+(select sum(isnull(VL_CBM,0)) FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )* 1.67 AS CBM,
+(isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS CLA
+from TB_COTACAO A  
 left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
 Where A.ID_COTACAO = " & ID_COTACAO)
 
@@ -37,23 +35,52 @@ Where A.ID_COTACAO = " & ID_COTACAO)
 
 
         '        CÁLCULO DO PESO TAXADO
-        If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
-            'AEREO
-            For Each linha As DataRow In ds.Tables(0).Rows
-                LCA = LCA + linha.Item("LCA")
-            Next
-            Dim LCAFinal As String = LCA.ToString
-            LCAFinal = LCAFinal.ToString.Replace(".", "")
-            LCAFinal = LCAFinal.ToString.Replace(",", ".")
-            Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 = " & LCAFinal & " WHERE ID_COTACAO = " & ID_COTACAO)
-            Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_M3 = " & LCAFinal & " WHERE ID_COTACAO = " & ID_COTACAO)
+        'If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+        '    'AEREO
+        '    CBM = ds.Tables(0).Rows(0).Item("CBM")
 
-            If LCA >= PESO_BRUTO Then
-                PESO_TAXADO = LCA
-            Else
-                PESO_TAXADO = PESO_BRUTO
-            End If
-        End If
+        '    For Each linha As DataRow In ds.Tables(0).Rows
+        '        CLA = CLA + linha.Item("CLA")
+        '    Next
+
+        '    If CLA = 0 Then
+        '        CLA = CBM
+        '    End If
+        '    Dim CLAFinal As String = CLA.ToString
+        '    CLAFinal = CLAFinal.ToString.Replace(".", "")
+        '    CLAFinal = CLAFinal.ToString.Replace(",", ".")
+        '    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 = " & CLAFinal & " WHERE ID_COTACAO = " & ID_COTACAO)
+        '    Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_M3 = " & CLAFinal & " WHERE ID_COTACAO = " & ID_COTACAO)
+
+        '    If CLA >= PESO_BRUTO Then
+        '        PESO_TAXADO = CLA
+        '    Else
+        '        PESO_TAXADO = PESO_BRUTO
+        '    End If
+
+
+        '    Dim PrimeiraCasa As String = PESO_TAXADO.ToString
+        '    PrimeiraCasa = PrimeiraCasa.Substring(PrimeiraCasa.IndexOf(","), 2)
+        '    PrimeiraCasa = PrimeiraCasa.Replace(",", "")
+
+        '    If PrimeiraCasa = 5 Then
+        '        Dim SegundaCasa As String = PESO_TAXADO.ToString
+        '        SegundaCasa = SegundaCasa.Substring(SegundaCasa.IndexOf("," & PrimeiraCasa), 3)
+        '        SegundaCasa = SegundaCasa.Replace("," & PrimeiraCasa, "")
+        '        If SegundaCasa > 0 Then
+        '            PESO_TAXADO = Math.Ceiling(PESO_TAXADO)
+        '        End If
+
+        '    ElseIf PrimeiraCasa > 5 Then
+        '        PESO_TAXADO = Math.Ceiling(PESO_TAXADO)
+
+        '    ElseIf PrimeiraCasa < 5 And PrimeiraCasa > 0 Then
+
+        '        Dim PESO_TAXADO_INTEIRO As Decimal = Math.Truncate(PESO_TAXADO)
+        '        PESO_TAXADO = PESO_TAXADO_INTEIRO + 0.5
+        '    End If
+
+        'End If
 
         If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
             'MARITIMO
@@ -64,6 +91,13 @@ Where A.ID_COTACAO = " & ID_COTACAO)
             Else
                 PESO_TAXADO = M3
             End If
+
+
+            Dim Peso_Final As String = PESO_TAXADO.ToString
+            Peso_Final = Peso_Final.ToString.Replace(".", "")
+            Peso_Final = Peso_Final.ToString.Replace(",", ".")
+            Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_PESO_TAXADO = " & Peso_Final & "  WHERE ID_COTACAO = " & ID_COTACAO)
+
         End If
 
 
@@ -85,17 +119,11 @@ Where A.ID_COTACAO = " & ID_COTACAO)
         End If
 
 
-
-
-        Dim Peso_Final As String = PESO_TAXADO.ToString
-        Peso_Final = Peso_Final.ToString.Replace(".", "")
-        Peso_Final = Peso_Final.ToString.Replace(",", ".")
-
         Dim frete_Final As String = FRETE_CALCULADO.ToString
         frete_Final = frete_Final.ToString.Replace(".", "")
         frete_Final = frete_Final.ToString.Replace(",", ".")
 
-        Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_PESO_TAXADO = " & Peso_Final & ",VL_TOTAL_FRETE_VENDA_CALCULADO = " & frete_Final & "  WHERE ID_COTACAO = " & ID_COTACAO)
+        Con.ExecutarQuery("UPDATE TB_COTACAO SET  VL_TOTAL_FRETE_VENDA_CALCULADO = " & frete_Final & "  WHERE ID_COTACAO = " & ID_COTACAO)
 
 
         'Calcula Taxas
@@ -582,19 +610,18 @@ WHERE A.ID_COTACAO = " & ID_COTACAO & " AND ID_TIPO_CONTAINER IN (17,13,14,15,11
                     ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 14 Then
                         'POR KG
 
-                        If linha.Item("ID_SERVICO") = 1 Or linha.Item("ID_SERVICO") = 4 Then
-                            'MARITIMO
-                            x = linha.Item("VL_PESO_BRUTO")
+                        'If linha.Item("ID_SERVICO") = 1 Or linha.Item("ID_SERVICO") = 4 Then
+                        '    'MARITIMO
+                        '    x = linha.Item("VL_PESO_BRUTO")
 
-                        ElseIf linha.Item("ID_SERVICO") = 2 Or linha.Item("ID_SERVICO") = 5 Then
-                            'AEREO
-                            x = linha.Item("VL_PESO_TAXADO")
+                        'ElseIf linha.Item("ID_SERVICO") = 2 Or linha.Item("ID_SERVICO") = 5 Then
+                        '    'AEREO
+                        '    x = linha.Item("VL_PESO_TAXADO")
 
-                        End If
-
-
+                        'End If
 
 
+                        x = linha.Item("VL_PESO_BRUTO")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = x * y
                         If COMPRA_MIN < 0 Then
@@ -1077,13 +1104,30 @@ WHERE A.ID_COTACAO = " & ID_COTACAO & " AND ID_TIPO_CONTAINER IN (13)")
 
 
                     ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 30 Then
-                        'POR UNIDADE - quantidade de conteineres do processo
+                        'POR UNIDADE 
+                        Dim ds1 As DataSet
 
-                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+                        ' If linha.Item("ID_SERVICO") = 1 Or linha.Item("ID_SERVICO") = 4 Then
+                        'MARITIMO - quantidade de conteineres do processo
+                        ds1 = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
 FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & ID_COTACAO & "")
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        'ElseIf linha.Item("ID_SERVICO") = 2 Or linha.Item("ID_SERVICO") = 5 Then
+                        '    'AEREO  - quantidade de caixas de mercadoria do processo
+                        '    '                            ds1 = Con.ExecutarQuery("SELECT ISNULL(SUM(QTD_CAIXA),0)QTD
+                        '    'FROM TB_COTACAO_MERCADORIA_DIMENSAO A
+                        '    'WHERE A.ID_COTACAO = " & ID_COTACAO & "")
+
+                        '    ds1 = Con.ExecutarQuery("SELECT COUNT(ID_COTACAO_MERCADORIA)QTD FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & ID_COTACAO & "")
+
+                        '    x = ds1.Tables(0).Rows(0).Item("QTD")
+                        'End If
+
+
+
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then

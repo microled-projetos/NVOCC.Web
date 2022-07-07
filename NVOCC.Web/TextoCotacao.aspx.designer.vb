@@ -14,13 +14,22 @@ Option Explicit On
 Partial Public Class TextoCotacao
 
     '''<summary>
-    '''Controle rdTipo.
+    '''Controle rdTipoLinguagem.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents rdTipo As Global.System.Web.UI.WebControls.RadioButtonList
+    Protected WithEvents rdTipoLinguagem As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''Controle rdTipoTransporte.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents rdTipoTransporte As Global.System.Web.UI.WebControls.RadioButtonList
 
     '''<summary>
     '''Controle txtTexto.
