@@ -7789,7 +7789,6 @@ namespace ABAINFRA.Web
                     filter = "";
                     break;
             }
-
             SQL = "select ISNULL(FORMAT(DT_SOLICITACAO,'dd/MM/yyyy'),'') AS SOLICITACAO, ISNULL(INSIDE,'') AS INSIDE, ";
             SQL += "ISNULL(NR_COTACAO, '') AS NR_COTACAO, ISNULL(MODAL, '') AS MODAL, ISNULL(CD_INCOTERM, '') AS INCOTERM, ";
             SQL += "ISNULL(NM_CLIENTE, '') AS CLIENTE, ISNULL(NM_SUB_CLIENTE, '') AS SUB_CLIENTE, ISNULL(NM_ORIGEM, '') AS  ORIGEM, ";
