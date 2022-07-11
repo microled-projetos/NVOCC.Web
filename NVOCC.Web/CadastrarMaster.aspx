@@ -90,7 +90,6 @@
                                             <div class="form-group">
                                                 <label class="control-label"></label>
                                                 <asp:CheckBox ID="ckTrakingAutomaticoMaritimo" runat="server" CssClass="form-control" Checked="true"  visible="false" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
-
                                             </div>
                                         </div>
                                     </div>
@@ -1166,7 +1165,6 @@
                                             <div class="form-group">
                                                 <label class="control-label"></label>
                                                 <asp:CheckBox ID="ckTrakingAutomaticoAereo" runat="server" CssClass="form-control" Checked="true" visible="false" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
-
                                             </div>
                                         </div>
                                             </div>

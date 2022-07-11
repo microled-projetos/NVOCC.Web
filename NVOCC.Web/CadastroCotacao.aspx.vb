@@ -59,7 +59,7 @@ CONVERT(varchar,A.DT_VALIDADE_COTACAO,103)DT_VALIDADE_COTACAO,
 CONVERT(varchar,A.DT_ENVIO_COTACAO,103)DT_ENVIO_COTACAO,
 A.ID_ANALISTA_COTACAO,A.ID_AGENTE_INTERNACIONAL,A.ID_TIPO_BL,A.ID_INCOTERM,A.ID_TIPO_ESTUFAGEM,A.ID_DESTINATARIO_COMERCIAL,ISNULL(A.ID_CLIENTE,0)ID_CLIENTE,ISNULL(A.ID_CLIENTE_FINAL,0)ID_CLIENTE_FINAL,A.ID_CONTATO,A.ID_SERVICO,A.ID_VENDEDOR,A.OB_CLIENTE,A.OB_MOTIVO_CANCELAMENTO,A.OB_OPERACIONAL,A.ID_MOTIVO_CANCELAMENTO,
 CONVERT(varchar,A.DT_CALCULO_COTACAO,103)DT_CALCULO_COTACAO,ID_TIPO_CARGA, 
-NR_PROCESSO_GERADO,ID_PROCESSO, ID_USUARIO_STATUS,(SELECT FL_COTACAO_APROVADA FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_COTACAO_APROVADA, (SELECT FL_ENCERRA_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_ENCERRA_COTACAO, ISNULL(FL_LTL,0)FL_LTL,ISNULL(FL_DTA_HUB,0)FL_DTA_HUB,ISNULL(FL_TRANSP_DEDICADO,0)FL_TRANSP_DEDICADO, VL_TOTAL_PESO_BRUTO,VL_TOTAL_M3, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO, ISNULL(FL_EMAIL_COTACAO,0)FL_EMAIL_COTACAO,EMAIL_COTACAO,ISNULL([dbo].[FN_ANALISTA_COTACAO_PRICING](A.ID_COTACAO),0) AS ID_ANALISTA_COTACAO_PRICING,ISNULL(ID_PORTO_CLIENTE,0)ID_PORTO_CLIENTE,ISNULL(ID_PORTO_ESCOLHIDO,0)ID_PORTO_ESCOLHIDO,ISNULL(ID_TIPO_AERONAVE,0)ID_TIPO_AERONAVE, ISNULL(FL_TC4,0)FL_TC4,ISNULL(FL_TC6,0)FL_TC6 
+NR_PROCESSO_GERADO,ID_PROCESSO, ID_USUARIO_STATUS,(SELECT FL_COTACAO_APROVADA FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_COTACAO_APROVADA, (SELECT FL_ENCERRA_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_ENCERRA_COTACAO, ISNULL(FL_LTL,0)FL_LTL,ISNULL(FL_DTA_HUB,0)FL_DTA_HUB,ISNULL(FL_TRANSP_DEDICADO,0)FL_TRANSP_DEDICADO, VL_TOTAL_PESO_BRUTO,VL_TOTAL_M3, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO, ISNULL(FL_EMAIL_COTACAO,0)FL_EMAIL_COTACAO,EMAIL_COTACAO,ISNULL([dbo].[FN_ANALISTA_COTACAO_PRICING](A.ID_COTACAO),0) AS ID_ANALISTA_COTACAO_PRICING,ISNULL(ID_PORTO_ESCOLHIDO,0)ID_PORTO_ESCOLHIDO,ISNULL(ID_TIPO_AERONAVE,0)ID_TIPO_AERONAVE, ISNULL(FL_TC4,0)FL_TC4,ISNULL(FL_TC6,0)FL_TC6 
 FROM  TB_COTACAO A
     WHERE A.ID_COTACAO = " & Request.QueryString("id"))
         If ds.Tables(0).Rows.Count > 0 Then
@@ -3828,30 +3828,37 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
             divDeleteErroTaxas.Visible = True
 
         Else
-            For Each linha As GridViewRow In dgvTaxas.Rows
-                Dim check As CheckBox = linha.FindControl("ckSelecionar")
-                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-                If check.Checked Then
-                    Dim finaliza As New FinalizaCotacao
-                    If finaliza.TaxaBloqueada(ID, "COTACAO") = True Then
-                        lblDeleteErroTaxas.Text = "Não foi possível deletar taxas já enviadas para contas a pagar/receber ou invoice!"
-                        divDeleteErroTaxas.Visible = True
-                    Else
-                        ds = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO,NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO =" & txtID.Text)
-                        If ds.Tables(0).Rows.Count > 0 Then
-                            Con.ExecutarQuery("DELETE From TB_COTACAO_TAXA Where ID_COTACAO_TAXA = " & ID)
-                            lblDeleteTaxas.Text = "Registros deletados!"
-                            divDeleteTaxas.Visible = True
-                            dgvTaxas.DataBind()
-                            If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 10 And Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO")) Then
-                                Dim RotinaUpdate As New RotinaUpdate
-                                RotinaUpdate.DeletaTaxas(txtID.Text, ID, txtProcessoCotacao.Text)
+
+            If ddlStatusCotacao.SelectedValue = 12 Or ddlStatusCotacao.SelectedValue = 15 Or ddlStatusCotacao.SelectedValue = 9 Then
+                lblDeleteErroTaxas.Text = "Status da cotação não permite realizar exclusões!"
+                divDeleteErroTaxas.Visible = True
+            Else
+
+
+                For Each linha As GridViewRow In dgvTaxas.Rows
+                    Dim check As CheckBox = linha.FindControl("ckSelecionar")
+                    Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                    If check.Checked Then
+                        Dim finaliza As New FinalizaCotacao
+                        If finaliza.TaxaBloqueada(ID, "COTACAO") = True Then
+                            lblDeleteErroTaxas.Text = "Não foi possível deletar taxas já enviadas para contas a pagar/receber ou invoice!"
+                            divDeleteErroTaxas.Visible = True
+                        Else
+                            ds = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO,NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO =" & txtID.Text)
+                            If ds.Tables(0).Rows.Count > 0 Then
+                                Con.ExecutarQuery("DELETE From TB_COTACAO_TAXA Where ID_COTACAO_TAXA = " & ID)
+                                lblDeleteTaxas.Text = "Registros deletados!"
+                                divDeleteTaxas.Visible = True
+                                dgvTaxas.DataBind()
+                                If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 10 And Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO")) Then
+                                    Dim RotinaUpdate As New RotinaUpdate
+                                    RotinaUpdate.DeletaTaxas(txtID.Text, ID, txtProcessoCotacao.Text)
+                                End If
                             End If
                         End If
                     End If
-                End If
-            Next
-
+                Next
+            End If
 
         End If
     End Sub

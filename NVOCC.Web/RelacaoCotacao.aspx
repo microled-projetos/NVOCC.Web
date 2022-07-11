@@ -112,7 +112,7 @@
                             <div class="row topMarg">
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportTotaisCotacao" class="btn btn-primary" onclick="exportRelacaoCotacaoCSV('Relacao_Cotacao.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnExportTotaisCotacao" class="btn btn-primary" onclick="exportRelacaoCotacaoCSVTotal('Relacao_Cotacao.csv')">Exportar Grid - CSV</button>
                                     </div>
                                 </div>
                             </div>
@@ -532,7 +532,7 @@
             downloadLink.click();
         }
 
-        function exportRelacaoCotacaoCSV(filename) {
+        function exportRelacaoCotacaoCSVTotal(filename) {
             var csv = [];
             var rows = document.querySelectorAll("#grdTotalStatusCotacao tr");
 
@@ -590,10 +590,10 @@
             }
 
             // Download CSV file
-            exportTableToCSVRelacaoCotacao(csv.join("\n"), filename);
+            exportTableToCSVRelacaoCotacaoTotal(csv.join("\n"), filename);
         }
 
-        function exportTableToCSVRelacaoCotacao(csv, filename) {
+        function exportTableToCSVRelacaoCotacaoTotal(csv, filename) {
             var csvFile;
 
             var downloadLink;

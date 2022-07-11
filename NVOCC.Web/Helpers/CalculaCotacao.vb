@@ -13,6 +13,7 @@
         'Calcula Frete
         Dim ds As DataSet = Con.ExecutarQuery("Select A.ID_TIPO_ESTUFAGEM,
 A.ID_SERVICO,
+isnull(A.VL_PESO_TAXADO,0)VL_PESO_TAXADO,
 isnull(A.VL_TOTAL_M3,0)VL_M3, 
 isnull(A.VL_TOTAL_PESO_BRUTO,0)VL_PESO_BRUTO,
 isnull(A.VL_TOTAL_FRETE_VENDA_MIN,0)VL_TOTAL_FRETE_VENDA_MIN,
@@ -25,6 +26,7 @@ from TB_COTACAO A
 left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
 Where A.ID_COTACAO = " & ID_COTACAO)
 
+        PESO_TAXADO = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
         M3 = ds.Tables(0).Rows(0).Item("VL_M3")
         PESO_BRUTO = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
         VENDA_MIN = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_MIN")

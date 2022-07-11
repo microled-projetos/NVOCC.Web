@@ -1897,8 +1897,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 FILTRO = " VENDEDOR LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 8 Then
                 FILTRO = " NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 9 Then
-                FILTRO = " ANALISTA_COTACAO LIKE '%" & txtPesquisa.Text & "%' "
+
             ElseIf ddlConsultas.SelectedValue = 10 Then
                 FILTRO = " CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 11 Then
@@ -1917,7 +1916,8 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
             End If
 
-            Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO & " order by DT_abertura desc"
+            Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
+
             dsCotacao.SelectCommand = sql
             dgvCotacao.DataBind()
 

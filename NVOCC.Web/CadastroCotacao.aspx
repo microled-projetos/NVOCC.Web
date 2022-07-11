@@ -684,7 +684,7 @@
                                                                     <div class="col-sm-4">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Valor Frequencia:</label>
-                                                                            <asp:TextBox ID="txtValorFrequenciaFrete" runat="server" CssClass="form-control ApenasNumeros" MaxLength="10"></asp:TextBox>
+                                                                            <asp:TextBox ID="txtValorFrequenciaFrete" runat="server" CssClass="form-control" MaxLength="25"></asp:TextBox>
                                                                         </div>
                                                                     </div>
 
