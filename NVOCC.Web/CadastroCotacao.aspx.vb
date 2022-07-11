@@ -3828,30 +3828,37 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
             divDeleteErroTaxas.Visible = True
 
         Else
-            For Each linha As GridViewRow In dgvTaxas.Rows
-                Dim check As CheckBox = linha.FindControl("ckSelecionar")
-                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-                If check.Checked Then
-                    Dim finaliza As New FinalizaCotacao
-                    If finaliza.TaxaBloqueada(ID, "COTACAO") = True Then
-                        lblDeleteErroTaxas.Text = "Não foi possível deletar taxas já enviadas para contas a pagar/receber ou invoice!"
-                        divDeleteErroTaxas.Visible = True
-                    Else
-                        ds = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO,NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO =" & txtID.Text)
-                        If ds.Tables(0).Rows.Count > 0 Then
-                            Con.ExecutarQuery("DELETE From TB_COTACAO_TAXA Where ID_COTACAO_TAXA = " & ID)
-                            lblDeleteTaxas.Text = "Registros deletados!"
-                            divDeleteTaxas.Visible = True
-                            dgvTaxas.DataBind()
-                            If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 10 And Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO")) Then
-                                Dim RotinaUpdate As New RotinaUpdate
-                                RotinaUpdate.DeletaTaxas(txtID.Text, ID, txtProcessoCotacao.Text)
+
+            If ddlStatusCotacao.SelectedValue = 12 Or ddlStatusCotacao.SelectedValue = 15 Or ddlStatusCotacao.SelectedValue = 9 Then
+                lblDeleteErroTaxas.Text = "Status da cotação não permite realizar exclusões!"
+                divDeleteErroTaxas.Visible = True
+            Else
+
+
+                For Each linha As GridViewRow In dgvTaxas.Rows
+                    Dim check As CheckBox = linha.FindControl("ckSelecionar")
+                    Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                    If check.Checked Then
+                        Dim finaliza As New FinalizaCotacao
+                        If finaliza.TaxaBloqueada(ID, "COTACAO") = True Then
+                            lblDeleteErroTaxas.Text = "Não foi possível deletar taxas já enviadas para contas a pagar/receber ou invoice!"
+                            divDeleteErroTaxas.Visible = True
+                        Else
+                            ds = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO,NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO =" & txtID.Text)
+                            If ds.Tables(0).Rows.Count > 0 Then
+                                Con.ExecutarQuery("DELETE From TB_COTACAO_TAXA Where ID_COTACAO_TAXA = " & ID)
+                                lblDeleteTaxas.Text = "Registros deletados!"
+                                divDeleteTaxas.Visible = True
+                                dgvTaxas.DataBind()
+                                If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 10 And Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO")) Then
+                                    Dim RotinaUpdate As New RotinaUpdate
+                                    RotinaUpdate.DeletaTaxas(txtID.Text, ID, txtProcessoCotacao.Text)
+                                End If
                             End If
                         End If
                     End If
-                End If
-            Next
-
+                Next
+            End If
 
         End If
     End Sub
