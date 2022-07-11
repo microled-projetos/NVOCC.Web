@@ -32,7 +32,17 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
 
         End If
 
-            lblVersion.Text = "ver " & Me.GetType.Assembly.GetName.Version.ToString
+        lblEsquema.Text = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString
+        lblEsquema.Text = lblEsquema.Text.Substring(lblEsquema.Text.IndexOf("Catalog="))
+        lblEsquema.Text = lblEsquema.Text.Substring(0, lblEsquema.Text.IndexOf(";User ID"))
+        lblEsquema.Text = lblEsquema.Text.Replace("Catalog=", "")
+        If lblEsquema.Text = "NVOCCTST" Then
+            lblEsquema.Text = lblEsquema.Text & " (Homologação)"
+        ElseIf lblEsquema.Text = "NVOCC" Then
+            lblEsquema.Text = lblEsquema.Text & " (Produção)"
+        End If
+
+        lblVersion.Text = "ver " & Me.GetType.Assembly.GetName.Version.ToString
 
     End Sub
 

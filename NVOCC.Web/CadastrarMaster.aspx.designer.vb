@@ -986,6 +986,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents btnNovaTaxasMaritimo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle btnImportarTaxasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnImportarTaxasMaritimo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle UpdatePanel6.
     '''</summary>
     '''<remarks>
@@ -1704,6 +1713,15 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnNovaTaxaAereo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnImportarTaxasAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnImportarTaxasAereo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle UpdatePanel7.

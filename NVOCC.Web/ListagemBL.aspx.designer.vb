@@ -590,13 +590,13 @@ Partial Public Class ListagemBL
     Protected WithEvents Label6 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle ddFiltroMaster.
+    '''Controle ddlFiltroMaster.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddFiltroMaster As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlFiltroMaster As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtPesquisaMaster.

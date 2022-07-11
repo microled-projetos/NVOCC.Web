@@ -149,6 +149,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents txtHBL_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ddlServico_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlServico_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle txtMBL_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -248,13 +257,22 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlDestino_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlServico_BasicoMaritimo.
+    '''Controle ddlPlaceReceipt_BasicoMaritimo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlServico_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlPlaceReceipt_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlFinalDestination_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlFinalDestination_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlIncoterm_BasicoMaritimo.
@@ -471,15 +489,6 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtValorCarga_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle ddlFinalDestination_BasicoMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlFinalDestination_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtCE_BasicoMaritimo.
@@ -1724,6 +1733,24 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlDestino_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ddlPlaceReceipt_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlPlaceReceipt_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlFinalDestination_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlFinalDestination_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle txtDataCE_BasicoAereo.
     '''</summary>
     '''<remarks>
@@ -1749,15 +1776,6 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlIncoterm_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlFinalDestination_BasicoAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlFinalDestination_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtValorCarga_BasicoAereo.

@@ -589,28 +589,24 @@
                                                                             </asp:DropDownList>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-sm-3" id="divContratoMaritimo" runat="server" style="display: none">
-
-                                                                        <div class="form-group">
-                                                                            <label class="control-label">Nº Contrato Armador:</label>
-                                                                            <asp:TextBox ID="txtContratoArmador" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
-                                                                    </div>   </div>
+                                                                    
                                                                
-                                                                    <div class="col-sm-3">
+                                                                  
+                                                                      <div class="col-sm-4">
                                                                         <div class="form-group">
-                                                                            <label class="control-label">Tipo Pagamento:</label>
-                                                                            <asp:DropDownList ID="ddlTipoPagamento_Frete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO"></asp:DropDownList>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-sm-3">
-                                                                        <div class="form-group">
-                                                                            <label class="control-label">Tipo de Carga:</label>
-                                                                            <asp:DropDownList ID="ddlTipoCargaFrete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCarga" DataValueField="ID_TIPO_CARGA">
+                                                                            <label class="control-label">Place of Receipt:</label>
+                                                                            <asp:DropDownList ID="ddlPlaceReceipt" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
                                                                             </asp:DropDownList>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-sm-3">
+                                                                    <div class="col-sm-4">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label">Final Destination:</label>
+                                                                            <asp:DropDownList ID="ddlFinalDestination" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CIDADE" DataSourceID="dsFinalDestination" DataValueField="ID_CIDADE">
+                                                                            </asp:DropDownList>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Via Rota:</label>
                                                                             <asp:DropDownList ID="ddlRotaFrete" runat="server" AutoPostBack="true" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIA_ROTA" DataSourceID="dsRota" DataValueField="ID_VIA_ROTA">
@@ -644,6 +640,12 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
+                                                                    <div class="col-sm-3" id="divContratoMaritimo" runat="server" style="display: none">
+
+                                                                        <div class="form-group">
+                                                                            <label class="control-label">Nº Contrato Armador:</label>
+                                                                            <asp:TextBox ID="txtContratoArmador" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                    </div>   </div>
                                                                     <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Transttime Inicial:</label>
@@ -673,7 +675,21 @@
                                                                 </div>
 
                                                                 <div class="row">
-                                                                    <div class="col-sm-4">
+                                                                      <div class="col-sm-3">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label">Tipo Pagamento:</label>
+                                                                            <asp:DropDownList ID="ddlTipoPagamento_Frete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO"></asp:DropDownList>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-sm-3">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label">Tipo de Carga:</label>
+                                                                            <asp:DropDownList ID="ddlTipoCargaFrete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCarga" DataValueField="ID_TIPO_CARGA">
+                                                                            </asp:DropDownList>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Frequencia:</label>
                                                                             <asp:DropDownList ID="ddlFrequenciaFrete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_FREQUENCIA" DataSourceID="dsFrequencia" DataValueField="ID_TIPO_FREQUENCIA">
@@ -681,20 +697,13 @@
                                                                         </div>
 
                                                                     </div>
-                                                                    <div class="col-sm-4">
+                                                                    <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Valor Frequencia:</label>
                                                                             <asp:TextBox ID="txtValorFrequenciaFrete" runat="server" CssClass="form-control" MaxLength="25"></asp:TextBox>
                                                                         </div>
                                                                     </div>
-
-                                                                    <div class="col-sm-4">
-                                                                        <div class="form-group">
-                                                                            <label class="control-label">Final Destination:</label>
-                                                                            <asp:DropDownList ID="ddlFinalDestination" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CIDADE" DataSourceID="dsFinalDestination" DataValueField="ID_CIDADE">
-                                                                            </asp:DropDownList>
-                                                                        </div>
-                                                                    </div>
+                                                                  
 
                                                                 </div>
                                                                 <div id="divCamposMaritimos" runat="server">
@@ -833,6 +842,8 @@
                                                     <asp:BoundField DataField="NR_COTACAO" HeaderText="Nº Cotação" SortExpression="NR_COTACAO" />
                                                     <asp:BoundField DataField="ORIGEM" HeaderText="Origem" SortExpression="Origem" />
                                                     <asp:BoundField DataField="DESTINO" HeaderText="Destino" SortExpression="Destino" />
+                                                    <asp:BoundField DataField="NM_PLACE_RECEIPT" HeaderText="Place of Receipt" SortExpression="NM_PLACE_RECEIPT" />
+                                                    <asp:BoundField DataField="NM_FINAL_DESTINATION" HeaderText="Final Destination" SortExpression="NM_FINAL_DESTINATION" />
                                                     <asp:BoundField DataField="TRANSPORTADOR" HeaderText="Transportador" SortExpression="Transportador" />
                                                     <asp:BoundField DataField="CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="CLIENTE_FINAL" />
                                                     <asp:TemplateField HeaderText="">
@@ -1755,21 +1766,13 @@
 
     <asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_COTACAO,NR_COTACAO,
-A.ID_PORTO_ORIGEM,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM) ORIGEM,
-
-A.ID_PORTO_DESTINO, 
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) DESTINO,
-
-A.ID_CLIENTE_FINAL,
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.PLACE_RECEIPT) NM_PLACE_RECEIPT,
+(SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.FINAL_DESTINATION) NM_FINAL_DESTINATION,
 (SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = A.ID_CLIENTE_FINAL) CLIENTE_FINAL,
-
-A.ID_TRANSPORTADOR,
 (SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_TRANSPORTADOR and FL_TRANSPORTADOR = 1) TRANSPORTADOR
-
-FROM TB_COTACAO A WHERE ID_COTACAO = @ID_COTACAO
-
-">
+FROM TB_COTACAO A WHERE ID_COTACAO = @ID_COTACAO ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" />
         </SelectParameters>

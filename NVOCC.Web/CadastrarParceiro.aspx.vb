@@ -680,7 +680,9 @@ WHERE ID_PARCEIRO =" & ID)
             FL_CNEE,
             FL_RODOVIARIO,
             REGRA_ATUALIZACAO,
-            ID_PAIS
+            ID_PAIS,
+            ID_USUARIO,
+            CREATED_AT
             ) 
             VALUES ( 
             '" & ckbImportador.Checked & "',
@@ -741,7 +743,9 @@ WHERE ID_PARCEIRO =" & ID)
             '" & ckbCNEE.Checked & "',
             '" & ckbTranspRodoviario.Checked & "',
             " & ddlRegraAtualizacao.SelectedValue & ",
-            " & ddlPais.SelectedValue & " 
+            " & ddlPais.SelectedValue & " ,
+            " & Session("ID_USUARIO") & ",
+             getdate() 
             ) Select SCOPE_IDENTITY() as ID_PARCEIRO ")
 
 
@@ -1101,7 +1105,9 @@ WHERE ID_PARCEIRO =" & ID)
             FL_CNEE = '" & ckbCNEE.Checked & "',
             FL_RODOVIARIO = '" & ckbTranspRodoviario.Checked & "',
             REGRA_ATUALIZACAO = " & ddlRegraAtualizacao.SelectedValue & " ,
-            ID_PAIS=" & ddlPais.SelectedValue & " 
+            ID_PAIS=" & ddlPais.SelectedValue & ",
+            ID_USUARIO = " & Session("ID_USUARIO") & ",
+            UPDATED_AT = GETDATE() 
             where ID_PARCEIRO = " & ID)
                             Session("ID_Parceiro") = ID
 

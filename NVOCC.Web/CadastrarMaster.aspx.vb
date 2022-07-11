@@ -1526,6 +1526,9 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace("'", "")
                         txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace("NULL", "")
 
+                        ImportaTaxas(txtID_BasicoAereo.Text, ddlServico_BasicoAereo.SelectedValue, ddltransportador_BasicoAereo.SelectedValue, ddlDestino_BasicoAereo.SelectedValue)
+
+
                         Con.Fechar()
                         divSuccess_BasicoAereo.Visible = True
 
@@ -1904,6 +1907,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                             Dim Rastreio As New RastreioService
                             Rastreio.trackingbl(ds.Tables(0).Rows(0).Item("ID_BL").ToString())
                         End If
+
+                        ImportaTaxas(txtID_BasicoMaritimo.Text, ddlServico_BasicoMaritimo.SelectedValue, ddlTransportador_BasicoMaritimo.SelectedValue, ddlDestino_BasicoMaritimo.SelectedValue)
 
 
                         Con.Fechar()
@@ -2944,5 +2949,147 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         divSuccess_VinculoAereo.Visible = True
         dgvNaoVinculadosAereos.DataBind()
         dgvVinculadosAereos.DataBind()
+    End Sub
+
+    Sub ImportaTaxas(ID_BL, ID_SERVICO, ID_TRANSPORTADOR, ID_PORTO_DESTINO)
+
+        Dim comex As Integer = 0
+        Dim via As Integer = 0
+
+        Dim FILTROCOMEX As String = ""
+        Dim FILTROVIA As String = ""
+
+        If ID_SERVICO = 1 Then
+            'AGENCIAMENTO DE IMPORTACAO MARITIMA
+            comex = 1
+            via = 1
+        ElseIf ID_SERVICO = 4 Then
+            'AGENCIAMENTO DE EXPORTACAO MARITIMA
+            comex = 2
+            via = 1
+        ElseIf ID_SERVICO = 5 Then
+            'AGENCIAMENTO DE EXPORTAÇÃO AEREO
+            comex = 2
+            via = 4
+        ElseIf ID_SERVICO = 2 Then
+            'AGENCIAMENTO DE IMPORTACAO AEREO
+            comex = 1
+            via = 4
+        End If
+
+        If comex > 0 Then
+            FILTROCOMEX = " AND ID_TIPO_COMEX = " & comex
+        End If
+
+        If via > 0 Then
+            FILTROVIA = " AND ID_VIATRANSPORTE = " & via
+        End If
+
+        Dim ID_DESTINATARIO_COBRANCA As Integer = 1
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet
+
+        If ID_SERVICO > 2 Then
+            'EXPO
+            ID_DESTINATARIO_COBRANCA = 0
+        Else
+            'IMPO
+            ds = Con.ExecutarQuery("SELECT CASE WHEN ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
+ THEN 4
+ ELSE 1
+ END ID_DESTINATARIO_COBRANCA FROM TB_BL WHERE ID_BL = " & ID_BL)
+            If ds.Tables(0).Rows.Count > 0 Then
+                ID_DESTINATARIO_COBRANCA = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")
+            End If
+        End If
+
+
+        Dim ID_FRETE_TRANSPORTADOR As Integer = 0
+        ds = Con.ExecutarQuery("SELECT ID_FRETE_TRANSPORTADOR FROM TB_FRETE_TRANSPORTADOR WHERE ID_PORTO_DESTINO = " & ID_PORTO_DESTINO & " AND  ID_TRANSPORTADOR = " & ID_TRANSPORTADOR & FILTROCOMEX & FILTROVIA & "  AND convert(date,getdate(),103) <= convert(date,DT_VALIDADE_FINAL,103) ORDER BY ID_FRETE_TRANSPORTADOR DESC ")
+
+        If ds.Tables(0).Rows.Count > 0 Then
+            ID_FRETE_TRANSPORTADOR = ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR")
+        End If
+
+
+
+        If ID_FRETE_TRANSPORTADOR <> 0 Then
+
+            Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_BL_TAXA WHERE ID_BL = " & ID_BL)
+            If dsTaxas.Tables(0).Rows(0).Item("QTD") = 0 Then
+
+                ds = Con.ExecutarQuery("SELECT ID_TABELA_FRETE_TAXA,ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_ORIGEM_PAGAMENTO FROM TB_TABELA_FRETE_TAXA A WHERE ID_FRETE_TRANSPORTADOR =  " & ID_FRETE_TRANSPORTADOR)
+                If ds.Tables(0).Rows.Count > 0 Then
+                    For Each linha As DataRow In ds.Tables(0).Rows
+
+                        Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,FL_TAXA_TRANSPORTADOR,ID_DESTINATARIO_COBRANCA,ID_PARCEIRO_EMPRESA,QTD_BASE_CALCULO,CD_ORIGEM_INF,CD_PR)                  
+				   				   
+SELECT " & ID_BL & ",ID_ITEM_DESPESA,1,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,VL_TAXA_COMPRA_MIN,1, 
+CASE 
+WHEN ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ISNULL(FL_PREMIACAO,0) = 1 ) 
+then 3
+ELSE " & ID_DESTINATARIO_COBRANCA & " END ID_DESTINATARIO_COBRANCA , 
+" & ID_TRANSPORTADOR & ", QTD_BASE_CALCULO,'TABFRETE', 'P'  FROM TB_TABELA_FRETE_TAXA A WHERE A.ID_FRETE_TRANSPORTADOR =  " & ID_FRETE_TRANSPORTADOR & " AND A.ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
+
+                        If ID_SERVICO = 1 Or ID_SERVICO = 4 Then
+                            divSuccess_TaxasMaritimo1.Visible = True
+                            lblSuccess_TaxasMaritimo1.Text = "Ação realizada com sucesso!"
+                        ElseIf ID_SERVICO = 2 Or ID_SERVICO = 5 Then
+                            divSuccess_TaxaAereo1.Visible = True
+                            lblSuccess_TaxaAereo1.Text = "Ação realizada com sucesso!"
+                        End If
+
+                    Next
+
+                End If
+
+            Else
+
+                ''CASO A TABELA ESTEJA JA TENHA REGISTROS
+
+                ds = Con.ExecutarQuery("SELECT ID_TABELA_FRETE_TAXA,ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_ORIGEM_PAGAMENTO FROM TB_TABELA_FRETE_TAXA A WHERE ID_FRETE_TRANSPORTADOR =  " & ID_FRETE_TRANSPORTADOR & "  AND ID_ITEM_DESPESA NOT IN (SELECT ID_ITEM_DESPESA FROM TB_BL_TAXA WHERE ID_BL = " & ID_BL & " AND VL_TAXA = A.VL_TAXA_COMPRA)")
+
+                If ds.Tables(0).Rows.Count > 0 Then
+                    For Each linha As DataRow In ds.Tables(0).Rows
+
+                        Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,FL_TAXA_TRANSPORTADOR,ID_DESTINATARIO_COBRANCA,ID_PARCEIRO_EMPRESA,QTD_BASE_CALCULO, CD_ORIGEM_INF, CD_PR)
+                    SELECT " & ID_BL & ",ID_ITEM_DESPESA,1,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,VL_TAXA_COMPRA_MIN,1,
+CASE 
+WHEN ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ISNULL(FL_PREMIACAO,0) = 1 ) 
+then 3
+ELSE " & ID_DESTINATARIO_COBRANCA & " END ID_DESTINATARIO_COBRANCA ,
+
+" & ID_TRANSPORTADOR & ", QTD_BASE_CALCULO,'TABFRETE', 'P'  FROM TB_TABELA_FRETE_TAXA A WHERE A.ID_FRETE_TRANSPORTADOR =  " & ID_FRETE_TRANSPORTADOR & " AND A.ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
+
+                        If ID_SERVICO = 1 Or ID_SERVICO = 4 Then
+                            divSuccess_TaxasMaritimo1.Visible = True
+                            lblSuccess_TaxasMaritimo1.Text = "Ação realizada com sucesso!"
+                        ElseIf ID_SERVICO = 2 Or ID_SERVICO = 5 Then
+                            divSuccess_TaxaAereo1.Visible = True
+                            lblSuccess_TaxaAereo1.Text = "Ação realizada com sucesso!"
+                        End If
+
+                    Next
+
+
+                End If
+
+
+            End If
+
+        End If
+
+        dgvTaxasAereo.DataBind()
+        dgvTaxasMaritimo.DataBind()
+
+    End Sub
+
+    Private Sub btnImportarTaxasAereo_Click(sender As Object, e As EventArgs) Handles btnImportarTaxasAereo.Click
+        ImportaTaxas(txtID_BasicoAereo.Text, ddlServico_BasicoAereo.SelectedValue, ddltransportador_BasicoAereo.SelectedValue, ddlDestino_BasicoAereo.SelectedValue)
+    End Sub
+
+    Private Sub btnImportarTaxasMaritimo_Click(sender As Object, e As EventArgs) Handles btnImportarTaxasMaritimo.Click
+        ImportaTaxas(txtID_BasicoMaritimo.Text, ddlServico_BasicoMaritimo.SelectedValue, ddlTransportador_BasicoMaritimo.SelectedValue, ddlDestino_BasicoMaritimo.SelectedValue)
     End Sub
 End Class

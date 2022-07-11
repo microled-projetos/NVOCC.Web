@@ -757,6 +757,7 @@
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <asp:Button runat="server" Text="Nova Taxa" ID="btnNovaTaxasMaritimo" CssClass="btn btn-primary" />
+                                                        <asp:Button runat="server" Text="Importar Taxa" ID="btnImportarTaxasMaritimo" CssClass="btn btn-success" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -811,6 +812,7 @@
                                                     <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvTaxasMaritimo" />
                                                     <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasMaritimo" />
                                                     <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxasMaritimo" />
+                                                    <asp:AsyncPostBackTrigger ControlID="btnImportarTaxasMaritimo" />
                                                 </Triggers>
                                             </asp:UpdatePanel>
 
@@ -1385,7 +1387,7 @@
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <asp:Button runat="server" Text="Nova Taxa" ID="btnNovaTaxaAereo" CssClass="btn btn-primary" />
+                                                      <asp:Button runat="server" Text="Nova Taxa" ID="btnNovaTaxaAereo" CssClass="btn btn-primary" />                                                             <asp:Button runat="server" Text="Importar Taxa" ID="btnImportarTaxasAereo" CssClass="btn btn-success" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -1442,6 +1444,7 @@
                                                     <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvTaxasAereo" />
                                                     <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasAereo" />
                                                     <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxaAereo" />
+                                                    <asp:AsyncPostBackTrigger ControlID="btnImportarTaxasAereo" />
                                                 </Triggers>
                                             </asp:UpdatePanel>
 

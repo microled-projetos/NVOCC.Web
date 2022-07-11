@@ -131,19 +131,19 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
         Dim sql As String = ""
         If rdServicoHouse.SelectedValue = 0 Then
-            sql = " SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO NOT IN (1,2,4,5) " 'OUTROS
+            sql = " SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO NOT IN (1,2,4,5)  ORDER BY ID_BL DESC" 'OUTROS
 
         ElseIf rdTransporteHouse.SelectedValue = 2 And rdServicoHouse.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 2" 'AGENCIAMENTO DE IMPORTACAO AEREO
+            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 2 ORDER BY ID_BL DESC" 'AGENCIAMENTO DE IMPORTACAO AEREO
 
         ElseIf rdTransporteHouse.SelectedValue = 1 And rdServicoHouse.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 1" 'AGENCIAMENTO DE IMPORTACAO MARITIMA
+            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 1 ORDER BY ID_BL DESC" 'AGENCIAMENTO DE IMPORTACAO MARITIMA
 
         ElseIf rdTransporteHouse.SelectedValue = 1 And rdServicoHouse.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 4" 'AGENCIAMENTO DE EXPORTACAO MARITIMA
+            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 4 ORDER BY ID_BL DESC" 'AGENCIAMENTO DE EXPORTACAO MARITIMA
 
         ElseIf rdTransporteHouse.SelectedValue = 2 And rdServicoHouse.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 5" 'AGENCIAMENTO DE EXPORTAÇÃO AEREO
+            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 5 ORDER BY ID_BL DESC" 'AGENCIAMENTO DE EXPORTAÇÃO AEREO
 
         End If
 
@@ -157,22 +157,22 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         Dim sql As String
         'AGENCIAMENTO DE IMPORTACAO AEREO
         If rdTRansporteEmbarque.SelectedValue = 2 And rdServicoEmbarque.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 2"
+            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 2 ORDER BY ID_BL DESC"
 
 
             'AGENCIAMENTO DE IMPORTACAO MARITIMA
         ElseIf rdTRansporteEmbarque.SelectedValue = 1 And rdServicoEmbarque.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 1"
+            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 1 ORDER BY ID_BL DESC"
 
 
             'AGENCIAMENTO DE EXPORTACAO MARITIMA
         ElseIf rdTRansporteEmbarque.SelectedValue = 1 And rdServicoEmbarque.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 4"
+            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 4 ORDER BY ID_BL DESC"
 
 
             'AGENCIAMENTO DE EXPORTAÇÃO AEREO
         ElseIf rdTRansporteEmbarque.SelectedValue = 2 And rdServicoEmbarque.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 5"
+            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 5 ORDER BY ID_BL DESC"
         End If
 
         dsEmbarque.SelectCommand = sql
@@ -185,22 +185,22 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         Dim sql As String
         'AGENCIAMENTO DE IMPORTACAO AEREO
         If rdTransporteMaster.SelectedValue = 2 And rdServicoMaster.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 2"
+            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 2 ORDER BY ID_BL DESC"
 
 
             'AGENCIAMENTO DE IMPORTACAO MARITIMA
         ElseIf rdTransporteMaster.SelectedValue = 1 And rdServicoMaster.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 1"
+            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 1 ORDER BY ID_BL DESC"
 
 
             'AGENCIAMENTO DE EXPORTACAO MARITIMA
         ElseIf rdTransporteMaster.SelectedValue = 1 And rdServicoMaster.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 4"
+            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 4 ORDER BY ID_BL DESC"
 
 
             'AGENCIAMENTO DE EXPORTAÇÃO AEREO
         ElseIf rdTransporteMaster.SelectedValue = 2 And rdServicoMaster.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 5"
+            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 5 ORDER BY ID_BL DESC"
         End If
 
         dsMaster.SelectCommand = sql
@@ -216,20 +216,29 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         divSuccessHouse.Visible = False
         divErroHouse.Visible = False
 
-        If ddlFiltroHouse.SelectedValue = 0 Then
+        If ddlFiltroHouse.SelectedValue = 0 Or txtPesquisaHouse.Text = "" Then
             dgvHouse.DataBind()
-        ElseIf ddlFiltroHouse.SelectedValue = 1 Then
-            dsHouse.SelectCommand = "select * from [dbo].[View_House] WHERE NR_PROCESSO LIKE '%" & txtPesquisaHouse.Text & "%'"
-        ElseIf ddlFiltroHouse.SelectedValue = 2 Then
-            dsHouse.SelectCommand = "select * from [dbo].[View_House] WHERE TIPO_ESTUFAGEM LIKE '%" & txtPesquisaHouse.Text & "%' "
-        ElseIf ddlFiltroHouse.SelectedValue = 3 Then
-            dsHouse.SelectCommand = "select * from [dbo].[View_House] WHERE PARCEIRO_CLIENTE LIKE '%" & txtPesquisaHouse.Text & "%' "
-        ElseIf ddlFiltroHouse.SelectedValue = 4 Then
-            dsHouse.SelectCommand = "select * from [dbo].[View_House] WHERE BL_MASTER LIKE '%" & txtPesquisaHouse.Text & "%'"
-        ElseIf ddlFiltroHouse.SelectedValue = 5 Then
-            dsHouse.SelectCommand = "select * from [dbo].[View_House] WHERE NR_BL LIKE '%" & txtPesquisaHouse.Text & "%'"
+        Else
+            Dim FILTRO As String
+            If ddlFiltroHouse.SelectedValue = 1 Then
+                FILTRO = " NR_PROCESSO LIKE '%" & txtPesquisaHouse.Text & "%'"
+            ElseIf ddlFiltroHouse.SelectedValue = 2 Then
+                FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisaHouse.Text & "%' "
+            ElseIf ddlFiltroHouse.SelectedValue = 3 Then
+                FILTRO = " PARCEIRO_CLIENTE LIKE '%" & txtPesquisaHouse.Text & "%' "
+            ElseIf ddlFiltroHouse.SelectedValue = 4 Then
+                FILTRO = " BL_MASTER LIKE '%" & txtPesquisaHouse.Text & "%'"
+            ElseIf ddlFiltroHouse.SelectedValue = 5 Then
+                FILTRO = " NR_BL LIKE '%" & txtPesquisaHouse.Text & "%'"
+            ElseIf ddlFiltroHouse.SelectedValue = 6 Then
+                FILTRO = " CONTAINER LIKE '%" & txtPesquisaHouse.Text & "%' "
+            End If
+
+            Dim sql As String = "select * from [dbo].[View_House] WHERE " & FILTRO
+            dsHouse.SelectCommand = sql
+            dgvHouse.DataBind()
+
         End If
-        dgvHouse.DataBind()
 
     End Sub
 
@@ -803,8 +812,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisaEmbarque.Text & "%' "
             ElseIf ddlFiltroEmbarque.SelectedValue = 3 Then
                 FILTRO = " PARCEIRO_CLIENTE LIKE '%" & txtPesquisaEmbarque.Text & "%' "
-                'ElseIf ddlFiltroEmbarque.SelectedValue = 4 Then
-                '    FILTRO = " ID_BL_MASTER LIKE '%" & txtPesquisaEmbarque.Text & "%' "
+            ElseIf ddlFiltroEmbarque.SelectedValue = 4 Then
+                FILTRO = " CONTAINER LIKE '%" & txtPesquisaEmbarque.Text & "%' "
             End If
 
             Dim sql As String = "select * from [dbo].[View_Embarque] WHERE " & FILTRO
@@ -815,20 +824,22 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
     End Sub
 
     Private Sub btnPesquisaMaster_Click(sender As Object, e As EventArgs) Handles btnPesquisaMaster.Click
-        If ddFiltroMaster.SelectedValue = 0 Or txtPesquisaMaster.Text = "" Then
+        If ddlFiltroMaster.SelectedValue = 0 Or txtPesquisaMaster.Text = "" Then
             dgvMaster.DataBind()
         Else
             Dim FILTRO As String
 
 
-            If ddFiltroMaster.SelectedValue = 1 Then
+            If ddlFiltroMaster.SelectedValue = 1 Then
                 FILTRO = " NR_BL LIKE '%" & txtPesquisaMaster.Text & "%' "
-            ElseIf ddFiltroMaster.SelectedValue = 2 Then
+            ElseIf ddlFiltroMaster.SelectedValue = 2 Then
                 FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisaMaster.Text & "%' "
-            ElseIf ddFiltroMaster.SelectedValue = 3 Then
+            ElseIf ddlFiltroMaster.SelectedValue = 3 Then
                 FILTRO = " Origem LIKE '%" & txtPesquisaMaster.Text & "%' "
-            ElseIf ddFiltroMaster.SelectedValue = 4 Then
+            ElseIf ddlFiltroMaster.SelectedValue = 4 Then
                 FILTRO = " Destino LIKE '%" & txtPesquisaMaster.Text & "%' "
+            ElseIf ddlFiltroMaster.SelectedValue = 5 Then
+                FILTRO = " CONTAINER LIKE '%" & txtPesquisaMaster.Text & "%' "
             End If
 
             Dim sql As String = "select * from [dbo].[View_Master] WHERE " & FILTRO
