@@ -260,7 +260,6 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ABAINFRA.Web.dll" />
     <Content Include="Account.aspx" />
     <Content Include="Atendimento.cs" />
     <Content Include="AtendimentoNegado.aspx" />

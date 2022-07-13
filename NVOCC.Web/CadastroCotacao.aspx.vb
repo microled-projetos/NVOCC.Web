@@ -307,7 +307,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             divCntr.Attributes.CssStyle.Add("display", "none")
             divMedidasMaritimo.Attributes.CssStyle.Add("display", "none")
             divCamposMaritimos.Attributes.CssStyle.Add("display", "none")
-            divQtdMercadoria.Attributes.CssStyle.Add("display", "none")
+            divQtdMercadoria.Attributes.CssStyle.Add("display", "block")
             DivFreetime.Attributes.CssStyle.Add("display", "none")
             RedM3.Visible = False
             divMinimosFCL.Visible = False

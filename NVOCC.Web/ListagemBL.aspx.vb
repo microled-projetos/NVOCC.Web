@@ -231,7 +231,7 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
             ElseIf ddlFiltroHouse.SelectedValue = 5 Then
                 FILTRO = " NR_BL LIKE '%" & txtPesquisaHouse.Text & "%'"
             ElseIf ddlFiltroHouse.SelectedValue = 6 Then
-                FILTRO = " CONTAINER LIKE '%" & txtPesquisaHouse.Text & "%' "
+                FILTRO = " CONTAINER LIKE '%" & txtPesquisaHouse.Text.Replace("-", "").Replace(".", "").Replace("/", "") & "%' "
             End If
 
             Dim sql As String = "select * from [dbo].[View_House] WHERE " & FILTRO
@@ -812,8 +812,6 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisaEmbarque.Text & "%' "
             ElseIf ddlFiltroEmbarque.SelectedValue = 3 Then
                 FILTRO = " PARCEIRO_CLIENTE LIKE '%" & txtPesquisaEmbarque.Text & "%' "
-            ElseIf ddlFiltroEmbarque.SelectedValue = 4 Then
-                FILTRO = " CONTAINER LIKE '%" & txtPesquisaEmbarque.Text & "%' "
             End If
 
             Dim sql As String = "select * from [dbo].[View_Embarque] WHERE " & FILTRO
@@ -839,7 +837,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             ElseIf ddlFiltroMaster.SelectedValue = 4 Then
                 FILTRO = " Destino LIKE '%" & txtPesquisaMaster.Text & "%' "
             ElseIf ddlFiltroMaster.SelectedValue = 5 Then
-                FILTRO = " CONTAINER LIKE '%" & txtPesquisaMaster.Text & "%' "
+                FILTRO = " CONTAINER LIKE '%" & txtPesquisaMaster.Text.Replace("-", "").Replace(".", "").Replace("/", "") & "%' "
             End If
 
             Dim sql As String = "select * from [dbo].[View_Master] WHERE " & FILTRO
