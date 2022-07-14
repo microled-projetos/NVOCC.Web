@@ -97,7 +97,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 btnSelecionarTudo.Enabled = False
                 btnImportar.Visible = False
                 dgvMercadoria.Columns(8).Visible = False
-                dgvTaxas.Columns(11).Visible = False
+                dgvTaxas.Columns(13).Visible = False
                 btnGravarReferencia.Visible = False
                 dgvReferencia.Columns(3).Visible = False
                 dgvReferencia.Columns(4).Visible = False
@@ -113,7 +113,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 btnSelecionarTudo.Enabled = True
                 btnImportar.Visible = True
                 dgvMercadoria.Columns(8).Visible = True
-                dgvTaxas.Columns(11).Visible = True
+                dgvTaxas.Columns(13).Visible = True
                 btnGravarReferencia.Visible = True
                 dgvReferencia.Columns(3).Visible = True
                 dgvReferencia.Columns(4).Visible = True

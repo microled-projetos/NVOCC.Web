@@ -4987,7 +4987,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         Dim ds As DataSet
 
 
-        sumMedidasAereo(txtID_BasicoAereo.Text)
+        sumMedidasAereo(txtID_CargaAereo.Text)
 
         If txtID_BasicoAereo.Text = "" Then
             lblErro_CargaAereo2.Text = "Necessário inserir dados basicos do processo."
@@ -5014,7 +5014,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
 
             ds = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL_DIMENSAO (ID_BL,ID_CARGA_BL, QTD_CAIXA, VL_LARGURA, VL_ALTURA, VL_COMPRIMENTO) VALUES (" & txtID_BasicoAereo.Text & "," & txtID_CargaAereo.Text & "," & txtQtdCaixasAereo.Text & "," & txtLarguraMercadoriaAereo.Text & "," & txtAlturaMercadoriaAereo.Text & "," & txtComprimentoMercadoriaAereo.Text & ")")
             CalculaCLA()
-            sumMedidasAereo(txtID_BasicoAereo.Text)
+            sumMedidasAereo(txtID_CargaAereo.Text)
 
 
             dgvMedidasAereo.DataBind()
@@ -5070,15 +5070,20 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
             Con.ExecutarQuery("UPDATE TB_CARGA_BL SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QTD_CAIXA,0))QTD_CAIXA FROM TB_CARGA_BL_DIMENSAO WHERE ID_CARGA_BL =  " & ID_CargaAereo & ") WHERE ID_CARGA_BL =  " & ID_CargaAereo)
 
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(QT_MERCADORIA,0)QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CargaAereo)
+            If ds.Tables(0).Rows.Count > 0 Then
+                txtQtdVolume_CargaAereo.Text = ds.Tables(0).Rows(0).Item("QT_MERCADORIA")
+            End If
+
             Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_LARGURA =
 (SELECT SUM(ISNULL(VL_LARGURA,0))VL_LARGURA FROM TB_CARGA_BL_DIMENSAO WHERE ID_CARGA_BL =  " & ID_CargaAereo & ") WHERE ID_CARGA_BL =  " & ID_CargaAereo)
 
-            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_ALTURA =
+                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_ALTURA =
 (SELECT SUM(ISNULL(VL_ALTURA,0))VL_ALTURA FROM TB_CARGA_BL_DIMENSAO WHERE ID_CARGA_BL =  " & ID_CargaAereo & ") WHERE ID_CARGA_BL =  " & ID_CargaAereo)
 
-            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_COMPRIMENTO =
+                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_COMPRIMENTO =
 (SELECT SUM(ISNULL(VL_COMPRIMENTO,0))VL_COMPRIMENTO FROM TB_CARGA_BL_DIMENSAO WHERE ID_CARGA_BL =  " & ID_CargaAereo & ") WHERE ID_CARGA_BL =  " & ID_CargaAereo)
-        End If
+            End If
     End Sub
 
     Private Sub btnAdicionarMedidasAereo_Click(sender As Object, e As ImageClickEventArgs) Handles btnAdicionarMedidasAereo.Click

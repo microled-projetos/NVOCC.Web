@@ -2273,6 +2273,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlEmbalagem_CargaAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtQtdVolume_CargaAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtQtdVolume_CargaAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtPesoBruto_CargaAereo.
     '''</summary>
     '''<remarks>
@@ -2298,15 +2307,6 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtPesoTaxado_CargaAereo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtQtdVolume_CargaAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtQtdVolume_CargaAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtIDNCM_CargaAereo.
