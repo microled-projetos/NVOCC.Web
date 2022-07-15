@@ -257,15 +257,6 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlDestino_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlPlaceReceipt_BasicoMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlPlaceReceipt_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle ddlFinalDestination_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -1652,13 +1643,22 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ckbFreeHand_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
-    '''Controle ddlEstufagem_BasicoAereo.
+    '''Controle ckbTC4_BasicoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlEstufagem_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ckbTC4_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbTC6_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbTC6_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle ckTrakingAutomaticoAereo.
@@ -1706,13 +1706,22 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlTipoPagamento_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlTipoCarga_BasicoAereo.
+    '''Controle ddlTipoAeronave_BasicoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlTipoCarga_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoAeronave_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlEstufagem_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlEstufagem_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlOrigem_BasicoAereo.
@@ -1731,15 +1740,6 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlDestino_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlPlaceReceipt_BasicoAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlPlaceReceipt_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlFinalDestination_BasicoAereo.
@@ -3531,4 +3531,13 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsMedidasAereo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTipoAeronave.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTipoAeronave As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

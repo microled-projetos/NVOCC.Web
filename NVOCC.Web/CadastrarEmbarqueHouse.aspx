@@ -199,13 +199,14 @@
                                                 <asp:DropDownList ID="ddlDestino_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoMaritimo" DataValueField="ID_PORTO"></asp:DropDownList>
                                             </div>
                                         </div>
-                                         <div class="col-sm-2">
+                                         <%--<div class="col-sm-2">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Place of Receipt:</label>
                                                                             <asp:DropDownList ID="ddlPlaceReceipt_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoMaritimo" DataValueField="ID_PORTO">
                                                                             </asp:DropDownList>
                                                                         </div>
-                                                                    </div> <div class="col-sm-2">
+                                                                    </div>--%> 
+                                        <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Final Destination:</label>
                                          <asp:DropDownList ID="ddlFinalDestination_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CIDADE" DataSourceID="dsFinalDestination" DataValueField="ID_CIDADE">
@@ -1360,12 +1361,19 @@ VENDAS:
                                                 <asp:CheckBox ID="ckbFreeHand_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Free Hand"></asp:CheckBox>
 
                                             </div>
-                                                     </div> <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label class="control-label">Tipo de Estufagem:</label>
-                                                <asp:DropDownList ID="ddlEstufagem_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem" AutoPostBack="True">
-                                                </asp:DropDownList>
+                                                     </div>  <div class="col-sm-1">
+                                                <div class="form-group">
+                                                    <label class="control-label" style="color: white">X</label>
+                                                    <asp:CheckBox ID="ckbTC4_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;TC4"></asp:CheckBox>
+                                                </div>
                                             </div>
+                                            <div class="col-sm-1">
+                                                <div class="form-group">
+                                                    <label class="control-label" style="color: white">X</label>
+                                                    <asp:CheckBox ID="ckbTC6_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;TC6"></asp:CheckBox>
+                                                </div>
+                                            </div><div class="col-sm-2">
+                                           
                                         </div>
                                                 <div class="col-sm-2" style="display: none">
                                             <div class="form-group">
@@ -1401,15 +1409,26 @@ VENDAS:
                                                         <asp:DropDownList ID="ddlTipoPagamento_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO">
                                                         </asp:DropDownList>
                                                     </div>
-                                                </div>  <div class="col-sm-2">
+                                                </div>  <%--<div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Tipo de Carga:</label>
                                                         <asp:DropDownList ID="ddlTipoCarga_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCargas" DataValueField="ID_TIPO_CARGA">
                                                         </asp:DropDownList>
                                                     </div>
+                                                </div> --%>  <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                         <label class="control-label">Tipo Aeronave:</label>
+                                                                            <asp:DropDownList ID="ddlTipoAeronave_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_AERONAVE" DataSourceID="dsTipoAeronave" DataValueField="ID_TIPO_AERONAVE"></asp:DropDownList>
+                                                    </div>
                                                 </div>   
-                                        </div>
+                                       </div>
                                             <div class="row">
+                                                <div class="col-sm-2"> <div class="form-group">
+                                                <label class="control-label">Tipo de Estufagem:</label>
+                                                <asp:DropDownList ID="ddlEstufagem_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem" AutoPostBack="True">
+                                                </asp:DropDownList>
+                                            </div></div>
+                                                   
 
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
@@ -1422,13 +1441,13 @@ VENDAS:
                                                         <label class="control-label">Aeroporto de Destino:</label>
                                                         <asp:DropDownList ID="ddlDestino_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
-                                                </div> <div class="col-sm-2">
+                                                </div> <%--<div class="col-sm-2">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Place of Receipt:</label>
                                                                              <asp:DropDownList ID="ddlPlaceReceipt_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO">
                                                                             </asp:DropDownList>
                                                                         </div>
-                                                                    </div>
+                                                                    </div>--%>
                                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Final Destination:</label>
@@ -1449,7 +1468,8 @@ VENDAS:
 
                                                     </div>
                                                 </div>
-                                                                                            <div class="col-sm-3">
+                                                                                       </div>
+                                               <div class="row">     <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Incoterm:</label>
                                                         <asp:DropDownList ID="ddlIncoterm_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_INCOTERM" DataSourceID="dsIncoterm" DataValueField="ID_INCOTERM">
@@ -1458,8 +1478,7 @@ VENDAS:
                                                 </div>
                                                  
                                            
-                                                </div>
-                                               <div class="row">
+                                                
                                           
                                                
                                                 
@@ -1474,7 +1493,7 @@ VENDAS:
                                                 
 
                                                   
-                                                  <div class="col-sm-4">
+                                                  <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Armazém de Desembaraço:</label>
                                                         <asp:DropDownList ID="ddlArmazem_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsArmazemDesembaraco" DataValueField="ID_PARCEIRO"></asp:DropDownList>
@@ -1486,13 +1505,13 @@ VENDAS:
                                                 <asp:TextBox ID="txtCodTransportador_Aereo" runat="server"  CssClass="form-control" ></asp:TextBox>
                                             </div>
                                         </div>
-										<div class="col-sm-3">
+										<div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Busca Transportador:</label>
                                                 <asp:TextBox ID="txtNomeTransportador_Aereo" runat="server" CssClass="form-control" Enabled="false" AutoPostBack="true"></asp:TextBox>
                                             </div>
                                         </div>
-                                                <div class="col-sm-5">
+                                                <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label">Transportador:</label>
                                                         <asp:DropDownList ID="ddlTransportador_BasicoAereo" runat="server" Enabled="false" CssClass="form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsTransportador_Aereo" DataValueField="ID_PARCEIRO"></asp:DropDownList>
@@ -1712,13 +1731,13 @@ VENDAS:
                                                  <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label" style="color: white">X</label>
-                                                <asp:CheckBox ID="ckbEmailCotacao_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;EMAIL COTAÇÃO"></asp:CheckBox>
+                                                <asp:CheckBox ID="ckbEmailCotacao_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Avisos Automáticos para o Parceiro"></asp:CheckBox>
                                             </div>
                                         </div>
 
 										 <div class="col-sm-10">
                                             <div class="form-group">
-                                                <label class="control-label">Emails:</label>
+                                                <label class="control-label">Endereços de e-mail do Processo::</label>
                                                 <asp:TextBox ID="txtEmailCotacao_BasicoAereo" runat="server" CssClass="form-control" MaxLength="1000" ></asp:TextBox>
                                             </div>
                                         </div>
@@ -3022,6 +3041,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT">
             <asp:ControlParameter Name="ID_CARGA_BL" Type="Int32" ControlID="txtID_CargaAereo" />
         </SelectParameters>
     </asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsTipoAeronave" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="select ID_TIPO_AERONAVE,NM_TIPO_AERONAVE from TB_TIPO_AERONAVE
+union 
+SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

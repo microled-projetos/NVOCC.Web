@@ -158,6 +158,15 @@ Partial Public Class CotacaoPDF_ING
     Protected WithEvents lblTipoCargaLCL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblQtdMercadoria.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblQtdMercadoria As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle divCargaLCL.
     '''</summary>
     '''<remarks>
@@ -273,6 +282,24 @@ Partial Public Class CotacaoPDF_ING
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblValorFrequencia As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblTC4.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTC4 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblTC6.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTC6 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblTipoCargaFCL.

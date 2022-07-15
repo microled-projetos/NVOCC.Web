@@ -63,7 +63,6 @@
                         </td>
                     </tr>
                 </table>
-                <br />
                 &nbsp;Cliente:
                     <asp:Label runat="server" ID="lblCliente" class="control-label" /><br />
                 &nbsp;CNPJ:<asp:Label runat="server" ID="lblCnpjCliente" class="control-label" />
@@ -72,23 +71,22 @@
                 &nbsp;Prezado (a), 
                     <asp:Label runat="server" ID="lblNome" class="control-label" />
                 Segue sua proposta visando uma oportunidade de embarque.<br />
-                <br />
             </div>
-
             <div id="detalhesCarga" runat="server">
+                <br />
                 <div class="linha-colorida2">Detalhes da carga</div>
                 <strong>&nbsp;Peso bruto:</strong>
                 <asp:Label runat="server" ID="lblPesoBruto" class="control-label" /><br />
                 <asp:Label runat="server" ID="lblM3" class="control-label" />
                 <asp:Label runat="server" ID="lblPesoTaxado" class="control-label" />
-                <asp:Label runat="server" ID="lblTipoCargaLCL" class="control-label" /><br />
+                <asp:Label runat="server" ID="lblTipoCargaLCL" class="control-label" />
+                <asp:Label runat="server" ID="lblQtdMercadoria" class="control-label" /><br />
                 <div id="divCargaLCL" style="font-family: Arial; font-size: 10px;" runat="server"></div>
+                <div id="divMedidasAereo" style="font-family: Arial; font-size: 10px;" runat="server"></div>
             </div>
-            <div id="divMedidasAereo" style="font-family: Arial; font-size: 10px;" runat="server"></div>
-
+            <br />
             <div class="linha-colorida2">
-                INCOTERM:
-                    <asp:Label runat="server" ID="lblINCOTERM" class="control-label" />
+                INCOTERM:<asp:Label runat="server" ID="lblINCOTERM" class="control-label" />
             </div>
             <strong>Origem: </strong>
             <asp:Label runat="server" ID="lblOrigem" class="control-label" /><br />
@@ -103,6 +101,8 @@
             <asp:Label runat="server" ID="lblValidade" class="control-label" /><br />
             <strong>Frequencia:</strong>
             <asp:Label runat="server" ID="lblFrequencia" class="control-label" /><asp:Label runat="server" ID="lblValorFrequencia" class="control-label" />
+            <asp:Label runat="server" ID="lblTC4" class="control-label" />
+            <asp:Label runat="server" ID="lblTC6" class="control-label" />
             <asp:Label runat="server" ID="lblTipoCargaFCL" class="control-label" /><br />
             <div id="divCargaFCL" style="font-family: Arial; font-size: 10px;" runat="server"></div>
             <div id="divConteudoDinamico" style="font-family: Arial; font-size: 10px;" runat="server">
@@ -128,7 +128,6 @@
                 Sub Total:
                     <asp:Label runat="server" ID="lblTotalTaxasOrigem" class="control-label" />
             </div>
-
             <div class="linha-colorida1">Taxas de destino</div>
             <div id="divTaxaDestino" style="font-family: Arial; font-size: 10px;" runat="server">
             </div>

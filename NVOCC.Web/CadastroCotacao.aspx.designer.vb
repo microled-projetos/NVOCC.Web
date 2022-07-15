@@ -833,33 +833,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlFreteTransportador_Frete As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle divAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle ddlTipoAeronave.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlTipoAeronave As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlPlaceReceipt.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlPlaceReceipt As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle ddlFinalDestination.
     '''</summary>
     '''<remarks>
@@ -876,6 +849,24 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlRotaFrete As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle divAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle ddlTipoAeronave.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoAeronave As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle divEscala.

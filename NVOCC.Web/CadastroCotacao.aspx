@@ -582,37 +582,38 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">    
-                                                                    <div class="col-sm-3" id="divAereo" runat="server">
-                                                                        <div class="form-group">
-                                                                            <label class="control-label">Tipo Aeronave:</label>
-                                                                            <asp:DropDownList ID="ddlTipoAeronave" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_AERONAVE" DataSourceID="dsTipoAeronave" DataValueField="ID_TIPO_AERONAVE">
-                                                                            </asp:DropDownList>
-                                                                        </div>
-                                                                    </div>
+                                                                    
                                                                     
                                                                
                                                                   
-                                                                      <div class="col-sm-4">
+                                                                     <%-- <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Place of Receipt:</label>
                                                                             <asp:DropDownList ID="ddlPlaceReceipt" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
                                                                             </asp:DropDownList>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-sm-4">
+                                                                    </div>--%>
+                                                                    <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Final Destination:</label>
                                                                             <asp:DropDownList ID="ddlFinalDestination" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CIDADE" DataSourceID="dsFinalDestination" DataValueField="ID_CIDADE">
                                                                             </asp:DropDownList>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-sm-4">
+                                                                    <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Via Rota:</label>
                                                                             <asp:DropDownList ID="ddlRotaFrete" runat="server" AutoPostBack="true" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIA_ROTA" DataSourceID="dsRota" DataValueField="ID_VIA_ROTA">
                                                                             </asp:DropDownList>
                                                                         </div>
 
+                                                                    </div>
+                                                                    <div class="col-sm-3" id="divAereo" runat="server">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label">Tipo Aeronave:</label>
+                                                                            <asp:DropDownList ID="ddlTipoAeronave" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_AERONAVE" DataSourceID="dsTipoAeronave" DataValueField="ID_TIPO_AERONAVE">
+                                                                            </asp:DropDownList>
+                                                                        </div>
                                                                     </div>
 
                                                                 </div>

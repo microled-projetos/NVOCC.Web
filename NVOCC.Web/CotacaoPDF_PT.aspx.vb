@@ -98,7 +98,9 @@ VL_TOTAL_FRETE_VENDA_CALCULADO,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA1 )PORTO_ESCALA1,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA2 )PORTO_ESCALA2,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA3 )PORTO_ESCALA3,
-(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_TRANSPORTADOR)CIA_AEREA
+(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_TRANSPORTADOR)CIA_AEREA,
+CASE WHEN ISNULL(FL_TC4,0) = 0 Then 'Não' else  'Sim' end TC4,
+CASE WHEN ISNULL(FL_TC6,0) = 0 Then 'Não' else  'Sim' end TC6
 FROM  TB_COTACAO A
     WHERE A.ID_COTACAO = " & Request.QueryString("c"))
         If ds.Tables(0).Rows.Count > 0 Then
@@ -190,6 +192,14 @@ FROM  TB_COTACAO A
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
                     lblM3.Text = "<strong>&nbsp;Peso Cubado:</strong>" & ds.Tables(0).Rows(0).Item("VL_TOTAL_M3").ToString
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("TC4")) Then
+                    lblTC4.Text = "<br /><strong>TC4:</strong>" & ds.Tables(0).Rows(0).Item("TC4").ToString
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("TC6")) Then
+                    lblTC6.Text = "<strong> - TC6:</strong>" & ds.Tables(0).Rows(0).Item("TC6").ToString
                 End If
 
                 MEDIDASAEREO()
@@ -325,7 +335,8 @@ FROM  TB_COTACAO A
             lblObsCliente.Text = SubstituiCaracteresEspeciais(lblObsCliente.Text)
             lblFrequencia.Text = SubstituiCaracteresEspeciais(lblFrequencia.Text)
             lblCiaAerea.Text = SubstituiCaracteresEspeciais(lblCiaAerea.Text)
-
+            lblTC4.Text = SubstituiCaracteresEspeciais(lblTC4.Text)
+            lblTC6.Text = SubstituiCaracteresEspeciais(lblTC6.Text)
 
 
             TAXAS()
@@ -374,6 +385,16 @@ FROM  TB_COTACAO A
             Next
             tabela &= "</table>"
             divMedidasAereo.InnerHtml = tabela
+
+            ds = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_MERCADORIA),0)QT_MERCADORIA FROM TB_COTACAO_MERCADORIA  WHERE ID_COTACAO = " & Request.QueryString("c"))
+            If ds.Tables(0).Rows.Count > 0 Then
+                lblQtdMercadoria.Text = "<br/><strong>&nbsp;Total Mercadoria:</strong>" & ds.Tables(0).Rows(0).Item("QT_MERCADORIA")
+            End If
+        Else
+            ds = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_MERCADORIA),0)QT_MERCADORIA FROM TB_COTACAO_MERCADORIA  WHERE ID_COTACAO = " & Request.QueryString("c"))
+            If ds.Tables(0).Rows.Count > 0 Then
+                lblQtdMercadoria.Text = "<br/><strong>&nbsp;Qtd. Mercadoria:</strong>" & ds.Tables(0).Rows(0).Item("QT_MERCADORIA")
+            End If
         End If
     End Sub
     Sub CARGA()
@@ -384,7 +405,7 @@ FROM  TB_COTACAO A
         ds = Con.ExecutarQuery("SELECT ISNULL(NM_TIPO_CARGA,'')NM_TIPO_CARGA FROM TB_TIPO_CARGA WHERE ID_TIPO_CARGA = (SELECT ID_TIPO_CARGA  FROM TB_COTACAO WHERE ID_COTACAO = " & Request.QueryString("c") & " )")
         If ds.Tables(0).Rows.Count > 0 Then
             NM_TIPO_CARGA = ds.Tables(0).Rows(0).Item("NM_TIPO_CARGA").ToString
-            lblTipoCargaFCL.Text = "<br/><strong>Tipo:</strong>" & NM_TIPO_CARGA
+            lblTipoCargaFCL.Text = "<br/><strong>Tipo:</strong>" & NM_TIPO_CARGA & "<br/>"
             lblTipoCargaLCL.Text = "<br/><strong>&nbsp;Tipo:</strong>" & NM_TIPO_CARGA
             ds = Con.ExecutarQuery("SELECT sum(VL_CARGA)VL_CARGA,ID_MOEDA_CARGA, (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = ID_MOEDA_CARGA)MOEDA_CARGA FROM TB_COTACAO_MERCADORIA  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND ISNULL(ID_MOEDA_CARGA,0) <>  0  group by ID_MOEDA_CARGA")
             If ds.Tables(0).Rows.Count > 0 Then
