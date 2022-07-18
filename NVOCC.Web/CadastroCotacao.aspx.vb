@@ -4042,7 +4042,7 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
         Dim ds As DataSet
 
 
-        sumMedidasAereo(txtIDMercadoria.Text)
+        ' sumMedidasAereo(txtIDMercadoria.Text)
 
         If txtID.Text = "" Then
             lblErroMercadoria.Text = "Necessário inserir cotação na Aba de Informações Básicas."

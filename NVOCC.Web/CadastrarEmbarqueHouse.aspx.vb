@@ -2422,12 +2422,20 @@ WHERE ID_CARGA_BL = " & ID)
 
                 Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL((SELECT SUM(VL_TAXA_CALCULADO) FROM TB_BL_TAXA WHERE CD_PR = 'R' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & ID & ") - (SELECT SUM(VL_TAXA_CALCULADO) FROM TB_BL_TAXA WHERE CD_PR = 'P' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & ID & "),0) AS LUCRO")
 
+
+
                 x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
                 y = dsAuxiliar.Tables(0).Rows(0).Item("LUCRO")
                 y = y / 100
                 z = y * x
                 Profit = z.ToString
                 Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DIVISAO_PROFIT = 1 WHERE ID_ITEM_DESPESA = 14 AND ID_BL = " & ID)
+                dgvTaxaAereoCompras.DataBind()
+                dgvTaxaAereoVendas.DataBind()
+                dgvTaxaMaritimoCompras.DataBind()
+                dgvTaxaMaritimoVendas.DataBind()
 
                 Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & ID)
                 Return z
