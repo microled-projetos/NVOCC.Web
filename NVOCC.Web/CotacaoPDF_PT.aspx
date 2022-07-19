@@ -103,6 +103,7 @@
             <asp:Label runat="server" ID="lblFrequencia" class="control-label" /><asp:Label runat="server" ID="lblValorFrequencia" class="control-label" />
             <asp:Label runat="server" ID="lblTC4" class="control-label" />
             <asp:Label runat="server" ID="lblTC6" class="control-label" />
+            <asp:Label runat="server" ID="lblTipoAeronave" class="control-label" />
             <asp:Label runat="server" ID="lblTipoCargaFCL" class="control-label" /><br />
             <div id="divCargaFCL" style="font-family: Arial; font-size: 10px;" runat="server"></div>
             <div id="divConteudoDinamico" style="font-family: Arial; font-size: 10px;" runat="server">

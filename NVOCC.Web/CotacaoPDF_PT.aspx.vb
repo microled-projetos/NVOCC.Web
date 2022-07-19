@@ -99,6 +99,8 @@ VL_TOTAL_FRETE_VENDA_CALCULADO,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA2 )PORTO_ESCALA2,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA3 )PORTO_ESCALA3,
 (SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_TRANSPORTADOR)CIA_AEREA,
+(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_TRANSPORTADOR)CIA_AEREA,
+(SELECT NM_TIPO_AERONAVE FROM TB_TIPO_AERONAVE WHERE ID_TIPO_AERONAVE = A.ID_TIPO_AERONAVE)TIPO_AERONAVE,
 CASE WHEN ISNULL(FL_TC4,0) = 0 Then 'Não' else  'Sim' end TC4,
 CASE WHEN ISNULL(FL_TC6,0) = 0 Then 'Não' else  'Sim' end TC6
 FROM  TB_COTACAO A
@@ -200,6 +202,10 @@ FROM  TB_COTACAO A
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("TC6")) Then
                     lblTC6.Text = "<strong> - TC6:</strong>" & ds.Tables(0).Rows(0).Item("TC6").ToString
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("TIPO_AERONAVE")) Then
+                    lblTipoAeronave.Text = "<br/><strong>Tipo Aeronave:</strong>" & ds.Tables(0).Rows(0).Item("TIPO_AERONAVE").ToString
                 End If
 
                 MEDIDASAEREO()

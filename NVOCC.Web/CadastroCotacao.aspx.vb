@@ -1761,6 +1761,7 @@ ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & ",
 ID_TIPO_CARGA = " & ddlTipoCargaFrete.SelectedValue & ",
 ID_VIA_ROTA = " & ddlRotaFrete.SelectedValue & ", 
 ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_Frete.SelectedValue & " ,
+ID_TIPO_AERONAVE = " & ddlTipoAeronave.SelectedValue & " ,
 TRANSITTIME_TRUCKING_AEREO = " & txtTTimeFreteTruckingAereo.Text & " ,
 FINAL_DESTINATION = " & ddlFinalDestination.SelectedValue & " 
 WHERE ID_COTACAO = " & txtID.Text)

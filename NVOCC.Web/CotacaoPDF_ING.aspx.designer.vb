@@ -302,6 +302,15 @@ Partial Public Class CotacaoPDF_ING
     Protected WithEvents lblTC6 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblTipoAeronave.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTipoAeronave As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblTipoCargaFCL.
     '''</summary>
     '''<remarks>
