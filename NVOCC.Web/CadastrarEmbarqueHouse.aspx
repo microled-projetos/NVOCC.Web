@@ -902,6 +902,14 @@ VENDAS:
                                                             </Columns>
                                                             <HeaderStyle CssClass="headerStyle" />
                                                         </asp:GridView>
+
+
+
+
+                                                    <div>
+                                                        <asp:Label ID="lblDiferencaMaritimo" runat="server" Style="color:blue"></asp:Label>
+                                                    </div>
+
                                                     </div>
                                                 </ContentTemplate>
                                                 <Triggers>
@@ -2213,6 +2221,10 @@ VENDAS:
                                                     </Columns>
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>
+
+                                                <div>
+                                                        <asp:Label ID="lblDiferencaAereo" runat="server" Style="color:blue"></asp:Label>
+                                                    </div>
                                             </div>
                                         </ContentTemplate>
                                         <Triggers>

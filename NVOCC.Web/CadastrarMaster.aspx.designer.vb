@@ -1130,6 +1130,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ddlDespesa_TaxasMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ckbProfit_TaxasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbProfit_TaxasMaritimo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle ckbPremiacao_TaxasMaritimo.
     '''</summary>
     '''<remarks>
@@ -1857,6 +1866,15 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlDespesa_TaxaAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ckbProfit_TaxasAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbProfit_TaxasAereo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle ckbPremiacao_TaxaAereo.

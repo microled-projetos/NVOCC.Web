@@ -551,7 +551,8 @@ end ID_ORIGEM_PAGAMENTO,ISNULL(FL_FRETE_DECLARADO,0)FL_FRETE_DECLARADO, ISNULL(F
 
 
             ''BUSCA INFORMACOES 
-            Dim dsProcesso As DataSet = Con.ExecutarQuery("SELECT ID_BL, ID_TIPO_ESTUFAGEM, ID_SERVICO FROM TB_BL A WHERE A.ID_COTACAO = " & ID_COTACAO & " AND A.NR_PROCESSO = '" & NR_PROCESSO & "'")
+            Dim dsProcesso As DataSet = Con.ExecutarQuery("SELECT ID_BL, ID_TIPO_ESTUFAGEM, ID_SERVICO,ISNULL(ID_BL_MASTER,0)ID_BL_MASTER FROM TB_BL A WHERE A.ID_COTACAO = " & ID_COTACAO & " AND A.NR_PROCESSO = '" & NR_PROCESSO & "'")
+            Dim ID_BL_MASTER As String = dsProcesso.Tables(0).Rows(0).Item("ID_BL_MASTER").ToString()
             Dim ID_TIPO_ESTUFAGEM As String = dsProcesso.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM").ToString()
             Dim ID_SERVICO As String = dsProcesso.Tables(0).Rows(0).Item("ID_SERVICO").ToString()
             Dim ID_BASE_CALCULO As String = 0
@@ -563,6 +564,7 @@ end ID_ORIGEM_PAGAMENTO,ISNULL(FL_FRETE_DECLARADO,0)FL_FRETE_DECLARADO, ISNULL(F
             Dim dsFreteTaxa As DataSet
 
 
+            Con.ExecutarQuery("UPDATE TB_BL SET ID_TIPO_ESTUFAGEM = " & ID_TIPO_ESTUFAGEM & " WHERE ID_BL = " & ID_BL_MASTER)
 
 
             If ID_SERVICO = 2 Or ID_SERVICO = 5 Then

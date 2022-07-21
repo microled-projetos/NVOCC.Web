@@ -1031,6 +1031,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents dgvTaxaMaritimoVendas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''Controle lblDiferencaMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblDiferencaMaritimo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle mpeTaxaMaritimo.
     '''</summary>
     '''<remarks>
@@ -2550,6 +2559,15 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvTaxaAereoVendas As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle lblDiferencaAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblDiferencaAereo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle mpeTaxaAereo.

@@ -4797,9 +4797,15 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
 
         Next
 
+
     End Sub
     Private Sub dgvTaxaMaritimoCompras_Load(sender As Object, e As EventArgs) Handles dgvTaxaMaritimoCompras.Load
         GridTaxaMaritimoCompras()
+
+        If txtID_BasicoMaritimo.Text <> "" Then
+            DiferencaTaxas(txtID_BasicoMaritimo.Text, "M")
+        End If
+
     End Sub
 
     Sub GridTaxaMaritimoVendas()
@@ -4821,9 +4827,17 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
                 btnExcluir.Visible = True
             End If
         Next
+
     End Sub
+
+
     Private Sub dgvTaxaMaritimoVendas_Load(sender As Object, e As EventArgs) Handles dgvTaxaMaritimoVendas.Load
         GridTaxaMaritimoVendas()
+
+        If txtID_BasicoMaritimo.Text <> "" Then
+            DiferencaTaxas(txtID_BasicoMaritimo.Text, "M")
+        End If
+
     End Sub
     Sub GridTaxaAereoCompras()
         For Each linha As GridViewRow In dgvTaxaAereoCompras.Rows
@@ -4845,9 +4859,15 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
 
             End If
         Next
+
+
     End Sub
     Private Sub dgvTaxaAereoCompras_Load(sender As Object, e As EventArgs) Handles dgvTaxaAereoCompras.Load
         GridTaxaAereoCompras()
+
+        If txtID_BasicoAereo.Text <> "" Then
+            DiferencaTaxas(txtID_BasicoAereo.Text, "A")
+        End If
     End Sub
 
     Sub GridTaxaAereoVendas()
@@ -4870,11 +4890,54 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
 
             End If
         Next
+
     End Sub
     Private Sub dgvTaxaAereoVendas_Load(sender As Object, e As EventArgs) Handles dgvTaxaAereoVendas.Load
         GridTaxaAereoVendas()
+
+        If txtID_BasicoAereo.Text <> "" Then
+            DiferencaTaxas(txtID_BasicoAereo.Text, "A")
+        End If
     End Sub
 
+    Sub DiferencaTaxas(ID_BL As String, TIPO As String)
+        Dim Con As New Conexao_sql
+        Dim tabela As String = ""
+
+        Con.Conectar()
+        Dim Sql As String = "SELECT B.NM_MOEDA, SUM (
+CASE WHEN CD_PR = 'P' THEN  - VL_TAXA ELSE VL_TAXA END )VL_TAXA_TOTAL,
+SUM (
+CASE WHEN CD_PR = 'P' THEN  - VL_TAXA_CALCULADO ELSE VL_TAXA_CALCULADO END )VL_TAXA_CALCULADO_TOTAL
+FROM TB_BL_TAXA A
+INNER JOIN TB_MOEDA B ON A.ID_MOEDA= B.ID_MOEDA
+WHERE ID_BL = " & ID_BL & " GROUP BY B.NM_MOEDA "
+        Dim ds As DataSet = Con.ExecutarQuery(Sql)
+        If ds.Tables(0).Rows.Count > 0 Then
+            tabela = "<table style='color:blue;font-size:12px;'>"
+
+            For Each linha As DataRow In ds.Tables(0).Rows
+                tabela &= "<tr>"
+                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("NM_MOEDA") & "</td>"
+                tabela &= "<td style='padding-left:10px;padding-right:10px'>DIFERENÇA VALOR TAXA:<strong> " & linha("VL_TAXA_TOTAL") & "</strong></td>"
+                tabela &= "<td style='padding-left:10px;padding-right:10px'>DIFERENÇA VALOR TAXA CALCULADO:<strong> " & linha("VL_TAXA_CALCULADO_TOTAL") & "</strong></td>"
+                tabela &= "</tr>"
+            Next
+
+            tabela &= "</table>"
+        Else
+
+        End If
+
+        If TIPO = "M" Then
+            lblDiferencaMaritimo.Text = tabela
+            lblDiferencaAereo.Text = ""
+        ElseIf TIPO = "A" Then
+            lblDiferencaAereo.Text = tabela
+            lblDiferencaMaritimo.Text = ""
+        End If
+
+    End Sub
     Private Sub txtNomeTranspRodoviario_BasicoMaritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeTranspRodoviario_BasicoMaritimo.TextChanged
         divErro_BasicoMaritimo.Visible = False
         Dim Con As New Conexao_sql
@@ -4886,7 +4949,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             txtNomeTranspRodoviario_BasicoMaritimo.Text = "NULL"
         End If
 
-        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_RODOVIARIO =1 and ((NM_RAZAO like '%" & txtNomeTranspRodoviario_BasicoMaritimo.Text & "%' AND FL_ATIVO = 1) or (ID_PARCEIRO =  " & txtCodTranspRodoviario_Maritimo.Text & ")) union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        Dim Sql As String = "Select ID_PARCEIRO,NM_RAZAO,Case When TP_PESSOA = 1 Then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_RODOVIARIO =1 and ((NM_RAZAO like '%" & txtNomeTranspRodoviario_BasicoMaritimo.Text & "%' AND FL_ATIVO = 1) or (ID_PARCEIRO =  " & txtCodTranspRodoviario_Maritimo.Text & ")) union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
         Dim ds As DataSet = Con.ExecutarQuery(Sql)
         If ds.Tables(0).Rows.Count > 0 Then
             dsTranspRodoviario_Maritimo.SelectCommand = Sql
