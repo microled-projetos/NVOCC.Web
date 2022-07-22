@@ -777,6 +777,8 @@
                                                     <div class="form-group">
                                                         <asp:Button runat="server" Text="Nova Taxa" ID="btnNovaTaxasMaritimo" CssClass="btn btn-primary" />
                                                         <asp:Button runat="server" Text="Importar Taxa" ID="btnImportarTaxasMaritimo" CssClass="btn btn-success" />
+                                                         <asp:Button runat="server" Text="Selecionar Tudo" ID="btnSelecionarTudoMaritimo" CssClass="btn btn-warning" />
+                                                <asp:Button runat="server" Text="Deletar Taxas" ID="btnDeletarTaxasMaritimo" CssClass="btn btn-danger" Visible="true" OnClientClick="javascript:return confirm('Deseja realmente excluir?');" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -791,6 +793,11 @@
                                                     <div class="table-responsive tableFixHead">
                                                         <asp:GridView ID="dgvTaxasMaritimo" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasMaritimo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                                             <Columns>
+                                                                 <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:CheckBox ID="ckSelecionar" runat="server"></asp:CheckBox>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="ID_BL_TAXA" SortExpression="ID_BL_TAXA" Visible="false">
                                                                     <ItemTemplate>
                                                                         <asp:Label ID="lblID_BL_TAXA" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />
@@ -1395,6 +1402,8 @@
                                                     <div class="form-group">
                                                         <asp:Button runat="server" Text="Nova Taxa" ID="btnNovaTaxaAereo" CssClass="btn btn-primary" />
                                                         <asp:Button runat="server" Text="Importar Taxa" ID="btnImportarTaxasAereo" CssClass="btn btn-success" />
+                                                         <asp:Button runat="server" Text="Selecionar Tudo" ID="btnSelecionarTudoAereo" CssClass="btn btn-warning" />
+                                                <asp:Button runat="server" Text="Deletar Taxas" ID="btnDeletarTaxasAereo" CssClass="btn btn-danger" Visible="true" OnClientClick="javascript:return confirm('Deseja realmente excluir?');" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -1410,6 +1419,11 @@
                                                     <div class="table-responsive tableFixHead">
                                                         <asp:GridView ID="dgvTaxasAereo" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasAereo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                                             <Columns>
+                                                                 <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:CheckBox ID="ckSelecionar" runat="server"></asp:CheckBox>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="ID_BL_TAXA" SortExpression="ID_BL_TAXA" Visible="false">
                                                                     <ItemTemplate>
                                                                         <asp:Label ID="lblID_BL_TAXA" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />

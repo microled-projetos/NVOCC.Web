@@ -3309,4 +3309,122 @@ ELSE " & ID_DESTINATARIO_COBRANCA & " END ID_DESTINATARIO_COBRANCA ,
     Private Sub dgvTaxasMaritimo_Load(sender As Object, e As EventArgs) Handles dgvTaxasMaritimo.Load
         GridTaxaMaritimo()
     End Sub
+    Private Sub btnSelecionarTudoMaritimo_Click(sender As Object, e As EventArgs) Handles btnSelecionarTudoMaritimo.Click
+        divErro_TaxasMaritimo1.Visible = False
+        divSuccess_TaxasMaritimo1.Visible = False
+        For i As Integer = 0 To Me.dgvTaxasMaritimo.Rows.Count - 1
+            Dim ckbSelecionar = CType(Me.dgvTaxasMaritimo.Rows(i).FindControl("ckSelecionar"), CheckBox)
+            ckbSelecionar.Checked = True
+        Next
+    End Sub
+    Private Sub btnSelecionarTudoAereo_Click(sender As Object, e As EventArgs) Handles btnSelecionarTudoAereo.Click
+        divErro_TaxaAereo1.Visible = False
+        divSuccess_TaxaAereo1.Visible = False
+        For i As Integer = 0 To Me.dgvTaxasAereo.Rows.Count - 1
+            Dim ckbSelecionar = CType(Me.dgvTaxasAereo.Rows(i).FindControl("ckSelecionar"), CheckBox)
+            ckbSelecionar.Checked = True
+        Next
+    End Sub
+    Private Sub btnDeletarTaxasMaritimo_Click(sender As Object, e As EventArgs) Handles btnDeletarTaxasMaritimo.Click
+        divErro_TaxasMaritimo1.Visible = False
+        divSuccess_TaxasMaritimo1.Visible = False
+
+        Dim ds As DataSet
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            lblErro_TaxasMaritimo1.Text = "Usuário não tem permissão para realizar exclusões"
+            divErro_TaxasMaritimo1.Visible = True
+
+        Else
+
+            For Each linha As GridViewRow In dgvTaxasMaritimo.Rows
+                Dim check As CheckBox = linha.FindControl("ckSelecionar")
+                Dim ID_BL_TAXA As String = CType(linha.FindControl("lblID_BL_TAXA"), Label).Text
+                If check.Checked Then
+                    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
+from TB_BL_TAXA A 
+INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
+INNER JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
+WHERE  DT_CANCELAMENTO IS NULL and ID_BL_TAXA_MASTER in (select ID_BL_TAXA
+from TB_BL_TAXA 
+WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & ")")
+                    If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
+                        divErro_TaxasMaritimo1.Visible = True
+                        lblErro_TaxasMaritimo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber!"
+                    Else
+                        Dim ds3 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD from View_Taxa_Bloqueada WHERE ID_BL_TAXA = " & ID_BL_TAXA & " or ID_BL_TAXA_MASTER= " & ID_BL_TAXA)
+                        If ds3.Tables(0).Rows(0).Item("QTD") > 0 Then
+                            divErro_TaxasMaritimo1.Visible = True
+                            lblErro_TaxasMaritimo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber ou invoice!"
+                        Else
+                            Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID_BL_TAXA)
+                            lblSuccess_TaxasMaritimo1.Text = "Registro deletado!"
+                            divSuccess_TaxasMaritimo1.Visible = True
+                            dgvTaxasMaritimo.DataBind()
+                            GridTaxaMaritimo()
+                        End If
+                    End If
+                End If
+            Next
+
+        End If
+    End Sub
+
+
+
+    Private Sub btnDeletarTaxasAereo_Click(sender As Object, e As EventArgs) Handles btnDeletarTaxasAereo.Click
+        divErro_TaxaAereo1.Visible = False
+        divSuccess_TaxaAereo1.Visible = False
+
+        Dim ds As DataSet
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            lblErro_TaxaAereo1.Text = "Usuário não tem permissão para realizar exclusões"
+            divErro_TaxaAereo1.Visible = True
+
+        Else
+
+            For Each linha As GridViewRow In dgvTaxasAereo.Rows
+                Dim check As CheckBox = linha.FindControl("ckSelecionar")
+                Dim ID_BL_TAXA As String = CType(linha.FindControl("lblID_BL_TAXA"), Label).Text
+                If check.Checked Then
+                    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
+from TB_BL_TAXA A 
+INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
+INNER JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
+WHERE  DT_CANCELAMENTO IS NULL and ID_BL_TAXA_MASTER in (select ID_BL_TAXA
+from TB_BL_TAXA 
+WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & ")")
+                    If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
+                        divErro_TaxaAereo1.Visible = True
+                        lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber!"
+                    Else
+
+                        Dim ds3 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD from  View_Taxa_Bloqueada WHERE ID_BL_TAXA = " & ID_BL_TAXA & " or ID_BL_TAXA_MASTER= " & ID_BL_TAXA)
+                        If ds3.Tables(0).Rows(0).Item("QTD") > 0 Then
+                            divErro_TaxaAereo1.Visible = True
+                            lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber ou invoice!"
+                        Else
+                            Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID_BL_TAXA)
+                            lblSuccess_TaxaAereo1.Text = "Registro deletado!"
+                            divSuccess_TaxaAereo1.Visible = True
+                            dgvTaxasAereo.DataBind()
+                            GridTaxaAereo()
+
+                        End If
+
+                    End If
+                End If
+            Next
+
+        End If
+    End Sub
+
+
 End Class
