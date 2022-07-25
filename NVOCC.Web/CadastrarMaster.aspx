@@ -795,7 +795,7 @@
                                                             <Columns>
                                                                  <asp:TemplateField>
                                                         <ItemTemplate>
-                                                            <asp:CheckBox ID="ckSelecionar" runat="server"></asp:CheckBox>
+                                                            <asp:CheckBox ID="ckSelecionar" runat="server" ></asp:CheckBox>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="ID_BL_TAXA" SortExpression="ID_BL_TAXA" Visible="false">
@@ -844,6 +844,8 @@
                                                     <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasMaritimo" />
                                                     <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxasMaritimo" />
                                                     <asp:AsyncPostBackTrigger ControlID="btnImportarTaxasMaritimo" />
+                                                    <asp:AsyncPostBackTrigger ControlID="btnSelecionarTudoMaritimo" />
+                                                    <asp:AsyncPostBackTrigger ControlID="btnDeletarTaxasMaritimo" />
                                                 </Triggers>
                                             </asp:UpdatePanel>
 
@@ -1471,6 +1473,8 @@
                                                     <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasAereo" />
                                                     <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxaAereo" />
                                                     <asp:AsyncPostBackTrigger ControlID="btnImportarTaxasAereo" />
+                                                    <asp:AsyncPostBackTrigger ControlID="btnSelecionarTudoAereo" />
+                                                    <asp:AsyncPostBackTrigger ControlID="btnDeletarTaxasAereo" />
                                                 </Triggers>
                                             </asp:UpdatePanel>
 

@@ -1539,7 +1539,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace("'", "")
                         txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace("NULL", "")
 
-                        ImportaTaxas(txtID_BasicoAereo.Text, ddlServico_BasicoAereo.SelectedValue, ddltransportador_BasicoAereo.SelectedValue, ddlDestino_BasicoAereo.SelectedValue)
+                        'ImportaTaxas(txtID_BasicoAereo.Text, ddlServico_BasicoAereo.SelectedValue, ddltransportador_BasicoAereo.SelectedValue, ddlDestino_BasicoAereo.SelectedValue)
 
 
                         Con.Fechar()
@@ -1921,7 +1921,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                             Rastreio.trackingbl(ds.Tables(0).Rows(0).Item("ID_BL").ToString())
                         End If
 
-                        ImportaTaxas(txtID_BasicoMaritimo.Text, ddlServico_BasicoMaritimo.SelectedValue, ddlTransportador_BasicoMaritimo.SelectedValue, ddlDestino_BasicoMaritimo.SelectedValue)
+                        ' ImportaTaxas(txtID_BasicoMaritimo.Text, ddlServico_BasicoMaritimo.SelectedValue, ddlTransportador_BasicoMaritimo.SelectedValue, ddlDestino_BasicoMaritimo.SelectedValue)
 
 
                         Con.Fechar()
@@ -3255,15 +3255,17 @@ ELSE " & ID_DESTINATARIO_COBRANCA & " END ID_DESTINATARIO_COBRANCA ,
             Dim btnVisualizar As LinkButton = CType(linha.FindControl("btnVisualizar"), LinkButton)
             Dim btnDuplicar As LinkButton = CType(linha.FindControl("btnDuplicar"), LinkButton)
             Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
+            Dim ckSelecionar As CheckBox = CType(linha.FindControl("ckSelecionar"), CheckBox)
 
             If ID_BL_TAXA = "0" Then
+                ckSelecionar.Visible = False
                 btnExcluir.Visible = False
                 btnVisualizar.Visible = False
                 btnDuplicar.Visible = False
                 dgvTaxasMaritimo.Rows(linha.RowIndex).CssClass = "compra"
             Else
                 btnExcluir.Visible = True
-
+                ckSelecionar.Visible = True
             End If
 
         Next
@@ -3276,14 +3278,17 @@ ELSE " & ID_DESTINATARIO_COBRANCA & " END ID_DESTINATARIO_COBRANCA ,
             Dim btnVisualizar As LinkButton = CType(linha.FindControl("btnVisualizar"), LinkButton)
             Dim btnDuplicar As LinkButton = CType(linha.FindControl("btnDuplicar"), LinkButton)
             Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
+            Dim ckSelecionar As CheckBox = CType(linha.FindControl("ckSelecionar"), CheckBox)
 
             If ID_BL_TAXA = "0" Then
+                ckSelecionar.Visible = False
                 btnExcluir.Visible = False
                 btnVisualizar.Visible = False
                 btnDuplicar.Visible = False
                 dgvTaxasAereo.Rows(linha.RowIndex).CssClass = "compra"
             Else
                 btnExcluir.Visible = True
+                ckSelecionar.Visible = True
 
             End If
 
