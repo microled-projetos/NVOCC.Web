@@ -78,6 +78,12 @@ WHERE A.ID_STATUS_COTACAO = 8")
                     lkRejeitar.Visible = False
                     lkCancelar.Visible = False
                     lkUpdate.Visible = True
+                ElseIf ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 11 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 8 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 7 Then
+                    lkCalcular.Visible = False
+                    lkAprovar.Visible = False
+                    lkRejeitar.Visible = False
+                    lkCancelar.Visible = False
+                    lkUpdate.Visible = False
                 Else
                     lkCalcular.Visible = True
                     lkAprovar.Visible = True
