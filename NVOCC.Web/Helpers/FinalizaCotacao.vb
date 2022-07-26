@@ -7,7 +7,7 @@
 
         If ds.Tables(0).Rows.Count > 0 Then
             For Each linha As DataRow In ds.Tables(0).Rows
-                Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 12 WHERE ID_COTACAO = " & linha.Item("ID_COTACAO"))
+                Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 12, DT_STATUS_COTACAO = GETDATE() WHERE ID_COTACAO = " & linha.Item("ID_COTACAO"))
             Next
 
         End If

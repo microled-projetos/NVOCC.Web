@@ -1488,16 +1488,16 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
                     'POR UNIDADE 
                     Dim ds1 As DataSet
 
-                    ' If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
-                    'MARITIMO - quantidade de conteineres do processo
-                    ds1 = Con.ExecutarQuery("SELECT COUNT(ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL)
-                    x = ds1.Tables(0).Rows(0).Item("QTD")
+                    If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
+                        ' MARITIMO -quantidade de conteineres do processo
+                        ds1 = Con.ExecutarQuery("SELECT COUNT(ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL)
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
 
-                    'ElseIf ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
-                    '    AEREO  -quantidade de caixas de mercadoria do processo
-                    '    ds1 = Con.ExecutarQuery("SELECT ISNULL(SUM(QTD_CAIXA),0)QTD FROM TB_CARGA_BL_DIMENSAO WHERE ID_BL =" & ID_BL)
-                    '    x = ds1.Tables(0).Rows(0).Item("QTD")
-                    'End If
+                    ElseIf ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                        ' AEREO  -quantidade de caixas de mercadoria do processo
+                        ds1 = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_MERCADORIA),0)QTD FROM TB_CARGA_BL WHERE ID_BL =" & ID_BL)
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                    End If
 
 
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")

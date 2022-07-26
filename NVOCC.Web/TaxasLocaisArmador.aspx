@@ -600,7 +600,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_ORIGEM_PAGAMENTO">
 
         <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA]
-union SELECT  0, 'Selecione' ORDER BY ID_BASE_CALCULO_TAXA">
+union SELECT  0,  '    Selecione' ORDER BY NM_BASE_CALCULO_TAXA">
 </asp:SqlDataSource>
 
 

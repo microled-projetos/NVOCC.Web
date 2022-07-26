@@ -180,7 +180,7 @@
                                     <li><a id="mnAccount" style="font-size: 13px;" runat="server" href="Account.aspx">Invoices</a></li>
                                     <li><a id="mnFechamentoCambio" style="font-size: 13px;" runat="server" href="FechamentoCambio.aspx">Fechamento de Câmbio</a></li>
                                     <li><a id="mnRelatorioDebitCredit" style="font-size: 13px;" runat="server" href="RelatorioDebitCredit.aspx">Relatório debit/credit-Emissão FCA</a></li>
-                                    <li><a id="mnRelatorioAccountDeclarada" style="font-size: 13px;" runat="server" href="RelatorioAccountDeclarado.aspx">Contas pagar/receber</a></li>                               
+                                    <li><a id="mnRelatorioAccountDeclarada" style="font-size: 13px;" runat="server" href="RelatorioAccountDeclarado.aspx">Contas pagar/receber</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -322,14 +322,17 @@
     </div>
 
     <div id="footer" class="container">
-        <nav class="navbar navbar-inverse navbar-fixed-bottom navbar-custom">
+        <nav class="navbar navbar-inverse navbar-fixed-bottom navbar-custom" style="background-color: #e77817;">
             <div>
-                <div class="float-right text-center" style="background-color: #e77817;">
+                <div style="float: left; padding-left: 100px"">
                     NVOCC 1.0.0
                     <asp:Label CssClass="control-label" runat="server" ID="lblVersion" Visible="false" />
                     - <%= DateTime.Now.Year %>
                 </div>
+                <div style="float: right; padding-right: 100px">
+                    <asp:Label CssClass="control-label" runat="server" ID="lblEsquema" />
 
+                </div>
             </div>
         </nav>
     </div>

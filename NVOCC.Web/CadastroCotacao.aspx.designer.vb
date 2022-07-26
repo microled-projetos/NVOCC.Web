@@ -833,6 +833,24 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlFreteTransportador_Frete As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ddlFinalDestination.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlFinalDestination As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlRotaFrete.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlRotaFrete As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle divAereo.
     '''</summary>
     '''<remarks>
@@ -849,51 +867,6 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlTipoAeronave As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle divContratoMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divContratoMaritimo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle txtContratoArmador.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtContratoArmador As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle ddlTipoPagamento_Frete.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlTipoPagamento_Frete As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlTipoCargaFrete.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlTipoCargaFrete As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlRotaFrete.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlRotaFrete As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle divEscala.
@@ -930,6 +903,24 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlEscala3Frete As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle divContratoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divContratoMaritimo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtContratoArmador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtContratoArmador As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtTTimeFreteInicial.
@@ -977,6 +968,24 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtTTimeFreteTruckingAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ddlTipoPagamento_Frete.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoPagamento_Frete As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlTipoCargaFrete.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoCargaFrete As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ddlFrequenciaFrete.
     '''</summary>
     '''<remarks>
@@ -993,15 +1002,6 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtValorFrequenciaFrete As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle ddlFinalDestination.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlFinalDestination As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle divCamposMaritimos.

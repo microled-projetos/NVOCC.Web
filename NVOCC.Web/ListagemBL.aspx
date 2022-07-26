@@ -80,7 +80,6 @@
                                                         <asp:ListItem Value="1" Selected="True">Número do processo</asp:ListItem>
                                                         <asp:ListItem Value="2">Tipo de Estufagem</asp:ListItem>
                                                         <asp:ListItem Value="3">Nome do Cliente</asp:ListItem>
-                                                        <%--       <asp:ListItem Value="4">Nº BL Master</asp:ListItem>--%>
                                                     </asp:DropDownList>
                                                 </div>
 
@@ -145,6 +144,7 @@
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="PARCEIRO_CLIENTE" />
                                                 <asp:BoundField DataField="Origem" HeaderText="Origem" SortExpression="Origem" />
                                                 <asp:BoundField DataField="Destino" HeaderText="Destino" SortExpression="Destino" />
+                                                <asp:BoundField DataField="NM_PLACE_RECEIPT" HeaderText="Place of Receipt" SortExpression="NM_PLACE_RECEIPT" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="TIPO_ESTUFAGEM" />
                                                 <asp:BoundField DataField="PARCEIRO_AGENTE_INTERNACIONAL" HeaderText="Agente Internacional" SortExpression="PARCEIRO_AGENTE_INTERNACIONAL" />
                                                 <asp:BoundField DataField="PARCEIRO_TRANSPORTADOR" HeaderText="Transportador" SortExpression="PARCEIRO_TRANSPORTADOR" />
@@ -376,12 +376,14 @@
                                         <div>
                                             <div class="col-sm-2" style="border: ridge 1px; margin-left: 10px; padding-top: 20px; padding-bottom: 10px">
                                                 <div class="form-group">
-                                                    <asp:DropDownList ID="ddFiltroMaster" AutoPostBack="true" Width="230px" runat="server" CssClass="form-control" Font-Size="15px">
+                                                    <asp:DropDownList ID="ddlFiltroMaster" AutoPostBack="true" Width="230px" runat="server" CssClass="form-control" Font-Size="15px">
                                                         <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
                                                         <asp:ListItem Value="1">Número do Master</asp:ListItem>
                                                         <asp:ListItem Value="2">Tipo de Estufagem</asp:ListItem>
                                                         <asp:ListItem Value="3">Origem</asp:ListItem>
                                                         <asp:ListItem Value="4">Destino</asp:ListItem>
+                                                         <asp:ListItem Value="5">Nº Container</asp:ListItem>
+
                                                     </asp:DropDownList>
                                                 </div>
 
@@ -520,6 +522,7 @@
                                                         <asp:ListItem Value="3">Nome do Cliente</asp:ListItem>
                                                         <asp:ListItem Value="4">Nº BL Master</asp:ListItem>
                                                         <asp:ListItem Value="5">Nº HBL</asp:ListItem>
+                                                        <asp:ListItem Value="6">Nº Container</asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
 
@@ -585,6 +588,7 @@
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="PARCEIRO_CLIENTE" />
                                                 <asp:BoundField DataField="Origem" HeaderText="Origem" SortExpression="Origem" />
                                                 <asp:BoundField DataField="Destino" HeaderText="Destino" SortExpression="Destino" />
+                                                <asp:BoundField DataField="NM_PLACE_RECEIPT" HeaderText="Place of Receipt" SortExpression="NM_PLACE_RECEIPT" />
                                                 <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="Pagamento" SortExpression="TIPO_PAGAMENTO" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="TIPO_ESTUFAGEM" />
                                                 <asp:BoundField DataField="PARCEIRO_AGENTE_INTERNACIONAL" HeaderText="Agente" SortExpression="PARCEIRO_AGENTE_INTERNACIONAL" />
@@ -598,8 +602,7 @@
                                                 <asp:BoundField DataField="DT_REDESTINACAO" HeaderText="Redestinação" SortExpression="DT_REDESTINACAO" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="DT_DESCONSOLIDACAO" HeaderText="Desconsolidação" SortExpression="DT_DESCONSOLIDACAO" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="NAVIO" HeaderText="Navio" SortExpression="NAVIO" />
-                                                <asp:BoundField DataField="WEEK" HeaderText="Week" SortExpression="WEEK" />
-                                               
+                                                <asp:BoundField DataField="WEEK" HeaderText="Week" SortExpression="WEEK" />                                               
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>

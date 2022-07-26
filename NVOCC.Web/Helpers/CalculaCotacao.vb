@@ -1109,24 +1109,24 @@ WHERE A.ID_COTACAO = " & ID_COTACAO & " AND ID_TIPO_CONTAINER IN (13)")
                         'POR UNIDADE 
                         Dim ds1 As DataSet
 
-                        ' If linha.Item("ID_SERVICO") = 1 Or linha.Item("ID_SERVICO") = 4 Then
-                        'MARITIMO - quantidade de conteineres do processo
-                        ds1 = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+                        If linha.Item("ID_SERVICO") = 1 Or linha.Item("ID_SERVICO") = 4 Then
+                            'MARITIMO -quantidade de conteineres do processo
+                            ds1 = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
 FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & ID_COTACAO & "")
 
-                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                            x = ds1.Tables(0).Rows(0).Item("QTD")
 
-                        'ElseIf linha.Item("ID_SERVICO") = 2 Or linha.Item("ID_SERVICO") = 5 Then
-                        '    'AEREO  - quantidade de caixas de mercadoria do processo
-                        '    '                            ds1 = Con.ExecutarQuery("SELECT ISNULL(SUM(QTD_CAIXA),0)QTD
-                        '    'FROM TB_COTACAO_MERCADORIA_DIMENSAO A
-                        '    'WHERE A.ID_COTACAO = " & ID_COTACAO & "")
+                        ElseIf linha.Item("ID_SERVICO") = 2 Or linha.Item("ID_SERVICO") = 5 Then
+                            'AEREO  - quantidade de caixas de mercadoria do processo
+                            '                            ds1 = Con.ExecutarQuery("SELECT ISNULL(SUM(QTD_CAIXA),0)QTD
+                            'FROM TB_COTACAO_MERCADORIA_DIMENSAO A
+                            'WHERE A.ID_COTACAO = " & ID_COTACAO & "")
 
-                        '    ds1 = Con.ExecutarQuery("SELECT COUNT(ID_COTACAO_MERCADORIA)QTD FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & ID_COTACAO & "")
+                            ds1 = Con.ExecutarQuery("SELECT SUM(QT_MERCADORIA)QTD FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & ID_COTACAO & "")
 
-                        '    x = ds1.Tables(0).Rows(0).Item("QTD")
-                        'End If
+                            x = ds1.Tables(0).Rows(0).Item("QTD")
+                        End If
 
 
 

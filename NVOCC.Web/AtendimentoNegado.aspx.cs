@@ -29,7 +29,7 @@ namespace ABAINFRA.Web
 
 		private void Porto()
 		{
-			SQL = "SELECT ID_PORTO, NM_PORTO FROM TB_PORTO ORDER BY NM_PORTO ";
+			SQL = "SELECT ID_PORTO, CASE WHEN ID_VIATRANSPORTE = 4 THEN CD_SIGLA + ' - ' + NM_PORTO ELSE NM_PORTO + ' - ' + CD_SIGLA END AS NM_PORTO FROM TB_PORTO ORDER BY ID_VIATRANSPORTE, NM_PORTO ";
 			DataTable listTable = new DataTable();
 			listTable = DBS.List(SQL);
 
@@ -44,7 +44,7 @@ namespace ABAINFRA.Web
 
 		private void Vendedores()
 		{
-			SQL = "SELECT ID_PARCEIRO, NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1 ORDER BY NM_RAZAO";
+			SQL = "SELECT ID_PARCEIRO, NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO = 1 ORDER BY NM_RAZAO";
 			DataTable listTable = new DataTable();
 			listTable = DBS.List(SQL);
 

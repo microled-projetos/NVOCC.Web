@@ -440,6 +440,84 @@ namespace ABAINFRA.Web
          }
 
         [WebMethod]
+        public static string TaxaProcesso(string dataI, string dataF, string nota, string filter)
+        {
+            string SQL;
+            string diaI;
+            string mesI;
+            string anoI;
+            string diaF;
+            string mesF;
+            string anoF;
+
+            if (dataI != "")
+            {
+                diaI = dataI.Substring(8, 2);
+                mesI = dataI.Substring(5, 2);
+                anoI = dataI.Substring(0, 4);
+                dataI = diaI + '-' + mesI + '-' + anoI;
+            }
+            else
+            {
+                dataI = "01-01-1900";
+            }
+
+            if (dataF != "")
+            {
+                diaF = dataF.Substring(8, 2);
+                mesF = dataF.Substring(5, 2);
+                anoF = dataF.Substring(0, 4);
+                dataF = diaF + '-' + mesF + '-' + anoF;
+            }
+            else
+            {
+                dataF = "01-01-2900";
+            }
+
+
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND B.NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND D.NM_RAZAO LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            SQL = "SELECT B.NR_PROCESSO, ";
+            SQL += "D.NM_RAZAO, ";
+            SQL += "CONVERT(DATE, B.DT_EMBARQUE, 103) AS DATA_EMBARQUE, ";
+            SQL += "CONVERT(DATE, B.DT_CHEGADA, 103) AS DATA_CHEGADA, ";
+            SQL += "M.NR_BL AS NR_MASTER, ";
+            SQL += "B.NR_BL AS NR_HOUSE, ";
+            SQL += "C.NM_ITEM_DESPESA, ";
+            SQL += "E.SIGLA_MOEDA, ";
+            SQL += "A.VL_TAXA_CALCULADO, ";
+            SQL += "CASE WHEN A.CD_PR='P' THEN 'PAGAR' ELSE 'RECEBER' END AS TIPO ";
+            SQL += "FROM TB_BL_TAXA A ";
+            SQL += "JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "JOIN TB_BL M ON B.ID_BL_MASTER = M.ID_BL ";
+            SQL += "JOIN TB_ITEM_DESPESA C ON A.ID_ITEM_DESPESA = C.ID_ITEM_DESPESA ";
+            SQL += "JOIN TB_PARCEIRO D ON A.ID_PARCEIRO_EMPRESA = D.ID_PARCEIRO ";
+            SQL += "JOIN TB_MOEDA E ON A.ID_MOEDA = E.ID_MOEDA ";
+            SQL += "WHERE A.FL_DECLARADO = 1 AND A.ID_ORIGEM_PAGAMENTO = 2 ";
+            SQL += "AND A.CD_PR = 'P' AND B.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE) ";
+            SQL += "AND C.ID_ITEM_DESPESA NOT IN(71) ";
+            SQL += "AND CONVERT(DATE,B.DT_EMBARQUE,103) BETWEEN CONVERT(DATE,'" + dataI + "',103) AND CONVERT(DATE,'" + dataF + "',103) ";
+            SQL += "ORDER BY B.NR_PROCESSO ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
         public string CarregaFiltroPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -851,7 +929,8 @@ namespace ABAINFRA.Web
             SQL = "SELECT DISTINCT isnull(NR_PROCESSO,'') AS PROCESSO, isnull(CLIENTE.NM_RAZAO,'') AS CLIENTE, ";
             SQL += "isnull(TRANSPORTADOR.NM_RAZAO,'') AS CARRIER, isnull(TP.NM_TIPO_ESTUFAGEM,'') AS TIPOESTUFAGEM, ";
             SQL += "isnull(CNTR_TEUS.QTDE20,0) as QTDE20, isnull(CNTR_TEUS.QTDE40,0) AS QTDE40, ISNULL(Z1.NM_STATUS_COTACAO,'') AS STATUS_COTACAO, ";
-            SQL += "isnull(SUBSTRING(TPC.NM_TIPO_CONTAINER,3,6),'') AS TIPO,isnull(P1.NM_PORTO,'') AS ORIGEM, isnull(P2.NM_PORTO,'') AS DESTINO, ";
+            SQL += "ISNULL((SELECT STUFF((SELECT DISTINCT '/ ' + (SELECT isnull(T.NM_TIPO_CONTAINER,'') as NM_TIPO_CONTAINER FROM TB_CNTR_BL C INNER JOIN TB_TIPO_CONTAINER T ON C.ID_TIPO_CNTR = T.ID_TIPO_CONTAINER WHERE C.ID_CNTR_BL =B.ID_CNTR_BL ) FROM TB_CARGA_BL B WHERE A.ID_BL = B.ID_BL FOR XML PATH('')), 1, 1, '')),'') AS TIPO, ";
+            SQL += "isnull(P1.NM_PORTO,'') AS ORIGEM, isnull(P2.NM_PORTO,'') AS DESTINO, ";
             SQL += "isnull(FORMAT(A.DT_ABERTURA,'dd/MM/yyyy'),'') AS DTABERTURA, isnull(FORMAT(A.DT_CANCELAMENTO,'dd/mm/yyyy'),'') as DTCANCELAMENTO, isnull(FORMAT(A.DT_PREVISAO_EMBARQUE ,'dd/MM/yyyy'),'') AS ETD, isnull(FORMAT(A.DT_EMBARQUE ,'dd/MM/yyyy'),'') AS ETA, ";
             SQL += "isnull(FORMAT(A.DT_CHEGADA,'dd/MM/yyyy'),'') AS CHEGADA, isnull(FORMAT(A.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DATARECEBIMENTO, ";
             SQL += "isnull(VENDEDOR.NM_RAZAO,'') AS VENDEDOR, isnull(AGENTEI.NM_RAZAO,'') AS AGENTECARGA, isnull(AGENTED.NM_RAZAO,'') AS NMCOMISSARIA, ";
