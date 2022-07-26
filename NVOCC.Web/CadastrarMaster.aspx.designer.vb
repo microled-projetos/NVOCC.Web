@@ -59,6 +59,24 @@ Partial Public Class CadastrarMaster
     Protected WithEvents lblErro_BasicoMaritimo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle divinfo_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divinfo_BasicoMaritimo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblmsginfo_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblmsginfo_BasicoMaritimo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle txtID_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -1425,6 +1443,24 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblErro_BasicoAereo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divinfo_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divinfo_BasicoAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblmsginfo_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblmsginfo_BasicoAereo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle txtID_BasicoAereo.

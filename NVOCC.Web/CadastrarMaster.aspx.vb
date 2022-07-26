@@ -186,6 +186,7 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")) Then
                         txtCodTransportador_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
                         ddlTransportador_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
+                        Session("ID_PARCEIRO_TRANSPORTADOR") = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_ATRACACAO")) Then
@@ -388,6 +389,7 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")) Then
                         ddltransportador_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
+                        Session("ID_PARCEIRO_TRANSPORTADOR") = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM")) Then
@@ -426,10 +428,6 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO")) Then
                         ddlTipoPagamento_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO")
-                    End If
-
-                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")) Then
-                        ddltransportador_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_VIAGEM")) Then
@@ -582,6 +580,7 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")) Then
                         ddlTransportador_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
+                        Session("ID_PARCEIRO_TRANSPORTADOR") = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_ATRACACAO")) Then
@@ -1291,7 +1290,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
     End Sub
 
     Private Sub btnGravar_BasicoAereo_Click(sender As Object, e As EventArgs) Handles btnGravar_BasicoAereo.Click
-
+        divinfo_BasicoAereo.Visible = False
         divSuccess_BasicoAereo.Visible = False
         divErro_BasicoAereo.Visible = False
 
@@ -1628,6 +1627,12 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace("'", "")
                     txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace("NULL", "")
 
+
+                    If ddltransportador_BasicoAereo.SelectedValue <> Session("ID_PARCEIRO_TRANSPORTADOR") Then
+                        divinfo_BasicoAereo.Visible = True
+                    End If
+
+                    Session("ID_PARCEIRO_TRANSPORTADOR") = ddltransportador_BasicoAereo.SelectedValue
                     divSuccess_BasicoAereo.Visible = True
                     Con.Fechar()
 
@@ -1645,6 +1650,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
     Private Sub btnGravar_BasicoMaritimo_Click(sender As Object, e As EventArgs) Handles btnGravar_BasicoMaritimo.Click
         divSuccess_BasicoMaritimo.Visible = False
         divErro_BasicoMaritimo.Visible = False
+        divinfo_BasicoMaritimo.Visible = False
 
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -2026,6 +2032,12 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
                     txtNumeroBL_BasicoMaritimo.Text = txtNumeroBL_BasicoMaritimo.Text.Replace("'", "")
                     txtNumeroBL_BasicoMaritimo.Text = txtNumeroBL_BasicoMaritimo.Text.Replace("NULL", "")
+
+                    If ddlTransportador_BasicoMaritimo.SelectedValue <> Session("ID_PARCEIRO_TRANSPORTADOR") Then
+                        divinfo_BasicoMaritimo.Visible = True
+                    End If
+
+                    Session("ID_PARCEIRO_TRANSPORTADOR") = ddlTransportador_BasicoMaritimo.SelectedValue
 
                     divSuccess_BasicoMaritimo.Visible = True
                     Con.Fechar()

@@ -28,7 +28,6 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">MÓDULO OPERACIONAL - MASTER 
                         <asp:Label ID="lblMaster_Titulo" runat="server" />
-
                     </h3>
                 </div>
                 <div class="panel-body">
@@ -79,6 +78,9 @@
                                     </div>
                                     <div class="alert alert-danger" id="divErro_BasicoMaritimo" runat="server" visible="false">
                                         <asp:Label ID="lblErro_BasicoMaritimo" runat="server"></asp:Label>
+                                    </div>
+                                    <div class="alert alert-info" id="divinfo_BasicoMaritimo" runat="server" visible="false">
+                                        <asp:Label ID="lblmsginfo_BasicoMaritimo" runat="server" Text="Favor revisar taxas locais do armador importadas!"></asp:Label>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-3" style="display: none">
@@ -1152,6 +1154,9 @@
                                             <div class="alert alert-danger" id="divErro_BasicoAereo" runat="server" visible="false">
                                                 <asp:Label ID="lblErro_BasicoAereo" runat="server"></asp:Label>
                                             </div>
+                                            <div class="alert alert-info" id="divinfo_BasicoAereo" runat="server" visible="false">
+                                        <asp:Label ID="lblmsginfo_BasicoAereo" runat="server" Text="Favor revisar taxas locais do armador importadas!"></asp:Label>
+                                    </div>
                                             <div class="row">
                                                 <div class="col-sm-3" style="display: none">
                                                     <div class="form-group">
