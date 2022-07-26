@@ -21,10 +21,6 @@ CASE WHEN ID_PARCEIRO_IMPORTADOR IS NULL THEN ID_CLIENTE WHEN ID_PARCEIRO_IMPORT
                 Con.ExecutarQuery("UPDATE TB_BL SET FINAL_DESTINATION = " & dsCotacao.Tables(0).Rows(0).Item("FINAL_DESTINATION").ToString & " WHERE ID_BL = " & ID_BL)
             End If
 
-            'If dsCotacao.Tables(0).Rows(0).Item("PLACE_RECEIPT").ToString <> dsProcesso.Tables(0).Rows(0).Item("PLACE_RECEIPT").ToString Then
-            '    Con.ExecutarQuery("UPDATE TB_BL SET PLACE_RECEIPT = " & dsCotacao.Tables(0).Rows(0).Item("PLACE_RECEIPT").ToString & " WHERE ID_BL = " & ID_BL)
-            'End If
-
             If dsCotacao.Tables(0).Rows(0).Item("ID_CLIENTE").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE").ToString Then
                 Con.ExecutarQuery("UPDATE TB_BL SET ID_PARCEIRO_CLIENTE = " & dsCotacao.Tables(0).Rows(0).Item("ID_CLIENTE").ToString & " WHERE ID_BL = " & ID_BL)
             End If
@@ -152,10 +148,6 @@ CASE WHEN ID_PARCEIRO_IMPORTADOR IS NULL THEN ID_CLIENTE WHEN ID_PARCEIRO_IMPORT
             If dsCotacao.Tables(0).Rows(0).Item("FINAL_DESTINATION").ToString <> dsProcesso.Tables(0).Rows(0).Item("FINAL_DESTINATION").ToString Then
                 Con.ExecutarQuery("UPDATE TB_BL SET FINAL_DESTINATION = " & dsCotacao.Tables(0).Rows(0).Item("FINAL_DESTINATION").ToString & " WHERE ID_BL = " & ID_BL)
             End If
-
-            'If dsCotacao.Tables(0).Rows(0).Item("PLACE_RECEIPT").ToString <> dsProcesso.Tables(0).Rows(0).Item("PLACE_RECEIPT").ToString Then
-            '    Con.ExecutarQuery("UPDATE TB_BL SET PLACE_RECEIPT = " & dsCotacao.Tables(0).Rows(0).Item("PLACE_RECEIPT").ToString & " WHERE ID_BL = " & ID_BL)
-            'End If
 
             If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_AERONAVE").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_TIPO_AERONAVE").ToString Then
                 Con.ExecutarQuery("UPDATE TB_BL SET ID_TIPO_AERONAVE = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_AERONAVE").ToString & " WHERE ID_BL = " & ID_BL)
