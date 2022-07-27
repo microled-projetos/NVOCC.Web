@@ -1259,16 +1259,8 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 End If
 
                 Dim i As Integer = 0
-                '                ds = Con.ExecutarQuery("Select ID_FATURAMENTO,(Select SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO ,
-                '(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, (SELECT NOSSONUMERO FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO IN (" & IDs & "))NOSSONUMERO, (SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO  IN (" & IDs & "))NR_PROCESSO 
-                'FROM TB_FATURAMENTO A
-                'WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
-                ds = Con.ExecutarQuery("Select ID_FATURAMENTO,
-(Select SUM(ISNULL(B.VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL,
-(Select SUM(ISNULL(B.VL_LIQUIDO,0)) - SUM(ISNULL(B.VL_ISS,0)) - SUM(ISNULL(A.VL_IR_NF,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,
-(Select SUM(ISNULL(B.VL_LIQUIDO,0)) - SUM(ISNULL(A.VL_IR_NF,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER) AS VL_DESCONTANDO_IR, 
-VL_BOLETO,
+                ds = Con.ExecutarQuery("SELECT ID_FATURAMENTO,
 CNPJ,
 NM_CLIENTE,
 ENDERECO,
@@ -1277,15 +1269,19 @@ COMPL_ENDERECO,
 CEP,
 CIDADE,
 BAIRRO ,
-(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,
 NR_NOTA_FISCAL,
-'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, 
 NOSSONUMERO, 
+(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,
+'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, 
 (SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO = " & IDs & " )NR_PROCESSO, 
-CASE WHEN ISNULL(A.VL_IR_NF,0)> 0 THEN 1 ELSE 0 END FL_IR, CASE WHEN A.NR_NOTA_FISCAL IS NOT NULL THEN 1 ELSE 0 END FL_NF 
+CASE WHEN ISNULL(A.VL_IR_NF,0)> 0 THEN 1 ELSE 0 END FL_IR, 
+CASE WHEN A.NR_NOTA_FISCAL IS NOT NULL THEN 1 ELSE 0 END FL_NF,
+(SELECT SUM(ISNULL(B.VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER) VL_FATURA,
+ISNULL(VL_IR_NF,0)VL_IR_NF,
+ISNULL(VL_ISS,0)VL_ISS 
 FROM TB_FATURAMENTO A
 WHERE ID_FATURAMENTO =" & IDs & " 
-GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,NR_NOTA_FISCAL,NOSSONUMERO,NR_NOTA_DEBITO,VL_IR_NF")
+GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,NR_NOTA_FISCAL,NOSSONUMERO,NR_NOTA_DEBITO,VL_IR_NF,VL_ISS")
 
                 If ds.Tables(0).Rows.Count > 0 Then
                     Dim VL_BOLETO As String = 0
@@ -1324,25 +1320,21 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,VL_BOLETO,CNPJ,NM_CLIENTE,ENDEREC
                         Titulo.DataVencimento = linhads.Item("DT_VENCIMENTO")
 
 
+                        ''VALOR DO BOLETO
+                        VL_BOLETO = linhads.Item("VL_FATURA")
+
                         If linhads.Item("CIDADE").ToString() = "SANTOS" And linhads.Item("FL_NF").ToString = 1 Then
-
-                            VL_BOLETO = linhads.Item("VL_LIQUIDO").ToString().Replace(".", "")
-                            VL_BOLETO = VL_BOLETO.Replace(",", ".")
-                            Titulo.ValorTitulo = linhads.Item("VL_LIQUIDO").ToString()
-
-                        ElseIf linhads.Item("FL_IR").ToString = 1 Then
-
-                            VL_BOLETO = linhads.Item("VL_DESCONTANDO_IR").ToString().Replace(".", "")
-                            VL_BOLETO = VL_BOLETO.Replace(",", ".")
-                            Titulo.ValorTitulo = linhads.Item("VL_DESCONTANDO_IR").ToString()
-
-                        Else
-
-                            VL_BOLETO = linhads.Item("VL").ToString().Replace(".", "")
-                            VL_BOLETO = VL_BOLETO.Replace(",", ".")
-                            Titulo.ValorTitulo = linhads.Item("VL").ToString()
-
+                            VL_BOLETO = VL_BOLETO - linhads.Item("VL_ISS")
                         End If
+
+                        If linhads.Item("FL_IR").ToString = 1 Then
+                            VL_BOLETO = VL_BOLETO - linhads.Item("VL_IR_NF")
+                        End If
+
+                        Titulo.ValorTitulo = VL_BOLETO
+                        VL_BOLETO = VL_BOLETO.ToString.Replace(".", "")
+                        VL_BOLETO = VL_BOLETO.Replace(",", ".")
+
 
                         Titulo.Aceite = "N"
                         Titulo.EspecieDocumento = TipoEspecieDocumento.DS
