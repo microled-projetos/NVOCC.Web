@@ -382,8 +382,8 @@
                                                         <asp:ListItem Value="2">Tipo de Estufagem</asp:ListItem>
                                                         <asp:ListItem Value="3">Origem</asp:ListItem>
                                                         <asp:ListItem Value="4">Destino</asp:ListItem>
-                                                         <asp:ListItem Value="5">Nº Container</asp:ListItem>
-
+                                                        <asp:ListItem Value="5">Nº Container</asp:ListItem>
+                                                        <asp:ListItem Value="6">Doc Conferidos</asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
 
@@ -456,7 +456,11 @@
                                                 <asp:BoundField DataField="DT_CHEGADA" HeaderText="Chegada" SortExpression="DT_CHEGADA" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="NAVIO" HeaderText="Navio" SortExpression="NAVIO" />
                                                 <asp:BoundField DataField="PARCEIRO_AGENTE" HeaderText="Agente" SortExpression="PARCEIRO_AGENTE" />
-                                             
+                                              <asp:TemplateField HeaderText="Doc. Conferido?">
+                                                        <ItemTemplate>
+                                                            <asp:label ID="lblDocConferido"  ToolTip='<%# Eval("INFO_DOC_CONFERIDOS") %>' runat="server" Text='<%# Eval("DOC_CONFERIDO") %>' ></asp:label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
@@ -523,6 +527,7 @@
                                                         <asp:ListItem Value="4">Nº BL Master</asp:ListItem>
                                                         <asp:ListItem Value="5">Nº HBL</asp:ListItem>
                                                         <asp:ListItem Value="6">Nº Container</asp:ListItem>
+                                                        <asp:ListItem Value="7">Doc Conferidos</asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
 
@@ -602,7 +607,13 @@
                                                 <asp:BoundField DataField="DT_REDESTINACAO" HeaderText="Redestinação" SortExpression="DT_REDESTINACAO" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="DT_DESCONSOLIDACAO" HeaderText="Desconsolidação" SortExpression="DT_DESCONSOLIDACAO" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="NAVIO" HeaderText="Navio" SortExpression="NAVIO" />
-                                                <asp:BoundField DataField="WEEK" HeaderText="Week" SortExpression="WEEK" />                                               
+                                                <asp:BoundField DataField="WEEK" HeaderText="Week" SortExpression="WEEK" />
+                                                <asp:TemplateField HeaderText="Doc. Conferido?" SortExpression="DOC_CONFERIDO">
+                                                        <ItemTemplate>
+                                                           <%-- <asp:CheckBox ID="ckDocConferido" Enabled="false" ToolTip='<%# Eval("INFO_DOC_CONFERIDOS") %>' runat="server" Checked='<%# Eval("FL_DOC_CONFERIDO") %>' ></asp:CheckBox>--%>
+                                                            <asp:label ID="lblDocConferido"  ToolTip='<%# Eval("INFO_DOC_CONFERIDOS") %>' runat="server" Text='<%# Eval("DOC_CONFERIDO") %>' ></asp:label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>

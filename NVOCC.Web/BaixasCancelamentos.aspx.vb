@@ -206,7 +206,7 @@
 
 
     Private Sub dgvTaxasReceber_Load(sender As Object, e As EventArgs) Handles dgvTaxasReceber.Load
-        Using Status = New NotaFiscal.WsNvocc
+        Using Status = New WsNVOCC.WsNvocc
             Dim SQL As String = "SELECT * FROM [dbo].[View_Baixas_Cancelamentos] WHERE CD_PR =  'R' AND ID_PARCEIRO_ARMAZEM_DESCARGA = 74 AND DT_LIQUIDACAO IS NULL ORDER BY DT_VENCIMENTO DESC"
             Status.StatusBloqueio(SQL)
 
@@ -326,7 +326,7 @@
             btnAtualizaCambio.Visible = True
         End If
 
-        Using Status = New NotaFiscal.WsNvocc
+        Using Status = New WsNVOCC.WsNvocc
 
             Status.StatusBloqueio("SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'R'  AND ID_PARCEIRO_ARMAZEM_DESCARGA = 74  " & FILTRO & " ORDER BY DT_VENCIMENTO DESC")
 
@@ -366,7 +366,7 @@
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Try
-                    Using Status = New NotaFiscal.WsNvocc
+                    Using Status = New WsNVOCC.WsNvocc
 
                         resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "B", 39, 0, Usuario)
 
@@ -388,7 +388,7 @@
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Try
-                    Using Status = New NotaFiscal.WsNvocc
+                    Using Status = New WsNVOCC.WsNvocc
 
                         resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "L", 39, 45, Usuario)
 
@@ -410,7 +410,7 @@
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Try
-                    Using Status = New NotaFiscal.WsNvocc
+                    Using Status = New WsNVOCC.WsNvocc
 
                         resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "B", 40, 0, Usuario)
 
@@ -432,7 +432,7 @@
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Try
-                    Using Status = New NotaFiscal.WsNvocc
+                    Using Status = New WsNVOCC.WsNvocc
 
                         resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "L", 40, 45, Usuario)
 
@@ -454,7 +454,7 @@
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Try
-                    Using Status = New NotaFiscal.WsNvocc
+                    Using Status = New WsNVOCC.WsNvocc
 
                         resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "B", 44, 0, Usuario)
 
@@ -477,7 +477,7 @@
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Try
-                    Using Status = New NotaFiscal.WsNvocc
+                    Using Status = New WsNVOCC.WsNvocc
 
                         resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "L", 44, 45, Usuario)
 

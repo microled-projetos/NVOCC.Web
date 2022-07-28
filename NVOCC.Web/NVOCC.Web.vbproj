@@ -607,11 +607,11 @@
     <Content Include="FileUpload.ashx" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
-    <None Include="Web References\NotaFiscal\Reference.map">
+    <None Include="Web References\WsNVOCC\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
-    <None Include="Web References\NotaFiscal\WsNvocc.disco" />
+    <None Include="Web References\WsNVOCC\WsNvocc.disco" />
     <Content Include="TextoCotacao.aspx" />
     <Content Include="EmissaoNDFaturamento.aspx" />
     <Content Include="WebService1.asmx" />
@@ -627,7 +627,7 @@
     <Content Include="Site.Master" />
     <Content Include="TrocarSenha.aspx" />
     <Content Include="Web.config" />
-    <None Include="Web References\NotaFiscal\WsNvocc.wsdl" />
+    <None Include="Web References\WsNVOCC\WsNvocc.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.aspx.designer.vb">
@@ -653,6 +653,7 @@
       <DependentUpon>CadastrarTipoFaturamento.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Class\ResultadoCNPJ.vb" />
     <Compile Include="FaturamentoArquivo.aspx.designer.vb">
       <DependentUpon>FaturamentoArquivo.aspx</DependentUpon>
     </Compile>
@@ -1202,7 +1203,7 @@
     <Compile Include="ViewSwitcher.ascx.designer.vb">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Web References\NotaFiscal\Reference.vb">
+    <Compile Include="Web References\WsNVOCC\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -1259,7 +1260,7 @@
   <ItemGroup>
     <WebReferenceUrl Include="https://localhost:44317/WsNvocc.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\NotaFiscal\</RelPath>
+      <RelPath>Web References\WsNVOCC\</RelPath>
       <UpdateFromURL>https://localhost:44317/WsNvocc.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>

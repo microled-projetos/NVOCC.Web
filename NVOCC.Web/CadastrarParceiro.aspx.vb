@@ -1,4 +1,4 @@
-﻿
+﻿Imports Newtonsoft.Json
 Public Class CadastrarParceiro
     Inherits System.Web.UI.Page
 
@@ -1648,5 +1648,52 @@ WHERE ID_PARCEIRO =" & ID)
                 ddlPais.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PAIS").ToString()
             End If
         End If
+    End Sub
+
+    Private Sub btnConsultaCNPJ_Click(sender As Object, e As EventArgs) Handles btnConsultaCNPJ.Click
+        If txtCNPJ.Text <> "" Then
+
+
+
+            Try
+                Using Buscar = New WsNVOCC.WsNvocc
+
+                    Dim Resultado As String = Buscar.ConsultaCNPJ(txtCNPJ.Text.Replace("-", "").Replace(".", "").Replace("/", ""))
+                    Dim dados As Root = JsonConvert.DeserializeObject(Of Root)(Resultado)
+                    txtRazaoSocial.Text = dados.razao_social
+                    txtNomeFantasia.Text = dados.estabelecimento.nome_fantasia
+                    If txtNomeFantasia.Text = "" Then
+                        txtNomeFantasia.Text = dados.razao_social
+                    End If
+                    txtEmailParceiro.Text = dados.estabelecimento.email
+                    txtEmailNF.Text = dados.estabelecimento.email
+                    txtTelefone.Text = dados.estabelecimento.ddd1 & dados.estabelecimento.telefone1
+                    txtCEP.Text = dados.estabelecimento.cep
+                    txtEndereco.Text = dados.estabelecimento.tipo_logradouro & " " & dados.estabelecimento.logradouro
+                    txtNumero.Text = dados.estabelecimento.numero
+                    txtComplemento.Text = dados.estabelecimento.complemento
+                    txtBairro.Text = dados.estabelecimento.bairro
+
+                    Dim listaInsc = dados.estabelecimento.inscricoes_estaduais
+                    For Each Insc In listaInsc
+                        If Insc.ativo = "true" Then
+                            txtInscEstadual.Text = Insc.inscricao_estadual
+                        End If
+                    Next
+
+                End Using
+
+
+            Catch ex As Exception
+
+                divmsg1.Visible = True
+                msgErro.Text = "Não foi possivel completar a ação: " & ex.Message
+                Exit Sub
+
+            End Try
+
+
+        End If
+
     End Sub
 End Class

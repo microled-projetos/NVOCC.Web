@@ -544,7 +544,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                             Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & numero & "' WHERE ID_NUMERACAO = 5")
 
                             Try
-                                Using GeraRps = New NotaFiscal.WsNvocc
+                                Using GeraRps = New WsNVOCC.WsNvocc
 
                                     Dim consulta = GeraRps.IntegraNFePrefeitura(numero, 1, "SQL", "NVOCC", 0)
 
@@ -559,7 +559,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                             End Try
 
-                            Using GeraRps = New NotaFiscal.WsNvocc
+                            Using GeraRps = New WsNVOCC.WsNvocc
 
                                 Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
 
@@ -641,13 +641,13 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                         Dim numero As String = ds.Tables(0).Rows(0).Item("NR_RPS")
 
-                        Using GeraRps = New NotaFiscal.WsNvocc
+                        Using GeraRps = New WsNVOCC.WsNvocc
 
                             Dim consulta = GeraRps.IntegraNFePrefeitura(numero, 1, "SQL", "NVOCC", 1)
 
                         End Using
 
-                        Using GeraRps = New NotaFiscal.WsNvocc
+                        Using GeraRps = New WsNVOCC.WsNvocc
 
                             Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
 
@@ -738,7 +738,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
 
 
-                            Using GeraRps = New NotaFiscal.WsNvocc
+                            Using GeraRps = New WsNVOCC.WsNvocc
 
                                 Dim consulta = GeraRps.CancelaNFePrefeitura(RPSCancelada, 1, "SQL", "NVOCC")
 
@@ -864,7 +864,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                         Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & RPSNova & "' WHERE ID_NUMERACAO = 5")
 
 
-                        Using GeraRps = New NotaFiscal.WsNvocc
+                        Using GeraRps = New WsNVOCC.WsNvocc
 
                             Dim consulta = GeraRps.SubstituiNFePrefeitura(RPSSubstituida, RPSNova, 1, "SQL", "NVOCC", NOVO_FATURAMENTO)
 
@@ -958,7 +958,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
 
                 Try
-                    Using GeraRps = New NotaFiscal.WsNvocc
+                    Using GeraRps = New WsNVOCC.WsNvocc
 
                         Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
 

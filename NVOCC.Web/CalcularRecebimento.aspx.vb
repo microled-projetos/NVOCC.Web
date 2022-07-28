@@ -367,7 +367,7 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
         Dim sqlGrid As String = "SELECT * FROM [dbo].[View_BL_TAXAS]
 WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
 
-        Using Status = New NotaFiscal.WsNvocc
+        Using Status = New WsNVOCC.WsNvocc
 
             Status.StatusBloqueio(sqlGrid)
 
@@ -849,7 +849,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ISNULL(B.TP_EXPORTACAO,'') = '' AND ID_BL_TAXA
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Try
-                    Using Status = New NotaFiscal.WsNvocc
+                    Using Status = New WsNVOCC.WsNvocc
 
                         resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "B", 39, 0, Usuario)
 
@@ -871,7 +871,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ISNULL(B.TP_EXPORTACAO,'') = '' AND ID_BL_TAXA
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Try
-                    Using Status = New NotaFiscal.WsNvocc
+                    Using Status = New WsNVOCC.WsNvocc
 
                         resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "L", 39, 45, Usuario)
 
@@ -893,7 +893,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ISNULL(B.TP_EXPORTACAO,'') = '' AND ID_BL_TAXA
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Try
-                    Using Status = New NotaFiscal.WsNvocc
+                    Using Status = New WsNVOCC.WsNvocc
 
                         resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "B", 40, 0, Usuario)
 
@@ -915,7 +915,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ISNULL(B.TP_EXPORTACAO,'') = '' AND ID_BL_TAXA
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Try
-                    Using Status = New NotaFiscal.WsNvocc
+                    Using Status = New WsNVOCC.WsNvocc
 
                         resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "L", 40, 45, Usuario)
 
@@ -937,7 +937,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ISNULL(B.TP_EXPORTACAO,'') = '' AND ID_BL_TAXA
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Try
-                    Using Status = New NotaFiscal.WsNvocc
+                    Using Status = New WsNVOCC.WsNvocc
 
                         resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "B", 44, 0, Usuario)
 
@@ -959,7 +959,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ISNULL(B.TP_EXPORTACAO,'') = '' AND ID_BL_TAXA
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Try
-                    Using Status = New NotaFiscal.WsNvocc
+                    Using Status = New WsNVOCC.WsNvocc
 
                         resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "L", 44, 45, Usuario)
 
