@@ -60,7 +60,7 @@ ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORT
 (SELECT B.OB_CLIENTE FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO)OB_CLIENTE_COTACAO,
 (SELECT B.OB_OPERACIONAL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO)OB_OPERACIONAL_COTACAO, 
 (SELECT NM_TIPO_BL FROM TB_TIPO_BL WHERE ID_TIPO_BL = (SELECT ID_TIPO_BL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO))NM_TIPO_BL,(SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = (SELECT ID_CLIENTE_FINAL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO))NM_CLIENTE_FINAL, VL_CARGA, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO,ISNULL(FINAL_DESTINATION,0)FINAL_DESTINATION,ISNULL(FL_EMAIL_COTACAO,0)FL_EMAIL_COTACAO, EMAIL_COTACAO,NR_CONTRATO_ARMADOR,PLACE_RECEIPT, ISNULL(FL_TC4,0)FL_TC4,ISNULL(FL_TC6,0)FL_TC6, ISNULL(A.ID_TIPO_AERONAVE,0)ID_TIPO_AERONAVE,ISNULL(FL_DOC_CONFERIDO,0)FL_DOC_CONFERIDO FROM TB_BL A
-LEFT JOIN VIEW_DOC_CONFERIDOS B ON A.ID_BL = B.ID_BL 
+OUTER APPLY FN_DOC_CONFERIDO(A.ID_BL)  
 WHERE A.ID_BL = " & Request.QueryString("id"))
         If ds.Tables(0).Rows.Count > 0 Then
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
@@ -5138,12 +5138,12 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
             Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_LARGURA =
 (SELECT SUM(ISNULL(VL_LARGURA,0))VL_LARGURA FROM TB_CARGA_BL_DIMENSAO WHERE ID_CARGA_BL =  " & ID_CargaAereo & ") WHERE ID_CARGA_BL =  " & ID_CargaAereo)
 
-                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_ALTURA =
+            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_ALTURA =
 (SELECT SUM(ISNULL(VL_ALTURA,0))VL_ALTURA FROM TB_CARGA_BL_DIMENSAO WHERE ID_CARGA_BL =  " & ID_CargaAereo & ") WHERE ID_CARGA_BL =  " & ID_CargaAereo)
 
-                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_COMPRIMENTO =
+            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_COMPRIMENTO =
 (SELECT SUM(ISNULL(VL_COMPRIMENTO,0))VL_COMPRIMENTO FROM TB_CARGA_BL_DIMENSAO WHERE ID_CARGA_BL =  " & ID_CargaAereo & ") WHERE ID_CARGA_BL =  " & ID_CargaAereo)
-            End If
+        End If
     End Sub
 
     Private Sub btnAdicionarMedidasAereo_Click(sender As Object, e As ImageClickEventArgs) Handles btnAdicionarMedidasAereo.Click
@@ -5169,30 +5169,39 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
     End Sub
 
     Sub DocConferido(ID_BL As String, TIPO As String)
-        Try
-            Dim Con As New Conexao_sql
-            Con.Conectar()
-            If ID_BL <> "" Then
-                'Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_DOC_CONFERIDO,0)FL_DOC_CONFERIDO FROM VIEW_DOC_CONFERIDOS WHERE ID_BL = " & ID_BL)
-                'If ds.Tables(0).Rows.Count > 0 Then
-                '    If TIPO = "A" Then
-                '        If ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 0 And ckDocConferidosAereo.Checked = True Then
-                '            Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosAereo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
-                '        ElseIf ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 1 And ckDocConferidosAereo.Checked = False Then
-                '            Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosAereo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
-                '        End If
-                '    ElseIf TIPO = "M" Then
-                '        If ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 0 And ckDocConferidosMaritimo.Checked = True Then
-                '            Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosMaritimo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
-                '        ElseIf ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 1 And ckDocConferidosMaritimo.Checked = False Then
-                '            Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosMaritimo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
-                '        End If
-                '    End If
-                'End If
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If ID_BL <> "" Then
+            'Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_DOC_CONFERIDO,0)FL_DOC_CONFERIDO FROM VIEW_DOC_CONFERIDOS WHERE ID_BL = " & ID_BL)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_DOC_CONFERIDO, 0)FL_DOC_CONFERIDO FROM FN_DOC_CONFERIDO(" & ID_BL & ")")
+
+            If TIPO = "A" Then
+                If ds.Tables(0).Rows.Count > 0 Then
+                    If ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 0 And ckDocConferidosAereo.Checked = True Then
+                        Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosAereo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
+                    ElseIf ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 1 And ckDocConferidosAereo.Checked = False Then
+                        Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosAereo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
+                    End If
+                Else
+                    If ckDocConferidosAereo.Checked = True Then
+                        Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosAereo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
+                    End If
+                End If
+            ElseIf TIPO = "M" Then
+                If ds.Tables(0).Rows.Count > 0 Then
+                    If ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 0 And ckDocConferidosMaritimo.Checked = True Then
+                        Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosMaritimo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
+                    ElseIf ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 1 And ckDocConferidosMaritimo.Checked = False Then
+                        Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosMaritimo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
+                    End If
+                Else
+                    If ckDocConferidosMaritimo.Checked = True Then
+                        Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosMaritimo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
+                    End If
+                End If
             End If
-        Catch ex As Exception
-            'txtEmailCotacao_BasicoMaritimo.Text = ex.Message
-        End Try
+
+        End If
     End Sub
 
 

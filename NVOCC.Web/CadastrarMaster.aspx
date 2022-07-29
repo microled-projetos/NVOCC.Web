@@ -113,6 +113,12 @@
                                                 <asp:CheckBox ID="ckTrakingAutomaticoMaritimo" runat="server" CssClass="form-control" Checked="true" Visible="false" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
                                             </div>
                                         </div>
+                                         <div class="col-sm-1">
+                                            <div class="form-group">
+                                                <label class="control-label">Doc. Conferido?</label>
+                                                    <asp:CheckBox ID="ckDocConferidosMaritimo" runat="server" ></asp:CheckBox>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-3">
@@ -1190,6 +1196,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-sm-1">
+                                            <div class="form-group">
+                                                <label class="control-label">Doc. Conferido?</label>
+                                                    <asp:CheckBox ID="ckDocConferidosAereo" runat="server" ></asp:CheckBox>
+                                            </div>
+                                        </div>
                                             <div class="row">
 
                                                 <div class="col-sm-3">

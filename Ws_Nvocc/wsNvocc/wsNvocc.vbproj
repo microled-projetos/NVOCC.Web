@@ -114,12 +114,10 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
-    <Content Include="Nfe.xml" />
     <Content Include="Web.config" />
     <Content Include="WsNvocc.asmx" />
     <None Include="Connected Services\ginfes2\ServiceGinfesImplService.wsdl" />
     <None Include="Connected Services\GinfesTeste\ServiceGinfesImplService.wsdl" />
-    <Content Include="libman.json" />
     <None Include="packages.config" />
     <None Include="XSD_WS\cabecalho_v03.xsd">
       <SubType>Designer</SubType>

@@ -2393,14 +2393,15 @@ saida:
 
         'https://comercial.cnpj.ws/cnpj/27865757000102?token=SEU_TOKEN
 
+        Dim token As String = System.Configuration.ConfigurationSettings.AppSettings("TokenConsulaCNPJ")
 
-        Dim Url = "https://publica.cnpj.ws/cnpj/"
-        'Dim Url = "https://comercial.cnpj.ws/cnpj/"
+        ' Dim Url = "https://publica.cnpj.ws/cnpj/"
+        Dim Url = "https://comercial.cnpj.ws/cnpj/"
 
         Dim rest As RestClient = New RestClient
 
-        'rest.BaseUrl = New Uri(Url + CNPJ + "?token=0A1C6othy9B9a8n4rBelYdrkjDv25DSAavczMkGtByyy")
-        rest.BaseUrl = New Uri(Url + CNPJ)
+        rest.BaseUrl = New Uri(Url + CNPJ + "?token=" & token)
+        'rest.BaseUrl = New Uri(Url + CNPJ)
 
         rest.Timeout = 480000
 

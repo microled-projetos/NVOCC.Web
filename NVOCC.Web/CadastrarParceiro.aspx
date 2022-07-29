@@ -597,6 +597,7 @@
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="ckbAgenteInternacional" />
+                                    <asp:PostBackTrigger ControlID="btnConsultaCNPJ" />
                                 </Triggers>
                             </asp:UpdatePanel>
 

@@ -1653,12 +1653,10 @@ WHERE ID_PARCEIRO =" & ID)
     Private Sub btnConsultaCNPJ_Click(sender As Object, e As EventArgs) Handles btnConsultaCNPJ.Click
         If txtCNPJ.Text <> "" Then
 
-
-
             Try
                 Using Buscar = New WsNVOCC.WsNvocc
 
-                    Dim Resultado As String = Buscar.ConsultaCNPJ(txtCNPJ.Text.Replace("-", "").Replace(".", "").Replace("/", ""))
+                    Dim Resultado = Buscar.ConsultaCNPJ(txtCNPJ.Text.Replace("-", "").Replace(".", "").Replace("/", ""))
                     Dim dados As Root = JsonConvert.DeserializeObject(Of Root)(Resultado)
                     txtRazaoSocial.Text = dados.razao_social
                     txtNomeFantasia.Text = dados.estabelecimento.nome_fantasia
@@ -1680,6 +1678,21 @@ WHERE ID_PARCEIRO =" & ID)
                             txtInscEstadual.Text = Insc.inscricao_estadual
                         End If
                     Next
+
+                    If txtInscEstadual.Text = "" Then
+                        txtInscEstadual.Text = "ISENTO"
+                    End If
+
+                    Dim Con As New Conexao_sql
+                    Con.Conectar()
+                    Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_PAIS,0)ID_PAIS, ISNULL(ID_CIDADE,0)ID_CIDADE FROM TB_CIDADE WHERE UPPER(NM_CIDADE) = UPPER([dbo].[fnTiraAcento]('" & dados.estabelecimento.cidade.nome & "'))")
+                    If ds.Tables(0).Rows.Count > 0 Then
+                        ddlCidade.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CIDADE").ToString()
+                        ddlPais.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PAIS").ToString()
+                    Else
+                        ddlCidade.SelectedValue = 0
+                        ddlPais.SelectedValue = 0
+                    End If
 
                 End Using
 

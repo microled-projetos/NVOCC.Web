@@ -456,7 +456,7 @@
                                                 <asp:BoundField DataField="DT_CHEGADA" HeaderText="Chegada" SortExpression="DT_CHEGADA" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="NAVIO" HeaderText="Navio" SortExpression="NAVIO" />
                                                 <asp:BoundField DataField="PARCEIRO_AGENTE" HeaderText="Agente" SortExpression="PARCEIRO_AGENTE" />
-                                              <asp:TemplateField HeaderText="Doc. Conferido?">
+                                              <asp:TemplateField HeaderText="Doc. Conferido?" SortExpression="DOC_CONFERIDO">
                                                         <ItemTemplate>
                                                             <asp:label ID="lblDocConferido"  ToolTip='<%# Eval("INFO_DOC_CONFERIDOS") %>' runat="server" Text='<%# Eval("DOC_CONFERIDO") %>' ></asp:label>
                                                         </ItemTemplate>
@@ -610,7 +610,6 @@
                                                 <asp:BoundField DataField="WEEK" HeaderText="Week" SortExpression="WEEK" />
                                                 <asp:TemplateField HeaderText="Doc. Conferido?" SortExpression="DOC_CONFERIDO">
                                                         <ItemTemplate>
-                                                           <%-- <asp:CheckBox ID="ckDocConferido" Enabled="false" ToolTip='<%# Eval("INFO_DOC_CONFERIDOS") %>' runat="server" Checked='<%# Eval("FL_DOC_CONFERIDO") %>' ></asp:CheckBox>--%>
                                                             <asp:label ID="lblDocConferido"  ToolTip='<%# Eval("INFO_DOC_CONFERIDOS") %>' runat="server" Text='<%# Eval("DOC_CONFERIDO") %>' ></asp:label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>

@@ -128,9 +128,10 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
         Dim Con As New Conexao_sql
         Con.Conectar()
 
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_SERVICO,FL_TRAKING_AUTOMATICO,ID_WEEK,ID_BL_MASTER,ISNULL(NR_BL,0)NR_BL,NR_PROCESSO,ID_PARCEIRO_TRANSPORTADOR, YEAR(DT_ABERTURA)ANO_ABERTURA,ID_COTACAO ,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_AGENTE,ID_TIPO_PAGAMENTO,ID_TIPO_CARGA,ID_TIPO_ESTUFAGEM,NR_CE,CONVERT(varchar,DT_CE,103)DT_CE,CONVERT(varchar,DT_EMISSAO_BL,103)DT_EMISSAO_BL, CONVERT(varchar,DT_PREVISAO_EMBARQUE,103)DT_PREVISAO_EMBARQUE,CONVERT(varchar,DT_PREVISAO_CHEGADA,103)DT_PREVISAO_CHEGADA,CONVERT(varchar,DT_CHEGADA,103)DT_CHEGADA,CONVERT(varchar,DT_EMBARQUE,103)DT_EMBARQUE, ISNULL(VL_M3,0)VL_M3,
-NM_RESUMO_MERCADORIA,OB_CLIENTE,OB_AGENTE_INTERNACIONAL,OB_COMERCIAL,OB_OPERACIONAL_INTERNA,NR_VIAGEM,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T,ID_NAVIO,ID_NAVIO_1T, ID_NAVIO_2T,ID_NAVIO_3T, DT_1T, DT_2T, DT_3T, ID_PORTO_1T,ID_PORTO_3T,ID_PORTO_2T,ID_PARCEIRO_AGENCIA,ID_MOEDA_FRETE,VL_FRETE,VL_PESO_BRUTO,VL_PESO_TAXADO,QT_MERCADORIA,CONVERT(varchar,DT_EMISSAO_CONHECIMENTO,103)DT_EMISSAO_CONHECIMENTO,VL_TARIFA_MASTER,VL_TARIFA_MASTER_MINIMA,ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO) NM_NAVIO,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_1T) NM_NAVIO1,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_2T) NM_NAVIO2,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_3T) NM_NAVIO3,ID_STATUS_FRETE_AGENTE 
-FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_BL,ID_SERVICO,FL_TRAKING_AUTOMATICO,ID_WEEK,ID_BL_MASTER,ISNULL(NR_BL,0)NR_BL,NR_PROCESSO,ID_PARCEIRO_TRANSPORTADOR, YEAR(DT_ABERTURA)ANO_ABERTURA,ID_COTACAO ,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_AGENTE,ID_TIPO_PAGAMENTO,ID_TIPO_CARGA,ID_TIPO_ESTUFAGEM,NR_CE,CONVERT(varchar,DT_CE,103)DT_CE,CONVERT(varchar,DT_EMISSAO_BL,103)DT_EMISSAO_BL, CONVERT(varchar,DT_PREVISAO_EMBARQUE,103)DT_PREVISAO_EMBARQUE,CONVERT(varchar,DT_PREVISAO_CHEGADA,103)DT_PREVISAO_CHEGADA,CONVERT(varchar,DT_CHEGADA,103)DT_CHEGADA,CONVERT(varchar,DT_EMBARQUE,103)DT_EMBARQUE, ISNULL(VL_M3,0)VL_M3,
+NM_RESUMO_MERCADORIA,OB_CLIENTE,OB_AGENTE_INTERNACIONAL,OB_COMERCIAL,OB_OPERACIONAL_INTERNA,NR_VIAGEM,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T,ID_NAVIO,ID_NAVIO_1T, ID_NAVIO_2T,ID_NAVIO_3T, DT_1T, DT_2T, DT_3T, ID_PORTO_1T,ID_PORTO_3T,ID_PORTO_2T,ID_PARCEIRO_AGENCIA,ID_MOEDA_FRETE,VL_FRETE,VL_PESO_BRUTO,VL_PESO_TAXADO,QT_MERCADORIA,CONVERT(varchar,DT_EMISSAO_CONHECIMENTO,103)DT_EMISSAO_CONHECIMENTO,VL_TARIFA_MASTER,VL_TARIFA_MASTER_MINIMA,ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO) NM_NAVIO,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_1T) NM_NAVIO1,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_2T) NM_NAVIO2,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_3T) NM_NAVIO3,ID_STATUS_FRETE_AGENTE ,ISNULL(FL_DOC_CONFERIDO,0)FL_DOC_CONFERIDO FROM TB_BL A
+OUTER APPLY FN_DOC_CONFERIDO(A.ID_BL)  
+WHERE A.ID_BL  =" & Request.QueryString("id"))
         If ds.Tables(0).Rows.Count > 0 Then
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                 If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
@@ -144,6 +145,10 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_TRAKING_AUTOMATICO")) Then
                         ckTrakingAutomaticoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_TRAKING_AUTOMATICO")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO")) Then
+                        ckDocConferidosMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
@@ -367,6 +372,10 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
                         ckTrakingAutomaticoAereo.Checked = ds.Tables(0).Rows(0).Item("FL_TRAKING_AUTOMATICO")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO")) Then
+                        ckDocConferidosAereo.Checked = ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO")
+                    End If
+
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
                     End If
@@ -543,6 +552,10 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO")) Then
+                        ckDocConferidosMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_COTACAO")) Then
@@ -1485,6 +1498,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                             Week(2)
                         End If
 
+                        DocConferido(txtID_BasicoAereo.Text, "A")
+
                         NumeroProcesso()
                         AtualizaHouse(2)
 
@@ -1541,6 +1556,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         'ImportaTaxas(txtID_BasicoAereo.Text, ddlServico_BasicoAereo.SelectedValue, ddltransportador_BasicoAereo.SelectedValue, ddlDestino_BasicoAereo.SelectedValue)
 
 
+
+
                         Con.Fechar()
                         divSuccess_BasicoAereo.Visible = True
 
@@ -1573,6 +1590,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     '    Rastreio.trackingbl(txtID_BasicoAereo.Text)
                     'End If
 
+                    DocConferido(txtID_BasicoAereo.Text, "A")
 
                     If ddlWeekAereo.SelectedValue <> Session("ID_WEEK") Then
                         Week(2)
@@ -1626,6 +1644,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
                     txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace("'", "")
                     txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace("NULL", "")
+
 
 
                     If ddltransportador_BasicoAereo.SelectedValue <> Session("ID_PARCEIRO_TRANSPORTADOR") Then
@@ -1864,6 +1883,9 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         If ddlWeekMaritimo.SelectedValue <> Session("ID_WEEK") Then
                             Week(1)
                         End If
+
+                        DocConferido(txtID_BasicoMaritimo.Text, "M")
+
                         AtualizaHouse(1)
                         NumeroProcesso()
 
@@ -1971,6 +1993,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         Rastreio.trackingbl(txtID_BasicoMaritimo.Text)
                     End If
 
+                    DocConferido(txtID_BasicoMaritimo.Text, "M")
 
                     If ddlWeekMaritimo.SelectedValue <> Session("ID_WEEK") Then
                         Week(1)
@@ -3443,5 +3466,40 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
         End If
     End Sub
 
+    Sub DocConferido(ID_BL As String, TIPO As String)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If ID_BL <> "" Then
+            ' Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_DOC_CONFERIDO,0)FL_DOC_CONFERIDO FROM VIEW_DOC_CONFERIDOS WHERE ID_BL = " & ID_BL)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_DOC_CONFERIDO, 0)FL_DOC_CONFERIDO FROM FN_DOC_CONFERIDO(" & ID_BL & ")")
+
+            If TIPO = "A" Then
+                If ds.Tables(0).Rows.Count > 0 Then
+                    If ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 0 And ckDocConferidosAereo.Checked = True Then
+                        Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosAereo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
+                    ElseIf ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 1 And ckDocConferidosAereo.Checked = False Then
+                        Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosAereo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
+                    End If
+                Else
+                    If ckDocConferidosAereo.Checked = True Then
+                        Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosAereo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
+                    End If
+                End If
+            ElseIf TIPO = "M" Then
+                If ds.Tables(0).Rows.Count > 0 Then
+                    If ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 0 And ckDocConferidosMaritimo.Checked = True Then
+                        Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosMaritimo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
+                    ElseIf ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 1 And ckDocConferidosMaritimo.Checked = False Then
+                        Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosMaritimo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
+                    End If
+                Else
+                    If ckDocConferidosMaritimo.Checked = True Then
+                        Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosMaritimo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
+                    End If
+                End If
+            End If
+
+        End If
+    End Sub
 
 End Class

@@ -1874,9 +1874,9 @@ WHERE  FL_DECLARADO = 1  AND CD_PR ='R'  AND A.ID_BL = " & ID_BL & " ")
             ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 5 Or dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 6 Then
                 'POR TEU A PAGAR
                 'POR TEU A RECEBER
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT SUM(TEU)QTD FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER IN (Select A.ID_TIPO_CNTR  FROM TB_CARGA_BL A
-LEFT JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID & ")")
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("	SELECT SUM(TEU)QTD FROM TB_CARGA_BL A
+INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER =A.ID_TIPO_CNTR
+        WHERE	 A.ID_BL = " & ID)
 
                 x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
                 y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
