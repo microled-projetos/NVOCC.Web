@@ -146,10 +146,10 @@
 
                                             </div>
                                         </div>
-                                         <div class="col-sm-1">
+                                         <div class="col-sm-1" id="divDocConferidoMaritimo" runat="server" >
                                             <div class="form-group">
-                                                <label class="control-label">Doc. Conferido?</label>
-                                                    <asp:CheckBox ID="ckDocConferidosMaritimo" runat="server" ></asp:CheckBox>
+                                                <center><label class="control-label">Doc. Conferido?</label><br />
+                                                    <asp:CheckBox ID="ckDocConferidosMaritimo" runat="server" ></asp:CheckBox></center>
                                             </div>
                                         </div>
                                         </div>
@@ -1394,10 +1394,10 @@ VENDAS:
 
                                             </div>
                                         </div>
-                                                    <div class="col-sm-1">
+                                                    <div class="col-sm-1" id="divDocConferidoAereo" runat="server" >
                                             <div class="form-group">
-                                                <label class="control-label">Doc. Conferido?</label>
-                                                    <asp:CheckBox ID="ckDocConferidosAereo" runat="server" ></asp:CheckBox>
+                                                <center><label class="control-label">Doc. Conferido?</label><br />
+                                                    <asp:CheckBox ID="ckDocConferidosAereo" runat="server" ></asp:CheckBox></center>
                                             </div>
                                         </div>
                                                 </div>

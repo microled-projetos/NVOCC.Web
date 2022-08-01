@@ -27,10 +27,14 @@
                 txtNomeTransportador_Aereo.Enabled = True
                 ddlTransportador_BasicoMaritimo.Enabled = True
                 txtNomeTransportador_Maritimo.Enabled = True
+                divDocConferidoAereo.Visible = False
+                divDocConferidoMaritimo.Visible = False
             ElseIf Request.QueryString("tipo") = "h" Then
                 lblTipoModulo.Text = " HOUSE"
                 btnVisualizarMBL_Aereo.Text = "Visualizar MBL"
                 btnVisualizarMBL_Maritimo.Text = "Visualizar MBL"
+                divDocConferidoAereo.Visible = True
+                divDocConferidoMaritimo.visible = True
             End If
             If Request.QueryString("id") <> "" And Not Page.IsPostBack Then
                 CarregaCampos()
@@ -5172,14 +5176,13 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
         Dim Con As New Conexao_sql
         Con.Conectar()
         If ID_BL <> "" Then
-            'Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_DOC_CONFERIDO,0)FL_DOC_CONFERIDO FROM VIEW_DOC_CONFERIDOS WHERE ID_BL = " & ID_BL)
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_DOC_CONFERIDO, 0)FL_DOC_CONFERIDO FROM FN_DOC_CONFERIDO(" & ID_BL & ")")
 
             If TIPO = "A" Then
                 If ds.Tables(0).Rows.Count > 0 Then
-                    If ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 0 And ckDocConferidosAereo.Checked = True Then
+                    If ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = False And ckDocConferidosAereo.Checked = True Then
                         Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosAereo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
-                    ElseIf ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 1 And ckDocConferidosAereo.Checked = False Then
+                    ElseIf ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = True And ckDocConferidosAereo.Checked = False Then
                         Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosAereo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
                     End If
                 Else
@@ -5189,9 +5192,10 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
                 End If
             ElseIf TIPO = "M" Then
                 If ds.Tables(0).Rows.Count > 0 Then
-                    If ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 0 And ckDocConferidosMaritimo.Checked = True Then
+
+                    If ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = False And ckDocConferidosMaritimo.Checked = True Then
                         Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosMaritimo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
-                    ElseIf ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = 1 And ckDocConferidosMaritimo.Checked = False Then
+                    ElseIf ds.Tables(0).Rows(0).Item("FL_DOC_CONFERIDO") = True And ckDocConferidosMaritimo.Checked = False Then
                         Con.ExecutarQuery("INSERT INTO TB_BL_HIST_DOC (ID_BL,FL_DOC_CONFERIDO,ID_USUARIO,DATA) VALUES (" & ID_BL & ", '" & ckDocConferidosMaritimo.Checked & "'," & Session("ID_USUARIO") & ",GETDATE()) ")
                     End If
                 Else
