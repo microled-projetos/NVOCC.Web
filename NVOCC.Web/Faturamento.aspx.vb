@@ -559,6 +559,8 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                             End Try
 
+
+
                             Using GeraRps = New WsNVOCC.WsNvocc
 
                                 Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
@@ -1769,4 +1771,9 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,VL_BOLETO,CNPJ,NM_CLIENTE,ENDEREC
 
         End If
     End Sub
+
+    'Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    '    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "Teste()", True)
+
+    'End Sub
 End Class

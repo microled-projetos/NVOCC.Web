@@ -62,7 +62,8 @@
                                </asp:DropDownList>
                            </div>
                            </div>
-
+ 
+<%--                       <asp:Button runat="server" Text="teste" ID="Button1" CssClass="btn btn-success" />--%>
 
                        <div class="col-sm-2" style="padding-top: 20px;display: block" runat="server" ID="divBusca"  >
                            <div class="form-group" > <asp:Label ID="Label5" Style="color:white" runat="server">x</asp:Label>
@@ -876,5 +877,24 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
             window.open('FaturamentoArquivo.aspx?id=' + ID, '_blank');
 
         }
+
+        //(ByVal ID_Faturamento As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String)
+        //function Teste() {
+        //    console.log("teste");
+        //    variavel = setInterval(Teste1, 60000);
+        //}
+
+        //function Teste1() {
+        //    console.log("teste1");
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "wsNvocc/WsNvocc.asmx/ConsultaNFePrefeitura",
+        //        data: '{ID_Faturamento: "0", CodEmpresa: "0", BancoDestino: "0", StringConexaoDestino: "0" }',
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json"
+        //    });
+        //    clearInterval(variavel);
+        //}
+
     </script>
 </asp:Content>
