@@ -1831,4 +1831,108 @@ WHERE  FL_DECLARADO = 1  AND CD_PR ='R'  AND A.ID_BL = " & ID_BL & " ")
         End If
 
     End Function
+
+    Function CalculoProfit(ID As String) As String
+        Dim Profit As String = ""
+        Dim x As Double
+        Dim y As Double
+        Dim z As Double
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim dsProfit As DataSet = Con.ExecutarQuery("Select ISNULL(ID_PROFIT_DIVISAO,0)ID_PROFIT_DIVISAO,ISNULL(VL_PROFIT_DIVISAO,0)VL_PROFIT_DIVISAO FROM TB_BL WHERE ID_BL = " & ID)
+        If dsProfit.Tables(0).Rows.Count > 0 Then
+            If dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 1 Or dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 2 Then
+                'VALOR FIXO A RECEBER
+                'VALOR FIXO A PAGAR
+                z = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & ID)
+                Return z
+
+            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 3 Or dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 4 Then
+                'PERCENTUAL A PAGAR
+                'PERCENTUAL A RECEBER
+
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL((SELECT SUM(VL_TAXA_CALCULADO) FROM TB_BL_TAXA WHERE CD_PR = 'R' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & ID & ") - (SELECT SUM(VL_TAXA_CALCULADO) FROM TB_BL_TAXA WHERE CD_PR = 'P' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & ID & "),0) AS LUCRO")
+
+
+
+                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                y = dsAuxiliar.Tables(0).Rows(0).Item("LUCRO")
+                y = y / 100
+                z = y * x
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DIVISAO_PROFIT = 1 WHERE ID_ITEM_DESPESA = 14 AND ID_BL = " & ID)
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & ID)
+                Return z
+
+
+            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 5 Or dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 6 Then
+                'POR TEU A PAGAR
+                'POR TEU A RECEBER
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("	SELECT SUM(TEU)QTD FROM TB_CARGA_BL A
+INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER =A.ID_TIPO_CNTR
+        WHERE	 A.ID_BL = " & ID)
+
+                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
+                z = y * x
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & ID)
+                Return z
+
+            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 7 Or dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 8 Then
+                'POR CONTEINER A RECEBER
+                'POR CONTEINER A PAGAR
+
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_AMR_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID)
+
+                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
+                z = y * x
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & ID)
+                Return z
+
+            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 9 Or dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 10 Then
+                'POR W/M A PAGAR
+                'POR W/M A RECEBER
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_PESO_BRUTO,0)VL_PESO_BRUTO,ISNULL(VL_M3,0)VL_M3 FROM TB_BL WHERE ID_BL = " & ID)
+
+                x = dsAuxiliar.Tables(0).Rows(0).Item("VL_M3")
+                y = dsAuxiliar.Tables(0).Rows(0).Item("VL_PESO_BRUTO") / 1000
+
+                If x > y Then
+                    x = x
+                Else
+                    x = y
+                End If
+
+                y = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+
+                z = y * x
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & ID)
+                Return z
+            Else
+                Return "0"
+            End If
+        Else
+            Return "0"
+        End If
+
+
+
+    End Function
+
 End Class

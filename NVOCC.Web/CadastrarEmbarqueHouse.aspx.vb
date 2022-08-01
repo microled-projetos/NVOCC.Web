@@ -813,20 +813,24 @@ ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORT
 (SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text)
 
+                Dim Calcula As New CalculaBL
                 Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_BL_TAXA FROM TB_BL_TAXA A WHERE  ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND ID_BASE_CALCULO_TAXA <> 1 AND ID_MOEDA <> 0 AND ISNULL(ID_BL_TAXA_MASTER,0) = 0 AND ISNULL(ID_BL_MASTER,0) = 0  AND ID_BL = " & txtID_BasicoMaritimo.Text & " And ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL)")
                 If dsTaxa.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In dsTaxa.Tables(0).Rows
-                        Dim Calcula As New CalculaBL
+
                         Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
                     Next
 
                 End If
 
-                CalculoProfit(txtID_BasicoMaritimo.Text)
+                Calcula.CalculoProfit(txtID_BasicoMaritimo.Text)
 
                 lblSuccess_CargaMaritimo1.Text = "Registro deletado!"
                 divSuccess_CargaMaritimo1.Visible = True
                 dgvCargaMaritimo.DataBind()
+                dgvTaxaMaritimoCompras.DataBind()
+                dgvTaxaMaritimoVendas.DataBind()
+
             End If
 
         ElseIf e.CommandName = "visualizar" Then
@@ -1765,24 +1769,24 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 (SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") WHERE ID_BL =  " & txtID_BasicoAereo.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") WHERE ID_BL =  " & txtID_BasicoAereo.Text)
 
-
+                Dim Calcula As New CalculaBL
                 Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_BL_TAXA FROM TB_BL_TAXA A WHERE  ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND ID_BASE_CALCULO_TAXA <> 1 AND ID_MOEDA <> 0 AND ISNULL(ID_BL_TAXA_MASTER,0) = 0 AND ISNULL(ID_BL_MASTER,0) = 0  AND ID_BL = " & txtID_BasicoAereo.Text & " And ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL)")
                 If dsTaxa.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In dsTaxa.Tables(0).Rows
-                        Dim Calcula As New CalculaBL
+
                         Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
                     Next
 
                 End If
 
-                CalculoProfit(txtID_BasicoAereo.Text)
+                Calcula.CalculoProfit(txtID_BasicoAereo.Text)
 
 
                 lblSuccess_CargaAereo1.Text = "Registro deletado!"
                 divSuccess_CargaAereo1.Visible = True
                 dgvCargaAereo.DataBind()
-
-
+                dgvTaxaAereoCompras.DataBind()
+                dgvTaxaAereoVendas.DataBind()
 
             End If
 
@@ -2388,114 +2392,6 @@ WHERE ID_CARGA_BL = " & ID)
         txtNumeroCE_BasicoAereo.Text = txtNumeroCE_BasicoAereo.Text.Replace("'", "")
         txtNumeroCE_BasicoAereo.Text = txtNumeroCE_BasicoAereo.Text.Replace("NULL", "")
     End Sub
-    Function CalculoProfit(ID As String) As String
-        Dim Profit As String = ""
-        Dim x As Double
-        Dim y As Double
-        Dim z As Double
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim dsProfit As DataSet = Con.ExecutarQuery("Select ISNULL(ID_PROFIT_DIVISAO,0)ID_PROFIT_DIVISAO,ISNULL(VL_PROFIT_DIVISAO,0)VL_PROFIT_DIVISAO FROM TB_BL WHERE ID_BL = " & ID)
-        If dsProfit.Tables(0).Rows.Count > 0 Then
-            If dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 1 Or dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 2 Then
-                'VALOR FIXO A RECEBER
-                'VALOR FIXO A PAGAR
-                z = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & ID)
-                Return z
-
-            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 3 Or dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 4 Then
-                'PERCENTUAL A PAGAR
-                'PERCENTUAL A RECEBER
-
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL((SELECT SUM(VL_TAXA_CALCULADO) FROM TB_BL_TAXA WHERE CD_PR = 'R' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & ID & ") - (SELECT SUM(VL_TAXA_CALCULADO) FROM TB_BL_TAXA WHERE CD_PR = 'P' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & ID & "),0) AS LUCRO")
-
-
-
-                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-                y = dsAuxiliar.Tables(0).Rows(0).Item("LUCRO")
-                y = y / 100
-                z = y * x
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DIVISAO_PROFIT = 1 WHERE ID_ITEM_DESPESA = 14 AND ID_BL = " & ID)
-                dgvTaxaAereoCompras.DataBind()
-                dgvTaxaAereoVendas.DataBind()
-                dgvTaxaMaritimoCompras.DataBind()
-                dgvTaxaMaritimoVendas.DataBind()
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & ID)
-                Return z
-
-
-            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 5 Or dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 6 Then
-                'POR TEU A PAGAR
-                'POR TEU A RECEBER
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT SUM(TEU)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER = B.ID_TIPO_CNTR
-        WHERE	 A.ID_BL = " & ID)
-
-                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
-                z = y * x
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & ID)
-                Return z
-
-            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 7 Or dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 8 Then
-                'POR CONTEINER A RECEBER
-                'POR CONTEINER A PAGAR
-
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_AMR_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID)
-
-                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
-                z = y * x
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & ID)
-                Return z
-
-            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 9 Or dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 10 Then
-                'POR W/M A PAGAR
-                'POR W/M A RECEBER
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_PESO_BRUTO,0)VL_PESO_BRUTO,ISNULL(VL_M3,0)VL_M3 FROM TB_BL WHERE ID_BL = " & ID)
-
-                x = dsAuxiliar.Tables(0).Rows(0).Item("VL_M3")
-                y = dsAuxiliar.Tables(0).Rows(0).Item("VL_PESO_BRUTO") / 1000
-
-                If x > y Then
-                    x = x
-                Else
-                    x = y
-                End If
-
-                y = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-
-                z = y * x
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & ID)
-                Return z
-            Else
-                Return "0"
-            End If
-        Else
-            Return "0"
-        End If
-
-
-
-    End Function
     Private Sub btnGravar_BasicoMaritimo_Click(sender As Object, e As EventArgs) Handles btnGravar_BasicoMaritimo.Click
 
         divSuccess_BasicoMaritimo.Visible = False
@@ -2619,8 +2515,8 @@ INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER = B.ID_TIPO_CNTR
                             txtID_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
 
                             NumeroProcesso()
-
-                            txtProfitCalculado_BasicoMaritimo.Text = CalculoProfit(txtID_BasicoMaritimo.Text)
+                            Dim Calcula As New CalculaBL
+                            txtProfitCalculado_BasicoMaritimo.Text = Calcula.CalculoProfit(txtID_BasicoMaritimo.Text)
 
                             LimpaNulo()
 
@@ -2671,7 +2567,8 @@ INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER = B.ID_TIPO_CNTR
                         Rastreio.trackingbl(txtID_BasicoMaritimo.Text)
                     End If
 
-                    txtProfitCalculado_BasicoMaritimo.Text = CalculoProfit(txtID_BasicoMaritimo.Text)
+                    Dim Calcula As New CalculaBL
+                    txtProfitCalculado_BasicoMaritimo.Text = Calcula.CalculoProfit(txtID_BasicoMaritimo.Text)
 
                     LimpaNulo()
 
@@ -2804,7 +2701,8 @@ INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER = B.ID_TIPO_CNTR
 
                             NumeroProcesso()
 
-                            txtProfitCalculado_BasicoAereo.Text = CalculoProfit(txtID_BasicoAereo.Text)
+                            Dim Calcula As New CalculaBL
+                            txtProfitCalculado_BasicoAereo.Text = Calcula.CalculoProfit(txtID_BasicoAereo.Text)
 
                             LimpaNulo()
 
@@ -2852,7 +2750,8 @@ INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER = B.ID_TIPO_CNTR
                     '    Rastreio.trackingbl(txtID_BasicoAereo.Text)
                     'End If
 
-                    txtProfitCalculado_BasicoAereo.Text = CalculoProfit(txtID_BasicoAereo.Text)
+                    Dim Calcula As New CalculaBL
+                    txtProfitCalculado_BasicoAereo.Text = Calcula.CalculoProfit(txtID_BasicoAereo.Text)
 
                     LimpaNulo()
 
@@ -2979,17 +2878,17 @@ INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER = B.ID_TIPO_CNTR
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") WHERE ID_BL =  " & txtID_BasicoAereo.Text)
 
 
-
+                Dim Calcula As New CalculaBL
                 Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL_CALCULO](" & txtID_BasicoAereo.Text & ") where id_bl= " & txtID_BasicoAereo.Text)
                 If dsTaxa.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In dsTaxa.Tables(0).Rows
-                        Dim Calcula As New CalculaBL
+
                         Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
                     Next
 
                 End If
 
-                CalculoProfit(txtID_BasicoAereo.Text)
+                Calcula.CalculoProfit(txtID_BasicoAereo.Text)
 
 
 
@@ -2997,6 +2896,9 @@ INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER = B.ID_TIPO_CNTR
                 Con.Fechar()
                 divSuccess_CargaAereo2.Visible = True
                 dgvCargaAereo.DataBind()
+                dgvTaxaAereoCompras.DataBind()
+                dgvTaxaAereoVendas.DataBind()
+
             End If
 
         Else
@@ -3024,17 +2926,21 @@ INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER = B.ID_TIPO_CNTR
                 Con.Fechar()
                 dgvCargaAereo.DataBind()
 
+                Dim Calcula As New CalculaBL
                 Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL_CALCULO](" & txtID_BasicoAereo.Text & ") where id_bl= " & txtID_BasicoAereo.Text)
                 If dsTaxa.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In dsTaxa.Tables(0).Rows
-                        Dim Calcula As New CalculaBL
+
                         Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
                     Next
 
                 End If
 
-                CalculoProfit(txtID_BasicoAereo.Text)
+                Calcula.CalculoProfit(txtID_BasicoAereo.Text)
                 CalculaCLA()
+
+                dgvTaxaAereoCompras.DataBind()
+                dgvTaxaAereoVendas.DataBind()
 
             End If
 
@@ -3206,20 +3112,21 @@ INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER = B.ID_TIPO_CNTR
 (SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text)
 
-
+                    Dim Calcula As New CalculaBL
                     Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_BL_TAXA FROM TB_BL_TAXA A WHERE  ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND ID_BASE_CALCULO_TAXA <> 1 AND ID_MOEDA <> 0 AND ISNULL(ID_BL_TAXA_MASTER,0) = 0 AND ISNULL(ID_BL_MASTER,0) = 0  AND ID_BL = " & txtID_BasicoMaritimo.Text & " And ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL)")
                     If dsTaxa.Tables(0).Rows.Count > 0 Then
                         For Each linha As DataRow In dsTaxa.Tables(0).Rows
-                            Dim Calcula As New CalculaBL
                             Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
                         Next
 
                     End If
 
-                    CalculoProfit(txtID_BasicoMaritimo.Text)
+                    Calcula.CalculoProfit(txtID_BasicoMaritimo.Text)
 
-
+                    dgvTaxaMaritimoCompras.DataBind()
+                    dgvTaxaMaritimoVendas.DataBind()
                     dgvCargaMaritimo.DataBind()
+
                     Con.Fechar()
                     divSuccess_CargaMaritimo2.Visible = True
                 End If
@@ -3258,19 +3165,20 @@ INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER = B.ID_TIPO_CNTR
 (SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text)
 
-
+                    Dim Calcula As New CalculaBL
                     Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_BL_TAXA FROM TB_BL_TAXA A WHERE  ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND  ID_BASE_CALCULO_TAXA <> 1 AND ID_MOEDA <> 0 AND ISNULL(ID_BL_TAXA_MASTER,0) = 0 AND ISNULL(ID_BL_MASTER,0) = 0  AND ID_BL = " & txtID_BasicoMaritimo.Text & " And ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL)")
                     If dsTaxa.Tables(0).Rows.Count > 0 Then
                         For Each linha As DataRow In dsTaxa.Tables(0).Rows
-                            Dim Calcula As New CalculaBL
                             Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
                         Next
 
                     End If
 
 
-                    CalculoProfit(txtID_BasicoMaritimo.Text)
+                    Calcula.CalculoProfit(txtID_BasicoMaritimo.Text)
 
+                    dgvTaxaMaritimoCompras.DataBind()
+                    dgvTaxaMaritimoVendas.DataBind()
                     divSuccess_CargaMaritimo2.Visible = True
                     Con.Fechar()
 
