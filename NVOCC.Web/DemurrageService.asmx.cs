@@ -712,7 +712,7 @@ namespace ABAINFRA.Web
         public string infoContainer(int idCont)
         {
             string SQL;
-            SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, PFCL.NR_PROCESSO, P.NM_RAZAO AS CLIENTE, ";
+            /*SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, PFCL.NR_PROCESSO, P.NM_RAZAO AS CLIENTE, DFCL.QT_DIAS_DEMURRAGE, ";
             SQL += "PFCL.QT_DIAS_FREETIME,DFCL.QT_DIAS_DEMURRAGE_COMPRA, PFCL.QT_DIAS_FREETIME_CONFIRMA, PFCL.ID_STATUS_DEMURRAGE, DFCL.ID_DEMURRAGE_FATURA_PAGAR, DFCL.ID_DEMURRAGE_FATURA_RECEBER, PFCL.ID_STATUS_DEMURRAGE_COMPRA, FORMAT(PFCL.DT_STATUS_DEMURRAGE_COMPRA, 'yyyy-MM_dd') AS DATA_STATUS_DEMURRAGE_COMPRA, ";
             SQL += "FORMAT(PFCL.DT_STATUS_DEMURRAGE,'yyyy-MM-dd') AS DATA_STATUS_DEMURRAGE, ";
             SQL += "PFCL.DS_OBSERVACAO ";
@@ -720,7 +720,19 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
-            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "'";
+            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "'";*/
+
+            SQL = "SELECT C.NR_CNTR, A.NR_PROCESSO, D.NM_RAZAO AS CLIENTE, C.QT_DIAS_FREETIME, ";
+            SQL += "C.QT_DIAS_FREETIME_CONFIRMA, E.QT_DIAS_DEMURRAGE, E.QT_DIAS_DEMURRAGE_COMPRA, ";
+            SQL += "C.ID_STATUS_DEMURRAGE, FORMAT(C.DT_STATUS_DEMURRAGE, 'dd/MM/yyyy') AS DATA_STATUS_DEMURRAGE, ";
+            SQL += "C.ID_STATUS_DEMURRAGE_COMPRA, FORMAT(C.DT_STATUS_DEMURRAGE_COMPRA, 'dd/MM/yyyy') AS DATA_STATUS_DEMURRAGE_COMPRA, ";
+            SQL += "C.DS_OBSERVACAO ";
+            SQL += " FROM TB_BL A ";
+            SQL += "LEFT JOIN TB_AMR_CNTR_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "LEFT JOIN TB_CNTR_BL C ON B.ID_CNTR_BL = C.ID_CNTR_BL ";
+            SQL += "LEFT JOIN TB_PARCEIRO D ON A.ID_PARCEIRO_CLIENTE = D.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_CNTR_DEMURRAGE E ON C.ID_CNTR_BL = E.ID_CNTR_BL ";
+            SQL += "WHERE C.ID_CNTR_BL = "+idCont+" AND A.GRAU IN('C') AND A.DT_CANCELAMENTO IS NULL ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -785,7 +797,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string atualizarContainer(int idCont, string dtStatus, int dsStatus, int qtDias, string dsObs, string qtDiasConfirm, string qtDiasDemurrageCompra, string dtStatusCompra, int dsStatusCompra)
+        public string atualizarContainer(int idCont, string dtStatus, int dsStatus, int qtDias, string dsObs, string qtDiasConfirm, string qtDiasDemurrageCompra, string qtDiasDemurrageVenda, string dtStatusCompra, int dsStatusCompra)
         {
             if (dsStatus.ToString() != "" && dsStatusCompra.ToString() != "")
             {
@@ -827,7 +839,7 @@ namespace ABAINFRA.Web
                 }
 
                 SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + dsStatus + "', QT_DIAS_FREETIME = '" + qtDias + "', QT_DIAS_FREETIME_CONFIRMA = '" + qtDiasConfirm + "', ";
-                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', DS_OBSERVACAO = '" + dsObs + "', ID_STATUS_DEMURRAGE_COMPRA = '" + dsStatusCompra +"', DT_STATUS_DEMURRAGE_COMPRA = '"+dtStatusCompra+"' WHERE ID_CNTR_BL = '" + idCont + "' ;  UPDATE TB_CNTR_DEMURRAGE SET QT_DIAS_DEMURRAGE_COMPRA = '" + qtDiasDemurrageCompra + "' WHERE ID_CNTR_BL = '" + idCont + "'   ";
+                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', DS_OBSERVACAO = '" + dsObs + "', ID_STATUS_DEMURRAGE_COMPRA = '" + dsStatusCompra +"', DT_STATUS_DEMURRAGE_COMPRA = '"+dtStatusCompra+"' WHERE ID_CNTR_BL = '" + idCont + "' ;  UPDATE TB_CNTR_DEMURRAGE SET QT_DIAS_DEMURRAGE_COMPRA = '" + qtDiasDemurrageCompra + "', QT_DIAS_DEMURRAGE = '" +qtDiasDemurrageVenda+ "' WHERE ID_CNTR_BL = '" + idCont + "'   ";
                 string atualizarContainer = DBS.ExecuteScalar(SQL);
                 return "1";
 
@@ -2032,8 +2044,7 @@ namespace ABAINFRA.Web
         {
             string sqlFormattedDate;
             string sqlFormattedDate2;
-            string SQL = "";
-            string estufagem;
+            string SQL;
 
             if (dataI != "")
             {
@@ -2058,28 +2069,36 @@ namespace ABAINFRA.Web
             {
                 sqlFormattedDate2 = "01/01/2900";
             }
+            SQL = "SELECT NR_PROCESSO, NM_ITEM_DESPESA, ISNULL(DESTINATARIO_COBRANCA,'') AS DESTINATARIO_COBRANCA, VL_TAXA, VL_TAXA_CALCULADO, ";
+            SQL += "SIGLA_MOEDA, TIPO, NM_TIPO_PAGAMENTO ";
+            SQL += "FROM FN_PROCESSOS_TAXAS_ABERTO('"+sqlFormattedDate+"', '" + sqlFormattedDate2 + "',"+opt+") ";
 
-			switch (opt)
-			{
-                case "0":
-                    SQL = "SELECT NR_PROCESSO, NM_ITEM_DESPESA, ";
-                    SQL += "VL_SALDO_PAGAR AS SALDO, MOEDA_SALDO_PAGAR AS MOEDA, NM_FORNECEDOR AS DESTINATARIO_COBRANCA ";
-                    SQL += "FROM FN_PREVISIBILIDADE_SALDO('"+ sqlFormattedDate + "','"+ sqlFormattedDate2 + "','') ";
-                    SQL += "WHERE(VL_SALDO_PAGAR <> 0.00) ";
-                    break;
+            /*SQL = "SELECT E.NR_PROCESSO, B.NM_ITEM_DESPESA, C.NM_RAZAO as DESTINATARIO_COBRANCA, A.VL_TAXA, A.VL_TAXA_CALCULADO, ";
+            SQL += "D.SIGLA_MOEDA, CASE WHEN A.CD_PR = 'P' THEN 'PAGAR' ELSE 'VENDER' END AS TIPO, F.NM_TIPO_PAGAMENTO ";
+            SQL += "FROM TB_BL_TAXA A ";
+            SQL += "JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
+            SQL += "LEFT JOIN TB_PARCEIRO C ON A.ID_PARCEIRO_EMPRESA = C.ID_PARCEIRO ";
+            SQL += "JOIN TB_MOEDA D ON A.ID_MOEDA = D.ID_MOEDA ";
+            SQL += "JOIN TB_BL E ON A.ID_BL = E.ID_BL ";
+            SQL += "JOIN TB_TIPO_PAGAMENTO F ON A.ID_TIPO_PAGAMENTO = F.ID_TIPO_PAGAMENTO ";
+            SQL += "WHERE A.ID_BL_TAXA NOT IN(SELECT ISNULL(ID_BL_TAXA, 0) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) ";
+            SQL += "AND E.ID_BL_MASTER IS NOT NULL ";
+            SQL += "AND CONVERT(DATE, E.DT_ABERTURA,103) BETWEEN CONVERT(DATE, '" + sqlFormattedDate + "', 103) ";
+            SQL += "AND CONVERT(DATE, '" + sqlFormattedDate2 + "', 103) ";
+            SQL += "AND E.ID_BL IN(SELECT DISTINCT(A.ID_BL) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER ";
+            SQL += "WHERE B.DT_CANCELAMENTO IS NULL AND A.ID_ITEM_DESPESA = 14 AND CD_PR = 'P') ";
+            SQL += "AND A.ID_ORIGEM_PAGAMENTO = " + opt + " ";*/
 
-                case "1":
-                    SQL = "SELECT NR_PROCESSO, NM_ITEM_DESPESA, ";
-                    SQL += "VL_SALDO_RECEBER AS SALDO, MOEDA_SALDO_RECEBER AS MOEDA, NM_CLIENTE AS DESTINATARIO_COBRANCA ";
-                    SQL += "FROM FN_PREVISIBILIDADE_SALDO('" + sqlFormattedDate + "','" + sqlFormattedDate2 + "','') ";
-                    SQL += "WHERE(VL_SALDO_RECEBER <> 0.00) ";
-                    break;
-            }
 
             switch (filter)
             {
+                case "1":
+                    SQL += " WHERE DESTINATARIO_COBRANCA LIKE '" + text + "%' ORDER BY NR_PROCESSO ";
+                    break;
                 case "2":
-					SQL += " AND NR_PROCESSO LIKE '" + text + "%' ORDER BY NR_PROCESSO ";
+					SQL += " WHERE NR_PROCESSO LIKE '" + text + "%' ORDER BY NR_PROCESSO ";
                     break;
                 default:
                     SQL += " ORDER BY NR_PROCESSO ";
@@ -5218,6 +5237,9 @@ namespace ABAINFRA.Web
         {
             string SQL;
 
+            SQL = "SELECT ID_TIPO_ESTUFAGEM FROM TB_BL WHERE ID_BL = '" + blmaster + "' ";
+            string tpestufagem = DBS.ExecuteScalar(SQL);
+
             SQL = "SELECT B.NR_BL, A.NR_PROCESSO AS PROCESSO, CONVERT(DECIMAL(13,3),A.VL_M3) AS CUBAGEM, ";
             SQL += "SUM(C.VL_LIQUIDO) + SUM(C.VL_ISS) AS RATEIO_NF, SUM(C.VL_ISS) AS RATEIO_ISS, ";
             SQL += "SUM(CONVERT(DECIMAL(13,2),C.VL_LIQUIDO)) AS HBL FROM TB_BL A ";
@@ -5226,8 +5248,15 @@ namespace ABAINFRA.Web
             SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER E ON C.ID_CONTA_PAGAR_RECEBER = E.ID_CONTA_PAGAR_RECEBER ";
             SQL += "LEFT JOIN TB_ITEM_DESPESA D ON C.ID_ITEM_DESPESA = D.ID_ITEM_DESPESA ";
             SQL += "WHERE E.DT_CANCELAMENTO IS NULL AND E.CD_PR = 'P' ";
-            SQL += "AND B.ID_BL = '" + blmaster + "' AND ISNULL(E.TP_EXPORTACAO ,'') = '' ";
-            SQL += "AND C.FL_ABATER_ISS = 1 ";
+            if(tpestufagem == "1")
+			{
+                SQL += "AND B.ID_BL = '" + blmaster + "' AND C.FL_ABATER_ISS = 1 ";
+			}
+			else
+			{
+                SQL += "AND B.ID_BL = '" + blmaster + "' AND C.FL_ABATER_ISS = 0 ";
+            }
+            SQL += "AND ISNULL(E.TP_EXPORTACAO ,'') = '' ";
             SQL += "GROUP BY A.ID_BL_MASTER, A.NR_PROCESSO, A.VL_M3, B.NR_BL ";
             SQL += "ORDER BY A.NR_PROCESSO ";
 
@@ -5332,7 +5361,7 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
-            SQL = "SELECT ID_CONTA_PAGAR_RECEBER, ISNULL(NR_NOTA,'') AS NR_NOTA, TP_NOTA, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, VL_NOTA, ";
+            SQL = "SELECT DISTINCT ID_CONTA_PAGAR_RECEBER, ISNULL(NR_NOTA,'') AS NR_NOTA, TP_NOTA, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, VL_NOTA, ";
             SQL += "NM_PARCEIRO, ISNULL(FORMAT(DT_VENCIMENTO,'dd/MM/yyyy'),'') AS DT_VENCIMENTO, ISNULL(FORMAT(DT_EXPORTACAO_TOTVS_DESPESA,'dd/MM/yyyy'),'') AS DT_EXPORTACAO_TOTVS_DESPESA, ";
             SQL += "NR_PROCESSO, ISNULL(NR_REFERENCIA_CLIENTE,'') AS NR_REFERENCIA_CLIENTE ";
             SQL += "FROM dbo.FN_NOTA_DESPESA(";
@@ -5386,7 +5415,7 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
-            SQL = "SELECT ID_CONTA_PAGAR_RECEBER ";
+            SQL = "SELECT DISTINCT ID_CONTA_PAGAR_RECEBER ";
             SQL += "FROM dbo.FN_NOTA_DESPESA(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
@@ -7789,6 +7818,7 @@ namespace ABAINFRA.Web
                     filter = "";
                     break;
             }
+
             SQL = "select ISNULL(FORMAT(DT_SOLICITACAO,'dd/MM/yyyy'),'') AS SOLICITACAO, ISNULL(INSIDE,'') AS INSIDE, ";
             SQL += "ISNULL(NR_COTACAO, '') AS NR_COTACAO, ISNULL(MODAL, '') AS MODAL, ISNULL(CD_INCOTERM, '') AS INCOTERM, ";
             SQL += "ISNULL(NM_CLIENTE, '') AS CLIENTE, ISNULL(NM_SUB_CLIENTE, '') AS SUB_CLIENTE, ISNULL(NM_ORIGEM, '') AS  ORIGEM, ";
@@ -8563,7 +8593,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarContasAReceberAPagar(string dataI, string dataF, string nota, string filter, string origem)
+        public string listarContasAReceberAPagar(string dataI, string dataF, string nota, string filter, string origem, string chkConfSim, string chkConfNao)
         {
             string SQL;
 
@@ -8609,6 +8639,34 @@ namespace ABAINFRA.Web
                     break;
             }
 
+            if (chkConfSim == "1" && chkConfNao == "1")
+            {
+                chkConfSim = "";
+                chkConfNao = "";
+            }
+            else
+            {
+                switch (chkConfNao)
+                {
+                    case "1":
+                        chkConfNao = " AND (ISNULL(DOC_CONFERIDO_HOUSE,0)=0 AND ISNULL(DOC_CONFERIDO_MASTER,0)=0) ";
+                        break;
+                    default:
+                        chkConfNao = "";
+                        break;
+                }
+
+                switch (chkConfSim)
+                {
+                    case "1":
+                        chkConfSim = " AND (DOC_CONFERIDO_HOUSE != 0 OR DOC_CONFERIDO_MASTER != 0) ";
+                        break;
+                    default:
+                        chkConfSim = "";
+                        break;
+                }
+            }
+
             SQL = "SELECT ISNULL(NR_PROCESSO,'') AS PROCESSO, ";
             SQL += "ISNULL(NR_BL_MASTER, '') AS MBL, ";
             SQL += "ISNULL(TP_SERVICO, '') AS SERVICO, ";
@@ -8624,11 +8682,15 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(MOEDA_SALDO_PAGAR, '') AS MOEDA_PAG, ";
             SQL += "ISNULL(VL_CAMBIO_SALDO_PAGAR, 0) AS CAMBIO_PAGAR, ";
             SQL += "ISNULL(FORMAT(DT_CAMBIO_SALDO_PAGAR, 'dd/MM/yyyy'), '') AS DT_CAMBIO_PAG, ";
-            SQL += "ISNULL(VL_SALDO_PAGAR_BR, 0) AS PAGAR ";
+            SQL += "ISNULL(VL_SALDO_PAGAR_BR, 0) AS PAGAR, ";
+            SQL += "CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE, 0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, ";
+            SQL += "CASE WHEN ISNULL(DOC_CONFERIDO_MASTER, 0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER ";
             SQL += "FROM dbo.FN_PREVISIBILIDADE_SALDO('" + dataI + "','" + dataF + "','') "; 
             SQL += "WHERE RIGHT(NR_PROCESSO,2) >= 18 ";
             SQL += "" + nota + "";
             SQL += "" + origem + "";
+            SQL += "" + chkConfSim + "";
+            SQL += "" + chkConfNao + "";
             SQL += "ORDER BY NR_PROCESSO, NM_ITEM_DESPESA ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -8637,15 +8699,49 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string ContaPrevisibilidadeProcesso()
+        public string ContaPrevisibilidadeProcesso(string chkConfSim, string chkConfNao)
         {
+
             string dtembarque;
             string dtprevisaochegada;
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.AddDays(1).ToString("dd/MM/yyyy");
             string sqlFormattedDate2 = myDateTime.AddDays(90).ToString("dd/MM/yyyy");
             string SQL;
-            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, DT_EMBARQUE AS DTEMBARQUE, DT_PREVISAO_CHEGADA as DTPREVISAOCHEGADA, ISNULL(NM_CLIENTE,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,ISNULL(VL_RECEBER,0) AS ARECEBERBR, ISNULL(VL_PAGAR,0) AS APAGARBR, ISNULL(VL_SALDO,0) AS SALDOBR FROM FN_PREVISIBILIDADE_PROCESSO('"+ sqlFormattedDate + "','"+sqlFormattedDate2+"') ORDER BY NR_PROCESSO";
+
+            if (chkConfSim == "1" && chkConfNao == "1")
+            {
+                chkConfSim = "";
+                chkConfNao = "";
+            }
+            else
+            {
+                switch (chkConfNao)
+                {
+                    case "1":
+                        chkConfNao = " AND (ISNULL(DOC_CONFERIDO_HOUSE,0)=0 AND ISNULL(DOC_CONFERIDO_MASTER,0)=0) ";
+                        break;
+                    default:
+                        chkConfNao = "";
+                        break;
+                }
+
+                switch (chkConfSim)
+                {
+                    case "1":
+                        chkConfSim = " AND (DOC_CONFERIDO_HOUSE != 0 OR DOC_CONFERIDO_MASTER != 0) ";
+                        break;
+                    default:
+                        chkConfSim = "";
+                        break;
+                }
+            }
+
+            SQL = "SELECT CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, CASE WHEN ISNULL(DOC_CONFERIDO_MASTER,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER, ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, DT_EMBARQUE AS DTEMBARQUE, DT_PREVISAO_CHEGADA as DTPREVISAOCHEGADA, ISNULL(NM_CLIENTE,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,ISNULL(VL_RECEBER,0) AS ARECEBERBR, ISNULL(VL_PAGAR,0) AS APAGARBR, ISNULL(VL_SALDO,0) AS SALDOBR FROM FN_PREVISIBILIDADE_PROCESSO('" + sqlFormattedDate + "','" + sqlFormattedDate2 + "') ";
+            SQL += "WHERE RIGHT(NR_PROCESSO,2) > 18 ";
+            SQL += "" + chkConfSim + "";
+            SQL += "" + chkConfNao + "";
+            SQL += "ORDER BY NR_PROCESSO ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -8671,6 +8767,8 @@ namespace ABAINFRA.Web
                     {
                         dtprevisaochegada = listTable.Rows[i]["DTPREVISAOCHEGADA"].ToString();
                     }
+                    previ[i] += listTable.Rows[i]["DOC_CONFERIDO_HOUSE"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["DOC_CONFERIDO_MASTER"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["PROCESSO"].ToString() + ";";
                     previ[i] += fmtTotvs2(listTable.Rows[i]["MASTER"].ToString());
                     previ[i] += fmtTotvs2(listTable.Rows[i]["HOUSE"].ToString());
@@ -8957,23 +9055,30 @@ namespace ABAINFRA.Web
 
             SQL = "SELECT X.NM_NAVIO, FORMAT(MAX(X.DT_PREVISAO_CHEGADA),'dd/MM/yyyy') AS PREVISAO_CHEGADA, ";
             SQL += "FORMAT(MAX(X.DT_EMBARQUE),'dd/MM/yyyy') AS EMBARQUE, ";
-            SQL += "X.NR_CNTR, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM,COUNT(X.NR_BL) AS BL ";
+            SQL += "X.NR_CNTR, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM,COUNT(X.NR_BL) AS BL, ";
+            SQL += "X.NM_PORTO AS PORTO_ORIGEM, SUM(X.VL_M3) AS METRAGEM, ";
+            SQL += "SUM(X.VL_PESO_BRUTO) AS PESO ";
             SQL += "FROM(SELECT C.NR_CNTR, A.NR_BL, ";
-            SQL += "CONVERT(DATE, A.DT_PREVISAO_CHEGADA, 103) AS DT_PREVISAO_CHEGADA, ";
-            SQL += "CONVERT(DATE, A.DT_EMBARQUE, 103) AS DT_EMBARQUE, ";
+            SQL += "CONVERT(DATE, M.DT_PREVISAO_CHEGADA, 103) AS DT_PREVISAO_CHEGADA, ";
+            SQL += "CONVERT(DATE, M.DT_EMBARQUE, 103) AS DT_EMBARQUE, ";
             SQL += "D.NM_NAVIO, ";
             SQL += "E.NM_TIPO_CARGA, ";
-            SQL += "F.NM_TIPO_ESTUFAGEM ";
+            SQL += "F.NM_TIPO_ESTUFAGEM, ";
+            SQL += "G.NM_PORTO, ";
+            SQL += "A.VL_M3, ";
+            SQL += "A.VL_PESO_BRUTO ";
             SQL += "FROM TB_BL A ";
             SQL += "JOIN TB_AMR_CNTR_BL B ON A.ID_BL = B.ID_BL ";
             SQL += "JOIN TB_CNTR_BL C ON B.ID_CNTR_BL = C.ID_CNTR_BL ";
+            SQL += "JOIN TB_BL M ON A.ID_BL_MASTER=M.ID_BL ";
             SQL += "JOIN TB_NAVIO D ON A.ID_NAVIO = D.ID_NAVIO ";
             SQL += "JOIN TB_TIPO_CARGA E ON  A.ID_TIPO_CARGA = E.ID_TIPO_CARGA ";
             SQL += "JOIN TB_TIPO_ESTUFAGEM F ON A.ID_TIPO_ESTUFAGEM = F.ID_TIPO_ESTUFAGEM ";
+            SQL += "JOIN TB_PORTO G ON M.ID_PORTO_ORIGEM=G.ID_PORTO ";
             SQL += "WHERE A.ID_TIPO_ESTUFAGEM = 2 ";
             SQL += "AND CONVERT(DATE, A.DT_PREVISAO_CHEGADA, 103) ";
             SQL += "BETWEEN CONVERT(DATE,'" + sqlFormattedDate + "',103) AND  CONVERT(DATE,'" + sqlFormattedDate2 + "',103)) X ";
-            SQL += "GROUP BY X.NR_CNTR, X.NM_NAVIO, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM ";
+            SQL += "GROUP BY X.NR_CNTR, X.NM_NAVIO, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM, X.NM_PORTO ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);

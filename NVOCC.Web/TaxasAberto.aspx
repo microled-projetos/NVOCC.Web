@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportConferenciaProcesso" class="btn btn-primary" onclick="exportConferenciaProcessoCSV('Conferencia_Conta_Corrente.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnExportConferenciaProcesso" class="btn btn-primary" onclick="exportConferenciaProcessoCSV('Relatorio_Taxas_Aberto.csv')">Exportar Grid - CSV</button>
                                         <button type="button" id="btnPrintRelacaoCotacao" class="btn btn-primary" onclick="createPDF()">Imprimir</button>
                                     </div>
                                 </div>
@@ -46,6 +46,7 @@
                                                 <label class="control-label">Filtro</label>
                                                 <select id="ddlFilterConferenciaProcesso" class="form-control">
                                                     <option value="">Selecione</option>
+                                                    <option value="1">Destinatário de Cobrança</option>
                                                     <option value="2">Processo</option>
                                                 </select>
                                             </div>
@@ -61,10 +62,10 @@
                                         </div>
                                         <div class="form-group" style="display:flex;align-items:center; margin-bottom: 0px; margin-left: 10px;">
                                             <div>
-                                                <asp:RadioButton ID="chkPagar" GroupName="tipo" runat="server" CssClass="form-control noborder" Checked="true" Text="&nbsp;Pagar"></asp:RadioButton>
+                                                <asp:RadioButton ID="chkPagar" GroupName="tipo" runat="server" CssClass="form-control noborder" Checked="true" Text="&nbsp;Brasil"></asp:RadioButton>
                                             </div>
                                             <div>
-                                                <asp:RadioButton ID="chkReceber" GroupName="tipo" runat="server" CssClass="form-control noborder" Checked="false" Text="&nbsp;Receber"></asp:RadioButton>
+                                                <asp:RadioButton ID="chkReceber" GroupName="tipo" runat="server" CssClass="form-control noborder" Checked="false" Text="&nbsp;Exterior"></asp:RadioButton>
                                             </div>
                                         </div>
                                     </div>
@@ -76,8 +77,10 @@
                                                 <th class="text-center" scope="col">NR PROCESSO</th>
                                                 <th class="text-center" scope="col">ITEM DESPESA</th>
                                                 <th class="text-center" scope="col">DESTINATARIO COBRANÇA</th>
-                                                <th class="text-center" scope="col">VALOR</th>
+                                                <th class="text-center" scope="col">VALOR TAXA</th>
+                                                <th class="text-center" scope="col">VALOR TAXA CALCULADA</th>
                                                 <th class="text-center" scope="col">MOEDA</th>
+                                                <th class="text-center" scope="col">TIPO MOVIMENTO</th>
                                             </tr>
                                         </thead>
                                         <tbody id="grdConferenciaProcessoBody">
@@ -108,10 +111,10 @@
             var checkboxPagar = document.getElementById("MainContent_chkPagar");
             var checkboxPagarvalue;
             if (checkboxPagar.checked) {
-                checkboxPagarvalue = "0";
+                checkboxPagarvalue = "1";
             }
             else {
-                checkboxPagarvalue = "1";
+                checkboxPagarvalue = "2";
             }
                 $.ajax({
                     type: "POST",
@@ -121,7 +124,7 @@
                     dataType: "json",
                     beforeSend: function () {
                         $("#grdConferenciaProcessoBody").empty();
-                        $("#grdConferenciaProcessoBody").append("<tr><td colspan='10'><div class='loader'></div></td></tr>");
+                        $("#grdConferenciaProcessoBody").append("<tr><td colspan='7'><div class='loader'></div></td></tr>");
                     },
                     success: function (dado) {
                         var dado = dado.d;
@@ -133,12 +136,14 @@
                                     "<td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DESTINATARIO_COBRANCA"]+"</td>" +
-                                    "<td class='text-center'>" + dado[i]["SALDO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["MOEDA"] + "</td></tr> ");
+                                    "<td class='text-center'>" + dado[i]["VL_TAXA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_TAXA_CALCULADO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["SIGLA_MOEDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["TIPO"] + "</td></tr> ");
                             }
                         }
                         else {
-                            $("#grdConferenciaProcessoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='10' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                            $("#grdConferenciaProcessoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='7' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
                         }
                     }
                 })

@@ -1658,7 +1658,7 @@ WHERE ID_PARCEIRO =" & ID)
 
                     Dim Resultado = Buscar.ConsultaCNPJ(txtCNPJ.Text.Replace("-", "").Replace(".", "").Replace("/", ""))
                     Dim dados As Root = JsonConvert.DeserializeObject(Of Root)(Resultado)
-                    txtOBSComplementares.Text = Resultado
+                    ' txtOBSComplementares.Text = Resultado
 
                     If dados.estabelecimento.situacao_cadastral = "Baixada" Then
                         divmsg1.Visible = True

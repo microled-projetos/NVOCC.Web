@@ -27,6 +27,7 @@ namespace ABAINFRA.Web
             listarTipoFrete();
             listarTransportador();
             listarAgente();
+            listarAgenteInternacional();
         }
 
         private void listarVia()
@@ -136,6 +137,18 @@ namespace ABAINFRA.Web
             ddlAgenteFilter.DataSource = Session["TaskTableMoedaDemurrage"];
             ddlAgenteFilter.DataBind();
             ddlAgenteFilter.Items.Insert(0, new ListItem("Selecione", ""));
+        }
+
+        private void listarAgenteInternacional()
+        {
+            string SQL;
+            SQL = "SELECT NM_RAZAO, ID_PARCEIRO FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL = 1 ORDER BY NM_RAZAO";
+            DataTable agente = new DataTable();
+            agente = DBS.List(SQL);
+            Session["TaskTableMoedaDemurrage"] = agente;
+            ddlAgenteInternacional.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlAgenteInternacional.DataBind();
+            ddlAgenteInternacional.Items.Insert(0, new ListItem("Selecione", ""));
         }
 
         private void listarTransportador()

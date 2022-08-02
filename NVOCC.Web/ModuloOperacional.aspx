@@ -287,6 +287,12 @@
                                                     <asp:DropDownList ID="ddlNavioFilter" runat="server" CssClass="form-control" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO"></asp:DropDownList>
                                                 </div>
                                             </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Agente Internacional</label>
+                                                    <asp:DropDownList ID="ddlAgenteInternacional" runat="server" CssClass="form-control" DataTextField="NM_RAZAO" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -905,7 +911,8 @@
                 "dtdesconsolidacaoinicio": document.getElementById("dtDesconsolidacaoInicioFilter").value,
                 "dtdesconsolidacaofim": document.getElementById("dtDesconsolidacaoFimFilter").value,
                 "week": document.getElementById("MainContent_ddlWeekFilter").value,
-                "navio": document.getElementById("MainContent_ddlNavioFilter").value
+                "navio": document.getElementById("MainContent_ddlNavioFilter").value,
+                "agenteinternacional": document.getElementById("MainContent_ddlAgenteInternacional").value
             }
             $.ajax({
                 type: "POST",

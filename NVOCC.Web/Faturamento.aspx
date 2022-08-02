@@ -878,7 +878,6 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
         }
 
-        //(ByVal ID_Faturamento As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String)
         //function Teste() {
         //    console.log("teste");
         //    variavel = setInterval(Teste1, 60000);
