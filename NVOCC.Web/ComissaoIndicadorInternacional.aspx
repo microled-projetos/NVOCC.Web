@@ -606,9 +606,6 @@
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
      <asp:SqlDataSource ID="dsComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Comissao_Internacional] ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO">
-       <%-- <SelectParameters>
-            <asp:ControlParameter Name="COMPETENCIA" Type="string" ControlID="txtCompetencia" />
-        </SelectParameters>--%>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"

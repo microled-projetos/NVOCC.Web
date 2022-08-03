@@ -353,7 +353,6 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
     End Sub
 
-    'ROTINA A SER DEFINIDA
     Private Sub lkRemoverHouse_Click(sender As Object, e As EventArgs) Handles lkRemoverHouse.Click
         divSuccessHouse.Visible = False
         divErroHouse.Visible = False
@@ -382,10 +381,7 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
     End Sub
 
-    'ROTINA A SER DEFINIDA
-    Private Sub lkCancelaHouse_Click(sender As Object, e As EventArgs) Handles lkCancelaHouse.Click
 
-    End Sub
 
     Private Sub lkDuplicarHouse_Click(sender As Object, e As EventArgs) Handles lkDuplicarHouse.Click
         divSuccessHouse.Visible = False
@@ -405,7 +401,6 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
                 lblErroHouse.Text = "Selecione o registro que deseja duplicar!"
             Else
                 DUPLICAR(txtIDHouse.Text, "HOUSE")
-                ' dgvHouse.DataBind()
                 GridHouse()
                 divSuccessHouse.Visible = True
                 lblSuccessHouse.Text = "Item duplicado com sucesso!"
@@ -526,156 +521,6 @@ Where A.ID_BL = " & ID_BL)
         Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & PESO_TAXADO_Final & " WHERE ID_BL = " & ID_BL)
     End Sub
 
-    '    Sub CalculoProfit()
-    '        Dim Profit As String = ""
-    '        Dim x As Double
-    '        Dim y As Double
-    '        Dim z As Double
-    '        Dim Con As New Conexao_sql
-    '        Con.Conectar()
-    '        Dim dsProfit As DataSet = Con.ExecutarQuery("Select ISNULL(ID_PROFIT_DIVISAO,0)ID_PROFIT_DIVISAO,ISNULL(VL_PROFIT_DIVISAO,0)VL_PROFIT_DIVISAO FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text)
-    '        If dsProfit.Tables(0).Rows.Count > 0 Then
-    '            If dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 1 Then
-    '                'VALOR FIXO A RECEBER
-    '                z = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-    '                Profit = z.ToString
-    '                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-    '                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-    '            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 2 Then
-    '                'VALOR FIXO A PAGAR
-    '                z = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-    '                Profit = z.ToString
-    '                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-    '                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-    '            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 3 Then
-    '                'PERCENTUAL A RECEBER
-
-    '                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL((SELECT ISNULL(SUM(VL_TAXA_CALCULADO),0) FROM TB_BL_TAXA WHERE CD_PR = 'R' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & ") - (SELECT ISNULL(SUM(VL_TAXA_CALCULADO),0) FROM TB_BL_TAXA WHERE CD_PR = 'P' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & "),0) AS LUCRO")
-
-    '                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-    '                y = dsAuxiliar.Tables(0).Rows(0).Item("LUCRO")
-    '                y = y / 100
-    '                z = y * x
-    '                Profit = z.ToString
-    '                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-    '                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-    '            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 4 Then
-    '                'PERCENTUAL A PAGAR
-    '                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL((SELECT ISNULL(SUM(VL_TAXA_CALCULADO),0) FROM TB_BL_TAXA WHERE CD_PR = 'R' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & ") - (SELECT ISNULL(SUM(VL_TAXA_CALCULADO),0) FROM TB_BL_TAXA WHERE CD_PR = 'P' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & "),0) AS LUCRO")
-
-    '                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-    '                y = dsAuxiliar.Tables(0).Rows(0).Item("LUCRO")
-    '                y = y / 100
-    '                z = y * x
-    '                Profit = z.ToString
-    '                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-    '                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-    '            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 5 Then
-    '                'POR TEU A RECEBER
-    '                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT SUM(TEU)QTD FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER IN (Select ID_TIPO_CNTR FROM TB_AMR_CNTR_BL A
-    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-    '        WHERE A.ID_BL = " & txtIDHouse.Text & ")")
-
-    '                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-    '                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
-    '                z = y * x
-    '                Profit = z.ToString
-    '                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-    '                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-    '            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 6 Then
-    '                'POR TEU A PAGAR
-    '                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT SUM(TEU)QTD FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER IN (Select ID_TIPO_CNTR FROM TB_AMR_CNTR_BL A
-    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-    '        WHERE A.ID_BL = " & txtIDHouse.Text & ")")
-
-    '                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-    '                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
-    '                z = y * x
-    '                Profit = z.ToString
-    '                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-    '                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-    '            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 7 Then
-    '                'POR CONTEINER A RECEBER
-    '                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_AMR_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL = " & txtIDHouse.Text)
-
-    '                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-    '                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
-    '                z = y * x
-    '                Profit = z.ToString
-    '                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-    '                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-    '            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 8 Then
-    '                'POR CONTEINER A PAGAR
-    '                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_AMR_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL = " & txtIDHouse.Text)
-
-    '                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-    '                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
-    '                z = y * x
-    '                Profit = z.ToString
-    '                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-    '                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-    '            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 9 Then
-    '                'POR W/M A RECEBER
-    '                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_PESO_BRUTO,0)VL_PESO_BRUTO,ISNULL(VL_M3,0)VL_M3 FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text)
-
-    '                x = dsAuxiliar.Tables(0).Rows(0).Item("VL_M3")
-    '                y = dsAuxiliar.Tables(0).Rows(0).Item("VL_PESO_BRUTO") / 1000
-
-    '                If x > y Then
-    '                    x = x
-    '                Else
-    '                    x = y
-    '                End If
-
-    '                y = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-
-    '                z = y * x
-    '                Profit = z.ToString
-    '                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-    '                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-
-
-    '            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 10 Then
-    '                'POR W/M A PAGAR
-    '                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_PESO_BRUTO,0)VL_PESO_BRUTO,ISNULL(VL_M3,0)VL_M3 FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text)
-
-    '                x = dsAuxiliar.Tables(0).Rows(0).Item("VL_M3")
-    '                y = dsAuxiliar.Tables(0).Rows(0).Item("VL_PESO_BRUTO") / 1000
-
-    '                If x > y Then
-    '                    x = x
-    '                Else
-    '                    x = y
-    '                End If
-
-    '                y = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-
-    '                z = y * x
-    '                Profit = z.ToString
-    '                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-    '                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-    '            End If
-    '        End If
-    '    End Sub
     Private Sub dgvMaster_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvMaster.RowCommand
         divSuccessMaster.Visible = False
         divErroMaster.Visible = False
@@ -1094,7 +939,6 @@ Where A.ID_BL = " & ID_BL)
                 lblErroMaster.Text = "Selecione o registro que deseja duplicar!"
             Else
                 DUPLICAR(txtID_Master.Text, "MASTER")
-                ' dgvMaster.DataBind()
                 GridMaster()
                 divSuccessMaster.Visible = True
                 lblSuccessMaster.Text = "Item duplicado com sucesso!"
@@ -1121,7 +965,6 @@ Where A.ID_BL = " & ID_BL)
                 lblErroEmbarque.Text = "Selecione o registro que deseja duplicar!"
             Else
                 DUPLICAR(txtID_Embarque.Text, "EMBARQUE")
-                'dgvEmbarque.DataBind()
                 GridEmbarque()
                 divSuccessEmbarque.Visible = True
                 lblSuccessEmbarque.Text = "Item duplicado com sucesso!"
@@ -1138,9 +981,7 @@ Where A.ID_BL = " & ID_BL)
         divSuccessMaster.Visible = False
         divErroMaster.Visible = False
 
-        'Session("ID_BL") = 0
-        'Session("NR_BL") = 0
-        'Session("TRAKING_BL") = 0
+
         If txtID_Master.Text = "" Then
             divErroMaster.Visible = True
             lblErroMaster.Text = "Selecione o registro que deseja rastrear!"
@@ -1155,11 +996,7 @@ Where A.ID_BL = " & ID_BL)
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
-                        'Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
-                        'Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
-                        'Session("ID_BL") = txtID_Master.Text
                         Response.Redirect("RastreioBL.aspx?id=" & txtID_Master.Text)
-
                     Else
                         divErroMaster.Visible = True
                         lblErroMaster.Text = "BL não cadastrada no Logcomex."
@@ -1333,7 +1170,6 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
             divErroHouse.Visible = True
             lblErroHouse.Text = "Selecione o registro que deseja consultar!"
         Else
-            ' window.open('Conferencia.aspx?bl=&id=' + ID + '&T=' + GRAU, '_blank');
             Response.Redirect("Conferencia.aspx?T=C&bl=" & txtIDHouse.Text)
         End If
     End Sub
@@ -1342,9 +1178,7 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
         divSuccessHouse.Visible = False
         divErroHouse.Visible = False
 
-        'Session("ID_BL") = 0
-        'Session("NR_BL") = 0
-        'Session("TRAKING_BL") = 0
+
         If txtIDHouse.Text = "" Then
             divErroHouse.Visible = True
             lblErroHouse.Text = "Selecione o registro que deseja rastrear!"
@@ -1360,12 +1194,7 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
                 Rastreio.trackingbl(txtIDHouse.Text)
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtIDHouse.Text)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
-                    'Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
-                    'Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
-                    'Session("ID_BL") = txtIDHouse.Text
-                    'Response.Redirect("RastreioHBL.aspx")
                     Response.Redirect("RastreioHBL.aspx?id=" & txtIDHouse.Text)
-
                 Else
                     divErroHouse.Visible = True
                     lblErroHouse.Text = "BL não cadastrada no Logcomex."

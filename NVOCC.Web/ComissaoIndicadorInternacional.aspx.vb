@@ -16,18 +16,7 @@
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
             Response.Redirect("Default.aspx")
-        Else
-            'If Not Page.IsPostBack Then
-            '    'If Month(Now.AddMonths(-1)) <= 9 Then
-            '    '    txtCompetencia.Text = "0" & Month(Now.AddMonths(-1)) & "/" & Now.Year
-            '    '    lblCompetenciaCCProcesso.Text = txtCompetencia.Text
-            '    '    txtNovaCompetencia.Text = "0" & Now.Month & "/" & Now.Year
-            '    'Else
-            '    '    txtCompetencia.Text = Month(Now.AddMonths(-1)) & "/" & Now.Year
-            '    '    lblCompetenciaCCProcesso.Text = txtCompetencia.Text
-            '    '    txtNovaCompetencia.Text = Now.Month & "/" & Now.Year
-            '    'End If
-            'End If
+
 
         End If
         Con.Fechar()
@@ -552,8 +541,6 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_T
 
     Private Sub btnFecharBaixa_Click(sender As Object, e As EventArgs) Handles btnFecharBaixa.Click
         CarregaGrid()
-        'lblCompetencia.Text = ""
-        'lblQuinzena.Text = ""
         txtIDBaixa.Text = ""
         txtContrato.Text = ""
         txtLiquidacao.Text = ""

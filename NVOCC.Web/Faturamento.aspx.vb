@@ -559,8 +559,6 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                             End Try
 
-
-
                             Using GeraRps = New WsNVOCC.WsNvocc
 
                                 Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
@@ -1261,16 +1259,8 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 End If
 
                 Dim i As Integer = 0
-                '                ds = Con.ExecutarQuery("Select ID_FATURAMENTO,(Select SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO ,
-                '(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, (SELECT NOSSONUMERO FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO IN (" & IDs & "))NOSSONUMERO, (SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO  IN (" & IDs & "))NR_PROCESSO 
-                'FROM TB_FATURAMENTO A
-                'WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
-                ds = Con.ExecutarQuery("Select ID_FATURAMENTO,
-(Select SUM(ISNULL(B.VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL,
-(Select SUM(ISNULL(B.VL_LIQUIDO,0)) - SUM(ISNULL(B.VL_ISS,0)) - SUM(ISNULL(A.VL_IR_NF,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,
-(Select SUM(ISNULL(B.VL_LIQUIDO,0)) - SUM(ISNULL(A.VL_IR_NF,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER) AS VL_DESCONTANDO_IR, 
-VL_BOLETO,
+                ds = Con.ExecutarQuery("SELECT ID_FATURAMENTO,
 CNPJ,
 NM_CLIENTE,
 ENDERECO,
@@ -1279,15 +1269,19 @@ COMPL_ENDERECO,
 CEP,
 CIDADE,
 BAIRRO ,
-(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,
 NR_NOTA_FISCAL,
-'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, 
 NOSSONUMERO, 
-(SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO = " & IDs & " )NR_PROCESSO, 
-CASE WHEN ISNULL(A.VL_IR_NF,0)> 0 THEN 1 ELSE 0 END FL_IR, CASE WHEN A.NR_NOTA_FISCAL IS NOT NULL THEN 1 ELSE 0 END FL_NF 
+(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,
+(SELECT REPLACE(REPLACE(NR_PROCESSO,'/',''),'-','') from View_Faturamento where ID_FATURAMENTO = A.ID_FATURAMENTO ) NR_NOTA_DEBITO,
+(SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO =  A.ID_FATURAMENTO )NR_PROCESSO, 
+CASE WHEN ISNULL(A.VL_IR_NF,0)> 0 THEN 1 ELSE 0 END FL_IR, 
+CASE WHEN A.NR_NOTA_FISCAL IS NOT NULL THEN 1 ELSE 0 END FL_NF,
+(SELECT SUM(ISNULL(B.VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER) VL_FATURA,
+ISNULL(VL_IR_NF,0)VL_IR_NF,
+ISNULL(VL_ISS,0)VL_ISS 
 FROM TB_FATURAMENTO A
 WHERE ID_FATURAMENTO =" & IDs & " 
-GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,NR_NOTA_FISCAL,NOSSONUMERO,NR_NOTA_DEBITO,VL_IR_NF")
+GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,NR_NOTA_FISCAL,NOSSONUMERO,NR_NOTA_DEBITO,VL_IR_NF,VL_ISS")
 
                 If ds.Tables(0).Rows.Count > 0 Then
                     Dim VL_BOLETO As String = 0
@@ -1326,25 +1320,21 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,VL_BOLETO,CNPJ,NM_CLIENTE,ENDEREC
                         Titulo.DataVencimento = linhads.Item("DT_VENCIMENTO")
 
 
+                        ''VALOR DO BOLETO
+                        VL_BOLETO = linhads.Item("VL_FATURA")
+
                         If linhads.Item("CIDADE").ToString() = "SANTOS" And linhads.Item("FL_NF").ToString = 1 Then
-
-                            VL_BOLETO = linhads.Item("VL_LIQUIDO").ToString().Replace(".", "")
-                            VL_BOLETO = VL_BOLETO.Replace(",", ".")
-                            Titulo.ValorTitulo = linhads.Item("VL_LIQUIDO").ToString()
-
-                        ElseIf linhads.Item("FL_IR").ToString = 1 Then
-
-                            VL_BOLETO = linhads.Item("VL_DESCONTANDO_IR").ToString().Replace(".", "")
-                            VL_BOLETO = VL_BOLETO.Replace(",", ".")
-                            Titulo.ValorTitulo = linhads.Item("VL_DESCONTANDO_IR").ToString()
-
-                        Else
-
-                            VL_BOLETO = linhads.Item("VL").ToString().Replace(".", "")
-                            VL_BOLETO = VL_BOLETO.Replace(",", ".")
-                            Titulo.ValorTitulo = linhads.Item("VL").ToString()
-
+                            VL_BOLETO = VL_BOLETO - linhads.Item("VL_ISS")
                         End If
+
+                        If linhads.Item("FL_IR").ToString = 1 Then
+                            VL_BOLETO = VL_BOLETO - linhads.Item("VL_IR_NF")
+                        End If
+
+                        Titulo.ValorTitulo = VL_BOLETO
+                        VL_BOLETO = VL_BOLETO.ToString.Replace(".", "")
+                        VL_BOLETO = VL_BOLETO.Replace(",", ".")
+
 
                         Titulo.Aceite = "N"
                         Titulo.EspecieDocumento = TipoEspecieDocumento.DS
@@ -1772,8 +1762,80 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,VL_BOLETO,CNPJ,NM_CLIENTE,ENDEREC
         End If
     End Sub
 
-    'Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-    '    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "Teste()", True)
+    Private Sub txtCNPJSub_TextChanged(sender As Object, e As EventArgs) Handles txtCNPJSub.TextChanged
+        divErroSubstituir.Visible = False
 
-    'End Sub
+        If txtCNPJSub.Text <> "" Then
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT UPPER(P.NM_RAZAO)NM_RAZAO, UPPER(P.ENDERECO)ENDERECO, P.NR_ENDERECO, UPPER(P.COMPL_ENDERECO)COMPL_ENDERECO, UPPER(P.BAIRRO)BAIRRO, P.CEP, P.CNPJ, P.INSCR_ESTADUAL, P.INSCR_MUNICIPAL, UPPER(C.NM_CIDADE)NM_CIDADE, UPPER(E.NM_ESTADO)NM_ESTADO FROM TB_PARCEIRO P LEFT JOIN TB_CIDADE C ON C.ID_CIDADE = P.ID_CIDADE LEFT JOIN TB_ESTADO E ON E.ID_ESTADO = C.ID_ESTADO WHERE CNPJ ='" & txtCNPJSub.Text & "'")
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_RAZAO")) Then
+                    txtRazaoSocial.Text = ds.Tables(0).Rows(0).Item("NM_RAZAO")
+                Else
+                    txtRazaoSocial.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ENDERECO")) Then
+                    txtEndereco.Text = ds.Tables(0).Rows(0).Item("ENDERECO")
+                Else
+                    txtEndereco.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_ENDERECO")) Then
+                    txtNumEndereco.Text = ds.Tables(0).Rows(0).Item("NR_ENDERECO")
+                Else
+                    txtNumEndereco.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("BAIRRO")) Then
+                    txtBairro.Text = ds.Tables(0).Rows(0).Item("BAIRRO")
+                Else
+                    txtBairro.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("COMPL_ENDERECO")) Then
+                    txtComplem.Text = ds.Tables(0).Rows(0).Item("COMPL_ENDERECO")
+                Else
+                    txtComplem.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_CIDADE")) Then
+                    txtCidade.Text = ds.Tables(0).Rows(0).Item("NM_CIDADE")
+                Else
+                    txtCidade.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_ESTADO")) Then
+                    txtEstado.Text = ds.Tables(0).Rows(0).Item("NM_ESTADO")
+                Else
+                    txtEstado.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CEP")) Then
+                    txtCEP.Text = ds.Tables(0).Rows(0).Item("CEP")
+                Else
+                    txtCEP.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("INSCR_ESTADUAL")) Then
+                    txtInscEstadual.Text = ds.Tables(0).Rows(0).Item("INSCR_ESTADUAL")
+                Else
+                    txtInscEstadual.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("INSCR_MUNICIPAL")) Then
+                    txtInscMunicipal.Text = ds.Tables(0).Rows(0).Item("INSCR_MUNICIPAL")
+                Else
+                    txtInscMunicipal.Text = ""
+                End If
+
+            Else
+                divErroSubstituir.Visible = True
+                lblErroSubstituir.Text = "CNPJ não localizado!"
+
+            End If
+        End If
+        ModalPopupExtender5.Show()
+    End Sub
 End Class

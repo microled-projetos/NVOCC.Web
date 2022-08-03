@@ -62,8 +62,7 @@
                                </asp:DropDownList>
                            </div>
                            </div>
- 
-<%--                       <asp:Button runat="server" Text="teste" ID="Button1" CssClass="btn btn-success" />--%>
+
 
                        <div class="col-sm-2" style="padding-top: 20px;display: block" runat="server" ID="divBusca"  >
                            <div class="form-group" > <asp:Label ID="Label5" Style="color:white" runat="server">x</asp:Label>
@@ -471,16 +470,16 @@
                                 </div>    
                                                             
                                                             <div class="row">
-                                <div class="col-sm-8">
-                                     <div class="form-group">
-                                        <label class="control-label">Razão Social:</label></label><label runat="server" style="color:red" >*</label>
-                               <asp:TextBox ID="txtRazaoSocial" runat="server" CssClass="form-control"></asp:TextBox>
-                           </div>
-                                     </div>
+                               
                                                                 <div class="col-sm-4">
                                      <div class="form-group">
                                         <label class="control-label">CNPJ:</label><br />
-                                          <asp:TextBox ID="txtCNPJSub" runat="server" CssClass="form-control"></asp:TextBox>
+                                          <asp:TextBox ID="txtCNPJSub" runat="server" AutoPostBack="true" CssClass="form-control"></asp:TextBox>
+                           </div>
+                                     </div> <div class="col-sm-8">
+                                     <div class="form-group">
+                                        <label class="control-label">Razão Social:</label></label><label runat="server" style="color:red" >*</label>
+                               <asp:TextBox ID="txtRazaoSocial" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
                                      </div>
                                                                 <div class="col-sm-6">
@@ -877,23 +876,5 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
             window.open('FaturamentoArquivo.aspx?id=' + ID, '_blank');
 
         }
-
-        //function Teste() {
-        //    console.log("teste");
-        //    variavel = setInterval(Teste1, 60000);
-        //}
-
-        //function Teste1() {
-        //    console.log("teste1");
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "wsNvocc/WsNvocc.asmx/ConsultaNFePrefeitura",
-        //        data: '{ID_Faturamento: "0", CodEmpresa: "0", BancoDestino: "0", StringConexaoDestino: "0" }',
-        //        contentType: "application/json; charset=utf-8",
-        //        dataType: "json"
-        //    });
-        //    clearInterval(variavel);
-        //}
-
     </script>
 </asp:Content>
