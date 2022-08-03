@@ -144,7 +144,6 @@
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="PARCEIRO_CLIENTE" />
                                                 <asp:BoundField DataField="Origem" HeaderText="Origem" SortExpression="Origem" />
                                                 <asp:BoundField DataField="Destino" HeaderText="Destino" SortExpression="Destino" />
-                                                <asp:BoundField DataField="NM_PLACE_RECEIPT" HeaderText="Place of Receipt" SortExpression="NM_PLACE_RECEIPT" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="TIPO_ESTUFAGEM" />
                                                 <asp:BoundField DataField="PARCEIRO_AGENTE_INTERNACIONAL" HeaderText="Agente Internacional" SortExpression="PARCEIRO_AGENTE_INTERNACIONAL" />
                                                 <asp:BoundField DataField="PARCEIRO_TRANSPORTADOR" HeaderText="Transportador" SortExpression="PARCEIRO_TRANSPORTADOR" />
@@ -593,7 +592,6 @@
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="PARCEIRO_CLIENTE" />
                                                 <asp:BoundField DataField="Origem" HeaderText="Origem" SortExpression="Origem" />
                                                 <asp:BoundField DataField="Destino" HeaderText="Destino" SortExpression="Destino" />
-                                                <asp:BoundField DataField="NM_PLACE_RECEIPT" HeaderText="Place of Receipt" SortExpression="NM_PLACE_RECEIPT" />
                                                 <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="Pagamento" SortExpression="TIPO_PAGAMENTO" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="TIPO_ESTUFAGEM" />
                                                 <asp:BoundField DataField="PARCEIRO_AGENTE_INTERNACIONAL" HeaderText="Agente" SortExpression="PARCEIRO_AGENTE_INTERNACIONAL" />
