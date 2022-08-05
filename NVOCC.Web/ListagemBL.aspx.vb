@@ -215,9 +215,14 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         divSuccessHouse.Visible = False
         divErroHouse.Visible = False
 
-        If ddlFiltroHouse.SelectedValue = 0 Or txtPesquisaHouse.Text = "" Then
+        If ddlFiltroHouse.SelectedValue = 0 Then
             dgvHouse.DataBind()
+
+        ElseIf ddlFiltroHouse.SelectedValue <> 7 And txtPesquisaHouse.Text = "" Then
+            dgvHouse.DataBind()
+
         Else
+
             Dim FILTRO As String
             If ddlFiltroHouse.SelectedValue = 1 Then
                 FILTRO = " NR_PROCESSO LIKE '%" & txtPesquisaHouse.Text & "%'"
@@ -232,10 +237,14 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
             ElseIf ddlFiltroHouse.SelectedValue = 6 Then
                 FILTRO = " CONTAINER LIKE '%" & txtPesquisaHouse.Text.Replace("-", "").Replace(".", "").Replace("/", "") & "%' "
             ElseIf ddlFiltroHouse.SelectedValue = 7 Then
-                FILTRO = " DOC_CONFERIDO LIKE '%" & txtPesquisaHouse.Text & "%' "
+                If ddlDocConfHouse.SelectedValue = 1 Then
+                    FILTRO = " DOC_CONFERIDO = 'Sim' "
+                Else
+                    FILTRO = " DOC_CONFERIDO = 'Não' "
+                End If
             End If
 
-            Dim sql As String = "select * from [dbo].[View_House] WHERE " & FILTRO
+            Dim sql As String = "SELECT TOP 1000 * FROM [dbo].[View_House] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
             dsHouse.SelectCommand = sql
             dgvHouse.DataBind()
 
@@ -318,6 +327,15 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
             Next
 
             dgvHouse.Rows(txtlinhaHouse.Text).CssClass = "selected1"
+
+        ElseIf e.CommandName = "DocConferido" Then
+
+            Dim ID As String = e.CommandArgument
+
+
+            dsDocConferidoHouse.SelectParameters("ID_BL").DefaultValue = ID
+            dgvDocConferidoHouse.DataBind()
+            ModalPopupExtender1.Show()
 
         End If
     End Sub
@@ -544,6 +562,16 @@ Where A.ID_BL = " & ID_BL)
 
             dgvMaster.Rows(txtLinhaMaster.Text).CssClass = "selected1"
 
+        ElseIf e.CommandName = "DocConferido" Then
+
+            Dim ID As String = e.CommandArgument
+
+
+            dsDocConferidoMaster.SelectParameters("ID_BL").DefaultValue = ID
+            dgvDocConferidoMaster.DataBind()
+            ModalPopupExtender2.Show()
+
+
         End If
     End Sub
 
@@ -673,8 +701,12 @@ Where A.ID_BL = " & ID_BL)
     End Sub
 
     Private Sub btnPesquisaMaster_Click(sender As Object, e As EventArgs) Handles btnPesquisaMaster.Click
-        If ddlFiltroMaster.SelectedValue = 0 Or txtPesquisaMaster.Text = "" Then
+        If ddlFiltroMaster.SelectedValue = 0 Then
             dgvMaster.DataBind()
+
+        ElseIf ddlFiltroMaster.SelectedValue <> 6 And txtPesquisaMaster.Text = "" Then
+            dgvMaster.DataBind()
+
         Else
             Dim FILTRO As String
 
@@ -689,11 +721,15 @@ Where A.ID_BL = " & ID_BL)
                 FILTRO = " Destino LIKE '%" & txtPesquisaMaster.Text & "%' "
             ElseIf ddlFiltroMaster.SelectedValue = 5 Then
                 FILTRO = " CONTAINER LIKE '%" & txtPesquisaMaster.Text.Replace("-", "").Replace(".", "").Replace("/", "") & "%' "
-            ElseIf ddlFiltroHouse.SelectedValue = 6 Then
-                FILTRO = " DOC_CONFERIDO LIKE '%" & txtPesquisaHouse.Text & "%' "
+            ElseIf ddlFiltroMaster.SelectedValue = 6 Then
+                If ddlDocConfMaster.SelectedValue = 1 Then
+                    FILTRO = " DOC_CONFERIDO = 'Sim' "
+                Else
+                    FILTRO = " DOC_CONFERIDO = 'Não' "
+                End If
             End If
 
-            Dim sql As String = "select * from [dbo].[View_Master] WHERE " & FILTRO
+            Dim sql As String = "SELECT TOP 1000 * FROM [dbo].[View_Master] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
             dsMaster.SelectCommand = sql
             dgvMaster.DataBind()
 
@@ -1207,5 +1243,25 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
             End If
         End If
 
+    End Sub
+
+    Private Sub ddlFiltroHouse_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFiltroHouse.SelectedIndexChanged
+        If ddlFiltroHouse.SelectedValue = 7 Then
+            txtPesquisaHouse.Visible = False
+            ddlDocConfHouse.Visible = True
+        Else
+            txtPesquisaHouse.Visible = True
+            ddlDocConfHouse.Visible = False
+        End If
+    End Sub
+
+    Private Sub ddlFiltroMaster_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFiltroMaster.SelectedIndexChanged
+        If ddlFiltroMaster.SelectedValue = 6 Then
+            txtPesquisaMaster.Visible = False
+            ddlDocConfMaster.Visible = True
+        Else
+            txtPesquisaMaster.Visible = True
+            ddlDocConfMaster.Visible = False
+        End If
     End Sub
 End Class

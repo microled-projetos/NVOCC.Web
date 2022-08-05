@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="ListagemBL.aspx.vb" Inherits="NVOCC.Web.ListagemBL" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" EnableEventValidation="false" MasterPageFile="~/Site.Master" CodeBehind="ListagemBL.aspx.vb" Inherits="NVOCC.Web.ListagemBL" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="col-lg-12 col-md-12 col-sm-12">
@@ -15,6 +15,13 @@
                 font-size: 8pt;
                 background-color: #e6c3a5;
             }
+
+             th {
+            position: sticky !important;
+            top: 0;
+            background-color: #e6eefa;
+            text-align: center;
+        }
         </style>
         <div class="row principal">
             <div class="panel panel-primary">
@@ -390,7 +397,11 @@
                                             <div class="col-sm-2" style="border: ridge 1px; padding-top: 20px; padding-bottom: 10px">
 
                                                 <div class="form-group">
-                                                    <asp:TextBox ID="txtPesquisaMaster" runat="server" CssClass="form-control" Width="210px"></asp:TextBox>
+                                                    <asp:TextBox ID="txtPesquisaMaster" runat="server" CssClass="form-control" Width="200px"></asp:TextBox>
+                                                     <asp:DropDownList ID="ddlDocConfMaster" Width="200px" runat="server" CssClass="form-control" Font-Size="15px" Visible="false">
+                                                        <asp:ListItem Value="0" Text="Não"></asp:ListItem>
+                                                        <asp:ListItem Value="1" Selected="True">Sim</asp:ListItem>
+                                                    </asp:DropDownList>
                                                 </div>
                                             </div>
                                             <div class="col-sm-1" style="border: ridge 1px; padding-top: 20px; padding-bottom: 10px">
@@ -457,14 +468,48 @@
                                                 <asp:BoundField DataField="PARCEIRO_AGENTE" HeaderText="Agente" SortExpression="PARCEIRO_AGENTE" />
                                               <asp:TemplateField HeaderText="Doc. Conferido?" SortExpression="DOC_CONFERIDO">
                                                         <ItemTemplate>
+
+                                                             <asp:LinkButton ID="btnDocConferido" runat="server" CssClass="btn-default"
+                                                        CommandArgument='<%# Eval("ID_BL") %>' CommandName="DocConferido" >
                                                             <asp:label ID="lblDocConferido"  ToolTip='<%# Eval("INFO_DOC_CONFERIDOS") %>' runat="server" Text='<%# Eval("DOC_CONFERIDO") %>' ></asp:label>
+                                                    </asp:LinkButton>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
                                     </div>
+                                                                              <asp:Button ID="Button3" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" Style="display: none" />
 
+                                    <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="Panel3" TargetControlID="Button3" CancelControlID="btnFecharHistoricoMaster"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="Panel3" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Histórico de Doc. Conferido</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                                               <div class="row"> <div class="col-sm-12"> <div class="table-responsive tableFixHead" style="max-height: 200px; font-size:12px!important">
+
+                             <asp:GridView ID="dgvDocConferidoMaster" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="ID_BL_HIST_DOC" DataSourceID="dsDocConferidoMaster" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado." >
+                                                                            <Columns>
+                                                                                <asp:BoundField DataField="ID_BL_HIST_DOC" HeaderText="#" SortExpression="Id" Visible="false" />
+                                                                                 <asp:BoundField DataField="DOCCONFERIDO" HeaderText="Doc. Conferido?" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="NOME" HeaderText="Usuario" DataFormatString="{0:dd/MM/yyyy}" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="DATA" HeaderText="Data" ItemStyle-HorizontalAlign="Center" />
+                                                                            </Columns>
+                                                                            <HeaderStyle HorizontalAlign="Center" />
+                                                                        </asp:GridView>
+                             </div> </div>         </div>     </div>          
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharHistoricoMaster" text="Close" />                                                                
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvMaster" />
@@ -476,6 +521,7 @@
                                     <asp:AsyncPostBackTrigger ControlID="lkFollowUpMaster" />
                                     <asp:AsyncPostBackTrigger ControlID="lkRemoverMaster" />
                                     <asp:AsyncPostBackTrigger ControlID="lkTracking" />
+                                    <asp:AsyncPostBackTrigger ControlID="ddlFiltroMaster" />
                                 </Triggers>
                             </asp:UpdatePanel>
 
@@ -534,7 +580,11 @@
                                             <div class="col-sm-2" style="border: ridge 1px; padding-top: 20px; padding-bottom: 10px">
 
                                                 <div class="form-group">
-                                                    <asp:TextBox ID="txtPesquisaHouse" runat="server" CssClass="form-control" Width="210px"></asp:TextBox>
+                                                    <asp:TextBox ID="txtPesquisaHouse" runat="server" CssClass="form-control" Width="200px"></asp:TextBox>
+                                                      <asp:DropDownList ID="ddlDocConfHouse" Width="200px" runat="server" CssClass="form-control" Font-Size="15px" Visible="false">
+                                                        <asp:ListItem Value="0" Text="Não"></asp:ListItem>
+                                                        <asp:ListItem Value="1" Selected="True">Sim</asp:ListItem>
+                                                    </asp:DropDownList>
                                                 </div>
                                             </div>
                                             <div class="col-sm-1" style="border: ridge 1px; padding-top: 20px; padding-bottom: 10px">
@@ -608,8 +658,10 @@
                                                 <asp:BoundField DataField="WEEK" HeaderText="Week" SortExpression="WEEK" />
                                                 <asp:TemplateField HeaderText="Doc. Conferido?" SortExpression="DOC_CONFERIDO">
                                                         <ItemTemplate>
+                                                    <asp:LinkButton ID="btnDocConferido" runat="server" CssClass="btn-default"
+                                                        CommandArgument='<%# Eval("ID_BL") %>' CommandName="DocConferido" >
                                                             <asp:label ID="lblDocConferido"  ToolTip='<%# Eval("INFO_DOC_CONFERIDOS") %>' runat="server" Text='<%# Eval("DOC_CONFERIDO") %>' ></asp:label>
-                                                        </ItemTemplate>
+                                                    </asp:LinkButton>                                                        </ItemTemplate>
                                                     </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
@@ -788,7 +840,37 @@
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>
+                                          <asp:Button ID="Button2" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" Style="display: none" />
 
+                                    <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="Panel4" TargetControlID="Button2" CancelControlID="btnFecharHistoricoHouse"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="Panel4" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Histórico de Doc. Conferido</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                                               <div class="row"> <div class="col-sm-12"> <div class="table-responsive tableFixHead" style="max-height: 200px; font-size:12px!important">
+
+                             <asp:GridView ID="dgvDocConferidoHouse" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="ID_BL_HIST_DOC" DataSourceID="dsDocConferidoHouse" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" >
+                                                                            <Columns>
+                                                                                <asp:BoundField DataField="ID_BL_HIST_DOC" HeaderText="#" SortExpression="Id" Visible="false" />
+                                                                                 <asp:BoundField DataField="DOCCONFERIDO" HeaderText="Doc. Conferido?" ItemStyle-HorizontalAlign="Center"  />
+                                                                                <asp:BoundField DataField="NOME" HeaderText="Usuario" DataFormatString="{0:dd/MM/yyyy}" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center"  />
+                                                                                <asp:BoundField DataField="DATA" HeaderText="Data" ItemStyle-HorizontalAlign="Center" />
+                                                                            </Columns>
+                                                                            <HeaderStyle HorizontalAlign="Center" />
+                                                                        </asp:GridView>
+                             </div> </div>         </div>     </div>          
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharHistoricoHouse" text="Close" />                                                                
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvHouse" />
@@ -802,6 +884,7 @@
                                     <asp:AsyncPostBackTrigger ControlID="lkBLHouse" />
                                     <asp:AsyncPostBackTrigger ControlID="lkFollowUpHouse" />
                                     <asp:AsyncPostBackTrigger ControlID="lkTrackingHBL" />
+                                    <asp:AsyncPostBackTrigger ControlID="ddlFiltroHouse" />
                                 </Triggers>
                             </asp:UpdatePanel>
 
@@ -822,16 +905,34 @@
 
 
     <asp:SqlDataSource ID="dsHouse" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM View_House
+        SelectCommand="SELECT TOP 1000  * FROM View_House
 WHERE  ID_BL_MASTER IS NOT NULL AND ID_SERVICO = 1 AND GRAU = 'C' ORDER BY ID_BL DESC "></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsMaster" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM View_Master
+        SelectCommand="SELECT TOP 1000  * FROM View_Master
 WHERE GRAU = 'M' and ID_SERVICO = 1 ORDER BY ID_BL DESC "></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsEmbarque" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM View_Embarque
+        SelectCommand="SELECT TOP 1000  * FROM View_Embarque
 WHERE GRAU = 'C' and ID_BL_MASTER is null and ID_SERVICO = 1 ORDER BY ID_BL DESC "></asp:SqlDataSource>
 
-
+     <asp:SqlDataSource ID="dsDocConferidoMaster" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT  ID_BL_HIST_DOC, CASE WHEN FL_DOC_CONFERIDO = 1 THEN 'Sim' else 'Não' end DOCCONFERIDO, NOME,DATA	 FROM TB_BL_HIST_DOC A
+INNER JOIN TB_USUARIO B ON A.ID_USUARIO=B.ID_USUARIO
+WHERE A.ID_BL = @ID_BL 
+ORDER BY DATA DESC">
+          <SelectParameters>
+              <asp:Parameter Name="ID_BL" Type="Int32" DefaultValue="0" />
+        </SelectParameters>
+     </asp:SqlDataSource>
+    
+    <asp:SqlDataSource ID="dsDocConferidoHouse" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT  ID_BL_HIST_DOC, CASE WHEN FL_DOC_CONFERIDO = 1 THEN 'Sim' else 'Não' end DOCCONFERIDO, NOME,DATA	 FROM TB_BL_HIST_DOC A
+INNER JOIN TB_USUARIO B ON A.ID_USUARIO=B.ID_USUARIO
+WHERE A.ID_BL = @ID_BL  
+ORDER BY DATA DESC">
+         <SelectParameters>
+             <asp:Parameter Name="ID_BL" Type="Int32" DefaultValue="0" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="server">
         <script type="text/javascript">
