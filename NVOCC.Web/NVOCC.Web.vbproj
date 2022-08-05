@@ -325,6 +325,8 @@
     <Content Include="Content\imagens\Desbloquear.png" />
     <Content Include="Content\imagens\FCA-Log - Copia.png" />
     <Content Include="Content\imagens\fundo-conteineres.png" />
+    <Content Include="Content\imagens\hist.png" />
+    <Content Include="Content\imagens\historico.jpg" />
     <Content Include="Content\imagens\Logo-Background.png" />
     <Content Include="Content\imagens\Logo-Inicio.png" />
     <Content Include="Content\imagens\Logo-Menu.png" />

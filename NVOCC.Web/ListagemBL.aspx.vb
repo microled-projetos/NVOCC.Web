@@ -1264,4 +1264,44 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
             ddlDocConfMaster.Visible = False
         End If
     End Sub
+
+    Private Sub dgvHouse_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvHouse.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim Status As Label = CType(e.Row.FindControl("lblTemHistorico"), Label)
+
+            Dim ImageButton As ImageButton = CType(e.Row.FindControl("ImageButton1"), ImageButton)
+
+
+
+            If Status.Text = "" Then
+
+                ImageButton.Visible = False
+
+            End If
+
+
+
+        End If
+    End Sub
+
+    Private Sub dgvMaster_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvMaster.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim Status As Label = CType(e.Row.FindControl("lblTemHistorico"), Label)
+
+            Dim ImageButton As ImageButton = CType(e.Row.FindControl("ImageButton1"), ImageButton)
+
+
+
+            If Status.Text = "" Then
+
+                ImageButton.Visible = False
+
+            End If
+
+
+
+        End If
+    End Sub
 End Class
