@@ -78,6 +78,7 @@
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">TIPO FRETE</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">TIPO ESTUFAGEM</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">AGENTE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">AGENTE INTERNACIONAL</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">PREVISÃO EMBARQUE</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">DATA EMBARQUE</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">PREVISÃO CHEGADA</th>
@@ -871,6 +872,7 @@
                 document.getElementById("dtDesconsolidacaoFimFilter"),
                 document.getElementById("MainContent_ddlWeekFilter"),
                 document.getElementById("MainContent_ddlNavioFilter"),
+                document.getElementById("MainContent_ddlAgenteInternacional")
             ]
 
             for (let i = 0; i < dadosFiltro.length; i++) {
@@ -933,7 +935,7 @@
                             $("#tblModuloOperacionalBody").append("<tr data-id='" + dado[i]["HOUSE"] + "'><td class='text-center' style='display: flex; align-items: center'><span class='btn btn-primary select' onclick='setId(" + dado[i]["HOUSE"] + ")' style='margin-right: 10px'>Selecionar</span><div>" + dado[i]["PROCESSO"] + "</div></td>" +
                                 "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'><div>" + dado[i]["CLIENTE"] + "</div></td><td class='text-center'><div>" + dado[i]["ORIGEM"] + "</div></td><td class='text-center'><div>" + dado[i]["DESTINO"] + "</div></td>" +
                                 "<td class='text-center'><div>" + dado[i]["TPAGAMENTO"] + "</div></td><td class='text-center'><div>" + dado[i]["TESTUFAGEM"] + "</div></td><td class='text-center' title='" + dado[i]["AGENTE"] + "' style='max-width: 14ch;'><div>" + dado[i]["AGENTE"] + "</div></td>" +
-                                "<td class='text-center'><div>" + dado[i]["PEMBARQUE"] + "</div></td><td class='text-center'><div>" + dado[i]["EMBARQUE"] + "</div></td><td class='text-center'><div>" + dado[i]["PCHEGADA"] + "</div></td>" +
+                                "<td class='text-center' title='" + dado[i]["AGENTE_INTERNACIONAL"] + "' style='max-width: 14ch;'><div>" + dado[i]["AGENTE_INTERNACIONAL"] + "</div></td><td class='text-center'><div>" + dado[i]["PEMBARQUE"] + "</div></td><td class='text-center'><div>" + dado[i]["EMBARQUE"] + "</div></td><td class='text-center'><div>" + dado[i]["PCHEGADA"] + "</div></td>" +
                                 "<td class='text-center'><div>" + dado[i]["CHEGADA"] + "</div></td><td class='text-center'><div></div></td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 8ch;'><div>" + dado[i]["TRANSPORTADOR"] + "</div></td>" +
                                 "<td class='text-center'><div>" + dado[i]["BLMASTER"] + "</div></td><td class='text-center'><div>" + dado[i]["BLHOUSE"] + "</div></td><td class='text-center'><div>" + dado[i]["CEMASTER"] + "</div></td><td class='text-center'><div>" + dado[i]["CEHOUSE"] + "</div></td>" +
                                 "<td class='text-center'><div>" + dado[i]["REDESTINACAO"] + "</div></td><td class='text-center'><div>" + dado[i]["DESCONSOLIDACAO"] + "</div></td><td class='text-center'><div>" + dado[i]["WEEK"] + "</div></td>" +

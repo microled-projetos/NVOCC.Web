@@ -18,8 +18,7 @@
 
             .HistoricoDoc > th {
                 text-align: center;
-                            font-size: 15px !important;
-
+                font-size: 15px !important;
             }
         </style>
         <div class="row principal">
@@ -465,13 +464,13 @@
                                                 <asp:BoundField DataField="DT_CHEGADA" HeaderText="Chegada" SortExpression="DT_CHEGADA" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="NAVIO" HeaderText="Navio" SortExpression="NAVIO" />
                                                 <asp:BoundField DataField="PARCEIRO_AGENTE" HeaderText="Agente" SortExpression="PARCEIRO_AGENTE" />
-                                                <asp:TemplateField HeaderText="Doc. Conferido?" SortExpression="DOC_CONFERIDO">
+                                                <asp:TemplateField HeaderText="Doc. Conferido?" ItemStyle-HorizontalAlign="Center" SortExpression="DOC_CONFERIDO">
                                                     <ItemTemplate>
-
-                                                        <asp:LinkButton ID="btnDocConferido" runat="server" CssClass="btn-default"
-                                                            CommandArgument='<%# Eval("ID_BL") %>' CommandName="DocConferido">
-                                                            <asp:Label ID="lblDocConferido" ToolTip='<%# Eval("INFO_DOC_CONFERIDOS") %>' runat="server" Text='<%# Eval("DOC_CONFERIDO") %>'></asp:Label>
-                                                        </asp:LinkButton>
+                                            <asp:Label ID="lblDocConferido" ToolTip='<%# Eval("INFO_DOC_CONFERIDOS") %>' runat="server" Text='<%# Eval("DOC_CONFERIDO") %>'></asp:Label>
+                                                    &nbsp;&nbsp; <asp:LinkButton ID="btnDocConferido" runat="server" CssClass="btn-default" 
+                                                            CommandArgument='<%# Eval("ID_BL") %>' ToolTip="Histórico" CommandName="DocConferido">
+                                                       <i class="glyphicon glyphicon-list-alt" style="font-size: medium"></i>
+                                                        </asp:LinkButton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
@@ -657,10 +656,11 @@
                                                 <asp:BoundField DataField="WEEK" HeaderText="Week" SortExpression="WEEK" />
                                                 <asp:TemplateField HeaderText="Doc. Conferido?" SortExpression="DOC_CONFERIDO">
                                                     <ItemTemplate>
-                                                        <asp:LinkButton ID="btnDocConferido" runat="server" CssClass="btn-default"
-                                                            CommandArgument='<%# Eval("ID_BL") %>' CommandName="DocConferido">
-                                                            <asp:Label ID="lblDocConferido" ToolTip='<%# Eval("INFO_DOC_CONFERIDOS") %>' runat="server" Text='<%# Eval("DOC_CONFERIDO") %>'></asp:Label>
-                                                        </asp:LinkButton>
+                                                      &nbsp;&nbsp;&nbsp;&nbsp;<asp:Label ID="lblDocConferido" ToolTip='<%# Eval("INFO_DOC_CONFERIDOS") %>' runat="server" Text='<%# Eval("DOC_CONFERIDO") %>'></asp:Label>
+                                                    &nbsp;&nbsp; <asp:LinkButton ID="btnDocConferido" runat="server" CssClass="btn-default" 
+                                                            CommandArgument='<%# Eval("ID_BL") %>' ToolTip="Histórico" CommandName="DocConferido">
+                                                       <i class="glyphicon glyphicon-list-alt" style="font-size: medium"></i>
+                                                        </asp:LinkButton> 
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
