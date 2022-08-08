@@ -1464,13 +1464,10 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
         Return True
     End Function
 
-<<<<<<< HEAD
     Public Sub montaConsultaLoteRPS(ByVal numeroProtocolo As String, ByVal numeroLote As Long, Optional Cod_Empresa As Integer = 1)
-=======
         Dim client As New ginfes2.ServiceGinfesImplClient
 
         ' Dim client As New GinfesTeste.ServiceGinfesImplClient
->>>>>>> master
 
         Dim ret As Boolean = False
         Dim nomeArquivo As String
