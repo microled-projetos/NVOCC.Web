@@ -176,13 +176,13 @@ Partial Public Class EmissaoNDFaturamento
     Protected WithEvents Label7 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblRefShipper.
+    '''Controle lblNavio.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblRefShipper As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblNavio As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblConhecimento.
@@ -192,24 +192,6 @@ Partial Public Class EmissaoNDFaturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblConhecimento As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblRefAux.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblRefAux As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblNavio.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblNavio As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblHouse.
