@@ -1089,6 +1089,10 @@ namespace ABAINFRA.Web
             {
                 SQL += "AND C.ID_PARCEIRO_AGENTE = '" + dados.AGENTE + "' ";
             }
+            if (dados.AGENTEINTERNACIONAL != "")
+            {
+                SQL += "AND C.ID_PARCEIRO_AGENTE_INTERNACIONAL = '" + dados.AGENTEINTERNACIONAL + "' ";
+            }
             if (dados.PEMBARQUEINICIO != "")
             {
                 if (dados.PEMBARQUEFIM != "")
@@ -1241,7 +1245,7 @@ namespace ABAINFRA.Web
         {
             string SQL;
             SQL = "SELECT M.ID_BL AS MASTER, C.ID_BL AS HOUSE, ISNULL(C.NR_PROCESSO,'') AS PROCESSO, ISNULL(CLT.NM_RAZAO,'') AS CLIENTE, ISNULL(PORT1.NM_PORTO,'') AS ORIGEM, ISNULL(PORT2.NM_PORTO,'') AS DESTINO ";
-            SQL += ", ISNULL(TPAG.NM_TIPO_PAGAMENTO,'') AS TPAGAMENTO, ISNULL(TESTUF.NM_TIPO_ESTUFAGEM,'') AS TESTUFAGEM, ISNULL(AGT.NM_RAZAO,'') AS AGENTE ";
+            SQL += ", ISNULL(TPAG.NM_TIPO_PAGAMENTO,'') AS TPAGAMENTO, ISNULL(TESTUF.NM_TIPO_ESTUFAGEM,'') AS TESTUFAGEM, ISNULL(AGT.NM_RAZAO,'') AS AGENTE, ISNULL(AGTI.NM_RAZAO,'') AS AGENTE_INTERNACIONAL ";
             SQL += ", ISNULL(FORMAT(C.DT_PREVISAO_EMBARQUE,'dd/MM/yyyy'),'') AS PEMBARQUE, ISNULL(FORMAT(C.DT_EMBARQUE,'dd/MM/yyyy'),'') AS EMBARQUE, ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS PCHEGADA, ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS CHEGADA ";
             SQL += ", ISNULL(TRANSP.NM_RAZAO,'') AS TRANSPORTADOR, ISNULL(M.NR_BL,'') as BLMASTER, ISNULL(C.NR_BL,'') as BLHOUSE, ISNULL(FORMAT(M.DT_REDESTINACAO,'dd/MM/yyyy'),'') AS REDESTINACAO, ISNULL(FORMAT(M.DT_DESCONSOLIDACAO,'dd/MM/yyyy'),'') AS DESCONSOLIDACAO ";
             SQL += ", ISNULL(W.NM_WEEK,'') AS WEEK, ISNULL(NAV.NM_NAVIO,'') AS NAVIO, ISNULL(M.NR_CE,'') as CEMASTER, ISNULL(C.NR_CE,'') AS CEHOUSE, ISNULL(C.DS_TERMO,'') AS TERMO ";
@@ -1249,6 +1253,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO CLT ON C.ID_PARCEIRO_CLIENTE = CLT.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO AGT ON C.ID_PARCEIRO_AGENTE = AGT.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO AGTI ON C.ID_PARCEIRO_AGENTE_INTERNACIONAL = AGTI.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO TRANSP ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSP.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PORTO PORT1 ON C.ID_PORTO_ORIGEM = PORT1.ID_PORTO ";
             SQL += "LEFT JOIN TB_PORTO PORT2 ON C.ID_PORTO_DESTINO = PORT2.ID_PORTO ";
@@ -1750,11 +1755,12 @@ namespace ABAINFRA.Web
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");
             SQL = "SELECT A.NR_BL, A.NR_PROCESSO, ORIGEM.NM_PORTO AS ORIGEM, DESTINO.NM_PORTO AS DESTINO,ID_PARCEIRO_CLIENTE, CLIENTE.NM_RAZAO AS CLIENTE, ";
-            SQL += "CLIENTE.CNPJ, C.NM_VIATRANSPORTE as VIA ";
+            SQL += "CLIENTE.CNPJ, IMPORTADOR.NM_RAZAO AS IMPORTADOR, C.NM_VIATRANSPORTE as VIA ";
             SQL += "FROM TB_BL A ";
             SQL += "LEFT JOIN TB_PORTO ORIGEM ON A.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
             SQL += "LEFT JOIN TB_PORTO DESTINO ON A.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
             SQL += "LEFT JOIN TB_PARCEIRO CLIENTE ON A.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO IMPORTADOR ON A.ID_PARCEIRO_IMPORTADOR = IMPORTADOR.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_SERVICO B ON A.ID_SERVICO = B.ID_SERVICO ";
             SQL += "LEFT JOIN TB_VIATRANSPORTE C ON B.ID_VIATRANSPORTE = C.ID_VIATRANSPORTE ";
             SQL += "WHERE A.ID_BL = '" + house + "' ";
@@ -1770,6 +1776,7 @@ namespace ABAINFRA.Web
             string cnpj = listTable.Rows[0]["CNPJ"].ToString();
             string nmVia = listTable.Rows[0]["VIA"].ToString();
             string idCliente = listTable.Rows[0]["ID_PARCEIRO_CLIENTE"].ToString();
+            string nmImportador = listTable.Rows[0]["IMPORTADOR"].ToString();
 
             if (nmVia == "MARÍTIMA")
             {
@@ -1783,7 +1790,7 @@ namespace ABAINFRA.Web
             {
                 if (nmVia == "AÉREA")
                 {
-                    SQL = "SELECT ID_DESTINATARIO_AER, ORIGEM FROM TB_TIPOAVISO WHERE ID_TIPOAVISO = 12";
+                    SQL = "SELECT ID_DESTINATARIO_AER, ORIGEM FROM TB_TIPOAVISO WHERE IDTIPOAVISO = 12";
                     DataTable listTable3 = new DataTable();
                     listTable3 = DBS.List(SQL);
                     destinatario = listTable3.Rows[0]["ID_DESTINATARIO_AER"].ToString();
@@ -1792,8 +1799,12 @@ namespace ABAINFRA.Web
             }
 
             refCliente = DBS.ExecuteScalar("SELECT dbo.FN_REFERENCIA_CLIENTE(" + house + ")");
+            if (!string.IsNullOrEmpty(nmImportador))
+            {
+                nmImportador = "- IMPORTADOR: " + nmImportador + " - ";
+            }
             SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, ID_DESTINATARIO) ";
-            SQL += "VALUES ('" + nrProcesso + " - COMUNICADO - " + origemP + " X " + destinoP + " - HBL: " + nrHouse + "<br>" + nmCliente + " - " + cnpj + "<br>" + refCliente + "<br>', ";
+            SQL += "VALUES ('" + nrProcesso + " - COMUNICADO - " + origemP + " X " + destinoP + " - HBL: " + nrHouse + "<br>" + nmCliente + " - " + cnpj + "<br>"+ nmImportador + refCliente + "<br>', ";
             SQL += "'" + corpo + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "',12,'" + house + "','" + idCliente + "','" + origem + "','" + destinatario + "') ";
             string gerarEmail = DBS.ExecuteScalar(SQL);
 

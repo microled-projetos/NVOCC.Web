@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web_26072022\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 05082022\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -325,6 +325,8 @@
     <Content Include="Content\imagens\Desbloquear.png" />
     <Content Include="Content\imagens\FCA-Log - Copia.png" />
     <Content Include="Content\imagens\fundo-conteineres.png" />
+    <Content Include="Content\imagens\hist.png" />
+    <Content Include="Content\imagens\historico.jpg" />
     <Content Include="Content\imagens\Logo-Background.png" />
     <Content Include="Content\imagens\Logo-Inicio.png" />
     <Content Include="Content\imagens\Logo-Menu.png" />
@@ -607,11 +609,11 @@
     <Content Include="FileUpload.ashx" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
-    <None Include="Web References\NotaFiscal\Reference.map">
+    <None Include="Web References\WsNVOCC\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
-    <None Include="Web References\NotaFiscal\WsNvocc.disco" />
+    <None Include="Web References\WsNVOCC\WsNvocc.disco" />
     <Content Include="TextoCotacao.aspx" />
     <Content Include="EmissaoNDFaturamento.aspx" />
     <Content Include="WebService1.asmx" />
@@ -627,7 +629,7 @@
     <Content Include="Site.Master" />
     <Content Include="TrocarSenha.aspx" />
     <Content Include="Web.config" />
-    <None Include="Web References\NotaFiscal\WsNvocc.wsdl" />
+    <None Include="Web References\WsNVOCC\WsNvocc.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.aspx.designer.vb">
@@ -653,6 +655,7 @@
       <DependentUpon>CadastrarTipoFaturamento.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Class\ResultadoCNPJ.vb" />
     <Compile Include="FaturamentoArquivo.aspx.designer.vb">
       <DependentUpon>FaturamentoArquivo.aspx</DependentUpon>
     </Compile>
@@ -1202,7 +1205,7 @@
     <Compile Include="ViewSwitcher.ascx.designer.vb">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Web References\NotaFiscal\Reference.vb">
+    <Compile Include="Web References\WsNVOCC\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -1259,7 +1262,7 @@
   <ItemGroup>
     <WebReferenceUrl Include="https://localhost:44317/WsNvocc.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\NotaFiscal\</RelPath>
+      <RelPath>Web References\WsNVOCC\</RelPath>
       <UpdateFromURL>https://localhost:44317/WsNvocc.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>

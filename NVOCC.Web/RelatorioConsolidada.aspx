@@ -57,6 +57,9 @@
                                                 <th class="text-center" scope="col">TIPO CARGA</th>
                                                 <th class="text-center" scope="col">TIPO ESTUFAGEM</th>
                                                 <th class="text-center" scope="col">QUANTIDADE BL</th>
+                                                <th class="text-center" scope="col">PORTO DE ORIGEM</th>
+                                                <th class="text-center" scope="col">METRAGEM</th>
+                                                <th class="text-center" scope="col">PESO</th>
                                             </tr>
                                         </thead>
                                         <tbody id="grdConferenciaProcessoBody">
@@ -105,7 +108,10 @@
                                     "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NM_TIPO_CARGA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>" +
-                                    "<td class='text-center'> " + dado[i]["BL"] + "</td></tr > ");
+                                    "<td class='text-center'> " + dado[i]["BL"] + "</td>" +
+                                    "<td class='text-center'> " + dado[i]["PORTO_ORIGEM"] + "</td>" +
+                                    "<td class='text-center'> " + dado[i]["METRAGEM"] + "</td>" +
+                                    "<td class='text-center'> " + dado[i]["PESO"] + "</td></tr > ");
                             }
                         }
                         else {

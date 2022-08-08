@@ -146,20 +146,26 @@
                                     <div class="row topMarg">
                                         <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label class="control-label">Quantidade Dias de FreeTime</label>
+                                                <label class="control-label">Quant. Dias de FreeTime</label>
                                                 <input id="qtDiasFreeTime" class="form-control" type="text"/>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label class="control-label">Quantidade Dias de FreeTime Confirmado</label>
+                                                <label class="control-label">Quant. Dias de FreeTime Confirmado</label>
                                                 <input id="qtDiasFreeTimeConfirm" class="form-control" type="text"/>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3 col-sm-offset-1" id="divDemurrageCompra">
+                                        <div class="col-sm-3" id="divDemurrageCompra">
                                             <div class="form-group">
                                                 <label class="control-label">Quant. Dias de Demurrage Compra</label>
                                                 <input id="qtDiasDemurrageCompra" class="form-control" type="text"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3" id="divDemurrageVenda">
+                                            <div class="form-group">
+                                                <label class="control-label">Quant. Dias de Demurrage Venda</label>
+                                                <input id="qtDiasDemurrageVenda" class="form-control" type="text"/>
                                             </div>
                                         </div>
                                     </div>
@@ -1898,10 +1904,17 @@
                             document.getElementById('qtDiasFreeTime').value = dado[0]['QT_DIAS_FREETIME'];
                             document.getElementById('qtDiasFreeTimeConfirm').value = dado[0]['QT_DIAS_FREETIME_CONFIRMA'];
                             document.getElementById('qtDiasDemurrageCompra').value = dado[0]['QT_DIAS_DEMURRAGE_COMPRA'];
+                            document.getElementById('qtDiasDemurrageVenda').value = dado[0]['QT_DIAS_DEMURRAGE'];
                             if (dado[0]['QT_DIAS_DEMURRAGE_COMPRA'] == null) {
                                 document.getElementById('divDemurrageCompra').style = 'display:none';
                             } else {
                                 document.getElementById('divDemurrageCompra').style = 'display:block';
+                            }
+
+                            if (dado[0]['QT_DIAS_DEMURRAGE'] == null) {
+                                document.getElementById('divDemurrageVenda').style = 'display:none';
+                            } else {
+                                document.getElementById('divDemurrageVenda').style = 'display:block';
                             }
 
                             if (dado[0]['DS_OBSERVACAO'] == null) {
@@ -1936,11 +1949,12 @@
             var obsInfoCont = document.getElementById("obsInfoCont").value;
             var qtDiasFreeTimeConfirm = document.getElementById("qtDiasFreeTimeConfirm").value;
             var qtDiasDemurrageCompra = document.getElementById("qtDiasDemurrageCompra").value;
+            var qtDiasDemurrageVenda = document.getElementById("qtDiasDemurrageVenda").value;
             if (dsStatus != "") {
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/atualizarContainer",
-                    data: '{idCont:"' + id + '",dtStatus:"' + dtStatus + '",qtDias:"' + qtDiasFreeTime + '",dsStatus: "' + dsStatus + '" ,dsObs:"' + obsInfoCont + '", qtDiasConfirm:"' + qtDiasFreeTimeConfirm + '", qtDiasDemurrageCompra: "' + qtDiasDemurrageCompra + '", dtStatusCompra: "' + dtStatusCompra + '", dsStatusCompra: "' + dsStatusCompra+ '" }',
+                    data: '{idCont:"' + id + '",dtStatus:"' + dtStatus + '",qtDias:"' + qtDiasFreeTime + '",dsStatus: "' + dsStatus + '" ,dsObs:"' + obsInfoCont + '", qtDiasConfirm:"' + qtDiasFreeTimeConfirm + '", qtDiasDemurrageCompra: "' + qtDiasDemurrageCompra + '", qtDiasDemurrageVenda: "' + qtDiasDemurrageVenda+ '", dtStatusCompra: "' + dtStatusCompra + '", dsStatusCompra: "' + dsStatusCompra+ '" }',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (dado) {

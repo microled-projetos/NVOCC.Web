@@ -209,16 +209,20 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
     End Sub
     Private Sub rdTransporteHouse_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdTransporteHouse.SelectedIndexChanged
         GridHouse()
-
     End Sub
 
     Private Sub btnPesquisaHouse_Click(sender As Object, e As EventArgs) Handles btnPesquisaHouse.Click
         divSuccessHouse.Visible = False
         divErroHouse.Visible = False
 
-        If ddlFiltroHouse.SelectedValue = 0 Or txtPesquisaHouse.Text = "" Then
+        If ddlFiltroHouse.SelectedValue = 0 Then
             dgvHouse.DataBind()
+
+        ElseIf ddlFiltroHouse.SelectedValue <> 7 And txtPesquisaHouse.Text = "" Then
+            dgvHouse.DataBind()
+
         Else
+
             Dim FILTRO As String
             If ddlFiltroHouse.SelectedValue = 1 Then
                 FILTRO = " NR_PROCESSO LIKE '%" & txtPesquisaHouse.Text & "%'"
@@ -232,9 +236,15 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
                 FILTRO = " NR_BL LIKE '%" & txtPesquisaHouse.Text & "%'"
             ElseIf ddlFiltroHouse.SelectedValue = 6 Then
                 FILTRO = " CONTAINER LIKE '%" & txtPesquisaHouse.Text.Replace("-", "").Replace(".", "").Replace("/", "") & "%' "
+            ElseIf ddlFiltroHouse.SelectedValue = 7 Then
+                If ddlDocConfHouse.SelectedValue = 1 Then
+                    FILTRO = " DOC_CONFERIDO = 'Sim' "
+                Else
+                    FILTRO = " DOC_CONFERIDO = 'Não' "
+                End If
             End If
 
-            Dim sql As String = "select * from [dbo].[View_House] WHERE " & FILTRO
+            Dim sql As String = "SELECT TOP 1000 * FROM [dbo].[View_House] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
             dsHouse.SelectCommand = sql
             dgvHouse.DataBind()
 
@@ -318,6 +328,15 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
             dgvHouse.Rows(txtlinhaHouse.Text).CssClass = "selected1"
 
+        ElseIf e.CommandName = "DocConferido" Then
+
+            Dim ID As String = e.CommandArgument
+
+
+            dsDocConferidoHouse.SelectParameters("ID_BL").DefaultValue = ID
+            dgvDocConferidoHouse.DataBind()
+            ModalPopupExtender1.Show()
+
         End If
     End Sub
 
@@ -352,7 +371,6 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
     End Sub
 
-    'ROTINA A SER DEFINIDA
     Private Sub lkRemoverHouse_Click(sender As Object, e As EventArgs) Handles lkRemoverHouse.Click
         divSuccessHouse.Visible = False
         divErroHouse.Visible = False
@@ -381,10 +399,7 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
     End Sub
 
-    'ROTINA A SER DEFINIDA
-    Private Sub lkCancelaHouse_Click(sender As Object, e As EventArgs) Handles lkCancelaHouse.Click
 
-    End Sub
 
     Private Sub lkDuplicarHouse_Click(sender As Object, e As EventArgs) Handles lkDuplicarHouse.Click
         divSuccessHouse.Visible = False
@@ -404,7 +419,6 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
                 lblErroHouse.Text = "Selecione o registro que deseja duplicar!"
             Else
                 DUPLICAR(txtIDHouse.Text, "HOUSE")
-                ' dgvHouse.DataBind()
                 GridHouse()
                 divSuccessHouse.Visible = True
                 lblSuccessHouse.Text = "Item duplicado com sucesso!"
@@ -441,6 +455,7 @@ UPDATE TB_BL SET VL_PESO_BRUTO =(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUT
 UPDATE TB_BL SET QT_MERCADORIA = (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text)
 
                 Dim Calcula As New CalculaBL
+
                 Calcula.CalculoProfit(txtIDHouse.Text)
 
                 Dim i As Integer = 0
@@ -450,9 +465,7 @@ UPDATE TB_BL SET QT_MERCADORIA = (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADOR
                 Dim IDs As String = "0"
                 If dsTaxa.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In dsTaxa.Tables(0).Rows
-
                         Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
-
                         If retorno = "BL calculada com sucesso!" Then
                             lblSuccessHouse.Text = "BL calculada com sucesso!"
                             divSuccessHouse.Visible = True
@@ -524,6 +537,7 @@ Where A.ID_BL = " & ID_BL)
         Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 = " & LCAFinal & " WHERE ID_BL = " & ID_BL)
         Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & PESO_TAXADO_Final & " WHERE ID_BL = " & ID_BL)
     End Sub
+
     Private Sub dgvMaster_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvMaster.RowCommand
         divSuccessMaster.Visible = False
         divErroMaster.Visible = False
@@ -546,6 +560,16 @@ Where A.ID_BL = " & ID_BL)
             Next
 
             dgvMaster.Rows(txtLinhaMaster.Text).CssClass = "selected1"
+
+        ElseIf e.CommandName = "DocConferido" Then
+
+            Dim ID As String = e.CommandArgument
+
+
+            dsDocConferidoMaster.SelectParameters("ID_BL").DefaultValue = ID
+            dgvDocConferidoMaster.DataBind()
+            ModalPopupExtender2.Show()
+
 
         End If
     End Sub
@@ -668,7 +692,7 @@ Where A.ID_BL = " & ID_BL)
                 FILTRO = " PARCEIRO_CLIENTE LIKE '%" & txtPesquisaEmbarque.Text & "%' "
             End If
 
-            Dim sql As String = "select * from [dbo].[View_Embarque] WHERE " & FILTRO
+            Dim sql As String = "SELECT TOP 1000 * * from [dbo].[View_Embarque] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
             dsEmbarque.SelectCommand = sql
             dgvEmbarque.DataBind()
 
@@ -676,8 +700,12 @@ Where A.ID_BL = " & ID_BL)
     End Sub
 
     Private Sub btnPesquisaMaster_Click(sender As Object, e As EventArgs) Handles btnPesquisaMaster.Click
-        If ddlFiltroMaster.SelectedValue = 0 Or txtPesquisaMaster.Text = "" Then
+        If ddlFiltroMaster.SelectedValue = 0 Then
             dgvMaster.DataBind()
+
+        ElseIf ddlFiltroMaster.SelectedValue <> 6 And txtPesquisaMaster.Text = "" Then
+            dgvMaster.DataBind()
+
         Else
             Dim FILTRO As String
 
@@ -692,9 +720,15 @@ Where A.ID_BL = " & ID_BL)
                 FILTRO = " Destino LIKE '%" & txtPesquisaMaster.Text & "%' "
             ElseIf ddlFiltroMaster.SelectedValue = 5 Then
                 FILTRO = " CONTAINER LIKE '%" & txtPesquisaMaster.Text.Replace("-", "").Replace(".", "").Replace("/", "") & "%' "
+            ElseIf ddlFiltroMaster.SelectedValue = 6 Then
+                If ddlDocConfMaster.SelectedValue = 1 Then
+                    FILTRO = " DOC_CONFERIDO = 'Sim' "
+                Else
+                    FILTRO = " DOC_CONFERIDO = 'Não' "
+                End If
             End If
 
-            Dim sql As String = "select * from [dbo].[View_Master] WHERE " & FILTRO
+            Dim sql As String = "SELECT TOP 1000 * FROM [dbo].[View_Master] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
             dsMaster.SelectCommand = sql
             dgvMaster.DataBind()
 
@@ -940,7 +974,6 @@ Where A.ID_BL = " & ID_BL)
                 lblErroMaster.Text = "Selecione o registro que deseja duplicar!"
             Else
                 DUPLICAR(txtID_Master.Text, "MASTER")
-                ' dgvMaster.DataBind()
                 GridMaster()
                 divSuccessMaster.Visible = True
                 lblSuccessMaster.Text = "Item duplicado com sucesso!"
@@ -967,7 +1000,6 @@ Where A.ID_BL = " & ID_BL)
                 lblErroEmbarque.Text = "Selecione o registro que deseja duplicar!"
             Else
                 DUPLICAR(txtID_Embarque.Text, "EMBARQUE")
-                'dgvEmbarque.DataBind()
                 GridEmbarque()
                 divSuccessEmbarque.Visible = True
                 lblSuccessEmbarque.Text = "Item duplicado com sucesso!"
@@ -984,9 +1016,7 @@ Where A.ID_BL = " & ID_BL)
         divSuccessMaster.Visible = False
         divErroMaster.Visible = False
 
-        'Session("ID_BL") = 0
-        'Session("NR_BL") = 0
-        'Session("TRAKING_BL") = 0
+
         If txtID_Master.Text = "" Then
             divErroMaster.Visible = True
             lblErroMaster.Text = "Selecione o registro que deseja rastrear!"
@@ -1001,11 +1031,7 @@ Where A.ID_BL = " & ID_BL)
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
-                        'Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
-                        'Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
-                        'Session("ID_BL") = txtID_Master.Text
                         Response.Redirect("RastreioBL.aspx?id=" & txtID_Master.Text)
-
                     Else
                         divErroMaster.Visible = True
                         lblErroMaster.Text = "BL não cadastrada no Logcomex."
@@ -1179,7 +1205,6 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
             divErroHouse.Visible = True
             lblErroHouse.Text = "Selecione o registro que deseja consultar!"
         Else
-            ' window.open('Conferencia.aspx?bl=&id=' + ID + '&T=' + GRAU, '_blank');
             Response.Redirect("Conferencia.aspx?T=C&bl=" & txtIDHouse.Text)
         End If
     End Sub
@@ -1188,9 +1213,7 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
         divSuccessHouse.Visible = False
         divErroHouse.Visible = False
 
-        'Session("ID_BL") = 0
-        'Session("NR_BL") = 0
-        'Session("TRAKING_BL") = 0
+
         If txtIDHouse.Text = "" Then
             divErroHouse.Visible = True
             lblErroHouse.Text = "Selecione o registro que deseja rastrear!"
@@ -1206,12 +1229,7 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
                 Rastreio.trackingbl(txtIDHouse.Text)
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtIDHouse.Text)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
-                    'Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
-                    'Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
-                    'Session("ID_BL") = txtIDHouse.Text
-                    'Response.Redirect("RastreioHBL.aspx")
                     Response.Redirect("RastreioHBL.aspx?id=" & txtIDHouse.Text)
-
                 Else
                     divErroHouse.Visible = True
                     lblErroHouse.Text = "BL não cadastrada no Logcomex."
@@ -1224,5 +1242,65 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
             End If
         End If
 
+    End Sub
+
+    Private Sub ddlFiltroHouse_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFiltroHouse.SelectedIndexChanged
+        If ddlFiltroHouse.SelectedValue = 7 Then
+            txtPesquisaHouse.Visible = False
+            ddlDocConfHouse.Visible = True
+        Else
+            txtPesquisaHouse.Visible = True
+            ddlDocConfHouse.Visible = False
+        End If
+    End Sub
+
+    Private Sub ddlFiltroMaster_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFiltroMaster.SelectedIndexChanged
+        If ddlFiltroMaster.SelectedValue = 6 Then
+            txtPesquisaMaster.Visible = False
+            ddlDocConfMaster.Visible = True
+        Else
+            txtPesquisaMaster.Visible = True
+            ddlDocConfMaster.Visible = False
+        End If
+    End Sub
+
+    Private Sub dgvHouse_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvHouse.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim Status As Label = CType(e.Row.FindControl("lblTemHistorico"), Label)
+
+            Dim ImageButton As ImageButton = CType(e.Row.FindControl("ImageButton1"), ImageButton)
+
+
+
+            If Status.Text = "" Then
+
+                ImageButton.Visible = False
+
+            End If
+
+
+
+        End If
+    End Sub
+
+    Private Sub dgvMaster_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvMaster.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim Status As Label = CType(e.Row.FindControl("lblTemHistorico"), Label)
+
+            Dim ImageButton As ImageButton = CType(e.Row.FindControl("ImageButton1"), ImageButton)
+
+
+
+            If Status.Text = "" Then
+
+                ImageButton.Visible = False
+
+            End If
+
+
+
+        End If
     End Sub
 End Class

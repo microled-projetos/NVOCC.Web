@@ -1956,8 +1956,6 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
             End If
 
-
-
         End If
     End Sub
 

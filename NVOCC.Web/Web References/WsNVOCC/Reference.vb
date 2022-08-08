@@ -21,7 +21,7 @@ Imports System.Xml.Serialization
 '
 'Este código-fonte foi gerado automaticamente por Microsoft.VSDesigner, Versão 4.0.30319.42000.
 '
-Namespace NotaFiscal
+Namespace WsNVOCC
     
     '''<remarks/>
     <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0"),  _
@@ -42,6 +42,8 @@ Namespace NotaFiscal
         Private DesBloqueioOperationCompleted As System.Threading.SendOrPostCallback
         
         Private StatusBloqueioOperationCompleted As System.Threading.SendOrPostCallback
+        
+        Private ConsultaCNPJOperationCompleted As System.Threading.SendOrPostCallback
         
         Private useDefaultCredentialsSetExplicitly As Boolean
         
@@ -98,6 +100,9 @@ Namespace NotaFiscal
         
         '''<remarks/>
         Public Event StatusBloqueioCompleted As StatusBloqueioCompletedEventHandler
+        
+        '''<remarks/>
+        Public Event ConsultaCNPJCompleted As ConsultaCNPJCompletedEventHandler
         
         '''<remarks/>
         <System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IntegraNFePrefeitura", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
@@ -261,6 +266,33 @@ Namespace NotaFiscal
         End Sub
         
         '''<remarks/>
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ConsultaCNPJ", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        Public Function ConsultaCNPJ(ByVal CNPJ As String) As Object
+            Dim results() As Object = Me.Invoke("ConsultaCNPJ", New Object() {CNPJ})
+            Return CType(results(0),Object)
+        End Function
+        
+        '''<remarks/>
+        Public Overloads Sub ConsultaCNPJAsync(ByVal CNPJ As String)
+            Me.ConsultaCNPJAsync(CNPJ, Nothing)
+        End Sub
+        
+        '''<remarks/>
+        Public Overloads Sub ConsultaCNPJAsync(ByVal CNPJ As String, ByVal userState As Object)
+            If (Me.ConsultaCNPJOperationCompleted Is Nothing) Then
+                Me.ConsultaCNPJOperationCompleted = AddressOf Me.OnConsultaCNPJOperationCompleted
+            End If
+            Me.InvokeAsync("ConsultaCNPJ", New Object() {CNPJ}, Me.ConsultaCNPJOperationCompleted, userState)
+        End Sub
+        
+        Private Sub OnConsultaCNPJOperationCompleted(ByVal arg As Object)
+            If (Not (Me.ConsultaCNPJCompletedEvent) Is Nothing) Then
+                Dim invokeArgs As System.Web.Services.Protocols.InvokeCompletedEventArgs = CType(arg,System.Web.Services.Protocols.InvokeCompletedEventArgs)
+                RaiseEvent ConsultaCNPJCompleted(Me, New ConsultaCNPJCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
+            End If
+        End Sub
+        
+        '''<remarks/>
         Public Shadows Sub CancelAsync(ByVal userState As Object)
             MyBase.CancelAsync(userState)
         End Sub
@@ -417,4 +449,31 @@ Namespace NotaFiscal
     '''<remarks/>
     <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")>  _
     Public Delegate Sub StatusBloqueioCompletedEventHandler(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
+    
+    '''<remarks/>
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")>  _
+    Public Delegate Sub ConsultaCNPJCompletedEventHandler(ByVal sender As Object, ByVal e As ConsultaCNPJCompletedEventArgs)
+    
+    '''<remarks/>
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0"),  _
+     System.Diagnostics.DebuggerStepThroughAttribute(),  _
+     System.ComponentModel.DesignerCategoryAttribute("code")>  _
+    Partial Public Class ConsultaCNPJCompletedEventArgs
+        Inherits System.ComponentModel.AsyncCompletedEventArgs
+        
+        Private results() As Object
+        
+        Friend Sub New(ByVal results() As Object, ByVal exception As System.Exception, ByVal cancelled As Boolean, ByVal userState As Object)
+            MyBase.New(exception, cancelled, userState)
+            Me.results = results
+        End Sub
+        
+        '''<remarks/>
+        Public ReadOnly Property Result() As Object
+            Get
+                Me.RaiseExceptionIfNecessary
+                Return CType(Me.results(0),Object)
+            End Get
+        End Property
+    End Class
 End Namespace

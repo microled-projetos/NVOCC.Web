@@ -313,14 +313,7 @@
                                <asp:TextBox ID="txtAjusteBase" Enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
                                         </div>
                                          </div>
-
-                                    <%-- <div class="col-sm-3">
-                                    <div class="form-group">                                             
-                                <asp:Label ID="Label25" runat="server">Qtd. CNTR</asp:Label><label runat="server" style="color: red">*</label><br />
-                               <asp:TextBox ID="txtAjusteQtdCNTR" runat="server" CssClass="form-control inteiro"></asp:TextBox>                                      
-                                   </div>          
-                                </div>  --%>
-                                                                        
+                                              
                                      <div class="col-sm-4">
                                     <div class="form-group">                                          
                                

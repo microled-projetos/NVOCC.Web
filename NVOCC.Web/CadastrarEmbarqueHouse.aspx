@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-sm-offset-9 col-sm-3">
                             <asp:LinkButton ID="btnCapaMaritimo" runat="server" Visible="False" CssClass="btn btn-success btn-block" Text="Imprimir Capa do Processo" href="#" OnClientClick="CapaMaritimo()" />
-                            <asp:LinkButton ID="btnCapaAereo" runat="server" Visible="False" CssClass="btn btn-success btn-block" Text="Imprimir Capa do Processo" href="#" OnClientClick="CapaAereo()" />
+                            <asp:LinkButton ID="btnCapaAereo" runat="server" Visible="False" CssClass="btn btn-success btn-block" Text="Imprimir Capa do Processo" href="#" OnClientClick="CapaAereo()" />                           
                         </div>
                     </div><div id="tabs">
                     <ul class="nav nav-tabs" role="tablist">
@@ -144,6 +144,12 @@
                                                 <label class="control-label"></label>
                                                 <asp:CheckBox ID="ckTrakingAutomaticoMaritimo" runat="server" CssClass="form-control" Checked="true" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
 
+                                            </div>
+                                        </div>
+                                         <div class="col-sm-1" id="divDocConferidoMaritimo" runat="server" >
+                                            <div class="form-group">
+                                                <center><label class="control-label">Doc. Conferido?</label><br />
+                                                    <asp:CheckBox ID="ckDocConferidosMaritimo" runat="server" ></asp:CheckBox></center>
                                             </div>
                                         </div>
                                         </div>
@@ -1363,10 +1369,10 @@ VENDAS:
                                                 <asp:Button ID="btnVisualizarMBL_Aereo" runat="server" CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
                                             </div>
                                         </div>
-                                                  <div class="col-sm-2">
+                                                  <div class="col-sm-1">
                                             <div class="form-group">
                                                 <label class="control-label"></label>
-                                                <asp:CheckBox ID="ckbFreeHand_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Free Hand"></asp:CheckBox>
+                                                <asp:CheckBox ID="ckbFreeHand_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;Free Hand"></asp:CheckBox>
 
                                             </div>
                                                      </div>  <div class="col-sm-1">
@@ -1380,14 +1386,18 @@ VENDAS:
                                                     <label class="control-label" style="color: white">X</label>
                                                     <asp:CheckBox ID="ckbTC6_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;TC6"></asp:CheckBox>
                                                 </div>
-                                            </div><div class="col-sm-2">
-                                           
-                                        </div>
+                                            </div>
                                                 <div class="col-sm-2" style="display: none">
                                             <div class="form-group">
                                                 <label class="control-label"></label>
                                                 <asp:CheckBox ID="ckTrakingAutomaticoAereo" runat="server" CssClass="form-control" Checked="true" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
 
+                                            </div>
+                                        </div>
+                                                    <div class="col-sm-1" id="divDocConferidoAereo" runat="server" >
+                                            <div class="form-group">
+                                                <center><label class="control-label">Doc. Conferido?</label><br />
+                                                    <asp:CheckBox ID="ckDocConferidosAereo" runat="server" ></asp:CheckBox></center>
                                             </div>
                                         </div>
                                                 </div>

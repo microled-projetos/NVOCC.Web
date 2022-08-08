@@ -113,6 +113,12 @@
                                                 <asp:CheckBox ID="ckTrakingAutomaticoMaritimo" runat="server" CssClass="form-control" Checked="true" Visible="false" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
                                             </div>
                                         </div>
+                                         <div class="col-sm-offset-5 col-sm-1">
+                                            <div class="form-group">
+                                               <center> <label class="control-label">Doc. Conferido?</label><br />
+                                                    <asp:CheckBox ID="ckDocConferidosMaritimo" runat="server" ></asp:CheckBox></center>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-3">
@@ -1189,7 +1195,13 @@
                                                         <asp:CheckBox ID="ckTrakingAutomaticoAereo" runat="server" CssClass="form-control" Checked="true" Visible="false" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
                                                     </div>
                                                 </div>
+                                           
+                                            <div class="col-sm-offset-5 col-sm-1">
+                                            <div class="form-group">
+                                                <center><label class="control-label">Doc. Conferido?</label><br />
+                                                    <asp:CheckBox ID="ckDocConferidosAereo" runat="server" ></asp:CheckBox></center>
                                             </div>
+                                        </div> </div>
                                             <div class="row">
 
                                                 <div class="col-sm-3">

@@ -1,4 +1,4 @@
-﻿
+﻿Imports Newtonsoft.Json
 Public Class CadastrarParceiro
     Inherits System.Web.UI.Page
 
@@ -1648,5 +1648,128 @@ WHERE ID_PARCEIRO =" & ID)
                 ddlPais.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PAIS").ToString()
             End If
         End If
+    End Sub
+
+    Private Sub btnConsultaCNPJ_Click(sender As Object, e As EventArgs) Handles btnConsultaCNPJ.Click
+        If txtCNPJ.Text <> "" Then
+
+            Try
+                Using Buscar = New WsNVOCC.WsNvocc
+
+                    Dim Resultado = Buscar.ConsultaCNPJ(txtCNPJ.Text.Replace("-", "").Replace(".", "").Replace("/", ""))
+                    Dim dados As Root = JsonConvert.DeserializeObject(Of Root)(Resultado)
+                    ' txtOBSComplementares.Text = Resultado
+
+                    If dados.estabelecimento.situacao_cadastral = "Baixada" Then
+                        divmsg1.Visible = True
+                        msgErro.Text = "CNPJ INATIVO!"
+                        Exit Sub
+
+                    Else
+
+                        If Not dados.razao_social Is Nothing Then
+                            txtRazaoSocial.Text = dados.razao_social
+                        Else
+                            txtRazaoSocial.Text = ""
+                        End If
+
+                        If Not dados.estabelecimento.nome_fantasia Is Nothing Then
+                            txtNomeFantasia.Text = dados.estabelecimento.nome_fantasia
+                        ElseIf Not dados.razao_social Is Nothing Then
+                            txtNomeFantasia.Text = dados.razao_social
+                        Else
+                            txtNomeFantasia.Text = ""
+                        End If
+
+                        If Not dados.estabelecimento.email Is Nothing Then
+                            txtEmailParceiro.Text = dados.estabelecimento.email
+                            txtEmailNF.Text = dados.estabelecimento.email
+                        Else
+                            txtEmailParceiro.Text = ""
+                            txtEmailNF.Text = ""
+                        End If
+
+                        If Not dados.estabelecimento.telefone1 Is Nothing Then
+                            txtTelefone.Text = dados.estabelecimento.ddd1 & dados.estabelecimento.telefone1
+                        Else
+                            txtTelefone.Text = ""
+                        End If
+
+                        If Not dados.estabelecimento.cep Is Nothing Then
+                            txtCEP.Text = dados.estabelecimento.cep
+                        Else
+                            txtCEP.Text = ""
+                        End If
+
+                        If Not dados.estabelecimento.logradouro Is Nothing Then
+                            txtEndereco.Text = dados.estabelecimento.tipo_logradouro & " " & dados.estabelecimento.logradouro
+                        Else
+                            txtEndereco.Text = ""
+                        End If
+
+                        If Not dados.estabelecimento.numero Is Nothing Then
+                            txtNumero.Text = dados.estabelecimento.numero
+                        Else
+                            txtNumero.Text = ""
+                        End If
+
+                        If Not dados.estabelecimento.complemento Is Nothing Then
+                            txtComplemento.Text = dados.estabelecimento.complemento
+                        Else
+                            txtComplemento.Text = ""
+                        End If
+
+                        If Not dados.estabelecimento.bairro Is Nothing Then
+                            txtBairro.Text = dados.estabelecimento.bairro
+                        Else
+                            txtBairro.Text = ""
+                        End If
+
+                        If Not dados.estabelecimento.inscricoes_estaduais Is Nothing Then
+                            txtInscEstadual.Text = ""
+                            Dim listaInsc = dados.estabelecimento.inscricoes_estaduais
+                            For Each Insc In listaInsc
+                                If Insc.ativo = "true" Then
+                                    txtInscEstadual.Text = Insc.inscricao_estadual
+                                End If
+                            Next
+                            If txtInscEstadual.Text = "" Then
+                                txtInscEstadual.Text = "ISENTO"
+                            End If
+                        Else
+                            txtInscEstadual.Text = "ISENTO"
+                        End If
+
+                        If Not dados.estabelecimento.cidade.nome Is Nothing Then
+                            Dim Con As New Conexao_sql
+                            Con.Conectar()
+                            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_PAIS,0)ID_PAIS, ISNULL(ID_CIDADE,0)ID_CIDADE FROM TB_CIDADE WHERE UPPER(NM_CIDADE) = UPPER([dbo].[fnTiraAcento]('" & dados.estabelecimento.cidade.nome & "'))")
+                            If ds.Tables(0).Rows.Count > 0 Then
+                                ddlCidade.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CIDADE").ToString()
+                                ddlPais.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PAIS").ToString()
+                            Else
+                                ddlCidade.SelectedValue = 0
+                                ddlPais.SelectedValue = 0
+                            End If
+                        Else
+                            ddlCidade.SelectedValue = 0
+                            ddlPais.SelectedValue = 0
+                        End If
+
+                    End If
+                End Using
+
+
+            Catch ex As Exception
+
+                divmsg1.Visible = True
+                msgErro.Text = "Não foi possivel completar a ação: " & ex.Message
+                Exit Sub
+
+            End Try
+
+
+        End If
+
     End Sub
 End Class
