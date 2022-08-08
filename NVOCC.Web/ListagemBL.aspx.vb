@@ -455,7 +455,11 @@ UPDATE TB_BL SET VL_PESO_BRUTO =(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUT
 UPDATE TB_BL SET QT_MERCADORIA = (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text)
 
                 Dim Calcula As New CalculaBL
+<<<<<<< HEAD
                 Dim retorno As String = Calcula.CalculoProfit(txtIDHouse.Text)
+=======
+                Calcula.CalculoProfit(txtIDHouse.Text)
+>>>>>>> master
 
                 Dim i As Integer = 0
 
@@ -465,7 +469,11 @@ UPDATE TB_BL SET QT_MERCADORIA = (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADOR
                 If dsTaxa.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In dsTaxa.Tables(0).Rows
 
+<<<<<<< HEAD
                         retorno = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
+=======
+                        Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
+>>>>>>> master
 
                         If retorno = "BL calculada com sucesso!" Then
                             lblSuccessHouse.Text = "BL calculada com sucesso!"
@@ -538,7 +546,10 @@ Where A.ID_BL = " & ID_BL)
         Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 = " & LCAFinal & " WHERE ID_BL = " & ID_BL)
         Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & PESO_TAXADO_Final & " WHERE ID_BL = " & ID_BL)
     End Sub
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
     Private Sub dgvMaster_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvMaster.RowCommand
         divSuccessMaster.Visible = False
         divErroMaster.Visible = False

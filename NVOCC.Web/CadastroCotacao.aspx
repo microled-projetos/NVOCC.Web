@@ -843,7 +843,6 @@
                                                     <asp:BoundField DataField="NR_COTACAO" HeaderText="Nº Cotação" SortExpression="NR_COTACAO" />
                                                     <asp:BoundField DataField="ORIGEM" HeaderText="Origem" SortExpression="Origem" />
                                                     <asp:BoundField DataField="DESTINO" HeaderText="Destino" SortExpression="Destino" />
-                                                    <asp:BoundField DataField="NM_PLACE_RECEIPT" HeaderText="Place of Receipt" SortExpression="NM_PLACE_RECEIPT" />
                                                     <asp:BoundField DataField="NM_FINAL_DESTINATION" HeaderText="Final Destination" SortExpression="NM_FINAL_DESTINATION" />
                                                     <asp:BoundField DataField="TRANSPORTADOR" HeaderText="Transportador" SortExpression="Transportador" />
                                                     <asp:BoundField DataField="CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="CLIENTE_FINAL" />
@@ -864,13 +863,8 @@
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvFrete" />
-                                    <%--        <asp:PostBackTrigger ControlID="btnGravar" />--%>
                                     <asp:AsyncPostBackTrigger ControlID="btnFecharFrete" />
-                                    <%--  <asp:PostBackTrigger ControlID="btnFecharFrete" />--%>
-
                                     <asp:AsyncPostBackTrigger ControlID="btnSalvarFrete" />
-
-
                                 </Triggers>
                             </asp:UpdatePanel>
                         </div>
@@ -1769,7 +1763,6 @@
         SelectCommand="SELECT ID_COTACAO,NR_COTACAO,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM) ORIGEM,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) DESTINO,
-(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.PLACE_RECEIPT) NM_PLACE_RECEIPT,
 (SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.FINAL_DESTINATION) NM_FINAL_DESTINATION,
 (SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = A.ID_CLIENTE_FINAL) CLIENTE_FINAL,
 (SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_TRANSPORTADOR and FL_TRANSPORTADOR = 1) TRANSPORTADOR
