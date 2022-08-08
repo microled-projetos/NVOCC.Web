@@ -872,7 +872,6 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
 
 
-
                         txtID.Text = ""
                         lblmsgSuccess.Text = "RPS enviada para substituição com sucesso!"
                         divSuccess.Visible = True
@@ -1272,13 +1271,8 @@ BAIRRO ,
 NR_NOTA_FISCAL,
 NOSSONUMERO, 
 (SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,
-<<<<<<< HEAD
-(SELECT REPLACE(REPLACE(NR_PROCESSO,'/',''),'-','') from View_Faturamento where ID_FATURAMENTO = A.ID_FATURAMENTO ) NR_NOTA_DEBITO,
-(SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO =  A.ID_FATURAMENTO )NR_PROCESSO, 
-=======
 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, 
 (SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO = " & IDs & " )NR_PROCESSO, 
->>>>>>> master
 CASE WHEN ISNULL(A.VL_IR_NF,0)> 0 THEN 1 ELSE 0 END FL_IR, 
 CASE WHEN A.NR_NOTA_FISCAL IS NOT NULL THEN 1 ELSE 0 END FL_NF,
 (SELECT SUM(ISNULL(B.VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER) VL_FATURA,
@@ -1604,99 +1598,6 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
 
     End Sub
 
-    Sub ArquivoRemessa()
-
-        divSuccess.Visible = False
-        divErro.Visible = False
-
-        Dim GeraRemessa As New GeraRemessa
-
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim ConOracle As New Conexao_oracle
-        ConOracle.Conectar()
-        Dim dsBanco As DataSet = Con.ExecutarQuery("SELECT NR_BANCO AS cod_banco, COD_MULTA,VL_MULTA,CNPJ_CPF_CEDENTE AS CNPJ_CEDENTE,NM_CEDENTE AS NOME_CEDENTE,convert(int,NR_BANCO)NR_BANCO,NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,ENDERECO_CEDENTE,CARTEIRA,CD_CEDENTE,CD_TRASMISSAO as cod_trans ,NUMERO_END_CEDENTE, BAIRRO_END_CEDENTE, UF_END_CEDENTE, CEP_END_CEDENTE, CIDADE_END_CEDENTE, COMP_END_CEDENTE, ESPECIE_TITULO,QT_DIAS_PROTESTO,COD_PROTESTO, QT_DIAS_BAIXA, COD_BAIXA,VL_MORA, COD_MORA,COD_MOV, OBS1,OBS2,SEQ_ARQUIVO,SEQUENCIA FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = 1") '& ddlBanco.SelectedValue)
-        If dsBanco.Tables(0).Rows.Count > 0 Then
-            Dim dt As DataTable = ConOracle.Consultar("SELECT SEQ_ARQUIVO from Sgipa.TB_BANCO_BOLETO WHERE AUTONUM = 1 ")
-            Dim SEQ_ARQUIVO As String = ""
-
-            If dt.Rows.Count > 0 Then
-                SEQ_ARQUIVO = dt.Rows(0)("SEQ_ARQUIVO").ToString
-                SEQ_ARQUIVO = SEQ_ARQUIVO + 1
-            End If
-
-
-
-            Dim strToWrite As String = ""
-            Dim Stream As IO.StreamWriter = Nothing
-            Try
-                Dim NomeStream As String
-                'NomeStream = "/Content/boletos\arquivo_remessa.txt"
-                NomeStream = "\arquivo_remessa_" & SEQ_ARQUIVO & ".txt"
-                Stream = New IO.StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Personal) & NomeStream, True)
-                '  Stream = New IO.StreamWriter(AppDomain.CurrentDomain.BaseDirectory & NomeStream, True)
-                Stream.WriteLine(strToWrite)
-                Stream.Flush()
-                Dim seqRem As Integer = 0
-                Dim seqLote As Integer = 0
-
-                If dsBanco.Tables(0).Rows(0).Item("cod_banco") = "033" Or dsBanco.Tables(0).Rows(0).Item("cod_banco") = "104" Or dsBanco.Tables(0).Rows(0).Item("cod_banco") = "001" Then
-                    Stream.WriteLine(GeraRemessa.criaHeaderSantander(dsBanco.Tables(0).Rows(0).Item("cod_banco"), dsBanco.Tables(0).Rows(0).Item("CNPJ_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("NOME_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("cod_trans"), SEQ_ARQUIVO))
-                    seqRem = 1
-                    Stream.WriteLine(GeraRemessa.criaHeaderLoteSantander(1, dsBanco.Tables(0).Rows(0).Item("cod_banco"), dsBanco.Tables(0).Rows(0).Item("CNPJ_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("NOME_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("cod_trans"), dsBanco.Tables(0).Rows(0).Item("obs1"), dsBanco.Tables(0).Rows(0).Item("obs2")))
-                    seqRem = seqRem + 1
-                    seqLote = 1
-                    For i = 1 To dgvFaturamento.Rows.Count - 1
-
-                        Dim check As CheckBox = dgvFaturamento.Rows(i).FindControl("ckSelecionar")
-                        Dim ID As String = CType(dgvFaturamento.Rows(i).FindControl("lblID"), Label).Text
-                        If check.Checked Then
-
-
-                            Dim dsFatura As DataSet = Con.ExecutarQuery("SELECT NOSSONUMERO,CONVERT(DATE, DT_VENCIMENTO_BOLETO,103)DT_VENCIMENTO_BOLETO,VL_BOLETO,CONVERT(DATE, DT_EMISSAO_BOLETO,103)DT_EMISSAO_BOLETO, CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,CEP,CIDADE,(SELECT SIGLA_ESTADO FROM TB_ESTADO C WHERE C.NM_ESTADO = ESTADO) AS UF,COD_BANCO, NR_NOTA_FISCAL FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & ID)
-
-
-
-                            Stream.WriteLine(GeraRemessa.criaDetalhePSantander(1, seqLote, dsFatura.Tables(0).Rows(0).Item("NOSSONUMERO"), dsFatura.Tables(0).Rows(0).Item("NR_NOTA_FISCAL"), dsFatura.Tables(0).Rows(0).Item("DT_VENCIMENTO_BOLETO"), dsFatura.Tables(0).Rows(0).Item("DT_EMISSAO_BOLETO"), dsFatura.Tables(0).Rows(0).Item("VL_BOLETO"), dsBanco.Tables(0).Rows(0).Item("cod_banco"), dsBanco.Tables(0).Rows(0).Item("CNPJ_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("NOME_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("cod_trans"), dsBanco.Tables(0).Rows(0).Item("COD_MOV"), dsBanco.Tables(0).Rows(0).Item("NR_AGENCIA"), dsBanco.Tables(0).Rows(0).Item("DG_AGENCIA"), dsBanco.Tables(0).Rows(0).Item("NR_CONTA"), dsBanco.Tables(0).Rows(0).Item("DG_CONTA"), dsBanco.Tables(0).Rows(0).Item("especie_titulo"), dsBanco.Tables(0).Rows(0).Item("cod_mora"), dsBanco.Tables(0).Rows(0).Item("COD_PROTESTO"), dsBanco.Tables(0).Rows(0).Item("QT_DIAS_PROTESTO"), dsBanco.Tables(0).Rows(0).Item("COD_BAIXA"), dsBanco.Tables(0).Rows(0).Item("QT_DIAS_BAIXA"), dsBanco.Tables(0).Rows(0).Item("VL_MORA")))
-                            seqLote = seqLote + 1
-                            seqRem = seqRem + 1
-                            Stream.WriteLine(GeraRemessa.criaDetalheQSantander(1, seqLote, dsFatura.Tables(0).Rows(0).Item("CNPJ"), dsFatura.Tables(0).Rows(0).Item("NM_CLIENTE"), dsFatura.Tables(0).Rows(0).Item("ENDERECO"), dsFatura.Tables(0).Rows(0).Item("BAIRRO"), dsFatura.Tables(0).Rows(0).Item("CEP"), dsFatura.Tables(0).Rows(0).Item("CIDADE"), dsFatura.Tables(0).Rows(0).Item("UF"), dsFatura.Tables(0).Rows(0).Item("COD_BANCO"), dsBanco.Tables(0).Rows(0).Item("COD_MOV")))
-                            seqLote = seqLote + 1
-                            seqRem = seqRem + 1
-                            If GeraRemessa.NNull(dsBanco.Tables(0).Rows(0).Item("COD_MULTA"), 1) <> "" Then
-                                Stream.WriteLine(GeraRemessa.criaDetalheRSantander(1, seqLote, dsBanco.Tables(0).Rows(0).Item("COD_BANCO"), dsBanco.Tables(0).Rows(0).Item("COD_MOV"), dsBanco.Tables(0).Rows(0).Item("COD_MULTA"), dsBanco.Tables(0).Rows(0).Item("VL_MULTA")))
-                                seqLote = seqLote + 1
-                                seqRem = seqRem + 1
-                            End If
-                            Con.ExecutarQuery("UPDATE TB_FATURAMENTO SET FL_ENVIADO_REM = 1, DT_ENVIO_REM = GETDATE(), ARQ_REM ='" & NomeStream & "', USUARIO_REM ='" & Session("ID_USUARIO") & "' WHERE ID_FATURAMENTO = " & ID)
-
-                            ConOracle.ExecuteScalar("UPDATE TB_BANCO_BOLETO SET SEQ_ARQUIVO =  " & SEQ_ARQUIVO & "WHERE AUTONUM = 1")
-                        End If
-                    Next i
-                    seqLote = seqLote + 1
-                    seqRem = seqRem + 1
-                    Stream.WriteLine(GeraRemessa.criaTrailerLoteSantander(1, seqLote, dsBanco.Tables(0).Rows(0).Item("COD_BANCO")))
-                    seqRem = seqRem + 1
-                    Stream.WriteLine(GeraRemessa.criaTrailerSantander(1, seqRem, dsBanco.Tables(0).Rows(0).Item("COD_BANCO")))
-                    Stream.Close()
-
-
-                End If
-
-
-            Catch ex As Exception
-                divErro.Visible = True
-                lblmsgErro.Text = ex.Message
-                Exit Sub
-            End Try
-
-
-            divSuccess.Visible = True
-            lblmsgSuccess.Text = "Remessa gerada com sucesso!"
-        End If
-        Con.Fechar()
-        ConOracle.Desconectar()
-    End Sub
 
     Private Sub lkBoletoRemessa_Click(sender As Object, e As EventArgs) Handles lkBoletoRemessa.Click
         Response.Redirect("RemessaBoletos.aspx")
@@ -1765,82 +1666,5 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
             End If
 
         End If
-    End Sub
-
-    Private Sub txtCNPJSub_TextChanged(sender As Object, e As EventArgs) Handles txtCNPJSub.TextChanged
-        divErroSubstituir.Visible = False
-
-        If txtCNPJSub.Text <> "" Then
-            Dim Con As New Conexao_sql
-            Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT UPPER(P.NM_RAZAO)NM_RAZAO, UPPER(P.ENDERECO)ENDERECO, P.NR_ENDERECO, UPPER(P.COMPL_ENDERECO)COMPL_ENDERECO, UPPER(P.BAIRRO)BAIRRO, P.CEP, P.CNPJ, P.INSCR_ESTADUAL, P.INSCR_MUNICIPAL, UPPER(C.NM_CIDADE)NM_CIDADE, UPPER(E.NM_ESTADO)NM_ESTADO FROM TB_PARCEIRO P LEFT JOIN TB_CIDADE C ON C.ID_CIDADE = P.ID_CIDADE LEFT JOIN TB_ESTADO E ON E.ID_ESTADO = C.ID_ESTADO WHERE CNPJ ='" & txtCNPJSub.Text & "'")
-            If ds.Tables(0).Rows.Count > 0 Then
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_RAZAO")) Then
-                    txtRazaoSocial.Text = ds.Tables(0).Rows(0).Item("NM_RAZAO")
-                Else
-                    txtRazaoSocial.Text = ""
-                End If
-
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ENDERECO")) Then
-                    txtEndereco.Text = ds.Tables(0).Rows(0).Item("ENDERECO")
-                Else
-                    txtEndereco.Text = ""
-                End If
-
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_ENDERECO")) Then
-                    txtNumEndereco.Text = ds.Tables(0).Rows(0).Item("NR_ENDERECO")
-                Else
-                    txtNumEndereco.Text = ""
-                End If
-
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("BAIRRO")) Then
-                    txtBairro.Text = ds.Tables(0).Rows(0).Item("BAIRRO")
-                Else
-                    txtBairro.Text = ""
-                End If
-
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("COMPL_ENDERECO")) Then
-                    txtComplem.Text = ds.Tables(0).Rows(0).Item("COMPL_ENDERECO")
-                Else
-                    txtComplem.Text = ""
-                End If
-
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_CIDADE")) Then
-                    txtCidade.Text = ds.Tables(0).Rows(0).Item("NM_CIDADE")
-                Else
-                    txtCidade.Text = ""
-                End If
-
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_ESTADO")) Then
-                    txtEstado.Text = ds.Tables(0).Rows(0).Item("NM_ESTADO")
-                Else
-                    txtEstado.Text = ""
-                End If
-
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CEP")) Then
-                    txtCEP.Text = ds.Tables(0).Rows(0).Item("CEP")
-                Else
-                    txtCEP.Text = ""
-                End If
-
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("INSCR_ESTADUAL")) Then
-                    txtInscEstadual.Text = ds.Tables(0).Rows(0).Item("INSCR_ESTADUAL")
-                Else
-                    txtInscEstadual.Text = ""
-                End If
-
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("INSCR_MUNICIPAL")) Then
-                    txtInscMunicipal.Text = ds.Tables(0).Rows(0).Item("INSCR_MUNICIPAL")
-                Else
-                    txtInscMunicipal.Text = ""
-                End If
-
-            Else
-                divErroSubstituir.Visible = True
-                lblErroSubstituir.Text = "CNPJ não localizado!"
-
-            End If
-        End If
-        ModalPopupExtender5.Show()
     End Sub
 End Class

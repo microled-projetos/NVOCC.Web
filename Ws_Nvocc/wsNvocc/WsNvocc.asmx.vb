@@ -1465,9 +1465,6 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
     End Function
 
     Public Sub montaConsultaLoteRPS(ByVal numeroProtocolo As String, ByVal numeroLote As Long, Optional Cod_Empresa As Integer = 1)
-        Dim client As New ginfes2.ServiceGinfesImplClient
-
-        ' Dim client As New GinfesTeste.ServiceGinfesImplClient
 
         Dim ret As Boolean = False
         Dim nomeArquivo As String
@@ -2361,35 +2358,6 @@ saida:
 
     End Sub
 
-
-
-    ' <WebMethod()>
-    'Public Function ConsultaCNPJ(ByVal CNPJ As String) As String
-    '    ' EXEMPLO:'https://comercial.cnpj.ws/cnpj/27865757000102?token=SEU_TOKEN
-
-    '    Dim token As String = System.Configuration.ConfigurationSettings.AppSettings("TokenConsulaCNPJ")
-
-    '    Dim Url = "https://comercial.cnpj.ws/cnpj/"
-
-    '    Dim rest As RestClient = New RestClient
-
-    '    rest.BaseUrl = New Uri(Url + CNPJ + "?token=" & token)
-
-    '    rest.Timeout = 480000
-
-    '    Dim request = New RestRequest(Method.GET)
-
-    '    request.AddParameter("Content-Type", "application/json", ParameterType.HttpHeader)
-
-    '    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
-
-    '    Dim response = rest.Execute(request)
-
-    '    Dim Content = response.Content
-
-    '    Return Content
-
-    'End Function
 
     <WebMethod()>
     Public Function ConsultaCNPJ(ByVal CNPJ As String)
