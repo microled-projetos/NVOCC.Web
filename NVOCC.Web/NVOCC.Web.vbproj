@@ -50,8 +50,7 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="ABAINFRA.Web">
       <HintPath>..\..\..\..\ABAINFRA.Web 09082022\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
@@ -367,6 +366,8 @@
     <Content Include="CourrierPersonal.aspx" />
     <Content Include="CourrierPersonal.aspx.cs" />
     <Content Include="CourrierPersonal.aspx.designer.cs" />
+    <Content Include="DemurrageService.asmx" />
+    <Content Include="DemurrageService.asmx.cs" />
     <Content Include="FaturamentoArquivo.aspx" />
     <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
@@ -432,8 +433,6 @@
     <Content Include="Demurrage.aspx" />
     <Content Include="Demurrage.aspx.cs" />
     <Content Include="Demurrage.aspx.designer.cs" />
-    <Content Include="DemurrageService.asmx" />
-    <Content Include="DemurrageService.asmx.cs" />
     <Content Include="DemurrageVendas.aspx" />
     <Content Include="DemurrageVendas.aspx.cs" />
     <Content Include="DemurrageVendas.aspx.designer.cs" />
