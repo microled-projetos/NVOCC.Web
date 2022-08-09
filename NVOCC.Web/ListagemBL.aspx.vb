@@ -692,7 +692,7 @@ Where A.ID_BL = " & ID_BL)
                 FILTRO = " PARCEIRO_CLIENTE LIKE '%" & txtPesquisaEmbarque.Text & "%' "
             End If
 
-            Dim sql As String = "SELECT TOP 1000 * * from [dbo].[View_Embarque] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
+            Dim sql As String = "SELECT TOP 1000 * from [dbo].[View_Embarque] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
             dsEmbarque.SelectCommand = sql
             dgvEmbarque.DataBind()
 

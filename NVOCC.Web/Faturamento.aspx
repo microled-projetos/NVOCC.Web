@@ -474,7 +474,7 @@
                                                                 <div class="col-sm-4">
                                      <div class="form-group">
                                         <label class="control-label">CNPJ:</label><br />
-                                          <asp:TextBox ID="txtCNPJSub" runat="server" AutoPostBack="true" CssClass="form-control"></asp:TextBox>
+                                          <asp:TextBox ID="txtCNPJSub" runat="server" AutoPostBack="true" CssClass="form-control cnpj"></asp:TextBox>
                            </div>
                                      </div> <div class="col-sm-8">
                                      <div class="form-group">
