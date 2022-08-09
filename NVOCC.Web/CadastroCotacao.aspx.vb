@@ -2503,21 +2503,7 @@ QTD_BASE_CALCULO
                     txtIDTaxa.Text = ""
                     LimparDadosTaxa()
 
-                    'ddlItemDespesaTaxa.SelectedValue = 0
-                    'ddlOrigemPagamentoTaxa.SelectedValue = 0
-                    'ddlBaseCalculoTaxa.SelectedValue = 0
-                    'ddlMoedaCompraTaxa.SelectedValue = 0
-                    'ddlMoedaVendaTaxa.SelectedValue = 0
-                    'ddlTipoPagamentoTaxa.SelectedValue = 1
-                    'ddlDestinatarioCobrancaTaxa.SelectedValue = 1
-                    'txtQtdBaseCalculo.Text = ""
-                    'txtValorTaxaCompra.Text = ""
-                    'txtValorTaxaVenda.Text = ""
-                    'txtValorTaxaVendaMin.Text = ""
-                    'txtValorTaxaCompraMin.Text = ""
-                    'txtValorTaxaVendaCalc.Text = ""
-                    'txtValorTaxaCompraCalc.Text = ""
-                    'ckbDeclaradoTaxa.Checked = False
+
 
                     'If ddlServico.SelectedValue <= 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
                     '    AtualizaTaxaAgente()
