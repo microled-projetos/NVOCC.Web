@@ -2504,11 +2504,6 @@ QTD_BASE_CALCULO
                     LimparDadosTaxa()
 
 
-
-                    'If ddlServico.SelectedValue <= 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
-                    '    AtualizaTaxaAgente()
-                    'End If
-
                     Con.Fechar()
                     dgvTaxas.DataBind()
                     divSuccessTaxa.Visible = True
@@ -2570,10 +2565,6 @@ QTD_BASE_CALCULO = " & txtQtdBaseCalculo.Text & "
                     divSuccessTaxa.Visible = True
                     Con.Fechar()
                     dgvTaxas.DataBind()
-
-                    'If ddlServico.SelectedValue <= 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
-                    '    AtualizaTaxaAgente()
-                    'End If
 
                     If Session("ID_STATUS") = 10 Then
 
