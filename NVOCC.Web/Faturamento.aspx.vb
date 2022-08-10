@@ -872,6 +872,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
 
 
+
                         txtID.Text = ""
                         lblmsgSuccess.Text = "RPS enviada para substituição com sucesso!"
                         divSuccess.Visible = True
@@ -1598,7 +1599,6 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
 
     End Sub
 
-
     Private Sub lkBoletoRemessa_Click(sender As Object, e As EventArgs) Handles lkBoletoRemessa.Click
         Response.Redirect("RemessaBoletos.aspx")
     End Sub
@@ -1666,5 +1666,82 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
             End If
 
         End If
+    End Sub
+
+    Private Sub txtCNPJSub_TextChanged(sender As Object, e As EventArgs) Handles txtCNPJSub.TextChanged
+        divErroSubstituir.Visible = False
+
+        If txtCNPJSub.Text <> "" Then
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT UPPER(P.NM_RAZAO)NM_RAZAO, UPPER(P.ENDERECO)ENDERECO, P.NR_ENDERECO, UPPER(P.COMPL_ENDERECO)COMPL_ENDERECO, UPPER(P.BAIRRO)BAIRRO, P.CEP, P.CNPJ, P.INSCR_ESTADUAL, P.INSCR_MUNICIPAL, UPPER(C.NM_CIDADE)NM_CIDADE, UPPER(E.NM_ESTADO)NM_ESTADO FROM TB_PARCEIRO P LEFT JOIN TB_CIDADE C ON C.ID_CIDADE = P.ID_CIDADE LEFT JOIN TB_ESTADO E ON E.ID_ESTADO = C.ID_ESTADO WHERE CNPJ ='" & txtCNPJSub.Text & "'")
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_RAZAO")) Then
+                    txtRazaoSocial.Text = ds.Tables(0).Rows(0).Item("NM_RAZAO")
+                Else
+                    txtRazaoSocial.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ENDERECO")) Then
+                    txtEndereco.Text = ds.Tables(0).Rows(0).Item("ENDERECO")
+                Else
+                    txtEndereco.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_ENDERECO")) Then
+                    txtNumEndereco.Text = ds.Tables(0).Rows(0).Item("NR_ENDERECO")
+                Else
+                    txtNumEndereco.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("BAIRRO")) Then
+                    txtBairro.Text = ds.Tables(0).Rows(0).Item("BAIRRO")
+                Else
+                    txtBairro.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("COMPL_ENDERECO")) Then
+                    txtComplem.Text = ds.Tables(0).Rows(0).Item("COMPL_ENDERECO")
+                Else
+                    txtComplem.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_CIDADE")) Then
+                    txtCidade.Text = ds.Tables(0).Rows(0).Item("NM_CIDADE")
+                Else
+                    txtCidade.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_ESTADO")) Then
+                    txtEstado.Text = ds.Tables(0).Rows(0).Item("NM_ESTADO")
+                Else
+                    txtEstado.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CEP")) Then
+                    txtCEP.Text = ds.Tables(0).Rows(0).Item("CEP")
+                Else
+                    txtCEP.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("INSCR_ESTADUAL")) Then
+                    txtInscEstadual.Text = ds.Tables(0).Rows(0).Item("INSCR_ESTADUAL")
+                Else
+                    txtInscEstadual.Text = ""
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("INSCR_MUNICIPAL")) Then
+                    txtInscMunicipal.Text = ds.Tables(0).Rows(0).Item("INSCR_MUNICIPAL")
+                Else
+                    txtInscMunicipal.Text = ""
+                End If
+
+            Else
+                divErroSubstituir.Visible = True
+                lblErroSubstituir.Text = "CNPJ não localizado!"
+
+            End If
+        End If
+        ModalPopupExtender5.Show()
     End Sub
 End Class

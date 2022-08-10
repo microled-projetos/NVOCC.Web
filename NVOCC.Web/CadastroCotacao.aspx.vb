@@ -2501,25 +2501,8 @@ QTD_BASE_CALCULO
 
 
                     txtIDTaxa.Text = ""
-                    ddlItemDespesaTaxa.SelectedValue = 0
-                    ddlOrigemPagamentoTaxa.SelectedValue = 0
-                    ddlBaseCalculoTaxa.SelectedValue = 0
-                    ddlMoedaCompraTaxa.SelectedValue = 0
-                    ddlMoedaVendaTaxa.SelectedValue = 0
-                    ddlTipoPagamentoTaxa.SelectedValue = 1
-                    ddlDestinatarioCobrancaTaxa.SelectedValue = 1
-                    txtQtdBaseCalculo.Text = ""
-                    txtValorTaxaCompra.Text = ""
-                    txtValorTaxaVenda.Text = ""
-                    txtValorTaxaVendaMin.Text = ""
-                    txtValorTaxaCompraMin.Text = ""
-                    txtValorTaxaVendaCalc.Text = ""
-                    txtValorTaxaCompraCalc.Text = ""
-                    ckbDeclaradoTaxa.Checked = False
+                    LimparDadosTaxa()
 
-                    'If ddlServico.SelectedValue <= 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
-                    '    AtualizaTaxaAgente()
-                    'End If
 
                     Con.Fechar()
                     dgvTaxas.DataBind()
@@ -2582,10 +2565,6 @@ QTD_BASE_CALCULO = " & txtQtdBaseCalculo.Text & "
                     divSuccessTaxa.Visible = True
                     Con.Fechar()
                     dgvTaxas.DataBind()
-
-                    'If ddlServico.SelectedValue <= 2 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
-                    '    AtualizaTaxaAgente()
-                    'End If
 
                     If Session("ID_STATUS") = 10 Then
 
