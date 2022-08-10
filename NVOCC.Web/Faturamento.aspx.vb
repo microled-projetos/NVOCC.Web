@@ -1272,7 +1272,8 @@ BAIRRO ,
 NR_NOTA_FISCAL,
 NOSSONUMERO, 
 (SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,
-'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, 
+'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO,
+(SELECT REPLACE(REPLACE(NR_PROCESSO,'/',''),'-','') from View_Faturamento where ID_FATURAMENTO = A.ID_FATURAMENTO ) NR_DOCUMENTO,
 (SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO = " & IDs & " )NR_PROCESSO, 
 CASE WHEN ISNULL(A.VL_IR_NF,0)> 0 THEN 1 ELSE 0 END FL_IR, 
 CASE WHEN A.NR_NOTA_FISCAL IS NOT NULL THEN 1 ELSE 0 END FL_NF,
@@ -1313,7 +1314,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
                 }
                         Titulo.CodigoOcorrencia = "01"
                         Titulo.DescricaoOcorrencia = "Remessa Registrar"
-                        Titulo.NumeroDocumento = linhads.Item("NR_NOTA_DEBITO").ToString()
+                        Titulo.NumeroDocumento = linhads.Item("NR_DOCUMENTO").ToString()
                         Titulo.NumeroControleParticipante = "12"
                         Titulo.NossoNumero = NossoNumero
                         Titulo.DataEmissao = Now.Date
@@ -1353,11 +1354,11 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
                         Titulo.DataJuros = Now.Date.AddDays(15)
                         Titulo.PercentualJurosDia = VL_MORA
                         Titulo.ValorJurosDia = Titulo.ValorTitulo * Titulo.PercentualJurosDia / 100
-                        Dim instrucoes As String = OBS2
+                        Dim instrucoes As String = OBS2 & "<br/><br/>" & linhads.Item("NR_NOTA_DEBITO").ToString()
                         If String.IsNullOrEmpty(Titulo.MensagemInstrucoesCaixa) Then
                             Titulo.MensagemInstrucoesCaixa = instrucoes
                         Else
-                            Titulo.MensagemInstrucoesCaixa += Environment.NewLine + instrucoes
+                            Titulo.MensagemInstrucoesCaixa += " - " & instrucoes
                         End If
 
 
