@@ -172,7 +172,7 @@ Public Class RemessaBoletos
                         If check.Checked = True Then
 
 
-                            Dim dsFatura As DataSet = Con.ExecutarQuery("SELECT NOSSONUMERO+DIG_NOSSONUM as NOSSONUM,convert(date, DT_VENCIMENTO_BOLETO,103)DT_VENCIMENTO_BOLETO,VL_BOLETO,convert(date, DT_EMISSAO_BOLETO,103)DT_EMISSAO_BOLETO, CNPJ,upper([dbo].[fnTiraAcento](NM_CLIENTE))NM_CLIENTE,upper([dbo].[fnTiraAcento](ENDERECO))ENDERECO,upper([dbo].[fnTiraAcento](BAIRRO))BAIRRO,CEP,upper([dbo].[fnTiraAcento](CIDADE))CIDADE,(SELECT SIGLA_ESTADO FROM TB_ESTADO C WHERE C.NM_ESTADO = ESTADO) AS UF,COD_BANCO, NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, (SELECT REPLACE(REPLACE(NR_PROCESSO,'/',''),'-','') from View_Faturamento where ID_FATURAMENTO = A.ID_FATURAMENTO ) NR_DOCUMENTO FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & ID)
+                            Dim dsFatura As DataSet = Con.ExecutarQuery("SELECT NOSSONUMERO+DIG_NOSSONUM as NOSSONUM,convert(date, DT_VENCIMENTO_BOLETO,103)DT_VENCIMENTO_BOLETO,VL_BOLETO,convert(date, DT_EMISSAO_BOLETO,103)DT_EMISSAO_BOLETO, CNPJ,upper([dbo].[fnTiraAcento](NM_CLIENTE))NM_CLIENTE,upper([dbo].[fnTiraAcento](ENDERECO))ENDERECO,upper([dbo].[fnTiraAcento](BAIRRO))BAIRRO,CEP,upper([dbo].[fnTiraAcento](CIDADE))CIDADE,(SELECT SIGLA_ESTADO FROM TB_ESTADO C WHERE C.NM_ESTADO = ESTADO) AS UF,COD_BANCO, NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, (SELECT REPLACE(REPLACE(NR_PROCESSO,'/',''),'-','') from View_Faturamento where ID_FATURAMENTO = A.ID_FATURAMENTO ) NR_DOCUMENTO FROM TB_FATURAMENTO A WHERE A.ID_FATURAMENTO = " & ID)
 
 
 
@@ -183,7 +183,7 @@ Public Class RemessaBoletos
                             seqLote = seqLote + 1
                             seqRem = seqRem + 1
                             If GeraRemessa.NNull(dsBanco.Tables(0).Rows(0).Item("COD_MULTA"), 1) <> "" Then
-                                Stream.WriteLine(GeraRemessa.criaDetalheRSantander(1, seqLote, dsBanco.Tables(0).Rows(0).Item("COD_BANCO"), dsBanco.Tables(0).Rows(0).Item("COD_MOV"), dsBanco.Tables(0).Rows(0).Item("COD_MULTA"), dsBanco.Tables(0).Rows(0).Item("VL_MULTA"), dsFatura.Tables(0).Rows(0).Item("NR_NOTA_DEBITO")))
+                                Stream.WriteLine(GeraRemessa.criaDetalheRSantander(1, seqLote, dsBanco.Tables(0).Rows(0).Item("COD_BANCO"), dsBanco.Tables(0).Rows(0).Item("COD_MOV"), dsBanco.Tables(0).Rows(0).Item("COD_MULTA"), dsBanco.Tables(0).Rows(0).Item("VL_MULTA"), dsFatura.Tables(0).Rows(0).Item("NR_NOTA_DEBITO").ToString()))
                                 seqLote = seqLote + 1
                                 seqRem = seqRem + 1
                             End If
