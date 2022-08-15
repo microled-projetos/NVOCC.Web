@@ -293,10 +293,9 @@ erro:
         strS = strS & Strings.StrDup(24, " ")
         strS = strS & NNull(Mid(COD_MULTA, 1, 1), 0)
         strS = strS & "00000000"
-        strS = strS & Right(Strings.StrDup(15, "0") & vlr_multa.ToString("#.00").Replace(",", "").Replace(".", ""), 15) 'Replace(PPonto(Format(vlr_multa, "#.00")), ".", ""), 15)
+        strS = strS & Right(Strings.StrDup(15, "0") & vlr_multa.ToString("#.00").Replace(",", "").Replace(".", ""), 15)
         strS = strS & Strings.StrDup(10, " ")
         ''strS = strS & Strings.StrDup(40, " ")
-        ' strS = strS & Right(Strings.StrDup(40, " ") & ND, ND.Length)
         strS = strS & ND.PadRight(40, " ")
         strS = strS & Strings.StrDup(40, " ")
         strS = strS & Strings.StrDup(61, " ")

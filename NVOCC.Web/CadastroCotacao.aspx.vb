@@ -3577,6 +3577,9 @@ WHERE A.ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA"))
 
     Private Sub txtNomeCliente_TextChanged(sender As Object, e As EventArgs) Handles txtNomeCliente.TextChanged
         diverro.Visible = False
+        divsuccess.Visible = False
+        divinfo.Visible = False
+
         Dim Con As New Conexao_sql
         Con.Conectar()
         If txtCodCliente.Text = "" Then

@@ -106,8 +106,6 @@ Public Class FaturarRecebimento
         Dim ds As DataSet
         Con.Conectar()
 
-
-
         Dim ID As String = txtID.Text
         ds = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM [TB_CONTA_PAGAR_RECEBER] WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER = " & ID)
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
@@ -133,8 +131,6 @@ Public Class FaturarRecebimento
 
                     Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET ID_PARCEIRO_CLIENTE = " & dsParceiro.Tables(0).Rows(0).Item("ID_PARCEIRO").ToString & ",NM_CLIENTE = '" & dsParceiro.Tables(0).Rows(0).Item("NM_RAZAO").ToString & "',CNPJ = '" & dsParceiro.Tables(0).Rows(0).Item("CNPJ").ToString & "',INSCR_ESTADUAL ='" & dsParceiro.Tables(0).Rows(0).Item("INSCR_ESTADUAL").ToString & "',INSCR_MUNICIPAL ='" & dsParceiro.Tables(0).Rows(0).Item("INSCR_MUNICIPAL").ToString & "',ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("ENDERECO").ToString & "',NR_ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("NR_ENDERECO").ToString & "',COMPL_ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString & "',BAIRRO='" & dsParceiro.Tables(0).Rows(0).Item("BAIRRO").ToString & "',CEP ='" & dsParceiro.Tables(0).Rows(0).Item("CEP").ToString & "',CIDADE ='" & dsParceiro.Tables(0).Rows(0).Item("CIDADE").ToString.Replace("'", "''") & "',ESTADO ='" & dsParceiro.Tables(0).Rows(0).Item("ESTADO").ToString & "' WHERE ID_FATURAMENTO =" & ID_FATURAMENTO)
                 End If
-
-
 
                 If FileUpload1.HasFile Then
                     Dim nomeArquivo As String = Path.GetFileName(FileUpload1.PostedFile.FileName)
