@@ -273,7 +273,7 @@ erro:
 
     End Function
 
-    Public Function criaDetalheRSantander(NHeaderLote As Long, NSeqRegistro As Long, cod_banco As String, COD_MOV As String, COD_MULTA As String, vlr_multa As Decimal) As String
+    Public Function criaDetalheRSantander(NHeaderLote As Long, NSeqRegistro As Long, cod_banco As String, COD_MOV As String, COD_MULTA As String, vlr_multa As Decimal, ND As String) As String
         On Error GoTo erro
         Dim strS As String
 
@@ -293,9 +293,10 @@ erro:
         strS = strS & Strings.StrDup(24, " ")
         strS = strS & NNull(Mid(COD_MULTA, 1, 1), 0)
         strS = strS & "00000000"
-        strS = strS & Right(Strings.StrDup(15, "0") & vlr_multa.ToString("#.00").Replace(",", "").Replace(".", ""), 15) 'Replace(PPonto(Format(vlr_multa, "#.00")), ".", ""), 15)
+        strS = strS & Right(Strings.StrDup(15, "0") & vlr_multa.ToString("#.00").Replace(",", "").Replace(".", ""), 15)
         strS = strS & Strings.StrDup(10, " ")
-        strS = strS & Strings.StrDup(40, " ")
+        ''strS = strS & Strings.StrDup(40, " ")
+        strS = strS & ND.PadRight(40, " ")
         strS = strS & Strings.StrDup(40, " ")
         strS = strS & Strings.StrDup(61, " ")
         criaDetalheRSantander = strS
