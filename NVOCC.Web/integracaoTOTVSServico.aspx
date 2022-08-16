@@ -118,6 +118,9 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div id="ntFiscal" style="margin-left: 20px;margin-top: 20px;">
+                                   
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -231,10 +234,12 @@
                 beforeSend: function () {
                     $("#grdServicoBody").empty();
                     $("#grdServicoBody").append("<tr><td colspan='9'><div class='loader'></div></td></tr>");
+                    $("#ntFiscal").empty();
                 },
                 success: function (dado) {
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
+                    $("#ntFiscal").append("<span style='background-color: bisque;padding: 10px;'><b>" + dado.length + "</b> Notas Fiscais</span>");
                     $("#grdServicoBody").empty();
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
@@ -247,6 +252,7 @@
                     else {
                         $("#grdServicoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='9' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
                     }
+                    
                 }
             })
         }

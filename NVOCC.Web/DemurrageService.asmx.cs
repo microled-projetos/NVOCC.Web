@@ -7826,7 +7826,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(CONVERT(VARCHAR,SOLICITACAO,103),'') AS SOLICITACAO, ISNULL(CONVERT(VARCHAR,ANALISE,103),'') AS ANALISE, ISNULL(CONVERT(VARCHAR,INFO_PEND,103),'') AS INFO_PEND, ISNULL(CONVERT(VARCHAR,LIBERADA_INSIDE,103),'') AS LIBERADA_INSIDE, ISNULL(CONVERT(VARCHAR,RENEG,103),'') AS RENEG, ISNULL(CONVERT(VARCHAR,AGUARD_APROV,103),'') AS AGUARD_APROV, ";
             SQL += "ISNULL(CONVERT(VARCHAR,CANCELADA,103),'') AS CANCELADA, ISNULL(CONVERT(VARCHAR,REJEITADA,103),'') AS REJEITADA, ISNULL(CONVERT(VARCHAR,APROVADA,103),'') AS APROVADA, ISNULL(CONVERT(VARCHAR,EM_UPDATE,103),'') AS EM_UPDATE, ISNULL(CONVERT(VARCHAR,DECLINADA,103),'') AS DECLINADA, ISNULL(CONVERT(VARCHAR,FINALIZADA_PAG,103),'') AS FINALIZADA_PAG, ISNULL(CONVERT(VARCHAR,EM_FUP,103),'') AS EM_FUP, ISNULL(CONVERT(VARCHAR,APROV_EDIT,103),'') AS APROV_EDIT, ";
             SQL += "ISNULL(NM_MOTIVO_CANCELAMENTO,'') AS MOTIVO, ISNULL(OB_MOTIVO_CANCELAMENTO,'') AS OBS_MOTIVO ";
-            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','"+ Session["ID_USUARIO"]+"') ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','3') ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
             SQL += "ORDER BY DT_SOLICITACAO ";
@@ -8699,15 +8699,39 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string ContaPrevisibilidadeProcesso(string chkConfSim, string chkConfNao)
+        public string ContaPrevisibilidadeProcesso(string dataI, string dataF, string nota, string filter, string chkConfSim, string chkConfNao)
         {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
 
-            string dtembarque;
-            string dtprevisaochegada;
-            DateTime myDateTime = DateTime.Now;
-            string sqlFormattedDate = myDateTime.AddDays(1).ToString("dd/MM/yyyy");
-            string sqlFormattedDate2 = myDateTime.AddDays(90).ToString("dd/MM/yyyy");
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
             string SQL;
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
+                    break;
+                case "3":
+                    nota = "AND NM_FORNECEDOR LIKE '" + nota + "%' ";
+                    break;
+                case "4":
+                    nota = "AND NR_BL_MASTER LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
 
             if (chkConfSim == "1" && chkConfNao == "1")
             {
@@ -8737,65 +8761,16 @@ namespace ABAINFRA.Web
                 }
             }
 
-            SQL = "SELECT CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, CASE WHEN ISNULL(DOC_CONFERIDO_MASTER,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER, ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, DT_EMBARQUE AS DTEMBARQUE, DT_PREVISAO_CHEGADA as DTPREVISAOCHEGADA, ISNULL(NM_CLIENTE,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,ISNULL(VL_RECEBER,0) AS ARECEBERBR, ISNULL(VL_PAGAR,0) AS APAGARBR, ISNULL(VL_SALDO,0) AS SALDOBR FROM FN_PREVISIBILIDADE_PROCESSO('" + sqlFormattedDate + "','" + sqlFormattedDate2 + "') ";
+            SQL = "SELECT CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, CASE WHEN ISNULL(DOC_CONFERIDO_MASTER,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER, ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, FORMAT(DT_EMBARQUE,'dd/MM/yyyy') AS DTEMBARQUE, FORMAT(DT_PREVISAO_CHEGADA,'dd/MM/yyyy') as DTPREVISAOCHEGADA, ISNULL(NM_CLIENTE,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,ISNULL(VL_RECEBER,0) AS ARECEBERBR, ISNULL(VL_PAGAR,0) AS APAGARBR, ISNULL(TIPO_FATURAMENTO,0) AS TIPO_FATURAMENTO, ISNULL(DIAS_FATURADOS,0) AS DIAS_FATURADOS, ISNULL(VL_SALDO,0) AS SALDOBR FROM FN_PREVISIBILIDADE_PROCESSO('" + dataI + "','" + dataF + "') ";
             SQL += "WHERE RIGHT(NR_PROCESSO,2) > 18 ";
             SQL += "" + chkConfSim + "";
             SQL += "" + chkConfNao + "";
+            SQL += "" + nota + "";
             SQL += "ORDER BY NR_PROCESSO ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
-            if (listTable != null)
-            {
-                string[] previ = new string[listTable.Rows.Count];
-                for (int i = 0; i < listTable.Rows.Count; i++)
-                {
-                    if (listTable.Rows[i]["DTEMBARQUE"] == null)
-                    {
-                        dtembarque = "";
-                    }
-                    else
-                    {
-                        dtembarque = listTable.Rows[i]["DTEMBARQUE"].ToString();
-                    }
-
-                    if (listTable.Rows[i]["DTPREVISAOCHEGADA"] == null)
-                    {
-                        dtprevisaochegada = "";
-                    }
-                    else
-                    {
-                        dtprevisaochegada = listTable.Rows[i]["DTPREVISAOCHEGADA"].ToString();
-                    }
-                    previ[i] += listTable.Rows[i]["DOC_CONFERIDO_HOUSE"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["DOC_CONFERIDO_MASTER"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["PROCESSO"].ToString() + ";";
-                    previ[i] += fmtTotvs2(listTable.Rows[i]["MASTER"].ToString());
-                    previ[i] += fmtTotvs2(listTable.Rows[i]["HOUSE"].ToString());
-                    previ[i] += listTable.Rows[i]["TPSERVICO"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["TPESTUFAGEM"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["TPPAGAMENTOHOUSE"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["TPPAGAMENTOMASTER"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["CNTR20"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["CNTR40"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["ORIGEM"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["DESTINO"].ToString() + ";";
-                    previ[i] += dtembarque + ";";
-                    previ[i] += dtprevisaochegada + ";";
-                    previ[i] += listTable.Rows[i]["PARCEIRO"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["CNEE"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["INDICADOR"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["AGENTE"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["ARECEBERBR"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["APAGARBR"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["SALDOBR"].ToString() + ";";
-                }
-                return JsonConvert.SerializeObject(previ);
-			}
-			else
-			{
-                return JsonConvert.SerializeObject(null);
-			}
+            return JsonConvert.SerializeObject(listTable);
         }
 
         [WebMethod]
