@@ -228,7 +228,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSNotaServico",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", notai: "' + notai +'", notaf: "' + notafi +'"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", notai: "' + notai + '", notaf: "' + notafi + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
@@ -243,6 +243,7 @@
                     $("#grdServicoBody").empty();
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
+                            $("#ntFiscal").append("<span style='background-color: bisque;padding: 10px;'><b>" + dado.length + "</b> Notas Fiscais</span>");
                             $("#grdServicoBody").append("<tr><td class='text-center'><input type='checkbox' value='" + dado[i]["ID_CONTA_PAGAR_RECEBER"] + "' name='export' class='check'></td><td class='text-center'> " + dado[i]["NR_NOTA"] + "</td><td class='text-center'>" + dado[i]["TP_NOTA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_EMISSAO"] + "</td><td class='text-center'>" + dado[i]["VL_NOTA"] + "</td><td class='text-center'>" + dado[i]["NM_PARCEIRO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_VENCIMENTO"] + "</td><td class='text-center'>" + dado[i]["DT_EXPORTACAO_TOTVS_SERVICO"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +

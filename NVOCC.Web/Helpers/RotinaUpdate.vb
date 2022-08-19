@@ -1,5 +1,5 @@
 ﻿Public Class RotinaUpdate
-    Sub UpdateInfoBasicas(ID_COTACAO As String, NR_PROCESSO As String)
+    Sub UpdateInfoBasicas(ID_COTACAO As String, NR_PROCESSO As String, Optional RefTaxado As String = "")
         If ID_COTACAO = "" Or NR_PROCESSO = "" Then
             Exit Sub
         Else
@@ -66,9 +66,17 @@ CASE WHEN ID_PARCEIRO_IMPORTADOR IS NULL THEN ID_CLIENTE WHEN ID_PARCEIRO_IMPORT
                 Con.ExecutarQuery("UPDATE TB_BL SET VL_CARGA = " & dsCotacao.Tables(0).Rows(0).Item("VL_CARGA").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL)
             End If
 
+            'If dsCotacao.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString Then
+            '    Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & dsCotacao.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL)
+            'End If
             If dsCotacao.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString Then
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & dsCotacao.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL)
+                If RefTaxado <> "" Then
+                    If RefTaxado <> dsCotacao.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString Then
+                        Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & dsCotacao.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL)
+                    End If
+                End If
             End If
+
 
             If dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO").ToString Then
                 Con.ExecutarQuery("UPDATE TB_BL SET ID_PARCEIRO_RODOVIARIO = " & dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO").ToString & " WHERE ID_BL = " & ID_BL)

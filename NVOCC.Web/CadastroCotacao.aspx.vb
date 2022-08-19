@@ -59,7 +59,7 @@ CONVERT(varchar,A.DT_VALIDADE_COTACAO,103)DT_VALIDADE_COTACAO,
 CONVERT(varchar,A.DT_ENVIO_COTACAO,103)DT_ENVIO_COTACAO,
 A.ID_ANALISTA_COTACAO,A.ID_AGENTE_INTERNACIONAL,A.ID_TIPO_BL,A.ID_INCOTERM,A.ID_TIPO_ESTUFAGEM,A.ID_DESTINATARIO_COMERCIAL,ISNULL(A.ID_CLIENTE,0)ID_CLIENTE,ISNULL(A.ID_CLIENTE_FINAL,0)ID_CLIENTE_FINAL,A.ID_CONTATO,A.ID_SERVICO,A.ID_VENDEDOR,A.OB_CLIENTE,A.OB_MOTIVO_CANCELAMENTO,A.OB_OPERACIONAL,A.ID_MOTIVO_CANCELAMENTO,
 CONVERT(varchar,A.DT_CALCULO_COTACAO,103)DT_CALCULO_COTACAO,ID_TIPO_CARGA, 
-NR_PROCESSO_GERADO,ID_PROCESSO, ID_USUARIO_STATUS,(SELECT FL_COTACAO_APROVADA FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_COTACAO_APROVADA, (SELECT FL_ENCERRA_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_ENCERRA_COTACAO, ISNULL(FL_LTL,0)FL_LTL,ISNULL(FL_DTA_HUB,0)FL_DTA_HUB,ISNULL(FL_TRANSP_DEDICADO,0)FL_TRANSP_DEDICADO, VL_TOTAL_PESO_BRUTO,VL_TOTAL_M3, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO, ISNULL(FL_EMAIL_COTACAO,0)FL_EMAIL_COTACAO,EMAIL_COTACAO,ISNULL([dbo].[FN_ANALISTA_COTACAO_PRICING](A.ID_COTACAO),0) AS ID_ANALISTA_COTACAO_PRICING,ISNULL(ID_TIPO_AERONAVE,0)ID_TIPO_AERONAVE, ISNULL(FL_TC4,0)FL_TC4,ISNULL(FL_TC6,0)FL_TC6 
+NR_PROCESSO_GERADO,ID_PROCESSO, ID_USUARIO_STATUS,(SELECT FL_COTACAO_APROVADA FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_COTACAO_APROVADA, (SELECT FL_ENCERRA_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_ENCERRA_COTACAO, ISNULL(FL_LTL,0)FL_LTL,ISNULL(FL_DTA_HUB,0)FL_DTA_HUB,ISNULL(FL_TRANSP_DEDICADO,0)FL_TRANSP_DEDICADO, VL_TOTAL_PESO_BRUTO,VL_TOTAL_M3, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO, ISNULL(FL_EMAIL_COTACAO,0)FL_EMAIL_COTACAO,EMAIL_COTACAO,ISNULL([dbo].[FN_ANALISTA_COTACAO_PRICING](A.ID_COTACAO),0) AS ID_ANALISTA_COTACAO_PRICING,ISNULL(ID_TIPO_AERONAVE,0)ID_TIPO_AERONAVE, ISNULL(FL_TC4,0)FL_TC4,ISNULL(FL_TC6,0)FL_TC6 , ISNULL(VL_PESO_TAXADO,0)VL_PESO_TAXADO 
 FROM  TB_COTACAO A
     WHERE A.ID_COTACAO = " & Request.QueryString("id"))
         If ds.Tables(0).Rows.Count > 0 Then
@@ -199,7 +199,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             Session("estufagem") = ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM").ToString()
             Session("servico") = ds.Tables(0).Rows(0).Item("ID_SERVICO").ToString()
             Session("ID_CLIENTE") = ds.Tables(0).Rows(0).Item("ID_CLIENTE").ToString()
-
+            Session("RefTaxado") = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString()
             MaritimoXAereo()
 
 
@@ -1453,7 +1453,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                             Else
 
                                 Dim RotinaUpdate As New RotinaUpdate
-                                RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text)
+                                RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text, Session("RefTaxado"))
                                 RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
                                 RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
                                 Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
@@ -1502,7 +1502,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                     If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
                         Dim RotinaUpdate As New RotinaUpdate
-                        RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text)
+                        RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text, Session("RefTaxado"))
                         RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
                         RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
                         Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
@@ -2237,6 +2237,7 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                                 RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
                             Next
                         End If
+                        RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text, Session("RefTaxado"))
 
                     End If
 
@@ -2304,6 +2305,7 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
                                 RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
                             Next
                         End If
+                        RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text, Session("RefTaxado"))
 
                     End If
 
@@ -2326,11 +2328,8 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
                     If ds.Tables(0).Rows.Count > 0 Then
                         If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
                             txtPesoTaxadoMercadoria.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
+                            Session("RefTaxado") = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
                         End If
-
-                        'If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
-                        '    txtM3Mercadoria.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")
-                        'End If
                     End If
                 End If
 

@@ -7386,7 +7386,7 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT XGRUPO, COD, LOJA, NOME, NREDUZ, END1, BAIRRO, EST, ";
             SQL += "COD_MUN, CEP, TIPO, CGC, TEL, INSCR, INSCRM, EMAIL, DDD, NATUREZ, ";
-            SQL += "CODPAIS, CONTATO, SIMPNAC ";
+            SQL += "CODPAIS, CONTATO, SIMPNAC, PAIS ";
             SQL += "FROM DBO.FN_DEMURRAGE_PA_FORNEC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -7423,6 +7423,7 @@ namespace ABAINFRA.Web
                     fornec[i] += fmtTotvs(listTable.Rows[i]["CODPAIS"].ToString(), 5);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["SIMPNAC"].ToString(), 1);
+                    fornec[i] += fmtTotvs(listTable.Rows[i]["PAIS"].ToString(), 3);
                 }
                 return JsonConvert.SerializeObject(fornec);
             }
@@ -7458,7 +7459,7 @@ namespace ABAINFRA.Web
             string SQL;
 
             SQL = "SELECT FILIAL, PREFIXO, NUM, PARCELA, TIPO, FORNECE, LOJA, NATUREZ, EMISSAO, VENCTO, VENCREA, ";
-            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA ";
+            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA, VLCRUZ ";
             SQL += "FROM dbo.FN_DEMURRAGE_PA_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -7493,7 +7494,7 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs(listTable.Rows[i]["USERS"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
                     rec[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
-
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["VLCRUZ"].ToString(), 16, 2);
                 }
                 return JsonConvert.SerializeObject(rec);
             }
@@ -7661,7 +7662,7 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT COD, LOJA, NOME, NREDUZ, PESSOA, TIPO, ENDER, ";
             SQL += "EST, COD_MUN, MUN, NATUREZ, BAIRRO, CEP, ATVDA, TEL, TELEX, FAX, CONTATO, ";
-            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT ";
+            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT, PAIS ";
             SQL += "FROM dbo.FN_DEMURRAGE_RA_CLI(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -7701,6 +7702,7 @@ namespace ABAINFRA.Web
                     cli[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CONT"].ToString(), 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["PAIS"].ToString(), 3);
                 }
                 return JsonConvert.SerializeObject(cli);
             }
@@ -8770,8 +8772,137 @@ namespace ABAINFRA.Web
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
+<<<<<<< HEAD
             return JsonConvert.SerializeObject(listTable);
+=======
+            if (listTable != null)
+            {
+                string[] previ = new string[listTable.Rows.Count];
+                for (int i = 0; i < listTable.Rows.Count; i++)
+                {
+                    if (listTable.Rows[i]["DTEMBARQUE"] == null)
+                    {
+                        dtembarque = "";
+                    }
+                    else
+                    {
+                        dtembarque = listTable.Rows[i]["DTEMBARQUE"].ToString();
+                    }
+
+                    if (listTable.Rows[i]["DTPREVISAOCHEGADA"] == null)
+                    {
+                        dtprevisaochegada = "";
+                    }
+                    else
+                    {
+                        dtprevisaochegada = listTable.Rows[i]["DTPREVISAOCHEGADA"].ToString();
+                    }
+                    previ[i] += listTable.Rows[i]["DOC_CONFERIDO_HOUSE"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["DOC_CONFERIDO_MASTER"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["PROCESSO"].ToString() + ";";
+                    previ[i] += fmtTotvs2(listTable.Rows[i]["MASTER"].ToString());
+                    previ[i] += fmtTotvs2(listTable.Rows[i]["HOUSE"].ToString());
+                    previ[i] += listTable.Rows[i]["TPSERVICO"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["TPESTUFAGEM"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["TPPAGAMENTOHOUSE"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["TPPAGAMENTOMASTER"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["CNTR20"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["CNTR40"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["ORIGEM"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["DESTINO"].ToString() + ";";
+                    previ[i] += dtembarque + ";";
+                    previ[i] += dtprevisaochegada + ";";
+                    previ[i] += listTable.Rows[i]["PARCEIRO"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["CNEE"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["INDICADOR"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["AGENTE"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["ARECEBERBR"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["APAGARBR"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["SALDOBR"].ToString() + ";";
+                }
+                return JsonConvert.SerializeObject(previ);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject(null);
+            }
+>>>>>>> master
         }
+
+        /*[WebMethod]
+        public string ContaPrevisibilidadeProcesso(string dataI, string dataF, string nota, string filter, string chkConfSim, string chkConfNao)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
+                    break;
+                case "3":
+                    nota = "AND NM_FORNECEDOR LIKE '" + nota + "%' ";
+                    break;
+                case "4":
+                    nota = "AND NR_BL_MASTER LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            if (chkConfSim == "1" && chkConfNao == "1")
+            {
+                chkConfSim = "";
+                chkConfNao = "";
+            }
+            else
+            {
+                switch (chkConfNao)
+                {
+                    case "1":
+                        chkConfNao = " AND (ISNULL(DOC_CONFERIDO_HOUSE,0)=0 AND ISNULL(DOC_CONFERIDO_MASTER,0)=0) ";
+                        break;
+                    default:
+                        chkConfNao = "";
+                        break;
+                }
+
+                switch (chkConfSim)
+                {
+                    case "1":
+                        chkConfSim = " AND (DOC_CONFERIDO_HOUSE != 0 OR DOC_CONFERIDO_MASTER != 0) ";
+                        break;
+                    default:
+                        chkConfSim = "";
+                        break;
+                }
+            }
+
+            SQL = "SELECT CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, CASE WHEN ISNULL(DOC_CONFERIDO_MASTER,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER, ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, FORMAT(DT_EMBARQUE,'dd/MM/yyyy') AS DTEMBARQUE, FORMAT(DT_PREVISAO_CHEGADA,'dd/MM/yyyy') as DTPREVISAOCHEGADA, ISNULL(NM_CLIENTE,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,ISNULL(VL_RECEBER,0) AS ARECEBERBR, ISNULL(VL_PAGAR,0) AS APAGARBR, ISNULL(TIPO_FATURAMENTO,0) AS TIPO_FATURAMENTO, ISNULL(DIAS_FATURADOS,0) AS DIAS_FATURADOS, ISNULL(VL_SALDO,0) AS SALDOBR FROM FN_PREVISIBILIDADE_PROCESSO('" + dataI + "','" + dataF + "') ";
+            SQL += "WHERE RIGHT(NR_PROCESSO,2) > 18 ";
+            SQL += "" + chkConfSim + "";
+            SQL += "" + chkConfNao + "";
+            SQL += "" + nota + "";
+            SQL += "ORDER BY NR_PROCESSO ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }*/
 
         [WebMethod]
         public string ContaConferenciaProcesso()

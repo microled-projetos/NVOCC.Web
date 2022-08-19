@@ -1999,7 +1999,7 @@ union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"></asp:SqlDataSour
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsItemDespesa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_ITEM_DESPESA,NM_ITEM_DESPESA FROM  [dbo].[TB_ITEM_DESPESA]
-union SELECT  0, ' Selecione' ORDER BY NM_ITEM_DESPESA"></asp:SqlDataSource>
+union SELECT  0, '    Selecione' ORDER BY NM_ITEM_DESPESA"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsTipoPagamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_PAGAMENTO, NM_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_PAGAMENTO"></asp:SqlDataSource>
