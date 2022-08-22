@@ -581,6 +581,24 @@ Partial Public Class CadastrarMaster
     Protected WithEvents UpdatePanel15 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle divErroNavio1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroNavio1 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroNavio1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroNavio1 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle Label3.
     '''</summary>
     '''<remarks>
@@ -653,6 +671,24 @@ Partial Public Class CadastrarMaster
     Protected WithEvents UpdatePanel12 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle divErroNavio2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroNavio2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroNavio2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroNavio2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle Label2.
     '''</summary>
     '''<remarks>
@@ -723,6 +759,24 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents UpdatePanel10 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
+    '''Controle divErroNavio3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroNavio3 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroNavio3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroNavio3 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle Label4.

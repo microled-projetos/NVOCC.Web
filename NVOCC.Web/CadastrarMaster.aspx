@@ -455,7 +455,9 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <br />
-
+                                                            <div class="alert alert-danger" id="divErroNavio1" runat="server" visible="false">
+                                                        <asp:Label ID="lblErroNavio1" runat="server" Text="Navio não encontrado!"></asp:Label>
+                                                    </div>
                                                             <asp:Label ID="Label3" Style="padding-left: 35px" runat="server">Pesquisa:</asp:Label>
                                                             <div class="row linhabotao text-center" style="margin-left: 20px; margin-right: 20px">
                                                                 <div class="row">
@@ -512,7 +514,9 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <br />
-
+                                                            <div class="alert alert-danger" id="divErroNavio2" runat="server" visible="false">
+                                                        <asp:Label ID="lblErroNavio2" runat="server" Text="Navio não encontrado!"></asp:Label>
+                                                    </div>
                                                             <asp:Label ID="Label2" Style="padding-left: 35px" runat="server">Pesquisa:</asp:Label>
                                                             <div class="row linhabotao text-center" style="margin-left: 20px; margin-right: 20px">
                                                                 <div class="row">
@@ -567,7 +571,9 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <br />
-
+                                                             <div class="alert alert-danger" id="divErroNavio3" runat="server" visible="false">
+                                                        <asp:Label ID="lblErroNavio3" runat="server" Text="Navio não encontrado!"></asp:Label>
+                                                    </div>
                                                             <asp:Label ID="Label4" Style="padding-left: 35px" runat="server">Pesquisa:</asp:Label>
                                                             <div class="row linhabotao text-center" style="margin-left: 20px; margin-right: 20px">
                                                                 <div class="row">
