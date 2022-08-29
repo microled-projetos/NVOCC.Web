@@ -13,6 +13,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WebValidaSaida", "WebValida
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "NVOCC.Web", "NVOCC.Web\NVOCC.Web.vbproj", "{CD8E53D2-B177-494B-AE08-1CEEF98E43D7}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "srvRetornoNF", "srvRetornoNF\srvRetornoNF\srvRetornoNF.vbproj", "{B38677FD-B296-450A-82EA-2429EFB447A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{CD8E53D2-B177-494B-AE08-1CEEF98E43D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD8E53D2-B177-494B-AE08-1CEEF98E43D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD8E53D2-B177-494B-AE08-1CEEF98E43D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B38677FD-B296-450A-82EA-2429EFB447A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B38677FD-B296-450A-82EA-2429EFB447A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B38677FD-B296-450A-82EA-2429EFB447A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B38677FD-B296-450A-82EA-2429EFB447A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
