@@ -236,13 +236,6 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             DADOS = "LOTE :" & loteNumero & " | RPS Nº " & rsRPS.Tables(0).Rows(0)("NUMERO_RPS").ToString
 
 
-
-            'sP.carrega(Long.Parse(Funcoes.NNull(rsRPS.Tables(0).Rows(0)("IDFATURA").ToString, 0)), 0)
-            'If sP.TemDivergencia Then
-            '    erroValor = True
-            '    Exit Sub
-            'End If
-
             noInfRps = doc.CreateElement("InfRps", NFeNamespacte)
 
             att = doc.CreateAttribute("Id")
@@ -272,7 +265,6 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             No = doc.CreateElement("DataEmissao", NFeNamespacte)
 
             Dim DataEmi As String = rsRPS.Tables(0).Rows(0)("DATA_EMISSAO").ToString
-            '  If Val(Funcoes.NNull(rsRPS.Tables(0).Rows(0)("NUMERO_SUB").ToString, 0)) > 0 Then
             If Val(Funcoes.NNull(RpsOld, 0)) > 0 Then
                 sql = " Select DT_NOTA_FISCAL From TB_FATURAMENTO WHERE NR_RPS = '" & RpsOld & "'"
                 rsaux = Con.ExecutarQuery(sql)
@@ -285,7 +277,6 @@ WHERE ID_FATURAMENTO = " & IDFatura)
                 noText = doc.CreateTextNode(Format(CDate(DataEmi), "yyyy-MM-dd") & "T" & Format(CDate(DataEmi), "HH:mm:ss"))
             End If
             noText = doc.CreateTextNode(Format(CDate(DataEmi), "yyyy-MM-dd") & "T" & Format(CDate(DataEmi), "HH:mm:ss"))
-            'noText = doc.CreateTextNode("2021-06-30T12:00:00")
             No.AppendChild(noText)
             noInfRps.AppendChild(No)
 
@@ -310,7 +301,6 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             No.AppendChild(noText)
             noInfRps.AppendChild(No)
 
-            ' If Val(Funcoes.NNull(rsRPS.Tables(0).Rows(0)("NUMERO_SUB").ToString, 0)) > 0 Then
             If Val(Funcoes.NNull(RpsOld, 0)) > 0 Then
                 Dim noSubst As XmlElement
                 noSubst = doc.CreateElement("RpsSubstituido", NFeNamespacte)
@@ -1876,9 +1866,9 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
         GRAVARLOG(loteNumero, "ANTES DO CLIENT DO GINFES")
 
-        Dim client As New ginfes2.ServiceGinfesImplClient
+        ' Dim client As New ginfes2.ServiceGinfesImplClient
 
-        'Dim client As New GinfesTeste.ServiceGinfesImplClient
+        Dim client As New GinfesTeste.ServiceGinfesImplClient
 
         GRAVARLOG(loteNumero, "PROCURA CERTIFICADO DE NOVO")
         client.ClientCredentials.ClientCertificate.Certificate = Funcoes.ObtemCertificado(codEmpresa)(0)
@@ -1925,8 +1915,6 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 sSql = sSql & " AND NOME_ARQ_RET IS NULL "
                 Con.ExecutarQuery(sSql)
 
-                'frmProcessamento.lstValida.Items.Add("ARQUIVO DE RETORNO : " & nomeArq)
-
                 docRetorno.Load(nomeArq)
                 Try
                     GRAVARLOG(loteNumero, "Atualiza protocolo")
@@ -1938,7 +1926,6 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_FATURAMENTO in ( select id_faturamento from tb_log_nfse where lote_rps=" & loteNumero & ")"
                     Con.ExecutarQuery(sSql)
 
-                    'frmProcessamento.lstValida.Items.Add("Numero do Protocolo:" & retProtocolo)
 
                 Catch ex As Exception
                     GRAVARLOG(loteNumero, ex.Message)
@@ -1984,8 +1971,6 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 nomeArq = Funcoes.diretorioConRPSRet & "NFsE_Consulta_RPS_" & Format(loteNumero, "00000000") & "_ret.xml"
                 docRetorno.LoadXml(Retorno)
                 docRetorno.Save(nomeArq)
-
-                'frmProcessamento.lstValida.Items.Add("ARQUIVO DE RETORNO : " & nomeArq)
 
                 docRetorno.Load(nomeArq)
                 Try

@@ -376,8 +376,17 @@ WHERE DT_LIQUIDACAO IS NOT NULL AND ID_FATURAMENTO =" & txtID.Text)
 
 
                 End If
+
                 Dim ID As String = txtID.Text
                 AtualizaGrid()
+
+                For Each linha As GridViewRow In dgvFaturamento.Rows
+                    Dim check As CheckBox = linha.FindControl("ckSelecionar")
+                    Dim ID_grid As String = CType(linha.FindControl("lblID"), Label).Text
+                    If ID_grid = ID Then
+                        check.Checked = True
+                    End If
+                Next
 
                 txtID.Text = ID
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "FuncRecibo()", True)
@@ -1092,7 +1101,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
             txtID.Text = IDs
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER,NR_PROCESSO,PARCEIRO_EMPRESA,CONVERT(VARCHAR,DT_NOTA_FISCAL,103)DT_NOTA_FISCAL,NR_NOTA_FISCAL,VL_NOTA_DEBITO,OB_RPS,STATUS_NFE,COD_VER_NFSE,ID_PARCEIRO_CLIENTE,ID_SERVICO FROM View_Faturamento WHERE ID_FATURAMENTO =" & txtID.Text)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER,NR_PROCESSO,PARCEIRO_EMPRESA,CONVERT(VARCHAR,DT_NOTA_FISCAL,103)DT_NOTA_FISCAL,NR_NOTA_FISCAL,VL_NOTA_DEBITO,OB_RPS,STATUS_NFE,COD_VER_NFSE,ID_PARCEIRO_CLIENTE,ID_SERVICO,NR_RPS  FROM View_Faturamento WHERE ID_FATURAMENTO =" & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
                     lblProcessoCancelamento.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
@@ -1133,7 +1142,10 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("STATUS_NFE")) Then
-                    If ds.Tables(0).Rows(0).Item("STATUS_NFE") = 1 Or ds.Tables(0).Rows(0).Item("STATUS_NFE") = 4 Or ds.Tables(0).Rows(0).Item("STATUS_NFE") = 5 Then
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
+                        lkReenviarRPS.Visible = False
+                        lkGerarRPS.Visible = False
+                    ElseIf (ds.Tables(0).Rows(0).Item("STATUS_NFE") <> 2 Or ds.Tables(0).Rows(0).Item("STATUS_NFE") <> 3) And Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_RPS")) Then
                         lkReenviarRPS.Visible = True
                         lkGerarRPS.Visible = False
                     Else
@@ -1744,5 +1756,15 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
             End If
         End If
         ModalPopupExtender5.Show()
+    End Sub
+
+    Private Sub lkOpcoesBoletos_Click(sender As Object, e As EventArgs) Handles lkOpcoesBoletos.Click
+        ModalPopupExtender4.Hide()
+        ModalPopupExtender11.Show()
+    End Sub
+
+    Private Sub lkRPS_Click(sender As Object, e As EventArgs) Handles lkRPS.Click
+        ModalPopupExtender4.Hide()
+        ModalPopupExtender8.Show()
     End Sub
 End Class
