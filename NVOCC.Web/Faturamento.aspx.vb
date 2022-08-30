@@ -340,18 +340,6 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
         End If
 
     End Sub
-
-    Private Sub lkNotaDebito_Click(sender As Object, e As EventArgs) Handles lkNotaDebito.Click
-        divErro.Visible = False
-        divSuccess.Visible = False
-        If txtID.Text = "" Then
-            divErro.Visible = True
-            lblmsgErro.Text = "Selecione um registro"
-        Else
-            Response.Redirect("EmissaoNDFaturamento.aspx?id=" & txtID.Text)
-        End If
-    End Sub
-
     Private Sub lkReciboPagamento_Click(sender As Object, e As EventArgs) Handles lkReciboPagamento.Click
         divErro.Visible = False
         divSuccess.Visible = False
@@ -377,19 +365,9 @@ WHERE DT_LIQUIDACAO IS NOT NULL AND ID_FATURAMENTO =" & txtID.Text)
 
                 End If
 
-                Dim ID As String = txtID.Text
-                AtualizaGrid()
-
-                For Each linha As GridViewRow In dgvFaturamento.Rows
-                    Dim check As CheckBox = linha.FindControl("ckSelecionar")
-                    Dim ID_grid As String = CType(linha.FindControl("lblID"), Label).Text
-                    If ID_grid = ID Then
-                        check.Checked = True
-                    End If
-                Next
-
-                txtID.Text = ID
+                ModalPopupExtender4.Show()
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "FuncRecibo()", True)
+
             Else
                 divErro.Visible = True
                 lblmsgErro.Text = "Nota sem liquidação!"
@@ -1608,8 +1586,18 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
         divSuccess.Visible = False
         divErro.Visible = False
         divinf.Visible = False
+        Dim ID As String = txtID.Text
         AtualizaGrid()
 
+        For Each linha As GridViewRow In dgvFaturamento.Rows
+            Dim check As CheckBox = linha.FindControl("ckSelecionar")
+            Dim ID_grid As String = CType(linha.FindControl("lblID"), Label).Text
+            If ID_grid = ID Then
+                check.Checked = True
+            End If
+        Next
+
+        txtID.Text = ID
     End Sub
 
     Private Sub lkBoletoRemessa_Click(sender As Object, e As EventArgs) Handles lkBoletoRemessa.Click
