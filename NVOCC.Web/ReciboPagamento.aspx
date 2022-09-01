@@ -64,13 +64,21 @@
                     <table>
                         <tr>
                             <td>
-                                <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br />
+                                <strong><asp:Label ID="lblRazaoFCA" runat="server" /></strong><br />
+                                <div>
+                                   <asp:Label ID="lblEnderecoFCA1" runat="server" /><br />
+                                   <asp:Label ID="lblEnderecoFCA2" runat="server" /><br />
+                                    FONE:<asp:Label ID="lblTelefoneFCA" runat="server" /><br />
+                                    CNPJ:<asp:Label ID="lblCNPJFCA" runat="server" />  &nbsp;&nbsp;&nbsp;I.E:<asp:Label ID="lblIEFCA" runat="server" />
+                                </div>
+
+                                <%--<strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br />
                                 <div>
                                     R QUINZE DE NOVEMBRO, 46/48 - CENTRO<br />
                                     SANTOS - SÃO PAULO - BRASIL - CEP:11010150<br />
                                     FONE:+55 13 3797-7850 - FAX:<br />
-                                    CNPJ:00.639.367/0003-11  &nbsp;&nbsp;&nbsp;I.E: 633.672.235.110
-                                </div>
+                                    CNPJ:00.639.367/0003-11 &nbsp;&nbsp;&nbsp;I.E: 633.672.235.110
+                                </div>--%>
                             </td>
                             <td>
                                 <strong>Nº:</strong>&nbsp;<asp:Label ID="Label1" runat="server" /><asp:Label ID="lblNumeroRecibo" runat="server" /><br />
@@ -85,7 +93,7 @@
                                 O VALOR REFERENTE AO(S) PROCESSO(S):
                     <br />
                             </td>
-                            <td></td>
+                            <td>CNPJ/CPF:&nbsp;<asp:Label ID="lblCNPJCPF" runat="server" /></td>
                             <td></td>
                         </tr>
                         <tr>

@@ -38,6 +38,10 @@ FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO =" & ID)
                         lblEmpresa.Text = ds.Tables(0).Rows(0).Item("NM_CLIENTE")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("CNPJ")) Then
+                        lblCNPJCPF.Text = ds.Tables(0).Rows(0).Item("CNPJ")
+                    End If
+
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("CIDADE")) Then
                         CIDADE = ds.Tables(0).Rows(0).Item("CIDADE")
                     End If
@@ -110,6 +114,48 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
                     lblValorExtenso.Text = ValorExtenso.NumeroToExtenso(valores)
                     lblValor.Text = Total.ToString
 
+
+
+
+                    Dim dsFCA As DataSet = Con.ExecutarQuery("SELECT upper(A.NM_RAZAO)NM_RAZAO,  A.CNPJ,  upper(A.ENDERECO)ENDERECO, A.NR_ENDERECO, A.CEP,   upper(A.BAIRRO)BAIRRO,   upper(A.COMPL_ENDERECO)COMPL_ENDERECO,  A.TELEFONE,  A.INSCR_ESTADUAL,  A.INSCR_MUNICIPAL, upper(NM_CIDADE)NM_CIDADE ,(SELECT  upper(NM_ESTADO)NM_ESTADO FROM TB_ESTADO WHERE ID_ESTADO =C.ID_ESTADO)ESTADO,(SELECT  upper(NM_PAIS)NM_PAIS FROM TB_PAIS WHERE ID_PAIS =C.ID_PAIS)PAIS  FROM TB_PARCEIRO A LEFT JOIN TB_CIDADE C ON C.ID_CIDADE = A.ID_CIDADE WHERE ID_PARCEIRO = 1")
+                    If dsFCA.Tables(0).Rows.Count > 0 Then
+                        If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("NM_RAZAO")) Then
+                            lblRazaoFCA.Text = dsFCA.Tables(0).Rows(0).Item("NM_RAZAO")
+                        End If
+                        If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("CNPJ")) Then
+                            lblCNPJCPF.Text = dsFCA.Tables(0).Rows(0).Item("CNPJ")
+                        End If
+                        If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("TELEFONE")) Then
+                            lblTelefoneFCA.Text = "+55 " & dsFCA.Tables(0).Rows(0).Item("TELEFONE")
+                        End If
+                        If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("INSCR_ESTADUAL")) Then
+                            lblIEFCA.Text = dsFCA.Tables(0).Rows(0).Item("INSCR_ESTADUAL")
+                            lblIEFCA.Text &= " - " & dsFCA.Tables(0).Rows(0).Item("INSCR_ESTADUAL").ToString.Format("###.###.###.###")
+                        End If
+
+                        If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("ENDERECO")) Then
+                            lblEnderecoFCA1.Text &= dsFCA.Tables(0).Rows(0).Item("ENDERECO")
+                        End If
+                        If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("NR_ENDERECO")) Then
+                            lblEnderecoFCA1.Text &= ", " & dsFCA.Tables(0).Rows(0).Item("NR_ENDERECO")
+                        End If
+                        If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("BAIRRO")) Then
+                            lblEnderecoFCA1.Text &= " - " & dsFCA.Tables(0).Rows(0).Item("BAIRRO")
+                        End If
+
+                        If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("NM_CIDADE")) Then
+                            lblEnderecoFCA2.Text &= dsFCA.Tables(0).Rows(0).Item("NM_CIDADE")
+                        End If
+                        If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("ESTADO")) Then
+                            lblEnderecoFCA2.Text &= " - " & dsFCA.Tables(0).Rows(0).Item("ESTADO")
+                        End If
+                        If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("PAIS")) Then
+                            lblEnderecoFCA2.Text &= " - " & dsFCA.Tables(0).Rows(0).Item("PAIS")
+                        End If
+                        If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("CEP")) Then
+                            lblEnderecoFCA2.Text &= " - CEP: " & dsFCA.Tables(0).Rows(0).Item("CEP")
+                        End If
+                    End If
                     Con.Fechar()
                 End If
             End If
