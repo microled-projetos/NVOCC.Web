@@ -11,7 +11,7 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class SOA_I
+Partial Public Class SOA_New
 
     '''<summary>
     '''Controle btnCSV.

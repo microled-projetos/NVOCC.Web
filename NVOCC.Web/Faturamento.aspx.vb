@@ -606,6 +606,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             End If
 
         End If
+        ModalPopupExtender8.Show()
     End Sub
 
 
@@ -1391,7 +1392,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
 
                 divSuccess.Visible = True
                 lblmsgSuccess.Text = "Boleto gerado com sucesso!"
-                AtualizaGrid()
+                ModalPopupExtender11.Show()
 
 
             Catch ex As Exception
@@ -1577,8 +1578,9 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
 
             Con.ExecutarQuery("UPDATE [TB_FATURAMENTO] SET OB_RPS = '" & txtOBSRPS.Text & "' WHERE ID_FATURAMENTO = " & txtID.Text)
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "FuncImprimirRPS()", True)
-
         End If
+        ModalPopupExtender8.Show()
+
     End Sub
 
     Private Sub btnFecharDesmosntrativos_Click(sender As Object, e As EventArgs) Handles btnFecharDesmosntrativos.Click
@@ -1750,9 +1752,22 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
         ModalPopupExtender4.Hide()
         ModalPopupExtender11.Show()
     End Sub
-
+    Private Sub btnFecharOpcoesBoletos_Click(sender As Object, e As EventArgs) Handles btnFecharOpcoesBoletos.Click
+        ModalPopupExtender11.Hide()
+        ModalPopupExtender4.Show()
+    End Sub
     Private Sub lkRPS_Click(sender As Object, e As EventArgs) Handles lkRPS.Click
         ModalPopupExtender4.Hide()
         ModalPopupExtender8.Show()
+    End Sub
+
+    Private Sub btnFecharRPS_Click(sender As Object, e As EventArgs) Handles btnFecharRPS.Click
+        ModalPopupExtender4.Show()
+        ModalPopupExtender8.Hide()
+    End Sub
+
+    Private Sub btnFecharBoleto_Click(sender As Object, e As EventArgs) Handles btnFecharBoleto.Click
+        ModalPopupExtender6.Hide()
+        ModalPopupExtender11.Show()
     End Sub
 End Class
