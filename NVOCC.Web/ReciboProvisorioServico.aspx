@@ -51,7 +51,7 @@
             <tr>               
                 <td>
                     <center>
-    <img src="Content/imagens/FCA-Log - Copia.png" /><br />
+    <img src="Content/imagens/Logo_FCA_Deitado1.png" /><br />
                 </td>
                 <td>
                     <center>

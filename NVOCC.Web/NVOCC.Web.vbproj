@@ -323,12 +323,13 @@
     <Content Include="Content\imagens\Bloquear.png" />
     <Content Include="Content\imagens\Capa-proposta-FCA-Log.png" />
     <Content Include="Content\imagens\Desbloquear.png" />
-    <Content Include="Content\imagens\FCA-Log - Copia.png" />
     <Content Include="Content\imagens\fundo-conteineres.png" />
     <Content Include="Content\imagens\hist.png" />
     <Content Include="Content\imagens\Logo-Background.png" />
     <Content Include="Content\imagens\Logo-Inicio.png" />
     <Content Include="Content\imagens\Logo-Menu.png" />
+    <Content Include="Content\imagens\Logo_FCA_Deitado1.png" />
+    <Content Include="Content\imagens\Logo_FCA_Deitado2.png" />
     <Content Include="Content\imagens\minus.png" />
     <Content Include="Content\imagens\plus.png" />
     <Content Include="Content\imagens\search.png" />
@@ -595,6 +596,7 @@
     <Content Include="Scripts\WebParts.js" />
     <Content Include="Scripts\WebUIValidation.js" />
     <Content Include="SelecionaPerfil.aspx" />
+    <Content Include="ProcessosPeriodo.aspx" />
     <Content Include="SOA_I.aspx" />
     <Content Include="SOA_II.aspx" />
     <Content Include="SOA_New.aspx" />
@@ -1143,6 +1145,13 @@
     <Compile Include="Site.Master.vb">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProcessosPeriodo.aspx.designer.vb">
+      <DependentUpon>ProcessosPeriodo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessosPeriodo.aspx.vb">
+      <DependentUpon>ProcessosPeriodo.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="SOA_I.aspx.designer.vb">
       <DependentUpon>SOA_I.aspx</DependentUpon>

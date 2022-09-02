@@ -295,7 +295,7 @@ display:none;
 <td><strong>CONSIGNED TO ORDER OF</strong><br/>
     <asp:Label ID="lblImportador1" class="lblImportador1" runat="server"></asp:Label>
 </td>
-       <td style="border:none !important;"><center><img src="Content/imagens/FCA-Log - Copia.png" /></center>
+       <td style="border:none !important;"><center><img src="Content/imagens/Logo_FCA_Deitado1.png" /></center>
            
        </td>
 </tr>

@@ -123,14 +123,13 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
                             lblRazaoFCA.Text = dsFCA.Tables(0).Rows(0).Item("NM_RAZAO")
                         End If
                         If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("CNPJ")) Then
-                            lblCNPJCPF.Text = dsFCA.Tables(0).Rows(0).Item("CNPJ")
+                            lblCNPJFCA.Text = dsFCA.Tables(0).Rows(0).Item("CNPJ")
                         End If
                         If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("TELEFONE")) Then
-                            lblTelefoneFCA.Text = "+55 " & dsFCA.Tables(0).Rows(0).Item("TELEFONE")
+                            lblTelefoneFCA.Text = " +55 " & dsFCA.Tables(0).Rows(0).Item("TELEFONE")
                         End If
                         If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("INSCR_ESTADUAL")) Then
                             lblIEFCA.Text = dsFCA.Tables(0).Rows(0).Item("INSCR_ESTADUAL")
-                            lblIEFCA.Text &= " - " & dsFCA.Tables(0).Rows(0).Item("INSCR_ESTADUAL").ToString.Format("###.###.###.###")
                         End If
 
                         If Not IsDBNull(dsFCA.Tables(0).Rows(0).Item("ENDERECO")) Then

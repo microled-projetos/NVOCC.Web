@@ -1085,6 +1085,15 @@ Partial Public Class Account
     Protected WithEvents txtProcessoRelatorio As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtIDBLProcessoRelatorio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDBLProcessoRelatorio As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle btnBuscarRelatorio.
     '''</summary>
     '''<remarks>

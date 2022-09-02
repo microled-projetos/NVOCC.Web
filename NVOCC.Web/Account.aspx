@@ -946,7 +946,7 @@
 <div class="form-group">
      <label class="control-label">Nº Processo:</label>
                                          <asp:TextBox ID="txtProcessoRelatorio" runat="server" CssClass="form-control"></asp:TextBox>                        
-
+     <asp:TextBox ID="txtIDBLProcessoRelatorio" runat="server" CssClass="form-control" style="display:none"></asp:TextBox>  
                                         </div>
                                            </div>
      <div class=" col-sm-1">
@@ -1283,6 +1283,11 @@ WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
             window.open('CreditNote.aspx?id=' + ID, '_blank');
         }
 
+        function ProcessosPeriodo() {
+            var AGENTE = document.getElementById('<%= ddlAgenteRelatorio.ClientID %>').value;
+            var PROCESSO = document.getElementById('<%= txtIDBLProcessoRelatorio.ClientID %>').value;
+            window.open('ProcessosPeriodo.aspx?ag=' + AGENTE + "&p=" + PROCESSO, '_blank');
+         }
 
         function SOA1() {
             var AGENTE = document.getElementById('<%= ddlAgenteSoa.ClientID %>').value;
