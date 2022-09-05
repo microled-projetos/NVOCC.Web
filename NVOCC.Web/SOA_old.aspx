@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="SOA_New.aspx.vb" Inherits="NVOCC.Web.SOA_New" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="SOA_old.aspx.vb" Inherits="NVOCC.Web.SOA_old" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
         #imgFundo {
@@ -33,7 +33,6 @@
            
         }
     </style>
-    <div Style="margin-bottom: 40px;">
     <asp:Button runat="server" Text="Gerar CSV" id="btnCSV" CssClass="btnCSV btn btn-success"  Style="float:right" />
         <div style="display:none">
     <asp:Label ID="lblIDINVOICE"  runat="server"/>
@@ -41,35 +40,32 @@
         <asp:Label ID="lblGrau"  runat="server"/>
         </div>
             <table >
-            <tr> <td>
-                    <center>
-    <div style="float:left;font-size:13px"><img src="Content/imagens/Logo_FCA_Deitado2.png" /><br />
-    <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>&nbsp;<br /></div></center>
-
+            <tr>
+                <td >
+                           <strong>Agente Acount:</strong>&nbsp;<asp:Label ID="lblAgente" runat="server" />
+                    <br /> <strong>Date Range:</strong>&nbsp;<asp:Label ID="lblDatas" runat="server" />
+                    <br /> <strong>Type of Service</strong>&nbsp;<asp:Label ID="lblTipoServico" runat="server" />
+                    <br />
                 </td>
-                <td >   
-                 <%--<strong>Date Range:</strong>&nbsp;<asp:Label ID="lblDatas" runat="server" />
-                     <br/><strong>Agente Name:</strong>&nbsp;<asp:Label ID="lblAgente" runat="server" />
-                    <br /> <strong>Currency:</strong>&nbsp;<asp:Label ID="lblMoeda" runat="server" />--%>
+                <td>
+                           <strong>Origin:</strong>&nbsp;<asp:Label ID="lblOrigem" runat="server" />
+                    <br /> <strong>Destination:</strong>&nbsp;<asp:Label ID="lblDestino" runat="server" />
+                    <br /> <strong>Costumer:</strong>&nbsp;<asp:Label ID="lblCliente" runat="server" />
+                    <br /> <strong>Currency:</strong>&nbsp;<asp:Label ID="lblMoeda" runat="server" />
 
                 </td>
                 <td>
-                
+                    <center>
+    <img src="Content/imagens/Logo_FCA_Deitado1.png" /><br />
+    <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>&nbsp;<br /></center>
 
-                     <br />
-    <div id="divDadosBancarios" runat="server"  style="float:right"></div>
-                   
                 </td>
-               
             </tr>
         </table>
-          <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">   <center><h1>Statement of Account</h1></center>                                   
+          <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">   <center><h3>Statement of Account</h3></center>                                   
     <div id="divConteudoDinamico" runat="server"  >
-        </div><br />
-              
-    <div style="float:right"> SOA <%= DateTime.Now %> </div><br />
-</div>
-    </div>
+        </div>
+              </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
      <script>

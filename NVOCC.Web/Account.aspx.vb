@@ -960,7 +960,13 @@ ORDER BY NR_PROCESSO"
         If txtVencimentoInicialSOA.Text = "" Or txtVencimentoFinalSOA.Text = "" Then
             divErro.Visible = True
             lblErro.Text = "É necessário informar vencimento inicial e final!"
+
+        ElseIf DateDiff(DateInterval.Day, Convert.ToDateTime(txtVencimentoInicialSOA.Text), Convert.ToDateTime(txtVencimentoFinalSOA.Text)) > 62 Then
+            divErro.Visible = True
+            lblErro.Text = "O periodo maximo para consulta desse relatorio é de 60 dias!"
+
         Else
+
             Session("DataInicial") = ""
             Session("DataFinal") = ""
 
