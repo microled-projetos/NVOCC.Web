@@ -61,7 +61,7 @@
 
 
 
-            tabela &= "<h5>AGENTE: " & linhaTitulo("NM_AGENTE") & "<br/>CURRENCY: " & linhaTitulo("SIGLA_MOEDA") & "</h5> - Periodo de Vencimento:" & Session("DataInicial") & " - " & Session("DataFinal")
+            tabela &= "<h5>AGENTE: " & linhaTitulo("NM_AGENTE") & "<br/>CURRENCY: " & linhaTitulo("SIGLA_MOEDA") & "</h5> Periodo de Vencimento:" & Session("DataInicial") & " - " & Session("DataFinal")
 
             tabela &= "<table  border='1' style='font-size:10px;'>"
             tabela &= "<tr><td><strong>OUR REFERENCE</strong></td>"
@@ -156,7 +156,7 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
 
             Next
             Dim Total As String = saldo
-            tabela &= "<tr style='border:none;font-weight:bold'><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>TOTAL</td><td>" & SIGLA_MOEDA & "</td><td>" & debit & "</td>" & credit & "<td></td><td>" & Total & "</td></tr>"
+            tabela &= "<tr style='border:none;font-weight:bold'><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>TOTAL</td><td>" & SIGLA_MOEDA & "</td><td>" & debit & "</td><td>" & credit & "</td><td>" & Total & "</td></tr>"
             tabela &= "</table>"
 
         Next

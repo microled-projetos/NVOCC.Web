@@ -34,7 +34,6 @@
         }
     </style>    <div Style="margin-bottom: 40px;">
 
-    <asp:Button runat="server" Text="Gerar CSV" id="btnCSV" CssClass="btnCSV btn btn-success"  Style="float:right" />
         <div style="display:none">
         </div>
             <table >

@@ -15,11 +15,11 @@
 
 
         If Request.QueryString("ag") <> "" And Request.QueryString("ag") <> 0 Then
-            FILTRO = " AND A.ID_PARCEIRO_AGENTE_INTERNACIONAL = " & Request.QueryString("ag")
+            FILTRO &= " AND A.ID_PARCEIRO_AGENTE_INTERNACIONAL = " & Request.QueryString("ag")
         End If
 
         If Request.QueryString("p") <> "" And Request.QueryString("p") <> 0 Then
-            FILTRO = " AND A.ID_BL = " & Request.QueryString("p")
+            FILTRO &= " AND A.ID_BL = " & Request.QueryString("p")
         End If
 
         Dim tabela As String = ""
@@ -90,66 +90,4 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
         Con.Fechar()
     End Sub
 
-    Private Sub btnCSV_Click(sender As Object, e As EventArgs) Handles btnCSV.Click
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim FILTRO As String = ""
-
-        If Request.QueryString("ag") <> "" And Request.QueryString("ag") <> 0 Then
-            FILTRO = " AND B.ID_PARCEIRO_AGENTE = " & Request.QueryString("ag")
-        Else
-            FILTRO = ""
-        End If
-
-        Dim sql As String = "SELECT 
-        CASE WHEN GRAU ='M' THEN 'MBL' ELSE NR_PROCESSO END 'OUR REFERENCE' ,
-        PARCEIRO_CLIENTE AS CUSTOMER,
-        DT_EMBARQUE AS DEPARTURE ,
-        DT_CHEGADA AS ARRIVAL,
-        TP_VIA_INGLES AS 'AIR/SEA',
-        TP_SERVICO AS 'IMP/EXP',
-        ORIGEM AS ORIGIN,
-        DESTINO AS DESTIN,
-        (SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO_MASTER)'P/C MBL'	,
-        NR_BL_MASTER AS 'Nº MASTER',
-        (SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO)'P/C HBL',
-        NR_BL AS 'Nº HOUSE',
-        B.NR_INVOICE INVOICE,
-        DT_INVOICE DATE,
-        CD_ACCOUNT_TIPO_FATURA 'CN/DN',
-        SIGLA_MOEDA CURR,
-        SUM(ISNULL(VL_TAXA,0))TOTAL
-FROM [dbo].[View_BL]  A 
-INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL
- WHERE FL_CONFERIDO = 1 " & FILTRO & " 
-GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE,DT_CHEGADA,PARCEIRO_CLIENTE,DT_INVOICE,SIGLA_MOEDA,CD_ACCOUNT_TIPO_FATURA,NR_PROCESSO,TIPO_PAGAMENTO,NR_BL_MASTER,TP_SERVICO,TP_VIA_INGLES,ID_TIPO_PAGAMENTO_MASTER,ID_TIPO_PAGAMENTO"
-
-
-        Classes.Excel.exportaExcel(sql, "NVOCC", "SOA_I")
-
-        '        Dim SQL As String = "SELECT 
-        'CASE WHEN GRAU ='M' THEN 'MBL' ELSE NR_PROCESSO END 'OUR REFERENCE' ,
-        'PARCEIRO_CLIENTE AS CUSTOMER,
-        'DT_EMBARQUE AS DEPARTURE ,
-        'DT_CHEGADA AS ARRIVAL,
-        'TP_VIA_INGLES AS 'AIR/SEA',
-        'TP_SERVICO AS 'IMP/EXP',
-        'ORIGEM AS ORIGIN,
-        'DESTINO AS DESTIN,
-        '(SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO_MASTER)'P/C MBL'	,
-        'NR_BL_MASTER AS 'Nº MASTER',
-        '(SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO)'P/C HBL',
-        'NR_BL AS 'Nº HOUSE',
-        'B.NR_INVOICE INVOICE,
-        'DT_INVOICE DATE,
-        'CD_ACCOUNT_TIPO_FATURA 'CN/DN',
-        'SIGLA_MOEDA CURR,
-        'SUM(ISNULL(VL_TAXA,0))TOTAL
-        ' FROM [dbo].[View_BL]  A 
-        ' INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('01/01/2021','01/01/2022')) AS B ON B.ID_BL_INVOICE = A.ID_BL
-        ' WHERE FL_CONFERIDO = 1 GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE,DT_CHEGADA,PARCEIRO_CLIENTE,DT_INVOICE,SIGLA_MOEDA,CD_ACCOUNT_TIPO_FATURA,NR_PROCESSO,TIPO_PAGAMENTO,NR_BL_MASTER,TP_SERVICO,TP_VIA_INGLES,ID_TIPO_PAGAMENTO_MASTER,ID_TIPO_PAGAMENTO"
-
-
-        '        Classes.Excel.exportaExcel(SQL, "NVOCC", "SOA")
-    End Sub
 End Class
