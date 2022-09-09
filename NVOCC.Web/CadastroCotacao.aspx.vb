@@ -2185,6 +2185,8 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                         txtValorCargaMercadoria.Text = txtValorCargaMercadoria.Text.Replace(".", ",")
                         txtM3Mercadoria.Text = txtM3Mercadoria.Text.Replace(".", ",")
                         txtPesoBrutoMercadoria.Text = txtPesoBrutoMercadoria.Text.Replace(".", ",")
+                        txtCBMAereo.Text = txtCBMAereo.Text.Replace(".", ",")
+
 
                         txtComprimentoMercadoria.Text = txtComprimentoMercadoria.Text.Replace(".", ",")
                         txtLarguraMercadoria.Text = txtLarguraMercadoria.Text.Replace(".", ",")
@@ -2198,6 +2200,7 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                         txtFreteCompraMercadoriaCalc.Text = ""
                         txtFreteVendaMercadoriaCalc.Text = ""
                         txtPesoBrutoMercadoria.Text = ""
+                        txtCBMAereo.Text = ""
                         txtM3Mercadoria.Text = ""
                         txtDsMercadoria.Text = ""
                         txtComprimentoMercadoria.Text = ""
@@ -2277,6 +2280,7 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
                     txtValorCargaMercadoria.Text = txtValorCargaMercadoria.Text.Replace(".", ",")
                     txtM3Mercadoria.Text = txtM3Mercadoria.Text.Replace(".", ",")
                     txtPesoBrutoMercadoria.Text = txtPesoBrutoMercadoria.Text.Replace(".", ",")
+                    txtCBMAereo.Text = txtCBMAereo.Text.Replace(".", ",")
 
                     txtComprimentoMercadoria.Text = txtComprimentoMercadoria.Text.Replace(".", ",")
                     txtLarguraMercadoria.Text = txtLarguraMercadoria.Text.Replace(".", ",")

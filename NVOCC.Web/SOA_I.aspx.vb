@@ -63,7 +63,7 @@
 
             tabela &= "<h5>AGENTE: " & linhaTitulo("NM_AGENTE") & "<br/>CURRENCY: " & linhaTitulo("SIGLA_MOEDA") & "</h5> Periodo de Vencimento:" & Session("DataInicial") & " - " & Session("DataFinal")
 
-            tabela &= "<table  border='1' style='font-size:10px;'>"
+            tabela &= "<table class='tabelaDinamica' border='1' style='font-size:10px;'>"
             tabela &= "<tr><td><strong>OUR REFERENCE</strong></td>"
             tabela &= "<td><strong>CUSTOMER</strong></td>"
             tabela &= "<td><strong>DEPARTURE</strong></td>"
@@ -72,10 +72,10 @@
             tabela &= "<td><strong>IMP/EXP</strong></td>"
             tabela &= "<td><strong>ORIGIN</strong></td>"
             tabela &= "<td><strong>DESTIN</strong></td>"
-            tabela &= "<td><strong>P/C</strong></td>"
             tabela &= "<td><strong>Nº MASTER</strong></td>"
             tabela &= "<td><strong>P/C</strong></td>"
             tabela &= "<td><strong>Nº HOUSE</strong></td>"
+            tabela &= "<td><strong>P/C</strong></td>"
             tabela &= "<td><strong>INVOICE</strong></td>"
             tabela &= "<td><strong>DATE</strong></td>"
             tabela &= "<td><strong>CN/DN</strong></td>"'''EXCLUIR??
@@ -115,23 +115,22 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
                 tabela &= "<td>" & linhadados("DESTINO") & "</td>"
 
                 If linhadados("GRAU") = "M" Then
-                    tabela &= "<td>" & linhadados("TIPO_PAGAMENTO") & "</td>"
                     tabela &= "<td>" & linhadados("NR_BL") & "</td>"
+                    tabela &= "<td>" & linhadados("TIPO_PAGAMENTO") & "</td>"
                     tabela &= "<td></td>"
                     tabela &= "<td></td>"
 
                 ElseIf linhadados("GRAU") = "C" Then
-                    tabela &= "<td>" & linhadados("TIPO_PAGAMENTO_MASTER") & "</td>"
                     tabela &= "<td>" & linhadados("NR_BL_MASTER") & "</td>"
-                    tabela &= "<td>" & linhadados("TIPO_PAGAMENTO") & "</td>"
+                    tabela &= "<td>" & linhadados("TIPO_PAGAMENTO_MASTER") & "</td>"
                     tabela &= "<td>" & linhadados("NR_BL") & "</td>"
+                    tabela &= "<td>" & linhadados("TIPO_PAGAMENTO") & "</td>"
                 End If
 
                 tabela &= "<td>" & linhadados("NR_INVOICE") & "</td>"
                 tabela &= "<td>" & linhadados("DT_INVOICE") & "</td>"
-                tabela &= "<td>" & linhadados("CD_ACCOUNT_TIPO_FATURA") & "</td>" '' EXCLUIR??
+                tabela &= "<td>" & linhadados("CD_ACCOUNT_TIPO_FATURA") & "</td>" 
                 tabela &= "<td>" & linhadados("SIGLA_MOEDA") & "</td>"
-               ' tabela &= "<td>" & linhadados("VL_TAXA") & "</td></tr>" '' EXCLUIR
 
                 If linhadados("CD_ACCOUNT_TIPO_FATURA") =  "DN" THEN
                
@@ -186,10 +185,10 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
         TP_SERVICO AS 'IMP/EXP',
         ORIGEM AS ORIGIN,
         DESTINO AS DESTIN,
-        (SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO_MASTER)'P/C MBL'	,
         NR_BL_MASTER AS 'Nº MASTER',
-        (SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO)'P/C HBL',
+        (SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO_MASTER)'P/C MBL'	,
         NR_BL AS 'Nº HOUSE',
+        (SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO)'P/C HBL',
         B.NR_INVOICE INVOICE,
         DT_INVOICE DATE,
         CD_ACCOUNT_TIPO_FATURA 'CN/DN',
@@ -203,29 +202,5 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
 
         Classes.Excel.exportaExcel(sql, "NVOCC", "SOA_I")
 
-        '        Dim SQL As String = "SELECT 
-        'CASE WHEN GRAU ='M' THEN 'MBL' ELSE NR_PROCESSO END 'OUR REFERENCE' ,
-        'PARCEIRO_CLIENTE AS CUSTOMER,
-        'DT_EMBARQUE AS DEPARTURE ,
-        'DT_CHEGADA AS ARRIVAL,
-        'TP_VIA_INGLES AS 'AIR/SEA',
-        'TP_SERVICO AS 'IMP/EXP',
-        'ORIGEM AS ORIGIN,
-        'DESTINO AS DESTIN,
-        '(SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO_MASTER)'P/C MBL'	,
-        'NR_BL_MASTER AS 'Nº MASTER',
-        '(SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO)'P/C HBL',
-        'NR_BL AS 'Nº HOUSE',
-        'B.NR_INVOICE INVOICE,
-        'DT_INVOICE DATE,
-        'CD_ACCOUNT_TIPO_FATURA 'CN/DN',
-        'SIGLA_MOEDA CURR,
-        'SUM(ISNULL(VL_TAXA,0))TOTAL
-        ' FROM [dbo].[View_BL]  A 
-        ' INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('01/01/2021','01/01/2022')) AS B ON B.ID_BL_INVOICE = A.ID_BL
-        ' WHERE FL_CONFERIDO = 1 GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE,DT_CHEGADA,PARCEIRO_CLIENTE,DT_INVOICE,SIGLA_MOEDA,CD_ACCOUNT_TIPO_FATURA,NR_PROCESSO,TIPO_PAGAMENTO,NR_BL_MASTER,TP_SERVICO,TP_VIA_INGLES,ID_TIPO_PAGAMENTO_MASTER,ID_TIPO_PAGAMENTO"
-
-
-        '        Classes.Excel.exportaExcel(SQL, "NVOCC", "SOA")
     End Sub
 End Class

@@ -43,7 +43,7 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
                 lblAgente.Text = " - " & dsdados.Tables(0).Rows(0).Item("AGENTE_INTERNACIONAL").ToString()
             End If
 
-            tabela &= "<table  border='1' style='font-size:10px;'>"
+            tabela &= "<table  class='tabelaDinamica' border='1'>"
             tabela &= "<tr><td><strong>PROCESSO</strong></td>"
             tabela &= "<td><strong>TX RECBTO</strong></td>"
             tabela &= "<td><strong>DT RECBTO</strong></td>"

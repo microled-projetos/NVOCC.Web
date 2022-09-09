@@ -48,10 +48,7 @@
 
                 </td>
                 <td >   
-                 <%--<strong>Date Range:</strong>&nbsp;<asp:Label ID="lblDatas" runat="server" />
-                     <br/><strong>Agente Name:</strong>&nbsp;<asp:Label ID="lblAgente" runat="server" />
-                    <br /> <strong>Currency:</strong>&nbsp;<asp:Label ID="lblMoeda" runat="server" />--%>
-
+             
                 </td>
                 <td>
                 
@@ -67,7 +64,7 @@
     <div id="divConteudoDinamico" runat="server"  >
         </div><br />
               
-    <div style="float:right"> SOA <%= DateTime.Now %> </div><br />
+    <div style="float:right;font-size:13px"> Financeiro/Account/Invoice/Rel. Statement of Account <%= DateTime.Now %> </div><br />
 </div>
     </div>
 </asp:Content>
