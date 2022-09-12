@@ -1866,11 +1866,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
         GRAVARLOG(loteNumero, "ANTES DO CLIENT DO GINFES")
 
-<<<<<<< HEAD
-        ' Dim client As New ginfes2.ServiceGinfesImplClient
-=======
-        '  Dim client As New ginfes2.ServiceGinfesImplClient
->>>>>>> master
+        'Dim client As New ginfes2.ServiceGinfesImplClient
 
         Dim client As New GinfesTeste.ServiceGinfesImplClient
 
