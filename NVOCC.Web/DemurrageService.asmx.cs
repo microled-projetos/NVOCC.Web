@@ -8701,15 +8701,39 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string ContaPrevisibilidadeProcesso(string chkConfSim, string chkConfNao)
+        public string ContaPrevisibilidadeProcesso(string dataI, string dataF, string nota, string filter, string chkConfSim, string chkConfNao)
         {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
 
-            string dtembarque;
-            string dtprevisaochegada;
-            DateTime myDateTime = DateTime.Now;
-            string sqlFormattedDate = myDateTime.AddDays(1).ToString("dd/MM/yyyy");
-            string sqlFormattedDate2 = myDateTime.AddDays(90).ToString("dd/MM/yyyy");
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
             string SQL;
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
+                    break;
+                case "3":
+                    nota = "AND NM_FORNECEDOR LIKE '" + nota + "%' ";
+                    break;
+                case "4":
+                    nota = "AND NR_BL_MASTER LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
 
             if (chkConfSim == "1" && chkConfNao == "1")
             {
@@ -8739,14 +8763,18 @@ namespace ABAINFRA.Web
                 }
             }
 
-            SQL = "SELECT CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, CASE WHEN ISNULL(DOC_CONFERIDO_MASTER,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER, ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, DT_EMBARQUE AS DTEMBARQUE, DT_PREVISAO_CHEGADA as DTPREVISAOCHEGADA, ISNULL(NM_CLIENTE,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,ISNULL(VL_RECEBER,0) AS ARECEBERBR, ISNULL(VL_PAGAR,0) AS APAGARBR, ISNULL(VL_SALDO,0) AS SALDOBR FROM FN_PREVISIBILIDADE_PROCESSO('" + sqlFormattedDate + "','" + sqlFormattedDate2 + "') ";
+            SQL = "SELECT CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, CASE WHEN ISNULL(DOC_CONFERIDO_MASTER,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER, ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, FORMAT(DT_EMBARQUE,'dd/MM/yyyy') AS DTEMBARQUE, FORMAT(DT_PREVISAO_CHEGADA,'dd/MM/yyyy') as DTPREVISAOCHEGADA, ISNULL(NM_CLIENTE,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,ISNULL(VL_RECEBER,0) AS ARECEBERBR, ISNULL(VL_PAGAR,0) AS APAGARBR, ISNULL(TIPO_FATURAMENTO,0) AS TIPO_FATURAMENTO, ISNULL(DIAS_FATURADOS,0) AS DIAS_FATURADOS, ISNULL(VL_SALDO,0) AS SALDOBR FROM FN_PREVISIBILIDADE_PROCESSO('" + dataI + "','" + dataF + "') ";
             SQL += "WHERE RIGHT(NR_PROCESSO,2) > 18 ";
             SQL += "" + chkConfSim + "";
             SQL += "" + chkConfNao + "";
+            SQL += "" + nota + "";
             SQL += "ORDER BY NR_PROCESSO ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
+<<<<<<< HEAD
+            return JsonConvert.SerializeObject(listTable);
+=======
             if (listTable != null)
             {
                 string[] previ = new string[listTable.Rows.Count];
@@ -8798,6 +8826,7 @@ namespace ABAINFRA.Web
             {
                 return JsonConvert.SerializeObject(null);
             }
+>>>>>>> master
         }
 
         /*[WebMethod]

@@ -239,6 +239,7 @@
                 success: function (dado) {
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
+                    $("#ntFiscal").append("<span style='background-color: bisque;padding: 10px;'><b>" + dado.length + "</b> Notas Fiscais</span>");
                     $("#grdServicoBody").empty();
                     if (dado != null) 
 					{$("#ntFiscal").append("<span style='background-color: bisque;padding: 10px;'><b>" + dado.length + "</b> Notas Fiscais</span>");

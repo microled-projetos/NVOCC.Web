@@ -946,51 +946,19 @@
 <div class="form-group">
      <label class="control-label">Nº Processo:</label>
                                          <asp:TextBox ID="txtProcessoRelatorio" runat="server" CssClass="form-control"></asp:TextBox>                        
-
+     <asp:TextBox ID="txtIDBLProcessoRelatorio" runat="server" CssClass="form-control" style="display:none"></asp:TextBox>  
                                         </div>
                                            </div>
      <div class=" col-sm-1">
 <div class="form-group">
-     <label class="control-label"></label>
+     <label class="control-label"></label><br />
                                         <asp:Button runat="server" CssClass="btn btn-success" ID="btnBuscarRelatorio" text="Buscar" />                 
 
                                         </div>
                                            </div>
                                                                
                                                                 </div>
-                                   
- <div class="table-responsive tableFixHead">
-<asp:GridView ID="dgvProcessoPeriodo" DataKeyNames="ID_BL" DataSourceID="dsProcessoPeriodo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." >
-                                            <Columns>
-                                                <asp:TemplateField HeaderText="ID" Visible="False">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL") %>'  />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
-                                                <asp:BoundField DataField="BL_MASTER" HeaderText="MBL" SortExpression="BL_MASTER" />
-                                                <asp:BoundField DataField="TIPO FRETE MASTER" HeaderText="FRETE MASTER" SortExpression="TIPO FRETE MASTER" />
-                                                <asp:BoundField DataField="BL_HOUSE" HeaderText="HBL" SortExpression="BL_HOUSE" />
-                                                <asp:BoundField DataField="TIPO FRETE HOUSE" HeaderText="FRETE HOUSE" SortExpression="TIPO FRETE HOUSE" />
-                                                <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="ESTUFAGEM" SortExpression="TIPO_ESTUFAGEM" />
-                                                <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM" SortExpression="ORIGEM" />
-                                                <asp:BoundField DataField="DESTINO" HeaderText="DESTINO" SortExpression="DESTINO" />
-                                                <asp:BoundField DataField="CLIENTE"  HeaderText="CLIENTE" SortExpression="CLIENTE" /> 
-                                                <asp:BoundField DataField="AGENTE_INTERNACIONAL" HeaderText="AGENTE INTER." SortExpression="AGENTE_INTERNACIONAL" />
-                                                <asp:BoundField DataField="TRANSPORTADOR" HeaderText="TRANSPORTADOR" SortExpression="TRANSPORTADOR" />
-                                                <asp:BoundField DataField="DT_PREVISAO_EMBARQUE_MASTER" HeaderText="PREV. EMBARQUE" SortExpression="DT_PREVISAO_EMBARQUE_MASTER" DataFormatString="{0:dd/MM/yyyy}" />
-                                                <asp:BoundField DataField="DT_EMBARQUE_MASTER" HeaderText="EMBARQUE" SortExpression="DT_EMBARQUE_MASTER" DataFormatString="{0:dd/MM/yyyy}"/>
-                                                <asp:BoundField DataField="DT_PREVISAO_CHEGADA_MASTER" HeaderText="PREV. CHEGADA" SortExpression="DT_PREVISAO_CHEGADA_MASTER" DataFormatString="{0:dd/MM/yyyy}"/>
-                                                <asp:BoundField DataField="DT_CHEGADA_MASTER" HeaderText="CHEGADA" SortExpression="DT_CHEGADA_MASTER" DataFormatString="{0:dd/MM/yyyy}"/>
-                                                <asp:BoundField DataField="VL_CAMBIO"  HeaderText="CAMBIO" SortExpression="VL_CAMBIO" /> 
-                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DATA LIQUIDAÇÃO" SortExpression="DT_LIQUIDACAO" DataFormatString="{0:dd/MM/yyyy}"/>
-                                            </Columns>
-                                            <HeaderStyle CssClass="headerStyle" />
-                                        </asp:GridView>
-                                       </div>
-                                        
-
-                                                           
+                                                                                            
                                 </div>  
                            
                       
@@ -1033,7 +1001,6 @@
                                                     <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="DATA VENCIMENTO" SortExpression="DT_VENCIMENTO" />
                                                     <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
                                                     <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" SortExpression="NR_BL" />
-                                                    <%-- <asp:BoundField DataField="NM_AGENTE" HeaderText="AGENTE" SortExpression="NM_AGENTE" />--%>
                                                     <asp:TemplateField HeaderText="AGENTE" HeaderStyle-ForeColor="#337ab7" HeaderStyle-HorizontalAlign="Center" SortExpression="NM_AGENTE">
                                                         <ItemTemplate>
                                                             <a href="DadosBancariosAgente.aspx?tipo=a&id=<%# Eval("ID_PARCEIRO_AGENTE") %>" title="AGENTE" target="_blank">
@@ -1198,29 +1165,6 @@ union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_FATURA ORDER BY ID_ACCOUNT_TIPO
     <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] WHERE ID_MOEDA <> 124 union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsProcessoPeriodo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT NR_PROCESSO,BL_MASTER,PAGAMENTO_BL_MASTER AS 'TIPO FRETE MASTER'
-,NR_BL AS 'BL_HOUSE',TIPO_PAGAMENTO AS 'TIPO DO FRETE HOUSE',TIPO_ESTUFAGEM,
-CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM) = '' THEN ORIGEM ELSE
-
-(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM)
-END ORIGEM,CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO) = '' THEN DESTINO ELSE
-
-(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO)
-END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
-(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,
-(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER , B.VL_CAMBIO,B.DT_LIQUIDACAO
-FROM [dbo].[View_House] A
-LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
-  WHERE CONVERT(VARCHAR,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(VARCHAR,'@EmbarqueInicial',103) AND CONVERT(VARCHAR,'@EmbarqueFinal',103)">
-        <SelectParameters>
-            <asp:ControlParameter Name="EmbarqueInicial" Type="string" ControlID="txtEmbarqueInicial" />
-            <asp:ControlParameter Name="EmbarqueFinal" Type="string" ControlID="txtEmbarqueFinal" />
-
-        </SelectParameters>
-
-    </asp:SqlDataSource>
-
 
     <asp:SqlDataSource ID="dsItensInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT A.ID_ACCOUNT_INVOICE, 
@@ -1283,6 +1227,11 @@ WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
             window.open('CreditNote.aspx?id=' + ID, '_blank');
         }
 
+        function ProcessosPeriodo() {
+            var AGENTE = document.getElementById('<%= ddlAgenteRelatorio.ClientID %>').value;
+            var PROCESSO = document.getElementById('<%= txtIDBLProcessoRelatorio.ClientID %>').value;
+            window.open('ProcessosPeriodo.aspx?ag=' + AGENTE + "&p=" + PROCESSO, '_blank');
+         }
 
         function SOA1() {
             var AGENTE = document.getElementById('<%= ddlAgenteSoa.ClientID %>').value;

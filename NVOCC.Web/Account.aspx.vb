@@ -221,21 +221,7 @@
 
         txtEmbarqueInicial.Text = txtVencimentoInicial.Text
         txtEmbarqueFinal.Text = txtVencimentoFinal.Text
-        Dim sql As String = "SELECT A.ID_BL,NR_PROCESSO,BL_MASTER,PAGAMENTO_BL_MASTER AS 'TIPO FRETE MASTER'
-,NR_BL AS 'BL_HOUSE',TIPO_PAGAMENTO AS 'TIPO FRETE HOUSE',TIPO_ESTUFAGEM,
-CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM) = '' THEN ORIGEM ELSE
 
-(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM)
-END ORIGEM,CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO) = '' THEN DESTINO ELSE
-
-(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO)
-END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
-(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,
-(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER , B.VL_CAMBIO,B.DT_LIQUIDACAO
-FROM [dbo].[View_House] A
-LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103)"
-        dsProcessoPeriodo.SelectCommand = sql
-        dgvProcessoPeriodo.DataBind()
     End Sub
 
     Function VerificaPositivoNegativo() As String
@@ -974,7 +960,13 @@ ORDER BY NR_PROCESSO"
         If txtVencimentoInicialSOA.Text = "" Or txtVencimentoFinalSOA.Text = "" Then
             divErro.Visible = True
             lblErro.Text = "É necessário informar vencimento inicial e final!"
+
+        ElseIf DateDiff(DateInterval.Day, Convert.ToDateTime(txtVencimentoInicialSOA.Text), Convert.ToDateTime(txtVencimentoFinalSOA.Text)) > 62 Then
+            divErro.Visible = True
+            lblErro.Text = "O periodo maximo para consulta desse relatorio é de 60 dias!"
+
         Else
+
             Session("DataInicial") = ""
             Session("DataFinal") = ""
 
@@ -1051,33 +1043,23 @@ ORDER BY NR_PROCESSO"
             lblErroRelatorio.Text = "É necessário informar data final para concluir a pesquisa"
         Else
 
-            Dim filtro As String = ""
 
-            If ddlAgenteRelatorio.SelectedValue <> 0 Then
-                filtro &= " AND ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgenteRelatorio.SelectedValue
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_BL,0)ID_BL FROM TB_BL WHERE NR_PROCESSO = '" & txtProcessoRelatorio.Text & "'")
+            If ds.Tables(0).Rows.Count > 0 Then
+                txtIDBLProcessoRelatorio.Text = ds.Tables(0).Rows(0).Item("ID_BL")
+            Else
+                txtIDBLProcessoRelatorio.Text = 0
             End If
-            If txtProcessoRelatorio.Text <> "" Then
-                filtro &= " AND NR_PROCESSO = '" & txtProcessoRelatorio.Text & "'"
-            End If
 
 
+            Session("DataInicial") = ""
+            Session("DataFinal") = ""
+            Session("DataInicial") = txtEmbarqueInicial.Text
+            Session("DataFinal") = txtEmbarqueFinal.Text
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ProcessosPeriodo()", True)
 
-            Dim sql As String = "SELECT A.ID_BL,NR_PROCESSO,BL_MASTER,PAGAMENTO_BL_MASTER AS 'TIPO FRETE MASTER'
-            ,NR_BL AS 'BL_HOUSE',TIPO_PAGAMENTO AS 'TIPO FRETE HOUSE',TIPO_ESTUFAGEM,
-            CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM) = '' THEN ORIGEM ELSE
-
-            (SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM)
-            END ORIGEM,CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO) = '' THEN DESTINO ELSE
-
-            (SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO)
-            END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
-            (SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,
-            (SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,DT_PREVISAO_EMBARQUE_MASTER,DT_EMBARQUE_MASTER,DT_PREVISAO_CHEGADA_MASTER,DT_CHEGADA_MASTER , B.VL_CAMBIO,B.DT_LIQUIDACAO
-            FROM [dbo].[View_House] A
-LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103) " & filtro
-            dsProcessoPeriodo.SelectCommand = sql
-            dgvProcessoPeriodo.DataBind()
-            dgvProcessoPeriodo.Visible = True
         End If
         ModalPopupExtender8.Show()
     End Sub

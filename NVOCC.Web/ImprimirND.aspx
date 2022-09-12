@@ -61,7 +61,7 @@
                 </td>
                 <td>
                     <center>
-    <img src="Content/imagens/FCA-Log - Copia.png" /><br />
+    <img src="Content/imagens/Logo_FCA_Deitado1.png" /><br />
     <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>&nbsp;<br /></center>
 
                 </td>

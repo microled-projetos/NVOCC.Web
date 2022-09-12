@@ -203,15 +203,6 @@ Partial Public Class Faturamento
     Protected WithEvents lkDesmosntrativos As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkRPS.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkRPS As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle lkNotasFiscais.
     '''</summary>
     '''<remarks>
@@ -221,13 +212,22 @@ Partial Public Class Faturamento
     Protected WithEvents lkNotasFiscais As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkOpcoesBoletos.
+    '''Controle lkBoletoRemessa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lkOpcoesBoletos As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents lkBoletoRemessa As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkRelatorioFaturamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkRelatorioFaturamento As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle divAuxiliar.
@@ -338,6 +338,24 @@ Partial Public Class Faturamento
     Protected WithEvents dgvFaturamento As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''Controle TextBox9.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox9 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle TextBox7.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox7 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ModalPopupExtender11.
     '''</summary>
     '''<remarks>
@@ -372,15 +390,6 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lkExcluirBoleto As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle lkBoletoRemessa.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkBoletoRemessa As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle btnFecharOpcoesBoletos.
@@ -437,6 +446,24 @@ Partial Public Class Faturamento
     Protected WithEvents btnFecharFatura As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle TextBox6.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox6 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle TextBox8.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox8 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ModalPopupExtender8.
     '''</summary>
     '''<remarks>
@@ -471,6 +498,15 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lkReenviarRPS As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkReciboServico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkReciboServico As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle btnFecharRPS.
@@ -662,15 +698,6 @@ Partial Public Class Faturamento
     Protected WithEvents lkNotaDebito As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkReciboServico.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkReciboServico As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle lkReciboPagamento.
     '''</summary>
     '''<remarks>
@@ -680,13 +707,22 @@ Partial Public Class Faturamento
     Protected WithEvents lkReciboPagamento As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkRelatorioFaturamento.
+    '''Controle lkRPS.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lkRelatorioFaturamento As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents lkRPS As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkOpcoesBoletos.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkOpcoesBoletos As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle btnFecharDesmosntrativos.
@@ -948,6 +984,15 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnFecharSubstituicao As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle TextBox10.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox10 As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle TextBox5.

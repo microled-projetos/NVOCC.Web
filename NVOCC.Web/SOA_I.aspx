@@ -33,6 +33,7 @@
            
         }
     </style>
+    <div Style="margin-bottom: 40px;">
     <asp:Button runat="server" Text="Gerar CSV" id="btnCSV" CssClass="btnCSV btn btn-success"  Style="float:right" />
         <div style="display:none">
     <asp:Label ID="lblIDINVOICE"  runat="server"/>
@@ -40,32 +41,32 @@
         <asp:Label ID="lblGrau"  runat="server"/>
         </div>
             <table >
-            <tr>
-                <td >
-                           <strong>Agente Acount:</strong>&nbsp;<asp:Label ID="lblAgente" runat="server" />
-                    <br /> <strong>Date Range:</strong>&nbsp;<asp:Label ID="lblDatas" runat="server" />
-                    <br /> <strong>Type of Service</strong>&nbsp;<asp:Label ID="lblTipoServico" runat="server" />
-                    <br />
-                </td>
-                <td>
-                           <strong>Origin:</strong>&nbsp;<asp:Label ID="lblOrigem" runat="server" />
-                    <br /> <strong>Destination:</strong>&nbsp;<asp:Label ID="lblDestino" runat="server" />
-                    <br /> <strong>Costumer:</strong>&nbsp;<asp:Label ID="lblCliente" runat="server" />
-                    <br /> <strong>Currency:</strong>&nbsp;<asp:Label ID="lblMoeda" runat="server" />
-
-                </td>
-                <td>
+            <tr> <td>
                     <center>
-    <img src="Content/imagens/FCA-Log - Copia.png" /><br />
-    <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>&nbsp;<br /></center>
+    <div style="float:left;font-size:13px"><img src="Content/imagens/Logo_FCA_Deitado2.png" /><br />
+    <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>&nbsp;<br /></div></center>
 
                 </td>
+                <td >   
+             
+                </td>
+                <td>
+                
+
+                     <br />
+    <div id="divDadosBancarios" runat="server"  style="float:right"></div>
+                   
+                </td>
+               
             </tr>
         </table>
-          <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">   <center><h3>Statement of Account</h3></center>                                   
+          <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">   <center><h1>Statement of Account</h1></center>                                   
     <div id="divConteudoDinamico" runat="server"  >
-        </div>
-              </div>
+        </div><br />
+              
+    <div style="float:right;font-size:13px"> Financeiro/Account/Invoice/Rel. Statement of Account <%= DateTime.Now %> </div><br />
+</div>
+    </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
      <script>

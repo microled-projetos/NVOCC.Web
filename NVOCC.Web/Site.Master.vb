@@ -37,6 +37,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
         lblEsquema.Text = lblEsquema.Text.Substring(0, lblEsquema.Text.IndexOf(";User ID"))
         lblEsquema.Text = lblEsquema.Text.Replace("Catalog=", "")
         If lblEsquema.Text = "NVOCCTST" Then
+            lblEsquema.Text = lblEsquema.Text & " (Teste)"
+        ElseIf lblEsquema.Text = "NVOCCHOM" Then
             lblEsquema.Text = lblEsquema.Text & " (Homologação)"
         ElseIf lblEsquema.Text = "NVOCC" Then
             lblEsquema.Text = lblEsquema.Text & " (Produção)"
@@ -167,6 +169,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnRelatorioDebitCredit.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2064 And linha.Item("Acessar").ToString() = 0 Then
                         mnTaxasAberto.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2065 And linha.Item("Acessar").ToString() = 0 Then
+                        mnPrevisibilidadeContas.Visible = False
                     End If
 
 
@@ -233,7 +237,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuTotvs.Visible = False
             End If
 
-            If mnFinanceiro.Visible = False And mnModuloDemurrage.Visible = False And MenuAccount.Visible = False And MenuComissoes.Visible = False And MenuTotvs.Visible = False And MenuRelatoriosFinanceiros.Visible = False And mnCaixaSaida.Visible = False And mnTaxasAberto.Visible = False Then
+            If mnFinanceiro.Visible = False And mnModuloDemurrage.Visible = False And MenuAccount.Visible = False And MenuComissoes.Visible = False And MenuTotvs.Visible = False And MenuRelatoriosFinanceiros.Visible = False And mnCaixaSaida.Visible = False And mnTaxasAberto.Visible = False And mnPrevisibilidadeContas.Visible = False Then
                 MenuFinanceiro.Visible = False
             End If
 
