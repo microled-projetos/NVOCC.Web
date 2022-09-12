@@ -133,22 +133,26 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
                 tabela &= "<td>" & linhadados("SIGLA_MOEDA") & "</td>"
 
                 If linhadados("CD_ACCOUNT_TIPO_FATURA") =  "DN" THEN
-               
+                   'debit
                     tabela &= "<td><strong>" & linhadados("VL_TAXA") & "</strong></td>"
                     tabela &= "<td><strong></strong></td>"
-                
+                   tabela &= "<td><strong>" & linhadados("VL_TAXA")  & "</td></tr>"
+
                     debit = debit + linhadados("VL_TAXA")
+
                 ElseIf linhadados("CD_ACCOUNT_TIPO_FATURA") =  "CN" THEN
+                  'credit
                   
                     tabela &= "<td><strong></strong></td>"
                     tabela &= "<td><strong>" & linhadados("VL_TAXA") & "</strong></td>"
-                    credit = credit + linhadados("VL_TAXA")
+                    tabela &= "<td><strong>" & linhadados("VL_TAXA") & "</td></tr>"
 
+                   credit = credit + linhadados("VL_TAXA")
                 End If
                
                 saldo = saldo + linhadados("VL_TAXA")
                
-                tabela &= "<td><strong>" & saldo  & "</td></tr>"
+              '  tabela &= "<td><strong>" & saldo  & "</td></tr>"
 
 
 
