@@ -1513,7 +1513,14 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                         End If
                     End If
 
+                    If ddlStatusCotacao.SelectedValue = 7 Then
+                        'CANCELAR
+                        Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 7, DT_STATUS_COTACAO = GETDATE() , ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
 
+                        Con.ExecutarQuery("UPDATE TB_BL SET DT_CANCELAMENTO = GETDATE() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+
+                        ddlStatusCotacao.Enabled = False
+                    End If
 
                     txtDataCalculo.Text = txtDataCalculo.Text.Replace("'", "")
                     txtDataCalculo.Text = txtDataCalculo.Text.Replace("NULL", "")
