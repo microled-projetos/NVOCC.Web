@@ -4746,52 +4746,6 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
 
     Function ArredondarPesoTaxado(ID_COTACAO As String, Optional PESO_TAXADO As Decimal = 0) As Decimal
 
-
-        '    Dim Con As New Conexao_sql
-        '    Con.Conectar()
-        '    Dim CLA As Decimal
-        '    Dim CBM As Decimal
-        '    Dim PESO_BRUTO As Decimal
-
-        '    If PESO_TAXADO = 0 Then
-
-
-        '        Dim ds As DataSet = Con.ExecutarQuery("Select A.ID_TIPO_ESTUFAGEM,
-        'A.ID_SERVICO,
-        'isnull(A.VL_TOTAL_PESO_BRUTO,0)VL_PESO_BRUTO,
-        'isnull((select sum(isnull(VL_CBM,0)) FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )* 1.67,0) AS CBM,
-        '(isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS CLA
-        'from TB_COTACAO A  
-        'left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
-        'Where A.ID_COTACAO = " & ID_COTACAO)
-        '        If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
-        '            'AEREO
-        '            PESO_BRUTO = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
-        '            CBM = ds.Tables(0).Rows(0).Item("CBM")
-
-        '            For Each linha As DataRow In ds.Tables(0).Rows
-        '                CLA = CLA + linha.Item("CLA")
-        '            Next
-
-        '            If CLA = 0 Then
-        '                CLA = CBM
-        '            End If
-        '            Dim CLAFinal As String = CLA.ToString
-        '            CLAFinal = CLAFinal.ToString.Replace(".", "")
-        '            CLAFinal = CLAFinal.ToString.Replace(",", ".")
-        '            Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 = " & CLAFinal & " WHERE ID_COTACAO = " & ID_COTACAO)
-        '            Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_M3 = " & CLAFinal & " WHERE ID_COTACAO = " & ID_COTACAO)
-
-        '            If CLA >= PESO_BRUTO Then
-        '                PESO_TAXADO = CLA
-        '            Else
-        '                PESO_TAXADO = PESO_BRUTO
-        '            End If
-
-        '        End If
-        '    End If
-
-
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim M3 As Decimal = 0
@@ -4846,6 +4800,17 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
                         If SegundaCasa > 0 Then
                             Dim PESO_TAXADO_INTEIRO As Decimal = Math.Truncate(PESO_TAXADO)
                             PESO_TAXADO = PESO_TAXADO_INTEIRO + 0.5
+                        Else
+                            Dim TerceiraCasa As String = PESO_TAXADO.ToString
+                            tamanho = TerceiraCasa.Substring(TerceiraCasa.IndexOf("," & SegundaCasa))
+                            If tamanho.Length > 3 Then
+                                TerceiraCasa = TerceiraCasa.Substring(TerceiraCasa.IndexOf("," & SegundaCasa), 4)
+                                TerceiraCasa = TerceiraCasa.Replace("," & PrimeiraCasa & SegundaCasa, "")
+                                If TerceiraCasa > 0 Then
+                                    Dim PESO_TAXADO_INTEIRO As Decimal = Math.Truncate(PESO_TAXADO)
+                                    PESO_TAXADO = PESO_TAXADO_INTEIRO + 0.5
+                                End If
+                            End If
                         End If
                     End If
 

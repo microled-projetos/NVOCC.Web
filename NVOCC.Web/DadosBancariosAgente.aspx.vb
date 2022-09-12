@@ -150,7 +150,9 @@ Public Class DadosBancariosAgente
                 If filtro <> "" Then
                     filtro &= ","
                 End If
-                filtro = filtro & " OB_BANCARIA ='" & txtObs.Text & "' "
+
+                Dim OBS As String = txtObs.Text.ToString.Replace("'", "''")
+                filtro = filtro & " OB_BANCARIA ='" & OBS & "' "
             End If
 
             If txtAgreement.Text <> "" Then

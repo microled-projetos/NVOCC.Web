@@ -2539,14 +2539,35 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
     Private Sub txtNavioFiltro1_TextChanged(sender As Object, e As EventArgs) Handles txtNavioFiltro1.TextChanged
         dsNavios.SelectParameters("Nome").DefaultValue = txtNavioFiltro1.Text
         rdNavios1.DataBind()
+        If rdNavios1.Items.Count > 0 Then
+            divErroNavio1.Visible = False
+            btnSalvarNavio1.Enabled = True
+        Else
+            divErroNavio1.Visible = True
+            btnSalvarNavio1.Enabled = False
+        End If
     End Sub
     Private Sub txtNavioFiltro2_TextChanged(sender As Object, e As EventArgs) Handles txtNavioFiltro2.TextChanged
         dsNavios.SelectParameters("Nome").DefaultValue = txtNavioFiltro2.Text
         rdNavios2.DataBind()
+        If rdNavios2.Items.Count > 0 Then
+            divErroNavio2.Visible = False
+            btnSalvarNavio2.Enabled = True
+        Else
+            divErroNavio2.Visible = True
+            btnSalvarNavio2.Enabled = False
+        End If
     End Sub
     Private Sub txtNavioFiltro3_TextChanged(sender As Object, e As EventArgs) Handles txtNavioFiltro3.TextChanged
         dsNavios.SelectParameters("Nome").DefaultValue = txtNavioFiltro3.Text
         rdNavios3.DataBind()
+        If rdNavios3.Items.Count > 0 Then
+            divErroNavio3.Visible = False
+            btnSalvarNavio3.Enabled = True
+        Else
+            divErroNavio3.Visible = True
+            btnSalvarNavio3.Enabled = False
+        End If
     End Sub
     Private Sub btnSalvarNavio_Click(sender As Object, e As EventArgs) Handles btnSalvarNavio.Click
         Dim id As String = rdNavios.SelectedValue
@@ -2557,27 +2578,49 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
     End Sub
 
     Private Sub btnSalvarNavio1_Click(sender As Object, e As EventArgs) Handles btnSalvarNavio1.Click
-        Dim id As String = rdNavios1.SelectedValue
-        Dim nome As String = rdNavios1.SelectedItem.Text
+        If rdNavios1.Items.Count > 0 Then
+            divErroNavio1.Visible = False
+            btnSalvarNavio1.Enabled = True
+            Dim id As String = rdNavios1.SelectedValue
+            Dim nome As String = rdNavios1.SelectedItem.Text
 
-        ddlNavio1_BasicoMaritimo.Items.Insert(1, id & " - " & nome)
-        ddlNavio1_BasicoMaritimo.SelectedIndex = 1
+            ddlNavio1_BasicoMaritimo.Items.Insert(1, id & " - " & nome)
+            ddlNavio1_BasicoMaritimo.SelectedIndex = 1
+        Else
+            divErroNavio1.Visible = True
+            btnSalvarNavio1.Enabled = False
+        End If
+
     End Sub
     Private Sub btnSalvarNavio2_Click(sender As Object, e As EventArgs) Handles btnSalvarNavio2.Click
-        Dim id As String = rdNavios2.SelectedValue
-        Dim nome As String = rdNavios2.SelectedItem.Text
+        If rdNavios2.Items.Count > 0 Then
+            divErroNavio2.Visible = False
+            btnSalvarNavio2.Enabled = True
+            Dim id As String = rdNavios2.SelectedValue
+            Dim nome As String = rdNavios2.SelectedItem.Text
 
 
-        ddlNavio2_BasicoMaritimo.Items.Insert(1, id & " - " & nome)
-        ddlNavio2_BasicoMaritimo.SelectedIndex = 1
+            ddlNavio2_BasicoMaritimo.Items.Insert(1, id & " - " & nome)
+            ddlNavio2_BasicoMaritimo.SelectedIndex = 1
+        Else
+            divErroNavio2.Visible = True
+            btnSalvarNavio2.Enabled = False
+        End If
     End Sub
     Private Sub btnSalvarNavio3_Click(sender As Object, e As EventArgs) Handles btnSalvarNavio3.Click
-        Dim id As String = rdNavios3.SelectedValue
-        Dim nome As String = rdNavios3.SelectedItem.Text
+        If rdNavios3.Items.Count > 0 Then
+            divErroNavio3.Visible = False
+            btnSalvarNavio3.Enabled = True
+            Dim id As String = rdNavios3.SelectedValue
+            Dim nome As String = rdNavios3.SelectedItem.Text
 
 
-        ddlNavio3_BasicoMaritimo.Items.Insert(1, id & " - " & nome)
-        ddlNavio3_BasicoMaritimo.SelectedIndex = 1
+            ddlNavio3_BasicoMaritimo.Items.Insert(1, id & " - " & nome)
+            ddlNavio3_BasicoMaritimo.SelectedIndex = 1
+        Else
+            divErroNavio3.Visible = True
+            btnSalvarNavio3.Enabled = False
+        End If
     End Sub
     Function SeparaIDNavio(TEXTO As String) As String
         Dim ID As String = ""
