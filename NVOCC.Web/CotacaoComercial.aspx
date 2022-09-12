@@ -28,8 +28,6 @@
     </style>
     <div class="row principal">
 
-
-
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
