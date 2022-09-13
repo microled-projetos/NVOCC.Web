@@ -942,6 +942,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
         If Not String.IsNullOrEmpty(txtID.Text) Then
             If txtCOD_VER_NFSE.Text <> "" And txtNR_NOTA.Text <> "" Then
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirNota()", True)
+                ModalPopupExtender2.Show()
             Else
 
 
@@ -967,8 +968,9 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                     If txtCOD_VER_NFSE.Text <> "" And txtNR_NOTA.Text <> "" Then
                         divErro.Visible = False
-                        AtualizaGrid()
+                        ' AtualizaGrid()
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirNota()", True)
+                        ModalPopupExtender2.Show()
                     Else
 
 
@@ -1769,5 +1771,24 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
     Private Sub btnFecharBoleto_Click(sender As Object, e As EventArgs) Handles btnFecharBoleto.Click
         ModalPopupExtender6.Hide()
         ModalPopupExtender11.Show()
+    End Sub
+
+    Private Sub btnFecharNotas_Click(sender As Object, e As EventArgs) Handles btnFecharNotas.Click
+        ModalPopupExtender2.Hide()
+        divSuccess.Visible = False
+        divErro.Visible = False
+        divinf.Visible = False
+        Dim ID As String = txtID.Text
+        AtualizaGrid()
+
+        For Each linha As GridViewRow In dgvFaturamento.Rows
+            Dim check As CheckBox = linha.FindControl("ckSelecionar")
+            Dim ID_grid As String = CType(linha.FindControl("lblID"), Label).Text
+            If ID_grid = ID Then
+                check.Checked = True
+            End If
+        Next
+
+        txtID.Text = ID
     End Sub
 End Class

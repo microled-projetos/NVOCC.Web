@@ -734,6 +734,15 @@ Partial Public Class Faturamento
     Protected WithEvents btnFecharDesmosntrativos As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle TextBox11.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox11 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ModalPopupExtender2.
     '''</summary>
     '''<remarks>

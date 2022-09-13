@@ -413,8 +413,9 @@
                                                 </div>
                                        </div>     </center>
                                 </asp:Panel>
+                                                                <asp:TextBox ID="TextBox11" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlNotasFiscais" TargetControlID="lkNotasFiscais" CancelControlID="btnFecharNotas"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlNotasFiscais" TargetControlID="lkNotasFiscais" CancelControlID="TextBox11"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlNotasFiscais" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
