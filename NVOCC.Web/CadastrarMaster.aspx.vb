@@ -1,4 +1,5 @@
 ﻿Imports Newtonsoft.Json
+Imports System.IO
 
 Public Class CadastrarMaster
     Inherits System.Web.UI.Page
@@ -3544,4 +3545,79 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
         End If
     End Sub
 
+    Private Sub btnUploadAereo_Click(sender As Object, e As EventArgs) Handles btnUploadAereo.Click
+        divErroUploadAereo.Visible = False
+        divSuccessUploadAereo.Visible = False
+
+        If txtID_BasicoAereo.Text = "" Then
+            lblErroUploadAereo.Text = "Necessário inserir processo!"
+            divErroUploadAereo.Visible = True
+
+        ElseIf FileUploadAereo.HasFile Then
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim diretorio_arquivos As String = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\BL_" & txtID_BasicoAereo.Text
+
+            If Not Directory.Exists(diretorio_arquivos) Then
+                System.IO.Directory.CreateDirectory(diretorio_arquivos)
+            End If
+
+            Dim nomeArquivo As String = Path.GetFileName(FileUploadAereo.PostedFile.FileName)
+
+
+            FileUploadAereo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
+
+
+            Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoAereo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientesAereo.Checked & "'," & txtID_BasicoAereo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
+
+            divSuccessUploadAereo.Visible = True
+            dgvArquivosAereo.DataBind()
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "activaTab()", True)
+
+        Else
+
+            lblErroUploadAereo.Text = "Por favor, selecione um arquivo a enviar."
+            divErroUploadAereo.Visible = True
+
+        End If
+    End Sub
+
+    Private Sub btnUploadMaritimo_Click(sender As Object, e As EventArgs) Handles btnUploadMaritimo.Click
+        divErroUploadMaritimo.Visible = False
+        divSuccessUploadMaritimo.Visible = False
+
+        If txtID_BasicoMaritimo.Text = "" Then
+            lblErroUploadMaritimo.Text = "Necessário inserir processo!"
+            divErroUploadMaritimo.Visible = True
+
+        ElseIf FileUploadMaritimo.HasFile Then
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim diretorio_arquivos As String = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\BL_" & txtID_BasicoMaritimo.Text
+
+            If Not Directory.Exists(diretorio_arquivos) Then
+                System.IO.Directory.CreateDirectory(diretorio_arquivos)
+            End If
+
+            Dim nomeArquivo As String = Path.GetFileName(FileUploadMaritimo.PostedFile.FileName)
+
+
+            FileUploadMaritimo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
+
+
+            Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoMaritimo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientesMaritimo.Checked & "'," & txtID_BasicoMaritimo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
+
+            divSuccessUploadMaritimo.Visible = True
+            dgvArquivosMaritimo.DataBind()
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "activaTab()", True)
+
+        Else
+
+            lblErroUploadMaritimo.Text = "Por favor, selecione um arquivo a enviar."
+            divErroUploadMaritimo.Visible = True
+
+        End If
+    End Sub
 End Class

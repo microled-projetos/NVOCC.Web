@@ -1,4 +1,5 @@
-﻿Public Class CadastrarEmbarqueHouse
+﻿Imports System.IO
+Public Class CadastrarEmbarqueHouse
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -34,7 +35,7 @@
                 btnVisualizarMBL_Aereo.Text = "Visualizar MBL"
                 btnVisualizarMBL_Maritimo.Text = "Visualizar MBL"
                 divDocConferidoAereo.Visible = True
-                divDocConferidoMaritimo.visible = True
+                divDocConferidoMaritimo.Visible = True
             End If
             If Request.QueryString("id") <> "" And Not Page.IsPostBack Then
                 CarregaCampos()
@@ -92,7 +93,9 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_COTACAO")) Then
                         Session("ID_COTACAO") = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+                        txtID_CotacaoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO")
                     Else
+                        txtID_CotacaoMaritimo.Text = 0
                         Session("ID_COTACAO") = 0
                     End If
 
@@ -343,6 +346,14 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
                         txtIDMaster_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL_MASTER")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_COTACAO")) Then
+                        Session("ID_COTACAO") = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+                        txtID_CotacaoAereo.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+                    Else
+                        txtID_CotacaoAereo.Text = 0
+                        Session("ID_COTACAO") = 0
+                    End If
+
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("BL_MASTER")) Then
                         txtMBL_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("BL_MASTER")
                         Session("ID_BL_MASTER") = ds.Tables(0).Rows(0).Item("ID_BL_MASTER")
@@ -576,8 +587,11 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_COTACAO")) Then
                         Session("ID_COTACAO") = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+                        txtID_CotacaoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+
                     Else
                         Session("ID_COTACAO") = 0
+                        txtID_CotacaoMaritimo.Text = 0
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO")) Then
@@ -5112,5 +5126,90 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
         End If
     End Sub
 
+    Private Sub btnUploadAereo_Click(sender As Object, e As EventArgs) Handles btnUploadAereo.Click
+        divErroUploadAereo.Visible = False
+        divSuccessUploadAereo.Visible = False
 
+        If txtID_BasicoAereo.Text = "" Then
+            lblErroUploadAereo.Text = "Necessário inserir processo!"
+            divErroUploadAereo.Visible = True
+
+        ElseIf FileUploadAereo.HasFile Then
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim diretorio_arquivos As String = ""
+
+            If txtID_CotacaoAereo.Text <> 0 Then
+                diretorio_arquivos = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\Cotacao_" & txtID_CotacaoAereo.Text
+            Else
+                diretorio_arquivos = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\BL_" & txtID_BasicoAereo.Text
+            End If
+
+            If Not Directory.Exists(diretorio_arquivos) Then
+                System.IO.Directory.CreateDirectory(diretorio_arquivos)
+            End If
+
+            Dim nomeArquivo As String = Path.GetFileName(FileUploadAereo.PostedFile.FileName)
+
+
+            FileUploadAereo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
+
+
+            Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_COTACAO,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoAereo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientesAereo.Checked & "'," & txtID_CotacaoAereo.Text & "," & txtID_BasicoAereo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
+
+            divSuccessUploadAereo.Visible = True
+            dgvArquivosAereo.DataBind()
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "activaTab()", True)
+
+        Else
+
+            lblErroUploadAereo.Text = "Por favor, selecione um arquivo a enviar."
+            divErroUploadAereo.Visible = True
+
+        End If
+    End Sub
+
+    Private Sub btnUploadMaritimo_Click(sender As Object, e As EventArgs) Handles btnUploadMaritimo.Click
+        divErroUploadMaritimo.Visible = False
+        divSuccessUploadMaritimo.Visible = False
+
+        If txtID_BasicoMaritimo.Text = "" Then
+            lblErroUploadMaritimo.Text = "Necessário inserir processo!"
+            divErroUploadMaritimo.Visible = True
+
+        ElseIf FileUploadMaritimo.HasFile Then
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim diretorio_arquivos As String = ""
+
+            If txtID_CotacaoMaritimo.Text <> 0 Then
+                diretorio_arquivos = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\Cotacao_" & txtID_CotacaoMaritimo.Text
+            Else
+                diretorio_arquivos = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\BL_" & txtID_BasicoMaritimo.Text
+            End If
+
+            If Not Directory.Exists(diretorio_arquivos) Then
+                System.IO.Directory.CreateDirectory(diretorio_arquivos)
+            End If
+
+            Dim nomeArquivo As String = Path.GetFileName(FileUploadMaritimo.PostedFile.FileName)
+
+
+            FileUploadMaritimo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
+
+
+            Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_COTACAO,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoMaritimo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientesMaritimo.Checked & "'," & txtID_CotacaoMaritimo.Text & "," & txtID_BasicoMaritimo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
+
+            divSuccessUploadMaritimo.Visible = True
+            dgvArquivosMaritimo.DataBind()
+
+        Else
+
+            lblErroUploadMaritimo.Text = "Por favor, selecione um arquivo a enviar."
+            divErroUploadMaritimo.Visible = True
+
+        End If
+    End Sub
 End Class

@@ -2273,6 +2273,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents dgvHistoricoFrete As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''Controle UpdatePanel9.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel9 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
     '''Controle divErroUpload.
     '''</summary>
     '''<remarks>
@@ -2343,15 +2352,6 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnUpload As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle UpdatePanel9.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents UpdatePanel9 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
     '''Controle txtArquivoSelecionado.

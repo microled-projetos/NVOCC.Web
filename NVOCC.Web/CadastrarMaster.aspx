@@ -64,6 +64,11 @@
                                         <i class="fa fa-edit" style="padding-right: 8px;"></i>Taxas
                                     </a>
                                 </li>
+                                 <li>
+                                    <a href="#DocMaritimo" role="tab" data-toggle="tab">
+                                        <i class="fa fa-edit" style="padding-right: 8px;"></i>Anexos(documentação)
+                                    </a>
+                                </li>
                                 <li>
                                     <a href="#VinculosMaritimo" role="tab" data-toggle="tab">
                                         <i class="fa fa-edit" style="padding-right: 8px;"></i>Vincular Houses
@@ -1018,6 +1023,94 @@
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
+                                 <div class="tab-pane fade" id="DocMaritimo">
+                                                          
+                               <div class="alert alert-danger" id="divErroUploadMaritimo" runat="server" visible="false">
+                                        <asp:Label ID="lblErroUploadMaritimo" runat="server"></asp:Label>
+                                    </div>
+                              <div class="alert alert-success" id="divSuccessUploadMaritimo" runat="server" visible="false">
+                                        <asp:Label ID="lblSuccessUploadMaritimo" runat="server">
+                                             Ação realizada com sucesso!
+                                        </asp:Label>
+                                    </div>
+                                    <br />
+                            <div class="row">
+                               
+                            
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Tipo de arquivo:</label> 
+                                        <asp:DropDownList ID="ddlTipoArquivoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_ARQUIVO" DataSourceID="dsTipoArquivo" DataValueField="ID_TIPO_ARQUIVO">
+                                        </asp:DropDownList>
+                                          </div>
+                                </div>
+                                 <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <asp:FileUpload ID="FileUploadMaritimo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                         <label class="control-label" style="color: white">X</label>
+                                          <asp:CheckBox ID="ckAtivoClientesMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
+                                          </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <asp:Button ID="btnUploadMaritimo" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-success btn-block" Text="Upload" />
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="row"> <div class="col-sm-12">
+                            <asp:UpdatePanel ID="UpdatePanel17" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                <ContentTemplate>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <asp:TextBox ID="txtArquivoSelecionado" runat="server" Style="display: none"></asp:TextBox>
+                                            <asp:GridView ID="dgvArquivosMaritimo" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  DataKeyNames="ID_ARQUIVO" DataSourceID="dsUploadsMaritimo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1"  Style="max-height: 400px; overflow: auto;" AllowSorting="true">
+                                                <Columns>
+                                                    <asp:BoundField DataField="ID_ARQUIVO" HeaderText="#" SortExpression="ID_ARQUIVO" Visible="false" />
+                                                    <asp:BoundField DataField="NM_ARQUIVO" HeaderText="Nome do Arquivo" SortExpression="NM_ARQUIVO" />
+                                                    <asp:BoundField DataField="NM_TIPO_ARQUIVO" HeaderText="Tipo do Arquivo" SortExpression="NM_TIPO_ARQUIVO" />
+                                                    <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
+                                                    <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
+                                                    <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
+                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" enabled="false" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkVisualizar" Text="Visualizar" CommandName="Visualizar" CommandArgument='<%# Eval("CAMINHO_ARQUIVO") %>' runat="server" Font-Size="medium"></asp:LinkButton>
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkDownload" Text="Download" CommandName="Download" CommandArgument='<%# Eval("CAMINHO_ARQUIVO") %>' runat="server" Font-Size="medium"></asp:LinkButton>
+                                                        </ItemTemplate>
+                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkDeleta" Text="Deletar" OnClientClick="javascript:return confirm('Deseja realmente excluir este arquivo?');" CommandName="Excluir" CommandArgument='<%# Eval("ID_ARQUIVO") & "|" & Eval("CAMINHO_ARQUIVO") %>'  runat="server" Font-Size="medium" />
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                            </asp:GridView>
+                                        </div>
+                                    </div>
+                                </ContentTemplate>
+                                <Triggers>
+                                     <asp:PostBackTrigger ControlID="dgvArquivosMaritimo" />
+
+                                </Triggers>
+                            </asp:UpdatePanel>
+                        </div> </div>
+
+                                </div>
                                 <div class="tab-pane fade" id="VinculosMaritimo">
                                     <asp:UpdatePanel ID="UpdatePanel9" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                         <ContentTemplate>
@@ -1145,6 +1238,11 @@
                                 <li>
                                     <a href="#TaxasAereo" role="tab" data-toggle="tab">
                                         <i class="fa fa-edit" style="padding-right: 8px;"></i>Taxas
+                                    </a>
+                                </li>
+                                 <li>
+                                    <a href="#DocAereo" role="tab" data-toggle="tab">
+                                        <i class="fa fa-edit" style="padding-right: 8px;"></i>Anexos(documentação)
                                     </a>
                                 </li>
                                 <li>
@@ -1668,6 +1766,98 @@
                                     </asp:UpdatePanel>
                                 </div>
 
+
+
+                                     <div class="tab-pane fade" id="DocAereo">
+                     
+                               <div class="alert alert-danger" id="divErroUploadAereo" runat="server" visible="false">
+                                        <asp:Label ID="lblErroUploadAereo" runat="server"></asp:Label>
+                                    </div>
+                              <div class="alert alert-success" id="divSuccessUploadAereo" runat="server" visible="false">
+                                        <asp:Label ID="lblSuccessUploadAereo" runat="server">
+                                             Ação realizada com sucesso!
+                                        </asp:Label>
+                                    </div>
+                                    <br />
+                            <div class="row">
+                               
+                            
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Tipo de arquivo:</label> 
+                                        <asp:DropDownList ID="ddlTipoArquivoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_ARQUIVO" DataSourceID="dsTipoArquivo" DataValueField="ID_TIPO_ARQUIVO">
+                                        </asp:DropDownList>
+                                          </div>
+                                </div>
+                                 <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <asp:FileUpload ID="FileUploadAereo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                         <label class="control-label" style="color: white">X</label>
+                                          <asp:CheckBox ID="ckAtivoClientesAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
+                                          </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <asp:Button ID="btnUploadAereo" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-success btn-block" Text="Upload" />
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="row"> <div class="col-sm-12">
+                            <asp:UpdatePanel ID="UpdatePanel18" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                <ContentTemplate>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <asp:TextBox ID="TextBox1" runat="server" Style="display: none"></asp:TextBox>
+                                            <asp:GridView ID="dgvArquivosAereo" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  DataKeyNames="ID_ARQUIVO" DataSourceID="dsUploadsAereo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1"  Style="max-height: 400px; overflow: auto;" AllowSorting="true">
+                                                <Columns>
+                                                    <asp:BoundField DataField="ID_ARQUIVO" HeaderText="#" SortExpression="ID_ARQUIVO" Visible="false" />
+                                                    <asp:BoundField DataField="NM_ARQUIVO" HeaderText="Nome do Arquivo" SortExpression="NM_ARQUIVO" />
+                                                    <asp:BoundField DataField="NM_TIPO_ARQUIVO" HeaderText="Tipo do Arquivo" SortExpression="NM_TIPO_ARQUIVO" />
+                                                    <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
+                                                    <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
+                                                    <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
+                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" enabled="false" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkVisualizar" Text="Visualizar" CommandName="Visualizar" CommandArgument='<%# Eval("CAMINHO_ARQUIVO") %>' runat="server" Font-Size="medium"></asp:LinkButton>
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkDownload" Text="Download" CommandName="Download" CommandArgument='<%# Eval("CAMINHO_ARQUIVO") %>' runat="server" Font-Size="medium"></asp:LinkButton>
+                                                        </ItemTemplate>
+                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkDeleta" Text="Deletar" OnClientClick="javascript:return confirm('Deseja realmente excluir este arquivo?');" CommandName="Excluir" CommandArgument='<%# Eval("ID_ARQUIVO") & "|" & Eval("CAMINHO_ARQUIVO") %>'  runat="server" Font-Size="medium" />
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                            </asp:GridView>
+                                        </div>
+                                    </div>
+                                </ContentTemplate>
+                                <Triggers>
+                                     <asp:PostBackTrigger ControlID="dgvArquivosAereo" />
+
+                                </Triggers>
+                            </asp:UpdatePanel>
+                        </div> </div>
+
+                        </div>
+
+
                                 <div class="tab-pane fade" id="MasterVinculosAereo">
                                     <asp:UpdatePanel ID="UpdatePanel16" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                         <ContentTemplate>
@@ -1948,19 +2138,13 @@ WHERE ID_BL_MASTER IS NULL AND GRAU='C' AND A.ID_PORTO_ORIGEM = @ORIGEM AND A.ID
     <asp:SqlDataSource ID="dsWeekAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_WEEK, NM_WEEK FROM TB_WEEK WHERE ID_PORTO_ORIGEM_DESTINO = 0 AND ID_PORTO_ORIGEM_LOCAL = 0
 union SELECT 0, 'Selecione' ORDER BY ID_WEEK">
-        <%--        <SelectParameters>
-<asp:ControlParameter Name="PORTO_ORIGEM" Type="Int32" ControlID="ddlOrigem_BasicoAereo" />
-<asp:ControlParameter Name="PORTO_DESTINO" Type="Int32" ControlID="ddlDestino_BasicoAereo" />
-</SelectParameters>--%>
+ 
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsWeekMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_WEEK, NM_WEEK FROM TB_WEEK WHERE ID_PORTO_ORIGEM_DESTINO = 0 AND ID_PORTO_ORIGEM_LOCAL = 0
 union SELECT 0, 'Selecione' ORDER BY ID_WEEK">
-        <%--       <SelectParameters>
-<asp:ControlParameter Name="PORTO_ORIGEM" Type="Int32" ControlID="ddlOrigem_BasicoMaritimo" />
-<asp:ControlParameter Name="PORTO_DESTINO" Type="Int32" ControlID="ddlDestino_BasicoMaritimo" />
-</SelectParameters>--%>
+ 
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsFornecedorMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -2028,6 +2212,33 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO">
     <asp:SqlDataSource ID="dsStatusFreteAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_STATUS_FRETE_AGENTE, NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENTE 
 union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE_AGENTE"></asp:SqlDataSource>
+
+      <asp:SqlDataSource ID="dsUploadsMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO FROM TB_UPLOADS  A
+ INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
+INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
+    WHERE A.ID_BL = @ID_BL ">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsUploadsAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO FROM TB_UPLOADS  A
+ INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
+INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
+    WHERE A.ID_BL = @ID_BL ">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsTipoArquivo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_TIPO_ARQUIVO,NM_TIPO_ARQUIVO FROM TB_TIPO_ARQUIVO
+union 
+SELECT  0, '      Selecione' ORDER BY ID_TIPO_ARQUIVO "></asp:SqlDataSource>
+
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>

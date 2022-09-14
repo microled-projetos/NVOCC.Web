@@ -1656,9 +1656,8 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="doc">
-                            <div class="linha-colorida">Upload</div>
-
-                            <br />
+                     <asp:UpdatePanel ID="UpdatePanel9" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                <ContentTemplate>
                                <div class="alert alert-danger" id="divErroUpload" runat="server" visible="false">
                                         <asp:Label ID="lblErroUpload" runat="server"></asp:Label>
                                     </div>
@@ -1674,7 +1673,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Tipo de arquivo:</label> 
-                                        <asp:DropDownList ID="ddlTipoArquivo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ARQUIVO" DataSourceID="dsTipoArquivo" DataValueField="ID_TIPO_ARQUIVO">
+                                        <asp:DropDownList ID="ddlTipoArquivo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_ARQUIVO" DataSourceID="dsTipoArquivo" DataValueField="ID_TIPO_ARQUIVO">
                                         </asp:DropDownList>
                                           </div>
                                 </div>
@@ -1696,23 +1695,22 @@
                                         <asp:Button ID="btnUpload" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-success btn-block" Text="Upload" />
                                     </div>
                                 </div>
-                            </div> <div class="row"> <div class="col-sm-12">
-                            <asp:UpdatePanel ID="UpdatePanel9" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                <ContentTemplate>
+                            </div> 
+                           
+                            
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <asp:TextBox ID="txtArquivoSelecionado" runat="server" Style="display: none"></asp:TextBox>
-                                            <asp:GridView ID="dgvArquivos" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado" CssClass="table table-hover table-condensed table-bordered" DataKeyNames="ID_ARQUIVO" DataSourceID="dsUploads">
+                                            <asp:GridView ID="dgvArquivos" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  DataKeyNames="ID_ARQUIVO" DataSourceID="dsUploads" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1"  Style="max-height: 400px; overflow: auto;" AllowSorting="true">
                                                 <Columns>
                                                     <asp:BoundField DataField="ID_ARQUIVO" HeaderText="#" SortExpression="ID_ARQUIVO" Visible="false" />
                                                     <asp:BoundField DataField="NM_ARQUIVO" HeaderText="Nome do Arquivo" SortExpression="NM_ARQUIVO" />
-                                                    <asp:BoundField DataField="ID_TIPO_ARQUIVO" HeaderText="Tipo do Arquivo" SortExpression="ID_TIPO_ARQUIVO" />
-                                                    <asp:BoundField DataField="ID_USUARIO" HeaderText="Usuário" SortExpression="ID_USUARIO" />
+                                                    <asp:BoundField DataField="NM_TIPO_ARQUIVO" HeaderText="Tipo do Arquivo" SortExpression="NM_TIPO_ARQUIVO" />
+                                                    <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
                                                     <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
-                                                       <asp:TemplateField HeaderText="Ativo para clientes?">
+                                                    <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
                                                         <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" enabled="false" />
                                                         </ItemTemplate>
-                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
@@ -1738,12 +1736,13 @@
                                     </div>
                                 </ContentTemplate>
                                 <Triggers>
-<%-- <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvArquivos" />--%>
-                                     <asp:PostBackTrigger ControlID="dgvArquivos" />
-
+                                     <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvArquivos" />
+                                    <asp:AsyncPostBackTrigger ControlID="btnUpload" />
                                 </Triggers>
                             </asp:UpdatePanel>
-                        </div> </div></div>
+                        </div> 
+
+                    
                         <div class="tab-pane fade" id="referencias">
                             <asp:UpdatePanel ID="UpdatePanel11" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                 <ContentTemplate>
@@ -2182,15 +2181,17 @@ FROM TB_COTACAO_TAXA A
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsUploads" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_ARQUIVO,NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_BL,ID_COTACAO,CAMINHO_ARQUIVO FROM TB_UPLOADS 
-    WHERE ID_COTACAO = @ID_COTACAO ">
+        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO FROM TB_UPLOADS  A
+ INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
+INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
+    WHERE A.ID_COTACAO = @ID_COTACAO ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" />
         </SelectParameters>
     </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsTipoArquivo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_TIPO_ARQUIVO,NM_ARQUIVO FROM TB_TIPO_ARQUIVO
+        SelectCommand="SELECT ID_TIPO_ARQUIVO,NM_TIPO_ARQUIVO FROM TB_TIPO_ARQUIVO
 union 
 SELECT  0, '      Selecione' ORDER BY ID_TIPO_ARQUIVO "></asp:SqlDataSource>
 
@@ -2238,9 +2239,5 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
                 }
             }
         }
-
-        function activaTab() {
-            $('.nav-tabs a[href="#doc"]').tab('show');
-        };
     </script>
 </asp:Content>

@@ -288,7 +288,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             GridHistoricoCotacao()
             GridHistoricoFrete()
 
-
         End If
     End Sub
 
@@ -5009,7 +5008,6 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
 
             divSuccessUpload.Visible = True
             dgvArquivos.DataBind()
-            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "activaTab()", True)
 
         Else
 
