@@ -1701,6 +1701,7 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <asp:TextBox ID="txtArquivoSelecionado" runat="server" Style="display: none"></asp:TextBox>
+                                            <asp:TextBox ID="txtUP" runat="server" Style="display: none"></asp:TextBox>
                                             <asp:GridView ID="dgvArquivos" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  DataKeyNames="ID_ARQUIVO" DataSourceID="dsUploads" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1"  Style="max-height: 400px; overflow: auto;" AllowSorting="true">
                                                 <Columns>
                                                     <asp:BoundField DataField="ID_ARQUIVO" HeaderText="#" SortExpression="ID_ARQUIVO" Visible="false" />
@@ -1736,8 +1737,8 @@
                                     </div>
                                 </ContentTemplate>
                                 <Triggers>
-                                     <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvArquivos" />
-                                    <asp:AsyncPostBackTrigger ControlID="btnUpload" />
+                                     <asp:PostBackTrigger ControlID="dgvArquivos" />
+                                    <asp:PostBackTrigger ControlID="btnUpload" />
                                 </Triggers>
                             </asp:UpdatePanel>
                         </div> 
@@ -2206,14 +2207,24 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
             alert("O valor de venda é menor que o valor de compra!");
         }
 
-        function AbrirArquivo() {
+        function AbrirArquivo(Arquivo) {
 
-            var Arquivo = document.getElementById('<%= txtArquivoSelecionado.ClientID %>').value;
-            console.log(Arquivo);
+            console.log("Arquivo" + Arquivo );
 
             window.open(Arquivo, '_blank');
 
         }
+
+        $(window).load(function () {
+            var UP = document.getElementById('<%= txtUP.ClientID %>').value;
+
+            if (UP == 1) {
+                $('.nav-tabs a[href="#doc"]').tab('show');
+                document.getElementById('<%= txtUp.ClientID %>').value = 0;
+
+            } 
+        });
+
 
         function VerificaTamanhoArquivo() {
 

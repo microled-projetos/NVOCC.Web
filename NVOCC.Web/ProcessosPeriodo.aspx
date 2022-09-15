@@ -26,7 +26,7 @@
             border:solid;
             border-width:thin;
             border-color:black !important;        
-            font-size:10px;
+            font-size:12px;
         }
 
         @media print {
@@ -44,7 +44,7 @@
             }
 
             td {
-                font-size: 8px !important;
+                font-size: 12px !important;
                 padding-left: 5px !important;
                 padding-right: 5px !important;
             }
@@ -73,7 +73,7 @@
             <br /><br /><br />
             <div class="divTitulo">
                
-                        <center><h3>PROCESSOS POR PERIODO <asp:Label ID="lblAgente"  runat="server"/></h3></center>
+                        <center><h5>PROCESSOS POR PERIODO <asp:Label ID="lblAgente"  runat="server"/></h5></center>
    
             </div> <br /><br /><br />
             <div id="divConteudoDinamico" runat="server">

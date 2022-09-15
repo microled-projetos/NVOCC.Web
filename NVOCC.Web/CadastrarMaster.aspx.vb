@@ -36,31 +36,22 @@ from TB_BL_TAXA
 WHERE ID_BL=" & Request.QueryString("id") & ")")
                 If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
                     'MARITIMO
-                    '  btnGravar_BasicoMaritimo.Enabled = False
-                    'btnSalvar_CNTRMaritimo.Visible = False
                     ddlTipoContainer_CNTRMaritimo.Enabled = False
                     txtTara_CNTRMaritimo.Enabled = False
                     btnNovoCNTRMaritimo.Enabled = False
-                    '  btnNovaTaxasMaritimo.Enabled = False
-                    ' btnSalvar_TaxasMaritimo.Visible = False
                     btnDesvincular.Visible = False
                     btnVincular.Visible = False
                     dgvContainer.Columns(7).Visible = False
                     dgvContainer.Columns(8).Visible = False
                     dgvContainer.Columns(7).Visible = False
                     dgvContainer.Columns(8).Visible = False
-                    'dgvTaxasMaritimo.Columns(9).Visible = False
-                    'dgvTaxasMaritimo.Columns(10).Visible = False
+
 
 
                     'AEREO
                     btnDesvincularAereo.Visible = False
                     btnVincularAereo.Visible = False
-                    '  btnGravar_BasicoAereo.Enabled = False
-                    'btnNovaTaxaAereo.Enabled = False
-                    ' btnSalvar_TaxaAereo.Visible = False
-                    'dgvTaxasAereo.Columns(9).Visible = False
-                    'dgvTaxasAereo.Columns(10).Visible = False
+
 
                 End If
 
@@ -3553,27 +3544,40 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
             lblErroUploadAereo.Text = "Necessário inserir processo!"
             divErroUploadAereo.Visible = True
 
+        ElseIf ddlTipoArquivoAereo.selectedvalue = 0 Then
+            lblErroUploadAereo.Text = "Necessário selecionar um tipo de arquivo!"
+            divErroUploadAereo.Visible = True
+
         ElseIf FileUploadAereo.HasFile Then
+
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim diretorio_arquivos As String = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\BL_" & txtID_BasicoAereo.Text
-
-            If Not Directory.Exists(diretorio_arquivos) Then
-                System.IO.Directory.CreateDirectory(diretorio_arquivos)
-            End If
 
             Dim nomeArquivo As String = Path.GetFileName(FileUploadAereo.PostedFile.FileName)
+            Dim ds As DataSet = Con.ExecutarQuery(" SELECT COUNT(*)QTD FROM TB_UPLOADS WHERE ID_TIPO_ARQUIVO = " & ddlTipoArquivoAereo.SelectedValue & " AND NM_ARQUIVO ='" & nomeArquivo & "' AND ID_BL = " & txtID_BasicoAereo.Text)
+            If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                lblErroUploadAereo.Text = "Arquivo já existe!"
+                divErroUploadAereo.Visible = True
+            Else
+
+                Dim diretorio_arquivos As String = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\BL_" & txtID_BasicoAereo.Text
+
+                If Not Directory.Exists(diretorio_arquivos) Then
+                    System.IO.Directory.CreateDirectory(diretorio_arquivos)
+                End If
 
 
-            FileUploadAereo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
+
+                FileUploadAereo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
 
 
-            Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoAereo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientesAereo.Checked & "'," & txtID_BasicoAereo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
+                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoAereo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientesAereo.Checked & "'," & txtID_BasicoAereo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
 
-            divSuccessUploadAereo.Visible = True
-            dgvArquivosAereo.DataBind()
-            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "activaTab()", True)
+                divSuccessUploadAereo.Visible = True
+                dgvArquivosAereo.DataBind()
+                txtUPAereo.Text = 1
+            End If
 
         Else
 
@@ -3581,6 +3585,8 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
             divErroUploadAereo.Visible = True
 
         End If
+        ddlTipoArquivoAereo.SelectedValue = 0
+        txtUPAereo.Text = 1
     End Sub
 
     Private Sub btnUploadMaritimo_Click(sender As Object, e As EventArgs) Handles btnUploadMaritimo.Click
@@ -3591,33 +3597,176 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
             lblErroUploadMaritimo.Text = "Necessário inserir processo!"
             divErroUploadMaritimo.Visible = True
 
+        ElseIf ddlTipoArquivoMaritimo.selectedvalue = 0 Then
+            lblErroUploadMaritimo.Text = "Necessário selecionar um tipo de arquivo!"
+            divErroUploadMaritimo.Visible = True
+
         ElseIf FileUploadMaritimo.HasFile Then
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim diretorio_arquivos As String = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\BL_" & txtID_BasicoMaritimo.Text
-
-            If Not Directory.Exists(diretorio_arquivos) Then
-                System.IO.Directory.CreateDirectory(diretorio_arquivos)
-            End If
 
             Dim nomeArquivo As String = Path.GetFileName(FileUploadMaritimo.PostedFile.FileName)
+            Dim ds As DataSet = Con.ExecutarQuery(" SELECT COUNT(*)QTD FROM TB_UPLOADS WHERE ID_TIPO_ARQUIVO = " & ddlTipoArquivoMaritimo.SelectedValue & " AND NM_ARQUIVO ='" & nomeArquivo & "' AND ID_BL = " & txtID_BasicoMaritimo.Text)
+            If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                lblErroUploadMaritimo.Text = "Arquivo já existe!"
+                divErroUploadMaritimo.Visible = True
+            Else
+
+                Dim diretorio_arquivos As String = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\BL_" & txtID_BasicoMaritimo.Text
+
+                If Not Directory.Exists(diretorio_arquivos) Then
+                    System.IO.Directory.CreateDirectory(diretorio_arquivos)
+                End If
+
+                FileUploadMaritimo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
 
 
-            FileUploadMaritimo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
+                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoMaritimo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientesMaritimo.Checked & "'," & txtID_BasicoMaritimo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
 
-
-            Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoMaritimo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientesMaritimo.Checked & "'," & txtID_BasicoMaritimo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
-
-            divSuccessUploadMaritimo.Visible = True
-            dgvArquivosMaritimo.DataBind()
-            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "activaTab()", True)
-
+                divSuccessUploadMaritimo.Visible = True
+                dgvArquivosMaritimo.DataBind()
+                txtUPMaritimo.Text = 1
+            End If
         Else
 
             lblErroUploadMaritimo.Text = "Por favor, selecione um arquivo a enviar."
             divErroUploadMaritimo.Visible = True
 
         End If
+        ddlTipoArquivoMaritimo.SelectedValue = 0
+        txtUPMaritimo.Text = 1
+    End Sub
+
+    Private Sub dgvArquivosAereo_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvArquivosAereo.RowCommand
+        divErroUploadAereo.Visible = False
+        divSuccessUploadAereo.Visible = False
+
+
+        If e.CommandName = "Excluir" Then
+
+            Try
+                Dim Con As New Conexao_sql
+                Con.Conectar()
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    lblErroUploadAereo.Text = "Usuário não tem permissão para realizar exclusões"
+                    divErroUploadAereo.Visible = True
+                Else
+
+                    Dim CommandArgument As String = e.CommandArgument
+
+                    Dim ID_ARQUIVO As String = CommandArgument.Substring(0, CommandArgument.IndexOf("|"))
+
+                    Dim CAMINHO_ARQUIVO As String = CommandArgument.Substring(CommandArgument.IndexOf("|"))
+                    CAMINHO_ARQUIVO = CAMINHO_ARQUIVO.Replace("|", "")
+
+                    File.Delete(CAMINHO_ARQUIVO)
+
+                    Con.ExecutarQuery("DELETE FROM TB_UPLOADS WHERE ID_ARQUIVO = " & ID_ARQUIVO)
+                    divSuccessUploadAereo.Visible = True
+                    dgvArquivosAereo.DataBind()
+                End If
+
+            Catch ex As Exception
+                lblErroUploadAereo.Text = ex.Message
+                divErroUploadAereo.Visible = True
+            End Try
+
+        ElseIf e.CommandName = "Visualizar" Then
+            Try
+                Dim CAMINHO_ARQUIVO As String = e.CommandArgument
+                txtArquivoSelecionadoAereo.Text = CAMINHO_ARQUIVO
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AbrirArquivo()", True)
+
+            Catch ex As Exception
+                lblErroUploadAereo.Text = ex.Message
+                divErroUploadAereo.Visible = True
+            End Try
+
+        ElseIf e.CommandName = "Download" Then
+
+            Try
+                Dim CAMINHO_ARQUIVO As String = e.CommandArgument
+                Response.ContentType = ContentType
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" & Path.GetFileName(CAMINHO_ARQUIVO))
+                Response.WriteFile(CAMINHO_ARQUIVO)
+                Response.Flush()
+                Response.Close()
+
+            Catch ex As Exception
+                lblErroUploadAereo.Text = ex.Message
+                divErroUploadAereo.Visible = True
+            End Try
+
+        End If
+
+        txtUPAereo.Text = 1
+    End Sub
+
+    Private Sub dgvArquivosMaritimo_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvArquivosMaritimo.RowCommand
+        divErroUploadMaritimo.Visible = False
+        divSuccessUploadMaritimo.Visible = False
+
+
+        If e.CommandName = "Excluir" Then
+
+            Try
+                Dim Con As New Conexao_sql
+                Con.Conectar()
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    lblErroUploadMaritimo.Text = "Usuário não tem permissão para realizar exclusões"
+                    divErroUploadMaritimo.Visible = True
+                Else
+
+                    Dim CommandArgument As String = e.CommandArgument
+
+                    Dim ID_ARQUIVO As String = CommandArgument.Substring(0, CommandArgument.IndexOf("|"))
+
+                    Dim CAMINHO_ARQUIVO As String = CommandArgument.Substring(CommandArgument.IndexOf("|"))
+                    CAMINHO_ARQUIVO = CAMINHO_ARQUIVO.Replace("|", "")
+
+                    File.Delete(CAMINHO_ARQUIVO)
+
+                    Con.ExecutarQuery("DELETE FROM TB_UPLOADS WHERE ID_ARQUIVO = " & ID_ARQUIVO)
+                    divSuccessUploadMaritimo.Visible = True
+                    dgvArquivosMaritimo.DataBind()
+                End If
+
+            Catch ex As Exception
+                lblErroUploadMaritimo.Text = ex.Message
+                divErroUploadMaritimo.Visible = True
+            End Try
+
+        ElseIf e.CommandName = "Visualizar" Then
+            Try
+                Dim CAMINHO_ARQUIVO As String = e.CommandArgument
+                txtArquivoSelecionadoMaritimo.Text = CAMINHO_ARQUIVO
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AbrirArquivo()", True)
+
+            Catch ex As Exception
+                lblErroUploadMaritimo.Text = ex.Message
+                divErroUploadMaritimo.Visible = True
+            End Try
+
+        ElseIf e.CommandName = "Download" Then
+
+            Try
+                Dim CAMINHO_ARQUIVO As String = e.CommandArgument
+                Response.ContentType = ContentType
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" & Path.GetFileName(CAMINHO_ARQUIVO))
+                Response.WriteFile(CAMINHO_ARQUIVO)
+                Response.Flush()
+                Response.Close()
+
+            Catch ex As Exception
+                lblErroUploadMaritimo.Text = ex.Message
+                divErroUploadMaritimo.Visible = True
+            End Try
+
+        End If
+
+        txtUPMaritimo.Text = 1
     End Sub
 End Class

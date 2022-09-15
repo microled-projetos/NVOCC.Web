@@ -1427,13 +1427,22 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents UpdatePanel17 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
-    '''Controle txtArquivoSelecionado.
+    '''Controle txtUPMaritimo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtArquivoSelecionado As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtUPMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtArquivoSelecionadoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtArquivoSelecionadoMaritimo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle dgvArquivosMaritimo.
@@ -3074,13 +3083,22 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents UpdatePanel18 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
-    '''Controle TextBox1.
+    '''Controle txtUPAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtUPAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtArquivoSelecionadoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtArquivoSelecionadoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle dgvArquivosAereo.

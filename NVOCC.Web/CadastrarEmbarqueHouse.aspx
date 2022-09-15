@@ -1168,8 +1168,9 @@ VENDAS:
                             <asp:UpdatePanel ID="UpdatePanel17" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                 <ContentTemplate>
                                     <div class="row">
-                                        <div class="col-sm-12">
-                                            <asp:TextBox ID="txtArquivoSelecionado" runat="server" Style="display: none"></asp:TextBox>
+                                        <div class="col-sm-12">        
+                                            <asp:TextBox ID="txtUPMaritimo" runat="server" Style="display: none"></asp:TextBox>
+                                            <asp:TextBox ID="txtArquivoSelecionadoMaritimo" runat="server" Style="display: none"></asp:TextBox>
                                             <asp:GridView ID="dgvArquivosMaritimo" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  DataKeyNames="ID_ARQUIVO" DataSourceID="dsUploadsMaritimo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1"  Style="max-height: 400px; overflow: auto;" AllowSorting="true">
                                                 <Columns>
                                                     <asp:BoundField DataField="ID_ARQUIVO" HeaderText="#" SortExpression="ID_ARQUIVO" Visible="false" />
@@ -1205,8 +1206,8 @@ VENDAS:
                                     </div>
                                 </ContentTemplate>
                                 <Triggers>
+                                     <asp:PostBackTrigger ControlID="btnUploadMaritimo" />
                                      <asp:PostBackTrigger ControlID="dgvArquivosMaritimo" />
-
                                 </Triggers>
                             </asp:UpdatePanel>
                         </div> </div>
@@ -2569,7 +2570,8 @@ VENDAS:
                                 <ContentTemplate>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <asp:TextBox ID="TextBox1" runat="server" Style="display: none"></asp:TextBox>
+                                            <asp:TextBox ID="txtUPAereo" runat="server" Style="display: none"></asp:TextBox>
+                                            <asp:TextBox ID="txtArquivoSelecionadoAereo" runat="server" Style="display: none"></asp:TextBox>
                                             <asp:GridView ID="dgvArquivosAereo" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  DataKeyNames="ID_ARQUIVO" DataSourceID="dsUploadsAereo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1"  Style="max-height: 400px; overflow: auto;" AllowSorting="true">
                                                 <Columns>
                                                     <asp:BoundField DataField="ID_ARQUIVO" HeaderText="#" SortExpression="ID_ARQUIVO" Visible="false" />
@@ -2605,8 +2607,8 @@ VENDAS:
                                     </div>
                                 </ContentTemplate>
                                 <Triggers>
+                                     <asp:PostBackTrigger ControlID="btnUploadAereo" />
                                      <asp:PostBackTrigger ControlID="dgvArquivosAereo" />
-
                                 </Triggers>
                             </asp:UpdatePanel>
                         </div> 
@@ -3299,17 +3301,34 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_ARQUIVO "></asp:SqlDataSource>
             var Qtd = url.indexOf("&s=A");
             if (Qtd != -1) {
                 console.log("A");
-                activaTab('Aereo');
+                var UP = document.getElementById('<%= txtUPAereo.ClientID %>').value;
+                if (UP == 1) {
+                    $('.nav-tabs a[href="#Aereo"]').tab('show');
+                    $('.nav-tabs a[href="#DocAereo"]').tab('show');
+                    document.getElementById('<%= txtUPAereo.ClientID %>').value = 0;
+                }
+                else {
+                    $('.nav-tabs a[href="#Aereo"]').tab('show');
+
+                }
 
             } else {
                 console.log("M");
-                activaTab('Maritimo');
+                var UP = document.getElementById('<%= txtUPMaritimo.ClientID %>').value;
+
+                if (UP == 1) {
+                    $('.nav-tabs a[href="#DocMaritimo"]').tab('show');
+
+                    document.getElementById('<%= txtUPMaritimo.ClientID %>').value = 0;
+                }
+                else {
+                    $('.nav-tabs a[href="#Maritimo"]').tab('show');
+
+                }
             }
         });
 
-        function activaTab(tab) {
-            $('.nav-tabs a[href="#' + tab + '"]').tab('show');
-        };
+       
 
         $('#ajuda').on("click", function () {
             $('#modal-ajuda').modal('show');

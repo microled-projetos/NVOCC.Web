@@ -17,7 +17,6 @@ Public Class CadastroCotacao
 
                 ddlTipoPagamentoTaxa.SelectedValue = 1
                 dsDestinatarioComercial.DataBind()
-
                 CarregaCampos()
             End If
 
@@ -4915,7 +4914,6 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         divErroUpload.Visible = False
         divSuccessUpload.Visible = False
 
-
         If e.CommandName = "Excluir" Then
 
             Try
@@ -4939,7 +4937,7 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
                     Con.ExecutarQuery("DELETE FROM TB_UPLOADS WHERE ID_ARQUIVO = " & ID_ARQUIVO)
                     divSuccessUpload.Visible = True
                     dgvArquivos.DataBind()
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "activaTab()", True)
+
                 End If
 
             Catch ex As Exception
@@ -4948,6 +4946,7 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
             End Try
 
         ElseIf e.CommandName = "Visualizar" Then
+
             Try
                 Dim CAMINHO_ARQUIVO As String = e.CommandArgument
                 txtArquivoSelecionado.Text = CAMINHO_ARQUIVO
@@ -4967,7 +4966,6 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
                 Response.WriteFile(CAMINHO_ARQUIVO)
                 Response.Flush()
                 Response.Close()
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "activaTab()", True)
 
             Catch ex As Exception
                 lblErroUpload.Text = ex.Message
@@ -4975,6 +4973,8 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
             End Try
 
         End If
+
+        txtUP.Text = 1
 
     End Sub
 
@@ -4986,34 +4986,45 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
             lblErroUpload.Text = "Necessário inserir cotação!"
             divErroUpload.Visible = True
 
+        ElseIf ddlTipoArquivo.selectedvalue = 0 Then
+            lblErroUpload.Text = "Necessário selecionar um tipo de arquivo!"
+            divErroUpload.Visible = True
+
+
         ElseIf FileUpload1.HasFile Then
+
 
             Dim Con As New Conexao_sql
             Con.Conectar()
 
-            Dim diretorio_arquivos As String = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\Cotacao_" & txtID.Text
-
-            If Not Directory.Exists(diretorio_arquivos) Then
-                System.IO.Directory.CreateDirectory(diretorio_arquivos)
-            End If
-
             Dim nomeArquivo As String = Path.GetFileName(FileUpload1.PostedFile.FileName)
+            Dim ds As DataSet = Con.ExecutarQuery(" SELECT COUNT(*)QTD FROM TB_UPLOADS WHERE ID_COTACAO=" & txtID.Text & " AND ID_TIPO_ARQUIVO = " & ddlTipoArquivo.SelectedValue & " AND NM_ARQUIVO ='" & nomeArquivo & "'")
+            If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                lblErroUpload.Text = "Arquivo já existe!"
+                divErroUpload.Visible = True
+            Else
 
+                Dim diretorio_arquivos As String = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\Cotacao_" & txtID.Text
 
-            FileUpload1.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
+                If Not Directory.Exists(diretorio_arquivos) Then
+                    System.IO.Directory.CreateDirectory(diretorio_arquivos)
+                End If
 
+                FileUpload1.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
 
-            Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_COTACAO,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientes.Checked & "'," & txtID.Text & "," & txtID_BL.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
+                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_COTACAO,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientes.Checked & "'," & txtID.Text & "," & txtID_BL.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
 
+                divSuccessUpload.Visible = True
+                dgvArquivos.DataBind()
 
-            divSuccessUpload.Visible = True
-            dgvArquivos.DataBind()
-
+            End If
         Else
 
             lblErroUpload.Text = "Por favor, selecione um arquivo a enviar."
             divErroUpload.Visible = True
 
         End If
+        ddlTipoArquivo.SelectedValue = 0
+        txtUP.Text = 1
     End Sub
 End Class
