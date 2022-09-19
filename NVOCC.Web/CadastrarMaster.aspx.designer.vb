@@ -1436,15 +1436,6 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ckAtivoClientesMaritimo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
-    '''Controle btnUploadMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnUploadMaritimo As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle UpdatePanel17.
     '''</summary>
     '''<remarks>
@@ -1479,6 +1470,24 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvArquivosMaritimo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnLimparUploadMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnLimparUploadMaritimo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnUploadMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnUploadMaritimo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle UpdatePanel9.
@@ -2327,15 +2336,6 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ckAtivoClientesAereo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
-    '''Controle btnUploadAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnUploadAereo As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle UpdatePanel18.
     '''</summary>
     '''<remarks>
@@ -2370,6 +2370,24 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvArquivosAereo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnLimparUploadAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnLimparUploadAereo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnUploadAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnUploadAereo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle UpdatePanel16.

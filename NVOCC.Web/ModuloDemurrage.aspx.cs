@@ -97,7 +97,7 @@ namespace ABAINFRA.Web
             Session["TaskTablecontaBancaria"] = contaBancaria;
             ddlContaBancaria.DataSource = Session["TaskTablecontaBancaria"];
             ddlContaBancaria.DataBind();
-            ddlContaBancaria.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlContaBancaria.Items.Insert(0, new ListItem("Selecione", ""));            
         }
         protected void CarregarStatus()
         {

@@ -1144,7 +1144,7 @@ VENDAS:
                                         </asp:DropDownList>
                                           </div>
                                 </div>
-                                 <div class="col-sm-4">
+                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>&nbsp;</label>
                                         <asp:FileUpload ID="FileUploadMaritimo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
@@ -1155,16 +1155,9 @@ VENDAS:
                                          <label class="control-label" style="color: white">X</label>
                                           <asp:CheckBox ID="ckAtivoClientesMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
                                           </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <asp:Button ID="btnUploadMaritimo" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-success btn-block" Text="Upload" />
-                                    </div>
-                                </div>
+                                </div>                              
                             </div> 
-                            <div class="row"> 
-                                <div class="col-sm-12">
+                       
                             <asp:UpdatePanel ID="UpdatePanel17" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                 <ContentTemplate>
                                     <div class="row">
@@ -1204,13 +1197,31 @@ VENDAS:
                                             </asp:GridView>
                                         </div>
                                     </div>
+                                                                            <div class="row">
+                                                <div class="col-sm-3 col-sm-offset-6">
+                                                    <div class="form-group">
+                                                        <label>&nbsp;</label>
+                                                        <asp:Button ID="btnLimparUploadMaritimo" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>&nbsp;</label>
+                                                        <asp:Button ID="btnUploadMaritimo" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                
                                 </ContentTemplate>
                                 <Triggers>
                                      <asp:PostBackTrigger ControlID="btnUploadMaritimo" />
                                      <asp:PostBackTrigger ControlID="dgvArquivosMaritimo" />
+                                     <asp:PostBackTrigger ControlID="btnLimparUploadMaritimo" />
                                 </Triggers>
                             </asp:UpdatePanel>
-                        </div> </div>
+                      
  </div>
                                 <div class="tab-pane fade" id="ObsMaritimo">
                                     <asp:UpdatePanel ID="UpdatePanel11" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
@@ -2545,7 +2556,7 @@ VENDAS:
                                         </asp:DropDownList>
                                           </div>
                                 </div>
-                                 <div class="col-sm-4">
+                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>&nbsp;</label>
                                         <asp:FileUpload ID="FileUploadAereo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
@@ -2557,15 +2568,9 @@ VENDAS:
                                           <asp:CheckBox ID="ckAtivoClientesAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
                                           </div>
                                 </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <asp:Button ID="btnUploadAereo" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-success btn-block" Text="Upload" />
-                                    </div>
-                                </div>
+                            
                             </div> 
-                            <div class="row"> 
-                                <div class="col-sm-12">
+                       
                             <asp:UpdatePanel ID="UpdatePanel18" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                 <ContentTemplate>
                                     <div class="row">
@@ -2605,15 +2610,29 @@ VENDAS:
                                             </asp:GridView>
                                         </div>
                                     </div>
+                                         
+                                             <div class="row">
+                                            <div class="col-sm-3 col-sm-offset-6">
+                                                <div class="form-group">
+                                                    <label>&nbsp;</label>
+                                                    <asp:Button ID="btnLimparUploadAereo" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label>&nbsp;</label>
+                                                    <asp:Button ID="btnUploadAereo" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
+                                                </div>
+                                            </div>
+                                        </div> 
                                 </ContentTemplate>
                                 <Triggers>
+                                     <asp:PostBackTrigger ControlID="btnLimparUploadAereo" />
                                      <asp:PostBackTrigger ControlID="btnUploadAereo" />
                                      <asp:PostBackTrigger ControlID="dgvArquivosAereo" />
                                 </Triggers>
                             </asp:UpdatePanel>
-                        </div> 
-
-                            </div>
+             
 
                         </div>
 

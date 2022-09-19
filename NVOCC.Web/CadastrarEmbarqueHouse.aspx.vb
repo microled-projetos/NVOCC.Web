@@ -5370,4 +5370,20 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
 
         txtUPMaritimo.Text = 1
     End Sub
+
+    Private Sub btnLimparUploadAereo_Click(sender As Object, e As EventArgs) Handles btnLimparUploadAereo.Click
+        divErroUploadAereo.Visible = False
+        divSuccessUploadAereo.Visible = False
+        txtUPAereo.Text = 1
+        ddlTipoArquivoAereo.SelectedValue = 0
+        FileUploadAereo.FileContent.Flush()
+    End Sub
+
+    Private Sub btnLimparUploadMaritimo_Click(sender As Object, e As EventArgs) Handles btnLimparUploadMaritimo.Click
+        divErroUploadMaritimo.Visible = False
+        divSuccessUploadMaritimo.Visible = False
+        txtUPMaritimo.Text = 1
+        ddlTipoArquivoMaritimo.SelectedValue = 0
+        FileUploadMaritimo.FileContent.Flush()
+    End Sub
 End Class

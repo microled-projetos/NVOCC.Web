@@ -1677,7 +1677,7 @@
                                         </asp:DropDownList>
                                           </div>
                                 </div>
-                                 <div class="col-sm-4">
+                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>&nbsp;</label>
                                         <asp:FileUpload ID="FileUpload1" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
@@ -1688,12 +1688,6 @@
                                          <label class="control-label" style="color: white">X</label>
                                           <asp:CheckBox ID="ckAtivoClientes" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
                                           </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <asp:Button ID="btnUpload" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-success btn-block" Text="Upload" />
-                                    </div>
                                 </div>
                             </div> 
                            
@@ -1715,7 +1709,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
-                                                            <asp:LinkButton ID="lnkVisualizar" Text="Visualizar" CommandName="Visualizar" CommandArgument='<%# Eval("CAMINHO_ARQUIVO") %>' runat="server" Font-Size="medium"></asp:LinkButton>
+                                                            <asp:LinkButton ID="lnkVisualizar" Text="Visualizar" CommandName="Visualizar" CommandArgument='<%# Eval("CAMINHO_ARQUIVO") %>' runat="server" Font-Size="medium"></asp:LinkButton>                                                            
                                                         </ItemTemplate>
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                     </asp:TemplateField>
@@ -1735,10 +1729,27 @@
                                             </asp:GridView>
                                         </div>
                                     </div>
+
+
+                                     <div class="row">
+                                            <div class="col-sm-3 col-sm-offset-6">
+                                                <div class="form-group">
+                                                    <label>&nbsp;</label>
+                                                    <asp:Button ID="btnLimparUpload" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label>&nbsp;</label>
+                                                    <asp:Button ID="btnUpload" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
+                                                </div>
+                                            </div>
+                                        </div>    
                                 </ContentTemplate>
                                 <Triggers>
-                                     <asp:PostBackTrigger ControlID="dgvArquivos" />
+                                    <asp:PostBackTrigger ControlID="dgvArquivos" />
                                     <asp:PostBackTrigger ControlID="btnUpload" />
+                                    <asp:PostBackTrigger ControlID="btnLimparUpload" />
                                 </Triggers>
                             </asp:UpdatePanel>
                         </div> 
@@ -2207,12 +2218,14 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
             alert("O valor de venda é menor que o valor de compra!");
         }
 
-        function AbrirArquivo(Arquivo) {
+        function AbrirArquivo() {
+            var Arquivo = document.getElementById('<%= txtArquivoSelecionado.ClientID %>').value;
 
+            alert("1");
             console.log("Arquivo" + Arquivo );
-
+            alert("2");
             window.open(Arquivo, '_blank');
-
+            alert("3");
         }
 
         $(window).load(function () {

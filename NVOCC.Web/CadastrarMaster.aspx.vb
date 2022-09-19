@@ -3769,4 +3769,18 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
 
         txtUPMaritimo.Text = 1
     End Sub
+
+    Private Sub btnLimparUploadMaritimo_Click(sender As Object, e As EventArgs) Handles btnLimparUploadMaritimo.Click
+        txtUPMaritimo.Text = 1
+        ddlTipoArquivoMaritimo.SelectedValue = 0
+        FileUploadMaritimo.FileContent.Flush()
+
+    End Sub
+
+    Private Sub btnLimparUploadAereo_Click(sender As Object, e As EventArgs) Handles btnLimparUploadAereo.Click
+        txtUPAereo.Text = 1
+        ddlTipoArquivoAereo.SelectedValue = 0
+        FileUploadAereo.FileContent.Flush()
+
+    End Sub
 End Class

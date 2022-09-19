@@ -2345,15 +2345,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ckAtivoClientes As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
-    '''Controle btnUpload.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnUpload As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle txtArquivoSelecionado.
     '''</summary>
     '''<remarks>
@@ -2379,6 +2370,24 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvArquivos As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnLimparUpload.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnLimparUpload As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnUpload.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnUpload As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle UpdatePanel11.

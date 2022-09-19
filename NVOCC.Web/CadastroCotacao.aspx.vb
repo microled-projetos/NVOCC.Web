@@ -5027,4 +5027,12 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         ddlTipoArquivo.SelectedValue = 0
         txtUP.Text = 1
     End Sub
+
+    Private Sub btnLimparUpload_Click(sender As Object, e As EventArgs) Handles btnLimparUpload.Click
+        divErroUpload.Visible = False
+        divSuccessUpload.Visible = False
+        txtUP.Text = 1
+        ddlTipoArquivo.SelectedValue = 0
+        FileUpload1.FileContent.Flush()
+    End Sub
 End Class
