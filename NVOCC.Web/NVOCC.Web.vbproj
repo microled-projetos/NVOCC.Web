@@ -486,6 +486,7 @@
     <Content Include="fonts\fa-solid-900.woff2" />
     <Content Include="CadastrarFreteTransportador.aspx" />
     <Content Include="CotacaoPDF_PT.aspx" />
+    <Content Include="InativacaoTaxas.aspx" />
     <Content Include="integracaoTotus.aspx" />
     <Content Include="integracaoTotus.aspx.cs" />
     <Content Include="integracaoTotus.aspx.designer.cs" />
@@ -978,6 +979,13 @@
       <DependentUpon>CotacaoPDF_PT.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="InativacaoTaxas.aspx.designer.vb">
+      <DependentUpon>InativacaoTaxas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="InativacaoTaxas.aspx.vb">
+      <DependentUpon>InativacaoTaxas.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="ItemDespesa.aspx.designer.vb">
       <DependentUpon>ItemDespesa.aspx</DependentUpon>
     </Compile>
@@ -1165,6 +1173,7 @@
     </Compile>
     <Compile Include="SOA_I.aspx.vb">
       <DependentUpon>SOA_I.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SolicitacaoPagamento.aspx.designer.vb">
       <DependentUpon>SolicitacaoPagamento.aspx</DependentUpon>
