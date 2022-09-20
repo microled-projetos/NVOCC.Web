@@ -68,13 +68,13 @@ Partial Public Class InativacaoTaxas
     Protected WithEvents lblmsgErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lkInserir.
+    '''Controle lkExportarCSV.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lkInserir As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents lkExportarCSV As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle ddlFiltro.
@@ -113,13 +113,40 @@ Partial Public Class InativacaoTaxas
     Protected WithEvents txtDtFinal As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle Button2.
+    '''Controle btnConsultar.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button2 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnConsultar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnFiltroAvancado.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFiltroAvancado As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnLimparCampos.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnLimparCampos As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle txtCont.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCont As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Button1.
@@ -129,15 +156,6 @@ Partial Public Class InativacaoTaxas
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle Button3.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Button3 As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle mpeStatus.
@@ -176,92 +194,20 @@ Partial Public Class InativacaoTaxas
     Protected WithEvents updPainel1 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
-    '''Controle divAuxiliar.
+    '''Controle dgvTaxas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents divAuxiliar As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents dgvTaxas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle txtID.
+    '''Controle dsTaxas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtID As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtlinha.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtlinha As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtServico.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtServico As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtEstufagem.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtEstufagem As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtNumeroCotacao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtNumeroCotacao As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle dgvCotacao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dgvCotacao As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
-    '''Controle lblAprovadas.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblAprovadas As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblRejeitadas.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblRejeitadas As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle dsCotacao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsCotacao As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsTaxas As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

@@ -554,6 +554,15 @@ Partial Public Class SiteMaster
     Protected WithEvents mnCaixaSaida As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
+    '''Controle mnInativacaoTaxas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mnInativacaoTaxas As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
     '''Controle MenuFaturamento.
     '''</summary>
     '''<remarks>

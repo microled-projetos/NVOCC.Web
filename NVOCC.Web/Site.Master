@@ -221,6 +221,9 @@
                             <li>
                                 <a href="CaixaSaida.aspx" runat="server" id="mnCaixaSaida">Caixa de Saida</a>
                             </li>
+                            <li>
+                                <a href="InativacaoTaxas.aspx" runat="server" id="mnInativacaoTaxas">Inativação/Ativação de Taxas</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
