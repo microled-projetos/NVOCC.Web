@@ -185,6 +185,69 @@ Partial Public Class InativacaoTaxas
     Protected WithEvents btnFecharStatus As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle ModalPopupExtender1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ModalPopupExtender1 As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnlConfirmar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlConfirmar As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle ddlMotivos.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlMotivos As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtMotivo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtMotivo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle btnConfirmaGravacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnConfirmaGravacao As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnFecharConfirmacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharConfirmacao As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnGravar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnGravar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle updPainel1.
     '''</summary>
     '''<remarks>

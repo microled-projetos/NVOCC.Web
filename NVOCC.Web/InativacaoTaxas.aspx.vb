@@ -115,9 +115,30 @@ VL_TAXA,
 VL_TAXA_CALCULADO, 
 VL_TAXA_BR,
 LANCAMENTO,
-TIPO_MOVIMENTO FROM [dbo].[View_Inativacao_Taxas] WHERE CD_PR='P' " & FILTRO & " ORDER BY ID_BL_TAXA DESC"
+TIPO_MOVIMENTO,
+HISTORICO FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & " ORDER BY ID_BL_TAXA DESC"
 
 
         Classes.Excel.exportaExcel(sql, "NVOCC", "INATIVACAO_TAXAS")
+    End Sub
+
+    Private Sub dgvTaxas_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvTaxas.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim Status As Label = CType(e.Row.FindControl("lblTemHistorico"), Label)
+
+            Dim ImageButton As ImageButton = CType(e.Row.FindControl("ImageButton1"), ImageButton)
+
+
+
+            If Status.Text = "0" Then
+
+                ImageButton.Visible = False
+
+            End If
+
+
+
+        End If
     End Sub
 End Class
