@@ -1049,6 +1049,51 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents dgvTaxaMaritimoCompras As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''Controle Button1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeHistoricoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeHistoricoMaritimo As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnHistoricoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnHistoricoMaritimo As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle dgvHistoricoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvHistoricoMaritimo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnFecharHistoricoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharHistoricoMaritimo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle dgvTaxaMaritimoVendas.
     '''</summary>
     '''<remarks>
@@ -2723,6 +2768,51 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents dgvTaxaAereoCompras As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''Controle Button2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button2 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeHistoricoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeHistoricoAereo As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnHistoricoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnHistoricoAereo As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle dgvHistoricoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvHistoricoAereo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnFecharHistoricoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharHistoricoAereo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle dgvTaxaAereoVendas.
     '''</summary>
     '''<remarks>
@@ -3873,4 +3963,13 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsTipoArquivo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsHistorico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsHistorico As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

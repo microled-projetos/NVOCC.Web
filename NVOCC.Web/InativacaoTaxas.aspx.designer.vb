@@ -158,40 +158,49 @@ Partial Public Class InativacaoTaxas
     Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle mpeStatus.
+    '''Controle mpeHistorico.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents mpeStatus As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents mpeHistorico As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
-    '''Controle Panel2.
+    '''Controle pnHistorico.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Panel2 As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents pnHistorico As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle btnFecharStatus.
+    '''Controle dgvHistorico.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnFecharStatus As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents dgvHistorico As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle ModalPopupExtender1.
+    '''Controle btnFecharHistorico.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ModalPopupExtender1 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents btnFecharHistorico As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeConfirmacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeConfirmacao As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
     '''Controle pnlConfirmar.
@@ -210,6 +219,15 @@ Partial Public Class InativacaoTaxas
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlMotivos As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle divDescMotivo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divDescMotivo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle txtMotivo.
@@ -273,4 +291,22 @@ Partial Public Class InativacaoTaxas
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsTaxas As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsMotivoInativacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsMotivoInativacao As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsHistorico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsHistorico As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

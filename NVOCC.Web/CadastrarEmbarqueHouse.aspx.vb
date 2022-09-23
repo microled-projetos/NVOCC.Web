@@ -1172,6 +1172,12 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     divSuccess_TaxaMaritimo1.Visible = True
                     dgvTaxaMaritimoCompras.DataBind()
                 End If
+            ElseIf e.CommandName = "Historico" Then
+
+                dsHistorico.SelectParameters("ID_BL_TAXA").DefaultValue = e.CommandArgument
+                dgvHistoricoMaritimo.DataBind()
+                mpeHistoricoMaritimo.Show()
+
             End If
             Con.Fechar()
             GridTaxaMaritimoCompras()
@@ -1770,7 +1776,15 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 divSuccess_TaxaAereo1.Visible = True
                 dgvTaxaAereoCompras.DataBind()
             End If
+
+
+        ElseIf e.CommandName = "Historico" Then
+
+            dsHistorico.SelectParameters("ID_BL_TAXA").DefaultValue = e.CommandArgument
+            dgvHistoricoAereo.DataBind()
+            mpeHistoricoAereo.Show()
         End If
+
 
         GridTaxaAereoCompras()
 
@@ -4729,6 +4743,8 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Dim btnVisualizar As LinkButton = CType(linha.FindControl("btnVisualizar"), LinkButton)
             Dim btnDuplicar As LinkButton = CType(linha.FindControl("btnDuplicar"), LinkButton)
             Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
+            Dim Status As Label = CType(linha.FindControl("lblTemHistorico"), Label)
+            Dim ImageButton As ImageButton = CType(linha.FindControl("ImageButton1"), ImageButton)
 
             If ORIGEM = "COTAÇÃO" Then
                 btnExcluir.Visible = False
@@ -4742,6 +4758,11 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
 
             End If
 
+            If Status.Text = "0" Then
+                ImageButton.Visible = False
+            Else
+                dgvTaxaMaritimoCompras.Rows(linha.RowIndex).CssClass = "inativa"
+            End If
         Next
 
 
@@ -4793,6 +4814,8 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Dim btnVisualizar As LinkButton = CType(linha.FindControl("btnVisualizar"), LinkButton)
             Dim btnDuplicar As LinkButton = CType(linha.FindControl("btnDuplicar"), LinkButton)
             Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
+            Dim Status As Label = CType(linha.FindControl("lblTemHistorico"), Label)
+            Dim ImageButton As ImageButton = CType(linha.FindControl("ImageButton1"), ImageButton)
 
             If ORIGEM = "COTAÇÃO" Then
                 btnExcluir.Visible = False
@@ -4803,6 +4826,12 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
                 dgvTaxaAereoCompras.Rows(linha.RowIndex).CssClass = "compra"
             Else
                 btnExcluir.Visible = True
+
+            End If
+
+            If Status.Text = "0" Then
+
+                ImageButton.Visible = False
 
             End If
         Next
@@ -5386,4 +5415,5 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
         ddlTipoArquivoMaritimo.SelectedValue = 0
         FileUploadMaritimo.FileContent.Flush()
     End Sub
+
 End Class

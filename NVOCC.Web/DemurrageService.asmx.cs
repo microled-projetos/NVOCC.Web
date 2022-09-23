@@ -2758,6 +2758,9 @@ namespace ABAINFRA.Web
             DataTable listaParcela = new DataTable();
             listaParcela = DBS.List(SQL);
 
+
+
+
             string cdpr = listTable.Rows[0]["cd_pr"].ToString();
             string dtLancamento = listTable.Rows[0]["dt_lancamento"].ToString();
             int idUsuario = (int)listTable.Rows[0]["ID_USUARIO_LANCAMENTO"];
@@ -2799,7 +2802,8 @@ namespace ABAINFRA.Web
 
                 
 
-                decimal vlParcela = (decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"] / qtdRows;
+                decimal vlParcela = ((decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"] + ((decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"] * ((decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA_JUROS"] / 100)))/ qtdRows;
+                
 
                 for (i = 0; i < qtdRows; i++)
                 {
@@ -2858,7 +2862,7 @@ namespace ABAINFRA.Web
                 int qtdRows = listarContainers.Rows.Count;
                 int cntrBl = (int)listarContainers.Rows[0]["id_cntr_bl"];
 
-                decimal vlParcela = (decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"] / qtdRows;
+                decimal vlParcela = ((decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"] + ((decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"] * ((decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA_JUROS"] / 100))) / qtdRows;
 
                 SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA ";
                 SQL += ",ID_USUARIO_LANCAMENTO,DT_LIQUIDACAO,ID_USUARIO_LIQUIDACAO,CD_PR,DT_COMPETENCIA ";
@@ -2918,7 +2922,9 @@ namespace ABAINFRA.Web
 
             }
 
-            SQL = "SELECT DT_EXPORTACAO_PARCELA FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA = "+ idFatura + " ";
+            SQL = "SELECT DT_EXPORTACAO_PARCELA, DT_ENVIO_FATURAMENTO FROM TB_DEMURRAGE_FATURA_PARCELAS A ";
+            SQL += "LEFT JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER ";
+            SQL += "WHERE ID_DEMURRAGE_FATURA = "+ idFatura + " ";
             DataTable checkDate = new DataTable();
             checkDate = DBS.List(SQL);
 
@@ -2926,7 +2932,7 @@ namespace ABAINFRA.Web
 
             for (i = 0; i < checkDate.Rows.Count ; i++)
 			{
-                if(checkDate.Rows[i]["DT_EXPORTACAO_PARCELA"].ToString() == "")
+                if(checkDate.Rows[i]["DT_EXPORTACAO_PARCELA"].ToString() == "" && checkDate.Rows[i]["DT_ENVIO_FATURAMENTO"].ToString() == "")
 				{
                     todasParcelasExportadas = false;
 				}
@@ -5610,7 +5616,7 @@ namespace ABAINFRA.Web
             SQL += "JOIN TB_BL C ON B.ID_BL = C.ID_BL ";
             SQL += "JOIN TB_ACCOUNT_TIPO_EMISSOR D ON B.ID_ACCOUNT_TIPO_EMISSOR = D.ID_ACCOUNT_TIPO_EMISSOR ";
             SQL += "JOIN TB_ACCOUNT_TIPO_FATURA E ON B.ID_ACCOUNT_TIPO_FATURA = E.ID_ACCOUNT_TIPO_FATURA ";
-            SQL += "JOIN TB_PARCEIRO F ON B.ID_PARCEIRO_AGENTE_INTERNACIONAL = F.ID_PARCEIRO ";
+            SQL += "JOIN TB_PARCEIRO F ON B.ID_PARCEIRO_AGENTE = F.ID_PARCEIRO ";
             SQL += "JOIN TB_ACCOUNT_TIPO_INVOICE G ON B.ID_ACCOUNT_TIPO_INVOICE = G.ID_ACCOUNT_TIPO_INVOICE ";
             SQL += "JOIN TB_MOEDA H ON B.ID_MOEDA=H.ID_MOEDA ";
             SQL += "WHERE B.ID_ACCOUNT_TIPO_EMISSOR = 2 ";
@@ -9254,7 +9260,7 @@ namespace ABAINFRA.Web
                 }
             }
 
-            SQL = "SELECT CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, CASE WHEN ISNULL(DOC_CONFERIDO_MASTER,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER, ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, FORMAT(DT_EMBARQUE,'dd/MM/yyyy') AS DTEMBARQUE, FORMAT(DT_PREVISAO_CHEGADA,'dd/MM/yyyy') as DTPREVISAOCHEGADA, ISNULL(NM_CLIENTE,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,ISNULL(VL_RECEBER,0) AS ARECEBERBR, ISNULL(VL_PAGAR,0) AS APAGARBR, ISNULL(TIPO_FATURAMENTO,0) AS TIPO_FATURAMENTO, ISNULL(DIAS_FATURADOS,0) AS DIAS_FATURADOS, ISNULL(VL_SALDO,0) AS SALDOBR FROM FN_PREVISIBILIDADE_PROCESSO('" + dataI + "','" + dataF + "') ";
+            SQL = "SELECT CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, CASE WHEN ISNULL(DOC_CONFERIDO_MASTER,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER, ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, FORMAT(DT_EMBARQUE,'dd/MM/yyyy') AS DTEMBARQUE, FORMAT(DT_PREVISAO_CHEGADA,'dd/MM/yyyy') as DTPREVISAOCHEGADA, ISNULL(NM_CLIENTE,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,ISNULL(VL_RECEBER,0) AS ARECEBERBR, ISNULL(VL_PAGAR,0) AS APAGARBR, ISNULL(TIPO_FATURAMENTO,0) AS TIPO_FATURAMENTO, ISNULL(DIAS_FATURADOS,0) AS DIAS_FATURADOS, ISNULL(VL_SALDO,0) AS SALDOBR, ISNULL(ORIGEM_COMPRA,'') AS ORIGEM_COMPRA, ISNULL(ORIGEM_VENDA, '') AS ORIGEM_VENDA FROM FN_PREVISIBILIDADE_PROCESSO('" + dataI + "','" + dataF + "') ";
             SQL += "WHERE RIGHT(NR_PROCESSO,2) > 18 ";
             SQL += "" + chkConfSim + "";
             SQL += "" + chkConfNao + "";
@@ -9647,5 +9653,60 @@ namespace ABAINFRA.Web
 
             return JsonConvert.SerializeObject(listTable);
         }
+
+        [WebMethod]
+        public string listarTaxasInativas(FiltrosTaxasInativas dados)
+        {
+            string SQL;
+            string Filtro = "";
+
+            string diaI = dados.DATAINICIAL.Substring(8, 2);
+            string mesI = dados.DATAINICIAL.Substring(5, 2);
+            string anoI = dados.DATAINICIAL.Substring(0, 4);
+
+            string diaF = dados.DATAFINAL.Substring(8, 2);
+            string mesF = dados.DATAFINAL.Substring(5, 2);
+            string anoF = dados.DATAFINAL.Substring(0, 4);
+            dados.DATAINICIAL = diaI + '/' + mesI + '/' + anoI;
+            dados.DATAFINAL = diaF + '/' + mesF + '/' + anoF;
+
+            if (dados.PROCESSO != "") { Filtro += "AND A.NR_PROCESSO LIKE '"+dados.PROCESSO+"%' " ; }
+            if (dados.FORNECEDOR != "") { Filtro += "AND E1.ID_PARCEIRO = '" + dados.FORNECEDOR + "' "; }
+            if (dados.ESTUFAGEM != "") { Filtro += "AND C.ID_TIPO_ESTUFAGEM = '" + dados.ESTUFAGEM+ "' "; }
+            if (dados.MODAL != "") { Filtro += "AND D1.ID_VIATRANSPORTE = '" + dados.MODAL+ "' "; }
+            if (dados.SERVICO != "") { Filtro += "AND D.ID_SERVICO = '" + dados.SERVICO+ "' "; }
+            if (dados.AGENTEINTER != "") { Filtro += "AND E2.ID_PARCEIRO = '" + dados.AGENTEINTER+ "' "; }
+            if (dados.CLIENTE != "") { Filtro += "AND E3.ID_PARCEIRO = '" + dados.CLIENTE + "' "; }
+            if (dados.ITEMDESPESA != "") { Filtro += "AND F.ID_ITEM_DESPESA = '" + dados.ITEMDESPESA + "' "; }
+            if (dados.MOEDA != "") { Filtro += "AND G.ID_MOEDA = '" + dados.MOEDA + "' "; }
+            if (dados.BASECALCULO != "") { Filtro += "AND H.ID_BASE_CALCULO_TAXA = '" + dados.BASECALCULO + "' "; }
+            if (dados.USUARIO != "") { Filtro += "AND I.ID_USUARIO = '" + dados.USUARIO+ "' "; }
+
+            SQL = "SELECT A.NR_PROCESSO, E1.NM_RAZAO AS FORNECEDOR, C.NM_TIPO_ESTUFAGEM, D1.NM_VIATRANSPORTE, ";
+            SQL += "D.TP_SERVICO, E2.NM_RAZAO AS AGENTE, E3.NM_RAZAO AS CLIENTE, F.NM_ITEM_DESPESA, ";
+            SQL += "G.SIGLA_MOEDA, B.VL_TAXA, H.NM_BASE_CALCULO_TAXA, 'USUARIO INATIVAÇÃO' AS USUARIO_INATIVACAO, 'DATA INATIVAÇÃO' AS DATA_MOTIVACAO,'MOTIVO INATIVAÇÃO' AS MOTIVO_INATIVACAO ";
+            SQL += "FROM TB_BL A ";
+            SQL += "JOIN TB_BL_TAXA B ON A.ID_BL = B.ID_BL ";
+            SQL += "JOIN TB_TIPO_ESTUFAGEM C ON A.ID_TIPO_ESTUFAGEM = C.ID_TIPO_ESTUFAGEM ";
+            SQL += "JOIN TB_SERVICO D ON A.ID_SERVICO = D.ID_SERVICO ";
+            SQL += "JOIN TB_VIATRANSPORTE D1 ON D.ID_VIATRANSPORTE = D1.ID_VIATRANSPORTE ";
+            SQL += "LEFT JOIN TB_PARCEIRO E1 ON A.ID_PARCEIRO_IMPORTADOR = E1.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO E2 ON A.ID_PARCEIRO_AGENTE_INTERNACIONAL = E2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO E3 ON A.ID_PARCEIRO_CLIENTE = E3.ID_PARCEIRO ";
+            SQL += "JOIN TB_ITEM_DESPESA F ON B.ID_ITEM_DESPESA = F.ID_ITEM_DESPESA ";
+            SQL += "JOIN TB_MOEDA G ON B.ID_MOEDA = G.ID_MOEDA ";
+            SQL += "JOIN TB_BASE_CALCULO_TAXA H ON B.ID_BASE_CALCULO_TAXA = H.ID_BASE_CALCULO_TAXA ";
+            SQL += "LEFT JOIN TB_INATIVACAO_TAXAS I ON B.ID_BL_TAXA=I.ID_BL_TAXA ";
+            SQL += "LEFT JOIN TB_USUARIO J ON I.ID_USUARIO_INATIVACAO=J.ID_USUARIO ";
+            SQL += "WHERE B.FL_TAXA_INATIVA = 1 ";
+            SQL += "AND CONVERT(DATE,A.DT_ABERTURA,103) BETWEEN CONVERT(DATE,'" + dados.DATAINICIAL + "',103) AND CONVERT(DATE,'" + dados.DATAFINAL+ "' ,103) ";
+            SQL += "" + Filtro + "";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+
     }
 }

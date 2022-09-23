@@ -15,6 +15,14 @@
             font-size: 8pt;
             background-color: #f0e4da;
         }
+
+         .inativa {
+            color: black;
+            font-family: verdana;
+            font-size: 8pt;
+            color: gray;
+            text-decoration: line-through;
+        }
     </style>
     <div style="float: right; display: none">
         <a id="ajuda" href="#" title="Ajuda">
@@ -830,6 +838,15 @@
                                                                 <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                                 <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                                 <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
+                                                                <asp:BoundField DataField="STATUS" HeaderText="ATIVA?" SortExpression="STATUS" />
+
+                                                                <asp:TemplateField HeaderText="HISTÓRICO" SortExpression="HISTORICO">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblTemHistorico" runat="server" Text='<%# Eval("HISTORICO") %>' Visible="false"></asp:Label>
+                                                <asp:ImageButton ID="ImageButton1" src="Content/imagens/hist.png" runat="server" CommandArgument='<%# Eval("ID_BL_TAXA") %>' ToolTip="Histórico" CommandName="Historico" /> 
+                                                       <asp:Label ID="lblTaxa" Visible="False" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -856,6 +873,38 @@
                                                         </asp:GridView>
                                                     </div>
 
+                                                      <asp:Button runat="server" ID="Button1" CssClass="btn btn-block btn-primary" Style="display: none" />
+                            <ajaxToolkit:ModalPopupExtender ID="mpeHistoricoMaritimo" runat="server" PopupControlID="pnHistoricoMaritimo" TargetControlID="Button1" CancelControlID="btnFecharHistoricoMaritimo"></ajaxToolkit:ModalPopupExtender>
+                            <asp:Panel ID="pnHistoricoMaritimo" runat="server" CssClass="modalPopup" Style="display: none;">
+                                <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Historico de Status</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                                               <div class="row"> 
+                                                                   <div class="col-sm-12"> 
+                                                                       <div class="table-responsive tableFixHead" style="max-height: 200px; font-size:12px!important">
+                                                                            <asp:GridView ID="dgvHistoricoMaritimo" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="ID_INATIVACAO" DataSourceID="dsHistorico" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado." >
+                                                                            <Columns>
+                                                                                <asp:BoundField DataField="ID_INATIVACAO" HeaderText="#" SortExpression="Id" Visible="false" />
+                                                                                 <asp:BoundField DataField="STATUS" HeaderText="Ativo?" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="NOME" HeaderText="Usuário" DataFormatString="{0:dd/MM/yyyy}" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="DT_INATIVACAO" HeaderText="Data" ItemStyle-HorizontalAlign="Center" />
+                                                                            </Columns>
+                                                                            <HeaderStyle HorizontalAlign="Center" CssClass="Historico" />
+                                                                        </asp:GridView>
+
+                             </div> </div>         </div>     </div>          
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharHistoricoMaritimo" text="Close" />                                                                
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                            </asp:Panel>
 
                                                 </ContentTemplate>
                                                 <Triggers>
@@ -1575,6 +1624,15 @@
                                                                     <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                                     <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                                     <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
+                                                                    <asp:BoundField DataField="STATUS" HeaderText="ATIVA?" SortExpression="STATUS" />
+
+                                                                <asp:TemplateField HeaderText="HISTÓRICO" SortExpression="HISTORICO">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblTemHistorico" runat="server" Text='<%# Eval("HISTORICO") %>' Visible="false"></asp:Label>
+                                                <asp:ImageButton ID="ImageButton1" src="Content/imagens/hist.png" runat="server" CommandArgument='<%# Eval("ID_BL_TAXA") %>' ToolTip="Histórico" CommandName="Historico" /> 
+                                                       <asp:Label ID="lblTaxa" Visible="False" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="">
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -1601,7 +1659,38 @@
                                                             </asp:GridView>
                                                         </div>
 
+                                                         <asp:Button runat="server" ID="Button2" CssClass="btn btn-block btn-primary" Style="display: none" />
+                            <ajaxToolkit:ModalPopupExtender ID="mpeHistoricoAereo" runat="server" PopupControlID="pnHistoricoAereo" TargetControlID="Button2" CancelControlID="btnFecharHistoricoAereo"></ajaxToolkit:ModalPopupExtender>
+                            <asp:Panel ID="pnHistoricoAereo" runat="server" CssClass="modalPopup" Style="display: none;">
+                                <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Historico de Status</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                                               <div class="row"> 
+                                                                   <div class="col-sm-12"> 
+                                                                       <div class="table-responsive tableFixHead" style="max-height: 200px; font-size:12px!important">
+                                                                            <asp:GridView ID="dgvHistoricoAereo" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="ID_INATIVACAO" DataSourceID="dsHistorico" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado." >
+                                                                            <Columns>
+                                                                                <asp:BoundField DataField="ID_INATIVACAO" HeaderText="#" SortExpression="Id" Visible="false" />
+                                                                                 <asp:BoundField DataField="STATUS" HeaderText="Ativo?" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="NOME" HeaderText="Usuário" DataFormatString="{0:dd/MM/yyyy}" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="DT_INATIVACAO" HeaderText="Data" ItemStyle-HorizontalAlign="Center" />
+                                                                            </Columns>
+                                                                            <HeaderStyle HorizontalAlign="Center" CssClass="Historico" />
+                                                                        </asp:GridView>
 
+                             </div> </div>         </div>     </div>          
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharHistoricoAereo" text="Close" />                                                                
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                            </asp:Panel>
 
                                                     </ContentTemplate>
                                                     <Triggers>
@@ -2262,6 +2351,12 @@ INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
 union 
 SELECT  0, '      Selecione' ORDER BY ID_TIPO_ARQUIVO "></asp:SqlDataSource>
 
+    <asp:SqlDataSource ID="dsHistorico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT  ID_INATIVACAO,CASE WHEN ISNULL(FL_TAXA_INATIVA,0) = 0 THEN 'ATIVO' ELSE 'INATIVO' END STATUS,NOME,DT_INATIVACAO FROM TB_INATIVACAO_TAXAS A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_INATIVACAO = B.ID_USUARIO WHERE A.ID_BL_TAXA = @ID_BL_TAXA ORDER BY DT_INATIVACAO DESC">
+        <SelectParameters>
+            <asp:Parameter Name="ID_BL_TAXA" Type="Int32" DefaultValue="0" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

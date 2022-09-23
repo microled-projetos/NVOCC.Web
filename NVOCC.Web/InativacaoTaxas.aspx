@@ -1,6 +1,12 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="InativacaoTaxas.aspx.vb" Inherits="NVOCC.Web.InativacaoTaxas" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <style>
+            .Historico > th {
+                text-align: center;
+                font-size: 15px !important;
+            }
+        </style>
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -29,6 +35,7 @@
                                         <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
                                             <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
                                             <asp:ListItem Value="1">Número processo</asp:ListItem>
+                                            <asp:ListItem Value="11">Número BL</asp:ListItem>
                                             <asp:ListItem Value="2">Item Despesa</asp:ListItem>
                                             <asp:ListItem Value="3">Parceiro Vinculado</asp:ListItem>
                                             <asp:ListItem Value="4">Valor Taxa</asp:ListItem>
@@ -52,13 +59,13 @@
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Data Inicial(Processo):</label>
-                                        <asp:TextBox ID="txtDtInicial" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
+                                        <asp:TextBox ID="txtDtInicial" runat="server" CssClass="form-control data"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Data Final(Processo):</label>
-                                        <asp:TextBox ID="txtDtFinal" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
+                                        <asp:TextBox ID="txtDtFinal" runat="server" CssClass="form-control data" ></asp:TextBox>
                                     </div>
                                 </div>
 
@@ -81,8 +88,8 @@
                             <asp:TextBox runat="server" ID="txtCont" Text="0" CssClass="form-control" Style="display: none" />
 
                             <asp:Button runat="server" ID="Button1" CssClass="btn btn-block btn-primary" Style="display: none" />
-                            <ajaxToolkit:ModalPopupExtender ID="mpeStatus" runat="server" PopupControlID="Panel2" TargetControlID="Button1" CancelControlID="btnFecharStatus"></ajaxToolkit:ModalPopupExtender>
-                            <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" Style="display: none;">
+                            <ajaxToolkit:ModalPopupExtender ID="mpeHistorico" runat="server" PopupControlID="pnHistorico" TargetControlID="Button1" CancelControlID="btnFecharHistorico"></ajaxToolkit:ModalPopupExtender>
+                            <asp:Panel ID="pnHistorico" runat="server" CssClass="modalPopup" Style="display: none;">
                                 <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -93,10 +100,19 @@
                                                                <div class="row"> 
                                                                    <div class="col-sm-12"> 
                                                                        <div class="table-responsive tableFixHead" style="max-height: 200px; font-size:12px!important">
+                                                                            <asp:GridView ID="dgvHistorico" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="ID_INATIVACAO" DataSourceID="dsHistorico" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado." >
+                                                                            <Columns>
+                                                                                <asp:BoundField DataField="ID_INATIVACAO" HeaderText="#" SortExpression="Id" Visible="false" />
+                                                                                 <asp:BoundField DataField="STATUS" HeaderText="Ativo?" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="NOME" HeaderText="Usuário" DataFormatString="{0:dd/MM/yyyy}" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="DT_INATIVACAO" HeaderText="Data" ItemStyle-HorizontalAlign="Center" />
+                                                                            </Columns>
+                                                                            <HeaderStyle HorizontalAlign="Center" CssClass="Historico" />
+                                                                        </asp:GridView>
 
                              </div> </div>         </div>     </div>          
                                <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharStatus" text="Close" />                                                                
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharHistorico" text="Close" />                                                                
                                                         </div>
                                                     
                                                 </div>
@@ -106,23 +122,23 @@
 
 
 
-                            <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlConfirmar" TargetControlID="btnGravar" CancelControlID="btnFecharConfirmacao"></ajaxToolkit:ModalPopupExtender>
+                            <ajaxToolkit:ModalPopupExtender ID="mpeConfirmacao" runat="server" PopupControlID="pnlConfirmar" TargetControlID="btnGravar" CancelControlID="btnFecharConfirmacao"></ajaxToolkit:ModalPopupExtender>
                             <asp:Panel ID="pnlConfirmar" runat="server" CssClass="modalPopup" Style="display: none;">
                                 <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Confirmar</h5>
+                                                            <h5 class="modal-title">Confirmação de Inativação/Ativação</h5>
                                                         </div>
                                                         <div class="modal-body">    
                                                              <br/>
                                                                <div class="row"> 
                                                                    <div class="col-sm-offset-2 col-sm-8">
                                                                        <label class="control-label">Tipo Motivo: </label>
-                                                                   <asp:DropDownList ID="ddlMotivos" runat="server" CssClass="form-control" Font-Size="15px"></asp:DropDownList>
+                                                                   <asp:DropDownList ID="ddlMotivos" runat="server" CssClass="form-control" Font-Size="15px"  DataTextField="NM_MOTIVO_INATIVACAO" DataSourceID="dsMotivoInativacao" AutoPostBack="true" DataValueField="ID_MOTIVO_INATIVACAO"></asp:DropDownList>
                              </div>
 
                                                                </div>
-                                                            <div class="row"> 
+                                                            <div class="row" id="divDescMotivo" runat="server" visible="false"> 
                                                                 <div class="col-sm-offset-2 col-sm-8"> 
                                                                              <label class="control-label">Motivo:</label>
 
@@ -140,10 +156,83 @@
                                        </div>     </center>
                             </asp:Panel>
 
+
+ <ajaxToolkit:ModalPopupExtender ID="mpeFiltro" runat="server" PopupControlID="pnlFiltro" TargetControlID="btnFiltroAvancado" CancelControlID="btnFecharFiltro"></ajaxToolkit:ModalPopupExtender>
+                            <asp:Panel ID="pnlFiltro" runat="server" CssClass="modalPopup" Style="display: none;">
+                                <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Filtro Avançado</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                                               <div class="row"> 
+                                                                   <div class="col-sm-4"> <div class="form-group">
+                                                                       <label class="control-label">Nº Processo:</label>
+                                                                    <asp:TextBox ID="txtFiltroProcesso" runat="server" CssClass="form-control"></asp:TextBox></div>
+                             </div><div class="col-sm-4"> <div class="form-group">
+                                                                       <label class="control-label">Item Despesa:</label>
+                                                                   <asp:TextBox ID="txtFiltroDespesa" runat="server" CssClass="form-control"></asp:TextBox></div>
+                             </div><div class="col-sm-4"> <div class="form-group">
+                                                                       <label class="control-label">Parceiro Vinculado:</label>
+                                                                   <asp:TextBox ID="txtFiltroParceiro" runat="server" CssClass="form-control"></asp:TextBox></div>
+                             </div>
+
+                                                               </div>
+                                                            <div class="row"> 
+                                                                   <div class="col-sm-4"> <div class="form-group">
+                                                                       <label class="control-label">Valor Taxa:</label>
+                                                                   <asp:TextBox ID="txtFiltroValor" runat="server" CssClass="form-control"></asp:TextBox></div>
+                             </div><div class="col-sm-4"> <div class="form-group">
+                                                                       <label class="control-label">Valor Taxa Calculada:</label>
+                                                                   <asp:TextBox ID="txtFiltroValorCalculada" runat="server" CssClass="form-control"></asp:TextBox></div>
+                             </div><div class="col-sm-4"> <div class="form-group">
+                                                                       <label class="control-label">Moeda:</label>
+                                                                   <asp:TextBox ID="txtFiltroMoeda" runat="server" CssClass="form-control"></asp:TextBox></div>
+                             </div>
+
+                                                               </div>
+<div class="row"> 
+                                                                   <div class="col-sm-4"> <div class="form-group">
+                                                                       <label class="control-label">Tipo Movimento:</label>
+                                                                   <asp:TextBox ID="txtFiltroMovimento" runat="server" CssClass="form-control"></asp:TextBox></div>
+                             </div><div class="col-sm-4"> <div class="form-group">
+                                                                       <label class="control-label">Origem Pagamento:</label>
+                                                                   <asp:TextBox ID="txtFiltroOrigemPagamento" runat="server" CssClass="form-control"></asp:TextBox></div>
+                             </div><div class="col-sm-4"> <div class="form-group">
+                                                                       <label class="control-label">Lançamento:</label>
+                                                                   <asp:TextBox ID="txtFiltroLançamento" runat="server" CssClass="form-control"></asp:TextBox></div>
+                             </div>
+
+                                                               </div>
+<div class="row"> 
+                                                                   <div class="col-sm-4"> <div class="form-group">
+                                                                       <label class="control-label">Data Inicial(Processo):</label>
+                                                                   <asp:TextBox ID="txtFiltroDataInicial" runat="server" CssClass="form-control"></asp:TextBox></div>
+                             </div><div class="col-sm-4"> <div class="form-group">
+                                                                       <label class="control-label">Data Final(Processo):</label>
+                                                                   <asp:TextBox ID="txtFiltroDataFinal" runat="server" CssClass="form-control"></asp:TextBox></div>
+                             </div>
+
+                                                               </div>
+                                                  </div>          
+                               <div class="modal-footer">
+                  <asp:Button runat="server" CssClass="btn btn-success" ID="btn1o" text="Gravar" />  
+                                                                                               <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar1" text="Close" />              
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                            </asp:Panel>
+
+
                             <asp:Button ID="btnGravar" runat="server" CssClass="btn btn-primary" Text="Gravar Ação" />
 
                         </ContentTemplate>
-                        <Triggers>
+                        <Triggers>                                                        
+                            <asp:AsyncPostBackTrigger ControlID="ddlMotivos" />
+                            <asp:PostBackTrigger ControlID="lkExportarCSV" />
                         </Triggers>
                     </asp:UpdatePanel>
                     <br />
@@ -161,6 +250,7 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:BoundField DataField="NR_PROCESSO" HeaderText="Nº PROCESSO" SortExpression="NR_PROCESSO" />
+                                        <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" SortExpression="NR_BL" />
                                         <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="ITEM DESPESA" SortExpression="NM_ITEM_DESPESA" />
                                         <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="PARCEIRO VINCULADO" SortExpression="NM_PARCEIRO_EMPRESA" />
                                         <asp:BoundField DataField="VL_TAXA" HeaderText="VALOR TAXA" SortExpression="VL_TAXA" />
@@ -174,7 +264,7 @@
                                             <ItemTemplate>
                                                 <asp:Label ID="lblTemHistorico" runat="server" Text='<%# Eval("HISTORICO") %>' Visible="false"></asp:Label>
                                                 <asp:ImageButton ID="ImageButton1" src="Content/imagens/hist.png" runat="server" CommandArgument='<%# Eval("ID_BL_TAXA") %>' ToolTip="Histórico" CommandName="Historico" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                       <asp:Label ID="lblID" Visible="False" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />
+                                                       <asp:Label ID="lblTaxa" Visible="False" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                     </Columns>
@@ -192,7 +282,19 @@
         </div>
     </div>
     <asp:SqlDataSource ID="dsTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BL_TAXA,NR_PROCESSO,NM_PARCEIRO_EMPRESA,NM_ITEM_DESPESA,SIGLA_MOEDA,NM_ORIGEM_PAGAMENTO,VL_TAXA,VL_TAXA_CALCULADO, VL_TAXA_BR,LANCAMENTO,TIPO_MOVIMENTO,HISTORICO FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 ORDER BY ID_BL_TAXA DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_BL_TAXA,NR_PROCESSO,NR_BL,NM_PARCEIRO_EMPRESA,NM_ITEM_DESPESA,SIGLA_MOEDA,NM_ORIGEM_PAGAMENTO,VL_TAXA,VL_TAXA_CALCULADO, VL_TAXA_BR,LANCAMENTO,TIPO_MOVIMENTO,HISTORICO FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 ORDER BY ID_BL_TAXA DESC"></asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsMotivoInativacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_MOTIVO_INATIVACAO,NM_MOTIVO_INATIVACAO FROM TB_MOTIVO_INATIVACAO
+        union SELECT  0, '      Selecione' ORDER BY ID_MOTIVO_INATIVACAO"></asp:SqlDataSource>
+
+      <asp:SqlDataSource ID="dsHistorico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT  ID_INATIVACAO,CASE WHEN ISNULL(FL_TAXA_INATIVA,0) = 0 THEN 'ATIVO' ELSE 'INATIVO' END STATUS,NOME,DT_INATIVACAO FROM TB_INATIVACAO_TAXAS A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_INATIVACAO = B.ID_USUARIO WHERE A.ID_BL_TAXA = @ID_BL_TAXA ORDER BY DT_INATIVACAO DESC">
+        <SelectParameters>
+            <asp:Parameter Name="ID_BL_TAXA" Type="Int32" DefaultValue="0" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
 </asp:Content>
