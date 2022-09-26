@@ -60,7 +60,7 @@
     Private Sub ddlFornecedor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFornecedor.SelectedIndexChanged
         If ddlFornecedor.SelectedValue <> 0 Then
             Dim sqlGrid As String = "SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND FL_DECLARADO = 0 AND ID_ORIGEM_PAGAMENTO = 1 AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
+WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND FL_DECLARADO = 0 AND ID_ORIGEM_PAGAMENTO = 1 AND ISNULL(FL_TAXA_INATIVA,0) = 0 AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
 
             dgvTaxas.DataBind()
             dsTaxas.SelectCommand = sqlGrid

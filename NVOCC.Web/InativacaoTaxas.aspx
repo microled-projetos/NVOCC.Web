@@ -2,11 +2,10 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
-            .Historico > th {
-                text-align: center;
-                font-size: 15px !important;
-            }
-        </style>
+        .Historico {
+            text-align: center;
+        }
+    </style>
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -15,82 +14,77 @@
                 </h3>
             </div>
             <div class="panel-body">
-                <div class="tab-pane fade active in" id="consulta">
-                    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
-                        <ContentTemplate>
-                            <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
-                                <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
-                            </div>
-                            <div class="alert alert-danger" id="divErro" runat="server" visible="false">
-                                <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
-                            </div>
-                            <br />
-                            <div class="row linhabotao text-center">
-                                <asp:LinkButton ID="lkExportarCSV" runat="server" CssClass="btn  btnn btn-primary btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>
-                            </div>
-                            <div class="row flexdiv topMarg" style="padding: 0 15px">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="control-label">Filtro</label>
-                                        <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
-                                            <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
-                                            <asp:ListItem Value="1">Número processo</asp:ListItem>
-                                            <asp:ListItem Value="11">Número BL</asp:ListItem>
-                                            <asp:ListItem Value="2">Item Despesa</asp:ListItem>
-                                            <asp:ListItem Value="3">Parceiro Vinculado</asp:ListItem>
-                                            <asp:ListItem Value="4">Valor Taxa</asp:ListItem>
-                                            <asp:ListItem Value="5">Valor Taxa Calculada</asp:ListItem>
-                                            <asp:ListItem Value="6">Moeda</asp:ListItem>
-                                            <asp:ListItem Value="7">Tipo Movimento</asp:ListItem>
-                                            <asp:ListItem Value="8">Origem Pagamento</asp:ListItem>
-                                            <asp:ListItem Value="9">Lançamento</asp:ListItem>
-                                            <asp:ListItem Value="10">Histórico</asp:ListItem>
-                                        </asp:DropDownList>
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
+                    <ContentTemplate>
+                        <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
+                            <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
+                        </div>
+                        <div class="alert alert-danger" id="divErro" runat="server" visible="false">
+                            <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
+                        </div>
+                        <div class="row linhabotao text-center">
+                            <asp:LinkButton ID="lkExportarCSV" runat="server" CssClass="btn  btnn btn-primary btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>
+                        </div>
+                        <div class="row flexdiv topMarg" style="padding: 0 15px">
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label">Filtro</label>
+                                    <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
+                                        <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
+                                        <asp:ListItem Value="1">Número processo</asp:ListItem>
+                                        <asp:ListItem Value="11">Número BL</asp:ListItem>
+                                        <asp:ListItem Value="2">Item Despesa</asp:ListItem>
+                                        <asp:ListItem Value="3">Parceiro Vinculado</asp:ListItem>
+                                        <asp:ListItem Value="4">Valor Taxa</asp:ListItem>
+                                        <asp:ListItem Value="5">Valor Taxa Calculada</asp:ListItem>
+                                        <asp:ListItem Value="6">Moeda</asp:ListItem>
+                                        <asp:ListItem Value="7">Tipo Movimento</asp:ListItem>
+                                        <asp:ListItem Value="8">Origem Pagamento</asp:ListItem>
+                                        <asp:ListItem Value="9">Lançamento</asp:ListItem>
+<%--                                        <asp:ListItem Value="10">Histórico</asp:ListItem>--%>
+                                    </asp:DropDownList>
 
-
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="control-label"></label>
-                                        <asp:TextBox ID="txtFiltro" runat="server" CssClass="form-control"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="control-label">Data Inicial(Processo):</label>
-                                        <asp:TextBox ID="txtDtInicial" runat="server" CssClass="form-control data"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="control-label">Data Final(Processo):</label>
-                                        <asp:TextBox ID="txtDtFinal" runat="server" CssClass="form-control data" ></asp:TextBox>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-1">
-                                    <div class="form-group">
-                                        <asp:Button runat="server" ID="btnConsultar" CssClass="btn btn-block btn-primary" Text="Consultar" />
-                                    </div>
-                                </div>
-                                <div class="col-sm-1">
-                                    <div class="form-group">
-                                        <asp:Button runat="server" ID="btnFiltroAvancado" CssClass="btn btn-block btn-primary" Text="Filtro Avançado" />
-                                    </div>
-                                </div>
-                                <div class="col-sm-1">
-                                    <div class="form-group">
-                                        <asp:Button runat="server" ID="btnLimparCampos" CssClass="btn btn-block btn-primary" Text="Limpar Campos" />
-                                    </div>
                                 </div>
                             </div>
-                            <asp:TextBox runat="server" ID="txtCont" Text="0" CssClass="form-control" Style="display: none" />
-
-                            <asp:Button runat="server" ID="Button1" CssClass="btn btn-block btn-primary" Style="display: none" />
-                            <ajaxToolkit:ModalPopupExtender ID="mpeHistorico" runat="server" PopupControlID="pnHistorico" TargetControlID="Button1" CancelControlID="btnFecharHistorico"></ajaxToolkit:ModalPopupExtender>
-                            <asp:Panel ID="pnHistorico" runat="server" CssClass="modalPopup" Style="display: none;">
-                                <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label"></label>
+                                    <asp:TextBox ID="txtFiltro" runat="server" CssClass="form-control"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label">Data Inicial(Processo):</label>
+                                    <asp:TextBox ID="txtDtInicial" runat="server" CssClass="form-control data"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label">Data Final(Processo):</label>
+                                    <asp:TextBox ID="txtDtFinal" runat="server" CssClass="form-control data"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <asp:Button runat="server" ID="btnConsultar" CssClass="btn btn-block btn-primary" Text="Consultar" />
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <asp:Button runat="server" ID="btnFiltroAvancado" CssClass="btn btn-block btn-primary" Text="Filtro Avançado" />
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <asp:Button runat="server" ID="btnLimparCampos" CssClass="btn btn-block btn-primary" Text="Limpar Filtros" />
+                                </div>
+                            </div>
+                        </div>
+                        <asp:TextBox runat="server" ID="txtCont" Text="0" CssClass="form-control" Style="display: none" />
+                        <asp:Button runat="server" ID="Button1" CssClass="btn btn-block btn-primary" Style="display: none" />
+                        <ajaxToolkit:ModalPopupExtender ID="mpeHistorico" runat="server" PopupControlID="pnHistorico" TargetControlID="Button1" CancelControlID="btnFecharHistorico"></ajaxToolkit:ModalPopupExtender>
+                        <asp:Panel ID="pnHistorico" runat="server" CssClass="modalPopup" Style="display: none;">
+                            <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Historico de Status</h5>
@@ -118,13 +112,13 @@
                                                 </div>
       
                                        </div>     </center>
-                            </asp:Panel>
+                        </asp:Panel>
 
 
 
-                            <ajaxToolkit:ModalPopupExtender ID="mpeConfirmacao" runat="server" PopupControlID="pnlConfirmar" TargetControlID="btnGravar" CancelControlID="btnFecharConfirmacao"></ajaxToolkit:ModalPopupExtender>
-                            <asp:Panel ID="pnlConfirmar" runat="server" CssClass="modalPopup" Style="display: none;">
-                                <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <ajaxToolkit:ModalPopupExtender ID="mpeConfirmacao" runat="server" PopupControlID="pnlConfirmar" TargetControlID="btnGravar" CancelControlID="btnFecharConfirmacao"></ajaxToolkit:ModalPopupExtender>
+                        <asp:Panel ID="pnlConfirmar" runat="server" CssClass="modalPopup" Style="display: none;">
+                            <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Confirmação de Inativação/Ativação</h5>
@@ -154,12 +148,12 @@
                                                 </div>
       
                                        </div>     </center>
-                            </asp:Panel>
+                        </asp:Panel>
 
 
- <ajaxToolkit:ModalPopupExtender ID="mpeFiltro" runat="server" PopupControlID="pnlFiltro" TargetControlID="btnFiltroAvancado" CancelControlID="btnFecharFiltro"></ajaxToolkit:ModalPopupExtender>
-                            <asp:Panel ID="pnlFiltro" runat="server" CssClass="modalPopup" Style="display: none;">
-                                <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <ajaxToolkit:ModalPopupExtender ID="mpeFiltro" runat="server" PopupControlID="pnlFiltro" TargetControlID="btnFiltroAvancado" CancelControlID="btnFecharFiltro"></ajaxToolkit:ModalPopupExtender>
+                        <asp:Panel ID="pnlFiltro" runat="server" CssClass="modalPopup" Style="display: none;">
+                            <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Filtro Avançado</h5>
@@ -201,83 +195,92 @@
                                                                    <asp:TextBox ID="txtFiltroOrigemPagamento" runat="server" CssClass="form-control"></asp:TextBox></div>
                              </div><div class="col-sm-4"> <div class="form-group">
                                                                        <label class="control-label">Lançamento:</label>
-                                                                   <asp:TextBox ID="txtFiltroLançamento" runat="server" CssClass="form-control"></asp:TextBox></div>
+                                                                   <asp:TextBox ID="txtFiltroLancamento" runat="server" CssClass="form-control"></asp:TextBox></div>
                              </div>
 
                                                                </div>
 <div class="row"> 
                                                                    <div class="col-sm-4"> <div class="form-group">
                                                                        <label class="control-label">Data Inicial(Processo):</label>
-                                                                   <asp:TextBox ID="txtFiltroDataInicial" runat="server" CssClass="form-control"></asp:TextBox></div>
+                                                                   <asp:TextBox ID="txtFiltroDataInicial" runat="server" CssClass="form-control data"></asp:TextBox></div>
                              </div><div class="col-sm-4"> <div class="form-group">
                                                                        <label class="control-label">Data Final(Processo):</label>
-                                                                   <asp:TextBox ID="txtFiltroDataFinal" runat="server" CssClass="form-control"></asp:TextBox></div>
+                                                                   <asp:TextBox ID="txtFiltroDataFinal" runat="server" CssClass="form-control data"></asp:TextBox></div>
+                             </div><div class="col-sm-4"> <div class="form-group">
+                                                                       <label class="control-label">Nº BL:</label>
+                                                                   <asp:TextBox ID="txtBLFiltro" runat="server" CssClass="form-control"></asp:TextBox></div>
                              </div>
 
                                                                </div>
                                                   </div>          
                                <div class="modal-footer">
-                  <asp:Button runat="server" CssClass="btn btn-success" ID="btn1o" text="Gravar" />  
-                                                                                               <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar1" text="Close" />              
+                  <asp:Button runat="server" CssClass="btn btn-primary" ID="btnConsultaAvancada" text="Consultar" />  
+                                                                                               <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharFiltroAvancado" text="Sair" />              
                                                         </div>
                                                     
                                                 </div>
       
                                        </div>     </center>
-                            </asp:Panel>
+                        </asp:Panel>
+                        <br />
+                        <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
+                            <ContentTemplate>
+                                <div class="row table-responsive tableFixHead" style="max-height: 600px;">
+                                    <asp:GridView ID="dgvTaxas" DataKeyNames="ID_BL_TAXA" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsTaxas" AutoGenerateColumns="False" Style="max-height: 300px; overflow: auto;" AllowSorting="True" EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" AllowPaging="true" PageSize="100">
+                                        <Columns>
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <asp:Button ID="btnMarcarTudo" runat="server" Font-Size="Small" CssClass="btn btn-warning" Text="Marcar/Desmarcar todos" OnClick="btnMarcarTudo_Click" />
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <asp:CheckBox ID="ckbSelecionar" runat="server" CssClass="ChkBoxClass" />
+                                                </ItemTemplate>
+                                                <ItemStyle CssClass="Historico" />
 
-
-                            <asp:Button ID="btnGravar" runat="server" CssClass="btn btn-primary" Text="Gravar Ação" />
-
-                        </ContentTemplate>
-                        <Triggers>                                                        
-                            <asp:AsyncPostBackTrigger ControlID="ddlMotivos" />
-                            <asp:PostBackTrigger ControlID="lkExportarCSV" />
-                        </Triggers>
-                    </asp:UpdatePanel>
-                    <br />
-                    <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
-                        <ContentTemplate>
-                            <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align: center">
-                                <asp:GridView ID="dgvTaxas" DataKeyNames="ID_BL_TAXA" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsTaxas" AutoGenerateColumns="False" Style="max-height: 500px; overflow: auto;" AllowSorting="True" EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" AllowPaging="true" PageSize="100">
-                                    <Columns>
-                                        <asp:TemplateField>
-                                            <HeaderTemplate>
-                                                <asp:Button ID="btnMarcarTudo" runat="server" Font-Size="Small" CssClass="btn btn-warning" Text="Marcar/Desmarcar todos" OnClick="btnMarcarTudo_Click" />
-                                            </HeaderTemplate>
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="ckbSelecionar" runat="server" CssClass="ChkBoxClass" />
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:BoundField DataField="NR_PROCESSO" HeaderText="Nº PROCESSO" SortExpression="NR_PROCESSO" />
-                                        <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" SortExpression="NR_BL" />
-                                        <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="ITEM DESPESA" SortExpression="NM_ITEM_DESPESA" />
-                                        <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="PARCEIRO VINCULADO" SortExpression="NM_PARCEIRO_EMPRESA" />
-                                        <asp:BoundField DataField="VL_TAXA" HeaderText="VALOR TAXA" SortExpression="VL_TAXA" />
-                                        <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="VALOR TAXA CALCULADO" SortExpression="VL_TAXA_CALCULADO" />
-                                        <asp:BoundField DataField="VL_TAXA_BR" HeaderText="VALOR TAXA BR" SortExpression="VL_TAXA_BR" />
-                                        <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />
-                                        <asp:BoundField DataField="TIPO_MOVIMENTO" HeaderText="TIPO MOVIMENTO" SortExpression="TIPO_MOVIMENTO" />
-                                        <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
-                                        <asp:BoundField DataField="LANCAMENTO" HeaderText="LANÇAMENTO" SortExpression="LANCAMENTO" />
-                                        <asp:TemplateField HeaderText="HISTÓRICO" SortExpression="HISTORICO">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblTemHistorico" runat="server" Text='<%# Eval("HISTORICO") %>' Visible="false"></asp:Label>
-                                                <asp:ImageButton ID="ImageButton1" src="Content/imagens/hist.png" runat="server" CommandArgument='<%# Eval("ID_BL_TAXA") %>' ToolTip="Histórico" CommandName="Historico" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="NR_PROCESSO" HeaderText="Nº PROCESSO" SortExpression="NR_PROCESSO" />
+                                            <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" SortExpression="NR_BL" />
+                                            <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="ITEM DESPESA" SortExpression="NM_ITEM_DESPESA" />
+                                            <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="PARCEIRO VINCULADO" SortExpression="NM_PARCEIRO_EMPRESA" />
+                                            <asp:BoundField DataField="VL_TAXA" HeaderText="VALOR TAXA" SortExpression="VL_TAXA" />
+                                            <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="VALOR TAXA CALCULADO" SortExpression="VL_TAXA_CALCULADO" />
+                                            <asp:BoundField DataField="VL_TAXA_BR" HeaderText="VALOR TAXA BR" SortExpression="VL_TAXA_BR" />
+                                            <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />
+                                            <asp:BoundField DataField="TIPO_MOVIMENTO" HeaderText="TIPO MOVIMENTO" SortExpression="TIPO_MOVIMENTO" />
+                                            <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
+                                            <asp:BoundField DataField="LANCAMENTO" HeaderText="LANÇAMENTO" SortExpression="LANCAMENTO" />
+                                            <asp:TemplateField HeaderText="HISTÓRICO" SortExpression="HISTORICO">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblTemHistorico" runat="server" Text='<%# Eval("HISTORICO") %>' Visible="false"></asp:Label>
+                                                    <asp:ImageButton ID="ImageButton1" src="Content/imagens/hist.png" runat="server" CommandArgument='<%# Eval("ID_BL_TAXA") %>' ToolTip="Histórico" CommandName="Historico" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                        <asp:Label ID="lblTaxa" Visible="False" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                    </Columns>
-                                </asp:GridView>
-                            </div>
+                                                </ItemTemplate>
+                                                <ItemStyle CssClass="Historico" />
+                                            </asp:TemplateField>
+                                        </Columns>
+                                    </asp:GridView>
+                                </div>
 
-                        </ContentTemplate>
-                        <Triggers>
-                            <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvTaxas" />
-                            <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
-                        </Triggers>
-                    </asp:UpdatePanel>
-                </div>
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvTaxas" />
+                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
+                            </Triggers>
+                        </asp:UpdatePanel>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <asp:Button ID="btnGravar" runat="server" CssClass="btn btn-block btn-primary" Text="Gravar Ação" />
+                                </div>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="ddlMotivos" />
+                        <asp:PostBackTrigger ControlID="lkExportarCSV" />
+                    </Triggers>
+                </asp:UpdatePanel>
             </div>
         </div>
     </div>
@@ -288,7 +291,7 @@
         SelectCommand="SELECT ID_MOTIVO_INATIVACAO,NM_MOTIVO_INATIVACAO FROM TB_MOTIVO_INATIVACAO
         union SELECT  0, '      Selecione' ORDER BY ID_MOTIVO_INATIVACAO"></asp:SqlDataSource>
 
-      <asp:SqlDataSource ID="dsHistorico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsHistorico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT  ID_INATIVACAO,CASE WHEN ISNULL(FL_TAXA_INATIVA,0) = 0 THEN 'ATIVO' ELSE 'INATIVO' END STATUS,NOME,DT_INATIVACAO FROM TB_INATIVACAO_TAXAS A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_INATIVACAO = B.ID_USUARIO WHERE A.ID_BL_TAXA = @ID_BL_TAXA ORDER BY DT_INATIVACAO DESC">
         <SelectParameters>
             <asp:Parameter Name="ID_BL_TAXA" Type="Int32" DefaultValue="0" />

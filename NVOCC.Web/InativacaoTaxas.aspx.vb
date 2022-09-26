@@ -52,7 +52,7 @@
                 FILTRO = " AND NM_ITEM_DESPESA LIKE '%" & txtFiltro.Text & "%'"
             ElseIf ddlFiltro.SelectedValue = 3 Then
                 'PARCEIRO VINCULADO
-                FILTRO = " AND NM_ORIGEM_PAGAMENTO LIKE '%" & txtFiltro.Text & "%'"
+                FILTRO = " AND NM_PARCEIRO_EMPRESA LIKE '%" & txtFiltro.Text & "%'"
             ElseIf ddlFiltro.SelectedValue = 4 Then
                 'VALOR TAXA
                 FILTRO = " AND VL_TAXA LIKE '%" & txtFiltro.Text & "%'"
@@ -74,7 +74,6 @@
             ElseIf ddlFiltro.SelectedValue = 10 Then
                 'HISTÓRICO
                 FILTRO = " AND HISTORICO LIKE '%" & txtFiltro.Text & "%'"
-
             ElseIf ddlFiltro.SelectedValue = 11 Then
                 'NR_BL
                 FILTRO = " AND NR_BL LIKE '%" & txtFiltro.Text & "%'"
@@ -92,6 +91,7 @@
         Dim sql As String = "SELECT
 ID_BL_TAXA,
 NR_PROCESSO,
+NR_BL,
 NM_PARCEIRO_EMPRESA,
 NM_ITEM_DESPESA,
 SIGLA_MOEDA,
@@ -101,80 +101,83 @@ VL_TAXA_CALCULADO,
 VL_TAXA_BR,
 LANCAMENTO,
 TIPO_MOVIMENTO,
-HISTORICO,
-NR_BL FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & " ORDER BY ID_BL_TAXA DESC"
+HISTORICO 
+FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & " ORDER BY ID_BL_TAXA DESC"
 
         Session("ExportarCSV") = sql
         dsTaxas.SelectCommand = sql
         dgvTaxas.DataBind()
     End Sub
 
-    Sub FiltoAvancado()
+    Sub FiltroAvancado()
 
         divSuccess.Visible = False
         divErro.Visible = False
 
         Dim FILTRO As String = ""
 
-
-
-        If ddlFiltro.SelectedValue = 1 Then
+        If txtFiltroProcesso.Text <> "" Then
             'NR_PROCESSO
-            FILTRO = " AND NR_PROCESSO LIKE '%" & txtFiltro.Text & "%'"
+            FILTRO = " AND NR_PROCESSO LIKE '%" & txtFiltroProcesso.Text & "%'"
         End If
-        If ddlFiltro.SelectedValue = 2 Then
+
+        If txtFiltroDespesa.Text <> "" Then
             'ITEM DESPESA
-            FILTRO = " AND NM_ITEM_DESPESA LIKE '%" & txtFiltro.Text & "%'"
+            FILTRO = " AND NM_ITEM_DESPESA LIKE '%" & txtFiltroDespesa.Text & "%'"
         End If
-        If ddlFiltro.SelectedValue = 3 Then
+
+        If txtFiltroParceiro.Text <> "" Then
             'PARCEIRO VINCULADO
-            FILTRO = " AND NM_ORIGEM_PAGAMENTO LIKE '%" & txtFiltro.Text & "%'"
+            FILTRO = " AND NM_PARCEIRO_EMPRESA LIKE '%" & txtFiltroParceiro.Text & "%'"
         End If
-        If ddlFiltro.SelectedValue = 4 Then
-                'VALOR TAXA
-                FILTRO = " AND VL_TAXA LIKE '%" & txtFiltro.Text & "%'"
-            end if 
-        if ddlFiltro.SelectedValue = 5 Then
-                'VALOR TAXA CALCULADA
-                FILTRO = " AND VL_TAXA_CALCULADO LIKE '%" & txtFiltro.Text & "%'"
-            end if 
-        if ddlFiltro.SelectedValue = 6 Then
-                'MOEDA
-                FILTRO = " AND SIGLA_MOEDA LIKE '%" & txtFiltro.Text & "%'"
-            end if
-        if ddlFiltro.SelectedValue = 7 Then
-                'TIPO_MOVIMENTO
-                FILTRO = " AND TIPO_MOVIMENTO LIKE '%" & txtFiltro.Text & "%'"
-            end if 
-        if ddlFiltro.SelectedValue = 8 Then
-                'NM_ORIGEM_PAGAMENTO
-                FILTRO = " AND NM_ORIGEM_PAGAMENTO LIKE '%" & txtFiltro.Text & "%'"
-            end if
-        if ddlFiltro.SelectedValue = 9 Then
-                'LANCAMENTO
-                FILTRO = " AND LANCAMENTO LIKE '%" & txtFiltro.Text & "%'"
-            end if 
-        if ddlFiltro.SelectedValue = 10 Then
-                'HISTÓRICO
-                FILTRO = " AND HISTORICO LIKE '%" & txtFiltro.Text & "%'"
 
-            end if 
-        if ddlFiltro.SelectedValue = 11 Then
-                'NR_BL
-                FILTRO = " AND NR_BL LIKE '%" & txtFiltro.Text & "%'"
-            End If
-
-
-        If txtDtInicial.Text <> "" Then
-            FILTRO &= " AND CONVERT(DATE,DT_ABERTURA,103) >= CONVERT(DATE,'" & txtDtInicial.Text & "',103)"
+        If txtFiltroValor.Text <> "" Then
+            'VALOR TAXA
+            FILTRO = " AND VL_TAXA LIKE '%" & txtFiltroValor.Text & "%'"
         End If
-        If txtDtFinal.Text <> "" Then
-            FILTRO &= " AND CONVERT(DATE,DT_ABERTURA,103) <= CONVERT(DATE,'" & txtDtFinal.Text & "',103)"
+
+        If txtFiltroValorCalculada.Text <> "" Then
+            'VALOR TAXA CALCULADA
+            FILTRO = " AND VL_TAXA_CALCULADO LIKE '%" & txtFiltroValorCalculada.Text & "%'"
+        End If
+
+        If txtFiltroMoeda.Text <> "" Then
+            'MOEDA
+            FILTRO = " AND SIGLA_MOEDA LIKE '%" & txtFiltroMoeda.Text & "%'"
+        End If
+
+        If txtFiltroMovimento.Text <> "" Then
+            'TIPO_MOVIMENTO
+            FILTRO = " AND TIPO_MOVIMENTO LIKE '%" & txtFiltroMovimento.Text & "%'"
+        End If
+
+        If txtFiltroOrigemPagamento.Text <> "" Then
+            'NM_ORIGEM_PAGAMENTO
+            FILTRO = " AND NM_ORIGEM_PAGAMENTO LIKE '%" & txtFiltroOrigemPagamento.Text & "%'"
+        End If
+
+        If txtFiltroLancamento.Text <> "" Then
+            'LANCAMENTO
+            FILTRO = " AND LANCAMENTO LIKE '%" & txtFiltroLancamento.Text & "%'"
+        End If
+
+        If txtBLFiltro.Text <> "" Then
+            'NR_BL
+            FILTRO = " AND NR_BL LIKE '%" & txtBLFiltro.Text & "%'"
+        End If
+
+        If txtFiltroDataInicial.Text <> "" Then
+            FILTRO &= " AND CONVERT(DATE,DT_ABERTURA,103) >= CONVERT(DATE,'" & txtFiltroDataInicial.Text & "',103)"
+        End If
+
+        If txtFiltroDataFinal.Text <> "" Then
+            FILTRO &= " AND CONVERT(DATE,DT_ABERTURA,103) <= CONVERT(DATE,'" & txtFiltroDataFinal.Text & "',103)"
         End If
 
         Dim sql As String = "SELECT
 ID_BL_TAXA,
 NR_PROCESSO,
+NR_BL,
 NM_PARCEIRO_EMPRESA,
 NM_ITEM_DESPESA,
 SIGLA_MOEDA,
@@ -184,8 +187,8 @@ VL_TAXA_CALCULADO,
 VL_TAXA_BR,
 LANCAMENTO,
 TIPO_MOVIMENTO,
-HISTORICO,
-NR_BL FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & " ORDER BY ID_BL_TAXA DESC"
+HISTORICO 
+FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & " ORDER BY ID_BL_TAXA DESC"
 
         Session("ExportarCSV") = sql
         dsTaxas.SelectCommand = sql
@@ -194,8 +197,7 @@ NR_BL FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FIL
     Private Sub lkExportarCSV_Click(sender As Object, e As EventArgs) Handles lkExportarCSV.Click
         Dim Con As New Conexao_sql
         Con.Conectar()
-        FILTRO()
-        Classes.Excel.exportaExcel(Session("ExportarCSV"), "NVOCC", "INATIVACAO_TAXAS")
+        Classes.Excel.exportaExcel(Session("ExportarCSV"), "NVOCC", "InativacaoTaxas")
     End Sub
 
     Private Sub dgvTaxas_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvTaxas.RowDataBound
@@ -280,7 +282,7 @@ INNER JOIN TB_ITEM_DESPESA C ON C.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA WHERE A.ID
                 Else
                     'sucesso
 
-                    FILTRO()
+                    Filtro()
                     divSuccess.Visible = True
                     lblmsgSuccess.Text = "Ação realizada com sucesso!"
                 End If
@@ -305,10 +307,32 @@ INNER JOIN TB_ITEM_DESPESA C ON C.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA WHERE A.ID
     End Sub
 
     Private Sub btnConsultar_Click(sender As Object, e As EventArgs) Handles btnConsultar.Click
-        FILTRO()
+        Filtro()
     End Sub
 
     Private Sub btnLimparCampos_Click(sender As Object, e As EventArgs) Handles btnLimparCampos.Click
         Response.Redirect("InativacaoTaxas.aspx")
+    End Sub
+
+    Sub LimpaFiltroAvancado()
+        txtFiltroProcesso.Text = ""
+        txtFiltroDespesa.Text = ""
+        txtFiltroParceiro.Text = ""
+        txtFiltroValor.Text = ""
+        txtFiltroValorCalculada.Text = ""
+        txtFiltroMoeda.Text = ""
+        txtFiltroMovimento.Text = ""
+        txtFiltroOrigemPagamento.Text = ""
+        txtFiltroLancamento.Text = ""
+        txtBLFiltro.Text = ""
+        txtFiltroDataInicial.Text = ""
+        txtFiltroDataFinal.Text = ""
+    End Sub
+    Private Sub btnConsultaAvancada_Click(sender As Object, e As EventArgs) Handles btnConsultaAvancada.Click
+        FiltroAvancado()
+        LimpaFiltroAvancado()
+    End Sub
+    Private Sub btnFecharFiltroAvancado_Click(sender As Object, e As EventArgs) Handles btnFecharFiltroAvancado.Click
+        LimpaFiltroAvancado()
     End Sub
 End Class

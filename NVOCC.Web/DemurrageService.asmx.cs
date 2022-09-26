@@ -5621,6 +5621,7 @@ namespace ABAINFRA.Web
             SQL += "JOIN TB_MOEDA H ON B.ID_MOEDA=H.ID_MOEDA ";
             SQL += "WHERE B.ID_ACCOUNT_TIPO_EMISSOR = 2 ";
             SQL += "AND CONVERT(DATE,B.DT_VENCIMENTO,103) BETWEEN CONVERT(DATE,'"+dataI+"',103) AND CONVERT(DATE,'"+dataF+"',103) ";
+            SQL += "AND B.ID_ACCOUNT_INVOICE NOT IN (SELECT ID_ACCOUNT_INVOICE FROM TB_ACCOUNT_FECHAMENTO_ITENS) ";
             SQL += "" + text + "";
 
             DataTable listTable = new DataTable();
@@ -9680,11 +9681,11 @@ namespace ABAINFRA.Web
             if (dados.ITEMDESPESA != "") { Filtro += "AND F.ID_ITEM_DESPESA = '" + dados.ITEMDESPESA + "' "; }
             if (dados.MOEDA != "") { Filtro += "AND G.ID_MOEDA = '" + dados.MOEDA + "' "; }
             if (dados.BASECALCULO != "") { Filtro += "AND H.ID_BASE_CALCULO_TAXA = '" + dados.BASECALCULO + "' "; }
-            if (dados.USUARIO != "") { Filtro += "AND I.ID_USUARIO = '" + dados.USUARIO+ "' "; }
+            if (dados.USUARIO != "") { Filtro += "AND J.ID_USUARIO = '" + dados.USUARIO+ "' "; }
 
             SQL = "SELECT A.NR_PROCESSO, E1.NM_RAZAO AS FORNECEDOR, C.NM_TIPO_ESTUFAGEM, D1.NM_VIATRANSPORTE, ";
             SQL += "D.TP_SERVICO, E2.NM_RAZAO AS AGENTE, E3.NM_RAZAO AS CLIENTE, F.NM_ITEM_DESPESA, ";
-            SQL += "G.SIGLA_MOEDA, B.VL_TAXA, H.NM_BASE_CALCULO_TAXA, 'USUARIO INATIVAÇÃO' AS USUARIO_INATIVACAO, 'DATA INATIVAÇÃO' AS DATA_MOTIVACAO,'MOTIVO INATIVAÇÃO' AS MOTIVO_INATIVACAO ";
+            SQL += "G.SIGLA_MOEDA, B.VL_TAXA, H.NM_BASE_CALCULO_TAXA, ISNULL(J.NOME,'') AS USUARIO_INATIVACAO, ISNULL(FORMAT(I.DT_INATIVACAO,'dd/MM/yyyy'),'') AS DATA_INATIVACAO, ISNULL(DS_MOTIVO_INATIVACAO,'') AS MOTIVO_INATIVACAO ";
             SQL += "FROM TB_BL A ";
             SQL += "JOIN TB_BL_TAXA B ON A.ID_BL = B.ID_BL ";
             SQL += "JOIN TB_TIPO_ESTUFAGEM C ON A.ID_TIPO_ESTUFAGEM = C.ID_TIPO_ESTUFAGEM ";

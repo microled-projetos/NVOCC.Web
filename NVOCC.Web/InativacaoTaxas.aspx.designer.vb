@@ -257,13 +257,148 @@ Partial Public Class InativacaoTaxas
     Protected WithEvents btnFecharConfirmacao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnGravar.
+    '''Controle mpeFiltro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnGravar As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents mpeFiltro As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnlFiltro.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlFiltro As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle txtFiltroProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFiltroProcesso As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtFiltroDespesa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFiltroDespesa As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtFiltroParceiro.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFiltroParceiro As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtFiltroValor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFiltroValor As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtFiltroValorCalculada.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFiltroValorCalculada As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtFiltroMoeda.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFiltroMoeda As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtFiltroMovimento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFiltroMovimento As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtFiltroOrigemPagamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFiltroOrigemPagamento As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtFiltroLancamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFiltroLancamento As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtFiltroDataInicial.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFiltroDataInicial As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtFiltroDataFinal.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFiltroDataFinal As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtBLFiltro.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtBLFiltro As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle btnConsultaAvancada.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnConsultaAvancada As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnFecharFiltroAvancado.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharFiltroAvancado As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle updPainel1.
@@ -282,6 +417,15 @@ Partial Public Class InativacaoTaxas
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvTaxas As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnGravar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnGravar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle dsTaxas.

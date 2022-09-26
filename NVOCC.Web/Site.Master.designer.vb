@@ -230,6 +230,15 @@ Partial Public Class SiteMaster
     Protected WithEvents MenuOperacao As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
+    '''Controle A2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents A2 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
     '''Controle mnOperacionalListagemBL.
     '''</summary>
     '''<remarks>
@@ -237,6 +246,15 @@ Partial Public Class SiteMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents mnOperacionalListagemBL As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle mnInativacaoTaxas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mnInativacaoTaxas As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle mnConsultarWeek.
@@ -545,6 +563,15 @@ Partial Public Class SiteMaster
     Protected WithEvents mnPrevisibilidadeContas As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
+    '''Controle mnRelTaxasInativas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mnRelTaxasInativas As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
     '''Controle mnCaixaSaida.
     '''</summary>
     '''<remarks>
@@ -552,15 +579,6 @@ Partial Public Class SiteMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents mnCaixaSaida As Global.System.Web.UI.HtmlControls.HtmlAnchor
-
-    '''<summary>
-    '''Controle mnInativacaoTaxas.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents mnInativacaoTaxas As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle MenuFaturamento.
