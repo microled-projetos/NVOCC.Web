@@ -195,8 +195,9 @@ FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & 
         dgvTaxas.DataBind()
     End Sub
     Private Sub lkExportarCSV_Click(sender As Object, e As EventArgs) Handles lkExportarCSV.Click
-        Dim Con As New Conexao_sql
-        Con.Conectar()
+        If Session("ExportarCSV") Is Nothing Then
+            Session("ExportarCSV") = dsTaxas.SelectCommand
+        End If
         Classes.Excel.exportaExcel(Session("ExportarCSV"), "NVOCC", "InativacaoTaxas")
     End Sub
 

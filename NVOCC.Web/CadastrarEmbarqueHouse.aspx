@@ -1201,7 +1201,7 @@ VENDAS:
                                         <asp:FileUpload ID="FileUploadMaritimo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-2" style="display:none">
                                     <div class="form-group">
                                          <label class="control-label" style="color: white">X</label>
                                           <asp:CheckBox ID="ckAtivoClientesMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
@@ -1223,7 +1223,8 @@ VENDAS:
                                                     <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
                                                     <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
                                                     <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
-                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" enabled="false" />
+                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" />
+                                                         &nbsp;&nbsp;&nbsp;<asp:LinkButton ID="lnkSalvarFlag" Text="Salvar" CssClass="btn-default" CommandName="SalvarFlag" CommandArgument='<%# Eval("ID_ARQUIVO") %>' runat="server" Font-Size="small"><i class="glyphicon glyphicon-floppy-disk"></i></asp:LinkButton>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
@@ -1249,13 +1250,13 @@ VENDAS:
                                         </div>
                                     </div>
                                                                             <div class="row">
-                                                <div class="col-sm-3 col-sm-offset-6">
+                                                <div class="col-sm-3 col-sm-offset-6"  style="display:none">
                                                     <div class="form-group">
                                                         <label>&nbsp;</label>
                                                         <asp:Button ID="btnLimparUploadMaritimo" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-3 col-sm-offset-9">
                                                     <div class="form-group">
                                                         <label>&nbsp;</label>
                                                         <asp:Button ID="btnUploadMaritimo" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
@@ -2656,7 +2657,7 @@ VENDAS:
                                         <asp:FileUpload ID="FileUploadAereo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-2" style="display:none">
                                     <div class="form-group">
                                          <label class="control-label" style="color: white">X</label>
                                           <asp:CheckBox ID="ckAtivoClientesAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
@@ -2679,7 +2680,8 @@ VENDAS:
                                                     <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
                                                     <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
                                                     <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
-                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" enabled="false" />
+                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server"  />
+                                                            &nbsp;&nbsp;&nbsp;<asp:LinkButton ID="lnkSalvarFlag" Text="Salvar" CssClass="btn-default" CommandName="SalvarFlag" CommandArgument='<%# Eval("ID_ARQUIVO") %>' runat="server" Font-Size="small"><i class="glyphicon glyphicon-floppy-disk"></i></asp:LinkButton>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
@@ -2706,13 +2708,13 @@ VENDAS:
                                     </div>
                                          
                                              <div class="row">
-                                            <div class="col-sm-3 col-sm-offset-6">
+                                            <div class="col-sm-3 col-sm-offset-6" style="display:none">
                                                 <div class="form-group">
                                                     <label>&nbsp;</label>
                                                     <asp:Button ID="btnLimparUploadAereo" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3 col-sm-offset-9">
                                                 <div class="form-group">
                                                     <label>&nbsp;</label>
                                                     <asp:Button ID="btnUploadAereo" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />

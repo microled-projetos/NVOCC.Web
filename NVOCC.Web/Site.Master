@@ -224,7 +224,6 @@
                                     <li><a style="font-size: 13px;" href="RelatorioProcessos.aspx" runat="server" id="mnRelatorioProcessos">Relatório Processos</a></li>
                                     <li><a style="font-size: 13px;" href="TaxasAberto.aspx" runat="server" id="mnTaxasAberto">Processos pagos-Taxas em aberto</a></li>
                                     <li><a style="font-size: 13px;" href="PrevisibilidadeContas.aspx" runat="server" id="mnPrevisibilidadeContas">Previsibilidade Contas</a></li>
-                                    <li><a style="font-size: 13px;" href="TaxasInativas.aspx" runat="server" id="mnRelTaxasInativas">Inativação/Ativação de Taxas</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -266,7 +265,9 @@
                             <li>
                                 <a href="DashBoard.aspx" runat="server" id="mnDashBoard">DashBoard</a>
                             </li>
-
+                            <li>
+                                <a style="font-size: 13px;" href="TaxasInativas.aspx" runat="server" id="mnRelTaxasInativas">Relatório de Taxas Inativadas</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

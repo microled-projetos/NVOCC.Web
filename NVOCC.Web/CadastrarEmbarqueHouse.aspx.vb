@@ -5296,7 +5296,9 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
                     Con.ExecutarQuery("DELETE FROM TB_UPLOADS WHERE ID_ARQUIVO = " & ID_ARQUIVO)
                     divSuccessUploadAereo.Visible = True
                     dgvArquivosAereo.DataBind()
+
                 End If
+                Con.Fechar()
 
             Catch ex As Exception
                 lblErroUploadAereo.Text = ex.Message
@@ -5329,14 +5331,35 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
                 divErroUploadAereo.Visible = True
             End Try
 
+        ElseIf e.CommandName = "SalvarFlag" Then
+
+            Try
+
+
+                Dim wc As WebControl = (CType(e.CommandSource, WebControl))
+                Dim row As GridViewRow = (CType(wc.NamingContainer, GridViewRow))
+                Dim ckAtivoClientes As CheckBox = row.FindControl("ckAtivoClientes")
+
+                Dim Con As New Conexao_sql
+                Con.Conectar()
+                Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ATIVO_CLIENTES = '" & ckAtivoClientes.Checked & "' WHERE ID_ARQUIVO = " & e.CommandArgument)
+                divSuccessUploadAereo.Visible = True
+                dgvArquivosAereo.DataBind()
+                Con.Fechar()
+
+            Catch ex As Exception
+                lblErroUploadAereo.Text = ex.Message
+                divErroUploadAereo.Visible = True
+            End Try
+
         End If
 
         txtUPAereo.Text = 1
     End Sub
 
     Private Sub dgvArquivosMaritimo_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvArquivosMaritimo.RowCommand
-        divErroUploadAereo.Visible = False
-        divSuccessUploadAereo.Visible = False
+        divErroUploadMaritimo.Visible = False
+        divSuccessUploadMaritimo.Visible = False
 
 
         If e.CommandName = "Excluir" Then
@@ -5395,6 +5418,25 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
                 divErroUploadMaritimo.Visible = True
             End Try
 
+        ElseIf e.CommandName = "SalvarFlag" Then
+
+            Try
+
+                Dim wc As WebControl = (CType(e.CommandSource, WebControl))
+                Dim row As GridViewRow = (CType(wc.NamingContainer, GridViewRow))
+                Dim ckAtivoClientes As CheckBox = row.FindControl("ckAtivoClientes")
+
+                Dim Con As New Conexao_sql
+                Con.Conectar()
+                Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ATIVO_CLIENTES = '" & ckAtivoClientes.Checked & "' WHERE ID_ARQUIVO = " & e.CommandArgument)
+                divSuccessUploadMaritimo.Visible = True
+                dgvArquivosMaritimo.DataBind()
+                Con.Fechar()
+
+            Catch ex As Exception
+                lblErroUploadMaritimo.Text = ex.Message
+                divErroUploadMaritimo.Visible = True
+            End Try
         End If
 
         txtUPMaritimo.Text = 1

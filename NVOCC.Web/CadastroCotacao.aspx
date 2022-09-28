@@ -1683,15 +1683,13 @@
                                         <asp:FileUpload ID="FileUpload1" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-2" style="display: none">
                                     <div class="form-group">
                                          <label class="control-label" style="color: white">X</label>
                                           <asp:CheckBox ID="ckAtivoClientes" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
                                           </div>
                                 </div>
-                            </div> 
-                           
-                            
+                            </div>    
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <asp:TextBox ID="txtArquivoSelecionado" runat="server" Style="display: none"></asp:TextBox>
@@ -1704,7 +1702,8 @@
                                                     <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
                                                     <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
                                                     <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
-                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" enabled="false" />
+                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" />
+                                                             &nbsp;&nbsp;&nbsp;<asp:LinkButton ID="lnkSalvarFlag" Text="Salvar" CssClass="btn-default" CommandName="SalvarFlag" CommandArgument='<%# Eval("ID_ARQUIVO") %>' runat="server" Font-Size="small"><i class="glyphicon glyphicon-floppy-disk"></i></asp:LinkButton>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
@@ -1729,16 +1728,14 @@
                                             </asp:GridView>
                                         </div>
                                     </div>
-
-
                                      <div class="row">
-                                            <div class="col-sm-3 col-sm-offset-6">
+                                            <div class="col-sm-3 col-sm-offset-6"  style="display: none" >
                                                 <div class="form-group">
                                                     <label>&nbsp;</label>
                                                     <asp:Button ID="btnLimparUpload" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3 col-sm-offset-9">
                                                 <div class="form-group">
                                                     <label>&nbsp;</label>
                                                     <asp:Button ID="btnUpload" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
