@@ -3698,16 +3698,6 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
                 divErroUploadAereo.Visible = True
             End Try
 
-        ElseIf e.CommandName = "Visualizar" Then
-            Try
-                Dim CAMINHO_ARQUIVO As String = e.CommandArgument
-                txtArquivoSelecionadoAereo.Text = CAMINHO_ARQUIVO
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AbrirArquivo()", True)
-
-            Catch ex As Exception
-                lblErroUploadAereo.Text = ex.Message
-                divErroUploadAereo.Visible = True
-            End Try
 
         ElseIf e.CommandName = "Download" Then
 
@@ -3758,17 +3748,6 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
                     divSuccessUploadMaritimo.Visible = True
                     dgvArquivosMaritimo.DataBind()
                 End If
-
-            Catch ex As Exception
-                lblErroUploadMaritimo.Text = ex.Message
-                divErroUploadMaritimo.Visible = True
-            End Try
-
-        ElseIf e.CommandName = "Visualizar" Then
-            Try
-                Dim CAMINHO_ARQUIVO As String = e.CommandArgument
-                txtArquivoSelecionadoMaritimo.Text = CAMINHO_ARQUIVO
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AbrirArquivo()", True)
 
             Catch ex As Exception
                 lblErroUploadMaritimo.Text = ex.Message

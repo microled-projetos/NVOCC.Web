@@ -1229,7 +1229,7 @@ VENDAS:
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
-                                                            <asp:LinkButton ID="lnkVisualizar" Text="Visualizar" CommandName="Visualizar" CommandArgument='<%# Eval("CAMINHO_ARQUIVO") %>' runat="server" Font-Size="medium"></asp:LinkButton>
+                                                                <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar">Visualizar</a>
                                                         </ItemTemplate>
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                     </asp:TemplateField>
@@ -2686,7 +2686,7 @@ VENDAS:
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
-                                                            <asp:LinkButton ID="lnkVisualizar" Text="Visualizar" CommandName="Visualizar" CommandArgument='<%# Eval("CAMINHO_ARQUIVO") %>' runat="server" Font-Size="medium"></asp:LinkButton>
+                                                            <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar">Visualizar</a>
                                                         </ItemTemplate>
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                     </asp:TemplateField>

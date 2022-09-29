@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Public Class CadastroCotacao
     Inherits System.Web.UI.Page
+    Public imagemBase64Retorno As String
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Session("Logado") = "False" Or Session("Logado") = Nothing Then
@@ -4945,17 +4946,6 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
                 divErroUpload.Visible = True
             End Try
 
-        ElseIf e.CommandName = "Visualizar" Then
-
-            Try
-                Dim CAMINHO_ARQUIVO As String = e.CommandArgument
-                txtArquivoSelecionado.Text = CAMINHO_ARQUIVO
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AbrirArquivo()", True)
-
-            Catch ex As Exception
-                lblErroUpload.Text = ex.Message
-                divErroUpload.Visible = True
-            End Try
 
         ElseIf e.CommandName = "Download" Then
 
@@ -5054,4 +5044,5 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         ddlTipoArquivo.SelectedValue = 0
         FileUpload1.FileContent.Flush()
     End Sub
+
 End Class

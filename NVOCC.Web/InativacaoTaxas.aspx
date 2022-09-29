@@ -49,7 +49,7 @@
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <label class="control-label"></label>
-                                    <asp:TextBox ID="txtFiltro" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:TextBox ID="txtFiltro" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-sm-2">

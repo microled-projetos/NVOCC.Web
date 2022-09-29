@@ -336,4 +336,8 @@ INNER JOIN TB_ITEM_DESPESA C ON C.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA WHERE A.ID
     Private Sub btnFecharFiltroAvancado_Click(sender As Object, e As EventArgs) Handles btnFecharFiltroAvancado.Click
         LimpaFiltroAvancado()
     End Sub
+
+    Private Sub txtFiltro_TextChanged(sender As Object, e As EventArgs) Handles txtFiltro.TextChanged
+        Filtro()
+    End Sub
 End Class

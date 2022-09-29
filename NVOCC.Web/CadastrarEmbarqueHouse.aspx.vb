@@ -5305,17 +5305,6 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
                 divErroUploadAereo.Visible = True
             End Try
 
-        ElseIf e.CommandName = "Visualizar" Then
-            Try
-                Dim CAMINHO_ARQUIVO As String = e.CommandArgument
-                txtArquivoSelecionadoAereo.Text = CAMINHO_ARQUIVO
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AbrirArquivo()", True)
-
-            Catch ex As Exception
-                lblErroUploadAereo.Text = ex.Message
-                divErroUploadAereo.Visible = True
-            End Try
-
         ElseIf e.CommandName = "Download" Then
 
             Try
@@ -5392,16 +5381,7 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
                 divErroUploadMaritimo.Visible = True
             End Try
 
-        ElseIf e.CommandName = "Visualizar" Then
-            Try
-                Dim CAMINHO_ARQUIVO As String = e.CommandArgument
-                txtArquivoSelecionadoMaritimo.Text = CAMINHO_ARQUIVO
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AbrirArquivo()", True)
 
-            Catch ex As Exception
-                lblErroUploadMaritimo.Text = ex.Message
-                divErroUploadMaritimo.Visible = True
-            End Try
 
         ElseIf e.CommandName = "Download" Then
 

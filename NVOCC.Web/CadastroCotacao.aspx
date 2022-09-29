@@ -1689,7 +1689,11 @@
                                           <asp:CheckBox ID="ckAtivoClientes" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
                                           </div>
                                 </div>
-                            </div>    
+                            </div>   
+                                                                 <% If Not String.IsNullOrEmpty(imagemBase64Retorno) Then %>
+                            <img id="wrapper" src="<%= String.Format("data:image/gif;base64,{0}", imagemBase64Retorno)  %>" alt="Alternate Text" style="width: 100%;" />
+                            <% End if %>
+
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <asp:TextBox ID="txtArquivoSelecionado" runat="server" Style="display: none"></asp:TextBox>
@@ -1708,7 +1712,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
-                                                            <asp:LinkButton ID="lnkVisualizar" Text="Visualizar" CommandName="Visualizar" CommandArgument='<%# Eval("CAMINHO_ARQUIVO") %>' runat="server" Font-Size="medium"></asp:LinkButton>                                                            
+                                                       <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar">Visualizar</a>
                                                         </ItemTemplate>
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                     </asp:TemplateField>
@@ -2222,6 +2226,8 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
             console.log("Arquivo" + Arquivo );
             alert("2");
             window.open(Arquivo, '_blank');
+            window.open('VisualizarUpload.aspx?id=' + Arquivo, '_blank');
+
             alert("3");
         }
 
