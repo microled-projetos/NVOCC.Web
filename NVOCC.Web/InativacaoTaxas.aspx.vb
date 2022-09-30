@@ -91,9 +91,9 @@
             FILTRO &= " AND CONVERT(DATE,DT_ABERTURA,103) <= CONVERT(DATE,'" & txtDtFinal.Text & "',103)"
         End If
 
-        If ckInativo.Checked = True Then
+        If ckInativo.Checked = True And ckAtivo.Checked = False Then
             FILTRO &= " AND ISNULL(FL_TAXA_INATIVA,0) = 1"
-        Else
+        ElseIf ckInativo.Checked = False And ckAtivo.Checked = True Then
             FILTRO &= " AND ISNULL(FL_TAXA_INATIVA,0) = 0"
         End If
 
@@ -352,6 +352,9 @@ INNER JOIN TB_ITEM_DESPESA C ON C.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA WHERE A.ID
 
     Private Sub ckInativo_CheckedChanged(sender As Object, e As EventArgs) Handles ckInativo.CheckedChanged
         Filtro()
+    End Sub
 
+    Private Sub ckAtivo_CheckedChanged(sender As Object, e As EventArgs) Handles ckAtivo.CheckedChanged
+        Filtro()
     End Sub
 End Class

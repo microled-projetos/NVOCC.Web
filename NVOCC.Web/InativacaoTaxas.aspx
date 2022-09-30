@@ -81,7 +81,8 @@
                             </div>
                             <div class="col-sm-2">
                                 <div class="form-group">
-                                    <label class="control-label"></label>
+                                    <asp:CheckBox ID="ckAtivo" runat="server" AutoPostBack="true" Text="&nbsp;&nbsp;Ativo" Font-Size="Medium" Checked="true" />
+                                    <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                     <asp:CheckBox ID="ckInativo" runat="server" AutoPostBack="true" Text="&nbsp;&nbsp;Inativo" Font-Size="Medium" />
                                 </div>
                             </div>
