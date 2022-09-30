@@ -11,9 +11,11 @@
     <form id="form1" runat="server">
         <div>
              <% If Not String.IsNullOrEmpty(imagemBase64Retorno) Then %>
-                            <img id="wrapper" src="<%= String.Format("data:image/gif;base64,{0}", imagemBase64Retorno)  %>" alt="Alternate Text" style="width: 100%;" />
-                            <% End if %>
+<%--                            <img id="wrapper" src="<%= String.Format("data:image/gif;base64,{0}", imagemBase64Retorno)  %>" alt="Alternate Text" style="width: 100%;" />--%>
 
+            <iframe   src="<%= String.Format("{0}", imagemBase64Retorno)  %>" />
+
+             <% End if %>
         </div>
     </form>
 </body>

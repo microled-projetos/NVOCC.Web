@@ -11,14 +11,15 @@ Module Inicio
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE ISNULL(NR_RPS,0) <> 0 AND ISNULL(NR_LOTE,0) <> 0 AND ISNULL(STATUS_NFE,0) = 1 AND ISNULL(CANCELA_NFE,0) = 0 AND NR_NOTA_FISCAL IS NULL")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE ISNULL(NR_RPS,0) <> 0 AND ISNULL(NR_LOTE,0) <> 0 AND ISNULL(STATUS_NFE,0) = 4 AND ISNULL(CANCELA_NFE,0) = 0 AND NR_NOTA_FISCAL IS NULL")
             If ds.Tables(0).Rows.Count > 0 Then
 
                 For Each linhads As DataRow In ds.Tables(0).Rows
 
                     Using ConsultaNF = New WsNVOCC.WsNvocc
 
-                        Dim consulta = ConsultaNF.ConsultaNFePrefeitura(ds.Tables(0).Rows(0).Item("ID_FATURAMENTO").ToString(), 1, "SQL", "NVOCC")
+                        Dim consulta = ConsultaNF.ConsultaNFePrefeitura(linhads.Item("ID_FATURAMENTO").ToString(), 1, "SQL", "NVOCC")
+
 
                     End Using
 
@@ -27,7 +28,6 @@ Module Inicio
             End If
 
             FlagExecutando = True
-
         Catch ex As Exception
             WriteToFile($"{DateTime.Now.ToString()} - Erro: " & ex.ToString)
 

@@ -18,8 +18,8 @@ Public Class VisualizarUpload
             End If
 
             If File.Exists(CAMINHO_ARQUIVO) = True Then
-                Dim imagemEmBytes = File.ReadAllBytes(CAMINHO_ARQUIVO)
-                imagemBase64Retorno = Convert.ToBase64String(imagemEmBytes)
+                'Dim imagemEmBytes = File.ReadAllBytes(CAMINHO_ARQUIVO)
+                imagemBase64Retorno = CAMINHO_ARQUIVO
             Else
                 imagemBase64Retorno = ""
             End If

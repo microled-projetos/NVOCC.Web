@@ -17,6 +17,9 @@
 
         End If
         Con.Fechar()
+        If Not IsPostBack Then
+            Filtro()
+        End If
     End Sub
 
     Protected Sub btnMarcarTudo_Click(sender As Object, e As EventArgs)
@@ -86,6 +89,12 @@
         End If
         If txtDtFinal.Text <> "" Then
             FILTRO &= " AND CONVERT(DATE,DT_ABERTURA,103) <= CONVERT(DATE,'" & txtDtFinal.Text & "',103)"
+        End If
+
+        If ckInativo.Checked = True Then
+            FILTRO &= " AND ISNULL(FL_TAXA_INATIVA,0) = 1"
+        Else
+            FILTRO &= " AND ISNULL(FL_TAXA_INATIVA,0) = 0"
         End If
 
         Dim sql As String = "SELECT
@@ -339,5 +348,10 @@ INNER JOIN TB_ITEM_DESPESA C ON C.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA WHERE A.ID
 
     Private Sub txtFiltro_TextChanged(sender As Object, e As EventArgs) Handles txtFiltro.TextChanged
         Filtro()
+    End Sub
+
+    Private Sub ckInativo_CheckedChanged(sender As Object, e As EventArgs) Handles ckInativo.CheckedChanged
+        Filtro()
+
     End Sub
 End Class

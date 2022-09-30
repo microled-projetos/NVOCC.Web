@@ -79,6 +79,12 @@
                                     <asp:Button runat="server" ID="btnLimparCampos" CssClass="btn btn-block btn-primary" Text="Limpar Filtros" />
                                 </div>
                             </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label"></label>
+                                    <asp:CheckBox ID="ckInativo" runat="server" AutoPostBack="true" Text="&nbsp;&nbsp;Inativo" Font-Size="Medium" />
+                                </div>
+                            </div>
                         </div>
                         <asp:TextBox runat="server" ID="txtCont" Text="0" CssClass="form-control" Style="display: none" />
                         <asp:Button runat="server" ID="Button1" CssClass="btn btn-block btn-primary" Style="display: none" />

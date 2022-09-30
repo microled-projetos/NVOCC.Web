@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="exportCSV('Pagamento_Recebimento.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="exportContaConferenciaProcesso('Pagamento_Recebimento.csv')">Exportar Grid - CSV</button>
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
@@ -251,20 +251,46 @@
         }
 
         function exportContaConferenciaProcesso(file) {
+            var dtInicial = document.getElementById("txtDtInicialPagamentoRecebimento").value;
+            var dtFinal = document.getElementById("txtDtFinalPagamentoRecebimento").value;
+            var nota = document.getElementById("txtPagamentoRecebimento").value;
+            var filter = document.getElementById("ddlFilterPagamentoRecebimento").value;
+            if (dtInicial == "" && dtFinal == "") {
+                dtInicial = "1900-01-01";
+                dtFinal = "2900-01-01";
+            }
+            var chkConferidoSim = document.getElementById("MainContent_chkConferidoSim");
+            var chkConferidoSimValue;
+            var chkConferidoNao = document.getElementById("MainContent_chkConferidoNao");
+            var chkConferidoNaoValue;
+            if (chkConferidoSim.checked) {
+                chkConferidoSimValue = "1";
+            }
+            else {
+                chkConferidoSimValue = "0";
+            }
+
+            if (chkConferidoNao.checked) {
+                chkConferidoNaoValue = "1";
+            }
+            else {
+                chkConferidoNaoValue = "0";
+            }
             $.ajax({
                 type: "POST",
-                url: "DemurrageService.asmx/ContaConferenciaProcesso",
+                url: "DemurrageService.asmx/CSVContaPrevisibilidadeProcesso",
+                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '", chkConfSim: "' + chkConferidoSimValue + '", chkConfNao: "' + chkConferidoNaoValue + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado != null) {
-                        var confProcesso = [["PROCESSO;PROCEDENCIA;ITEM;VALOR BRL;ESTUFAGEM MASTER;ESTUFAGEM HOUSE;PAGAMENTO MASTER;PAGAMENTO HOUSE;PAGAMENTO TAXA;ORIGEM;DECLARADO;FREEHAND;STATUS FRETE;DIVISAO PROFIT"]];
+                        var confProcesso = [["DOC CONFERIDO HOUSE;DOC CONFERIDO MASTER;PROCESSO;MASTER;TIPO SERVICO;TIPO ESTUFAGEM;TIPO PAGAMENTO MASTER;TIPO PAGAMENTO HOUSE;CNTR 20;CNTR 40;ORIGEM;DESTINO;DATA EMBARQUE;DATA PREVISAO CHEGADA;PARCEIRO;CNEE;INDICADOR;AGENTE;TIPO FATURAMENTO;DIAS FATURADOS;ORIGEM COMPRA; ORIGEM VENDA;A RECEBER BRL; A PAGAR BRL; SALDO BRL"]];
                         for (let i = 0; i < dado.length; i++) {
                             confProcesso.push([dado[i]]);
                         }
-                        exportContaConferenciaProcessoCSV(file, confProcesso.join("\n"));
+                        exportContaPrevisibilidadeProcessoCSV(file, confProcesso.join("\n"));
                     }
                 }
             })
