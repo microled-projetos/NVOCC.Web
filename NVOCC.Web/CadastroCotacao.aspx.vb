@@ -4946,7 +4946,6 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
                 divErroUpload.Visible = True
             End Try
 
-
         ElseIf e.CommandName = "Download" Then
 
             Try

@@ -1284,6 +1284,7 @@
     <Folder Include="Content\boletos\" />
     <Folder Include="Content\cotacoes\" />
     <Folder Include="Content\remessa\" />
+    <Folder Include="Content\temp\" />
     <Folder Include="UPLOADS\" />
   </ItemGroup>
   <ItemGroup>

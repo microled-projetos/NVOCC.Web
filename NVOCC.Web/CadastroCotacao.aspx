@@ -1713,6 +1713,7 @@
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
                                                        <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar">Visualizar</a>
+                                                           <%-- <asp:LinkButton ID="lnkVisualizar" Text="Visualizar" CommandName="Visualizar" CommandArgument='<%# Eval("ID_ARQUIVO") %>'  runat="server" Font-Size="medium" />--%>
                                                         </ItemTemplate>
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                     </asp:TemplateField>
@@ -2226,7 +2227,7 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
             console.log("Arquivo" + Arquivo );
             alert("2");
             window.open(Arquivo, '_blank');
-            window.open('VisualizarUpload.aspx?id=' + Arquivo, '_blank');
+         //   window.open('VisualizarUpload.aspx?id=' + Arquivo, '_blank');
 
             alert("3");
         }

@@ -3,14 +3,13 @@
 Public Class VisualizarUpload
     Inherits System.Web.UI.Page
 
-    Public imagemBase64Retorno As String
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Request.QueryString("id") <> "" Then
             Dim CAMINHO_ARQUIVO As String = ""
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT CAMINHO_ARQUIVO FROM TB_UPLOADS WHERE ID_ARQUIVO = " & Request.QueryString("id"))
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT CAMINHO_ARQUIVO, NM_ARQUIVO FROM TB_UPLOADS WHERE ID_ARQUIVO = " & Request.QueryString("id"))
             If ds.Tables(0).Rows.Count > 0 Then
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("CAMINHO_ARQUIVO")) Then
                     CAMINHO_ARQUIVO = ds.Tables(0).Rows(0).Item("CAMINHO_ARQUIVO")
@@ -18,10 +17,11 @@ Public Class VisualizarUpload
             End If
 
             If File.Exists(CAMINHO_ARQUIVO) = True Then
-                'Dim imagemEmBytes = File.ReadAllBytes(CAMINHO_ARQUIVO)
-                imagemBase64Retorno = CAMINHO_ARQUIVO
-            Else
-                imagemBase64Retorno = ""
+                If File.Exists(Server.MapPath("~/Content/temp/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO"))) = False Then
+                    File.Copy(CAMINHO_ARQUIVO, Server.MapPath("~/Content/temp/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO")))
+                End If
+                txtArquivoSelecionado.Text = "/Content/temp/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO")
+                Response.Redirect(txtArquivoSelecionado.Text)
             End If
         End If
     End Sub
