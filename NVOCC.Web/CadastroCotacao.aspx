@@ -2220,18 +2220,6 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
             alert("O valor de venda é menor que o valor de compra!");
         }
 
-        function AbrirArquivo() {
-            var Arquivo = document.getElementById('<%= txtArquivoSelecionado.ClientID %>').value;
-
-            alert("1");
-            console.log("Arquivo" + Arquivo );
-            alert("2");
-            window.open(Arquivo, '_blank');
-         //   window.open('VisualizarUpload.aspx?id=' + Arquivo, '_blank');
-
-            alert("3");
-        }
-
         $(window).load(function () {
             var UP = document.getElementById('<%= txtUP.ClientID %>').value;
 

@@ -5,8 +5,8 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B38677FD-B296-450A-82EA-2429EFB447A4}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <StartupObject>srvRetornoNF.Service1</StartupObject>
+    <OutputType>Exe</OutputType>
+    <StartupObject>srvRetornoNF.Program</StartupObject>
     <RootNamespace>srvRetornoNF</RootNamespace>
     <AssemblyName>srvRetornoNF</AssemblyName>
     <FileAlignment>512</FileAlignment>

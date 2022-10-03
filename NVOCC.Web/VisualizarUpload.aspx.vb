@@ -16,6 +16,13 @@ Public Class VisualizarUpload
                 End If
             End If
 
+            Dim di As System.IO.DirectoryInfo = New DirectoryInfo(Server.MapPath("/Content/temp"))
+            For Each file As FileInfo In di.GetFiles()
+                If file.LastAccessTime < DateTime.Now.AddDays(-1) Then
+                    file.Delete()
+                End If
+            Next
+
             If File.Exists(CAMINHO_ARQUIVO) = True Then
                 If File.Exists(Server.MapPath("~/Content/temp/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO"))) = False Then
                     File.Copy(CAMINHO_ARQUIVO, Server.MapPath("~/Content/temp/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO")))

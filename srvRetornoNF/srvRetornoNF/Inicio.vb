@@ -11,7 +11,7 @@ Module Inicio
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE ISNULL(NR_RPS,0) <> 0 AND ISNULL(NR_LOTE,0) <> 0 AND ISNULL(STATUS_NFE,0) = 4 AND ISNULL(CANCELA_NFE,0) = 0 AND NR_NOTA_FISCAL IS NULL")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE ISNULL(NR_RPS,0) <> 0 AND ISNULL(NR_LOTE,0) <> 0 AND ISNULL(STATUS_NFE,0) = 4 AND ISNULL(CANCELA_NFE,0) = 0 AND NR_NOTA_FISCAL IS NULL and ID_FATURAMENTO <> 58")
             If ds.Tables(0).Rows.Count > 0 Then
 
                 For Each linhads As DataRow In ds.Tables(0).Rows
@@ -26,6 +26,9 @@ Module Inicio
                 Next
 
             End If
+
+
+            Con.ExecutarQuery("EXEC [dbo].[Proc_Comissoes_Nacional_Totvs]")
 
             FlagExecutando = True
         Catch ex As Exception
