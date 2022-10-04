@@ -16,11 +16,15 @@ Public Class Service1
     End Sub
 
     Private Sub TimerTick(obj As Object, e As EventArgs)
+        Inicio.WriteToFile($"{DateTime.Now.ToString()} - Antes do IF")
         If Not FlagExecutando Then
+            Inicio.WriteToFile($"{DateTime.Now.ToString()} - Chama Rotina Retorno NF")
             Inicio.RetornoNF()
         End If
+        Inicio.WriteToFile($"{DateTime.Now.ToString()} - Após o IF")
     End Sub
     Protected Overrides Sub OnStop()
+        Inicio.WriteToFile($"{DateTime.Now.ToString()} - Fim")
         ' Adicione código aqui para realizar qualquer limpeza necessária para parar seu serviço.
     End Sub
 
