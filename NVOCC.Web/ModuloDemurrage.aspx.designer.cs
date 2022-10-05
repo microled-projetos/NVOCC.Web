@@ -177,6 +177,24 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.DropDownList ddlContaBancaria;
 
 		/// <summary>
+		/// Controle ddlContaBancariaParcelamentoDemurrage.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.DropDownList ddlContaBancariaParcelamentoDemurrage;
+
+		/// <summary>
+		/// Controle idParcela.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.HiddenField idParcela;
+
+		/// <summary>
 		/// Controle DropDownList1.
 		/// </summary>
 		/// <remarks>

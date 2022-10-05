@@ -259,6 +259,8 @@
         }
 
         function exportTableToCSVPA(fornecf, recf) {
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
             var exporta = document.getElementById("todosPA");
             var dataI = document.getElementById("txtDtEmissaoInicialPA").value;
             var dataF = document.getElementById("txtDtEmissaoFinalPA").value;
@@ -270,11 +272,16 @@
             } else {
                 situacao = 1
             }
-
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
+            
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSPA",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", nota: "' + nota + '", filter: "' + filter + '", value:"' + values + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -291,10 +298,17 @@
         }
 
         function PAFornec(dataI, dataF, situacao, nota, filter, fornecf, recf) {
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSPAFORNEC",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "'+situacao+'"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao + '", values: "' + values + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -315,10 +329,17 @@
         }
 
         function PAREC(dataI, dataF, situacao, nota, filter, fornec, fornecf, recf) {
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSPAREC",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao +'"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao + '", values: "' + values + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -339,10 +360,17 @@
         }
 
         function updateContaPagarReceberPA(dataI, dataF, situacao, nota, filter, fornec, rec, fornecf, recf) {
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/integrarTOTVSPA",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", nota: "' + nota + '", filter: "' + filter + '", values: "' + values + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
