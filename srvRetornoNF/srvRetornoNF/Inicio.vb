@@ -7,14 +7,14 @@ Module Inicio
     Public Sub RetornoNF()
 
         Try
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} -  linha 10 ")
+            Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 10 ")
 
             Dim Con As New Conexao_sql
             Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE ISNULL(NR_RPS,0) <> 0 AND ISNULL(NR_LOTE,0) <> 0 AND ISNULL(STATUS_NFE,0) = 4 AND ISNULL(CANCELA_NFE,0) = 0 AND NR_NOTA_FISCAL IS NULL ")
             If ds.Tables(0).Rows.Count > 0 Then
 
-                Inicio.WriteToFile($"{DateTime.Now.ToString()} -  linha 17 ")
+                Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 17 ")
 
                 For Each linhads As DataRow In ds.Tables(0).Rows
 
@@ -27,11 +27,11 @@ Module Inicio
                     End Using
 
                 Next
-                Inicio.WriteToFile($"{DateTime.Now.ToString()} -  linha 30 ")
+                Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 30 ")
 
             End If
 
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} -  linha 34 ")
+            Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 34 ")
             ' Con.ExecutarQuery("EXEC [dbo].[Proc_Comissoes_Nacional_Totvs]")
 
             FlagExecutando = True
