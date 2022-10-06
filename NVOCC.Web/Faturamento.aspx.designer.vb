@@ -851,6 +851,15 @@ Partial Public Class Faturamento
     Protected WithEvents lblErroSubstituir As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle txtIDParceiro.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDParceiro As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtCNPJSub.
     '''</summary>
     '''<remarks>

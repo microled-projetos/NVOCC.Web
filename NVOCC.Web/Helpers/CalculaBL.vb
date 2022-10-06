@@ -2016,6 +2016,11 @@ INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER =A.ID_TIPO_CNTR
                 y = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
 
                 z = y * x
+
+                If z < y Then
+                    z = y
+                End If
+
                 Profit = z.ToString
                 Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
 

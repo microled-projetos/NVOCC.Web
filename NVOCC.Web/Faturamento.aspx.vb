@@ -826,25 +826,27 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                             F.INSCR_ESTADUAL = '" & txtInscEstadual.Text & "',
                             F.INSCR_MUNICIPAL = '" & txtInscMunicipal.Text & "',
                             F.CIDADE = '" & txtCidade.Text & "',
-                            F.ESTADO = '" & txtEstado.Text & "'
+                            F.ESTADO = '" & txtEstado.Text & "',
+                            F.ID_PARCEIRO_CLIENTE = " & txtIDParceiro.Text & " 
                             FROM TB_FATURAMENTO F
                             WHERE ID_FATURAMENTO = " & NOVO_FATURAMENTO)
 
-                        Con.ExecutarQuery("update p 
-                            set 
-                            P.NM_RAZAO = '" & txtRazaoSocial.Text & "',
-                            P.COMPL_ENDERECO = '" & txtComplem.Text & "',
-                            P.ENDERECO = '" & txtEndereco.Text & "',
-                            P.BAIRRO ='" & txtBairro.Text & "',
-                            P.NR_ENDERECO = '" & txtNumEndereco.Text & "',
-                            P.CEP = '" & txtCEP.Text & "',
-                            P.CNPJ = '" & txtCNPJSub.Text & "',
-                            P.INSCR_ESTADUAL = '" & txtInscEstadual.Text & "',
-                            P.INSCR_MUNICIPAL = '" & txtInscMunicipal.Text & "',
-                            P.ID_CIDADE = (SELECT ID_CIDADE FROM TB_CIDADE WHERE NM_CIDADE = '" & txtCidade.Text & "')
-                            FROM TB_FATURAMENTO F
-                            INNER JOIN TB_PARCEIRO P on P.ID_PARCEIRO = F.ID_PARCEIRO_CLIENTE
-                           AND F.ID_FATURAMENTO = " & NOVO_FATURAMENTO)
+                        'ROTINA COMENTADA CHAMADO 5182 - HAMILTON
+                        'Con.ExecutarQuery("update p 
+                        '    set 
+                        '    P.NM_RAZAO = '" & txtRazaoSocial.Text & "',
+                        '    P.COMPL_ENDERECO = '" & txtComplem.Text & "',
+                        '    P.ENDERECO = '" & txtEndereco.Text & "',
+                        '    P.BAIRRO ='" & txtBairro.Text & "',
+                        '    P.NR_ENDERECO = '" & txtNumEndereco.Text & "',
+                        '    P.CEP = '" & txtCEP.Text & "',
+                        '    P.CNPJ = '" & txtCNPJSub.Text & "',
+                        '    P.INSCR_ESTADUAL = '" & txtInscEstadual.Text & "',
+                        '    P.INSCR_MUNICIPAL = '" & txtInscMunicipal.Text & "',
+                        '    P.ID_CIDADE = (SELECT ID_CIDADE FROM TB_CIDADE WHERE NM_CIDADE = '" & txtCidade.Text & "')
+                        '    FROM TB_FATURAMENTO F
+                        '    INNER JOIN TB_PARCEIRO P on P.ID_PARCEIRO = F.ID_PARCEIRO_CLIENTE
+                        '   AND F.ID_FATURAMENTO = " & NOVO_FATURAMENTO)
 
 
                         Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_CANCELAMENTO = getdate(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = 'SUBSTITUIÇÃO DA NOTA FISCAL' , STATUS_NFE = 3 WHERE ID_FATURAMENTO =" & txtID.Text)
@@ -909,9 +911,9 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             Dim Con As New Conexao_sql
             Con.Conectar()
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP, DT_NOTA_FISCAL,COD_VER_NFSE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO_CLIENTE, NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP, DT_NOTA_FISCAL,COD_VER_NFSE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
-
+                txtIDParceiro.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE").ToString
                 txtRazaoSocial.Text = ds.Tables(0).Rows(0).Item("NM_CLIENTE").ToString
                 txtCNPJSub.Text = ds.Tables(0).Rows(0).Item("CNPJ").ToString
                 txtInscEstadual.Text = ds.Tables(0).Rows(0).Item("INSCR_ESTADUAL").ToString
@@ -1674,8 +1676,10 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
         If txtCNPJSub.Text <> "" Then
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT UPPER(P.NM_RAZAO)NM_RAZAO, UPPER(P.ENDERECO)ENDERECO, P.NR_ENDERECO, UPPER(P.COMPL_ENDERECO)COMPL_ENDERECO, UPPER(P.BAIRRO)BAIRRO, P.CEP, P.CNPJ, P.INSCR_ESTADUAL, P.INSCR_MUNICIPAL, UPPER(C.NM_CIDADE)NM_CIDADE, UPPER(E.NM_ESTADO)NM_ESTADO FROM TB_PARCEIRO P LEFT JOIN TB_CIDADE C ON C.ID_CIDADE = P.ID_CIDADE LEFT JOIN TB_ESTADO E ON E.ID_ESTADO = C.ID_ESTADO WHERE CNPJ ='" & txtCNPJSub.Text & "'")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO, UPPER(P.NM_RAZAO)NM_RAZAO, UPPER(P.ENDERECO)ENDERECO, P.NR_ENDERECO, UPPER(P.COMPL_ENDERECO)COMPL_ENDERECO, UPPER(P.BAIRRO)BAIRRO, P.CEP, P.CNPJ, P.INSCR_ESTADUAL, P.INSCR_MUNICIPAL, UPPER(C.NM_CIDADE)NM_CIDADE, UPPER(E.NM_ESTADO)NM_ESTADO FROM TB_PARCEIRO P LEFT JOIN TB_CIDADE C ON C.ID_CIDADE = P.ID_CIDADE LEFT JOIN TB_ESTADO E ON E.ID_ESTADO = C.ID_ESTADO WHERE CNPJ ='" & txtCNPJSub.Text & "'")
             If ds.Tables(0).Rows.Count > 0 Then
+                txtIDParceiro.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO")
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_RAZAO")) Then
                     txtRazaoSocial.Text = ds.Tables(0).Rows(0).Item("NM_RAZAO")
                 Else
