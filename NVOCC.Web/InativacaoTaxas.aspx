@@ -105,10 +105,9 @@
                                                                             <Columns>
                                                                                 <asp:BoundField DataField="ID_INATIVACAO" HeaderText="#" SortExpression="Id" Visible="false" />
                                                                                  <asp:BoundField DataField="STATUS" HeaderText="Ativo?" ItemStyle-HorizontalAlign="Center" />
-                                                                                <asp:BoundField DataField="NOME" HeaderText="Usuário" DataFormatString="{0:dd/MM/yyyy}" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="NOME" HeaderText="Usuário" ItemStyle-HorizontalAlign="Center" />
                                                                                 <asp:BoundField DataField="DT_INATIVACAO" HeaderText="Data" ItemStyle-HorizontalAlign="Center" />
                                                                                  <asp:BoundField DataField="NM_MOTIVO_INATIVACAO" HeaderText="Motivo" ItemStyle-HorizontalAlign="Center" />
-                                                                                 <asp:BoundField DataField="DS_MOTIVO_INATIVACAO" HeaderText="Obs. Motivo" ItemStyle-HorizontalAlign="Center" Visible="false" />
                                                                             </Columns>
                                                                             <HeaderStyle HorizontalAlign="Center" CssClass="Historico" />
                                                                         </asp:GridView>
@@ -247,6 +246,7 @@
                                                 <ItemStyle CssClass="Historico" />
 
                                             </asp:TemplateField>
+                                            <asp:BoundField DataField="DT_ABERTURA" HeaderText="ABERTURA" SortExpression="DT_ABERTURA" DataFormatString="{0:dd/MM/yyyy}" />
                                             <asp:BoundField DataField="NR_PROCESSO" HeaderText="Nº PROCESSO" SortExpression="NR_PROCESSO" />
                                             <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" SortExpression="NR_BL" />
                                             <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="ITEM DESPESA" SortExpression="NM_ITEM_DESPESA" />
@@ -294,14 +294,15 @@
         </div>
     </div>
     <asp:SqlDataSource ID="dsTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BL_TAXA,NR_PROCESSO,NR_BL,NM_PARCEIRO_EMPRESA,NM_ITEM_DESPESA,SIGLA_MOEDA,NM_ORIGEM_PAGAMENTO,VL_TAXA,VL_TAXA_CALCULADO, VL_TAXA_BR,LANCAMENTO,TIPO_MOVIMENTO,HISTORICO FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 ORDER BY ID_BL_TAXA DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_BL_TAXA,NR_PROCESSO,NR_BL,NM_PARCEIRO_EMPRESA,NM_ITEM_DESPESA,SIGLA_MOEDA,NM_ORIGEM_PAGAMENTO,VL_TAXA,VL_TAXA_CALCULADO, VL_TAXA_BR,LANCAMENTO,TIPO_MOVIMENTO,HISTORICO,DT_ABERTURA FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 ORDER BY ID_BL_TAXA DESC"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsMotivoInativacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_MOTIVO_INATIVACAO,NM_MOTIVO_INATIVACAO FROM TB_MOTIVO_INATIVACAO
         union SELECT  0, '      Selecione' ORDER BY ID_MOTIVO_INATIVACAO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsHistorico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_INATIVACAO,CASE WHEN ISNULL(FL_TAXA_INATIVA,0) = 0 THEN 'ATIVO' ELSE 'INATIVO' END STATUS,NOME,DT_INATIVACAO,C.NM_MOTIVO_INATIVACAO,A.DS_MOTIVO_INATIVACAO FROM TB_INATIVACAO_TAXAS A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_INATIVACAO = B.ID_USUARIO INNER JOIN TB_MOTIVO_INATIVACAO C ON C.ID_MOTIVO_INATIVACAO = A.ID_MOTIVO_INATIVACAO WHERE A.ID_BL_TAXA = @ID_BL_TAXA ORDER BY DT_INATIVACAO DESC">
+        SelectCommand="SELECT ID_INATIVACAO,CASE WHEN ISNULL(FL_TAXA_INATIVA,0) = 0 THEN 'ATIVO' ELSE 'INATIVO' END STATUS,NOME,DT_INATIVACAO,CASE WHEN ISNULL(C.FL_PRECISA_DESCR,0) = 1 THEN
+C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACAO END NM_MOTIVO_INATIVACAO,A.DS_MOTIVO_INATIVACAO FROM TB_INATIVACAO_TAXAS A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_INATIVACAO = B.ID_USUARIO INNER JOIN TB_MOTIVO_INATIVACAO C ON C.ID_MOTIVO_INATIVACAO = A.ID_MOTIVO_INATIVACAO WHERE A.ID_BL_TAXA = @ID_BL_TAXA ORDER BY DT_INATIVACAO DESC">
         <SelectParameters>
             <asp:Parameter Name="ID_BL_TAXA" Type="Int32" DefaultValue="0" />
         </SelectParameters>

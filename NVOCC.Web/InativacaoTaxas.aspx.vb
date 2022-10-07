@@ -58,10 +58,12 @@
                 FILTRO = " AND NM_PARCEIRO_EMPRESA LIKE '%" & txtFiltro.Text & "%'"
             ElseIf ddlFiltro.SelectedValue = 4 Then
                 'VALOR TAXA
-                FILTRO = " AND VL_TAXA LIKE '%" & txtFiltro.Text & "%'"
+                Dim VL_TAXA As String = txtFiltro.Text.Replace(".", "").Replace(",", ".")
+                FILTRO = " AND VL_TAXA LIKE '%" & VL_TAXA & "%'"
             ElseIf ddlFiltro.SelectedValue = 5 Then
                 'VALOR TAXA CALCULADA
-                FILTRO = " AND VL_TAXA_CALCULADO LIKE '%" & txtFiltro.Text & "%'"
+                Dim VL_TAXA As String = txtFiltro.Text.Replace(".", "").Replace(",", ".")
+                FILTRO = " AND VL_TAXA_CALCULADO LIKE '%" & VL_TAXA & "%'"
             ElseIf ddlFiltro.SelectedValue = 6 Then
                 'MOEDA
                 FILTRO = " AND SIGLA_MOEDA LIKE '%" & txtFiltro.Text & "%'"
@@ -110,7 +112,8 @@ VL_TAXA_CALCULADO,
 VL_TAXA_BR,
 LANCAMENTO,
 TIPO_MOVIMENTO,
-HISTORICO 
+HISTORICO,
+DT_ABERTURA 
 FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & " ORDER BY ID_BL_TAXA DESC"
 
         Session("ExportarCSV") = sql
@@ -127,52 +130,54 @@ FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & 
 
         If txtFiltroProcesso.Text <> "" Then
             'NR_PROCESSO
-            FILTRO = " AND NR_PROCESSO LIKE '%" & txtFiltroProcesso.Text & "%'"
+            FILTRO &= " AND NR_PROCESSO LIKE '%" & txtFiltroProcesso.Text & "%'"
         End If
 
         If txtFiltroDespesa.Text <> "" Then
             'ITEM DESPESA
-            FILTRO = " AND NM_ITEM_DESPESA LIKE '%" & txtFiltroDespesa.Text & "%'"
+            FILTRO &= " AND NM_ITEM_DESPESA LIKE '%" & txtFiltroDespesa.Text & "%'"
         End If
 
         If txtFiltroParceiro.Text <> "" Then
             'PARCEIRO VINCULADO
-            FILTRO = " AND NM_PARCEIRO_EMPRESA LIKE '%" & txtFiltroParceiro.Text & "%'"
+            FILTRO &= " AND NM_PARCEIRO_EMPRESA LIKE '%" & txtFiltroParceiro.Text & "%'"
         End If
 
         If txtFiltroValor.Text <> "" Then
             'VALOR TAXA
-            FILTRO = " AND VL_TAXA LIKE '%" & txtFiltroValor.Text & "%'"
+            Dim VL_TAXA As String = txtFiltro.Text.Replace(".", "").Replace(",", ".")
+            FILTRO &= " AND VL_TAXA LIKE '%" & VL_TAXA & "%'"
         End If
 
         If txtFiltroValorCalculada.Text <> "" Then
             'VALOR TAXA CALCULADA
-            FILTRO = " AND VL_TAXA_CALCULADO LIKE '%" & txtFiltroValorCalculada.Text & "%'"
+            Dim VL_TAXA As String = txtFiltro.Text.Replace(".", "").Replace(",", ".")
+            FILTRO &= " AND VL_TAXA_CALCULADO LIKE '%" & VL_TAXA & "%'"
         End If
 
         If txtFiltroMoeda.Text <> "" Then
             'MOEDA
-            FILTRO = " AND SIGLA_MOEDA LIKE '%" & txtFiltroMoeda.Text & "%'"
+            FILTRO &= " AND SIGLA_MOEDA LIKE '%" & txtFiltroMoeda.Text & "%'"
         End If
 
         If txtFiltroMovimento.Text <> "" Then
             'TIPO_MOVIMENTO
-            FILTRO = " AND TIPO_MOVIMENTO LIKE '%" & txtFiltroMovimento.Text & "%'"
+            FILTRO &= " AND TIPO_MOVIMENTO LIKE '%" & txtFiltroMovimento.Text & "%'"
         End If
 
         If txtFiltroOrigemPagamento.Text <> "" Then
             'NM_ORIGEM_PAGAMENTO
-            FILTRO = " AND NM_ORIGEM_PAGAMENTO LIKE '%" & txtFiltroOrigemPagamento.Text & "%'"
+            FILTRO &= " AND NM_ORIGEM_PAGAMENTO LIKE '%" & txtFiltroOrigemPagamento.Text & "%'"
         End If
 
         If txtFiltroLancamento.Text <> "" Then
             'LANCAMENTO
-            FILTRO = " AND LANCAMENTO LIKE '%" & txtFiltroLancamento.Text & "%'"
+            FILTRO &= " AND LANCAMENTO LIKE '%" & txtFiltroLancamento.Text & "%'"
         End If
 
         If txtBLFiltro.Text <> "" Then
             'NR_BL
-            FILTRO = " AND NR_BL LIKE '%" & txtBLFiltro.Text & "%'"
+            FILTRO &= " AND NR_BL LIKE '%" & txtBLFiltro.Text & "%'"
         End If
 
         If txtFiltroDataInicial.Text <> "" Then
@@ -196,7 +201,8 @@ VL_TAXA_CALCULADO,
 VL_TAXA_BR,
 LANCAMENTO,
 TIPO_MOVIMENTO,
-HISTORICO 
+HISTORICO,
+DT_ABERTURA 
 FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & " ORDER BY ID_BL_TAXA DESC"
 
         Session("ExportarCSV") = sql

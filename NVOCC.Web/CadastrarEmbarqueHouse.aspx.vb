@@ -4743,7 +4743,9 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Dim btnVisualizar As LinkButton = CType(linha.FindControl("btnVisualizar"), LinkButton)
             Dim btnDuplicar As LinkButton = CType(linha.FindControl("btnDuplicar"), LinkButton)
             Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
-            Dim Status As Label = CType(linha.FindControl("lblTemHistorico"), Label)
+            Dim Ativa As Label = CType(linha.FindControl("lblAtiva"), Label)
+            Dim TemHistorico As Label = CType(linha.FindControl("lblTemHistorico"), Label)
+
             Dim ImageButton As ImageButton = CType(linha.FindControl("ImageButton1"), ImageButton)
 
             If ORIGEM = "COTAÇÃO" Then
@@ -4758,11 +4760,14 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
 
             End If
 
-            If Status.Text = "0" Then
+            If TemHistorico.Text = "0" Then
                 ImageButton.Visible = False
-            Else
+            End If
+
+            If Ativa.Text = "NÃO" Then
                 dgvTaxaMaritimoCompras.Rows(linha.RowIndex).CssClass = "inativa"
             End If
+
         Next
 
 
@@ -4814,7 +4819,8 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Dim btnVisualizar As LinkButton = CType(linha.FindControl("btnVisualizar"), LinkButton)
             Dim btnDuplicar As LinkButton = CType(linha.FindControl("btnDuplicar"), LinkButton)
             Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
-            Dim Status As Label = CType(linha.FindControl("lblTemHistorico"), Label)
+            Dim TemHistorico As Label = CType(linha.FindControl("lblTemHistorico"), Label)
+            Dim Ativa As Label = CType(linha.FindControl("lblAtiva"), Label)
             Dim ImageButton As ImageButton = CType(linha.FindControl("ImageButton1"), ImageButton)
 
             If ORIGEM = "COTAÇÃO" Then
@@ -4829,11 +4835,15 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
 
             End If
 
-            If Status.Text = "0" Then
-
+            If TemHistorico.Text = "0" Then
                 ImageButton.Visible = False
-
             End If
+
+            If Ativa.Text = "NÃO" Then
+                dgvTaxaAereoCompras.Rows(linha.RowIndex).CssClass = "inativa"
+            End If
+
+
         Next
 
 

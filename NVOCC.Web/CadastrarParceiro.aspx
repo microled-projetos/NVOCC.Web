@@ -155,7 +155,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Telefone:</label>
-                                                <asp:TextBox ID="txtTelefone" runat="server" CssClass="form-control telefone"></asp:TextBox>
+                                                <asp:TextBox ID="txtTelefone" runat="server" CssClass="form-control telefone" MaxLength="40"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -641,13 +641,13 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Telefone:</label>
-                                                        <asp:TextBox ID="txtTelContato" runat="server" CssClass="form-control telefone"></asp:TextBox>
+                                                        <asp:TextBox ID="txtTelContato" runat="server" CssClass="form-control telefone" MaxLength="50"></asp:TextBox>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Celular:</label>
-                                                        <asp:TextBox ID="txtCelularContato" runat="server" CssClass="form-control celular"></asp:TextBox>
+                                                        <asp:TextBox ID="txtCelularContato" runat="server" CssClass="form-control celular"  MaxLength="50"></asp:TextBox>
                                                     </div>
                                                 </div>
                                             </div>
