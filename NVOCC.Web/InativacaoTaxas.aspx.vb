@@ -145,13 +145,13 @@ FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & 
 
         If txtFiltroValor.Text <> "" Then
             'VALOR TAXA
-            Dim VL_TAXA As String = txtFiltro.Text.Replace(".", "").Replace(",", ".")
+            Dim VL_TAXA As String = txtFiltroValor.Text.Replace(".", "").Replace(",", ".")
             FILTRO &= " AND VL_TAXA LIKE '%" & VL_TAXA & "%'"
         End If
 
         If txtFiltroValorCalculada.Text <> "" Then
             'VALOR TAXA CALCULADA
-            Dim VL_TAXA As String = txtFiltro.Text.Replace(".", "").Replace(",", ".")
+            Dim VL_TAXA As String = txtFiltroValorCalculada.Text.Replace(".", "").Replace(",", ".")
             FILTRO &= " AND VL_TAXA_CALCULADO LIKE '%" & VL_TAXA & "%'"
         End If
 
