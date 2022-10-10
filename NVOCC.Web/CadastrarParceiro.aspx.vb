@@ -1295,7 +1295,11 @@ WHERE ID_PARCEIRO =" & ID)
 
     End Sub
     Private Sub ddlTipoPessoa_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoPessoa.SelectedIndexChanged
-        If ddlTipoPessoa.SelectedValue = 2 Then
+        TipoPessoa()
+    End Sub
+
+    Sub TipoPessoa()
+        If ddlTipoPessoa.SelectedValue = 2 Then 'Fisica
             divIATA.Attributes.CssStyle.Add("display", "none")
             divCPF.Visible = True
             divCNPJ.Visible = False
@@ -1307,7 +1311,11 @@ WHERE ID_PARCEIRO =" & ID)
             RedNum.Visible = True
             RedEnd.Visible = True
             RedCEP.Visible = True
-        ElseIf ddlTipoPessoa.SelectedValue = 1 Then
+            txtTelefone.CssClass = "form-control telefone"
+            txtTelContato.CssClass = "form-control telefone"
+            txtCelularContato.CssClass = "form-control celular"
+
+        ElseIf ddlTipoPessoa.SelectedValue = 1 Then 'Juridico
             divIATA.Attributes.CssStyle.Add("display", "none")
             divCPF.Visible = False
             divCNPJ.Visible = True
@@ -1319,7 +1327,11 @@ WHERE ID_PARCEIRO =" & ID)
             RedNum.Visible = True
             RedEnd.Visible = True
             RedCEP.Visible = True
-        ElseIf ddlTipoPessoa.SelectedValue = 3 Then
+            txtTelefone.CssClass = "form-control telefone"
+            txtTelContato.CssClass = "form-control telefone"
+            txtCelularContato.CssClass = "form-control celular"
+
+        ElseIf ddlTipoPessoa.SelectedValue = 3 Then 'Estrangeira
             divIATA.Attributes.CssStyle.Add("display", "block")
             divCPF.Visible = False
             divCNPJ.Visible = True
@@ -1330,47 +1342,21 @@ WHERE ID_PARCEIRO =" & ID)
             RedNum.Visible = False
             RedEnd.Visible = False
             RedCEP.Visible = False
+            txtTelefone.CssClass = "form-control"
+            txtTelContato.CssClass = "form-control"
+            txtCelularContato.CssClass = "form-control"
         Else
             divCPF.Visible = False
             divCNPJ.Visible = False
             btnConsultaCNPJ.Visible = False
+            txtTelefone.CssClass = "form-control telefone"
+            txtTelContato.CssClass = "form-control telefone"
+            txtCelularContato.CssClass = "form-control celular"
         End If
 
-        'If ddlTipoPessoa.SelectedValue = 3 Then
-        '    Dim FILTRO As String = " where ID_PAIS <> 12 "
-        '    dsCidades.SelectCommand = dsCidades.SelectCommand.Replace("#FILTRO", FILTRO)
-        '    ddlCidade.DataBind()
-
-        'Else
-        '    dsCidades.SelectCommand = dsCidades.SelectCommand.Replace("where ID_PAIS <> 12", "#FILTRO")
-        '    ddlCidade.DataBind()
-        'End If
     End Sub
-
     Private Sub ddlTipoPessoa_PreRender(sender As Object, e As EventArgs) Handles ddlTipoPessoa.PreRender
-        If ddlTipoPessoa.SelectedValue = 2 Then
-            divCPF.Visible = True
-            divCNPJ.Visible = False
-            btnConsultaCNPJ.Visible = False
-
-        ElseIf ddlTipoPessoa.SelectedValue = 1 Then
-            divCPF.Visible = False
-            divCNPJ.Visible = True
-            btnConsultaCNPJ.Visible = True
-
-        ElseIf ddlTipoPessoa.SelectedValue = 3 Then
-
-            divCPF.Visible = False
-            divCNPJ.Visible = True
-            btnConsultaCNPJ.Visible = False
-
-        Else
-            divCPF.Visible = False
-            divCNPJ.Visible = False
-            btnConsultaCNPJ.Visible = False
-        End If
-
-
+        TipoPessoa()
     End Sub
 
     Private Sub ddlEvento_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlEvento.SelectedIndexChanged
@@ -1580,12 +1566,7 @@ WHERE ID_PARCEIRO =" & ID)
         Con.Conectar()
         divmsg1.Visible = False
 
-        'Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "'")
-        'If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
-        '    msgErro.Text = "Já existe Parceiro com este CNPJ"
-        '    divmsg1.Visible = True
-        '    msgErro.Visible = True
-        'Else
+
         If ddlTipoPessoa.SelectedValue = 1 And ValidaCNPJ.Validar(txtCNPJ.Text) = False Then
             msgErro.Text = "CNPJ Inválido."
             divmsg1.Visible = True
@@ -1598,7 +1579,6 @@ WHERE ID_PARCEIRO =" & ID)
                 msgErro.Visible = True
             End If
         End If
-        ' End If
 
     End Sub
 
@@ -1607,12 +1587,6 @@ WHERE ID_PARCEIRO =" & ID)
         Con.Conectar()
         divmsg1.Visible = False
 
-        'Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "'")
-        'If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
-        '    msgErro.Text = "Já existe Parceiro com este CPF"
-        '    divmsg1.Visible = True
-        '    msgErro.Visible = True
-        'Else
         If ddlTipoPessoa.SelectedValue = 2 And ValidaCPF.Validar(txtCPF.Text) = False Then
             msgErro.Text = "CPF Inválido."
             divmsg1.Visible = True
@@ -1625,7 +1599,6 @@ WHERE ID_PARCEIRO =" & ID)
                 msgErro.Visible = True
             End If
         End If
-        ''  End If
     End Sub
 
     Private Sub txtCDIATA_TextChanged(sender As Object, e As EventArgs) Handles txtCDIATA.TextChanged
