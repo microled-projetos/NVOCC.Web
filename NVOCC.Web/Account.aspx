@@ -15,7 +15,6 @@
             background-color: #e6c3a5;
         }
 
-
         .none {
             display: none
         }
