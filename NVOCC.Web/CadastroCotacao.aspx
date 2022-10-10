@@ -1706,14 +1706,13 @@
                                                     <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
                                                     <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
                                                     <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
-                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" />
-                                                             &nbsp;&nbsp;&nbsp;<asp:LinkButton ID="lnkSalvarFlag" Text="Salvar" CssClass="btn-default" CommandName="SalvarFlag" CommandArgument='<%# Eval("ID_ARQUIVO") %>' runat="server" Font-Size="small"><i class="glyphicon glyphicon-floppy-disk"></i></asp:LinkButton>
+                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" OnCheckedChanged="ckAtivoClientes_CheckedChanged" />
+                                                            
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
-                                                       <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar">Visualizar</a>
-                                                           <%-- <asp:LinkButton ID="lnkVisualizar" Text="Visualizar" CommandName="Visualizar" CommandArgument='<%# Eval("ID_ARQUIVO") %>'  runat="server" Font-Size="medium" />--%>
+                                                       <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar">Visualizar</a>                                                         
                                                         </ItemTemplate>
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                     </asp:TemplateField>

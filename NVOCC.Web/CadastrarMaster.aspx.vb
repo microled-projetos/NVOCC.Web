@@ -3607,7 +3607,7 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
                 FileUploadAereo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
 
 
-                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoAereo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientesAereo.Checked & "'," & txtID_BasicoAereo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
+                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoAereo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), 0," & txtID_BasicoAereo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
 
                 divSuccessUploadAereo.Visible = True
                 dgvArquivosAereo.DataBind()
@@ -3657,7 +3657,7 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
                 FileUploadMaritimo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
 
 
-                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoMaritimo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientesMaritimo.Checked & "'," & txtID_BasicoMaritimo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
+                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoMaritimo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), 0," & txtID_BasicoMaritimo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
 
                 divSuccessUploadMaritimo.Visible = True
                 dgvArquivosMaritimo.DataBind()

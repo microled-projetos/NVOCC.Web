@@ -466,7 +466,7 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                
+                                                <button type="button" class="btn btn-primary btn-ok topMarg" onclick="MarcarDesmarcar()">Marcar Todos</button>
                                             </div>
                                             <div id="caixaEmail" class="caixaEmail" style="padding: 0px 10px;">
                                                 <div class="row" style="margin-left: 2px;">
@@ -487,6 +487,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="modal fade bd-example-modal-xl" id="modalCaixaSaida" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                                 <div class="modal-content">
@@ -1633,6 +1634,18 @@
                     }
                 }
             })
+        }
+
+        function MarcarDesmarcar() {
+            $(".teste").each(
+                function () {
+                    if ($(this).prop("checked")) {
+                        $(this).prop("checked", false);
+                    } else {
+                        $(this).prop("checked", true);
+                    }
+                }
+            )
         }
 
         function setId(Id) {

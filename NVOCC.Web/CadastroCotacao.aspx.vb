@@ -4961,25 +4961,7 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
                 divErroUpload.Visible = True
             End Try
 
-        ElseIf e.CommandName = "SalvarFlag" Then
 
-            Try
-
-                Dim wc As WebControl = (CType(e.CommandSource, WebControl))
-                Dim row As GridViewRow = (CType(wc.NamingContainer, GridViewRow))
-                Dim ckAtivoClientes As CheckBox = row.FindControl("ckAtivoClientes")
-
-                Dim Con As New Conexao_sql
-                Con.Conectar()
-                Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ATIVO_CLIENTES = '" & ckAtivoClientes.Checked & "' WHERE ID_ARQUIVO = " & e.CommandArgument)
-                divSuccessUpload.Visible = True
-                dgvArquivos.DataBind()
-                Con.Fechar()
-
-            Catch ex As Exception
-                lblErroUpload.Text = ex.Message
-                divErroUpload.Visible = True
-            End Try
         End If
 
         txtUP.Text = 1
@@ -5044,4 +5026,18 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         FileUpload1.FileContent.Flush()
     End Sub
 
+    Public Sub ckAtivoClientes_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
+        divErroUpload.Visible = False
+        divSuccessUpload.Visible = False
+        Dim chk As CheckBox = DirectCast(sender, CheckBox)
+        Dim row = DirectCast(chk.NamingContainer, GridViewRow)
+        Dim ID_ARQUIVO = DirectCast(row.FindControl("lblID_ARQUIVO"), Label).Text
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ATIVO_CLIENTES = '" & chk.Checked & "' WHERE ID_ARQUIVO = " & ID_ARQUIVO)
+        divSuccessUpload.Visible = True
+        dgvArquivos.DataBind()
+        Con.Fechar()
+        txtUP.Text = 1
+    End Sub
 End Class

@@ -1472,15 +1472,6 @@ Partial Public Class CadastrarMaster
     Protected WithEvents FileUploadMaritimo As Global.System.Web.UI.WebControls.FileUpload
 
     '''<summary>
-    '''Controle ckAtivoClientesMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ckAtivoClientesMaritimo As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
     '''Controle UpdatePanel17.
     '''</summary>
     '''<remarks>
@@ -2415,15 +2406,6 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents FileUploadAereo As Global.System.Web.UI.WebControls.FileUpload
-
-    '''<summary>
-    '''Controle ckAtivoClientesAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ckAtivoClientesAereo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle UpdatePanel18.

@@ -5206,7 +5206,7 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
                 FileUploadAereo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
 
 
-                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_COTACAO,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoAereo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientesAereo.Checked & "'," & txtID_CotacaoAereo.Text & "," & txtID_BasicoAereo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
+                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_COTACAO,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoAereo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(),0," & txtID_CotacaoAereo.Text & "," & txtID_BasicoAereo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
 
                 divSuccessUploadAereo.Visible = True
                 dgvArquivosAereo.DataBind()
@@ -5264,7 +5264,7 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
                 FileUploadMaritimo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
 
 
-                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_COTACAO,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoMaritimo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientesMaritimo.Checked & "'," & txtID_CotacaoMaritimo.Text & "," & txtID_BasicoMaritimo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
+                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_COTACAO,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoMaritimo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), 0," & txtID_CotacaoMaritimo.Text & "," & txtID_BasicoMaritimo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
 
                 divSuccessUploadMaritimo.Visible = True
                 dgvArquivosMaritimo.DataBind()
@@ -5330,27 +5330,6 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
                 divErroUploadAereo.Visible = True
             End Try
 
-        ElseIf e.CommandName = "SalvarFlag" Then
-
-            Try
-
-
-                Dim wc As WebControl = (CType(e.CommandSource, WebControl))
-                Dim row As GridViewRow = (CType(wc.NamingContainer, GridViewRow))
-                Dim ckAtivoClientes As CheckBox = row.FindControl("ckAtivoClientes")
-
-                Dim Con As New Conexao_sql
-                Con.Conectar()
-                Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ATIVO_CLIENTES = '" & ckAtivoClientes.Checked & "' WHERE ID_ARQUIVO = " & e.CommandArgument)
-                divSuccessUploadAereo.Visible = True
-                dgvArquivosAereo.DataBind()
-                Con.Fechar()
-
-            Catch ex As Exception
-                lblErroUploadAereo.Text = ex.Message
-                divErroUploadAereo.Visible = True
-            End Try
-
         End If
 
         txtUPAereo.Text = 1
@@ -5408,25 +5387,6 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
                 divErroUploadMaritimo.Visible = True
             End Try
 
-        ElseIf e.CommandName = "SalvarFlag" Then
-
-            Try
-
-                Dim wc As WebControl = (CType(e.CommandSource, WebControl))
-                Dim row As GridViewRow = (CType(wc.NamingContainer, GridViewRow))
-                Dim ckAtivoClientes As CheckBox = row.FindControl("ckAtivoClientes")
-
-                Dim Con As New Conexao_sql
-                Con.Conectar()
-                Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ATIVO_CLIENTES = '" & ckAtivoClientes.Checked & "' WHERE ID_ARQUIVO = " & e.CommandArgument)
-                divSuccessUploadMaritimo.Visible = True
-                dgvArquivosMaritimo.DataBind()
-                Con.Fechar()
-
-            Catch ex As Exception
-                lblErroUploadMaritimo.Text = ex.Message
-                divErroUploadMaritimo.Visible = True
-            End Try
         End If
 
         txtUPMaritimo.Text = 1
@@ -5447,5 +5407,20 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
         ddlTipoArquivoMaritimo.SelectedValue = 0
         FileUploadMaritimo.FileContent.Flush()
     End Sub
+
+    Public Sub ckAtivoClientes_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
+        Dim chk As CheckBox = DirectCast(sender, CheckBox)
+        Dim row = DirectCast(chk.NamingContainer, GridViewRow)
+        Dim ID_ARQUIVO = DirectCast(row.FindControl("lblID_ARQUIVO"), Label).Text
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ATIVO_CLIENTES = '" & chk.Checked & "' WHERE ID_ARQUIVO = " & ID_ARQUIVO)
+        divSuccessUploadMaritimo.Visible = True
+        dgvArquivosMaritimo.DataBind()
+        Con.Fechar()
+        txtUPMaritimo.Text = 1
+    End Sub
+
+
 
 End Class

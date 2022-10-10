@@ -1103,13 +1103,7 @@
                                                 <label>&nbsp;</label>
                                                 <asp:FileUpload ID="FileUploadMaritimo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-2" style="display:none">
-                                            <div class="form-group">
-                                                <label class="control-label" style="color: white">X</label>
-                                                <asp:CheckBox ID="ckAtivoClientesMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
-                                            </div>
-                                        </div>
+                                        </div>                                       
 
                                     </div>
                                     <asp:UpdatePanel ID="UpdatePanel17" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
@@ -1125,11 +1119,6 @@
                                                             <asp:BoundField DataField="NM_TIPO_ARQUIVO" HeaderText="Tipo do Arquivo" SortExpression="NM_TIPO_ARQUIVO" />
                                                             <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
                                                             <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
-                                                            <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7"  Visible="false">
-                                                                <ItemTemplate>
-                                                                    <asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" Enabled="false" />
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
                                                                     <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar">Visualizar</a>
@@ -1908,14 +1897,7 @@
                                                     <label>&nbsp;</label>
                                                     <asp:FileUpload ID="FileUploadAereo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-2" style="display:none">
-                                                <div class="form-group">
-                                                    <label class="control-label" style="color: white">X</label>
-                                                    <asp:CheckBox ID="ckAtivoClientesAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
-                                                </div>
-                                            </div>
-
+                                            </div>                                         
                                         </div>
                                        
                                         <asp:UpdatePanel ID="UpdatePanel18" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
@@ -1931,11 +1913,6 @@
                                                                 <asp:BoundField DataField="NM_TIPO_ARQUIVO" HeaderText="Tipo do Arquivo" SortExpression="NM_TIPO_ARQUIVO" />
                                                                 <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
                                                                 <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
-                                                                <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" Visible="false">
-                                                                    <ItemTemplate>
-                                                                        <asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" Enabled="false" />
-                                                                    </ItemTemplate>
-                                                                </asp:TemplateField>
                                                                 <asp:TemplateField>
                                                                     <ItemTemplate>
                                                                         <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar">Visualizar</a>

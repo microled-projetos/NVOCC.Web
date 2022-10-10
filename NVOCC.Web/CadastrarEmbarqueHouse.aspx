@@ -1208,12 +1208,7 @@ VENDAS:
                                         <asp:FileUpload ID="FileUploadMaritimo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
                                     </div>
                                 </div>
-                                <div class="col-sm-2" style="display:none">
-                                    <div class="form-group">
-                                         <label class="control-label" style="color: white">X</label>
-                                          <asp:CheckBox ID="ckAtivoClientesMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
-                                          </div>
-                                </div>                              
+                                                         
                             </div> 
                        
                             <asp:UpdatePanel ID="UpdatePanel17" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
@@ -1224,14 +1219,19 @@ VENDAS:
                                             <asp:TextBox ID="txtArquivoSelecionadoMaritimo" runat="server" Style="display: none"></asp:TextBox>
                                             <asp:GridView ID="dgvArquivosMaritimo" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  DataKeyNames="ID_ARQUIVO" DataSourceID="dsUploadsMaritimo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1"  Style="max-height: 400px; overflow: auto;" AllowSorting="true">
                                                 <Columns>
-                                                    <asp:BoundField DataField="ID_ARQUIVO" HeaderText="#" SortExpression="ID_ARQUIVO" Visible="false" />
+                                                    <asp:TemplateField HeaderText="ID" Visible="False">
+                                                            <ItemTemplate>
+                                                                 <asp:Label ID="lblID_ARQUIVO" runat="server" Text='<%# Eval("ID_ARQUIVO") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
                                                     <asp:BoundField DataField="NM_ARQUIVO" HeaderText="Nome do Arquivo" SortExpression="NM_ARQUIVO" />
                                                     <asp:BoundField DataField="NM_TIPO_ARQUIVO" HeaderText="Tipo do Arquivo" SortExpression="NM_TIPO_ARQUIVO" />
                                                     <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
                                                     <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
                                                     <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
-                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" />
-                                                         &nbsp;&nbsp;&nbsp;<asp:LinkButton ID="lnkSalvarFlag" Text="Salvar" CssClass="btn-default" CommandName="SalvarFlag" CommandArgument='<%# Eval("ID_ARQUIVO") %>' runat="server" Font-Size="small"><i class="glyphicon glyphicon-floppy-disk"></i></asp:LinkButton>
+                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" autopostback="true"  OnCheckedChanged="ckAtivoClientes_CheckedChanged" />
+                                                        <%-- &nbsp;&nbsp;&nbsp;<asp:LinkButton ID="lnkSalvarFlag" Text="Salvar" CssClass="btn-default" CommandName="SalvarFlag" CommandArgument='<%# Eval("ID_ARQUIVO") %>' runat="server" Font-Size="small"><i class="glyphicon glyphicon-floppy-disk"></i></asp:LinkButton>--%>
+                                                            
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
@@ -2669,13 +2669,6 @@ VENDAS:
                                         <asp:FileUpload ID="FileUploadAereo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
                                     </div>
                                 </div>
-                                <div class="col-sm-2" style="display:none">
-                                    <div class="form-group">
-                                         <label class="control-label" style="color: white">X</label>
-                                          <asp:CheckBox ID="ckAtivoClientesAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
-                                          </div>
-                                </div>
-                            
                             </div> 
                        
                             <asp:UpdatePanel ID="UpdatePanel18" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
@@ -2692,8 +2685,7 @@ VENDAS:
                                                     <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
                                                     <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
                                                     <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
-                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server"  />
-                                                            &nbsp;&nbsp;&nbsp;<asp:LinkButton ID="lnkSalvarFlag" Text="Salvar" CssClass="btn-default" CommandName="SalvarFlag" CommandArgument='<%# Eval("ID_ARQUIVO") %>' runat="server" Font-Size="small"><i class="glyphicon glyphicon-floppy-disk"></i></asp:LinkButton>
+                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" OnCheckedChanged="ckAtivoClientes_CheckedChanged" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
