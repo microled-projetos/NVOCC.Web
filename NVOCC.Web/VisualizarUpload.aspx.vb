@@ -28,7 +28,18 @@ Public Class VisualizarUpload
                     File.Copy(CAMINHO_ARQUIVO, Server.MapPath("~/Content/temp/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO")))
                 End If
                 txtArquivoSelecionado.Text = "/Content/temp/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO")
-                Response.Redirect(txtArquivoSelecionado.Text)
+                If ds.Tables(0).Rows(0).Item("NM_ARQUIVO").IndexOf(".msg") > 1 Then
+
+                    Response.ContentType = ContentType
+                    Response.AppendHeader("Content-Disposition", "attachment; filename=" & Path.GetFileName(CAMINHO_ARQUIVO))
+                    Response.WriteFile(CAMINHO_ARQUIVO)
+                    Response.Flush()
+                    Response.Close()
+
+                Else
+                    Response.Redirect(txtArquivoSelecionado.Text)
+
+                End If
             End If
         End If
     End Sub

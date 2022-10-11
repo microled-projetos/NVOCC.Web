@@ -5415,12 +5415,18 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
         Dim Con As New Conexao_sql
         Con.Conectar()
         Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ATIVO_CLIENTES = '" & chk.Checked & "' WHERE ID_ARQUIVO = " & ID_ARQUIVO)
-        divSuccessUploadMaritimo.Visible = True
-        dgvArquivosMaritimo.DataBind()
-        Con.Fechar()
-        txtUPMaritimo.Text = 1
+        If Request.QueryString("s") = "A" Then
+            divSuccessUploadAereo.Visible = True
+            dgvArquivosAereo.DataBind()
+            Con.Fechar()
+            txtUPAereo.Text = 1
+        ElseIf Request.QueryString("s") = "M" Then
+            divSuccessUploadMaritimo.Visible = True
+            dgvArquivosMaritimo.DataBind()
+            Con.Fechar()
+            txtUPMaritimo.Text = 1
+        End If
+
     End Sub
-
-
 
 End Class

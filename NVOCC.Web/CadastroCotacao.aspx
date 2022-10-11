@@ -1700,13 +1700,17 @@
                                             <asp:TextBox ID="txtUP" runat="server" Style="display: none"></asp:TextBox>
                                             <asp:GridView ID="dgvArquivos" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  DataKeyNames="ID_ARQUIVO" DataSourceID="dsUploads" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1"  Style="max-height: 400px; overflow: auto;" AllowSorting="true">
                                                 <Columns>
-                                                    <asp:BoundField DataField="ID_ARQUIVO" HeaderText="#" SortExpression="ID_ARQUIVO" Visible="false" />
+                                                       <asp:TemplateField HeaderText="ID" Visible="False">
+                                                            <ItemTemplate>
+                                                                 <asp:Label ID="lblID_ARQUIVO" runat="server" Text='<%# Eval("ID_ARQUIVO") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
                                                     <asp:BoundField DataField="NM_ARQUIVO" HeaderText="Nome do Arquivo" SortExpression="NM_ARQUIVO" />
                                                     <asp:BoundField DataField="NM_TIPO_ARQUIVO" HeaderText="Tipo do Arquivo" SortExpression="NM_TIPO_ARQUIVO" />
                                                     <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
                                                     <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
                                                     <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
-                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" OnCheckedChanged="ckAtivoClientes_CheckedChanged" />
+                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" AutoPostBack="true" OnCheckedChanged="ckAtivoClientes_CheckedChanged" />
                                                             
                                                         </ItemTemplate>
                                                     </asp:TemplateField>

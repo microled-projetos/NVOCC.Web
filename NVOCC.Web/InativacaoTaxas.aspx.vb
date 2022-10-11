@@ -116,7 +116,7 @@ HISTORICO,
 DT_ABERTURA 
 FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & " ORDER BY ID_BL_TAXA DESC"
 
-        Session("ExportarCSV") = sql
+        Session("ExportarCSV") = FILTRO
         dsTaxas.SelectCommand = sql
         dgvTaxas.DataBind()
     End Sub
@@ -205,15 +205,35 @@ HISTORICO,
 DT_ABERTURA 
 FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & " ORDER BY ID_BL_TAXA DESC"
 
-        Session("ExportarCSV") = sql
+        Session("ExportarCSV") = FILTRO
         dsTaxas.SelectCommand = sql
         dgvTaxas.DataBind()
     End Sub
     Private Sub lkExportarCSV_Click(sender As Object, e As EventArgs) Handles lkExportarCSV.Click
         If Session("ExportarCSV") Is Nothing Then
-            Session("ExportarCSV") = dsTaxas.SelectCommand
+            Session("ExportarCSV") = ""
         End If
-        Classes.Excel.exportaExcel(Session("ExportarCSV"), "NVOCC", "InativacaoTaxas")
+
+        Dim SQL As String = "SELECT
+DT_ABERTURA,
+ID_BL_TAXA,
+NR_PROCESSO,
+NR_BL,
+NM_PARCEIRO_EMPRESA,
+NM_ITEM_DESPESA,
+SIGLA_MOEDA,
+NM_ORIGEM_PAGAMENTO,
+VL_TAXA,
+VL_TAXA_CALCULADO,
+VL_TAXA_BR,
+LANCAMENTO,
+TIPO_MOVIMENTO,
+HISTORICO,
+MOTIVO,
+COMPLEMENTO_MOTIVO
+FROM [View_CSV_Inativacao_Taxas] WHERE ISNULL( ID_BL_TAXA,0) <> 0 " & Session("ExportarCSV") & " 
+ORDER BY ID_BL_TAXA DESC"
+        Classes.Excel.exportaExcel(SQL, "NVOCC", "InativacaoTaxas")
     End Sub
 
     Private Sub dgvTaxas_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvTaxas.RowDataBound

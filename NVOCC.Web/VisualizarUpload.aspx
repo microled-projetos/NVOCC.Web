@@ -10,7 +10,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <asp:TextBox ID="txtArquivoSelecionado" runat="server"></asp:TextBox>           
+            <asp:TextBox ID="txtArquivoSelecionado" runat="server" style="display:none"></asp:TextBox>           
         </div>
     </form>   
 </body>

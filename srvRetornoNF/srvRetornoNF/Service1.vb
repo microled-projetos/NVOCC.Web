@@ -13,7 +13,7 @@ Public Class Service1
             tmr = New Timers.Timer()
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 14")
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 15 > " & Val(ConfigurationManager.AppSettings("Minutos").ToString()))
-            tmr.Interval = 1000 * Val(ConfigurationManager.AppSettings("Minutos").ToString())
+            tmr.Interval = 1000 * 60 * Val(ConfigurationManager.AppSettings("Minutos").ToString())
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 17")
             AddHandler tmr.Elapsed, AddressOf TimerTick
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 19")
@@ -28,10 +28,10 @@ Public Class Service1
 
     Private Sub TimerTick(obj As Object, e As EventArgs)
         Inicio.WriteToFile($"{DateTime.Now.ToString()} - TimerTick: Antes do IF")
-        If Not FlagExecutando Then
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} - TimerTick: Chama Rotina Retorno NF")
-            Inicio.RetornoNF()
-        End If
+        '  If Not FlagExecutando Then
+        Inicio.WriteToFile($"{DateTime.Now.ToString()} - TimerTick: Chama Rotina Retorno NF")
+        Inicio.RetornoNF()
+        '  End If
         Inicio.WriteToFile($"{DateTime.Now.ToString()} - TimerTick: Após o IF")
     End Sub
     Protected Overrides Sub OnStop()
