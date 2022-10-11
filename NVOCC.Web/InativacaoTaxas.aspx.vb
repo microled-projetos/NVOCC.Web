@@ -87,10 +87,10 @@
 
 
         If txtDtInicial.Text <> "" Then
-            FILTRO &= " AND CONVERT(DATE,DT_ABERTURA,103) >= CONVERT(DATE,'" & txtDtInicial.Text & "',103)"
+            FILTRO &= " AND CONVERT(DATE,DT_EMBARQUE,103) >= CONVERT(DATE,'" & txtDtInicial.Text & "',103)"
         End If
         If txtDtFinal.Text <> "" Then
-            FILTRO &= " AND CONVERT(DATE,DT_ABERTURA,103) <= CONVERT(DATE,'" & txtDtFinal.Text & "',103)"
+            FILTRO &= " AND CONVERT(DATE,DT_EMBARQUE,103) <= CONVERT(DATE,'" & txtDtFinal.Text & "',103)"
         End If
 
         If ckInativo.Checked = True And ckAtivo.Checked = False Then
@@ -113,7 +113,7 @@ VL_TAXA_BR,
 LANCAMENTO,
 TIPO_MOVIMENTO,
 HISTORICO,
-DT_ABERTURA 
+DT_EMBARQUE 
 FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & " ORDER BY ID_BL_TAXA DESC"
 
         Session("ExportarCSV") = FILTRO
@@ -181,11 +181,11 @@ FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & 
         End If
 
         If txtFiltroDataInicial.Text <> "" Then
-            FILTRO &= " AND CONVERT(DATE,DT_ABERTURA,103) >= CONVERT(DATE,'" & txtFiltroDataInicial.Text & "',103)"
+            FILTRO &= " AND CONVERT(DATE,DT_EMBARQUE,103) >= CONVERT(DATE,'" & txtFiltroDataInicial.Text & "',103)"
         End If
 
         If txtFiltroDataFinal.Text <> "" Then
-            FILTRO &= " AND CONVERT(DATE,DT_ABERTURA,103) <= CONVERT(DATE,'" & txtFiltroDataFinal.Text & "',103)"
+            FILTRO &= " AND CONVERT(DATE,DT_EMBARQUE,103) <= CONVERT(DATE,'" & txtFiltroDataFinal.Text & "',103)"
         End If
 
         Dim sql As String = "SELECT
@@ -202,7 +202,7 @@ VL_TAXA_BR,
 LANCAMENTO,
 TIPO_MOVIMENTO,
 HISTORICO,
-DT_ABERTURA 
+DT_EMBARQUE 
 FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & " ORDER BY ID_BL_TAXA DESC"
 
         Session("ExportarCSV") = FILTRO
@@ -215,7 +215,7 @@ FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & 
         End If
 
         Dim SQL As String = "SELECT
-DT_ABERTURA,
+DT_EMBARQUE,
 ID_BL_TAXA,
 NR_PROCESSO,
 NR_BL,

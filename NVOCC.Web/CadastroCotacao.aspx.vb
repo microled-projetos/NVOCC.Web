@@ -611,22 +611,29 @@ FROM TB_COTACAO A where ID_CLIENTE = " & Session("ID_CLIENTE") & " AND ID_TIPO_E
         dgvHistoricoCotacao.DataBind()
     End Sub
     Sub GridHistoricoFrete()
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT CNPJ FROM TB_PARCEIRO  WHERE ID_PARCEIRO = " & Session("ID_CLIENTE"))
-        If ds.Tables(0).Rows.Count > 0 Then
-            txtcnpj.Text = ds.Tables(0).Rows(0).Item("CNPJ").ToString()
-        Else
-            txtcnpj.Text = 0
-        End If
+        Try
 
-        dsHistoricoFrete.SelectCommand = "SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= " & txtQtd.Text & " and cnpj = '" & txtcnpj.Text & "' "
-        dgvHistoricoFrete.DataBind()
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT CNPJ FROM TB_PARCEIRO  WHERE ID_PARCEIRO = " & Session("ID_CLIENTE"))
 
+            If ds.Tables(0).Rows.Count > 0 Then
+                txtcnpj.Text = ds.Tables(0).Rows(0).Item("CNPJ").ToString()
+            Else
+                txtcnpj.Text = 0
 
-        dsHistoricoFrete.SelectParameters("cnpj").DefaultValue = txtcnpj.Text
-        dgvHistoricoFrete.DataBind()
+            End If
 
+            dsHistoricoFrete.SelectCommand = "SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= " & txtQtd.Text & " and cnpj = '" & txtcnpj.Text & "' "
+            dgvHistoricoFrete.DataBind()
+
+            dsHistoricoFrete.SelectParameters("cnpj").DefaultValue = txtcnpj.Text
+            dgvHistoricoFrete.DataBind()
+
+        Catch ex As Exception
+            Session("erro") = ex.ToString
+            Response.Redirect("Erro.aspx")
+        End Try
     End Sub
     Private Sub dgvFrete_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvFrete.RowCommand
         Dim Con As New Conexao_sql

@@ -371,6 +371,7 @@
     <Content Include="CourrierPersonal.aspx.designer.cs" />
     <Content Include="DemurrageService.asmx" />
     <Content Include="DemurrageService.asmx.cs" />
+    <Content Include="Erro.aspx" />
     <Content Include="FaturamentoArquivo.aspx" />
     <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
@@ -666,6 +667,13 @@
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Class\ResultadoCNPJ.vb" />
+    <Compile Include="Erro.aspx.designer.vb">
+      <DependentUpon>Erro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Erro.aspx.vb">
+      <DependentUpon>Erro.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="FaturamentoArquivo.aspx.designer.vb">
       <DependentUpon>FaturamentoArquivo.aspx</DependentUpon>
     </Compile>
