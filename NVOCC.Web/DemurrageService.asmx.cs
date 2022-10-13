@@ -7358,7 +7358,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string integrarTOTVSPA(string dataI, string dataF, string situacao, string nota, string filter)
+        public string integrarTOTVSPA(string dataI, string dataF, string situacao, string nota, string filter, string values)
         {
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -7402,18 +7402,28 @@ namespace ABAINFRA.Web
             SQL += "FROM dbo.FN_PA(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
-            if (situacao != "")
+            if (nota != "")
             {
-                SQL += "WHERE " + situacao + " ";
-                if (nota != "")
-                {
-                    SQL += "AND " + nota + " ";
+                SQL += "WHERE NR_NOTA LIKE '" + nota + "%' ";
 
+                if (situacao != "")
+                {
+                    SQL += "AND " + situacao + " ";
+                    SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
+                }
+                else
+                {
+                    SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
                 }
             }
-            else if (nota != "")
+            else if (situacao != "")
             {
-                SQL += "WHERE " + nota + " ";
+                SQL += "WHERE " + situacao + " ";
+                SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
+            }
+            else
+            {
+                SQL += " WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             SQL += "ORDER BY DT_PAGAMENTO, NR_PROCESSO ";
 
@@ -7453,7 +7463,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSPAFORNEC(string dataI, string dataF, string situacao)
+        public string listarTOTVSPAFORNEC(string dataI, string dataF, string situacao, string values)
         {
             switch (situacao)
             {
@@ -7485,7 +7495,12 @@ namespace ABAINFRA.Web
             if (situacao != "")
             {
                 SQL += " WHERE " + situacao + " ";
+                /*SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";*/
             }
+			/*else
+			{
+                SQL += "WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
+            }*/
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -7525,7 +7540,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSPAREC(string dataI, string dataF, string situacao)
+        public string listarTOTVSPAREC(string dataI, string dataF, string situacao, string values)
         {
             switch (situacao)
             {
@@ -7548,6 +7563,9 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
+            SQL = "EXECUTE DBO.PR_PA_NEGATIVO '" + dataI + "','" + dataF + "' ";
+            DBS.ExecuteScalar(SQL);
+
 
             SQL = "SELECT FILIAL, PREFIXO, NUM, PARCELA, TIPO, FORNECE, LOJA, NATUREZ, EMISSAO, VENCTO, VENCREA, ";
             SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA ";
@@ -7557,6 +7575,11 @@ namespace ABAINFRA.Web
             if (situacao != "")
             {
                 SQL += " WHERE " + situacao + " ";
+                SQL += "AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
+			}
+			else
+			{
+                SQL += "WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             SQL += "ORDER BY ITEMCTA ";
 
@@ -9085,7 +9108,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(VL_SALDO_PAGAR_BR, 0) AS PAGAR, ";
             SQL += "CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE, 0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, ";
             SQL += "CASE WHEN ISNULL(DOC_CONFERIDO_MASTER, 0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER ";
-            SQL += "FROM dbo.FN_PREVISIBILIDADE_SALDO('" + dataI + "','" + dataF + "','') "; 
+            SQL += "FROM dbo.FN_PREVISIBILIDADE_SALDO_TESTE('" + dataI + "','" + dataF + "','') "; 
             SQL += "WHERE RIGHT(NR_PROCESSO,2) >= 18 ";
             SQL += "" + nota + "";
             SQL += "" + origem + "";
@@ -9373,8 +9396,8 @@ namespace ABAINFRA.Web
                     previ[i] += listTable.Rows[i]["DOC_CONFERIDO_HOUSE"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["DOC_CONFERIDO_MASTER"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["PROCESSO"].ToString() + ";";
-                    previ[i] += fmtTotvs2(listTable.Rows[i]["MASTER"].ToString());
                     previ[i] += fmtTotvs2(listTable.Rows[i]["HOUSE"].ToString());
+                    previ[i] += fmtTotvs2(listTable.Rows[i]["MASTER"].ToString());
                     previ[i] += listTable.Rows[i]["TPSERVICO"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["TPESTUFAGEM"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["TPPAGAMENTOHOUSE"].ToString() + ";";

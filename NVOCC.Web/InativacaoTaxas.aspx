@@ -54,13 +54,13 @@
                             </div>
                             <div class="col-sm-2">
                                 <div class="form-group">
-                                    <label class="control-label">Data Inicial(Processo):</label>
+                                    <label class="control-label">Data Inicial(Embarque):</label>
                                     <asp:TextBox ID="txtDtInicial" runat="server" CssClass="form-control data"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-sm-2">
                                 <div class="form-group">
-                                    <label class="control-label">Data Final(Processo):</label>
+                                    <label class="control-label">Data Final(Embarque):</label>
                                     <asp:TextBox ID="txtDtFinal" runat="server" CssClass="form-control data"></asp:TextBox>
                                 </div>
                             </div>
