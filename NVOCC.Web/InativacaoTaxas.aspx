@@ -41,7 +41,7 @@
                                         <asp:ListItem Value="7">Tipo Movimento</asp:ListItem>
                                         <asp:ListItem Value="8">Origem Pagamento</asp:ListItem>
                                         <asp:ListItem Value="9">Lançamento</asp:ListItem>
-<%--                                        <asp:ListItem Value="10">Histórico</asp:ListItem>--%>
+                                        <%-- <asp:ListItem Value="10">Histórico</asp:ListItem>--%>
                                     </asp:DropDownList>
 
                                 </div>

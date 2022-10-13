@@ -5047,4 +5047,20 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         Con.Fechar()
         txtUP.Text = 1
     End Sub
+
+    Private Sub dgvArquivos_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvArquivos.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim NM_ARQUIVO As Label = CType(e.Row.FindControl("lblNM_ARQUIVO"), Label)
+
+            Dim lblBotaoVisualizar As Label = CType(e.Row.FindControl("lblBotaoVisualizar"), Label)
+
+            If (NM_ARQUIVO.Text.ToLower.IndexOf(".pdf") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".mp4") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".jpeg") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".jpg") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".png") > 1) Then
+                lblBotaoVisualizar.Visible = True
+            Else
+                lblBotaoVisualizar.Visible = False
+            End If
+
+        End If
+    End Sub
 End Class

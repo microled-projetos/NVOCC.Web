@@ -46,8 +46,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
 
         lblVersion.Text = "ver " & Me.GetType.Assembly.GetName.Version.ToString
 
-        Dim RotinaDoc As New RotinaDeletaDoc
-        RotinaDoc.DeletaArquivos()
+        'Dim RotinaDoc As New RotinaDeletaDoc
+        'RotinaDoc.DeletaArquivos()
     End Sub
 
     Sub Menus()
@@ -259,7 +259,5 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
 
     End Sub
 
-    'Protected Sub Unnamed_AsyncPostBackError(sender As Object, e As AsyncPostBackErrorEventArgs)
-    '    Response.Redirect("Default.aspx")
-    'End Sub
+
 End Class

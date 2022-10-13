@@ -5429,4 +5429,35 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
 
     End Sub
 
+    Private Sub dgvArquivosMaritimo_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvArquivosMaritimo.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim NM_ARQUIVO As Label = CType(e.Row.FindControl("lblNM_ARQUIVO"), Label)
+
+            Dim lblBotaoVisualizar As Label = CType(e.Row.FindControl("lblBotaoVisualizar"), Label)
+
+            If (NM_ARQUIVO.Text.ToLower.IndexOf(".pdf") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".mp4") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".jpeg") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".jpg") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".png") > 1) Then
+                lblBotaoVisualizar.Visible = True
+            Else
+                lblBotaoVisualizar.Visible = False
+            End If
+
+        End If
+    End Sub
+
+    Private Sub dgvArquivosAereo_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvArquivosAereo.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim NM_ARQUIVO As Label = CType(e.Row.FindControl("lblNM_ARQUIVO"), Label)
+
+            Dim lblBotaoVisualizar As Label = CType(e.Row.FindControl("lblBotaoVisualizar"), Label)
+
+            If (NM_ARQUIVO.Text.ToLower.IndexOf(".pdf") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".mp4") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".jpeg") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".jpg") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".png") > 1) Then
+                lblBotaoVisualizar.Visible = True
+            Else
+                lblBotaoVisualizar.Visible = False
+            End If
+
+        End If
+    End Sub
 End Class

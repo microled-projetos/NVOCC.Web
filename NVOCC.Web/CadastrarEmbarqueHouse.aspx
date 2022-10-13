@@ -1224,19 +1224,21 @@ VENDAS:
                                                                  <asp:Label ID="lblID_ARQUIVO" runat="server" Text='<%# Eval("ID_ARQUIVO") %>' />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                    <asp:BoundField DataField="NM_ARQUIVO" HeaderText="Nome do Arquivo" SortExpression="NM_ARQUIVO" />
+                                                     <asp:TemplateField  HeaderText="Nome do Arquivo" HeaderStyle-ForeColor="#337ab7" >
+                                                            <ItemTemplate>
+                                                                 <asp:Label ID="lblNM_ARQUIVO" runat="server" Text='<%# Eval("NM_ARQUIVO") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
                                                     <asp:BoundField DataField="NM_TIPO_ARQUIVO" HeaderText="Tipo do Arquivo" SortExpression="NM_TIPO_ARQUIVO" />
                                                     <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
                                                     <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
                                                     <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
-                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" autopostback="true"  OnCheckedChanged="ckAtivoClientes_CheckedChanged" />
-                                                        <%-- &nbsp;&nbsp;&nbsp;<asp:LinkButton ID="lnkSalvarFlag" Text="Salvar" CssClass="btn-default" CommandName="SalvarFlag" CommandArgument='<%# Eval("ID_ARQUIVO") %>' runat="server" Font-Size="small"><i class="glyphicon glyphicon-floppy-disk"></i></asp:LinkButton>--%>
-                                                            
+                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" autopostback="true"  OnCheckedChanged="ckAtivoClientes_CheckedChanged" />                                                            
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
-                                                                <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar">Visualizar</a>
+                                                                <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar"><asp:Label ID="lblBotaoVisualizar" runat="server" Text="Visualizar" /></a>
                                                         </ItemTemplate>
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                     </asp:TemplateField>
@@ -2684,7 +2686,11 @@ VENDAS:
                                                                  <asp:Label ID="lblID_ARQUIVO" runat="server" Text='<%# Eval("ID_ARQUIVO") %>' />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                    <asp:BoundField DataField="NM_ARQUIVO" HeaderText="Nome do Arquivo" SortExpression="NM_ARQUIVO" />
+                                                     <asp:TemplateField  HeaderText="Nome do Arquivo" HeaderStyle-ForeColor="#337ab7" >
+                                                            <ItemTemplate>
+                                                                 <asp:Label ID="lblNM_ARQUIVO" runat="server" Text='<%# Eval("NM_ARQUIVO") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
                                                     <asp:BoundField DataField="NM_TIPO_ARQUIVO" HeaderText="Tipo do Arquivo" SortExpression="NM_TIPO_ARQUIVO" />
                                                     <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
                                                     <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
@@ -2694,7 +2700,7 @@ VENDAS:
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
-                                                            <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar">Visualizar</a>
+                                                             <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar"><asp:Label ID="lblBotaoVisualizar" runat="server" Text="Visualizar" /></a>          
                                                         </ItemTemplate>
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                     </asp:TemplateField>

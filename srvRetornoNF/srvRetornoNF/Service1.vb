@@ -12,13 +12,12 @@ Public Class Service1
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 12")
             tmr = New Timers.Timer()
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 14")
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 15 > " & Val(ConfigurationManager.AppSettings("Minutos").ToString()))
             tmr.Interval = 1000 * 60 * Val(ConfigurationManager.AppSettings("Minutos").ToString())
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 17")
+            Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 16")
             AddHandler tmr.Elapsed, AddressOf TimerTick
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 19")
+            Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 18")
             tmr.Enabled = True
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 21")
+            Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 20")
 
         Catch ex As Exception
             WriteToFile($"{DateTime.Now.ToString()} - Erro: " & ex.ToString)
@@ -28,10 +27,8 @@ Public Class Service1
 
     Private Sub TimerTick(obj As Object, e As EventArgs)
         Inicio.WriteToFile($"{DateTime.Now.ToString()} - TimerTick: Antes do IF")
-        '  If Not FlagExecutando Then
         Inicio.WriteToFile($"{DateTime.Now.ToString()} - TimerTick: Chama Rotina Retorno NF")
         Inicio.RetornoNF()
-        '  End If
         Inicio.WriteToFile($"{DateTime.Now.ToString()} - TimerTick: Após o IF")
     End Sub
     Protected Overrides Sub OnStop()
