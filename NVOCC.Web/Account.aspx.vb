@@ -397,6 +397,13 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
             ckbSelecionar.Checked = True
         Next
 
+
+        If ddlTipoInvoice.SelectedValue = 2 And ddlTipoFatura.SelectedValue = 1 Then
+            ddlTipoDevolucao.Enabled = False
+        Else
+            ddlTipoDevolucao.Enabled = True
+        End If
+
         atualizaTotalFrete()
         ModalPopupExtender3.Show()
         ModalPopupExtender2.Show()
@@ -1090,6 +1097,22 @@ ORDER BY NR_PROCESSO"
             lblErroRelatorio.Text = "É necessário informar data final para concluir a pesquisa"
         Else
 
+            Dim sql As String = "SELECT A.ID_BL,NR_PROCESSO,BL_MASTER,PAGAMENTO_BL_MASTER AS 'TIPO FRETE MASTER'
+,NR_BL AS 'BL_HOUSE',TIPO_PAGAMENTO AS 'TIPO FRETE HOUSE',TIPO_ESTUFAGEM,
+CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM) = '' THEN ORIGEM ELSE
+
+(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM)
+END ORIGEM,CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO) = '' THEN DESTINO ELSE
+
+(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO)
+END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
+(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,
+(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER , B.VL_CAMBIO,B.DT_LIQUIDACAO
+FROM [dbo].[View_House] A
+LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103)"
+            dsProcessoPeriodo.SelectCommand = sql
+            dgvProcessoPeriodo.DataBind()
+
 
             Dim Con As New Conexao_sql
             Con.Conectar()
@@ -1105,7 +1128,6 @@ ORDER BY NR_PROCESSO"
             Session("DataFinal") = ""
             Session("DataInicial") = txtEmbarqueInicial.Text
             Session("DataFinal") = txtEmbarqueFinal.Text
-            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ProcessosPeriodo()", True)
 
         End If
         ModalPopupExtender8.Show()
@@ -1176,5 +1198,31 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         End If
     End Sub
 
+    Private Sub btnImprimirProcessoPeriodo_Click(sender As Object, e As EventArgs) Handles btnImprimirProcessoPeriodo.Click
+        divErroRelatorio.Visible = False
+        If txtEmbarqueInicial.Text = "" Then
+            divErroRelatorio.Visible = True
+            lblErroRelatorio.Text = "É necessário informar data incial para concluir a pesquisa"
+        ElseIf txtEmbarqueFinal.Text = "" Then
+            divErroRelatorio.Visible = True
+            lblErroRelatorio.Text = "É necessário informar data final para concluir a pesquisa"
+        Else
 
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_BL,0)ID_BL FROM TB_BL WHERE NR_PROCESSO = '" & txtProcessoRelatorio.Text & "'")
+            If ds.Tables(0).Rows.Count > 0 Then
+                txtIDBLProcessoRelatorio.Text = ds.Tables(0).Rows(0).Item("ID_BL")
+            Else
+                txtIDBLProcessoRelatorio.Text = 0
+            End If
+
+            Session("DataInicial") = ""
+            Session("DataFinal") = ""
+            Session("DataInicial") = txtEmbarqueInicial.Text
+            Session("DataFinal") = txtEmbarqueFinal.Text
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ProcessosPeriodo()", True)
+        End If
+        ModalPopupExtender8.Show()
+    End Sub
 End Class

@@ -47,7 +47,7 @@
              If Request.QueryString("ag") = 0  Then
                 Dim dsDadosBancarios As DataSet = Con.ExecutarQuery("SELECT NM_RAZAO,TAX_ID,BANK_NAME,BANK_ADDRESS,ACCOUNT_NUMBER, AGENCY, SWIFT_CODE, IBAN_BR, UPPER(ENDERECO)ENDERECO, UPPER(COMPL_ENDERECO)COMPL_ENDERECO, UPPER(BAIRRO)BAIRRO, NR_ENDERECO FROM TB_PARCEIRO WHERE ID_PARCEIRO= " & PARCEIRO)
 
-                DadosBancarios = "<br/><br/><div style='float:right'><strong>Agente Name: </strong> " & dsDadosBancarios.Tables(0).Rows(0).Item("NM_RAZAO").ToString()
+                DadosBancarios = "<br/><br/><div class='divDadosBancarios' style='float:right'><strong>Agente Name: </strong> " & dsDadosBancarios.Tables(0).Rows(0).Item("NM_RAZAO").ToString()
                 DadosBancarios &= "<br/><strong>Address: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("ENDERECO").ToString() & ", " & dsDadosBancarios.Tables(0).Rows(0).Item("NR_ENDERECO").ToString() & " - " & dsDadosBancarios.Tables(0).Rows(0).Item("BAIRRO").ToString() & " - " & dsDadosBancarios.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString()
                 DadosBancarios &= "<br/><strong>Tax ID: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("TAX_ID").ToString()
                 DadosBancarios &= "<br/><strong>Bank Name: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("BANK_NAME").ToString()
@@ -63,7 +63,7 @@
 
             tabela &= "<h5>AGENTE: " & linhaTitulo("NM_AGENTE") & "<br/>CURRENCY: " & linhaTitulo("SIGLA_MOEDA") & "</h5> Periodo de Vencimento:" & Session("DataInicial") & " - " & Session("DataFinal")
 
-            tabela &= "<table class='tabelaDinamica' border='1' style='font-size:10px;'>"
+            tabela &= "<table class='tabelaDinamica' border='1'>"
             tabela &= "<tr><td><strong>OUR REFERENCE</strong></td>"
             tabela &= "<td><strong>CUSTOMER</strong></td>"
             tabela &= "<td><strong>DEPARTURE</strong></td>"
@@ -78,23 +78,21 @@
             tabela &= "<td><strong>P/C</strong></td>"
             tabela &= "<td><strong>INVOICE</strong></td>"
             tabela &= "<td><strong>DATE</strong></td>"
-            tabela &= "<td><strong>CN/DN</strong></td>"'''EXCLUIR??
+            tabela &= "<td><strong>CN/DN</strong></td>"
             tabela &= "<td><strong>CURR</strong></td>"
-          ''  tabela &= "<td><strong>TOTAL</strong></td>" '''EXCLUIR
-            tabela &= "<td><strong>DEBIT</strong></td>"
-            tabela &= "<td><strong>CREDIT</strong></td>"
-            tabela &= "<td><strong>SALDO</strong></td></tr>"
+            tabela &= "<td><strong>PAYMENT</strong></td>"
+            tabela &= "<td><strong>RECEIVE</strong></td></tr>"
 
 
-            Dim dsdados As DataSet = Con.ExecutarQuery("SELECT DISTINCT GRAU,NR_PROCESSO,PARCEIRO_CLIENTE,DT_EMBARQUE,DT_CHEGADA,TP_SERVICO,TP_VIA_INGLES,ORIGEM,DESTINO,(SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO_MASTER)TIPO_PAGAMENTO_MASTER,NR_BL_MASTER,(SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO)TIPO_PAGAMENTO,NR_BL,B.NR_INVOICE,DT_INVOICE,SIGLA_MOEDA,CD_ACCOUNT_TIPO_FATURA,SUM(ISNULL(VL_TAXA,0))VL_TAXA,SUM(ISNULL(VL_TAXA_BR,0))VL_TAXA_BR
+            Dim dsdados As DataSet = Con.ExecutarQuery("SELECT DISTINCT GRAU,NR_PROCESSO,PARCEIRO_CLIENTE,DT_EMBARQUE,DT_CHEGADA,TP_SERVICO,TP_VIA_INGLES,ORIGEM,DESTINO,(SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO_MASTER)TIPO_PAGAMENTO_MASTER,NR_BL_MASTER,(SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO)TIPO_PAGAMENTO,NR_BL,B.NR_INVOICE,DT_INVOICE,SIGLA_MOEDA,CD_ACCOUNT_TIPO_FATURA,NM_ACCOUNT_TIPO_EMISSOR,SUM(ISNULL(VL_TAXA,0))VL_TAXA,SUM(ISNULL(VL_TAXA_BR,0))VL_TAXA_BR
 FROM [dbo].[View_BL]  A 
 INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL
  WHERE FL_CONFERIDO = 1 AND B.ID_PARCEIRO_AGENTE = " & PARCEIRO & " AND ID_MOEDA = " & MOEDA & "
-GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE,DT_CHEGADA,PARCEIRO_CLIENTE,DT_INVOICE,SIGLA_MOEDA,CD_ACCOUNT_TIPO_FATURA,NR_PROCESSO,TIPO_PAGAMENTO,NR_BL_MASTER,TP_SERVICO,TP_VIA_INGLES,ID_TIPO_PAGAMENTO_MASTER,ID_TIPO_PAGAMENTO")
+GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE,DT_CHEGADA,PARCEIRO_CLIENTE,DT_INVOICE,SIGLA_MOEDA,CD_ACCOUNT_TIPO_FATURA,NM_ACCOUNT_TIPO_EMISSOR,NR_PROCESSO,TIPO_PAGAMENTO,NR_BL_MASTER,TP_SERVICO,TP_VIA_INGLES,ID_TIPO_PAGAMENTO_MASTER,ID_TIPO_PAGAMENTO ORDER BY NR_PROCESSO ")
 
-             Dim credit As Decimal = 0
-             Dim debit As Decimal = 0
-             Dim saldo As Decimal = 0
+            Dim receive As Decimal = 0
+            Dim payment As Decimal = 0
+            Dim saldo As Decimal = 0
 
             For Each linhadados As DataRow In dsdados.Tables(0).Rows
 
@@ -132,31 +130,39 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
                 tabela &= "<td>" & linhadados("CD_ACCOUNT_TIPO_FATURA") & "</td>" 
                 tabela &= "<td>" & linhadados("SIGLA_MOEDA") & "</td>"
 
-                If linhadados("CD_ACCOUNT_TIPO_FATURA") =  "DN" THEN
+                If linhadados("NM_ACCOUNT_TIPO_EMISSOR") =  "AGENTE" THEN
                
                     tabela &= "<td><strong>" & linhadados("VL_TAXA") & "</strong></td>"
                     tabela &= "<td><strong></strong></td>"
-                
-                    debit = debit + linhadados("VL_TAXA")
-                ElseIf linhadados("CD_ACCOUNT_TIPO_FATURA") =  "CN" THEN
-                  
+                    payment = payment + linhadados("VL_TAXA")
+
+                ElseIf linhadados("NM_ACCOUNT_TIPO_EMISSOR") = "FCA" Then
+
                     tabela &= "<td><strong></strong></td>"
                     tabela &= "<td><strong>" & linhadados("VL_TAXA") & "</strong></td>"
-                    credit = credit + linhadados("VL_TAXA")
+                    receive = receive + linhadados("VL_TAXA")
 
                 End If
                
                 saldo = saldo + linhadados("VL_TAXA")
                
-                tabela &= "<td><strong>" & saldo  & "</td></tr>"
+                tabela &= "</tr>"
 
 
 
 
             Next
+            'Dim Total As String = saldo
+            'tabela &= "<tr style='border:none;font-weight:bold'><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>TOTAL</td><td>" & SIGLA_MOEDA & "</td><td>" & payment & "</td><td>" & receive & "</td></tr>"
+            'tabela &= "<tr style='border:none;font-weight:bold'><td><div style='color:white !important'>.</div></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>"
+            'tabela &= "<tr style='border:none;font-weight:bold'><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>TOTAL</td><td>" & Total & "</td></tr>"
+            'tabela &= "</table>"
+
+
             Dim Total As String = saldo
-            tabela &= "<tr style='border:none;font-weight:bold'><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>TOTAL</td><td>" & SIGLA_MOEDA & "</td><td>" & debit & "</td><td>" & credit & "</td><td>" & Total & "</td></tr>"
+            tabela &= "<tr style='border:none;font-weight:bold'><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>SALDO</td><td>" & SIGLA_MOEDA & "</td><td>" & payment & "</td><td>" & receive & "</td></tr>"
             tabela &= "</table>"
+            tabela &= "<br/><table class='tabelaDinamica' border='1'><tr style='border:none;font-weight:bold'><td><div style='float:right'>TOTAL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" & Total & " </div></td></tr></table>"
 
         Next
 

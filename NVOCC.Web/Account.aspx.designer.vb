@@ -1103,6 +1103,15 @@ Partial Public Class Account
     Protected WithEvents btnBuscarRelatorio As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle dgvProcessoPeriodo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvProcessoPeriodo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
     '''Controle btnRelacaoAgentes.
     '''</summary>
     '''<remarks>
@@ -1119,6 +1128,15 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnCSVProcessoPeriodo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnImprimirProcessoPeriodo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnImprimirProcessoPeriodo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle btnFecharProcessoPeriodo.
@@ -1308,4 +1326,13 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsItensInvoice As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsProcessoPeriodo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsProcessoPeriodo As Global.System.Web.UI.WebControls.SqlDataSource
 End Class
