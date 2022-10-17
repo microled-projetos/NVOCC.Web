@@ -1824,31 +1824,31 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
                         x = linha.Item("VL_PESO_TAXADO")
 
-                            y = linha.Item("VL_TAXA_VENDA")
-                            z = x * y
-                            If VENDA_MIN < 0 Then
-                                If z > VENDA_MIN Then
-                                    z = VENDA_MIN
-                                End If
-                            ElseIf VENDA_MIN > 0 Then
-                                If z < VENDA_MIN Then
-                                    z = VENDA_MIN
-                                End If
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = x * y
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
                             End If
-                            VendaCalc = z.ToString
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
 
-                            y = linha.Item("VL_TAXA_COMPRA")
-                            z = x * y
-                            If COMPRA_MIN < 0 Then
-                                If z > COMPRA_MIN Then
-                                    z = COMPRA_MIN
-                                End If
-                            ElseIf COMPRA_MIN > 0 Then
-                                If z < COMPRA_MIN Then
-                                    z = COMPRA_MIN
-                                End If
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = x * y
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
                             End If
-                            CompraCalc = z.ToString
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
 
 
 
@@ -1922,7 +1922,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
             End If
 
-            Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
+            Dim sql As String = "SELECT top 1000 *  FROM [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
 
             dsCotacao.SelectCommand = sql
             dgvCotacao.DataBind()

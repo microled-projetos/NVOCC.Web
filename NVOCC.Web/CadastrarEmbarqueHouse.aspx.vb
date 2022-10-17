@@ -1,4 +1,5 @@
-﻿Public Class CadastrarEmbarqueHouse
+﻿Imports System.IO
+Public Class CadastrarEmbarqueHouse
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -34,7 +35,7 @@
                 btnVisualizarMBL_Aereo.Text = "Visualizar MBL"
                 btnVisualizarMBL_Maritimo.Text = "Visualizar MBL"
                 divDocConferidoAereo.Visible = True
-                divDocConferidoMaritimo.visible = True
+                divDocConferidoMaritimo.Visible = True
             End If
             If Request.QueryString("id") <> "" And Not Page.IsPostBack Then
                 CarregaCampos()
@@ -92,7 +93,9 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_COTACAO")) Then
                         Session("ID_COTACAO") = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+                        txtID_CotacaoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO")
                     Else
+                        txtID_CotacaoMaritimo.Text = 0
                         Session("ID_COTACAO") = 0
                     End If
 
@@ -343,6 +346,14 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
                         txtIDMaster_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL_MASTER")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_COTACAO")) Then
+                        Session("ID_COTACAO") = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+                        txtID_CotacaoAereo.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+                    Else
+                        txtID_CotacaoAereo.Text = 0
+                        Session("ID_COTACAO") = 0
+                    End If
+
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("BL_MASTER")) Then
                         txtMBL_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("BL_MASTER")
                         Session("ID_BL_MASTER") = ds.Tables(0).Rows(0).Item("ID_BL_MASTER")
@@ -576,8 +587,11 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_COTACAO")) Then
                         Session("ID_COTACAO") = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+                        txtID_CotacaoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+
                     Else
                         Session("ID_COTACAO") = 0
+                        txtID_CotacaoMaritimo.Text = 0
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO")) Then
@@ -1158,6 +1172,12 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     divSuccess_TaxaMaritimo1.Visible = True
                     dgvTaxaMaritimoCompras.DataBind()
                 End If
+            ElseIf e.CommandName = "Historico" Then
+
+                dsHistorico.SelectParameters("ID_BL_TAXA").DefaultValue = e.CommandArgument
+                dgvHistoricoMaritimo.DataBind()
+                mpeHistoricoMaritimo.Show()
+
             End If
             Con.Fechar()
             GridTaxaMaritimoCompras()
@@ -1756,7 +1776,15 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 divSuccess_TaxaAereo1.Visible = True
                 dgvTaxaAereoCompras.DataBind()
             End If
+
+
+        ElseIf e.CommandName = "Historico" Then
+
+            dsHistorico.SelectParameters("ID_BL_TAXA").DefaultValue = e.CommandArgument
+            dgvHistoricoAereo.DataBind()
+            mpeHistoricoAereo.Show()
         End If
+
 
         GridTaxaAereoCompras()
 
@@ -4715,6 +4743,10 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Dim btnVisualizar As LinkButton = CType(linha.FindControl("btnVisualizar"), LinkButton)
             Dim btnDuplicar As LinkButton = CType(linha.FindControl("btnDuplicar"), LinkButton)
             Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
+            Dim Ativa As Label = CType(linha.FindControl("lblAtiva"), Label)
+            Dim TemHistorico As Label = CType(linha.FindControl("lblTemHistorico"), Label)
+
+            Dim ImageButton As ImageButton = CType(linha.FindControl("ImageButton1"), ImageButton)
 
             If ORIGEM = "COTAÇÃO" Then
                 btnExcluir.Visible = False
@@ -4726,6 +4758,14 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Else
                 btnExcluir.Visible = True
 
+            End If
+
+            If TemHistorico.Text = "0" Then
+                ImageButton.Visible = False
+            End If
+
+            If Ativa.Text = "NÃO" Then
+                dgvTaxaMaritimoCompras.Rows(linha.RowIndex).CssClass = "inativa"
             End If
 
         Next
@@ -4779,6 +4819,9 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Dim btnVisualizar As LinkButton = CType(linha.FindControl("btnVisualizar"), LinkButton)
             Dim btnDuplicar As LinkButton = CType(linha.FindControl("btnDuplicar"), LinkButton)
             Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
+            Dim TemHistorico As Label = CType(linha.FindControl("lblTemHistorico"), Label)
+            Dim Ativa As Label = CType(linha.FindControl("lblAtiva"), Label)
+            Dim ImageButton As ImageButton = CType(linha.FindControl("ImageButton1"), ImageButton)
 
             If ORIGEM = "COTAÇÃO" Then
                 btnExcluir.Visible = False
@@ -4791,6 +4834,16 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
                 btnExcluir.Visible = True
 
             End If
+
+            If TemHistorico.Text = "0" Then
+                ImageButton.Visible = False
+            End If
+
+            If Ativa.Text = "NÃO" Then
+                dgvTaxaAereoCompras.Rows(linha.RowIndex).CssClass = "inativa"
+            End If
+
+
         Next
 
 
@@ -5112,5 +5165,299 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
         End If
     End Sub
 
+    Private Sub btnUploadAereo_Click(sender As Object, e As EventArgs) Handles btnUploadAereo.Click
+        divErroUploadAereo.Visible = False
+        divSuccessUploadAereo.Visible = False
 
+        If txtID_BasicoAereo.Text = "" Then
+            lblErroUploadAereo.Text = "Necessário inserir processo!"
+            divErroUploadAereo.Visible = True
+
+        ElseIf ddlTipoArquivoAereo.selectedvalue = 0 Then
+            lblErroUploadAereo.Text = "Necessário selecionar um tipo de arquivo!"
+            divErroUploadAereo.Visible = True
+
+        ElseIf FileUploadAereo.HasFile Then
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim nomeArquivo As String = Path.GetFileName(FileUploadAereo.PostedFile.FileName)
+            Dim ds As DataSet = Con.ExecutarQuery(" SELECT COUNT(*)QTD FROM TB_UPLOADS WHERE ID_TIPO_ARQUIVO = " & ddlTipoArquivoAereo.SelectedValue & " AND NM_ARQUIVO ='" & nomeArquivo & "' AND ((ID_COTACAO=" & txtID_CotacaoAereo.Text & ") OR ( ID_BL = " & txtID_BasicoAereo.Text & ")) ")
+            If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                lblErroUploadAereo.Text = "Arquivo já existe!"
+                divErroUploadAereo.Visible = True
+            Else
+
+                Dim diretorio_arquivos As String = ""
+
+                If txtID_CotacaoAereo.Text <> 0 Then
+                    diretorio_arquivos = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\Cotacao_" & txtID_CotacaoAereo.Text
+                Else
+                    diretorio_arquivos = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\BL_" & txtID_BasicoAereo.Text
+                End If
+
+                If Not Directory.Exists(diretorio_arquivos) Then
+                    System.IO.Directory.CreateDirectory(diretorio_arquivos)
+                End If
+
+
+
+                FileUploadAereo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
+
+
+                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_COTACAO,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoAereo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(),0," & txtID_CotacaoAereo.Text & "," & txtID_BasicoAereo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
+
+                divSuccessUploadAereo.Visible = True
+                dgvArquivosAereo.DataBind()
+            End If
+        Else
+
+            lblErroUploadAereo.Text = "Por favor, selecione um arquivo a enviar."
+            divErroUploadAereo.Visible = True
+
+        End If
+
+        ddlTipoArquivoAereo.SelectedValue = 0
+        txtUPAereo.Text = 1
+
+    End Sub
+
+    Private Sub btnUploadMaritimo_Click(sender As Object, e As EventArgs) Handles btnUploadMaritimo.Click
+        divErroUploadMaritimo.Visible = False
+        divSuccessUploadMaritimo.Visible = False
+
+        If txtID_BasicoMaritimo.Text = "" Then
+            lblErroUploadMaritimo.Text = "Necessário inserir processo!"
+            divErroUploadMaritimo.Visible = True
+
+        ElseIf ddlTipoArquivoMaritimo.selectedvalue = 0 Then
+            lblErroUploadMaritimo.Text = "Necessário selecionar um tipo de arquivo!"
+            divErroUploadMaritimo.Visible = True
+
+        ElseIf FileUploadMaritimo.HasFile Then
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim nomeArquivo As String = Path.GetFileName(FileUploadMaritimo.PostedFile.FileName)
+            Dim ds As DataSet = Con.ExecutarQuery(" SELECT COUNT(*)QTD FROM TB_UPLOADS WHERE ID_TIPO_ARQUIVO = " & ddlTipoArquivoMaritimo.SelectedValue & " AND NM_ARQUIVO ='" & nomeArquivo & "' AND ((ID_COTACAO=" & txtID_CotacaoMaritimo.Text & ") OR ( ID_BL = " & txtID_BasicoMaritimo.Text & ")) ")
+            If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                lblErroUploadMaritimo.Text = "Arquivo já existe!"
+                divErroUploadMaritimo.Visible = True
+            Else
+
+                Dim diretorio_arquivos As String = ""
+
+                If txtID_CotacaoMaritimo.Text <> 0 Then
+                    diretorio_arquivos = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\Cotacao_" & txtID_CotacaoMaritimo.Text
+                Else
+                    diretorio_arquivos = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\BL_" & txtID_BasicoMaritimo.Text
+                End If
+
+                If Not Directory.Exists(diretorio_arquivos) Then
+                    System.IO.Directory.CreateDirectory(diretorio_arquivos)
+                End If
+
+
+
+                FileUploadMaritimo.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
+
+
+                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_COTACAO,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivoMaritimo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), 0," & txtID_CotacaoMaritimo.Text & "," & txtID_BasicoMaritimo.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
+
+                divSuccessUploadMaritimo.Visible = True
+                dgvArquivosMaritimo.DataBind()
+            End If
+
+        Else
+
+            lblErroUploadMaritimo.Text = "Por favor, selecione um arquivo a enviar."
+            divErroUploadMaritimo.Visible = True
+
+        End If
+        ddlTipoArquivoMaritimo.SelectedValue = 0
+        txtUPMaritimo.Text = 1
+    End Sub
+
+    Private Sub dgvArquivosAereo_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvArquivosAereo.RowCommand
+        divSuccessUploadAereo.Visible = False
+
+        If e.CommandName = "Excluir" Then
+
+            Try
+                Dim Con As New Conexao_sql
+                Con.Conectar()
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    lblErroUploadAereo.Text = "Usuário não tem permissão para realizar exclusões"
+                    divErroUploadAereo.Visible = True
+                Else
+
+                    Dim CommandArgument As String = e.CommandArgument
+
+                    Dim ID_ARQUIVO As String = CommandArgument.Substring(0, CommandArgument.IndexOf("|"))
+
+                    Dim CAMINHO_ARQUIVO As String = CommandArgument.Substring(CommandArgument.IndexOf("|"))
+                    CAMINHO_ARQUIVO = CAMINHO_ARQUIVO.Replace("|", "")
+
+                    File.Delete(CAMINHO_ARQUIVO)
+
+                    Con.ExecutarQuery("DELETE FROM TB_UPLOADS WHERE ID_ARQUIVO = " & ID_ARQUIVO)
+                    divSuccessUploadAereo.Visible = True
+                    dgvArquivosAereo.DataBind()
+
+                End If
+                Con.Fechar()
+
+            Catch ex As Exception
+                lblErroUploadAereo.Text = ex.Message
+                divErroUploadAereo.Visible = True
+            End Try
+
+        ElseIf e.CommandName = "Download" Then
+
+            Try
+                Dim CAMINHO_ARQUIVO As String = e.CommandArgument
+                Response.ContentType = ContentType
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" & Path.GetFileName(CAMINHO_ARQUIVO))
+                Response.WriteFile(CAMINHO_ARQUIVO)
+                Response.Flush()
+                Response.Close()
+
+            Catch ex As Exception
+                lblErroUploadAereo.Text = ex.Message
+                divErroUploadAereo.Visible = True
+            End Try
+
+        End If
+
+        txtUPAereo.Text = 1
+    End Sub
+
+    Private Sub dgvArquivosMaritimo_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvArquivosMaritimo.RowCommand
+        divErroUploadMaritimo.Visible = False
+        divSuccessUploadMaritimo.Visible = False
+
+
+        If e.CommandName = "Excluir" Then
+
+            Try
+                Dim Con As New Conexao_sql
+                Con.Conectar()
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    lblErroUploadMaritimo.Text = "Usuário não tem permissão para realizar exclusões"
+                    divErroUploadMaritimo.Visible = True
+                Else
+
+                    Dim CommandArgument As String = e.CommandArgument
+
+                    Dim ID_ARQUIVO As String = CommandArgument.Substring(0, CommandArgument.IndexOf("|"))
+
+                    Dim CAMINHO_ARQUIVO As String = CommandArgument.Substring(CommandArgument.IndexOf("|"))
+                    CAMINHO_ARQUIVO = CAMINHO_ARQUIVO.Replace("|", "")
+
+                    File.Delete(CAMINHO_ARQUIVO)
+
+                    Con.ExecutarQuery("DELETE FROM TB_UPLOADS WHERE ID_ARQUIVO = " & ID_ARQUIVO)
+                    divSuccessUploadMaritimo.Visible = True
+                    dgvArquivosMaritimo.DataBind()
+                End If
+
+            Catch ex As Exception
+                lblErroUploadMaritimo.Text = ex.Message
+                divErroUploadMaritimo.Visible = True
+            End Try
+
+
+
+        ElseIf e.CommandName = "Download" Then
+
+            Try
+                Dim CAMINHO_ARQUIVO As String = e.CommandArgument
+                Response.ContentType = ContentType
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" & Path.GetFileName(CAMINHO_ARQUIVO))
+                Response.WriteFile(CAMINHO_ARQUIVO)
+                Response.Flush()
+                Response.Close()
+
+            Catch ex As Exception
+                lblErroUploadMaritimo.Text = ex.Message
+                divErroUploadMaritimo.Visible = True
+            End Try
+
+        End If
+
+        txtUPMaritimo.Text = 1
+    End Sub
+
+    Private Sub btnLimparUploadAereo_Click(sender As Object, e As EventArgs) Handles btnLimparUploadAereo.Click
+        divErroUploadAereo.Visible = False
+        divSuccessUploadAereo.Visible = False
+        txtUPAereo.Text = 1
+        ddlTipoArquivoAereo.SelectedValue = 0
+        FileUploadAereo.FileContent.Flush()
+    End Sub
+
+    Private Sub btnLimparUploadMaritimo_Click(sender As Object, e As EventArgs) Handles btnLimparUploadMaritimo.Click
+        divErroUploadMaritimo.Visible = False
+        divSuccessUploadMaritimo.Visible = False
+        txtUPMaritimo.Text = 1
+        ddlTipoArquivoMaritimo.SelectedValue = 0
+        FileUploadMaritimo.FileContent.Flush()
+    End Sub
+
+    Public Sub ckAtivoClientes_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
+        Dim chk As CheckBox = DirectCast(sender, CheckBox)
+        Dim row = DirectCast(chk.NamingContainer, GridViewRow)
+        Dim ID_ARQUIVO = DirectCast(row.FindControl("lblID_ARQUIVO"), Label).Text
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ATIVO_CLIENTES = '" & chk.Checked & "' WHERE ID_ARQUIVO = " & ID_ARQUIVO)
+        If Request.QueryString("s") = "A" Then
+            divSuccessUploadAereo.Visible = True
+            dgvArquivosAereo.DataBind()
+            Con.Fechar()
+            txtUPAereo.Text = 1
+        ElseIf Request.QueryString("s") = "M" Then
+            divSuccessUploadMaritimo.Visible = True
+            dgvArquivosMaritimo.DataBind()
+            Con.Fechar()
+            txtUPMaritimo.Text = 1
+        End If
+
+    End Sub
+
+    Private Sub dgvArquivosMaritimo_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvArquivosMaritimo.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim NM_ARQUIVO As Label = CType(e.Row.FindControl("lblNM_ARQUIVO"), Label)
+
+            Dim lblBotaoVisualizar As Label = CType(e.Row.FindControl("lblBotaoVisualizar"), Label)
+
+            If (NM_ARQUIVO.Text.ToLower.IndexOf(".pdf") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".mp4") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".jpeg") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".jpg") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".png") > 1) Then
+                lblBotaoVisualizar.Visible = True
+            Else
+                lblBotaoVisualizar.Visible = False
+            End If
+
+        End If
+    End Sub
+
+    Private Sub dgvArquivosAereo_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvArquivosAereo.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim NM_ARQUIVO As Label = CType(e.Row.FindControl("lblNM_ARQUIVO"), Label)
+
+            Dim lblBotaoVisualizar As Label = CType(e.Row.FindControl("lblBotaoVisualizar"), Label)
+
+            If (NM_ARQUIVO.Text.ToLower.IndexOf(".pdf") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".mp4") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".jpeg") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".jpg") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".png") > 1) Then
+                lblBotaoVisualizar.Visible = True
+            Else
+                lblBotaoVisualizar.Visible = False
+            End If
+
+        End If
+    End Sub
 End Class

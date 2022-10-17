@@ -18,6 +18,14 @@
             font-size: 8pt;
             background-color: #f0e4da;
         }
+
+         .inativa {
+            color: black;
+            font-family: verdana;
+            font-size: 8pt;
+            color: gray;
+            text-decoration: line-through;
+        }
     </style>
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="row principal">
@@ -73,6 +81,11 @@
                                         <i class="fa fa-edit" style="padding-right: 8px;"></i>Taxas
                                     </a>
                                 </li>
+                                 <li>
+                                    <a href="#DocMaritimo" role="tab" data-toggle="tab">
+                                        <i class="fa fa-edit" style="padding-right: 8px;"></i>Anexos(documentação)
+                                    </a>
+                                </li>
                                 <li>
                                     <a href="#ObsMaritimo" role="tab" data-toggle="tab">
                                         <i class="fa fa-edit" style="padding-right: 8px;"></i>Observações
@@ -106,6 +119,7 @@
                                         <div class="col-sm-3" style="display: none">
                                             <div class="form-group">
                                                 <label class="control-label">Código:</label>
+                                                 <asp:TextBox ID="txtID_CotacaoMaritimo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                 <asp:TextBox ID="txtID_BasicoMaritimo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
@@ -834,7 +848,21 @@
                     <ItemTemplate>                     
                          <asp:Label ID="lblORIGEM"  runat="server" Text='<%# Eval("ORIGEM") %>'  />
                     </ItemTemplate>
+                </asp:TemplateField>           
+                                                                <asp:TemplateField HeaderText="ATIVA?" SortExpression="ATIVA" >
+                    <ItemTemplate>                     
+                         <asp:Label ID="lblAtiva"  runat="server" Text='<%# Eval("ATIVA") %>'  />
+                    </ItemTemplate>
                 </asp:TemplateField>
+                                                                
+
+                                                                <asp:TemplateField HeaderText="HISTÓRICO" SortExpression="HISTORICO">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblTemHistorico" runat="server" Text='<%# Eval("HISTORICO") %>' Visible="false"></asp:Label>
+                                                <asp:ImageButton ID="ImageButton1" src="Content/imagens/hist.png" runat="server" CommandArgument='<%# Eval("ID_BL_TAXA") %>' ToolTip="Histórico" CommandName="Historico" /> 
+                                                       <asp:Label ID="lblTaxa" Visible="False" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -856,9 +884,45 @@
                                                                     </ItemTemplate>
                                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                                 </asp:TemplateField>
+                                                                
                                                             </Columns>
                                                             <HeaderStyle CssClass="headerStyle" />
                                                         </asp:GridView>
+
+
+                                                        <asp:Button runat="server" ID="Button1" CssClass="btn btn-block btn-primary" Style="display: none" />
+                            <ajaxToolkit:ModalPopupExtender ID="mpeHistoricoMaritimo" runat="server" PopupControlID="pnHistoricoMaritimo" TargetControlID="Button1" CancelControlID="btnFecharHistoricoMaritimo"></ajaxToolkit:ModalPopupExtender>
+                            <asp:Panel ID="pnHistoricoMaritimo" runat="server" CssClass="modalPopup" Style="display: none;">
+                                <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Historico de Status</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                                               <div class="row"> 
+                                                                   <div class="col-sm-12"> 
+                                                                       <div class="table-responsive tableFixHead" style="max-height: 200px; font-size:12px!important">
+                                                                            <asp:GridView ID="dgvHistoricoMaritimo" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="ID_INATIVACAO" DataSourceID="dsHistorico" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado." >
+                                                                            <Columns>
+                                                                                <asp:BoundField DataField="ID_INATIVACAO" HeaderText="#" SortExpression="Id" Visible="false" />
+                                                                                 <asp:BoundField DataField="STATUS" HeaderText="Ativo?" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="NOME" HeaderText="Usuário" DataFormatString="{0:dd/MM/yyyy}" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="DT_INATIVACAO" HeaderText="Data" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="NM_MOTIVO_INATIVACAO" HeaderText="Motivo" ItemStyle-HorizontalAlign="Center" />
+                                                                            </Columns>
+                                                                            <HeaderStyle HorizontalAlign="Center" CssClass="Historico" />
+                                                                        </asp:GridView>
+
+                             </div> </div>         </div>     </div>          
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharHistoricoMaritimo" text="Close" />                                                                
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                            </asp:Panel>
 
 VENDAS:
                                                         <asp:GridView ID="dgvTaxaMaritimoVendas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasMaritimoVendas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
@@ -1116,6 +1180,110 @@ VENDAS:
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
+
+                                  <div class="tab-pane fade" id="DocMaritimo">
+                                                          
+                               <div class="alert alert-danger" id="divErroUploadMaritimo" runat="server" visible="false">
+                                        <asp:Label ID="lblErroUploadMaritimo" runat="server"></asp:Label>
+                                    </div>
+                              <div class="alert alert-success" id="divSuccessUploadMaritimo" runat="server" visible="false">
+                                        <asp:Label ID="lblSuccessUploadMaritimo" runat="server">
+                                             Ação realizada com sucesso!
+                                        </asp:Label>
+                                    </div>
+                                    <br />
+                            <div class="row">
+                               
+                            
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Tipo de arquivo:</label> 
+                                        <asp:DropDownList ID="ddlTipoArquivoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_ARQUIVO" DataSourceID="dsTipoArquivo" DataValueField="ID_TIPO_ARQUIVO">
+                                        </asp:DropDownList>
+                                          </div>
+                                </div>
+                                 <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <asp:FileUpload ID="FileUploadMaritimo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
+                                    </div>
+                                </div>
+                                                         
+                            </div> 
+                       
+                            <asp:UpdatePanel ID="UpdatePanel17" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                <ContentTemplate>
+                                    <div class="row">
+                                        <div class="col-sm-12">        
+                                            <asp:TextBox ID="txtUPMaritimo" runat="server" Style="display: none"></asp:TextBox>
+                                            <asp:TextBox ID="txtArquivoSelecionadoMaritimo" runat="server" Style="display: none"></asp:TextBox>
+                                            <asp:GridView ID="dgvArquivosMaritimo" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  DataKeyNames="ID_ARQUIVO" DataSourceID="dsUploadsMaritimo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1"  Style="max-height: 400px; overflow: auto;" AllowSorting="true">
+                                                <Columns>
+                                                    <asp:TemplateField HeaderText="ID" Visible="False">
+                                                            <ItemTemplate>
+                                                                 <asp:Label ID="lblID_ARQUIVO" runat="server" Text='<%# Eval("ID_ARQUIVO") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                     <asp:TemplateField  HeaderText="Nome do Arquivo" HeaderStyle-ForeColor="#337ab7" >
+                                                            <ItemTemplate>
+                                                                 <asp:Label ID="lblNM_ARQUIVO" runat="server" Text='<%# Eval("NM_ARQUIVO") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    <asp:BoundField DataField="NM_TIPO_ARQUIVO" HeaderText="Tipo do Arquivo" SortExpression="NM_TIPO_ARQUIVO" />
+                                                    <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
+                                                    <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
+                                                    <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
+                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" autopostback="true"  OnCheckedChanged="ckAtivoClientes_CheckedChanged" />                                                            
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                                <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar"><asp:Label ID="lblBotaoVisualizar" runat="server" Text="Visualizar" /></a>
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkDownload" Text="Download" CommandName="Download" CommandArgument='<%# Eval("CAMINHO_ARQUIVO") %>' runat="server" Font-Size="medium"></asp:LinkButton>
+                                                        </ItemTemplate>
+                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkDeleta" Text="Deletar" OnClientClick="javascript:return confirm('Deseja realmente excluir este arquivo?');" CommandName="Excluir" CommandArgument='<%# Eval("ID_ARQUIVO") & "|" & Eval("CAMINHO_ARQUIVO") %>'  runat="server" Font-Size="medium" />
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                            </asp:GridView>
+                                        </div>
+                                    </div>
+                                                                            <div class="row">
+                                                <div class="col-sm-3 col-sm-offset-6"  style="display:none">
+                                                    <div class="form-group">
+                                                        <label>&nbsp;</label>
+                                                        <asp:Button ID="btnLimparUploadMaritimo" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3 col-sm-offset-9">
+                                                    <div class="form-group">
+                                                        <label>&nbsp;</label>
+                                                        <asp:Button ID="btnUploadMaritimo" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                
+                                </ContentTemplate>
+                                <Triggers>
+                                     <asp:PostBackTrigger ControlID="btnUploadMaritimo" />
+                                     <asp:PostBackTrigger ControlID="dgvArquivosMaritimo" />
+                                     <asp:PostBackTrigger ControlID="btnLimparUploadMaritimo" />
+                                </Triggers>
+                            </asp:UpdatePanel>
+                      
+ </div>
                                 <div class="tab-pane fade" id="ObsMaritimo">
                                     <asp:UpdatePanel ID="UpdatePanel11" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                         <ContentTemplate>
@@ -1309,6 +1477,11 @@ VENDAS:
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="#DocAereo" role="tab" data-toggle="tab">
+                                        <i class="fa fa-edit" style="padding-right: 8px;"></i>Anexos(documentação)
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="#ObsAereo" role="tab" data-toggle="tab">
                                         <i class="fa fa-edit" style="padding-right: 8px;"></i>Observações
                                     </a>
@@ -1334,6 +1507,7 @@ VENDAS:
                                                 <div class="col-sm-3" style="display: none">
                                                     <div class="form-group">
                                                         <label class="control-label">Código:</label>
+                                                        <asp:TextBox ID="txtID_CotacaoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                         <asp:TextBox ID="txtID_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
@@ -2157,7 +2331,19 @@ VENDAS:
                     <ItemTemplate>                     
                          <asp:Label ID="lblORIGEM"  runat="server" Text='<%# Eval("ORIGEM") %>'  />
                     </ItemTemplate>
+                </asp:TemplateField><asp:TemplateField HeaderText="ATIVA?" SortExpression="ATIVA" >
+                    <ItemTemplate>                     
+                         <asp:Label ID="lblAtiva"  runat="server" Text='<%# Eval("ATIVA") %>'  />
+                    </ItemTemplate>
                 </asp:TemplateField>
+
+                                                                <asp:TemplateField HeaderText="HISTÓRICO" SortExpression="HISTORICO">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblTemHistorico" runat="server" Text='<%# Eval("HISTORICO") %>' Visible="false"></asp:Label>
+                                                <asp:ImageButton ID="ImageButton1" src="Content/imagens/hist.png" runat="server" CommandArgument='<%# Eval("ID_BL_TAXA") %>' ToolTip="Histórico" CommandName="Historico" />
+                                                       <asp:Label ID="lblTaxa" Visible="False" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -2183,6 +2369,42 @@ VENDAS:
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>
 
+                                                
+                                                  <asp:Button runat="server" ID="Button2" CssClass="btn btn-block btn-primary" Style="display: none" />
+                            <ajaxToolkit:ModalPopupExtender ID="mpeHistoricoAereo" runat="server" PopupControlID="pnHistoricoAereo" TargetControlID="Button2" CancelControlID="btnFecharHistoricoAereo"></ajaxToolkit:ModalPopupExtender>
+                            <asp:Panel ID="pnHistoricoAereo" runat="server" CssClass="modalPopup" Style="display: none;">
+                                <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Historico de Status</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                                               <div class="row"> 
+                                                                   <div class="col-sm-12"> 
+                                                                       <div class="table-responsive tableFixHead" style="max-height: 200px; font-size:12px!important">
+                                                                            <asp:GridView ID="dgvHistoricoAereo" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="ID_INATIVACAO" DataSourceID="dsHistorico" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado." >
+                                                                            <Columns>
+                                                                                <asp:BoundField DataField="ID_INATIVACAO" HeaderText="#" SortExpression="Id" Visible="false" />
+                                                                                 <asp:BoundField DataField="STATUS" HeaderText="Ativo?" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="NOME" HeaderText="Usuário" DataFormatString="{0:dd/MM/yyyy}" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="DT_INATIVACAO" HeaderText="Data" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="NM_MOTIVO_INATIVACAO" HeaderText="Motivo" ItemStyle-HorizontalAlign="Center" />
+                                                                            </Columns>
+                                                                            <HeaderStyle HorizontalAlign="Center" CssClass="Historico" />
+                                                                        </asp:GridView>
+
+                             </div> </div>         </div>     </div>          
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharHistoricoAereo" text="Close" />                                                                
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                            </asp:Panel>
+
+                                                
                                                 VENDAS:
                                                 <asp:GridView ID="dgvTaxaAereoVendas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasAereoVendas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                                     <Columns>
@@ -2421,6 +2643,109 @@ VENDAS:
                                     </asp:Panel>
 
                                 </div>
+
+                                <div class="tab-pane fade" id="DocAereo">
+                     
+                               <div class="alert alert-danger" id="divErroUploadAereo" runat="server" visible="false">
+                                        <asp:Label ID="lblErroUploadAereo" runat="server"></asp:Label>
+                                    </div>
+                              <div class="alert alert-success" id="divSuccessUploadAereo" runat="server" visible="false">
+                                        <asp:Label ID="lblSuccessUploadAereo" runat="server">
+                                             Ação realizada com sucesso!
+                                        </asp:Label>
+                                    </div>
+                                    <br />
+                            <div class="row">
+                               
+                            
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Tipo de arquivo:</label> 
+                                        <asp:DropDownList ID="ddlTipoArquivoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_ARQUIVO" DataSourceID="dsTipoArquivo" DataValueField="ID_TIPO_ARQUIVO">
+                                        </asp:DropDownList>
+                                          </div>
+                                </div>
+                                 <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <asp:FileUpload ID="FileUploadAereo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
+                                    </div>
+                                </div>
+                            </div> 
+                       
+                            <asp:UpdatePanel ID="UpdatePanel18" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                <ContentTemplate>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <asp:TextBox ID="txtUPAereo" runat="server" Style="display: none"></asp:TextBox>
+                                            <asp:TextBox ID="txtArquivoSelecionadoAereo" runat="server" Style="display: none"></asp:TextBox>
+                                            <asp:GridView ID="dgvArquivosAereo" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  DataKeyNames="ID_ARQUIVO" DataSourceID="dsUploadsAereo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1"  Style="max-height: 400px; overflow: auto;" AllowSorting="true">
+                                                <Columns>
+                                                      <asp:TemplateField HeaderText="ID" Visible="False">
+                                                            <ItemTemplate>
+                                                                 <asp:Label ID="lblID_ARQUIVO" runat="server" Text='<%# Eval("ID_ARQUIVO") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                     <asp:TemplateField  HeaderText="Nome do Arquivo" HeaderStyle-ForeColor="#337ab7" >
+                                                            <ItemTemplate>
+                                                                 <asp:Label ID="lblNM_ARQUIVO" runat="server" Text='<%# Eval("NM_ARQUIVO") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    <asp:BoundField DataField="NM_TIPO_ARQUIVO" HeaderText="Tipo do Arquivo" SortExpression="NM_TIPO_ARQUIVO" />
+                                                    <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
+                                                    <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
+                                                    <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
+                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" AutoPostBack="true" OnCheckedChanged="ckAtivoClientes_CheckedChanged" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                             <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar"><asp:Label ID="lblBotaoVisualizar" runat="server" Text="Visualizar" /></a>          
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkDownload" Text="Download" CommandName="Download" CommandArgument='<%# Eval("CAMINHO_ARQUIVO") %>' runat="server" Font-Size="medium"></asp:LinkButton>
+                                                        </ItemTemplate>
+                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkDeleta" Text="Deletar" OnClientClick="javascript:return confirm('Deseja realmente excluir este arquivo?');" CommandName="Excluir" CommandArgument='<%# Eval("ID_ARQUIVO") & "|" & Eval("CAMINHO_ARQUIVO") %>'  runat="server" Font-Size="medium" />
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                            </asp:GridView>
+                                        </div>
+                                    </div>
+                                         
+                                             <div class="row">
+                                            <div class="col-sm-3 col-sm-offset-6" style="display:none">
+                                                <div class="form-group">
+                                                    <label>&nbsp;</label>
+                                                    <asp:Button ID="btnLimparUploadAereo" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3 col-sm-offset-9">
+                                                <div class="form-group">
+                                                    <label>&nbsp;</label>
+                                                    <asp:Button ID="btnUploadAereo" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
+                                                </div>
+                                            </div>
+                                        </div> 
+                                </ContentTemplate>
+                                <Triggers>
+                                     <asp:PostBackTrigger ControlID="btnLimparUploadAereo" />
+                                     <asp:PostBackTrigger ControlID="btnUploadAereo" />
+                                     <asp:PostBackTrigger ControlID="dgvArquivosAereo" />
+                                </Triggers>
+                            </asp:UpdatePanel>
+             
+
+                        </div>
+
                                 <div class="tab-pane fade" id="ObsAereo">
                                     <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                         <ContentTemplate>
@@ -2677,11 +3002,11 @@ union SELECT 0, ' Selecione' FROM [dbo].[TB_ITEM_DESPESA] ORDER BY NM_ITEM_DESPE
 union SELECT 0, '      Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY NM_BASE_CALCULO_TAXA"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsPortoMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO ">             
+     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO ">             
 </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsPortoAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-     selectcommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '       Selecione' ORDER BY NM_PORTO ">             
+     selectcommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '       Selecione' ORDER BY NM_PORTO ">             
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]
@@ -3069,6 +3394,40 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT">
 union 
 SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
 
+
+        <asp:SqlDataSource ID="dsUploadsMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO FROM TB_UPLOADS  A
+ INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
+INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
+    WHERE A.ID_BL = @ID_BL ">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsUploadsAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO FROM TB_UPLOADS  A
+ INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
+INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
+    WHERE A.ID_BL = @ID_BL ">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsTipoArquivo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_TIPO_ARQUIVO,NM_TIPO_ARQUIVO FROM TB_TIPO_ARQUIVO
+union 
+SELECT  0, '      Selecione' ORDER BY ID_TIPO_ARQUIVO "></asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsHistorico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_INATIVACAO,CASE WHEN ISNULL(FL_TAXA_INATIVA,0) = 0 THEN 'ATIVO' ELSE 'INATIVO' END STATUS,NOME,DT_INATIVACAO,CASE WHEN ISNULL(C.FL_PRECISA_DESCR,0) = 1 THEN
+C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACAO END NM_MOTIVO_INATIVACAO,A.DS_MOTIVO_INATIVACAO FROM TB_INATIVACAO_TAXAS A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_INATIVACAO = B.ID_USUARIO INNER JOIN TB_MOTIVO_INATIVACAO C ON C.ID_MOTIVO_INATIVACAO = A.ID_MOTIVO_INATIVACAO  WHERE A.ID_BL_TAXA = @ID_BL_TAXA ORDER BY DT_INATIVACAO DESC">
+        <SelectParameters>
+            <asp:Parameter Name="ID_BL_TAXA" Type="Int32" DefaultValue="0" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>
@@ -3079,17 +3438,34 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
             var Qtd = url.indexOf("&s=A");
             if (Qtd != -1) {
                 console.log("A");
-                activaTab('Aereo');
+                var UP = document.getElementById('<%= txtUPAereo.ClientID %>').value;
+                if (UP == 1) {
+                    $('.nav-tabs a[href="#Aereo"]').tab('show');
+                    $('.nav-tabs a[href="#DocAereo"]').tab('show');
+                    document.getElementById('<%= txtUPAereo.ClientID %>').value = 0;
+                }
+                else {
+                    $('.nav-tabs a[href="#Aereo"]').tab('show');
+
+                }
 
             } else {
                 console.log("M");
-                activaTab('Maritimo');
+                var UP = document.getElementById('<%= txtUPMaritimo.ClientID %>').value;
+
+                if (UP == 1) {
+                    $('.nav-tabs a[href="#DocMaritimo"]').tab('show');
+
+                    document.getElementById('<%= txtUPMaritimo.ClientID %>').value = 0;
+                }
+                else {
+                    $('.nav-tabs a[href="#Maritimo"]').tab('show');
+
+                }
             }
         });
 
-        function activaTab(tab) {
-            $('.nav-tabs a[href="#' + tab + '"]').tab('show');
-        };
+       
 
         $('#ajuda').on("click", function () {
             $('#modal-ajuda').modal('show');

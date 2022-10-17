@@ -1,5 +1,7 @@
-﻿Public Class CadastroCotacao
+﻿Imports System.IO
+Public Class CadastroCotacao
     Inherits System.Web.UI.Page
+    Public imagemBase64Retorno As String
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Session("Logado") = "False" Or Session("Logado") = Nothing Then
@@ -16,7 +18,6 @@
 
                 ddlTipoPagamentoTaxa.SelectedValue = 1
                 dsDestinatarioComercial.DataBind()
-
                 CarregaCampos()
             End If
 
@@ -59,13 +60,14 @@ CONVERT(varchar,A.DT_VALIDADE_COTACAO,103)DT_VALIDADE_COTACAO,
 CONVERT(varchar,A.DT_ENVIO_COTACAO,103)DT_ENVIO_COTACAO,
 A.ID_ANALISTA_COTACAO,A.ID_AGENTE_INTERNACIONAL,A.ID_TIPO_BL,A.ID_INCOTERM,A.ID_TIPO_ESTUFAGEM,A.ID_DESTINATARIO_COMERCIAL,ISNULL(A.ID_CLIENTE,0)ID_CLIENTE,ISNULL(A.ID_CLIENTE_FINAL,0)ID_CLIENTE_FINAL,A.ID_CONTATO,A.ID_SERVICO,A.ID_VENDEDOR,A.OB_CLIENTE,A.OB_MOTIVO_CANCELAMENTO,A.OB_OPERACIONAL,A.ID_MOTIVO_CANCELAMENTO,
 CONVERT(varchar,A.DT_CALCULO_COTACAO,103)DT_CALCULO_COTACAO,ID_TIPO_CARGA, 
-NR_PROCESSO_GERADO,ID_PROCESSO, ID_USUARIO_STATUS,(SELECT FL_COTACAO_APROVADA FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_COTACAO_APROVADA, (SELECT FL_ENCERRA_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_ENCERRA_COTACAO, ISNULL(FL_LTL,0)FL_LTL,ISNULL(FL_DTA_HUB,0)FL_DTA_HUB,ISNULL(FL_TRANSP_DEDICADO,0)FL_TRANSP_DEDICADO, VL_TOTAL_PESO_BRUTO,VL_TOTAL_M3, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO, ISNULL(FL_EMAIL_COTACAO,0)FL_EMAIL_COTACAO,EMAIL_COTACAO,ISNULL([dbo].[FN_ANALISTA_COTACAO_PRICING](A.ID_COTACAO),0) AS ID_ANALISTA_COTACAO_PRICING,ISNULL(ID_TIPO_AERONAVE,0)ID_TIPO_AERONAVE, ISNULL(FL_TC4,0)FL_TC4,ISNULL(FL_TC6,0)FL_TC6 , ISNULL(VL_PESO_TAXADO,0)VL_PESO_TAXADO 
+NR_PROCESSO_GERADO,ID_PROCESSO, ID_USUARIO_STATUS,(SELECT FL_COTACAO_APROVADA FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_COTACAO_APROVADA, (SELECT FL_ENCERRA_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_ENCERRA_COTACAO, ISNULL(FL_LTL,0)FL_LTL,ISNULL(FL_DTA_HUB,0)FL_DTA_HUB,ISNULL(FL_TRANSP_DEDICADO,0)FL_TRANSP_DEDICADO, VL_TOTAL_PESO_BRUTO,VL_TOTAL_M3, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO, ISNULL(FL_EMAIL_COTACAO,0)FL_EMAIL_COTACAO,EMAIL_COTACAO,ISNULL([dbo].[FN_ANALISTA_COTACAO_PRICING](A.ID_COTACAO),0) AS ID_ANALISTA_COTACAO_PRICING,ISNULL(ID_TIPO_AERONAVE,0)ID_TIPO_AERONAVE, ISNULL(FL_TC4,0)FL_TC4,ISNULL(FL_TC6,0)FL_TC6 , ISNULL(VL_PESO_TAXADO,0)VL_PESO_TAXADO,ISNULL((SELECT ID_BL FROM TB_BL WHERE ID_COTACAO = A.ID_COTACAO AND GRAU = 'C' AND NR_PROCESSO = A.NR_PROCESSO_GERADO AND ISNULL(FL_CANCELADO,0) = 0 ),0)ID_BL 
 FROM  TB_COTACAO A
     WHERE A.ID_COTACAO = " & Request.QueryString("id"))
         If ds.Tables(0).Rows.Count > 0 Then
 
             'Informaçoes basicas
             txtID.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO").ToString()
+            txtID_BL.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
             txtNumeroCotacao.Text = ds.Tables(0).Rows(0).Item("NR_COTACAO").ToString()
             ckbFreeHand.Checked = ds.Tables(0).Rows(0).Item("FL_FREE_HAND")
             ckbLTL.Checked = ds.Tables(0).Rows(0).Item("FL_LTL")
@@ -286,10 +288,9 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             GridHistoricoCotacao()
             GridHistoricoFrete()
 
-
-
         End If
     End Sub
+
 
     Sub MaritimoXAereo()
         If Session("servico") = 2 Or Session("servico") = 5 Then
@@ -610,22 +611,29 @@ FROM TB_COTACAO A where ID_CLIENTE = " & Session("ID_CLIENTE") & " AND ID_TIPO_E
         dgvHistoricoCotacao.DataBind()
     End Sub
     Sub GridHistoricoFrete()
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT CNPJ FROM TB_PARCEIRO  WHERE ID_PARCEIRO = " & Session("ID_CLIENTE"))
-        If ds.Tables(0).Rows.Count > 0 Then
-            txtcnpj.Text = ds.Tables(0).Rows(0).Item("CNPJ").ToString()
-        Else
-            txtcnpj.Text = 0
-        End If
+        Try
 
-        dsHistoricoFrete.SelectCommand = "SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= " & txtQtd.Text & " and cnpj = '" & txtcnpj.Text & "' "
-        dgvHistoricoFrete.DataBind()
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT CNPJ FROM TB_PARCEIRO  WHERE ID_PARCEIRO = " & Session("ID_CLIENTE"))
 
+            If ds.Tables(0).Rows.Count > 0 Then
+                txtcnpj.Text = ds.Tables(0).Rows(0).Item("CNPJ").ToString()
+            Else
+                txtcnpj.Text = 0
 
-        dsHistoricoFrete.SelectParameters("cnpj").DefaultValue = txtcnpj.Text
-        dgvHistoricoFrete.DataBind()
+            End If
 
+            dsHistoricoFrete.SelectCommand = "SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= " & txtQtd.Text & " and cnpj = '" & txtcnpj.Text & "' "
+            dgvHistoricoFrete.DataBind()
+
+            dsHistoricoFrete.SelectParameters("cnpj").DefaultValue = txtcnpj.Text
+            dgvHistoricoFrete.DataBind()
+
+        Catch ex As Exception
+            Session("erro") = ex.ToString
+            Response.Redirect("Erro.aspx")
+        End Try
     End Sub
     Private Sub dgvFrete_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvFrete.RowCommand
         Dim Con As New Conexao_sql
@@ -1513,7 +1521,14 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                         End If
                     End If
 
+                    If ddlStatusCotacao.SelectedValue = 7 Then
+                        'CANCELAR
+                        Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 7, DT_STATUS_COTACAO = GETDATE() , ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
 
+                        Con.ExecutarQuery("UPDATE TB_BL SET DT_CANCELAMENTO = GETDATE() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+
+                        ddlStatusCotacao.Enabled = False
+                    End If
 
                     txtDataCalculo.Text = txtDataCalculo.Text.Replace("'", "")
                     txtDataCalculo.Text = txtDataCalculo.Text.Replace("NULL", "")
@@ -4823,32 +4838,13 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
                     PESO_TAXADO = PESO_TAXADO_INTEIRO + 0.5
                 End If
 
-            End If        'Dim Peso_Final As String = PESO_TAXADO.ToString
-            'Peso_Final = Peso_Final.ToString.Replace(".", "")
-            'Peso_Final = Peso_Final.ToString.Replace(",", ".")
-            'Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_PESO_TAXADO = " & Peso_Final & "  WHERE ID_COTACAO = " & ID_COTACAO)
+            End If
         End If
         Return PESO_TAXADO.ToString("0.000")
 
     End Function
 
     Private Sub txtPesoBrutoMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtPesoBrutoMercadoria.TextChanged
-
-        'Dim Con As New Conexao_sql
-        'Con.Conectar()
-        'Dim ds As DataSet
-
-        ''SALVA PESO BRUTO
-        'Dim PESO_BRUTO_FINAL As String = txtPesoBrutoMercadoria.Text.ToString
-        'PESO_BRUTO_FINAL = PESO_BRUTO_FINAL.ToString.Replace(".", "")
-        'PESO_BRUTO_FINAL = PESO_BRUTO_FINAL.ToString.Replace(",", ".")
-        'If txtIDMercadoria.Text = "" Then
-        '    ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA (VL_PESO_BRUTO , ID_COTACAO) VALUES (" & PESO_BRUTO_FINAL & ", " & txtID.Text & ") Select SCOPE_IDENTITY() as ID_COTACAO_MERCADORIA")
-        '    txtIDMercadoria.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO_MERCADORIA").ToString()
-        'Else
-        '    Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_CBM = " & PESO_BRUTO_FINAL & " WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
-        'End If
-
         txtPesoTaxadoMercadoria.Text = ArredondarPesoTaxado(txtID.Text)
     End Sub
 
@@ -4859,27 +4855,6 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         txtPesoTaxadoMercadoria.Text = ArredondarPesoTaxado(txtID.Text)
     End Sub
     Private Sub txtCBMAereo_TextChanged(sender As Object, e As EventArgs) Handles txtCBMAereo.TextChanged
-        'Dim Con As New Conexao_sql
-        'Con.Conectar()
-        'Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM  TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO =" & txtID.Text)
-        'If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-        '    If txtPesoBrutoMercadoria.Text <> "" And txtCBMAereo.Text <> "" Then
-
-        '        'SALVA CBM
-        '        Dim CBMFinal As String = txtCBMAereo.Text.ToString
-        '        CBMFinal = CBMFinal.ToString.Replace(".", "")
-        '        CBMFinal = CBMFinal.ToString.Replace(",", ".")
-        '        If txtIDMercadoria.Text = "" Then
-        '            ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA (VL_CBM , ID_COTACAO) VALUES (" & CBMFinal & ", " & txtID.Text & ") Select SCOPE_IDENTITY() as ID_COTACAO_MERCADORIA")
-        '            txtIDMercadoria.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO_MERCADORIA").ToString()
-        '        Else
-        '            Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_CBM = " & CBMFinal & " WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
-        '        End If
-
-        '        txtPesoTaxadoMercadoria.Text = ArredondarPesoTaxado(txtID.Text)
-
-        '    End If
-        'End If
 
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -4941,5 +4916,151 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         Session("estufagem") = ddlEstufagem.SelectedValue
         MaritimoXAereo()
 
+    End Sub
+
+    Private Sub dgvArquivos_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvArquivos.RowCommand
+        divErroUpload.Visible = False
+        divSuccessUpload.Visible = False
+
+        If e.CommandName = "Excluir" Then
+
+            Try
+                Dim Con As New Conexao_sql
+                Con.Conectar()
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    lblErroUpload.Text = "Usuário não tem permissão para realizar exclusões"
+                    divErroUpload.Visible = True
+                Else
+
+                    Dim CommandArgument As String = e.CommandArgument
+
+                    Dim ID_ARQUIVO As String = CommandArgument.Substring(0, CommandArgument.IndexOf("|"))
+
+                    Dim CAMINHO_ARQUIVO As String = CommandArgument.Substring(CommandArgument.IndexOf("|"))
+                    CAMINHO_ARQUIVO = CAMINHO_ARQUIVO.Replace("|", "")
+
+                    File.Delete(CAMINHO_ARQUIVO)
+
+                    Con.ExecutarQuery("DELETE FROM TB_UPLOADS WHERE ID_ARQUIVO = " & ID_ARQUIVO)
+                    divSuccessUpload.Visible = True
+                    dgvArquivos.DataBind()
+
+                End If
+
+            Catch ex As Exception
+                lblErroUpload.Text = ex.Message
+                divErroUpload.Visible = True
+            End Try
+
+        ElseIf e.CommandName = "Download" Then
+
+            Try
+                Dim CAMINHO_ARQUIVO As String = e.CommandArgument
+                Response.ContentType = ContentType
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" & Path.GetFileName(CAMINHO_ARQUIVO))
+                Response.WriteFile(CAMINHO_ARQUIVO)
+                Response.Flush()
+                Response.Close()
+
+            Catch ex As Exception
+                lblErroUpload.Text = ex.Message
+                divErroUpload.Visible = True
+            End Try
+
+
+        End If
+
+        txtUP.Text = 1
+
+    End Sub
+
+    Private Sub btnUpload_Click(sender As Object, e As EventArgs) Handles btnUpload.Click
+        divErroUpload.Visible = False
+        divSuccessUpload.Visible = False
+
+        If txtID.Text = "" Then
+            lblErroUpload.Text = "Necessário inserir cotação!"
+            divErroUpload.Visible = True
+
+        ElseIf ddlTipoArquivo.selectedvalue = 0 Then
+            lblErroUpload.Text = "Necessário selecionar um tipo de arquivo!"
+            divErroUpload.Visible = True
+
+
+        ElseIf FileUpload1.HasFile Then
+
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim nomeArquivo As String = Path.GetFileName(FileUpload1.PostedFile.FileName)
+            Dim ds As DataSet = Con.ExecutarQuery(" SELECT COUNT(*)QTD FROM TB_UPLOADS WHERE ID_COTACAO=" & txtID.Text & " AND ID_TIPO_ARQUIVO = " & ddlTipoArquivo.SelectedValue & " AND NM_ARQUIVO ='" & nomeArquivo & "'")
+            If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                lblErroUpload.Text = "Arquivo já existe!"
+                divErroUpload.Visible = True
+            Else
+
+                Dim diretorio_arquivos As String = System.Configuration.ConfigurationSettings.AppSettings("CaminhoUploads") & "\Uploads\Cotacao_" & txtID.Text
+
+                If Not Directory.Exists(diretorio_arquivos) Then
+                    System.IO.Directory.CreateDirectory(diretorio_arquivos)
+                End If
+
+                FileUpload1.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
+
+                Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_COTACAO,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientes.Checked & "'," & txtID.Text & "," & txtID_BL.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
+
+                divSuccessUpload.Visible = True
+                dgvArquivos.DataBind()
+
+            End If
+        Else
+
+            lblErroUpload.Text = "Por favor, selecione um arquivo a enviar."
+            divErroUpload.Visible = True
+
+        End If
+        ddlTipoArquivo.SelectedValue = 0
+        txtUP.Text = 1
+    End Sub
+
+    Private Sub btnLimparUpload_Click(sender As Object, e As EventArgs) Handles btnLimparUpload.Click
+        divErroUpload.Visible = False
+        divSuccessUpload.Visible = False
+        txtUP.Text = 1
+        ddlTipoArquivo.SelectedValue = 0
+        FileUpload1.FileContent.Flush()
+    End Sub
+
+    Public Sub ckAtivoClientes_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
+        divErroUpload.Visible = False
+        divSuccessUpload.Visible = False
+        Dim chk As CheckBox = DirectCast(sender, CheckBox)
+        Dim row = DirectCast(chk.NamingContainer, GridViewRow)
+        Dim ID_ARQUIVO = DirectCast(row.FindControl("lblID_ARQUIVO"), Label).Text
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ATIVO_CLIENTES = '" & chk.Checked & "' WHERE ID_ARQUIVO = " & ID_ARQUIVO)
+        divSuccessUpload.Visible = True
+        dgvArquivos.DataBind()
+        Con.Fechar()
+        txtUP.Text = 1
+    End Sub
+
+    Private Sub dgvArquivos_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvArquivos.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim NM_ARQUIVO As Label = CType(e.Row.FindControl("lblNM_ARQUIVO"), Label)
+
+            Dim lblBotaoVisualizar As Label = CType(e.Row.FindControl("lblBotaoVisualizar"), Label)
+
+            If (NM_ARQUIVO.Text.ToLower.IndexOf(".pdf") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".mp4") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".jpeg") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".jpg") > 1) Or (NM_ARQUIVO.Text.ToLower.IndexOf(".png") > 1) Then
+                lblBotaoVisualizar.Visible = True
+            Else
+                lblBotaoVisualizar.Visible = False
+            End If
+
+        End If
     End Sub
 End Class

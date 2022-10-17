@@ -192,7 +192,6 @@
     <script>
      function AbrirArquivo() {
 
-
          var Arquivo = document.getElementById('<%= txtArquivoSelecionado.ClientID %>').value;
          console.log(Arquivo);
 

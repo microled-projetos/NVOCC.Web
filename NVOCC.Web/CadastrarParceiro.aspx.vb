@@ -1350,7 +1350,6 @@ WHERE ID_PARCEIRO =" & ID)
             txtTelContato.CssClass = "form-control telefone"
             txtCelularContato.CssClass = "form-control celular"
         End If
-
     End Sub
 
     Private Sub ddlTipoPessoa_PreRender(sender As Object, e As EventArgs) Handles ddlTipoPessoa.PreRender
@@ -1386,7 +1385,6 @@ WHERE ID_PARCEIRO =" & ID)
             txtTelContato.CssClass = "form-control telefone"
             txtCelularContato.CssClass = "form-control celular"
         End If
-
 
     End Sub
 

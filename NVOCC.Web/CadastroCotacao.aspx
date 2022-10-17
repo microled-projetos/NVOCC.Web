@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="CadastroCotacao.aspx.vb" Inherits="NVOCC.Web.CadastroCotacao" enableEventValidation="true" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="CadastroCotacao.aspx.vb" Inherits="NVOCC.Web.CadastroCotacao" EnableEventValidation="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
@@ -9,7 +9,7 @@
     <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">
 
-            <div class="panel panel-primary"> 
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">COTAÇÃO
                     </h3>
@@ -37,6 +37,11 @@
                         <li>
                             <a href="#taxas" role="tab" data-toggle="tab">
                                 <i class="fa fa-edit" style="padding-right: 8px;"></i>Taxas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#doc" role="tab" data-toggle="tab">
+                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Anexos(documentação)
                             </a>
                         </li>
                         <li>
@@ -73,6 +78,7 @@
                                             <div class="form-group">
                                                 <label class="control-label">Código:</label>
                                                 <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                                  <asp:TextBox ID="txtID_BL" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                             </div>
                                         </div>
                                     </div>
@@ -84,14 +90,14 @@
                                                 <asp:TextBox ID="txtNumeroCotacao" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                             </div>
                                         </div>
-                                         <div class="col-sm-3">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:TextBox ID="txtViaTransporte" runat="server" Style="display: none" CssClass="form-control" />
                                                 <label class="control-label">Serviço:</label></label><label runat="server" style="color: red">*</label>
                                                 <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServico" DataValueField="ID_SERVICO" AutoPostBack="true">
                                                 </asp:DropDownList>
                                             </div>
-                                        </div>                                          
+                                        </div>
                                         <div id="divFlagMaritimo" runat="server">
                                             <div class="col-sm-1">
                                                 <div class="form-group">
@@ -105,9 +111,9 @@
                                                     <asp:CheckBox ID="ckbDtaHub" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;DTA HUB"></asp:CheckBox>
                                                 </div>
                                             </div>
-                                           
+
                                         </div>
-                                        
+
                                         <div id="divFlagAereo" runat="server" style="display: none">
                                             <div class="col-sm-1">
                                                 <div class="form-group">
@@ -122,19 +128,19 @@
                                                 </div>
                                             </div>
                                         </div>
-                                         <div class="col-sm-2">
-                                                <div class="form-group">
-                                                    <label class="control-label" style="color: white">X</label>
-                                                    <asp:CheckBox ID="ckbTranspDedicado" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;TRANSP. DEDICADO"></asp:CheckBox>
-                                                </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label" style="color: white">X</label>
+                                                <asp:CheckBox ID="ckbTranspDedicado" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;TRANSP. DEDICADO"></asp:CheckBox>
                                             </div>
+                                        </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label" style="color: white">X</label>
                                                 <asp:CheckBox ID="ckbFreeHand" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;FREE HAND"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-2">
@@ -149,8 +155,8 @@
                                                 <asp:TextBox ID="txtValidade" runat="server" CssClass="form-control data" MaxLength="100"></asp:TextBox>
                                             </div>
                                         </div>
-                                       
-                                     <div class="col-sm-2" style="display: block">
+
+                                        <div class="col-sm-2" style="display: block">
                                             <div class="form-group">
                                                 <label class="control-label">Data Follow Up:</label></label>
                                         <asp:TextBox ID="txtDataFollowUp" runat="server" CssClass="form-control data"></asp:TextBox>
@@ -554,7 +560,7 @@
                                                                             <asp:DropDownList ID="ddlTransportadorFrete" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="true" DataTextField="Descricao" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                                                         </div>
                                                                     </div>
-                                                                    
+
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-sm-4">
@@ -581,12 +587,12 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">    
-                                                                    
-                                                                    
-                                                               
-                                                                  
-                                                                     <%-- <div class="col-sm-3">
+                                                                <div class="row">
+
+
+
+
+                                                                    <%-- <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Place of Receipt:</label>
                                                                             <asp:DropDownList ID="ddlPlaceReceipt" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
@@ -646,7 +652,8 @@
                                                                         <div class="form-group">
                                                                             <label class="control-label">Nº Contrato Armador:</label>
                                                                             <asp:TextBox ID="txtContratoArmador" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
-                                                                    </div>   </div>
+                                                                        </div>
+                                                                    </div>
                                                                     <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Transttime Inicial:</label>
@@ -672,11 +679,11 @@
                                                                         </div>
                                                                     </div>
 
-                                                                     
+
                                                                 </div>
 
                                                                 <div class="row">
-                                                                      <div class="col-sm-3">
+                                                                    <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Tipo Pagamento:</label>
                                                                             <asp:DropDownList ID="ddlTipoPagamento_Frete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO"></asp:DropDownList>
@@ -704,7 +711,7 @@
                                                                             <asp:TextBox ID="txtValorFrequenciaFrete" runat="server" CssClass="form-control" MaxLength="25"></asp:TextBox>
                                                                         </div>
                                                                     </div>
-                                                                  
+
 
                                                                 </div>
                                                                 <div id="divCamposMaritimos" runat="server">
@@ -948,29 +955,29 @@
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Valor Peso(Bruto):</label><asp:Label Visible="false" runat="server" ID="RedPesoBruto" Style="color: red">*</asp:Label>
-                                                                        <asp:TextBox ID="txtPesoBrutoMercadoria" runat="server"  AutoPostback="true"  CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtPesoBrutoMercadoria" runat="server" AutoPostBack="true" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <asp:Label runat="server" ID="lblM3" class="control-label" Style="font-weight: bold">Valor M3:</asp:Label><asp:Label Visible="false" runat="server" ID="RedM3" Style="color: red">*</asp:Label>
-                                                                        <asp:TextBox ID="txtM3Mercadoria" runat="server" Autopostback="true" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtM3Mercadoria" runat="server" AutoPostBack="true" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
-                                                                         <div runat="server" id="divPesoTaxadoCBM" style="display: none">
-                                                                <div class="col-sm-2">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Valor Peso Taxado:</label>
-                                                                        <asp:TextBox ID="txtPesoTaxadoMercadoria"  runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                <div runat="server" id="divPesoTaxadoCBM" style="display: none">
+                                                                    <div class="col-sm-2">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label">Valor Peso Taxado:</label>
+                                                                            <asp:TextBox ID="txtPesoTaxadoMercadoria" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-sm-2">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">CBM:</label>
-                                                                        <asp:TextBox ID="txtCBMAereo" runat="server" AutoPostback="true" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                    <div class="col-sm-2">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label">CBM:</label>
+                                                                            <asp:TextBox ID="txtCBMAereo" runat="server" AutoPostBack="true" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        </div>
                                                                     </div>
-                                                                </div> 
 
                                                                 </div>
 
@@ -1023,7 +1030,7 @@
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Compra Calc.):</label>
-                                                                        <asp:TextBox ID="txtFreteCompraMercadoriaCalc" runat="server" enabled="false" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtFreteCompraMercadoriaCalc" runat="server" Enabled="false" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-2" runat="server" id="divCompraMinimaLCL">
@@ -1044,7 +1051,7 @@
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Venda Calc.):</label>
-                                                                        <asp:TextBox ID="txtFreteVendaMercadoriaCalc" runat="server" enabled="false" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtFreteVendaMercadoriaCalc" runat="server" Enabled="false" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-2" runat="server" id="divVendaMinimaLCL">
@@ -1184,7 +1191,7 @@
                                             <Triggers>
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvarFrete" />
                                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvMedidasAereo" />
-<%--                                                <asp:AsyncPostBackTrigger ControlID="ddlEstufagem" />--%>
+                                                <%--                                                <asp:AsyncPostBackTrigger ControlID="ddlEstufagem" />--%>
                                                 <asp:AsyncPostBackTrigger ControlID="txtFreteVendaMercadoriaUnitario" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtQtdContainerMercadoria" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlTipoContainerMercadoria" />
@@ -1198,8 +1205,8 @@
                                                 <asp:AsyncPostBackTrigger ControlID="txtCBMAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtPesoBrutoMercadoria" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtPesoTaxadoMercadoria" />
-                                                <asp:AsyncPostBackTrigger ControlID="txtM3Mercadoria" /> 
-                                                <asp:AsyncPostBackTrigger ControlID="txtQtdMercadoria" /> 
+                                                <asp:AsyncPostBackTrigger ControlID="txtM3Mercadoria" />
+                                                <asp:AsyncPostBackTrigger ControlID="txtQtdMercadoria" />
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>
@@ -1285,7 +1292,8 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalFCLimpoTitle">TAXAS</h5><asp:Linkbutton ID="lkAnterior" runat="server" BackColor="White" ForeColor="Black" style="float: right;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-backward"></i></asp:Linkbutton><asp:Linkbutton ID="lkProximo" runat="server" BackColor="White" ForeColor="Black" style="float: right;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-forward"></i></asp:Linkbutton>
+                                                            <h5 class="modal-title" id="modalFCLimpoTitle">TAXAS</h5>
+                                                            <asp:LinkButton ID="lkAnterior" runat="server" BackColor="White" ForeColor="Black" Style="float: right;" CssClass="btn btn-default"><i class="glyphicon glyphicon-step-backward"></i></asp:LinkButton><asp:LinkButton ID="lkProximo" runat="server" BackColor="White" ForeColor="Black" Style="float: right;" CssClass="btn btn-default"><i class="glyphicon glyphicon-step-forward"></i></asp:LinkButton>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="alert alert-success" id="divSuccessTaxa" runat="server" visible="false">
@@ -1461,8 +1469,8 @@
                                                 </div>
                                             </ContentTemplate>
                                             <Triggers>
-                                                <asp:AsyncPostBackTrigger  ControlID="lkAnterior" />
-                                                <asp:AsyncPostBackTrigger  ControlID="lkProximo" />
+                                                <asp:AsyncPostBackTrigger ControlID="lkAnterior" />
+                                                <asp:AsyncPostBackTrigger ControlID="lkProximo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvarTaxa" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnFecharTaxa" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlBaseCalculoTaxa" />
@@ -1647,6 +1655,115 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane fade" id="doc">
+                     <asp:UpdatePanel ID="UpdatePanel9" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                <ContentTemplate>
+                               <div class="alert alert-danger" id="divErroUpload" runat="server" visible="false">
+                                        <asp:Label ID="lblErroUpload" runat="server"></asp:Label>
+                                    </div>
+                              <div class="alert alert-success" id="divSuccessUpload" runat="server" visible="false">
+                                        <asp:Label ID="lblSuccessUpload" runat="server">
+                                             Ação realizada com sucesso!
+                                        </asp:Label>
+                                    </div>
+                                    <br />
+                            <div class="row">
+                               
+                            
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Tipo de arquivo:</label> 
+                                        <asp:DropDownList ID="ddlTipoArquivo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_ARQUIVO" DataSourceID="dsTipoArquivo" DataValueField="ID_TIPO_ARQUIVO">
+                                        </asp:DropDownList>
+                                          </div>
+                                </div>
+                                 <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <asp:FileUpload ID="FileUpload1" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2" style="display: none">
+                                    <div class="form-group">
+                                         <label class="control-label" style="color: white">X</label>
+                                          <asp:CheckBox ID="ckAtivoClientes" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo para clientes?"></asp:CheckBox>
+                                          </div>
+                                </div>
+                            </div>   
+                                                                 <% If Not String.IsNullOrEmpty(imagemBase64Retorno) Then %>
+                            <img id="wrapper" src="<%= String.Format("data:image/gif;base64,{0}", imagemBase64Retorno)  %>" alt="Alternate Text" style="width: 100%;" />
+                            <% End if %>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <asp:TextBox ID="txtArquivoSelecionado" runat="server" Style="display: none"></asp:TextBox>
+                                            <asp:TextBox ID="txtUP" runat="server" Style="display: none"></asp:TextBox>
+                                            <asp:GridView ID="dgvArquivos" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  DataKeyNames="ID_ARQUIVO" DataSourceID="dsUploads" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1"  Style="max-height: 400px; overflow: auto;" AllowSorting="true">
+                                                <Columns>
+                                                       <asp:TemplateField HeaderText="ID" Visible="False">
+                                                            <ItemTemplate>
+                                                                 <asp:Label ID="lblID_ARQUIVO" runat="server" Text='<%# Eval("ID_ARQUIVO") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                     <asp:TemplateField  HeaderText="Nome do Arquivo" HeaderStyle-ForeColor="#337ab7" >
+                                                            <ItemTemplate>
+                                                                 <asp:Label ID="lblNM_ARQUIVO" runat="server" Text='<%# Eval("NM_ARQUIVO") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    <asp:BoundField DataField="NM_TIPO_ARQUIVO" HeaderText="Tipo do Arquivo" SortExpression="NM_TIPO_ARQUIVO" />
+                                                    <asp:BoundField DataField="NOME" HeaderText="Usuário" SortExpression="NOME" />
+                                                    <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
+                                                    <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
+                                                        <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" AutoPostBack="true" OnCheckedChanged="ckAtivoClientes_CheckedChanged" />
+                                                            
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                       <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar"><asp:Label ID="lblBotaoVisualizar" runat="server" Text="Visualizar" /></a>                                                         
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkDownload" Text="Download" CommandName="Download" CommandArgument='<%# Eval("CAMINHO_ARQUIVO") %>' runat="server" Font-Size="medium"></asp:LinkButton>
+                                                        </ItemTemplate>
+                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkDeleta" Text="Deletar" OnClientClick="javascript:return confirm('Deseja realmente excluir este arquivo?');" CommandName="Excluir" CommandArgument='<%# Eval("ID_ARQUIVO") & "|" & Eval("CAMINHO_ARQUIVO") %>'  runat="server" Font-Size="medium" />
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                            </asp:GridView>
+                                        </div>
+                                    </div>
+                                     <div class="row">
+                                            <div class="col-sm-3 col-sm-offset-6"  style="display: none" >
+                                                <div class="form-group">
+                                                    <label>&nbsp;</label>
+                                                    <asp:Button ID="btnLimparUpload" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3 col-sm-offset-9">
+                                                <div class="form-group">
+                                                    <label>&nbsp;</label>
+                                                    <asp:Button ID="btnUpload" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
+                                                </div>
+                                            </div>
+                                        </div>    
+                                </ContentTemplate>
+                                <Triggers>
+                                    <asp:PostBackTrigger ControlID="dgvArquivos" />
+                                    <asp:PostBackTrigger ControlID="btnUpload" />
+                                    <asp:PostBackTrigger ControlID="btnLimparUpload" />
+                                </Triggers>
+                            </asp:UpdatePanel>
+                        </div> 
+
+                    
                         <div class="tab-pane fade" id="referencias">
                             <asp:UpdatePanel ID="UpdatePanel11" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                 <ContentTemplate>
@@ -1761,8 +1878,8 @@
 
     <asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_COTACAO,NR_COTACAO,
-(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM) ORIGEM,
-(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) DESTINO,
+(SELECT CD_PORTO + ' - ' + NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM) ORIGEM,
+(SELECT CD_PORTO + ' - ' + NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) DESTINO,
 (SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.FINAL_DESTINATION) NM_FINAL_DESTINATION,
 (SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = A.ID_CLIENTE_FINAL) CLIENTE_FINAL,
 (SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_TRANSPORTADOR and FL_TRANSPORTADOR = 1) TRANSPORTADOR
@@ -1776,7 +1893,7 @@ FROM TB_COTACAO A WHERE ID_COTACAO = @ID_COTACAO ">
         SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione' ORDER BY ID_MOEDA"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE union SELECT  0, '      Selecione' ORDER BY NM_PORTO ">
+        SelectCommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE  union SELECT  0, '      Selecione' ORDER BY NM_PORTO ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="txtViaTransporte" DefaultValue="1" />
         </SelectParameters>
@@ -1952,8 +2069,7 @@ FROM TB_COTACAO_TAXA A
 union SELECT  0, 'Selecione'  ORDER BY ID_ORIGEM_PAGAMENTO"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsDestinatarioCobranca" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_DESTINATARIO_COBRANCA,NM_DESTINATARIO_COBRANCA from TB_DESTINATARIO_COBRANCA
-union SELECT  0, 'Selecione'  ORDER BY ID_DESTINATARIO_COBRANCA">
-    </asp:SqlDataSource>
+union SELECT  0, 'Selecione'  ORDER BY ID_DESTINATARIO_COBRANCA"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsHistoricoCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT top 10
 ID_COTACAO, 
@@ -2085,7 +2201,20 @@ FROM TB_COTACAO_TAXA A
         </SelectParameters>
     </asp:SqlDataSource>
 
-     
+    <asp:SqlDataSource ID="dsUploads" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO FROM TB_UPLOADS  A
+ INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
+INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
+    WHERE A.ID_COTACAO = @ID_COTACAO ">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsTipoArquivo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_TIPO_ARQUIVO,NM_TIPO_ARQUIVO FROM TB_TIPO_ARQUIVO
+union 
+SELECT  0, '      Selecione' ORDER BY ID_TIPO_ARQUIVO "></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTipoAeronave" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_TIPO_AERONAVE,NM_TIPO_AERONAVE from TB_TIPO_AERONAVE
@@ -2097,6 +2226,41 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
         function Func() {
             alert("O valor de venda é menor que o valor de compra!");
         }
-       
+
+        $(window).load(function () {
+            var UP = document.getElementById('<%= txtUP.ClientID %>').value;
+
+            if (UP == 1) {
+                $('.nav-tabs a[href="#doc"]').tab('show');
+                document.getElementById('<%= txtUp.ClientID %>').value = 0;
+
+            } 
+        });
+
+
+        function VerificaTamanhoArquivo() {
+
+            var btn = document.getElementById('<%= btnUpload.ClientID %>');
+            var fi = document.getElementById('<%= FileUpload1.ClientID %>');
+            var maxFileSize = 4194304; // 4MB -> 4 * 1024 * 1024
+
+            if (fi.files.length > 0) {
+
+                for (var i = 0; i <= fi.files.length - 1; i++) {
+
+                    var fsize = fi.files.item(i).size;
+
+                    if (fsize < maxFileSize) {
+                        btn.style.display = 'block';
+                    }
+                    else {
+                        alert("Arquivo excede tamanho permitido!");
+                        fi.value = null;
+                        btn.style.display = 'none';
+                    }
+
+                }
+            }
+        }
     </script>
 </asp:Content>

@@ -237,7 +237,7 @@
     </div>
     <asp:SqlDataSource ID="dsTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE (ID_BL_MASTER = @ID_BL) AND CD_PR = 'P' AND FL_DECLARADO = 0 AND ID_ORIGEM_PAGAMENTO = 1 AND ID_PARCEIRO_EMPRESA = @ID_EMPRESA ORDER BY NR_PROCESSO">
+WHERE (ID_BL_MASTER = @ID_BL) AND CD_PR = 'P' AND FL_DECLARADO = 0 AND ID_ORIGEM_PAGAMENTO = 1 AND ISNULL(FL_TAXA_INATIVA,0) = 0 AND ID_PARCEIRO_EMPRESA = @ID_EMPRESA ORDER BY NR_PROCESSO">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="lblID_MBL" />
                         <asp:ControlParameter Name="ID_EMPRESA" Type="Int32" ControlID="ddlFornecedor" />

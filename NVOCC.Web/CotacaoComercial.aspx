@@ -28,8 +28,6 @@
     </style>
     <div class="row principal">
 
-
-
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -257,7 +255,7 @@
 
   
     <asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT top 500 * FROM View_Filtro_Cotacao ORDER BY ID_COTACAO DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT top 1000 * FROM View_Filtro_Cotacao ORDER BY DT_ABERTURA DESC"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>

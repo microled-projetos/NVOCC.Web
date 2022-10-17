@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="exportCSV('Pagamento_Recebimento.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="exportContaConferenciaProcesso('Pagamento_Recebimento.csv')">Exportar Grid - CSV</button>
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
@@ -96,6 +96,8 @@
                                                 <th class="text-center" scope="col">AGENTE</th>
                                                 <th class="text-center" scope="col">TIPO FATURAMENTO</th>
                                                 <th class="text-center" scope="col">DIAS FATURADOS</th>
+                                                <th class="text-center" scope="col">ORIGEM COMPRA</th>
+                                                <th class="text-center" scope="col">ORIGEM VENDA</th>
                                                 <th class="text-center" scope="col">A RECEBER BRL</th>
                                                 <th class="text-center" scope="col">A PAGAR BRL</th>
                                                 <th class="text-center" scope="col">SALDO BRL</th>
@@ -166,6 +168,7 @@
         }
 
         function ContaPrevisibilidadeProcesso() {
+            var result = '';
             var dtInicial = document.getElementById("txtDtInicialPagamentoRecebimento").value;
             var dtFinal = document.getElementById("txtDtFinalPagamentoRecebimento").value;
             var nota = document.getElementById("txtPagamentoRecebimento").value;
@@ -208,54 +211,86 @@
                     if (dado != null) {
                         $("#grdPagamentoRecebimentoBody").empty();
                         for (let i = 0; i < dado.length; i++) {
-                            $("#grdPagamentoRecebimentoBody").append("<tr><td class='text-center'>" + dado[i]["DOC_CONFERIDO_HOUSE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DOC_CONFERIDO_MASTER"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["PROCESSO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["MASTER"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["HOUSE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["TPSERVICO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["TPESTUFAGEM"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["TPPAGAMENTOHOUSE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["TPPAGAMENTOMASTER"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["CNTR20"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["CNTR40"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["ORIGEM"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DTEMBARQUE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DTPREVISAOCHEGADA"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["PARCEIRO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["CNEE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["INDICADOR"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["AGENTE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["TIPO_FATURAMENTO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DIAS_FATURADOS"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["ARECEBERBR"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["APAGARBR"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["SALDOBR"] + "</td></tr > ");
+                            result += "<tr>";
+                            result += "<td class='text-center'>" + dado[i]["DOC_CONFERIDO_HOUSE"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DOC_CONFERIDO_MASTER"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["PROCESSO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["MASTER"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["HOUSE"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["TPSERVICO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["TPESTUFAGEM"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["TPPAGAMENTOHOUSE"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["TPPAGAMENTOMASTER"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["CNTR20"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["CNTR40"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["ORIGEM"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DESTINO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DTEMBARQUE"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DTPREVISAOCHEGADA"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["PARCEIRO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["CNEE"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["INDICADOR"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["AGENTE"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["TIPO_FATURAMENTO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DIAS_FATURADOS"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["ORIGEM_COMPRA"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["ORIGEM_VENDA"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["ARECEBERBR"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["APAGARBR"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["SALDOBR"] + "</td>";
+                            result += "</tr>";
                         }
+                        $("#grdPagamentoRecebimentoBody").append(result);
                     } else {
+                        result = "<tr id='msgEmptyDemurrageContainer'><td colspan='25' class='alert alert-light text-center'>Não há nenhum registro</td></tr>";
                         $("#grdPagamentoRecebimentoBody").empty();
-                        $("#grdPagamentoRecebimentoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='25' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                        $("#grdPagamentoRecebimentoBody").append(result);
                     }
                 }
             })
         }
 
         function exportContaConferenciaProcesso(file) {
+            var dtInicial = document.getElementById("txtDtInicialPagamentoRecebimento").value;
+            var dtFinal = document.getElementById("txtDtFinalPagamentoRecebimento").value;
+            var nota = document.getElementById("txtPagamentoRecebimento").value;
+            var filter = document.getElementById("ddlFilterPagamentoRecebimento").value;
+            if (dtInicial == "" && dtFinal == "") {
+                dtInicial = "1900-01-01";
+                dtFinal = "2900-01-01";
+            }
+            var chkConferidoSim = document.getElementById("MainContent_chkConferidoSim");
+            var chkConferidoSimValue;
+            var chkConferidoNao = document.getElementById("MainContent_chkConferidoNao");
+            var chkConferidoNaoValue;
+            if (chkConferidoSim.checked) {
+                chkConferidoSimValue = "1";
+            }
+            else {
+                chkConferidoSimValue = "0";
+            }
+
+            if (chkConferidoNao.checked) {
+                chkConferidoNaoValue = "1";
+            }
+            else {
+                chkConferidoNaoValue = "0";
+            }
             $.ajax({
                 type: "POST",
-                url: "DemurrageService.asmx/ContaConferenciaProcesso",
+                url: "DemurrageService.asmx/CSVContaPrevisibilidadeProcesso",
+                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '", chkConfSim: "' + chkConferidoSimValue + '", chkConfNao: "' + chkConferidoNaoValue + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado != null) {
-                        var confProcesso = [["PROCESSO;PROCEDENCIA;ITEM;VALOR BRL;ESTUFAGEM MASTER;ESTUFAGEM HOUSE;PAGAMENTO MASTER;PAGAMENTO HOUSE;PAGAMENTO TAXA;ORIGEM;DECLARADO;FREEHAND;STATUS FRETE;DIVISAO PROFIT"]];
+                        var confProcesso = [["DOC CONFERIDO HOUSE;DOC CONFERIDO MASTER;PROCESSO;MASTER;HOUSE;TIPO SERVICO;TIPO ESTUFAGEM;TIPO PAGAMENTO HOUSE;TIPO PAGAMENTO MASTER;CNTR 20;CNTR 40;ORIGEM;DESTINO;DATA EMBARQUE;DATA PREVISAO CHEGADA;PARCEIRO;CNEE;INDICADOR;AGENTE;TIPO FATURAMENTO;DIAS FATURADOS;ORIGEM COMPRA; ORIGEM VENDA;A RECEBER BRL; A PAGAR BRL; SALDO BRL"]];
                         for (let i = 0; i < dado.length; i++) {
                             confProcesso.push([dado[i]]);
                         }
-                        exportContaConferenciaProcessoCSV(file, confProcesso.join("\n"));
+                        exportContaPrevisibilidadeProcessoCSV(file, confProcesso.join("\n"));
                     }
                 }
             })
@@ -402,77 +437,6 @@
             document.body.appendChild(downloadLink);
             // Click download link
             downloadLink.click();
-        }
-
-
-
-        function EstimativaPagamentosRecebimentos() {
-            $("#modalEstimativaPagamentoRecebimento").modal('show');
-            var dtInicial = document.getElementById("txtDtInicialEstimativaPagamentoRecebimento").value;
-            var dtFinal = document.getElementById("txtDtFinalEstimativaPagamentoRecebimento").value;
-            var origem = document.getElementById("ddlFilterEstimativaPagamentoRecebimentoOrigem").value;
-            var nota = document.getElementById("txtEstimativaPagamentoRecebimento").value;
-            var filter = document.getElementById("ddlFilterEstimativaPagamentoRecebimento").value;
-            var chkConferidoSim = document.getElementById("MainContent_chkConferidoSim");
-            var chkConferidoSimValue;
-            var chkConferidoNao = document.getElementById("MainContent_chkConferidoNao");
-            var chkConferidoNaoValue;
-            if (chkConferidoSim.checked) {
-                chkConferidoSimValue = "1";
-            }
-            else {
-                chkConferidoSimValue = "0";
-            }
-
-            if (chkConferidoNao.checked) {
-                chkConferidoNaoValue = "1";
-            }
-            else {
-                chkConferidoNaoValue = "0";
-            }
-            if (dtInicial == "" && dtFinal == "") {
-                dtInicial = "1900-01-01";
-                dtFinal = "2900-01-01";
-            }
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/listarContasAReceberAPagar",
-                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '", origem: "' + origem + '", chkConfSim: "' + chkConferidoSimValue + '", chkConfNao: "' + chkConferidoNaoValue +'"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                beforeSend: function () {
-                    $("#grdEstimativaPagamentoRecebimentoBody").empty();
-                    $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td colspan='18'><div class='loader'></div></td></tr>");
-                },
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    var liqrec = 0;
-                    var liqpag = 0;
-                    $("#grdEstimativaPagamentoRecebimentoBody").empty();
-                    $("#grdEstimativaPagamentoRecebimentoFooter").empty();
-                    if (dado != null) {
-                        for (let i = 0; i < dado.length; i++) {
-                            $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td class='text-center'>" + dado[i]["DOC_CONFERIDO_HOUSE"] + "</td><td class='text-center'>" + dado[i]["DOC_CONFERIDO_MASTER"] + "</td><td class='text-center'>" + dado[i]["PROCESSO"] + "</td><td class='text-center'> " + dado[i]["MBL"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["SERVICO"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["CLIENTE"] + "'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["DEVIDO_REC"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td><td class='text-center'>" + dado[i]["CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["RECEBER"] + "</td>" +
-                                "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["FORNECEDOR"] + "'>" + dado[i]["FORNECEDOR"] + "</td><td class='text-center'>" + dado[i]["DEVIDO_PAG"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["MOEDA_PAG"] + "</td><td class='text-center'>" + dado[i]["CAMBIO_PAGAR"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["PAGAR"] + "</td></tr>");
-                            if (dado[i]["RECEBER"] != "") {
-                                liqrec = parseFloat(liqrec) + parseFloat(dado[i]["RECEBER"]);
-                            }
-
-                            if (dado[i]["PAGAR"] != "") {
-                                liqpag = parseFloat(liqpag) + parseFloat(dado[i]["PAGAR"]);
-                            }
-                        }
-                        $("#grdEstimativaPagamentoRecebimentoFooter").append("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqrec.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqpag.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th></tr>")
-                    }
-                    else {
-                        $("#grdEstimativaPagamentoRecebimentoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='18' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
-                    }
-                }
-            })
         }
 
         function exportEstimativaCSV(filename) {
