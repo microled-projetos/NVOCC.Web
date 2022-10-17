@@ -55,7 +55,7 @@
             <table >
             <tr> <td>
                     <center>
-    <div style="float:left;font-size:13px"><img id="logo" class="logo" src="Content/imagens/Logo_FCA_Deitado2.png" /><br />
+    <div style="float:left;font-size:11px"><img id="logo" class="logo" src="Content/imagens/Logo_FCA_Deitado2.png" /><br />
     <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>&nbsp;<br /></div></center>
 
                 </td>

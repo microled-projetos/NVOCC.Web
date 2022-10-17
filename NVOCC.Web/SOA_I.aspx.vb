@@ -130,16 +130,16 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
                 tabela &= "<td>" & linhadados("CD_ACCOUNT_TIPO_FATURA") & "</td>" 
                 tabela &= "<td>" & linhadados("SIGLA_MOEDA") & "</td>"
 
-                If linhadados("NM_ACCOUNT_TIPO_EMISSOR") =  "AGENTE" THEN
-               
-                    tabela &= "<td><strong>" & linhadados("VL_TAXA") & "</strong></td>"
-                    tabela &= "<td><strong></strong></td>"
+                If linhadados("NM_ACCOUNT_TIPO_EMISSOR") =  "AGENTE" Then
+
+                    tabela &= "<td>" & linhadados("VL_TAXA") & "</td>"
+                    tabela &= "<td></td>"
                     payment = payment + linhadados("VL_TAXA")
 
                 ElseIf linhadados("NM_ACCOUNT_TIPO_EMISSOR") = "FCA" Then
 
-                    tabela &= "<td><strong></strong></td>"
-                    tabela &= "<td><strong>" & linhadados("VL_TAXA") & "</strong></td>"
+                    tabela &= "<td></td>"
+                    tabela &= "<td>" & linhadados("VL_TAXA") & "</td>"
                     receive = receive + linhadados("VL_TAXA")
 
                 End If
