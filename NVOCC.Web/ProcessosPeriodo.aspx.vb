@@ -36,7 +36,7 @@ END DESTINO,
 CONVERT(VARCHAR,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,CONVERT(VARCHAR,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,CONVERT(VARCHAR,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,CONVERT(VARCHAR,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER , B.VL_CAMBIO,B.DT_LIQUIDACAO
 FROM [dbo].[View_House] A
 LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
-  WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & Session("DataInicial") & "',103) AND CONVERT(DATE,'" & Session("DataFinal") & "',103)" & FILTRO)
+  WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & Session("DataInicial") & "',103) AND CONVERT(DATE,'" & Session("DataFinal") & "',103)" & FILTRO & " ORDER BY NR_PROCESSO DESC ")
 
         If dsdados.Tables(0).Rows.Count > 0 Then
             If Request.QueryString("ag") <> "" And Request.QueryString("ag") <> 0 Then
@@ -57,6 +57,7 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
             tabela &= "<td><strong>CLIENTE</strong></td>"
             tabela &= "<td><strong>TRANSPORTADOR</strong></td>"
             tabela &= "<td><strong>EMBARQUE</strong></td>"
+            tabela &= "<td><strong>PREV.CHEGADA</strong></td>"
             tabela &= "<td><strong>CHEGADA</strong></td></tr>"
 
             For Each linhadados As DataRow In dsdados.Tables(0).Rows
@@ -75,8 +76,8 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
                 tabela &= "<td>" & linhadados("CLIENTE") & "</td>"
                 tabela &= "<td>" & linhadados("TRANSPORTADOR") & "</td>"
                 tabela &= "<td>" & linhadados("DT_EMBARQUE_MASTER") & "</td>"
+                tabela &= "<td>" & linhadados("DT_PREVISAO_CHEGADA_MASTER") & "</td>"
                 tabela &= "<td>" & linhadados("DT_CHEGADA_MASTER") & "</td></tr>"
-
 
 
             Next
