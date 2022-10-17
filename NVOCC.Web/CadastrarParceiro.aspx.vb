@@ -1295,10 +1295,6 @@ WHERE ID_PARCEIRO =" & ID)
 
     End Sub
     Private Sub ddlTipoPessoa_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoPessoa.SelectedIndexChanged
-        TipoPessoa()
-    End Sub
-
-    Sub TipoPessoa()
         If ddlTipoPessoa.SelectedValue = 2 Then 'Fisica
             divIATA.Attributes.CssStyle.Add("display", "none")
             divCPF.Visible = True
@@ -1345,6 +1341,42 @@ WHERE ID_PARCEIRO =" & ID)
             txtTelefone.CssClass = "form-control"
             txtTelContato.CssClass = "form-control"
             txtCelularContato.CssClass = "form-control"
+
+        Else
+            divCPF.Visible = False
+            divCNPJ.Visible = False
+            btnConsultaCNPJ.Visible = False
+            txtTelefone.CssClass = "form-control telefone"
+            txtTelContato.CssClass = "form-control telefone"
+            txtCelularContato.CssClass = "form-control celular"
+        End If
+    End Sub
+
+    Private Sub ddlTipoPessoa_PreRender(sender As Object, e As EventArgs) Handles ddlTipoPessoa.PreRender
+        If ddlTipoPessoa.SelectedValue = 2 Then 'Fisica
+            divCPF.Visible = True
+            divCNPJ.Visible = False
+            btnConsultaCNPJ.Visible = False
+            txtTelefone.CssClass = "form-control telefone"
+            txtTelContato.CssClass = "form-control telefone"
+            txtCelularContato.CssClass = "form-control celular"
+
+        ElseIf ddlTipoPessoa.SelectedValue = 1 Then 'Juridico
+            divCPF.Visible = False
+            divCNPJ.Visible = True
+            btnConsultaCNPJ.Visible = True
+            txtTelefone.CssClass = "form-control telefone"
+            txtTelContato.CssClass = "form-control telefone"
+            txtCelularContato.CssClass = "form-control celular"
+
+        ElseIf ddlTipoPessoa.SelectedValue = 3 Then 'Estrangeira
+            divCPF.Visible = False
+            divCNPJ.Visible = True
+            btnConsultaCNPJ.Visible = False
+            txtTelefone.CssClass = "form-control"
+            txtTelContato.CssClass = "form-control"
+            txtCelularContato.CssClass = "form-control"
+
         Else
             divCPF.Visible = False
             divCNPJ.Visible = False
@@ -1354,9 +1386,6 @@ WHERE ID_PARCEIRO =" & ID)
             txtCelularContato.CssClass = "form-control celular"
         End If
 
-    End Sub
-    Private Sub ddlTipoPessoa_PreRender(sender As Object, e As EventArgs) Handles ddlTipoPessoa.PreRender
-        TipoPessoa()
     End Sub
 
     Private Sub ddlEvento_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlEvento.SelectedIndexChanged

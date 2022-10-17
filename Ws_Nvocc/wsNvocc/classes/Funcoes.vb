@@ -521,7 +521,7 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
             Dim objColecaoCertificadosX509 As X509Certificate2Collection = Nothing
             Dim X509Certificate As New X509Certificate2
             Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)    '' MAQUINA LOCAL
-            ' Dim getCertificadosX509 As New X509Store("MY", StoreLocation.LocalMachine) '' SERVIDOR GLOBAL
+            'Dim getCertificadosX509 As New X509Store("MY", StoreLocation.LocalMachine) '' SERVIDOR GLOBAL
             getCertificadosX509.Open(OpenFlags.ReadOnly Or OpenFlags.OpenExistingOnly)
 
             objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySubjectName, nomeCertificado, False)
@@ -552,7 +552,7 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
         Dim objColecaoCertificadosX509 As X509Certificate2Collection = Nothing
         Dim objCertificadoX509 As New X509Certificate2
         Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)  '' MAQUINA LOCAL
-        ' Dim getCertificadosX509 As New X509Store("MY", StoreLocation.LocalMachine) '' SERVIDOR GLOBAL
+        'Dim getCertificadosX509 As New X509Store("MY", StoreLocation.LocalMachine) '' SERVIDOR GLOBAL
         getCertificadosX509.Open(OpenFlags.ReadOnly Or OpenFlags.OpenExistingOnly)
 
         Dim Con As New Conexao_sql

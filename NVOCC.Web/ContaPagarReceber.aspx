@@ -295,51 +295,56 @@
                 dtInicial = "1900-01-01";
                 dtFinal = "2900-01-01";
             }
-                $.ajax({
-                    type: "POST",
-                    url: "DemurrageService.asmx/listarContasRecebidasPagas",
-                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    beforeSend: function () {
-                        $("#grdPagamentoRecebimentoBody").empty();
-                        $("#grdPagamentoRecebimentoBody").append("<tr><td colspan='14'><div class='loader'></div></td></tr>");
-                        $("#grdPagamentoRecebimentoFooter").empty();
-                    },
-                    success: function (dado) {
-                        var dado = dado.d;
-                        dado = $.parseJSON(dado);
-                        var liqrec = 0;
-                        var liqpag = 0;
-                        $("#grdPagamentoRecebimentoBody").empty();
-                        $("#grdPagamentoRecebimentoFooter").empty();
-                        if (dado != null) {
-                            for (let i = 0; i < dado.length; i++) {
-                                $("#grdPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'> " + dado[i]["MBL"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_PARCEIRO"] + "'>" + dado[i]["NM_PARCEIRO"] + "</td><td class='text-center'>" + dado[i]["TIPO"] + "</td><td class='text-center'>" + dado[i]["VALOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["MOEDA"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO"] + "</td><td class='text-center'>" + dado[i]["CAMBIO"] + "</td><td class='text-center'>" + dado[i]["VALOR_BR"].toString().replace(".", ",") + "</td></td></tr>");
-                                if (dado[i]["TIPO"].toString() == "PAGO") {
-                                    if (dado[i]["VALOR_BR"] != "") {
-                                        liqpag = parseFloat(liqpag) + parseFloat(dado[i]["VALOR_BR"]);
-                                    }
-                                } else {
-                                    if (dado[i]["VALOR_BR"] != "") {
-                                        liqrec = parseFloat(liqrec) + parseFloat(dado[i]["VALOR_BR"]);
-                                    }
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/listarContasRecebidasPagas",
+                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#grdPagamentoRecebimentoBody").empty();
+                    $("#grdPagamentoRecebimentoBody").append("<tr><td colspan='14'><div class='loader'></div></td></tr>");
+                    $("#grdPagamentoRecebimentoFooter").empty();
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    var liqrec = 0;
+                    var liqpag = 0;
+                    $("#grdPagamentoRecebimentoBody").empty();
+                    $("#grdPagamentoRecebimentoFooter").empty();
+                    if (dado != null) {
+                        for (let i = 0; i < dado.length; i++) {
+                            $("#grdPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'> " + dado[i]["MBL"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_PARCEIRO"] + "'>" + dado[i]["NM_PARCEIRO"] + "</td><td class='text-center'>" + dado[i]["TIPO"] + "</td><td class='text-center'>" + dado[i]["VALOR"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["MOEDA"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO"] + "</td><td class='text-center'>" + dado[i]["CAMBIO"] + "</td><td class='text-center'>" + dado[i]["VALOR_BR"].toString().replace(".", ",") + "</td></td></tr>");
+                            if (dado[i]["TIPO"].toString() == "PAGO") {
+                                if (dado[i]["VALOR_BR"] != "") {
+                                    liqpag = parseFloat(liqpag) + parseFloat(dado[i]["VALOR_BR"]);
                                 }
-
-                                
+                            } else {
+                                if (dado[i]["VALOR_BR"] != "") {
+                                    liqrec = parseFloat(liqrec) + parseFloat(dado[i]["VALOR_BR"]);
+                                }
                             }
-                            $("#grdPagamentoRecebimentoFooter").append("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th class='text-center'> Recebido: " + liqrec.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th class='text-center'> Pago: " + liqpag.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th><th></th><th></th></tr>")
+
+
                         }
-                        else {
-                            $("#grdPagamentoRecebimentoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='14' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
-                        }
+                        $("#grdPagamentoRecebimentoFooter").append("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th class='text-center'> Recebido: " + liqrec.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th class='text-center'> Pago: " + liqpag.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th><th></th><th></th></tr>")
                     }
-                })
+                    else {
+                        $("#grdPagamentoRecebimentoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='14' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                    }
+                }
+            })
         }
 
         function exportContaPrevisibilidadeProcesso(file) {
+            var dtInicial = document.getElementById("txtDtInicialEstimativaPagamentoRecebimento").value;
+            var dtFinal = document.getElementById("txtDtFinalEstimativaPagamentoRecebimento").value;
+            var origem = document.getElementById("ddlFilterEstimativaPagamentoRecebimentoOrigem").value;
+            var nota = document.getElementById("txtEstimativaPagamentoRecebimento").value;
+            var filter = document.getElementById("ddlFilterEstimativaPagamentoRecebimento").value;
             var chkConferidoSim = document.getElementById("MainContent_chkConferidoSim");
             var chkConferidoSimValue;
             var chkConferidoNao = document.getElementById("MainContent_chkConferidoNao");
@@ -359,8 +364,8 @@
             }
             $.ajax({
                 type: "POST",
-                url: "DemurrageService.asmx/ContaPrevisibilidadeProcesso",
-                data: '{chkConfSim: "' + chkConferidoSimValue + '", chkConfNao: "' + chkConferidoNaoValue +'"}',
+                url: "DemurrageService.asmx/ExportContaPrevisibilidadeProcesso",
+                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '", origem: "' + origem + '", chkConfSim: "' + chkConferidoSimValue + '", chkConfNao: "' + chkConferidoNaoValue + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -432,40 +437,40 @@
             downloadLink.click();
         }
 
-        function exportContaPrevisibilidadeProcessoCSV(file, array)  {
-                var csvFile;
+        function exportContaPrevisibilidadeProcessoCSV(file, array) {
+            var csvFile;
 
-                var downloadLink;
-
-
-                // CSV file
-                csvFile = new Blob(["\uFEFF" + array], { type: "text/csv;charset=utf-8;" });
-
-                // Download link
-                downloadLink = document.createElement("a");
+            var downloadLink;
 
 
-                // File name
-                downloadLink.download = file;
+            // CSV file
+            csvFile = new Blob(["\uFEFF" + array], { type: "text/csv;charset=utf-8;" });
+
+            // Download link
+            downloadLink = document.createElement("a");
 
 
-                // Create a link to the file
-                downloadLink.href = window.URL.createObjectURL(csvFile);
+            // File name
+            downloadLink.download = file;
 
 
-                // Hide download link
-                downloadLink.style.display = "none";
+            // Create a link to the file
+            downloadLink.href = window.URL.createObjectURL(csvFile);
 
 
-
-                // Add the link to DOM
-                document.body.appendChild(downloadLink);
+            // Hide download link
+            downloadLink.style.display = "none";
 
 
 
-                // Click download link
-                downloadLink.click();
-            }
+            // Add the link to DOM
+            document.body.appendChild(downloadLink);
+
+
+
+            // Click download link
+            downloadLink.click();
+        }
 
         function exportContaConferenciaProcessoCSV(file, array) {
             var csvFile;
@@ -608,7 +613,7 @@
                         doc.text("CAMBIO", 260, 27);
                         doc.text("LIQUIDADO", 275, 27);
                         for (let i = 0; i < dado.length; i++) {
-                            if (position >= pageHeight -10 ) {
+                            if (position >= pageHeight - 10) {
                                 doc.line(3, positionv, 295, positionv);
                                 doc.line(3, 28, 3, positionv);
                                 doc.line(26, 28, 26, positionv);
@@ -747,7 +752,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarContasAReceberAPagar",
-                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '", origem: "' + origem + '", chkConfSim: "' + chkConferidoSimValue + '", chkConfNao: "' + chkConferidoNaoValue +'"}',
+                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '", origem: "' + origem + '", chkConfSim: "' + chkConferidoSimValue + '", chkConfNao: "' + chkConferidoNaoValue + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
@@ -834,7 +839,7 @@
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/listarContasAReceberAPagar",
-                    data: '{filterby: "' + ddlDataFilter.value +'", dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                    data: '{filterby: "' + ddlDataFilter.value + '", dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (dado) {

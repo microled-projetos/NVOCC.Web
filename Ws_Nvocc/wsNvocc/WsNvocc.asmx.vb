@@ -1868,7 +1868,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
         Dim client As New ginfes2.ServiceGinfesImplClient
 
-        ' Dim client As New GinfesTeste.ServiceGinfesImplClient
+        'Dim client As New GinfesTeste.ServiceGinfesImplClient
 
         GRAVARLOG(loteNumero, "PROCURA CERTIFICADO DE NOVO")
         client.ClientCredentials.ClientCertificate.Certificate = Funcoes.ObtemCertificado(codEmpresa)(0)

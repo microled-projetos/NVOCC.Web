@@ -46,8 +46,6 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
 
         lblVersion.Text = "ver " & Me.GetType.Assembly.GetName.Version.ToString
 
-        'Dim RotinaDoc As New RotinaDeletaDoc
-        'RotinaDoc.DeletaArquivos()
     End Sub
 
     Sub Menus()

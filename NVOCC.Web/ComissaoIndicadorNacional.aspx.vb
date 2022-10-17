@@ -94,7 +94,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
 
     Sub CarregaGrid()
 
-        '  lkAjustarComissao.Visible = True
+        lkAjustarComissao.Visible = True
 
         txtID.Text = ""
         txtlinha.Text = ""
