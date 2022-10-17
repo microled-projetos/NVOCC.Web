@@ -23,7 +23,6 @@
     <link href="Content/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Content/css/fontawesome-all.css" rel="stylesheet" />
     <link href="Content/css/toastr.css" rel="stylesheet" />
-    <%--    <link href="Content/css/site.css?id=123" rel="stylesheet" />--%>
     <link href="Content/Site.css" rel="stylesheet" />
     <link href="Content/css/traking.css" rel="stylesheet" />
 
@@ -146,10 +145,7 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" id="MenuOperacao" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs"></i>&nbsp;Operação<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                           <%-- <li>
-                                <a href="ListagemBL.aspx" runat="server" id="mnOperacionalListagemBL">Módulo Operacional</a>
-                            </li>--%>
+                        <ul class="dropdown-menu">                          
                             <li>
                                 <a href="#" id="A2" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Módulo Operacional&nbsp;<i class="fa fa-caret-right"></i></a>
                                 <ul class="dropdown-sub" style="min-width: 230px !important">
