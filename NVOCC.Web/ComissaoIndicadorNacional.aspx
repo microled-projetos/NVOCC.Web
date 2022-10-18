@@ -415,19 +415,15 @@
     </div>
     <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Comissao_Nacional] WHERE COMPETENCIA = '@COMPETENCIA' ORDER BY PARCEIRO_INDICADOR,NR_PROCESSO">
+        SelectCommand="SELECT * FROM [dbo].[View_Comissao_Nacional] WHERE COMPETENCIA = @COMPETENCIA and NR_QUINZENA = @QUINZENA  ORDER BY PARCEIRO_INDICADOR,NR_PROCESSO">
         <SelectParameters>
             <asp:ControlParameter Name="COMPETENCIA" Type="string" ControlID="txtCompetencia" />
+            <asp:ControlParameter Name="QUINZENA" Type="string" ControlID="txtQuinzena" />
         </SelectParameters>
-    </asp:SqlDataSource>
-
-      
+    </asp:SqlDataSource>      
      <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione'  ORDER BY ID_MOEDA">
 </asp:SqlDataSource>
-
-
-
 
         <asp:SqlDataSource ID="dsContaBancaria" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CONTA_BANCARIA,NM_CONTA_BANCARIA FROM TB_CONTA_BANCARIA WHERE FL_ATIVO = 1
