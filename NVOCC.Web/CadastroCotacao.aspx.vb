@@ -321,10 +321,10 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             lblTaxaIncluded.Text = "Obs:"
             lblorigem.Text = "Aeroporto de Origem"
             lbldestino.Text = "Aeroporto de Destino"
-            dsPorto.SelectCommand = "SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
+            dsPorto.SelectCommand = "SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
             ddlOrigemFrete.DataBind()
             ddlDestinoFrete.DataBind()
-            dsBaseCalculo.SelectCommand = "SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE  ID_VIATRANSPORTE <> 1 union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"
+            dsBaseCalculo.SelectCommand = "SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE ID_VIATRANSPORTE <> 1 union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"
 
 
         Else
@@ -348,7 +348,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             lblAbaEmbalagem.Text = "Embalagem"
             lblorigem.Text = "Porto de Origem"
             lbldestino.Text = "Porto de Destino"
-            dsPorto.SelectCommand = "SELECT ID_PORTO, NM_PORTO + ' - ' +  CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
+            dsPorto.SelectCommand = "SELECT ID_PORTO, NM_PORTO + ' - ' +  CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
             ddlOrigemFrete.DataBind()
             ddlDestinoFrete.DataBind()
             dsBaseCalculo.SelectCommand = "SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE  ID_VIATRANSPORTE <> 4 union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"
