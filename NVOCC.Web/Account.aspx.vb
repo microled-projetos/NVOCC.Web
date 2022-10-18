@@ -470,7 +470,7 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         Dim VALOR_STRING As String = 0
 
 
-        If ddlTipoDevolucao.SelectedValue = 0 And ddlTipoInvoice.SelectedValue = 2 And ddlTipoFatura.SelectedValue = 1 Then
+        If ddlTipoInvoice.SelectedValue = 2 And ddlTipoFatura.SelectedValue = 1 Then
             'CASO NAO SEJA SELECIONADO O TIPO DE DEVOLUÇÃO MAS SEJA INVOICE HOUSE CREDIT NOTE - OS 040459322 CHAMADO 4185
             For Each linha As GridViewRow In dgvDevolucao.Rows
                 ID_BL = CType(linha.FindControl("lblID"), Label).Text
