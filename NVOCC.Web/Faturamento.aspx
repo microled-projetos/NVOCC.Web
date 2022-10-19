@@ -175,7 +175,6 @@
                                                 </ItemTemplate>
                                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="FL_FREE_HAND" HeaderText="Free Hand" SortExpression="FL_FREE_HAND" />
                                             <asp:TemplateField HeaderText="Free Hand" HeaderStyle-ForeColor="#337ab7">
                                                 <ItemTemplate>
                                                     <asp:CheckBox ID="ckFreeHand" runat="server" enabled="false" checked='<%# Eval("FL_FREE_HAND") %>'></asp:CheckBox>
