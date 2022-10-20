@@ -44,7 +44,7 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
             End If
 
             tabela &= "<table  class='tabelaDinamica' border='1'>"
-            tabela &= "<tr><td><strong>PROCESSO</strong></td>"
+            tabela &= "<tr><td><strong>PROCESSO &nbsp; &nbsp; &nbsp; &nbsp;</strong></td>"
             tabela &= "<td><strong>TX RECBTO</strong></td>"
             tabela &= "<td><strong>DT RECBTO</strong></td>"
             tabela &= "<td><strong>MASTER</strong></td>"

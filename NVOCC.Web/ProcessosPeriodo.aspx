@@ -25,7 +25,7 @@
             border-width:thin;
             border-color:black !important;        
             font-size:8pt;
-        }
+        }      
       
     </style>
     <div style="margin-bottom: 40px;">
