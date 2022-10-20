@@ -2242,7 +2242,7 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
 
             var btn = document.getElementById('<%= btnUpload.ClientID %>');
             var fi = document.getElementById('<%= FileUpload1.ClientID %>');
-            var maxFileSize = 4194304; // 4MB -> 4 * 1024 * 1024
+            var maxFileSize = 15728640; // 15MB -> 15 * 1024 * 1024
 
             if (fi.files.length > 0) {
 
