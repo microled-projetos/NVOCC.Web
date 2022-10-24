@@ -110,6 +110,16 @@
                                                 <div class="row">
                                                     <div class="col-sm-2">
                                                         <div class="form-group">
+                                                            <label class="control-label">Tipo de Movimento</label>
+                                                            <select id="tpMovimento" class="form-control">
+                                                                <option value="" selected>Selecione</option>
+                                                                <option value="P">Pagar</option>
+                                                                <option value="R">Receber</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <div class="form-group">
                                                             <label class="control-label">Moeda</label>
                                                             <asp:DropDownList ID="ddlMoeda" runat="server" CssClass="form-control" DataTextField="SIGLA_MOEDA" DataValueField="ID_MOEDA"></asp:DropDownList>
                                                         </div>
@@ -147,6 +157,7 @@
                                                 <th class="text-center" scope="col">SERVIÇO</th>
                                                 <th class="text-center" scope="col">AGENTE</th>
                                                 <th class="text-center" scope="col">CLIENTE</th>
+                                                <th class="text-center" scope="col">TIPO MOVIMENTO</th>
                                                 <th class="text-center" scope="col">ITEM DESPESA</th>
                                                 <th class="text-center" scope="col">MOEDA</th>
                                                 <th class="text-center" scope="col">VALOR</th>
@@ -195,7 +206,8 @@
                 "basecalculo": document.getElementById("MainContent_ddlBaseCalculo").value,
                 "usuario": document.getElementById("MainContent_ddlUsuario").value,
                 "datainicial": dataI,
-                "datafinal": dataF
+                "datafinal": dataF,
+                "tpmovimento": document.getElementById("tpMovimento").value
             }
             $.ajax({
                 type: "POST",
@@ -205,7 +217,7 @@
                 dataType: "json",
                 beforeSend: function () {
                     $("#grdtaxasInativasBody").empty();
-                    $("#grdtaxasInativasBody").append("<tr><td colspan='14'><div class='loader'></div></td></tr>");
+                    $("#grdtaxasInativasBody").append("<tr><td colspan='15'><div class='loader'></div></td></tr>");
                 },
                 success: function (dado) {
                     var dado = dado.d;
@@ -221,6 +233,7 @@
                             result += "<td class='text-center'>" + dado[i]["TP_SERVICO"] + "</td>";
                             result += "<td class='text-center'>" + dado[i]["AGENTE"] + "</td>";
                             result += "<td class='text-center'>" + dado[i]["CLIENTE"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["TIPO_MOVIMENTO"] + "</td>";
                             result += "<td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>";
                             result += "<td class='text-center'>" + dado[i]["SIGLA_MOEDA"] + "</td>";
                             result += "<td class='text-center'>" + dado[i]["VL_TAXA"] + "</td>";
@@ -232,7 +245,7 @@
                         }
                         $("#grdtaxasInativasBody").append(result);
                     } else {
-                        $("#grdtaxasInativasBody").append("<tr><td class='text-center' colspan='14'>Sem Dados</td></tr>");
+                        $("#grdtaxasInativasBody").append("<tr><td class='text-center' colspan='15'>Sem Dados</td></tr>");
                     }
                 }
             })
@@ -250,6 +263,7 @@
             document.getElementById("MainContent_ddlMoeda").value = '';
             document.getElementById("MainContent_ddlBaseCalculo").value = '';
             document.getElementById("MainContent_ddlUsuario").value = '';
+            document.getElementById("tpMovimento").value = '';
             ListarTaxas();
         }
 

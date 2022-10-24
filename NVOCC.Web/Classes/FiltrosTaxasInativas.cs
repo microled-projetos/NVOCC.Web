@@ -20,6 +20,7 @@ namespace ABAINFRA.Web.Classes
         private string usuario;
         private string datainicial;
         private string datafinal;
+        private string tpmovimento;
 
         public string PROCESSO { get => processo; set => processo = value; }
         public string FORNECEDOR { get => fornecedor; set => fornecedor = value; }
@@ -34,5 +35,6 @@ namespace ABAINFRA.Web.Classes
         public string USUARIO { get => usuario; set => usuario = value; }
         public string DATAINICIAL { get => datainicial; set => datainicial = value; }
         public string DATAFINAL { get => datafinal; set => datafinal = value; }
+        public string TPMOVIMENTO { get => tpmovimento; set => tpmovimento = value; }
     }
 }

@@ -4956,7 +4956,12 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         ElseIf e.CommandName = "Download" Then
 
             Try
+
+
                 Dim CAMINHO_ARQUIVO As String = e.CommandArgument
+                Dim v = Path.GetInvalidFileNameChars()
+                Dim x = Path.GetInvalidPathChars()
+
                 Response.ContentType = ContentType
                 Response.AppendHeader("Content-Disposition", "attachment; filename=" & Path.GetFileName(CAMINHO_ARQUIVO))
                 Response.WriteFile(CAMINHO_ARQUIVO)
@@ -4974,7 +4979,6 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         txtUP.Text = 1
 
     End Sub
-
     Private Sub btnUpload_Click(sender As Object, e As EventArgs) Handles btnUpload.Click
         divErroUpload.Visible = False
         divSuccessUpload.Visible = False
