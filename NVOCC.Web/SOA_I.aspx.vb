@@ -136,6 +136,7 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
                     tabela &= "<td></td>"
                     payment = payment + linhadados("VL_TAXA")
 
+
                 ElseIf linhadados("NM_ACCOUNT_TIPO_EMISSOR") = "FCA" Then
 
                     tabela &= "<td></td>"
@@ -143,9 +144,9 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
                     receive = receive + linhadados("VL_TAXA")
 
                 End If
-               
-                saldo = saldo + linhadados("VL_TAXA")
-               
+
+                saldo = payment - receive
+
                 tabela &= "</tr>"
 
 
