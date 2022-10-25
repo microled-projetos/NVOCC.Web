@@ -21,6 +21,8 @@
             border-width:thin;
             border-color:black !important;        
             font-size:8pt;
+            text-align:center;
+
         }
 
         .divTitulo{

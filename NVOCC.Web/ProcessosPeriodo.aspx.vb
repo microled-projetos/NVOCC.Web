@@ -36,7 +36,7 @@ END DESTINO,
 CONVERT(VARCHAR,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,CONVERT(VARCHAR,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,CONVERT(VARCHAR,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,CONVERT(VARCHAR,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER , B.VL_CAMBIO,B.DT_LIQUIDACAO
 FROM [dbo].[View_House] A
 LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
-  WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & Session("DataInicial") & "',103) AND CONVERT(DATE,'" & Session("DataFinal") & "',103)" & FILTRO & " ORDER BY NR_PROCESSO DESC ")
+  WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & Session("DataInicial") & "',103) AND CONVERT(DATE,'" & Session("DataFinal") & "',103)" & FILTRO & " ORDER BY NR_PROCESSO ")
 
         If dsdados.Tables(0).Rows.Count > 0 Then
             If Request.QueryString("ag") <> "" And Request.QueryString("ag") <> 0 Then
@@ -44,13 +44,13 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
             End If
 
             tabela &= "<table  class='tabelaDinamica' border='1'>"
-            tabela &= "<tr><td><strong>PROCESSO &nbsp; &nbsp; &nbsp; &nbsp;</strong></td>"
+            tabela &= "<tr><td><strong>&nbsp;&nbsp;PROCESSO&nbsp;&nbsp;</strong></td>"
             tabela &= "<td><strong>TX RECBTO</strong></td>"
             tabela &= "<td><strong>DT RECBTO</strong></td>"
             tabela &= "<td><strong>MASTER</strong></td>"
-            tabela &= "<td><strong>TIPO FRETE MASTER</strong></td>"
+            tabela &= "<td><strong>FRETE MASTER</strong></td>"
             tabela &= "<td><strong>HOUSE</strong></td>"
-            tabela &= "<td><strong>TIPO FRETE HOUSE</strong></td>"
+            tabela &= "<td><strong>FRETE HOUSE</strong></td>"
             tabela &= "<td><strong>ESTUFAGEM</strong></td>"
             tabela &= "<td><strong>ORIGEM</strong></td>"
             tabela &= "<td><strong>DESTINO</strong></td>"

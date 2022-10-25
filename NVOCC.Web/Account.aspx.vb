@@ -1089,12 +1089,20 @@ ORDER BY NR_PROCESSO"
 
     Private Sub btnBuscarRelatorio_Click(sender As Object, e As EventArgs) Handles btnBuscarRelatorio.Click
         divErroRelatorio.Visible = False
+        Dim v As New VerificaData
+
         If txtEmbarqueInicial.Text = "" Then
             divErroRelatorio.Visible = True
             lblErroRelatorio.Text = "É necessário informar data incial para concluir a pesquisa"
         ElseIf txtEmbarqueFinal.Text = "" Then
             divErroRelatorio.Visible = True
             lblErroRelatorio.Text = "É necessário informar data final para concluir a pesquisa"
+        ElseIf v.ValidaData(txtEmbarqueInicial.Text) = False Or IsDate(txtEmbarqueInicial.Text) = False Then
+            divErroRelatorio.Visible = True
+            lblErroRelatorio.Text = "Data inicial é inválida."
+        ElseIf v.ValidaData(txtEmbarqueFinal.Text) = False Or IsDate(txtEmbarqueFinal.Text) = False Then
+            divErroRelatorio.Visible = True
+            lblErroRelatorio.Text = "Data final é inválida."
         Else
 
             Dim filtro As String = ""

@@ -25,6 +25,7 @@
             border-width:thin;
             border-color:black !important;        
             font-size:8pt;
+            text-align:center;
         }      
       
     </style>
@@ -39,7 +40,7 @@
                 <td></td>
             </tr>
         </table>
-            <div class="divTitulo"><center>Processos Por Periodo <asp:Label ID="lblAgente"  runat="server"/></center></div><br/>
+           <br/><br/> <div class="divTitulo"><center>Processos Por Periodo <asp:Label ID="lblAgente"  runat="server"/></center></div><br/>
             <div id="divConteudoDinamico" runat="server"></div><br/>
             <div style="float: right; font-size: 12px">Financeiro/Account/Processos Por Periodo <%= DateTime.Now %> </div>
         </div>
