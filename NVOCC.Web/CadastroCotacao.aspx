@@ -2261,6 +2261,16 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
 
                 }
             }
+
+            //console.log("teste")
+            //for (var i = 0; i <= fi.value.length - 1; i++) {
+
+            //    console.log(i)
+            //    fi.value.charCodeAt(i);
+            
+            //}
+
+
         }
     </script>
 </asp:Content>

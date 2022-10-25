@@ -351,7 +351,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         End If
 
 
-        ds = Con.ExecutarQuery("SELECT ID_BL,GRAU,ISNULL(ID_STATUS_FRETE_AGENTE,0)ID_STATUS_FRETE_AGENTE,ISNULL(ID_PROFIT_DIVISAO,0)ID_PROFIT_DIVISAO FROM TB_BL WHERE GRAU = '" & grau & "' and NR_PROCESSO = '" & txtProc_ou_BL.Text & "' OR NR_BL = '" & txtProc_ou_BL.Text & "'")
+        ds = Con.ExecutarQuery("SELECT ID_BL,GRAU,ISNULL(ID_STATUS_FRETE_AGENTE,0)ID_STATUS_FRETE_AGENTE,ISNULL(ID_PROFIT_DIVISAO,0)ID_PROFIT_DIVISAO FROM TB_BL WHERE GRAU = '" & grau & "' AND ((NR_PROCESSO = '" & txtProc_ou_BL.Text & "' AND ID_BL_MASTER IS NOT NULL) OR (NR_BL = '" & txtProc_ou_BL.Text & "'))")
         If ds.Tables(0).Rows.Count > 0 Then
             txtID_BL.Text = ds.Tables(0).Rows(0).Item("ID_BL")
             txtGrau.Text = ds.Tables(0).Rows(0).Item("GRAU")
