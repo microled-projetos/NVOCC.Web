@@ -1,9 +1,12 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" enableEventValidation="False" MasterPageFile="~/Site.Master" CodeBehind="CadastrarEmbarqueHouse.aspx.vb" Inherits="NVOCC.Web.CadastrarEmbarqueHouse" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" EnableEventValidation="False" MasterPageFile="~/Site.Master" CodeBehind="CadastrarEmbarqueHouse.aspx.vb" Inherits="NVOCC.Web.CadastrarEmbarqueHouse" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-       <div style="float:right; display:none" > <a id="ajuda" href="#" title="Ajuda" ><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
-  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
-</svg></a></div>
+    <div style="float: right; display: none">
+        <a id="ajuda" href="#" title="Ajuda">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+            </svg></a>
+    </div>
     <style>
         .compra {
             color: red;
@@ -19,7 +22,7 @@
             background-color: #f0e4da;
         }
 
-         .inativa {
+        .inativa {
             color: black;
             font-family: verdana;
             font-size: 8pt;
@@ -32,32 +35,39 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">MÓDULO OPERACIONAL - 
-                   <asp:Label ID="lblTipoModulo" runat="server" /> <asp:Label ID="lblHouse_Titulo" runat="server"/></h3>
-                    
-                   <asp:Linkbutton ID="lkProximo" runat="server" BackColor="White" ForeColor="Black" style="float: right;MARGIN-TOP: -25PX;
-    POSITION: static;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-forward"></i></asp:Linkbutton>
-                    <asp:Linkbutton ID="lkAnterior" runat="server" BackColor="White" ForeColor="Black" style="float: right;MARGIN-TOP: -25PX;
-    POSITION: static;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-backward"></i></asp:Linkbutton>
+                   <asp:Label ID="lblTipoModulo" runat="server" />
+                        <asp:Label ID="lblHouse_Titulo" runat="server" />
+                    </h3>
+
+                    <asp:Linkbutton ID="lkProximo" runat="server" BackColor="White" ForeColor="Black" style="float: right; margin-top: -25PX; position: static;"
+                        CssClass="btn btn-default">
+                        <i class="glyphicon glyphicon-step-forward"></i>
+                    </asp:Linkbutton>
+                    <asp:Linkbutton ID="lkAnterior" runat="server" BackColor="White" ForeColor="Black" style="float: right; margin-top: -25PX; position: static;"
+                        CssClass="btn btn-default">
+                        <i class="glyphicon glyphicon-step-backward"></i>
+                    </asp:Linkbutton>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-offset-9 col-sm-3">
                             <asp:LinkButton ID="btnCapaMaritimo" runat="server" Visible="False" CssClass="btn btn-success btn-block" Text="Imprimir Capa do Processo" href="#" OnClientClick="CapaMaritimo()" />
-                            <asp:LinkButton ID="btnCapaAereo" runat="server" Visible="False" CssClass="btn btn-success btn-block" Text="Imprimir Capa do Processo" href="#" OnClientClick="CapaAereo()" />                           
+                            <asp:LinkButton ID="btnCapaAereo" runat="server" Visible="False" CssClass="btn btn-success btn-block" Text="Imprimir Capa do Processo" href="#" OnClientClick="CapaAereo()" />
                         </div>
-                    </div><div id="tabs">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="active">
-                            <a href="#Maritimo" role="tab" data-toggle="tab">
-                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Maritimo
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#Aereo" role="tab" data-toggle="tab">
-                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Aéreo
-                            </a>
-                        </li>
-                    </ul>
+                    </div>
+                    <div id="tabs">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active">
+                                <a href="#Maritimo" role="tab" data-toggle="tab">
+                                    <i class="fa fa-edit" style="padding-right: 8px;"></i>Maritimo
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#Aereo" role="tab" data-toggle="tab">
+                                    <i class="fa fa-edit" style="padding-right: 8px;"></i>Aéreo
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                     <div class="tab-content">
                         <br />
@@ -81,7 +91,7 @@
                                         <i class="fa fa-edit" style="padding-right: 8px;"></i>Taxas
                                     </a>
                                 </li>
-                                 <li>
+                                <li>
                                     <a href="#DocMaritimo" role="tab" data-toggle="tab">
                                         <i class="fa fa-edit" style="padding-right: 8px;"></i>Anexos(documentação)
                                     </a>
@@ -102,7 +112,7 @@
 
                                 <div class="tab-pane fade active in" id="BasicoMaritimo">
                                     <asp:UpdatePanel ID="UpdatePanel15" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                        <ContentTemplate>
+                                        <contenttemplate>
                                     <div class="alert alert-success" id="divSuccess_BasicoMaritimo" runat="server" visible="false">
                                         <asp:Label ID="lblSuccess_BasicoMaritimo" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
                                     </div>
@@ -521,8 +531,8 @@
                                             </div>
                                         </div>
                                     </div>
-</ContentTemplate>
-                                        <Triggers>
+</contenttemplate>
+                                        <triggers>
                                             <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoMaritimo" />
@@ -535,12 +545,12 @@
                                             <asp:AsyncPostBackTrigger ControlID="btnVisualizarMBL_Maritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeComissaria_Maritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeTranspRodoviario_BasicoMaritimo" />
-                                        </Triggers>
+                                        </triggers>
                                     </asp:UpdatePanel>
                                 </div>
                                 <div class="tab-pane fade" id="CargaMaritimo">
                                     <asp:UpdatePanel ID="UpdatePanel12" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                        <ContentTemplate>
+                                        <contenttemplate>
                                             <br />
                                             <div class="row">
 
@@ -581,38 +591,40 @@
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_CARGA_BL") %>'
-                                                                            Text="Visualizar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i></div></asp:LinkButton>
+                                                                            Text="Visualizar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i>
+                                </div>
+                                </asp:LinkButton>
                                                                     </ItemTemplate>
-                                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                </asp:TemplateField>
+                                                                    <itemstyle horizontalalign="Center" verticalalign="Middle" cssclass="campo-acao" />
+                                </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="">
-                                                                    <ItemTemplate>
+                                                                    <itemtemplate>
                                                                         <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
                                                                             OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_CARGA_BL") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                                                    </ItemTemplate>
-                                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                                    </itemtemplate>
+                                                                    <itemstyle horizontalalign="Center" verticalalign="Middle" cssclass="campo-acao" />
                                                                 </asp:TemplateField>
-                                                            </Columns>
-                                                            <HeaderStyle CssClass="headerStyle" />
-                                                        </asp:GridView>
-                                                    </div>
-                                                </ContentTemplate>
-                                                <Triggers>
+                                </Columns>
+                                                            <headerstyle cssclass="headerStyle" />
+                                </asp:GridView>
+                            </div>
+                            </ContentTemplate>
+                                                <triggers>
                                                     <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvCargaMaritimo" />
                                                     <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCargaMaritimo" />
                                                     <asp:AsyncPostBackTrigger ControlID="btnSalvar_CargaMaritimo" />
                                                     <asp:AsyncPostBackTrigger ControlID="btnFechar_CargaMaritimo" />
-                                                </Triggers>
-                                            </asp:UpdatePanel>
+                                                </triggers>
+                            </asp:UpdatePanel>
 
 
 
 
-                                            <ajaxToolkit:ModalPopupExtender ID="mpeCargaMaritimo" runat="server" PopupControlID="Panel2" TargetControlID="btnNovaCargaMaritimo"></ajaxToolkit:ModalPopupExtender>
+                                            <ajaxtoolkit:modalpopupextender id="mpeCargaMaritimo" runat="server" popupcontrolid="Panel2" targetcontrolid="btnNovaCargaMaritimo"></ajaxtoolkit:modalpopupextender>
 
-                                            <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" Style="display: none">
-                                                <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                                    <ContentTemplate>
+                            <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" Style="display: none">
+                                <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                    <contenttemplate>
                                                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -781,8 +793,8 @@
                                            
                                     </asp:Panel>--%>
 
-                                                    </ContentTemplate>
-                                                    <Triggers>
+                                                    </contenttemplate>
+                                    <triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="txtNCMFiltro_CargaMaritimo" />
 <%--                                                        <asp:AsyncPostBackTrigger ControlID="btnSalvarNCM_CargaMaritimo" />--%>
                                                         <asp:AsyncPostBackTrigger ControlID="btnSalvar_CargaMaritimo" />
@@ -790,22 +802,22 @@
                                                         <asp:AsyncPostBackTrigger ControlID="ddlTipoContainer_CargaMaritimo" />
 <%--                                                        <asp:AsyncPostBackTrigger ControlID="ddlNCM_CargaMaritimo" />--%>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNumeroCNTR_CargaMaritimo" />                                                       
-                                                    </Triggers>
-                                                </asp:UpdatePanel>
-                                            </asp:Panel>
+                                                    </triggers>
+                                </asp:UpdatePanel>
+                            </asp:Panel>
 
-                                        </ContentTemplate>
-                                        <Triggers>
+                            </ContentTemplate>
+                                        <triggers>
                                             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCargaMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnFechar_CargaMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnSalvar_CargaMaritimo" />
 
-                                        </Triggers>
-                                    </asp:UpdatePanel>
-                                </div>
-                                <div class="tab-pane fade" id="TaxasMaritimo">
-                                    <asp:UpdatePanel ID="UpdatePanel13" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False" AllowCustomErrorsRedirect="True" >
-                                        <ContentTemplate>
+                                        </triggers>
+                            </asp:UpdatePanel>
+                        </div>
+                        <div class="tab-pane fade" id="TaxasMaritimo">
+                            <asp:UpdatePanel ID="UpdatePanel13" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False" AllowCustomErrorsRedirect="True">
+                                <contenttemplate>
                                             <br />
                                             <div class="row">
 
@@ -873,27 +885,29 @@
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
-                                                                            Text="Visualizar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i></div></asp:LinkButton>
+                                                                            Text="Visualizar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i>
+                        </div>
+                        </asp:LinkButton>
                                                                     </ItemTemplate>
-                                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                </asp:TemplateField>
+                                                                    <itemstyle horizontalalign="Center" verticalalign="Middle" cssclass="campo-acao" />
+                        </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="">
-                                                                    <ItemTemplate>
+                                                                    <itemtemplate>
                                                                         <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
                                                                             OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_BL_TAXA") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                                                    </ItemTemplate>
-                                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                                    </itemtemplate>
+                                                                    <itemstyle horizontalalign="Center" verticalalign="Middle" cssclass="campo-acao" />
                                                                 </asp:TemplateField>
-                                                                
-                                                            </Columns>
-                                                            <HeaderStyle CssClass="headerStyle" />
-                                                        </asp:GridView>
+
+                        </Columns>
+                                                            <headerstyle cssclass="headerStyle" />
+                        </asp:GridView>
 
 
                                                         <asp:Button runat="server" ID="Button1" CssClass="btn btn-block btn-primary" Style="display: none" />
-                            <ajaxToolkit:ModalPopupExtender ID="mpeHistoricoMaritimo" runat="server" PopupControlID="pnHistoricoMaritimo" TargetControlID="Button1" CancelControlID="btnFecharHistoricoMaritimo"></ajaxToolkit:ModalPopupExtender>
-                            <asp:Panel ID="pnHistoricoMaritimo" runat="server" CssClass="modalPopup" Style="display: none;">
-                                <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <ajaxtoolkit:modalpopupextender id="mpeHistoricoMaritimo" runat="server" popupcontrolid="pnHistoricoMaritimo" targetcontrolid="Button1" cancelcontrolid="btnFecharHistoricoMaritimo"></ajaxtoolkit:modalpopupextender>
+                        <asp:Panel ID="pnHistoricoMaritimo" runat="server" CssClass="modalPopup" Style="display: none;">
+                            <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Historico de Status</h5>
@@ -922,11 +936,11 @@
                                                 </div>
       
                                        </div>     </center>
-                            </asp:Panel>
+                        </asp:Panel>
 
-VENDAS:
+                        VENDAS:
                                                         <asp:GridView ID="dgvTaxaMaritimoVendas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasMaritimoVendas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
-                                                            <Columns>
+                                                            <columns>
                                                                 <asp:TemplateField HeaderText="ID_BL_TAXA" SortExpression="ID_BL_TAXA" Visible="false" >
                     <ItemTemplate>                     
                          <asp:Label ID="lblID_BL_TAXA"  runat="server" Text='<%# Eval("ID_BL_TAXA") %>'  />
@@ -951,54 +965,58 @@ VENDAS:
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
-                                                                            Text="Visualizar" CssClass="btn btn-info btn-sm"><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></div></asp:LinkButton>
+                                                                            Text="Visualizar" CssClass="btn btn-info btn-sm"><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span>
+                    </div>
+                    </asp:LinkButton>
                                                                     </ItemTemplate>
-                                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                </asp:TemplateField>
+                                                                    <itemstyle horizontalalign="Center" verticalalign="Middle" cssclass="campo-acao" />
+                    </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="">
-                                                                    <ItemTemplate>
+                                                                    <itemtemplate>
                                                                         <asp:LinkButton ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
-                                                                            Text="Visualizar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i></div></asp:LinkButton>
+                                                                            Text="Visualizar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i>
+                </div>
+                </asp:LinkButton>
                                                                     </ItemTemplate>
-                                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                </asp:TemplateField>
+                                                                    <itemstyle horizontalalign="Center" verticalalign="Middle" cssclass="campo-acao" />
+                </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="">
-                                                                    <ItemTemplate>
+                                                                    <itemtemplate>
                                                                         <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
                                                                             OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_BL_TAXA") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                                                    </ItemTemplate>
-                                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                                    </itemtemplate>
+                                                                    <itemstyle horizontalalign="Center" verticalalign="Middle" cssclass="campo-acao" />
                                                                 </asp:TemplateField>
-                                                            </Columns>
-                                                            <HeaderStyle CssClass="headerStyle" />
-                                                        </asp:GridView>
+                </Columns>
+                                                            <headerstyle cssclass="headerStyle" />
+                </asp:GridView>
 
 
 
 
                                                     <div>
-                                                        <asp:Label ID="lblDiferencaMaritimo" runat="server" Style="color:blue"></asp:Label>
+                                                        <asp:Label ID="lblDiferencaMaritimo" runat="server" Style="color: blue"></asp:Label>
                                                     </div>
 
-                                                    </div>
-                                                </ContentTemplate>
-                                                <Triggers>
+            </div>
+            </ContentTemplate>
+                                                <triggers>
                                                     <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvTaxaMaritimoVendas" />
                                                     <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxaMaritimoVendas" />
                                                     <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvTaxaMaritimoCompras" />
                                                     <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxaMaritimoCompras" />
                                                     <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxaMaritimo" />
-                                                </Triggers>
-                                            </asp:UpdatePanel>
+                                                </triggers>
+            </asp:UpdatePanel>
 
 
 
 
-                                            <ajaxToolkit:ModalPopupExtender ID="mpeTaxaMaritimo" runat="server" PopupControlID="Panel3" TargetControlID="btnNovaTaxaMaritimo"></ajaxToolkit:ModalPopupExtender>
+                                            <ajaxtoolkit:modalpopupextender id="mpeTaxaMaritimo" runat="server" popupcontrolid="Panel3" targetcontrolid="btnNovaTaxaMaritimo"></ajaxtoolkit:modalpopupextender>
 
-                                         <asp:Panel ID="Panel3" runat="server" CssClass="modalPopup" Style="display: none">
-                                                <asp:UpdatePanel ID="UpdatePanel7" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                                    <ContentTemplate>
+            <asp:Panel ID="Panel3" runat="server" CssClass="modalPopup" Style="display: none">
+                <asp:UpdatePanel ID="UpdatePanel7" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                    <contenttemplate>
                                                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -1160,59 +1178,59 @@ VENDAS:
                                                             </div>
 
                                                         </div>
-                                                    </ContentTemplate>
-                                                    <Triggers>
+                                                    </contenttemplate>
+                    <triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxaMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="btnFechar_TaxaMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlDespesa_TaxaMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtValorVenda_TaxaMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlBaseCalculo_TaxaMaritimo" />
-                                                    </Triggers>
-                                                </asp:UpdatePanel>
-                                            </asp:Panel>
+                                                    </triggers>
+                </asp:UpdatePanel>
+            </asp:Panel>
 
-                                        </ContentTemplate>
-                                        <Triggers>
+            </ContentTemplate>
+                                        <triggers>
                                             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxaMaritimoVendas" />
                                             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxaMaritimoCompras" />
                                             <asp:AsyncPostBackTrigger ControlID="btnFechar_TaxaMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxaMaritimo" />
-                                        </Triggers>
-                                    </asp:UpdatePanel>
-                                </div>
+                                        </triggers>
+            </asp:UpdatePanel>
+        </div>
 
-                                  <div class="tab-pane fade" id="DocMaritimo">
-                                                          
-                               <div class="alert alert-danger" id="divErroUploadMaritimo" runat="server" visible="false">
-                                        <asp:Label ID="lblErroUploadMaritimo" runat="server"></asp:Label>
-                                    </div>
-                              <div class="alert alert-success" id="divSuccessUploadMaritimo" runat="server" visible="false">
-                                        <asp:Label ID="lblSuccessUploadMaritimo" runat="server">
+        <div class="tab-pane fade" id="DocMaritimo">
+
+            <div class="alert alert-danger" id="divErroUploadMaritimo" runat="server" visible="false">
+                <asp:Label ID="lblErroUploadMaritimo" runat="server"></asp:Label>
+            </div>
+            <div class="alert alert-success" id="divSuccessUploadMaritimo" runat="server" visible="false">
+                <asp:Label ID="lblSuccessUploadMaritimo" runat="server">
                                              Ação realizada com sucesso!
                                         </asp:Label>
-                                    </div>
-                                    <br />
-                            <div class="row">
-                               
-                            
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label>Tipo de arquivo:</label> 
-                                        <asp:DropDownList ID="ddlTipoArquivoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_ARQUIVO" DataSourceID="dsTipoArquivo" DataValueField="ID_TIPO_ARQUIVO">
-                                        </asp:DropDownList>
-                                          </div>
-                                </div>
-                                 <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <asp:FileUpload ID="FileUploadMaritimo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
-                                    </div>
-                                </div>
-                                                         
-                            </div> 
-                       
-                            <asp:UpdatePanel ID="UpdatePanel17" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                <ContentTemplate>
+            </div>
+            <br />
+            <div class="row">
+
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Tipo de arquivo:</label>
+                        <asp:DropDownList ID="ddlTipoArquivoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_ARQUIVO" DataSourceID="dsTipoArquivo" DataValueField="ID_TIPO_ARQUIVO">
+                        </asp:DropDownList>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <asp:FileUpload ID="FileUploadMaritimo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivoM();"></asp:FileUpload>
+                    </div>
+                </div>
+
+            </div>
+
+            <asp:UpdatePanel ID="UpdatePanel17" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                <contenttemplate>
                                     <div class="row">
                                         <div class="col-sm-12">        
                                             <asp:TextBox ID="txtUPMaritimo" runat="server" Style="display: none"></asp:TextBox>
@@ -1275,18 +1293,18 @@ VENDAS:
                                             </div>
 
                                 
-                                </ContentTemplate>
-                                <Triggers>
+                                </contenttemplate>
+                <triggers>
                                      <asp:PostBackTrigger ControlID="btnUploadMaritimo" />
                                      <asp:PostBackTrigger ControlID="dgvArquivosMaritimo" />
                                      <asp:PostBackTrigger ControlID="btnLimparUploadMaritimo" />
-                                </Triggers>
-                            </asp:UpdatePanel>
-                      
- </div>
-                                <div class="tab-pane fade" id="ObsMaritimo">
-                                    <asp:UpdatePanel ID="UpdatePanel11" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                                        <ContentTemplate>
+                                </triggers>
+            </asp:UpdatePanel>
+
+        </div>
+        <div class="tab-pane fade" id="ObsMaritimo">
+            <asp:UpdatePanel ID="UpdatePanel11" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                <contenttemplate>
                                             <div class="alert alert-success" id="divSuccess_ObsMaritimo" runat="server" visible="false">
                                                 <asp:Label ID="lblSuccess_ObsMaritimo" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
                                             </div>
@@ -1350,17 +1368,17 @@ VENDAS:
                                                     </div>
                                                 </div>
                                             </div>
-                                        </ContentTemplate>
-                                        <Triggers>
+                                        </contenttemplate>
+                <triggers>
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_ObsMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_ObsMaritimo" />
 
-                                        </Triggers>
-                                    </asp:UpdatePanel>
-                                </div>
-                             <div class="tab-pane fade" id="RefMaritimo">
-                                    <asp:UpdatePanel ID="UpdatePanel8" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                        <ContentTemplate>
+                                        </triggers>
+            </asp:UpdatePanel>
+        </div>
+        <div class="tab-pane fade" id="RefMaritimo">
+            <asp:UpdatePanel ID="UpdatePanel8" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                <contenttemplate>
                                             <br />
                                                <br />   <br />   <br />
                                             <div class="row linhabotao">
@@ -1444,19 +1462,19 @@ VENDAS:
                                             <br />
                                             <br />
 
-                                        </ContentTemplate>
-                                        <Triggers>
+                                        </contenttemplate>
+                <triggers>
                                             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvRefMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnCancelar_RefMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_RefMaritimo" />
-                                        </Triggers>
-                                    </asp:UpdatePanel>
+                                        </triggers>
+            </asp:UpdatePanel>
 
 
-                                </div>
+        </div>
 
-                            </div>
-                        </div>
+    </div>
+    </div>
 
                         <div class="tab-pane fade" id="Aereo">
 
@@ -1496,7 +1514,7 @@ VENDAS:
                             <div class="tab-content">
                                 <div class="tab-pane fade active in" id="BasicoAereo">
                                     <asp:UpdatePanel ID="UpdatePanel14" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                        <ContentTemplate>
+                                        <contenttemplate>
                                             <div class="alert alert-success" id="divSuccess_BasicoAereo" runat="server" visible="false">
                                                 <asp:Label ID="lblSuccess_BasicoAereo" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
                                             </div>
@@ -1951,8 +1969,8 @@ VENDAS:
                                                 </div>
                                             </div>
 
-                                        </ContentTemplate>
-                                        <Triggers>
+                                        </contenttemplate>
+                                        <triggers>
                                             <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoAereo" />
@@ -1965,7 +1983,7 @@ VENDAS:
                                             <asp:AsyncPostBackTrigger ControlID="btnVisualizarMBL_Aereo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeComissaria_Aereo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeTranspRodoviario_BasicoAereo" />
-                                        </Triggers>
+                                        </triggers>
                                     </asp:UpdatePanel>
                                 </div>
                                 <div class="tab-pane fade" id="CargaAereo">
@@ -1980,7 +1998,7 @@ VENDAS:
                                     </div>
 
                                     <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                        <ContentTemplate>
+                                        <contenttemplate>
                                             <div class="alert alert-success" id="divSuccess_CargaAereo1" runat="server" visible="false">
                                                 <asp:Label ID="lblSuccess_CargaAereo1" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
                                             </div>
@@ -2007,38 +2025,40 @@ VENDAS:
                                                         <asp:TemplateField HeaderText="">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_CARGA_BL") %>'
-                                                                    Text="Visualizar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i></div></asp:LinkButton>
+                                                                    Text="Visualizar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i>
+                                </div>
+                                </asp:LinkButton>
                                                             </ItemTemplate>
-                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                        </asp:TemplateField>
+                                                            <itemstyle horizontalalign="Center" verticalalign="Middle" cssclass="campo-acao" />
+                                </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="">
-                                                            <ItemTemplate>
+                                                            <itemtemplate>
                                                                 <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
                                                                     OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_CARGA_BL") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                                            </ItemTemplate>
-                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                            </itemtemplate>
+                                                            <itemstyle horizontalalign="Center" verticalalign="Middle" cssclass="campo-acao" />
                                                         </asp:TemplateField>
-                                                    </Columns>
-                                                    <HeaderStyle CssClass="headerStyle" />
-                                                </asp:GridView>
-                                            </div>
-                                        </ContentTemplate>
-                                        <Triggers>
+                                </Columns>
+                                                    <headerstyle cssclass="headerStyle" />
+                                </asp:GridView>
+                            </div>
+                            </ContentTemplate>
+                                        <triggers>
                                             <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvCargaAereo" />
                                             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCargaAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnSalvar_CargaAereo" />
 
-                                        </Triggers>
-                                    </asp:UpdatePanel>
+                                        </triggers>
+                            </asp:UpdatePanel>
 
 
 
 
-                                    <ajaxToolkit:ModalPopupExtender ID="mpeCargaAereo" runat="server" PopupControlID="Panel1" TargetControlID="btnNovaCargaAereo"></ajaxToolkit:ModalPopupExtender>
+                                    <ajaxtoolkit:modalpopupextender id="mpeCargaAereo" runat="server" popupcontrolid="Panel1" targetcontrolid="btnNovaCargaAereo"></ajaxtoolkit:modalpopupextender>
 
-                                    <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" Style="display: none">
-                                        <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                            <ContentTemplate>
+                            <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" Style="display: none">
+                                <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                    <contenttemplate>
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -2269,8 +2289,8 @@ VENDAS:
                                
                                     </asp:Panel>--%>
 
-                                            </ContentTemplate>
-                                            <Triggers>
+                                            </contenttemplate>
+                                    <triggers>
                                                 <asp:AsyncPostBackTrigger ControlID="txtNCMFiltro_CargaAereo" />
 <%--                                                <asp:AsyncPostBackTrigger ControlID="btnSalvarNCM_CargaAereo" />--%>
                                                 <asp:AsyncPostBackTrigger ControlID="btnAdicionarMedidasAereo" />
@@ -2279,25 +2299,25 @@ VENDAS:
                                                 <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoAereo" />
                                                  <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCargaAereo" />
                                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvMedidasAereo" />
-                                            </Triggers>
-                                        </asp:UpdatePanel>
-                                    </asp:Panel>
+                                            </triggers>
+                                </asp:UpdatePanel>
+                            </asp:Panel>
 
 
-                                </div>
-                                <div class="tab-pane fade" id="TaxasAereo">
-                                    <br />
-                                    <div class="row">
+                        </div>
+    <div class="tab-pane fade" id="TaxasAereo">
+        <br />
+        <div class="row">
 
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <asp:Button runat="server" Text="Nova Taxa" ID="btnNovaTaxaAereo" CssClass="btn btn-primary" />
-                                            </div>
-                                        </div>
-                                    </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <asp:Button runat="server" Text="Nova Taxa" ID="btnNovaTaxaAereo" CssClass="btn btn-primary" />
+                </div>
+            </div>
+        </div>
 
-                                    <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                        <ContentTemplate>
+        <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+            <contenttemplate>
 
                                             <div class="alert alert-success" id="divSuccess_TaxaAereo1" runat="server" visible="false">
                                                 <asp:Label ID="lblSuccess_TaxaAereo1" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
@@ -2354,26 +2374,28 @@ VENDAS:
                                                         <asp:TemplateField HeaderText="">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
-                                                                    Text="Visualizar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i></div></asp:LinkButton>
+                                                                    Text="Visualizar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i>
+    </div>
+    </asp:LinkButton>
                                                             </ItemTemplate>
-                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                        </asp:TemplateField>
+                                                            <itemstyle horizontalalign="Center" verticalalign="Middle" cssclass="campo-acao" />
+    </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="">
-                                                            <ItemTemplate>
+                                                            <itemtemplate>
                                                                 <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
                                                                     OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_BL_TAXA") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                                            </ItemTemplate>
-                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                            </itemtemplate>
+                                                            <itemstyle horizontalalign="Center" verticalalign="Middle" cssclass="campo-acao" />
                                                         </asp:TemplateField>
-                                                    </Columns>
-                                                    <HeaderStyle CssClass="headerStyle" />
-                                                </asp:GridView>
+    </Columns>
+                                                    <headerstyle cssclass="headerStyle" />
+    </asp:GridView>
 
                                                 
                                                   <asp:Button runat="server" ID="Button2" CssClass="btn btn-block btn-primary" Style="display: none" />
-                            <ajaxToolkit:ModalPopupExtender ID="mpeHistoricoAereo" runat="server" PopupControlID="pnHistoricoAereo" TargetControlID="Button2" CancelControlID="btnFecharHistoricoAereo"></ajaxToolkit:ModalPopupExtender>
-                            <asp:Panel ID="pnHistoricoAereo" runat="server" CssClass="modalPopup" Style="display: none;">
-                                <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+    <ajaxtoolkit:modalpopupextender id="mpeHistoricoAereo" runat="server" popupcontrolid="pnHistoricoAereo" targetcontrolid="Button2" cancelcontrolid="btnFecharHistoricoAereo"></ajaxtoolkit:modalpopupextender>
+    <asp:Panel ID="pnHistoricoAereo" runat="server" CssClass="modalPopup" Style="display: none;">
+        <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Historico de Status</h5>
@@ -2402,12 +2424,12 @@ VENDAS:
                                                 </div>
       
                                        </div>     </center>
-                            </asp:Panel>
+    </asp:Panel>
 
-                                                
-                                                VENDAS:
+
+    VENDAS:
                                                 <asp:GridView ID="dgvTaxaAereoVendas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasAereoVendas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
-                                                    <Columns>
+                                                    <columns>
                                                         <asp:TemplateField HeaderText="ID_BL_TAXA" SortExpression="ID_BL_TAXA" Visible="false" >
                     <ItemTemplate>                     
                          <asp:Label ID="lblID_BL_TAXA"  runat="server" Text='<%# Eval("ID_BL_TAXA") %>'  />
@@ -2450,32 +2472,32 @@ VENDAS:
                                                             </ItemTemplate>
                                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                         </asp:TemplateField>
-                                                    </Columns>
-                                                    <HeaderStyle CssClass="headerStyle" />
+                                                    </columns>
+                                                    <headerstyle cssclass="headerStyle" />
                                                 </asp:GridView>
 
-                                                <div>
-                                                        <asp:Label ID="lblDiferencaAereo" runat="server" Style="color:blue"></asp:Label>
-                                                    </div>
-                                            </div>
+    <div>
+        <asp:Label ID="lblDiferencaAereo" runat="server" Style="color: blue"></asp:Label>
+    </div>
+    </div>
                                         </ContentTemplate>
-                                        <Triggers>
+                                        <triggers>
                                             <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvTaxaAereoVendas" />
                                             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxaAereoVendas" />
                                             <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvTaxaAereoCompras" />
                                             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxaAereoCompras" />
                                             <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxaAereo" />
-                                        </Triggers>
-                                    </asp:UpdatePanel>
+                                        </triggers>
+    </asp:UpdatePanel>
 
 
 
 
-                                    <ajaxToolkit:ModalPopupExtender ID="mpeTaxaAereo" runat="server" PopupControlID="Panel4" TargetControlID="btnNovaTaxaAereo"></ajaxToolkit:ModalPopupExtender>
+                                    <ajaxtoolkit:modalpopupextender id="mpeTaxaAereo" runat="server" popupcontrolid="Panel4" targetcontrolid="btnNovaTaxaAereo"></ajaxtoolkit:modalpopupextender>
 
-                                    <asp:Panel ID="Panel4" runat="server" CssClass="modalPopup" Style="display: none">
-                                        <asp:UpdatePanel ID="UpdatePanel9" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                            <ContentTemplate>
+    <asp:Panel ID="Panel4" runat="server" CssClass="modalPopup" Style="display: none">
+        <asp:UpdatePanel ID="UpdatePanel9" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+            <contenttemplate>
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -2629,8 +2651,8 @@ VENDAS:
 
                                                     </div>
                                                 </div>
-                                            </ContentTemplate>
-                                            <Triggers>
+                                            </contenttemplate>
+            <triggers>
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxaAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnFechar_TaxaAereo" />
                                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxaAereoCompras" />
@@ -2638,43 +2660,43 @@ VENDAS:
                                                 <asp:AsyncPostBackTrigger ControlID="ddlDespesa_TaxaAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtValorVenda_TaxaAereo" />     
                                                 <asp:AsyncPostBackTrigger ControlID="ddlBaseCalculo_TaxaAereo" />                                                         
-                                            </Triggers>
-                                        </asp:UpdatePanel>
-                                    </asp:Panel>
+                                            </triggers>
+        </asp:UpdatePanel>
+    </asp:Panel>
 
-                                </div>
+    </div>
 
                                 <div class="tab-pane fade" id="DocAereo">
-                     
-                               <div class="alert alert-danger" id="divErroUploadAereo" runat="server" visible="false">
+
+                                    <div class="alert alert-danger" id="divErroUploadAereo" runat="server" visible="false">
                                         <asp:Label ID="lblErroUploadAereo" runat="server"></asp:Label>
                                     </div>
-                              <div class="alert alert-success" id="divSuccessUploadAereo" runat="server" visible="false">
+                                    <div class="alert alert-success" id="divSuccessUploadAereo" runat="server" visible="false">
                                         <asp:Label ID="lblSuccessUploadAereo" runat="server">
                                              Ação realizada com sucesso!
                                         </asp:Label>
                                     </div>
                                     <br />
-                            <div class="row">
-                               
-                            
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label>Tipo de arquivo:</label> 
-                                        <asp:DropDownList ID="ddlTipoArquivoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_ARQUIVO" DataSourceID="dsTipoArquivo" DataValueField="ID_TIPO_ARQUIVO">
-                                        </asp:DropDownList>
-                                          </div>
-                                </div>
-                                 <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <asp:FileUpload ID="FileUploadAereo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
+                                    <div class="row">
+
+
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Tipo de arquivo:</label>
+                                                <asp:DropDownList ID="ddlTipoArquivoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_ARQUIVO" DataSourceID="dsTipoArquivo" DataValueField="ID_TIPO_ARQUIVO">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>&nbsp;</label>
+                                                <asp:FileUpload ID="FileUploadAereo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivoA();"></asp:FileUpload>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div> 
-                       
-                            <asp:UpdatePanel ID="UpdatePanel18" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                <ContentTemplate>
+
+                                    <asp:UpdatePanel ID="UpdatePanel18" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                        <contenttemplate>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <asp:TextBox ID="txtUPAereo" runat="server" Style="display: none"></asp:TextBox>
@@ -2735,20 +2757,20 @@ VENDAS:
                                                 </div>
                                             </div>
                                         </div> 
-                                </ContentTemplate>
-                                <Triggers>
+                                </contenttemplate>
+                                        <triggers>
                                      <asp:PostBackTrigger ControlID="btnLimparUploadAereo" />
                                      <asp:PostBackTrigger ControlID="btnUploadAereo" />
                                      <asp:PostBackTrigger ControlID="dgvArquivosAereo" />
-                                </Triggers>
-                            </asp:UpdatePanel>
-             
+                                </triggers>
+                                    </asp:UpdatePanel>
 
-                        </div>
 
-                                <div class="tab-pane fade" id="ObsAereo">
-                                    <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                                        <ContentTemplate>
+                                </div>
+
+    <div class="tab-pane fade" id="ObsAereo">
+        <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+            <contenttemplate>
                                             <div class="alert alert-success" id="divSuccess_ObsAereo" runat="server" visible="false">
                                                 <asp:Label ID="lblSuccess_ObsAereo" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
                                             </div>
@@ -2812,18 +2834,18 @@ VENDAS:
                                                 </div>
                                             </div>
 
-                                        </ContentTemplate>
+                                        </contenttemplate>
 
-                                        <Triggers>
+            <triggers>
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_ObsAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_ObsAereo" />
 
-                                        </Triggers>
-                                    </asp:UpdatePanel>
-                                </div>
-                               <div class="tab-pane fade" id="RefAereo">
-                                    <asp:UpdatePanel ID="UpdatePanel10" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                        <ContentTemplate>
+                                        </triggers>
+        </asp:UpdatePanel>
+    </div>
+    <div class="tab-pane fade" id="RefAereo">
+        <asp:UpdatePanel ID="UpdatePanel10" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+            <contenttemplate>
 
                                             <br />
                                             <div class="row linhabotao text-center" style="margin-left: 20px">
@@ -2906,17 +2928,17 @@ VENDAS:
                                             <br />
 
 
-                                        </ContentTemplate>
-                                        <Triggers>
+                                        </contenttemplate>
+            <triggers>
                                             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvRefAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnCancelar_RefAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_RefAereo" />
-                                        </Triggers>
-                                    </asp:UpdatePanel>
+                                        </triggers>
+        </asp:UpdatePanel>
 
 
-                                </div>
-                            </div>
+    </div>
+    </div>
                         </div>
 
                     </div>
@@ -2931,20 +2953,20 @@ VENDAS:
     </div>
 
     <div class="modal fade" id="modal-ajuda">
-   <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Sobre NVOCC:</h4>
-            </div>
-            <div class="modal-body">
-                <strong>Objetivo:</strong>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sobre NVOCC:</h4>
+                </div>
+                <div class="modal-body">
+                    <strong>Objetivo:</strong>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     <asp:SqlDataSource ID="dsOrigemPagamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_ORIGEM_PAGAMENTO,NM_ORIGEM_PAGAMENTO FROM [dbo].[TB_ORIGEM_PAGAMENTO]
@@ -2957,39 +2979,39 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_ORIGEM_PAGAMENTO] ORDER BY ID_ORIGEM_
         SelectCommand="SELECT ID_NCM,CD_NCM +' - '+ NM_NCM AS NCM FROM [dbo].[TB_NCM] 
         WHERE  (ID_NCM =  @ID_NCM ) or (NM_NCM like '%' + @Nome + '%' Or CD_NCM like '%' + @Nome + '%')
         union SELECT  0, '      Selecione' ORDER BY ID_NCM ">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="Nome" Type="String" ControlID="txtNCMFiltro_CargaMaritimo" />
             <asp:ControlParameter Name="ID_NCM" Type="Int32" ControlID="txtIDNCM_CargaMaritimo" DefaultValue="0" />
-        </SelectParameters>
-        </asp:SqlDataSource> 
-     <asp:SqlDataSource ID="dsNCM_CargaAereo1" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        </selectparameters>
+    </asp:SqlDataSource>
+    <asp:SqlDataSource ID="dsNCM_CargaAereo1" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_NCM,CD_NCM +' - '+ NM_NCM AS NCM FROM [dbo].[TB_NCM] WHERE (NM_NCM like '%' + @Nome + '%') or (CD_NCM like '%' + @Nome + '%' ) or (ID_NCM =  @ID_NCM ) union SELECT  0, '      Selecione' ORDER BY ID_NCM ">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="Nome" Type="String" ControlID="txtNCMFiltro_CargaAereo"  DefaultValue ="NULL" />
             <asp:ControlParameter Name="ID_NCM" Type="Int32" ControlID="txtIDNCM_CargaAereo" DefaultValue="0" />
-        </SelectParameters>
-        </asp:SqlDataSource> 
-
-        <asp:SqlDataSource ID="dsNCM_CargaAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_NCM,CD_NCM +' - '+ NM_NCM as Descricao FROM TB_NCM WHERE NM_NCM  like '%' + @NM_NCM + '%'
-            union SELECT ID_NCM,CD_NCM +' - '+ NM_NCM as Descricao FROM TB_NCM WHERE  CD_NCM  like '%' + @NM_NCM + '%' 
-            union SELECT ID_NCM,CD_NCM +' - '+ NM_NCM as Descricao FROM TB_NCM WHERE ID_NCM =  @ID
-           union SELECT  0, ' Selecione' ORDER BY Descricao">
-          <SelectParameters>
-            <asp:ControlParameter Name="ID" Type="Int32" ControlID="txtIDNCM_CargaAereo" DefaultValue="0"/>
-            <asp:ControlParameter Name="NM_NCM" Type="String" ControlID="txtNCMFiltro_CargaAereo"  DefaultValue ="NULL"  />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsNCM_CargaMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsNCM_CargaAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_NCM,CD_NCM +' - '+ NM_NCM as Descricao FROM TB_NCM WHERE NM_NCM  like '%' + @NM_NCM + '%'
             union SELECT ID_NCM,CD_NCM +' - '+ NM_NCM as Descricao FROM TB_NCM WHERE  CD_NCM  like '%' + @NM_NCM + '%' 
             union SELECT ID_NCM,CD_NCM +' - '+ NM_NCM as Descricao FROM TB_NCM WHERE ID_NCM =  @ID
            union SELECT  0, ' Selecione' ORDER BY Descricao">
-          <SelectParameters>
+        <selectparameters>
+            <asp:ControlParameter Name="ID" Type="Int32" ControlID="txtIDNCM_CargaAereo" DefaultValue="0"/>
+            <asp:ControlParameter Name="NM_NCM" Type="String" ControlID="txtNCMFiltro_CargaAereo"  DefaultValue ="NULL"  />
+        </selectparameters>
+    </asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsNCM_CargaMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_NCM,CD_NCM +' - '+ NM_NCM as Descricao FROM TB_NCM WHERE NM_NCM  like '%' + @NM_NCM + '%'
+            union SELECT ID_NCM,CD_NCM +' - '+ NM_NCM as Descricao FROM TB_NCM WHERE  CD_NCM  like '%' + @NM_NCM + '%' 
+            union SELECT ID_NCM,CD_NCM +' - '+ NM_NCM as Descricao FROM TB_NCM WHERE ID_NCM =  @ID
+           union SELECT  0, ' Selecione' ORDER BY Descricao">
+        <selectparameters>
             <asp:ControlParameter Name="ID" Type="Int32" ControlID="txtIDNCM_CargaMaritimo" DefaultValue="0"/>
             <asp:ControlParameter Name="NM_NCM" Type="String" ControlID="txtNCMFiltro_CargaMaritimo"  DefaultValue ="NULL"  />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
 
@@ -3002,34 +3024,32 @@ union SELECT 0, ' Selecione' FROM [dbo].[TB_ITEM_DESPESA] ORDER BY NM_ITEM_DESPE
 union SELECT 0, '      Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY NM_BASE_CALCULO_TAXA"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsPortoMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO ">             
-</asp:SqlDataSource>
+        selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "></asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsPortoAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-     selectcommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '       Selecione' ORDER BY NM_PORTO ">             
-</asp:SqlDataSource>
+    <asp:SqlDataSource ID="dsPortoAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '       Selecione' ORDER BY NM_PORTO "></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]
 union SELECT 0, 'Selecione' FROM [dbo].[TB_TIPO_COMEX] ORDER BY ID_TIPO_COMEX"></asp:SqlDataSource>
-     
+
     <asp:SqlDataSource ID="dsTransportador_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_TRANSPORTADOR)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
-          <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_PARCEIRO_TRANSPORTADOR" Type="Int32" ControlID="txtCodTransportador_Maritimo" DefaultValue="0"/>
                               <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeTransportador_Maritimo"  DefaultValue ="NULL"  />
 
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-        <asp:SqlDataSource ID="dsTransportador_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsTransportador_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_TRANSPORTADOR)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
-          <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_PARCEIRO_TRANSPORTADOR" Type="Int32" ControlID="txtCodTransportador_Aereo" DefaultValue="0"/>
                               <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeTransportador_Aereo"  DefaultValue ="NULL"  />
 
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
 
@@ -3061,9 +3081,9 @@ UNION
 SELECT DISTINCT ID_PARCEIRO_EMPRESA FROM TB_BL_TAXA WHERE ID_BL = @ID_BL AND ID_PARCEIRO_EMPRESA IS NOT NULL)) OR FL_PRESTADOR = 1 
 union SELECT 0, ' Selecione'  
 ORDER BY NM_RAZAO">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsFornecedorAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -3090,9 +3110,9 @@ UNION
 SELECT DISTINCT ID_PARCEIRO_EMPRESA FROM TB_BL_TAXA WHERE ID_BL = @ID_BL AND ID_PARCEIRO_EMPRESA IS NOT NULL)) OR FL_PRESTADOR = 1 
 union SELECT 0, ' Selecione'  
 ORDER BY NM_RAZAO">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsIncoterm" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -3102,57 +3122,56 @@ union SELECT  0, 'Selecione' ORDER BY ID_INCOTERM"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComissaria_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_COMISSARIA)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
-          <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_PARCEIRO_COMISSARIA" Type="Int32" ControlID="txtCodComissaria_Maritimo" DefaultValue="0"/>
                               <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeComissaria_Maritimo"  DefaultValue ="NULL"  />
 
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsComissaria_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_COMISSARIA)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
-          <SelectParameters>
+        <selectparameters>
            <asp:ControlParameter Name="ID_PARCEIRO_COMISSARIA" Type="Int32" ControlID="txtCodComissaria_Aereo" DefaultValue="0"/>
            <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeComissaria_Aereo"  DefaultValue="NULL"  />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsExportador_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_EXPORTADOR)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
-          <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_PARCEIRO_EXPORTADOR" Type="Int32" ControlID="txtCodExportador_Aereo" DefaultValue ="0" />
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeExportador_Aereo"  DefaultValue ="NULL"  />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsExportador_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsExportador_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_EXPORTADOR)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
-          <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_PARCEIRO_EXPORTADOR" Type="Int32" ControlID="txtCodExportador_Maritimo" DefaultValue ="0"/>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeExportador_Maritimo"  DefaultValue ="NULL"  />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsAgente_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-
-    SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
-          <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_PARCEIRO_AGENTE" Type="Int32" ControlID="txtCodAgente_Maritimo" DefaultValue ="0"/>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeAgente_Maritimo"  DefaultValue ="NULL"  />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-      <asp:SqlDataSource ID="dsAgente_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-    SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE   (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
+    <asp:SqlDataSource ID="dsAgente_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE   (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
-          <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_PARCEIRO_AGENTE" Type="Int32" ControlID="txtCodAgente_Aereo" DefaultValue ="0"/>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeAgente_Aereo"  DefaultValue ="NULL"  />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsFrequencia" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -3167,15 +3186,15 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_TIPO_CARGA] ORDER BY ID_TIPO_CARGA"><
         SelectCommand="select ID_DESTINATARIO_COBRANCA,NM_DESTINATARIO_COBRANCA from TB_DESTINATARIO_COBRANCA
 union SELECT  0, 'Selecione' ORDER BY ID_DESTINATARIO_COBRANCA
 "></asp:SqlDataSource>
-    
+
     <asp:SqlDataSource ID="dsServicoMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO WHERE ID_SERVICO NOT IN (2,5)
 union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
-    
+
     <asp:SqlDataSource ID="dsServicoAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO WHERE ID_SERVICO IN (2,5)
 union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
-    
+
     <asp:SqlDataSource ID="dsStatusPagamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_STATUS_PAGAMENTO, NM_STATUS_PAGAMENTO FROM TB_STATUS_PAGAMENTO
 union SELECT  0, 'Selecione' ORDER BY ID_STATUS_PAGAMENTO"></asp:SqlDataSource>
@@ -3207,92 +3226,92 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_PAGAMENTO"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsCliente_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_CLIENTE)
 union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
-          <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeCliente_Maritimo"  DefaultValue ="NULL"  />
             <asp:ControlParameter Name="ID_PARCEIRO_CLIENTE" Type="Int32" ControlID="txtCodCliente_Maritimo" DefaultValue ="0" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsTranspRodoviario_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsTranspRodoviario_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_RODOVIARIO=1 AND ((NM_RAZAO  like '%' + @NM_RAZAO + '%' and FL_ATIVO = 1) or (ID_PARCEIRO =  @ID_PARCEIRO_TRANSP_RODOVIARIO))
 union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
-          <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeTranspRodoviario_BasicoMaritimo"  DefaultValue ="NULL"  />
             <asp:ControlParameter Name="ID_PARCEIRO_TRANSP_RODOVIARIO" Type="Int32" ControlID="txtCodTranspRodoviario_Maritimo" DefaultValue ="0" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsTranspRodoviario_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsTranspRodoviario_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_RODOVIARIO=1 AND ((NM_RAZAO  like '%' + @NM_RAZAO + '%' and FL_ATIVO = 1) or (ID_PARCEIRO =  @ID_PARCEIRO_TRANSP_RODOVIARIO))
 union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
-          <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeTranspRodoviario_BasicoAereo"  DefaultValue ="NULL"  />
             <asp:ControlParameter Name="ID_PARCEIRO_TRANSP_RODOVIARIO" Type="Int32" ControlID="txtCodTranspRodoviario_Aereo" DefaultValue ="0" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
 
     <asp:SqlDataSource ID="dsImportador_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_IMPORTADOR)
 union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
-          <SelectParameters>
+        <selectparameters>
                 <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeImportador_Maritimo"  DefaultValue ="NULL"  />
             <asp:ControlParameter Name="ID_PARCEIRO_IMPORTADOR" Type="Int32" ControlID="txtCodImportador_Maritimo" DefaultValue ="0" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-    
-        <asp:SqlDataSource ID="dsCliente_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+
+    <asp:SqlDataSource ID="dsCliente_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_CLIENTE)
 union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
-          <SelectParameters>
+        <selectparameters>
            <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeCliente_Aereo"  DefaultValue ="NULL"  />
             <asp:ControlParameter Name="ID_PARCEIRO_CLIENTE" Type="Int32" ControlID="txtCodCliente_Aereo" DefaultValue ="0" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsImportador_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_IMPORTADOR)
 union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
-          <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_PARCEIRO_IMPORTADOR" Type="Int32" ControlID="txtCodImportador_Aereo" DefaultValue ="0" />
                               <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeImportador_Aereo"  DefaultValue ="NULL"  />
 
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsIndicador_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsIndicador_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_INDICADOR)
 union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
-            <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeIndicador_Maritimo"  DefaultValue ="NULL"  />
             <asp:ControlParameter Name="ID_PARCEIRO_INDICADOR" Type="Int32" ControlID="txtCodIndicador_Maritimo" DefaultValue ="0" />
-        </SelectParameters>
-</asp:SqlDataSource>
+        </selectparameters>
+    </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsIndicador_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_INDICADOR)
 union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
-            <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeIndicador_Aereo"  DefaultValue ="NULL"  />
             <asp:ControlParameter Name="ID_PARCEIRO_INDICADOR" Type="Int32" ControlID="txtCodIndicador_Aereo" DefaultValue ="0" />
-        </SelectParameters>
-</asp:SqlDataSource>
+        </selectparameters>
+    </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsRefMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_REFERENCIA_CLIENTE,ID_BL,NR_REFERENCIA_CLIENTE,ID_COTACAO,TIPO FROM TB_REFERENCIA_CLIENTE WHERE ID_BL = @ID_BL">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
-        </SelectParameters>
+        </selectparameters>
 
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsRefAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-              SelectCommand="SELECT ID_REFERENCIA_CLIENTE,ID_BL,NR_REFERENCIA_CLIENTE,ID_COTACAO,TIPO FROM TB_REFERENCIA_CLIENTE WHERE ID_BL = @ID_BL
+        SelectCommand="SELECT ID_REFERENCIA_CLIENTE,ID_BL,NR_REFERENCIA_CLIENTE,ID_COTACAO,TIPO FROM TB_REFERENCIA_CLIENTE WHERE ID_BL = @ID_BL
 ">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
 
@@ -3312,9 +3331,9 @@ DS_GRUPO_NCM,
 CASE WHEN DS_GRUPO_NCM IS NULL THEN 
 (SELECT NM_NCM FROM TB_NCM WHERE ID_NCM = A.ID_NCM) ELSE DS_GRUPO_NCM END NCM 
 FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsCargaAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CARGA_BL,
@@ -3331,47 +3350,45 @@ DS_GRUPO_NCM,
 CASE WHEN DS_GRUPO_NCM IS NULL THEN 
 (SELECT NM_NCM FROM TB_NCM WHERE ID_NCM = A.ID_NCM) ELSE DS_GRUPO_NCM END NCM 
 FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-  <asp:SqlDataSource ID="dsTaxasAereoCompras" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsTaxasAereoCompras" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [FN_TAXAS_BL](@ID_BL,'P') order by ID_BL_TAXA desc ">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-        <asp:SqlDataSource ID="dsTaxasAereoVendas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsTaxasAereoVendas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [FN_TAXAS_BL](@ID_BL,'R') order by ID_BL_TAXA desc ">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTaxasMaritimoVendas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [FN_TAXAS_BL](@ID_BL,'R') order by ID_BL_TAXA desc ">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-      <asp:SqlDataSource ID="dsTaxasMaritimoCompras" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-      SelectCommand="SELECT * FROM [FN_TAXAS_BL](@ID_BL,'P') order by ID_BL_TAXA desc ">
-        <SelectParameters>
+    <asp:SqlDataSource ID="dsTaxasMaritimoCompras" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT * FROM [FN_TAXAS_BL](@ID_BL,'P') order by ID_BL_TAXA desc ">
+        <selectparameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
-     <asp:SqlDataSource ID="dsDivisaoProfit" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsDivisaoProfit" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_DIVISAO_PROFIT,NM_TIPO_DIVISAO_PROFIT FROM [dbo].TB_TIPO_DIVISAO_PROFIT
-union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT">
-</asp:SqlDataSource>
-         <asp:SqlDataSource ID="dsFinalDestination" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-      selectcommand="SELECT ID_CIDADE,upper( NM_CIDADE) + ' - ' + (SELECT SIGLA_ESTADO FROM TB_ESTADO B WHERE B.ID_ESTADO = A.ID_ESTADO) AS NM_CIDADE FROM [dbo].[TB_CIDADE] A  union SELECT  0 as Id, '  Selecione' as Descricao FROM [dbo].[TB_CIDADE] A Order by NM_CIDADE">
-</asp:SqlDataSource>
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="dsFinalDestination" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_CIDADE,upper( NM_CIDADE) + ' - ' + (SELECT SIGLA_ESTADO FROM TB_ESTADO B WHERE B.ID_ESTADO = A.ID_ESTADO) AS NM_CIDADE FROM [dbo].[TB_CIDADE] A  union SELECT  0 as Id, '  Selecione' as Descricao FROM [dbo].[TB_CIDADE] A Order by NM_CIDADE"></asp:SqlDataSource>
 
-    
+
     <asp:SqlDataSource ID="dsMedidasAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID
       ,ID_BL
@@ -3384,38 +3401,38 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT">
       ,VL_COMPRIMENTO
   FROM TB_CARGA_BL_DIMENSAO 
     WHERE ID_CARGA_BL = @ID_CARGA_BL ORDER BY ID DESC ">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_CARGA_BL" Type="Int32" ControlID="txtID_CargaAereo" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsTipoAeronave" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsTipoAeronave" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_TIPO_AERONAVE,NM_TIPO_AERONAVE from TB_TIPO_AERONAVE
 union 
 SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
 
 
-        <asp:SqlDataSource ID="dsUploadsMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsUploadsMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO FROM TB_UPLOADS  A
  INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
 INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
     WHERE A.ID_BL = @ID_BL ">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsUploadsAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsUploadsAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO FROM TB_UPLOADS  A
  INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
 INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
     WHERE A.ID_BL = @ID_BL ">
-        <SelectParameters>
+        <selectparameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsTipoArquivo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsTipoArquivo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_ARQUIVO,NM_TIPO_ARQUIVO FROM TB_TIPO_ARQUIVO
 union 
 SELECT  0, '      Selecione' ORDER BY ID_TIPO_ARQUIVO "></asp:SqlDataSource>
@@ -3423,9 +3440,9 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_ARQUIVO "></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsHistorico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_INATIVACAO,CASE WHEN ISNULL(FL_TAXA_INATIVA,0) = 0 THEN 'ATIVO' ELSE 'INATIVO' END STATUS,NOME,DT_INATIVACAO,CASE WHEN ISNULL(C.FL_PRECISA_DESCR,0) = 1 THEN
 C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACAO END NM_MOTIVO_INATIVACAO,A.DS_MOTIVO_INATIVACAO FROM TB_INATIVACAO_TAXAS A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_INATIVACAO = B.ID_USUARIO INNER JOIN TB_MOTIVO_INATIVACAO C ON C.ID_MOTIVO_INATIVACAO = A.ID_MOTIVO_INATIVACAO  WHERE A.ID_BL_TAXA = @ID_BL_TAXA ORDER BY DT_INATIVACAO DESC">
-        <SelectParameters>
+        <selectparameters>
             <asp:Parameter Name="ID_BL_TAXA" Type="Int32" DefaultValue="0" />
-        </SelectParameters>
+        </selectparameters>
     </asp:SqlDataSource>
 
 </asp:Content>
@@ -3508,6 +3525,64 @@ C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACA
 
         function Func() {
             alert("O valor de venda é menor que o valor de compra!");
+        }
+
+        function VerificaTamanhoArquivoM() {
+            var btn = document.getElementById('<%= btnUploadMaritimo.ClientID %>');
+             var fi = document.getElementById('<%= FileUploadMaritimo.ClientID %>');
+            var maxFileSize = 15728640; // 15MB -> 15 * 1024 * 1024
+            if (fi.files.length > 0) {
+                for (var i = 0; i <= fi.files.length - 1; i++) {
+                    var fsize = fi.files.item(i).size;
+                    if (fsize < maxFileSize) {
+                        btn.style.display = 'block';
+                    }
+                    else {
+                        alert("Arquivo excede tamanho permitido!");
+                        fi.value = null;
+                        btn.style.display = 'none';
+                    }
+                }
+            }
+            var valido = /^[\x00-\x7F]*$/.test(fi.value);
+            if (valido) {
+                btn.style.display = 'block';
+                console.log("arquivo permitido!");
+            }
+            else {
+                alert("O arquivo selecionado não é permitido!(caracteres inválidos)");
+                fi.value = null;
+                btn.style.display = 'none';
+            }
+        }
+
+        function VerificaTamanhoArquivoA() {
+            var btn = document.getElementById('<%= btnUploadAereo.ClientID %>');
+            var fi = document.getElementById('<%= FileUploadAereo.ClientID %>');
+            var maxFileSize = 15728640; // 15MB -> 15 * 1024 * 1024
+            if (fi.files.length > 0) {
+                for (var i = 0; i <= fi.files.length - 1; i++) {
+                    var fsize = fi.files.item(i).size;
+                    if (fsize < maxFileSize) {
+                        btn.style.display = 'block';
+                    }
+                    else {
+                        alert("Arquivo excede tamanho permitido!");
+                        fi.value = null;
+                        btn.style.display = 'none';
+                    }
+                }
+            }
+            var valido = /^[\x00-\x7F]*$/.test(fi.value);
+            if (valido) {
+                btn.style.display = 'block';
+                console.log("arquivo permitido!");
+            }
+            else {
+                alert("O arquivo selecionado não é permitido!(caracteres inválidos)");
+                fi.value = null;
+                btn.style.display = 'none';
+            }
         }
     </script>
 </asp:Content>
