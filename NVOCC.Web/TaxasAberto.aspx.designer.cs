@@ -15,21 +15,21 @@ namespace ABAINFRA.Web
 	{
 
 		/// <summary>
-		/// Controle chkPagar.
+		/// Controle chkBrasil.
 		/// </summary>
 		/// <remarks>
 		/// Campo gerado automaticamente.
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.RadioButton chkPagar;
+		protected global::System.Web.UI.WebControls.CheckBox chkBrasil;
 
 		/// <summary>
-		/// Controle chkReceber.
+		/// Controle chkExterior.
 		/// </summary>
 		/// <remarks>
 		/// Campo gerado automaticamente.
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.RadioButton chkReceber;
+		protected global::System.Web.UI.WebControls.CheckBox chkExterior;
 	}
 }

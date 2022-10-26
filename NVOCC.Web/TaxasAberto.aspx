@@ -62,10 +62,10 @@
                                         </div>
                                         <div class="form-group" style="display:flex;align-items:center; margin-bottom: 0px; margin-left: 10px;">
                                             <div>
-                                                <asp:RadioButton ID="chkPagar" GroupName="tipo" runat="server" CssClass="form-control noborder" Checked="true" Text="&nbsp;Brasil"></asp:RadioButton>
+                                                <asp:CheckBox ID="chkBrasil" GroupName="tipo" runat="server" CssClass="form-control noborder" Checked Text="&nbsp;Brasil"></asp:CheckBox>
                                             </div>
                                             <div>
-                                                <asp:RadioButton ID="chkReceber" GroupName="tipo" runat="server" CssClass="form-control noborder" Checked="false" Text="&nbsp;Exterior"></asp:RadioButton>
+                                                <asp:CheckBox ID="chkExterior" GroupName="tipo" runat="server" CssClass="form-control noborder" Checked Text="&nbsp;Exterior"></asp:CheckBox>
                                             </div>
                                         </div>
                                     </div>
@@ -81,6 +81,8 @@
                                                 <th class="text-center" scope="col">VALOR TAXA CALCULADA</th>
                                                 <th class="text-center" scope="col">MOEDA</th>
                                                 <th class="text-center" scope="col">TIPO MOVIMENTO</th>
+                                                <th class="text-center" scope="col">ORIGEM</th>
+                                                <th class="text-center" scope="col">DATA CHEGADA</th>
                                             </tr>
                                         </thead>
                                         <tbody id="grdConferenciaProcessoBody">
@@ -108,18 +110,28 @@
             var dtFinal = document.getElementById("txtDtFinalConferenciaProcesso").value;
             var nota = document.getElementById("txtConferenciaProcesso").value;
             var filter = document.getElementById("ddlFilterConferenciaProcesso").value;
-            var checkboxPagar = document.getElementById("MainContent_chkPagar");
-            var checkboxPagarvalue;
-            if (checkboxPagar.checked) {
-                checkboxPagarvalue = "1";
+            var checkboxBrasil = document.getElementById("MainContent_chkBrasil");
+            var checkboxBrasilValue;
+            var checkboxExterior = document.getElementById("MainContent_chkExterior");
+            var checkboxExteriorValue;
+
+            if (checkboxBrasil.checked) {
+                checkboxBrasilValue = "1";
             }
             else {
-                checkboxPagarvalue = "2";
+                checkboxBrasilValue = "0";
+            }
+
+            if (checkboxExterior.checked) {
+                checkboxExteriorValue = "1";
+            }
+            else {
+                checkboxExteriorValue = "0";
             }
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/ListarProcessoTaxaAberta",
-                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", text: "' + nota + '", opt: "' + checkboxPagarvalue+'", filter: "' + filter + '"}',
+                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", text: "' + nota + '", chkB: "' + checkboxBrasilValue + '", chkE: "' + checkboxExteriorValue +'", filter: "' + filter + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     beforeSend: function () {
@@ -139,7 +151,9 @@
                                     "<td class='text-center'>" + dado[i]["VL_TAXA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_TAXA_CALCULADO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["SIGLA_MOEDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["TIPO"] + "</td></tr> ");
+                                    "<td class='text-center'>" + dado[i]["TIPO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_ORIGEM_PAGAMENTO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td></tr> ");
                             }
                         }
                         else {

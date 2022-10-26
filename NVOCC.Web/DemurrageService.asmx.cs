@@ -2043,7 +2043,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string ListarProcessoTaxaAberta(string dataI, string dataF, string opt, string filter, string text)
+        public string ListarProcessoTaxaAberta(string dataI, string dataF, string chkB, string chkE, string filter, string text)
         {
             string sqlFormattedDate;
             string sqlFormattedDate2;
@@ -2072,9 +2072,89 @@ namespace ABAINFRA.Web
             {
                 sqlFormattedDate2 = "01/01/2900";
             }
-            SQL = "SELECT NR_PROCESSO, NM_ITEM_DESPESA, ISNULL(DESTINATARIO_COBRANCA,'') AS DESTINATARIO_COBRANCA, VL_TAXA, VL_TAXA_CALCULADO, ";
-            SQL += "SIGLA_MOEDA, TIPO, NM_TIPO_PAGAMENTO ";
-            SQL += "FROM FN_PROCESSOS_TAXAS_ABERTO('"+sqlFormattedDate+"', '" + sqlFormattedDate2 + "',"+opt+") ";
+
+            if (chkB == "1" && chkE == "1"){ chkB = ""; chkE = "";}
+            else{
+                switch (chkB)
+                {
+                    case "1":
+                        chkB = " AND A.ID_ORIGEM_PAGAMENTO = 1 ";
+                        break;
+                    default:
+                        chkB = "";
+                        break;
+                }
+
+                switch (chkE)
+                {
+                    case "1":
+                        chkE = " AND A.ID_ORIGEM_PAGAMENTO = 2 ";
+                        break;
+                    default:
+                        chkE = "";
+                        break;
+                }
+            }
+
+
+            SQL = "SELECT A.NR_PROCESSO, A.NM_ITEM_DESPESA, ISNULL(A.DESTINATARIO_COBRANCA,'') AS DESTINATARIO_COBRANCA, A.VL_TAXA, A.VL_TAXA_CALCULADO, ";
+            SQL += "A.SIGLA_MOEDA, A.TIPO, A.NM_TIPO_PAGAMENTO, A.NM_ORIGEM_PAGAMENTO, A.DT_CHEGADA ";
+            SQL += "FROM (";
+            SQL += "SELECT E.NR_PROCESSO, B.NM_ITEM_DESPESA, C.NM_RAZAO as DESTINATARIO_COBRANCA, A.VL_TAXA, A.VL_TAXA_CALCULADO,  ";
+            SQL += "D.SIGLA_MOEDA, CASE WHEN A.CD_PR = 'P' THEN 'PAGAR' ELSE 'RECEBER' END AS TIPO, F.NM_TIPO_PAGAMENTO, G.NM_ORIGEM_PAGAMENTO, ISNULL(FORMAT(E.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
+            SQL += "FROM TB_BL_TAXA A ";
+            SQL += "JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
+            SQL += "LEFT JOIN TB_PARCEIRO C ON A.ID_PARCEIRO_EMPRESA = C.ID_PARCEIRO ";
+            SQL += "JOIN TB_MOEDA D ON A.ID_MOEDA = D.ID_MOEDA ";
+            SQL += "JOIN TB_BL E ON A.ID_BL = E.ID_BL ";
+            SQL += "JOIN TB_TIPO_PAGAMENTO F ON A.ID_TIPO_PAGAMENTO = F.ID_TIPO_PAGAMENTO ";
+            SQL += "JOIN TB_ORIGEM_PAGAMENTO G ON A.ID_ORIGEM_PAGAMENTO = G.ID_ORIGEM_PAGAMENTO ";
+            SQL += "WHERE A.ID_BL_TAXA NOT IN(SELECT ISNULL(ID_BL_TAXA, 0) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) ";
+            SQL += "AND E.ID_BL_MASTER IS NOT NULL ";
+            SQL += "AND CONVERT(DATE, E.DT_ABERTURA,103) BETWEEN CONVERT(DATE, '"+sqlFormattedDate+"', 103)  ";
+            SQL += "AND CONVERT(DATE, '" + sqlFormattedDate2 + "', 103)  ";
+            SQL += "AND E.ID_BL IN(SELECT DISTINCT(A.ID_BL) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER ";
+            SQL += "WHERE B.DT_CANCELAMENTO IS NULL AND A.ID_ITEM_DESPESA = 14 AND CD_PR = 'P') ";
+            SQL += ""+ chkE + " "+ chkB+ " AND(A.FL_TAXA_INATIVA = 0 OR A.FL_TAXA_INATIVA IS NULL) AND A.VL_TAXA <> 0.00 ";
+            SQL += " ";
+            SQL += "UNION ";
+            SQL += " ";
+            SQL += "SELECT DISTINCT X.NR_PROCESSO, X.NM_ITEM_DESPESA, X.NM_RAZAO AS DESTINATARIO_COBRANCA, ABS(X.VL_ITEM_DESPESA) AS VL_TAXA, ";
+            SQL += "ABS(X.VL_ITEM_DESPESA) AS VL_TAXA_CALCULADO, X.SIGLA_MOEDA, X.TIPO AS TIPO, '------' AS NM_TIPO_PAGAMENTO, X.NM_ORIGEM_PAGAMENTO, X.DT_CHEGADA FROM( ";
+            SQL += "SELECT DISTINCT E.ID_BL, E.NR_PROCESSO, 'COMISSAO' AS NM_ITEM_DESPESA, G.SIGLA_MOEDA, H.NM_RAZAO, ";
+            SQL += "(SELECT ISNULL(VL_TAXA_CALCULADO, 0) AS VL_ITEM_DESPESA FROM FN_ACCOUNT_DEVOLUCAO_COMISSAO(E.ID_BL, 'C') ";
+            SQL += "WHERE VL_TAXA_CALCULADO IS NOT NULL AND VL_TAXA_CALCULADO != CONVERT(DECIMAL(15, 2), 0.00)) AS VL_ITEM_DESPESA, ";
+            SQL += "  (SELECT CASE WHEN ISNULL(VL_TAXA_CALCULADO, 0) < 0 THEN 'RECEBER' ELSE 'PAGAR' END AS TIPO FROM FN_ACCOUNT_DEVOLUCAO_COMISSAO(E.ID_BL, 'C') ";
+            SQL += "  WHERE VL_TAXA_CALCULADO IS NOT NULL AND VL_TAXA_CALCULADO != CONVERT(DECIMAL(15, 2), 0.00)) AS TIPO, ";
+            SQL += "I.NM_ORIGEM_PAGAMENTO, ISNULL(FORMAT(E.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
+            SQL += "FROM TB_BL_TAXA A ";
+            SQL += "JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
+            SQL += "LEFT JOIN TB_PARCEIRO C ON A.ID_PARCEIRO_EMPRESA = C.ID_PARCEIRO ";
+            SQL += "JOIN TB_MOEDA D ON A.ID_MOEDA = D.ID_MOEDA ";
+            SQL += "JOIN TB_BL E ON A.ID_BL = E.ID_BL ";
+            SQL += "JOIN TB_TIPO_PAGAMENTO F ON A.ID_TIPO_PAGAMENTO = F.ID_TIPO_PAGAMENTO ";
+            SQL += "JOIN TB_MOEDA G ON E.ID_MOEDA_FRETE = G.ID_MOEDA ";
+            SQL += "JOIN TB_PARCEIRO H ON E.ID_PARCEIRO_AGENTE_INTERNACIONAL = H.ID_PARCEIRO ";
+            SQL += "JOIN TB_ORIGEM_PAGAMENTO I ON A.ID_ORIGEM_PAGAMENTO = I.ID_ORIGEM_PAGAMENTO ";
+            SQL += "WHERE A.ID_BL_TAXA NOT IN(SELECT ISNULL(ID_BL_TAXA, 0) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) ";
+            SQL += "AND E.ID_BL_MASTER IS NOT NULL ";
+            SQL += "AND CONVERT(DATE, E.DT_ABERTURA,103) BETWEEN CONVERT(DATE, '" + sqlFormattedDate + "', 103)  ";
+            SQL += "AND CONVERT(DATE, '" + sqlFormattedDate2 + "', 103)  ";
+            SQL += "AND E.ID_BL IN(SELECT DISTINCT(A.ID_BL) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER ";
+            SQL += "WHERE B.DT_CANCELAMENTO IS NULL AND A.ID_ITEM_DESPESA = 14 AND CD_PR = 'P') ";
+            SQL += ") X ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER_ITENS Z ON X.ID_BL = Z.ID_BL ";
+            SQL += "WHERE VL_ITEM_DESPESA IS NOT NULL ";
+            SQL += "AND X.NR_PROCESSO IN(SELECT A.NR_PROCESSO FROM ( ";
+            SQL += "SELECT NR_PROCESSO, NM_ITEM_DESPESA, ";
+            SQL += "CASE WHEN VL_SALDO_RECEBER > 0.00 THEN VL_SALDO_RECEBER ";
+            SQL += "     WHEN VL_SALDO_PAGAR > 0.00 THEN VL_SALDO_PAGAR END AS VL_ITEM_DESPESA ";
+            SQL += "FROM FN_PREVISIBILIDADE_SALDO('01/01/1900', '01/01/2900', '') WHERE NM_ITEM_DESPESA = 'COMISSAO') A ";
+            SQL += "WHERE A.VL_ITEM_DESPESA IS NOT NULL)) A ";
 
             /*SQL = "SELECT E.NR_PROCESSO, B.NM_ITEM_DESPESA, C.NM_RAZAO as DESTINATARIO_COBRANCA, A.VL_TAXA, A.VL_TAXA_CALCULADO, ";
             SQL += "D.SIGLA_MOEDA, CASE WHEN A.CD_PR = 'P' THEN 'PAGAR' ELSE 'VENDER' END AS TIPO, F.NM_TIPO_PAGAMENTO ";
@@ -2752,7 +2832,7 @@ namespace ABAINFRA.Web
             }
             
 
-            SQL = "SELECT ID_DEMURRAGE_FATURA_PARCELAS, ID_DEMURRAGE_FATURA, VL_DEMURRAGE_PARCELA, FORMAT(DT_VENCIMENTO_DEMURRAGE_PARCELA,'yyyy-MM-dd') as DT_VENCIMENTO_DEMURRAGE_PARCELA, VL_DEMURRAGE_PARCELA_JUROS, ";
+            SQL = "SELECT ID_DEMURRAGE_FATURA_PARCELAS, ID_DEMURRAGE_FATURA, VL_DEMURRAGE_PARCELA, FORMAT(DT_VENCIMENTO_DEMURRAGE_PARCELA,'yyyy-MM-dd') as DT_VENCIMENTO_DEMURRAGE_PARCELA, ISNULL(VL_DEMURRAGE_PARCELA_JUROS,0.00) VL_DEMURRAGE_PARCELA_JUROS, ";
             SQL += "FL_PAGO, ISNULL(ID_CONTA_PAGAR_RECEBER,0) AS IDCPR FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idFaturaParcela + "";
 
             DataTable listaParcela = new DataTable();
@@ -2782,7 +2862,7 @@ namespace ABAINFRA.Web
                 SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA ";
                 SQL += ",ID_USUARIO_LANCAMENTO,DT_LIQUIDACAO,ID_USUARIO_LIQUIDACAO,CD_PR,DT_COMPETENCIA ";
                 SQL += ",TP_EXPORTACAO) VALUES('" + dtLancamento + "','" + dtVencimento + "','" + idConta + "', ";
-                SQL += "'" + idUsuario + "','" + dtLiquidacao + "','12','" + cdpr + "','" + idFaturaParcela + "','DEM') SELECT SCOPE_IDENTITY()";
+                SQL += "'" + idUsuario + "','" + dtLiquidacao + "','" + Session["ID_USUARIO"] + "','" + cdpr + "','" + idFaturaParcela + "','DEM') SELECT SCOPE_IDENTITY()";
                 string insertConta = DBS.ExecuteScalar(SQL);
 
                 SQL = "SELECT C.ID_CNTR_BL,C.ID_MOEDA_DEMURRAGE_VENDA, C.VL_DEMURRAGE_VENDA, D.ID_PARCEIRO_CLIENTE, ";
@@ -2802,7 +2882,7 @@ namespace ABAINFRA.Web
 
                 
 
-                decimal vlParcela = ((decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"] + ((decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"] * ((decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA_JUROS"] / 100)))/ qtdRows;
+                double vlParcela = (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) + (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) * (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA_JUROS"]) / 100)))/ qtdRows;
                 
 
                 for (i = 0; i < qtdRows; i++)
@@ -2862,12 +2942,12 @@ namespace ABAINFRA.Web
                 int qtdRows = listarContainers.Rows.Count;
                 int cntrBl = (int)listarContainers.Rows[0]["id_cntr_bl"];
 
-                decimal vlParcela = ((decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"] + ((decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"] * ((decimal)listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA_JUROS"] / 100))) / qtdRows;
+                double vlParcela = (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) + (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) * (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA_JUROS"]) / 100))) / qtdRows;
 
                 SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA ";
                 SQL += ",ID_USUARIO_LANCAMENTO,DT_LIQUIDACAO,ID_USUARIO_LIQUIDACAO,CD_PR,DT_COMPETENCIA ";
                 SQL += ",TP_EXPORTACAO) VALUES('" + dtLancamento + "','" + dtVencimento + "','" + idConta + "', ";
-                SQL += "'" + idUsuario + "','" + dtLiquidacao + "','12','" + cdpr + "','" + idFatura + "','DEM') SELECT SCOPE_IDENTITY() ";
+                SQL += "'" + idUsuario + "','" + dtLiquidacao + "','" + Session["ID_USUARIO"] + "','" + cdpr + "','" + idFatura + "','DEM') SELECT SCOPE_IDENTITY() ";
                 string insertConta = DBS.ExecuteScalar(SQL);
 
                 for (i = 0; i < qtdRows; i++)
@@ -9833,13 +9913,15 @@ namespace ABAINFRA.Web
             if (dados.SERVICO != "") { Filtro += "AND D.ID_SERVICO = '" + dados.SERVICO+ "' "; }
             if (dados.AGENTEINTER != "") { Filtro += "AND E2.ID_PARCEIRO = '" + dados.AGENTEINTER+ "' "; }
             if (dados.CLIENTE != "") { Filtro += "AND E3.ID_PARCEIRO = '" + dados.CLIENTE + "' "; }
+            if (dados.TPMOVIMENTO != "") { Filtro += "AND B.CD_PR = '" + dados.TPMOVIMENTO + "' "; }
             if (dados.ITEMDESPESA != "") { Filtro += "AND F.ID_ITEM_DESPESA = '" + dados.ITEMDESPESA + "' "; }
             if (dados.MOEDA != "") { Filtro += "AND G.ID_MOEDA = '" + dados.MOEDA + "' "; }
             if (dados.BASECALCULO != "") { Filtro += "AND H.ID_BASE_CALCULO_TAXA = '" + dados.BASECALCULO + "' "; }
             if (dados.USUARIO != "") { Filtro += "AND J.ID_USUARIO = '" + dados.USUARIO+ "' "; }
 
             SQL = "SELECT A.NR_PROCESSO, E1.NM_RAZAO AS FORNECEDOR, C.NM_TIPO_ESTUFAGEM, D1.NM_VIATRANSPORTE, ";
-            SQL += "D.TP_SERVICO, E2.NM_RAZAO AS AGENTE, E3.NM_RAZAO AS CLIENTE, F.NM_ITEM_DESPESA, ";
+            SQL += "D.TP_SERVICO, E2.NM_RAZAO AS AGENTE, E3.NM_RAZAO AS CLIENTE, ";
+            SQL += "CASE WHEN B.CD_PR = 'P' THEN 'PAGAR' ELSE 'RECEBER' END AS TIPO_MOVIMENTO, F.NM_ITEM_DESPESA, ";
             SQL += "G.SIGLA_MOEDA, B.VL_TAXA, H.NM_BASE_CALCULO_TAXA, ISNULL(J.NOME,'') AS USUARIO_INATIVACAO, ISNULL(FORMAT(I.DT_INATIVACAO,'dd/MM/yyyy'),'') AS DATA_INATIVACAO, CONCAT(NM_MOTIVO_INATIVACAO ,ISNULL(' - ' + DS_MOTIVO_INATIVACAO,'')) AS MOTIVO_INATIVACAO ";
             SQL += "FROM TB_BL A ";
             SQL += "JOIN TB_BL_TAXA B ON A.ID_BL = B.ID_BL ";
