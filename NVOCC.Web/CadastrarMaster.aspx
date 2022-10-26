@@ -1101,7 +1101,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>&nbsp;</label>
-                                                <asp:FileUpload ID="FileUploadMaritimo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
+                                                <asp:FileUpload ID="FileUploadMaritimo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivoM();"></asp:FileUpload>
                                             </div>
                                         </div>                                       
 
@@ -1899,7 +1899,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>&nbsp;</label>
-                                                    <asp:FileUpload ID="FileUploadAereo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivo();"></asp:FileUpload>
+                                                    <asp:FileUpload ID="FileUploadAereo" CssClass="form-control" runat="server" Visible="true" Style="display: block" onchange="Javascript: VerificaTamanhoArquivoA();"></asp:FileUpload>
                                                 </div>
                                             </div>                                         
                                         </div>
@@ -2473,6 +2473,82 @@ C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACA
             }
         }
 
+
+        function VerificaTamanhoArquivoM() {
+
+            var btn = document.getElementById('<%= btnUploadMaritimo.ClientID %>');
+              var fi = document.getElementById('<%= FileUploadMaritimo.ClientID %>');
+             var maxFileSize = 15728640; // 15MB -> 15 * 1024 * 1024
+
+             if (fi.files.length > 0) {
+
+                 for (var i = 0; i <= fi.files.length - 1; i++) {
+
+                     var fsize = fi.files.item(i).size;
+
+                     if (fsize < maxFileSize) {
+                         btn.style.display = 'block';
+                     }
+                     else {
+                         alert("Arquivo excede tamanho permitido!");
+                         fi.value = null;
+                         btn.style.display = 'none';
+                     }
+
+                 }
+             }
+
+             var valido = /^[\x00-\x7F]*$/.test(fi.value);
+
+             if (valido) {
+                 btn.style.display = 'block';
+                 console.log("arquivo permitido!");
+             }
+             else {
+                 alert("O arquivo selecionado não é permitido!(caracteres inválidos)");
+                 fi.value = null;
+                 btn.style.display = 'none';
+             }
+
+        }
+
+        function VerificaTamanhoArquivoA() {
+
+            var btn = document.getElementById('<%= btnUploadAereo.ClientID %>');
+            var fi = document.getElementById('<%= FileUploadAereo.ClientID %>');
+            var maxFileSize = 15728640; // 15MB -> 15 * 1024 * 1024
+
+            if (fi.files.length > 0) {
+
+                for (var i = 0; i <= fi.files.length - 1; i++) {
+
+                    var fsize = fi.files.item(i).size;
+
+                    if (fsize < maxFileSize) {
+                        btn.style.display = 'block';
+                    }
+                    else {
+                        alert("Arquivo excede tamanho permitido!");
+                        fi.value = null;
+                        btn.style.display = 'none';
+                    }
+
+                }
+            }
+
+            var valido = /^[\x00-\x7F]*$/.test(fi.value);
+
+            if (valido) {
+                btn.style.display = 'block';
+                console.log("arquivo permitido!");
+            }
+            else {
+                alert("O arquivo selecionado não é permitido!(caracteres inválidos)");
+                fi.value = null;
+                btn.style.display = 'none';
+            }
+
+        }
     </script>
 
 </asp:Content>

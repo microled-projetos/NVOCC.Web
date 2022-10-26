@@ -127,10 +127,10 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
 
                 tabela &= "<td>" & linhadados("NR_INVOICE") & "</td>"
                 tabela &= "<td>" & linhadados("DT_INVOICE") & "</td>"
-                tabela &= "<td>" & linhadados("CD_ACCOUNT_TIPO_FATURA") & "</td>" 
+                tabela &= "<td>" & linhadados("CD_ACCOUNT_TIPO_FATURA") & "</td>"
                 tabela &= "<td>" & linhadados("SIGLA_MOEDA") & "</td>"
 
-                If linhadados("NM_ACCOUNT_TIPO_EMISSOR") =  "AGENTE" Then
+                If linhadados("NM_ACCOUNT_TIPO_EMISSOR") = "AGENTE" Then
 
                     tabela &= "<td>" & linhadados("VL_TAXA") & "</td>"
                     tabela &= "<td></td>"
@@ -145,7 +145,7 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
 
                 End If
 
-                saldo = payment - receive
+
 
                 tabela &= "</tr>"
 
@@ -153,11 +153,9 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
 
 
             Next
-            'Dim Total As String = saldo
-            'tabela &= "<tr style='border:none;font-weight:bold'><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>TOTAL</td><td>" & SIGLA_MOEDA & "</td><td>" & payment & "</td><td>" & receive & "</td></tr>"
-            'tabela &= "<tr style='border:none;font-weight:bold'><td><div style='color:white !important'>.</div></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>"
-            'tabela &= "<tr style='border:none;font-weight:bold'><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>TOTAL</td><td>" & Total & "</td></tr>"
-            'tabela &= "</table>"
+
+            saldo = Math.Abs(payment) - Math.Abs(receive)
+
 
 
             Dim Total As String = saldo

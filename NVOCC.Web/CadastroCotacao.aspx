@@ -2260,16 +2260,19 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
                     }
 
                 }
+            }           
+
+            var valido = /^[\x00-\x7F]*$/.test(fi.value);
+
+            if (valido) {
+                btn.style.display = 'block';
+                console.log("arquivo permitido!");
             }
-
-            //console.log("teste")
-            //for (var i = 0; i <= fi.value.length - 1; i++) {
-
-            //    console.log(i)
-            //    fi.value.charCodeAt(i);
-            
-            //}
-
+            else {
+                alert("O arquivo selecionado não é permitido!(caracteres inválidos)");
+                fi.value = null;
+                btn.style.display = 'none';
+            }
 
         }
     </script>
