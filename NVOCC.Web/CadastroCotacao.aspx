@@ -1919,11 +1919,11 @@ union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL =1  and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE (FL_AGENTE_INTERNACIONAL =1  and NM_RAZAO  like '%' + @NM_RAZAO + '%'  AND FL_ATIVO = 1) or ( ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
         UNION
-        SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL =1 and (NM_FANTASIA  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
+        SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE (FL_AGENTE_INTERNACIONAL =1 and NM_FANTASIA  like '%' + @NM_RAZAO + '%'  AND FL_ATIVO = 1) or ( ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
         UNION
-        SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL =1 and (CNPJ  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
+        SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE (FL_AGENTE_INTERNACIONAL =1 and CNPJ  like '%' + @NM_RAZAO + '%'  AND FL_ATIVO = 1) or ( ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
 union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO
         ">
         <SelectParameters>
@@ -1932,7 +1932,7 @@ union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsIndicador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_INDICADOR = 1   and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_INDICADOR)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (FL_INDICADOR = 1 and NM_RAZAO  like '%' + @NM_RAZAO + '%' AND FL_ATIVO = 1 ) or ( ID_PARCEIRO =  @ID_PARCEIRO_INDICADOR)
 union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
         <SelectParameters>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeIndicador" DefaultValue="NULL" />
@@ -1941,7 +1941,7 @@ union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsExportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR = 1 OR FL_SHIPPER = 1) and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_EXPORTADOR)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE ((FL_EXPORTADOR = 1 OR FL_SHIPPER = 1) AND NM_RAZAO  like '%' + @NM_RAZAO + '%' AND FL_ATIVO = 1) or (ID_PARCEIRO =  @ID_PARCEIRO_EXPORTADOR)
 union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
         <SelectParameters>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeEXPORTADOR" DefaultValue="NULL" />
@@ -1980,32 +1980,34 @@ union SELECT  0, 'Selecione' ORDER BY ID_INCOTERM"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsClienteFinal" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CLIENTE_FINAL,SUBSTRING(NM_CLIENTE_FINAL,0,50) +' ('+ NR_CNPJ +')' NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL 
 union SELECT  0, '      Selecione' ORDER BY NM_CLIENTE_FINAL"></asp:SqlDataSource>
+    
     <asp:SqlDataSource ID="dsCliente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_CLIENTE) 
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE ((FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) AND NM_RAZAO  like '%' + @NM_RAZAO + '%'  AND FL_ATIVO = 1) or ( ID_PARCEIRO =  @ID_PARCEIRO_CLIENTE) 
 union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
         <SelectParameters>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeCliente" DefaultValue="NULL" />
             <asp:ControlParameter Name="ID_PARCEIRO_CLIENTE" Type="Int32" ControlID="txtCodCliente" DefaultValue="0" />
         </SelectParameters>
     </asp:SqlDataSource>
+    
     <asp:SqlDataSource ID="dsImportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_IMPORTADOR =1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_IMPORTADOR) 
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (FL_IMPORTADOR =1 AND NM_RAZAO  like '%' + @NM_RAZAO + '%' AND FL_ATIVO = 1) or (ID_PARCEIRO =  @ID_PARCEIRO_IMPORTADOR) 
          UNION
-         SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_IMPORTADOR =1 and (NM_FANTASIA  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_IMPORTADOR)
+         SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (FL_IMPORTADOR =1 AND NM_FANTASIA  like '%' + @NM_RAZAO + '%' AND FL_ATIVO = 1) or ( ID_PARCEIRO =  @ID_PARCEIRO_IMPORTADOR)
          UNION
-         SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_IMPORTADOR =1 and (CNPJ  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_IMPORTADOR)
+         SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (FL_IMPORTADOR =1 AND CNPJ  like '%' + @NM_RAZAO + '%' AND FL_ATIVO = 1) or ( ID_PARCEIRO =  @ID_PARCEIRO_IMPORTADOR)
 union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
         <SelectParameters>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeImportador" DefaultValue="NULL" />
             <asp:ControlParameter Name="ID_PARCEIRO_IMPORTADOR" Type="Int32" ControlID="txtCodImportador" DefaultValue="0" />
         </SelectParameters>
     </asp:SqlDataSource>
+   
     <asp:SqlDataSource ID="dsContato" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_PARCEIRO = @ID_CLIENTE
 union SELECT  0, 'Selecione' ORDER BY ID_CONTATO">
         <SelectParameters>
             <asp:SessionParameter Name="ID_CLIENTE" SessionField="ID_CLIENTE" />
-            <%--<asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="ddlCliente" DefaultValue="0" />--%>
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -2133,7 +2135,7 @@ union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE
         SelectCommand="SELECT ID_CIDADE,upper( NM_CIDADE) + ' - ' + (SELECT SIGLA_ESTADO FROM TB_ESTADO B WHERE B.ID_ESTADO = A.ID_ESTADO) AS NM_CIDADE FROM [dbo].[TB_CIDADE] A  union SELECT  0 as Id, '  Selecione' as Descricao FROM [dbo].[TB_CIDADE] A Order by NM_CIDADE"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsRodoviario" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT  ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM [dbo].[TB_PARCEIRO] WHERE (FL_RODOVIARIO = 1 and  NM_RAZAO  like '%' + @NM_RAZAO + '%' ) or (ID_PARCEIRO =  @ID_PARCEIRO_RODOVIARIO) union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
+        SelectCommand="SELECT  ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM [dbo].[TB_PARCEIRO] WHERE (FL_RODOVIARIO = 1 and  NM_RAZAO  like '%' + @NM_RAZAO + '%' AND FL_ATIVO = 1) or (ID_PARCEIRO =  @ID_PARCEIRO_RODOVIARIO) union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
         <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO_RODOVIARIO" Type="Int32" ControlID="txtCodTranspRodoviario" DefaultValue="0" />
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeTranspRodoviario" DefaultValue="NULL" />
