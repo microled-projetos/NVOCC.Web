@@ -9938,7 +9938,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_USUARIO J ON I.ID_USUARIO_INATIVACAO=J.ID_USUARIO ";
             SQL += "LEFT JOIN TB_MOTIVO_INATIVACAO K ON I.ID_MOTIVO_INATIVACAO = K.ID_MOTIVO_INATIVACAO ";
             SQL += "WHERE B.FL_TAXA_INATIVA = 1 ";
-            SQL += "AND CONVERT(DATE,A.DT_ABERTURA,103) BETWEEN CONVERT(DATE,'" + dados.DATAINICIAL + "',103) AND CONVERT(DATE,'" + dados.DATAFINAL+ "' ,103) ";
+            SQL += "AND CONVERT(DATE,A.DT_EMBARQUE,103) BETWEEN CONVERT(DATE,'" + dados.DATAINICIAL + "',103) AND CONVERT(DATE,'" + dados.DATAFINAL+ "' ,103) ";
             SQL += "" + Filtro + "";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);

@@ -28,13 +28,13 @@
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <label class="control-label">Data Chegada Inicial (Processo):</label>
+                                            <label class="control-label">Data Embarque Inicial (Processo):</label>
                                             <input id="txtDtInicial" class="form-control" type="date" required="required"/>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <label class="control-label">Data Chegada Final (Processo):</label>
+                                            <label class="control-label">Data Embarque Final (Processo):</label>
                                             <input id="txtDtFinal" class="form-control" type="date" required="required"/>
                                         </div>
                                     </div>
