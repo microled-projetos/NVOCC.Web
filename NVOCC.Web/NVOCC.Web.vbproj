@@ -442,6 +442,7 @@
     <Content Include="DemurrageVendas.aspx.designer.cs" />
     <Content Include="DadosBancariosAgente.aspx" />
     <Content Include="favicon.ico" />
+    <Content Include="FreteTransportador_New.aspx" />
     <Content Include="Gerencial.asmx" />
     <Content Include="Gerencial.asmx.cs" />
     <Content Include="ImprimirND.aspx" />
@@ -791,6 +792,13 @@
     </Compile>
     <Compile Include="DadosBancariosAgente.aspx.vb">
       <DependentUpon>DadosBancariosAgente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FreteTransportador_New.aspx.designer.vb">
+      <DependentUpon>FreteTransportador_New.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FreteTransportador_New.aspx.vb">
+      <DependentUpon>FreteTransportador_New.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Helpers\AtualizaBancoEudmarco.vb" />
