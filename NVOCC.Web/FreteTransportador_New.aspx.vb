@@ -31,7 +31,6 @@ Public Class FreteTransportador_New
             txtID.Text = ""
         End If
 
-        Page.MaintainScrollPositionOnPostBack = True
 
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -243,11 +242,17 @@ Public Class FreteTransportador_New
 
         ElseIf e.CommandName = "Cliente" Then
 
-            Dim ID As String = e.CommandArgument
+            txtCopia.Text = e.CommandArgument
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "copiarTexto()", True)
 
         ElseIf e.CommandName = "Interno" Then
 
-            Dim ID As String = e.CommandArgument
+            txtCopia.Text = e.CommandArgument
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "copiarTexto()", True)
+
+
 
         End If
 

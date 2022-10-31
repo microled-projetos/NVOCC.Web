@@ -70,7 +70,10 @@
                                             <div class="col-sm-1">
                                     <div class="form-group">
                                         <label class="control-label">Porto Origem:</label>
-                                        <asp:DropDownList ID="ddlOrigem" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                        <asp:DropDownList ID="ddlOrigem" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" SelectionMode="Multiple" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>   
+                                        <%--<asp:ListBox ID="ListBox1" runat="server" CssClass="form-control" Rows="2"  DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO" SelectionMode="Multiple" ></asp:ListBox>
+                                        <asp:CheckBoxList ID="CheckBoxList1" ItemType="CheckBox" runat="server"  DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO" SelectionMode="Multiple" AppendDataBoundItems="false"></asp:CheckBoxList>--%>
+                                    </div>
                                 </div>
                                             <div class="col-sm-1">
                                     <div class="form-group">
@@ -171,6 +174,7 @@
 
                              <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
     <ContentTemplate>
+                          <asp:TextBox ID="txtCopia" Style="display:none" runat="server"></asp:TextBox>
 
                             <div id="DivGrid" class="table-responsive tableFixHead DivGrid" >
                                 <asp:GridView ID="dgvFreteTranportador" DataKeyNames="ID" CssClass="table table-hover table-sm grdViewTable dgvFreteTranportador" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFreteTranportador"  AutoGenerateColumns="false" style="max-height:600px; overflow:auto;" AllowSorting="true" OnSorting="dgvFreteTranportador_Sorting"  EmptyDataText="Nenhum registro encontrado." allowpaging="true" PageSize="100">
@@ -250,11 +254,48 @@
 
                                          <asp:BoundField DataField="QT_DIAS_TRANSITTIME_INICIAL" HeaderText="TTime Inicial" SortExpression="QT_DIAS_TRANSITTIME_INICIAL" />
                                          <asp:BoundField DataField="QT_DIAS_TRANSITTIME_FINAL" HeaderText="TTime Final" SortExpression="QT_DIAS_TRANSITTIME_FINAL" />
-                                         <asp:BoundField DataField="Transportador" HeaderText="Transportador" SortExpression="Transportador" />
+
+                                        <asp:TemplateField HeaderText="Transportador" HeaderStyle-ForeColor="#337ab7" SortExpression="Transportador">
+                                                <ItemTemplate>
+                                                     <asp:label runat="server" Text='<%# Eval("Transportador") %>'  />
+                                                     </ItemTemplate>
+                                             <EditItemTemplate>
+                                                <asp:Textbox ID="txtTransportador" runat="server" Text='<%# Eval("Transportador") %>'>
+                                        </asp:Textbox> 
+                                             </EditItemTemplate>
+                                         </asp:TemplateField>
+
                                          <asp:BoundField DataField="AGENTE" HeaderText="Agente" SortExpression="AGENTE" />
-                                         <asp:BoundField DataField="OBS_CLIENTE" HeaderText="Obs. Cliente" SortExpression="OBS_CLIENTE" />
-                                         <asp:BoundField DataField="OBS_INTERNA" HeaderText="Obs. Interna" SortExpression="OBS_INTERNA" />
-                                         <asp:BoundField DataField="QTD_CNTR" HeaderText="Tipo Container" ReadOnly="true" SortExpression="QTD_CNTR" />
+                                      
+                                        <asp:TemplateField HeaderText="Obs. Cliente" HeaderStyle-ForeColor="#337ab7" SortExpression="OBS_CLIENTE">
+                                                <ItemTemplate>
+                                                    <asp:label ID="lblCliente" runat="server" Text='<%# Eval("OBS_CLIENTE") %>'  />
+                                            <asp:LinkButton ID="btnCopiarCliente" runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Cliente" CommandArgument='<%# Eval("OBS_CLIENTE") %>' Text="Copiar"><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></i></div></asp:LinkButton>
+                                                </ItemTemplate>
+                                             <EditItemTemplate>
+                                                <asp:Textbox ID="txtCliente" runat="server" Text='<%# Eval("OBS_CLIENTE") %>'></asp:Textbox> 
+                                             </EditItemTemplate>
+                                         </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Obs. Interna" HeaderStyle-ForeColor="#337ab7" SortExpression="OBS_INTERNA">
+                                                <ItemTemplate>
+                                                   <asp:label runat="server" Text='<%# Eval("OBS_INTERNA") %>'  />
+                                            <asp:LinkButton ID="btnCopiarInterna" OnClientClick='copiarTexto("<%# Eval("OBS_INTERNA") %>)'  runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Interna1" CommandArgument='<%# Eval("OBS_INTERNA") %>' Text="Copiar"><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></i></div></asp:LinkButton>
+                                                </ItemTemplate>
+                                             <EditItemTemplate>
+                                                <asp:Textbox ID="txtInterna" runat="server" Text='<%# Eval("OBS_INTERNA") %>'></asp:Textbox> 
+                                             </EditItemTemplate>
+                                         </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Tipo Container" SortExpression="QTD_CNTR" HeaderStyle-ForeColor="#337ab7" >
+                                                <ItemTemplate>
+                                                     <asp:label runat="server" Text='<%# Eval("QTD_CNTR") %>' />
+                                                     </ItemTemplate>
+                                             <EditItemTemplate>                                              
+                                                  <asp:LinkButton ID="btnCntr" runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Cntr" CommandArgument='<%# Eval("ID") %>' Text="Copiar"><i class="glyphicon glyphicon-plus-sign"  style="font-size:small"></i></div></asp:LinkButton>
+
+                                             </EditItemTemplate>
+                                         </asp:TemplateField>
 
                                         <asp:TemplateField HeaderText="Validade Final" HeaderStyle-ForeColor="#337ab7" SortExpression="DT_VALIDADE_FINAL">
                                                 <ItemTemplate>
@@ -333,7 +374,7 @@
 </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
+        selectcommand="SELECT top 10 ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
               <SelectParameters>
                 <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="txtViaTransporte" DefaultValue="1" />
             </SelectParameters>
@@ -396,6 +437,15 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA">
             var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
             document.getElementById('DivGrid').scrollTop = valor;
         };
+        
+        function copiarTexto(x) {
+            console.log(x);
+            let textoCopiado = document.getElementById('<%= txtCopia.ClientID %>');
+            textoCopiado.select();
+            textoCopiado.setSelectionRange(0, 99999)
+            document.execCommand("copy");
+            alert("O texto é: " + textoCopiado.value);
+        }
 
     </script> 
 </asp:Content>
