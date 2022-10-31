@@ -53,6 +53,8 @@
             ddlOrigem.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString()
             ddlDestino.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO").ToString()
             ddlEscala1.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ESCALA").ToString()
+            ddlEscala2.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ESCALA2").ToString()
+            ddlEscala3.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ESCALA3").ToString()
             ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA_FRETE").ToString()
             ddlTipoCarga.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_CARGA").ToString()
             ddlRota.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VIA_ROTA").ToString()
