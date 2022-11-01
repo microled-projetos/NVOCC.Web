@@ -8,7 +8,7 @@
         Con.Conectar()
 
         Dim ds As DataSet
-        'Verifica status atual da taxa para realizar a mudança para o status oposto
+        'Verifica status atual da taxa para realizar a mudança para o status oposto 
         ds = Con.ExecutarQuery("SELECT ISNULL(FL_TAXA_INATIVA,0)FL_TAXA_INATIVA FROM TB_BL_TAXA WHERE ID_BL_TAXA = " & ID_BL_TAXA)
         If ds.Tables(0).Rows.Count > 0 Then
             Dim Sql As String = ""

@@ -191,12 +191,11 @@
                                                                         
                                         <asp:TemplateField ShowHeader="False" >
                                     <EditItemTemplate>
-                                        <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="True" CommandName="Update" CssClass="btnGrid" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');"><i class="glyphicon glyphicon-floppy-disk"  style="font-size:small"></i></asp:LinkButton> 
+                                        <asp:LinkButton ID="btnSalvar" runat="server" CausesValidation="True" CommandName="Update" CssClass="btnGrid" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');"><i class="glyphicon glyphicon-floppy-disk"  style="font-size:small"></i></asp:LinkButton> 
                                         &nbsp;<asp:LinkButton ID="btnCancelar" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancelar" CssClass="btnGrid" ><i class="glyphicon glyphicon-remove"  style="font-size:small"></i></asp:LinkButton> 
                                     </EditItemTemplate>
                                          <ItemTemplate>    
-                                             <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="Edit" CommandArgument='<%# Eval("ID") %>'  OnClientClick="SalvaPosicao()"
-                                                                            Text="Editar" ><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
+                                             <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="Edit" CommandArgument='<%# Eval("ID") %>'  OnClientClick="SalvaPosicao()" Text="Editar" ><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
 
                                              
                                              <asp:LinkButton ID="btnDuplicar" runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID") %>'
@@ -210,9 +209,12 @@
 
 
 
-
-                                          <asp:BoundField DataField="ID" HeaderText="ID" SortExpression="ID" ReadOnly="true" />
-
+                                         <asp:TemplateField HeaderText="ID" HeaderStyle-ForeColor="#337ab7" SortExpression="ID">
+                                                <ItemTemplate>
+                                                     <asp:label ID="lblID" runat="server" Text='<%# Eval("ID") %>' />
+                                                     </ItemTemplate>
+                                         </asp:TemplateField>
+ 
                                          <asp:TemplateField HeaderText="POL" HeaderStyle-ForeColor="#337ab7" SortExpression="PORTO_ORIGEM">
                                                 <ItemTemplate>
                                                      <asp:label runat="server" Text='<%# Eval("PORTO_ORIGEM") %>' />
@@ -293,6 +295,9 @@
                                                      <asp:label ID="lblQTDCNTR" Visible="false" runat="server" Text='<%# Eval("QTD_CNTR") %>' />                                            
                                                   <asp:LinkButton ID="btnCntr" runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Cntr" CommandArgument='<%# Eval("ID") %>' Text="Detalhes Container"  OnClientClick="SalvaPosicao()"><i class="glyphicon glyphicon-plus-sign"  style="font-size:small"></i></div></asp:LinkButton>
                                              </ItemTemplate>
+                                            <EditItemTemplate>
+                                            <asp:LinkButton ID="btnCntr2" runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Cntr" CommandArgument='<%# Eval("ID") %>' Text="Detalhes Container"  OnClientClick="SalvaPosicao()"><i class="glyphicon glyphicon-plus-sign"  style="font-size:small"></i></div></asp:LinkButton>
+                                            </EditItemTemplate>
                                          </asp:TemplateField>
 
                                         <asp:TemplateField HeaderText="Validade Final" HeaderStyle-ForeColor="#337ab7" SortExpression="DT_VALIDADE_FINAL">
@@ -352,6 +357,91 @@
         <asp:AsyncPostBackTrigger ControlID="btnBusca" />
     </Triggers>
    </asp:UpdatePanel>  
+                      
+                        <ajaxToolkit:ModalPopupExtender ID="mpeCntr" runat="server" PopupControlID="pnlCntr" TargetControlID="Textbox1" CancelControlID="btnFecharCntr"></ajaxToolkit:ModalPopupExtender>
+                                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
+                                    <ContentTemplate>
+                                        <asp:Panel ID="pnlCntr" runat="server" CssClass="modalPopup" Style="display: none;">
+                                            <center>     
+                                                <div class=" modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">CONTAINER</h5>
+                                                        </div>
+                                                        <div class="modal-body">   
+                                                            <div class="alert alert-danger" id="divErroCntr" runat="server" visible="false">
+                                    <asp:Label ID="lblErroCntr" runat="server"></asp:Label>
+                                </div>                        
+                                    <div class="row">
+                                        <div class="table-responsive tableFixHead">
+<asp:GridView ID="dgvCntr" DataKeyNames="ID_FRETE_TRANSPORTADOR" DataSourceID="dsCntr" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." >
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="ID" Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="NM_TIPO_CONTAINER" HeaderText="TIPO CONTAINER" SortExpression="NM_TIPO_CONTAINER" />
+                                                <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FREETIME" SortExpression="QT_DIAS_FREETIME" />
+                                                <asp:BoundField DataField="VL_COMPRA" HeaderText="VALOR COMPRA" SortExpression="VL_COMPRA" />
+                                             </Columns>
+                                            <HeaderStyle CssClass="headerStyle" />
+                                        </asp:GridView>
+                                       </div>                        
+                                  </div>  
+                               <div class="modal-footer">                   
+                                   <asp:Button runat="server" CssClass="btn btn-success" ID="btnGravarCntr" text="Gravar" />
+                                   <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharCntr" text="Close" />
+                              </div>
+                                                    </div>    
+                                                </div>  
+                                            </center>
+                                        </asp:Panel>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>    
+                         
+                            
+                             <ajaxToolkit:ModalPopupExtender ID="mpeHistorico" runat="server" PopupControlID="pnlHistorico" TargetControlID="Textbox1" CancelControlID="btnFecharHistorico"></ajaxToolkit:ModalPopupExtender>
+                                <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
+                                    <ContentTemplate>
+                                        <asp:Panel ID="pnlHistorico" runat="server" CssClass="modalPopup" Style="display: none;">
+                                            <center>     
+                                                <div class=" modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">HISTORICO</h5>
+                                                        </div>
+                                                        <div class="modal-body">   
+                                                            <div class="alert alert-danger" id="div1" runat="server" visible="false">
+                                    <asp:Label ID="Label1" runat="server"></asp:Label>
+                                </div>                        
+                                    <div class="row">
+                                        <div class="table-responsive tableFixHead">
+<asp:GridView ID="dgvHistorico" DataKeyNames="ID_TB_FRETE_TRANPORTADOR_HIST" DataSourceID="dsHistorico" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." >
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="ID" Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TB_FRETE_TRANPORTADOR_HIST") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="ACAO" HeaderText="ACAO" SortExpression="ACAO" />
+                                                <asp:BoundField DataField="USUARIO" HeaderText="USUARIO" SortExpression="USUARIO" />
+                                                <asp:BoundField DataField="DATA" HeaderText="DATA" SortExpression="DATA" />
+                                             </Columns>
+                                            <HeaderStyle CssClass="headerStyle" />
+                                        </asp:GridView>
+                                       </div>                        
+                                  </div>  
+                               <div class="modal-footer">                   
+                                   <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharHistorico" text="Close" />
+                              </div>
+                                                    </div>    
+                                                </div>  
+                                            </center>
+                                        </asp:Panel>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>    
+                                               
                         </div>
             
                      </div>
@@ -366,6 +456,27 @@
             <asp:Parameter Name="QT_DIAS_TRANSITTIME_MEDIA" Type="Int32" />           
         </UpdateParameters>
 </asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsCntr" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT A.ID_FRETE_TRANSPORTADOR,NM_TIPO_CONTAINER,QT_DIAS_FREETIME,VL_COMPRA,ID_AGENTE,
+CASE WHEN ID_VIATRANSPORTE = 1 AND ID_TIPO_COMEX = 1
+THEN (SELECT SUM(VL_TAXA_COMPRA) FROM TB_TAXA_CLIENTE D WHERE A.ID_AGENTE = D.ID_PARCEIRO AND ID_TIPO_ESTUFAGEM = 1) ELSE 0 END ORIGIN_CHARGES
+FROM TB_FRETE_TRANSPORTADOR A
+INNER JOIN TB_TARIFARIO_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR
+INNER JOIN TB_TIPO_CONTAINER C ON B.ID_TIPO_CONTAINER= C.ID_TIPO_CONTAINER
+WHERE A.ID_FRETE_TRANSPORTADOR = @ID_FRETE_TRANSPORTADOR">
+        <SelectParameters>
+            <asp:Parameter Name="ID_FRETE_TRANSPORTADOR" Type="Int32" />
+        </SelectParameters>
+</asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsHistorico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_INATIVACAO,CASE WHEN ISNULL(FL_TAXA_INATIVA,0) = 0 THEN 'ATIVO' ELSE 'INATIVO' END STATUS,NOME,DT_INATIVACAO,CASE WHEN ISNULL(C.FL_PRECISA_DESCR,0) = 1 THEN
+C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACAO END NM_MOTIVO_INATIVACAO,A.DS_MOTIVO_INATIVACAO FROM TB_INATIVACAO_TAXAS A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_INATIVACAO = B.ID_USUARIO INNER JOIN TB_MOTIVO_INATIVACAO C ON C.ID_MOTIVO_INATIVACAO = A.ID_MOTIVO_INATIVACAO WHERE A.ID_FRETE_TRANSPORTADOR = @ID_FRETE_TRANSPORTADOR ORDER BY DT_INATIVACAO DESC">
+        <SelectParameters>
+            <asp:Parameter Name="ID_FRETE_TRANSPORTADOR" Type="Int32" DefaultValue="0" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO">

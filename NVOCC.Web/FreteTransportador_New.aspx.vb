@@ -189,7 +189,7 @@ Public Class FreteTransportador_New
 
         If e.CommandName = "Excluir" Then
 
-            Dim ID As String = e.CommandArgument
+            txtID.Text = e.CommandArgument
 
             Dim Con As New Conexao_sql
             Con.Conectar()
@@ -234,10 +234,23 @@ Public Class FreteTransportador_New
         ElseIf e.CommandName = "Cntr" Then
 
             Dim ID As String = e.CommandArgument
+            dsCntr.SelectCommand = "select A.ID_FRETE_TRANSPORTADOR,NM_TIPO_CONTAINER,QT_DIAS_FREETIME,VL_COMPRA,ID_AGENTE,
+CASE WHEN ID_VIATRANSPORTE = 1 AND ID_TIPO_COMEX = 1
+THEN (SELECT SUM(VL_TAXA_COMPRA) FROM TB_TAXA_CLIENTE D WHERE A.ID_AGENTE = D.ID_PARCEIRO AND ID_TIPO_ESTUFAGEM = 1) ELSE 0 END Origin_Charges
+FROM TB_FRETE_TRANSPORTADOR A
+INNER JOIN TB_TARIFARIO_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR
+INNER JOIN TB_TIPO_CONTAINER C ON B.ID_TIPO_CONTAINER= C.ID_TIPO_CONTAINER
+WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
+            dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = ID
+
+            dgvCntr.DataBind()
+            mpeCntr.Show()
 
         ElseIf e.CommandName = "Historico" Then
 
-            Dim ID As String = e.CommandArgument
+            dsHistorico.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = e.CommandArgument
+            dgvHistorico.DataBind()
+            mpeHistorico.Show()
 
         ElseIf e.CommandName = "Cliente" Then
 
@@ -421,6 +434,7 @@ Public Class FreteTransportador_New
     Private Sub dgvFreteTranportador_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvFreteTranportador.RowDataBound
         If e.Row.RowType = DataControlRowType.DataRow Then
 
+            Dim ID As Label = CType(e.Row.FindControl("lblID"), Label)
             Dim QTD_Cntr As Label = CType(e.Row.FindControl("lblQTDCNTR"), Label)
             Dim btnCntr As LinkButton = CType(e.Row.FindControl("btnCntr"), LinkButton)
 
@@ -433,29 +447,38 @@ Public Class FreteTransportador_New
             Dim QTD_Historico As Label = CType(e.Row.FindControl("lblQTD_HISTORICO"), Label)
             Dim btnHistorico As LinkButton = CType(e.Row.FindControl("btnHistorico"), LinkButton)
 
-            If Interna.Text = "" Then
+            If Not Interna Is Nothing Then
+                If Interna.Text = "" Then
 
-                btnCopiarInterna.Visible = False
+                    btnCopiarInterna.Visible = False
 
+                End If
             End If
 
-            If Cliente.Text = "" Then
+            If Not Cliente Is Nothing Then
+                If Cliente.Text = "" Then
 
-                btnCopiarCliente.Visible = False
+                    btnCopiarCliente.Visible = False
 
+                End If
             End If
 
+            If Not QTD_Cntr Is Nothing Then
 
-            If QTD_Cntr.Text = "0" Then
+                If QTD_Cntr.Text = "0" Then
 
-                btnCntr.Visible = False
+                    btnCntr.Visible = False
 
+                End If
             End If
 
-            If QTD_Historico.Text = "0" Then
+            If Not QTD_Historico Is Nothing Then
 
-                btnHistorico.Visible = False
+                If QTD_Historico.Text = "0" Then
 
+                    btnHistorico.Visible = False
+
+                End If
             End If
 
             Dim Con As New Conexao_sql
@@ -470,5 +493,19 @@ Public Class FreteTransportador_New
             End If
 
         End If
+    End Sub
+
+    Private Sub dgvFreteTranportador_RowUpdated(sender As Object, e As GridViewUpdatedEventArgs) Handles dgvFreteTranportador.RowUpdated
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANPORTADOR_HIST (ID_FRETE_TRANPORTADOR,ACAO,ID_USUARIO_STATUS,DT_STATUS_COTACAO) VALUES (" & txtID.Text & ",'EXCLUSÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+        txtID.Text = ""
+    End Sub
+
+    Private Sub dgvFreteTranportador_RowDeleted(sender As Object, e As GridViewDeletedEventArgs) Handles dgvFreteTranportador.RowDeleted
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANPORTADOR_HIST (ID_FRETE_TRANPORTADOR,ACAO,ID_USUARIO_STATUS,DT_STATUS_COTACAO) VALUES (" & txtID.Text & ",'EDIÇÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+        txtID.Text = ""
     End Sub
 End Class
