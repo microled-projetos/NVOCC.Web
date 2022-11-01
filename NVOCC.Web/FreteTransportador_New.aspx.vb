@@ -12,7 +12,6 @@ Imports System.Web
 
 
 
-Imports Microsoft.Office.Interop.Excel
 
 
 
@@ -242,13 +241,13 @@ Public Class FreteTransportador_New
 
         ElseIf e.CommandName = "Cliente" Then
 
-            txtCopia.Text = e.CommandArgument
+            TextBox2.Text = e.CommandArgument
 
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "copiarTexto()", True)
 
-        ElseIf e.CommandName = "Interno" Then
+        ElseIf e.CommandName = "Interna" Then
 
-            txtCopia.Text = e.CommandArgument
+            TextBox2.Text = e.CommandArgument
 
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "copiarTexto()", True)
 
@@ -415,6 +414,60 @@ Public Class FreteTransportador_New
             txtViaTransporte.Text = 4
         Else
             txtViaTransporte.Text = 1
+
+        End If
+    End Sub
+
+    Private Sub dgvFreteTranportador_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvFreteTranportador.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim QTD_Cntr As Label = CType(e.Row.FindControl("lblQTDCNTR"), Label)
+            Dim btnCntr As LinkButton = CType(e.Row.FindControl("btnCntr"), LinkButton)
+
+            Dim Interna As Label = CType(e.Row.FindControl("lblInterna"), Label)
+            Dim btnCopiarInterna As LinkButton = CType(e.Row.FindControl("btnCopiarInterna"), LinkButton)
+
+            Dim Cliente As Label = CType(e.Row.FindControl("lblCliente"), Label)
+            Dim btnCopiarCliente As LinkButton = CType(e.Row.FindControl("btnCopiarCliente"), LinkButton)
+
+            Dim QTD_Historico As Label = CType(e.Row.FindControl("lblQTD_HISTORICO"), Label)
+            Dim btnHistorico As LinkButton = CType(e.Row.FindControl("btnHistorico"), LinkButton)
+
+            If Interna.Text = "" Then
+
+                btnCopiarInterna.Visible = False
+
+            End If
+
+            If Cliente.Text = "" Then
+
+                btnCopiarCliente.Visible = False
+
+            End If
+
+
+            If QTD_Cntr.Text = "0" Then
+
+                btnCntr.Visible = False
+
+            End If
+
+            If QTD_Historico.Text = "0" Then
+
+                btnHistorico.Visible = False
+
+            End If
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_VINCULO_USUARIO WHERE ID_TIPO_USUARIO =15 AND ID_USUARIO = " & Session("ID_USUARIO"))
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                dgvFreteTranportador.Columns(18).Visible = False
+
+            Else
+                dgvFreteTranportador.Columns(18).Visible = True
+
+            End If
 
         End If
     End Sub

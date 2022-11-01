@@ -260,6 +260,7 @@
                                             <asp:BoundField DataField="LANCAMENTO" HeaderText="LANÇAMENTO" SortExpression="LANCAMENTO" />
                                             <asp:TemplateField HeaderText="HISTÓRICO" SortExpression="HISTORICO">
                                                 <ItemTemplate>
+                                                    <asp:Label ID="lblGrau" runat="server" Text='<%# Eval("GRAU") %>' Visible="false"></asp:Label>
                                                     <asp:Label ID="lblTemHistorico" runat="server" Text='<%# Eval("HISTORICO") %>' Visible="false"></asp:Label>
                                                     <asp:ImageButton ID="ImageButton1" src="Content/imagens/hist.png" runat="server" CommandArgument='<%# Eval("ID_BL_TAXA") %>' ToolTip="Histórico" CommandName="Historico" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                        <asp:Label ID="lblTaxa" Visible="False" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />
@@ -294,7 +295,7 @@
         </div>
     </div>
     <asp:SqlDataSource ID="dsTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BL_TAXA,NR_PROCESSO,NR_BL,NM_PARCEIRO_EMPRESA,NM_ITEM_DESPESA,SIGLA_MOEDA,NM_ORIGEM_PAGAMENTO,VL_TAXA,VL_TAXA_CALCULADO, VL_TAXA_BR,LANCAMENTO,TIPO_MOVIMENTO,HISTORICO,DT_EMBARQUE FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 ORDER BY ID_BL_TAXA DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_BL_TAXA,NR_PROCESSO,NR_BL,NM_PARCEIRO_EMPRESA,NM_ITEM_DESPESA,SIGLA_MOEDA,NM_ORIGEM_PAGAMENTO,VL_TAXA,VL_TAXA_CALCULADO, VL_TAXA_BR,LANCAMENTO,TIPO_MOVIMENTO,HISTORICO,DT_EMBARQUE,GRAU FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 ORDER BY ID_BL_TAXA DESC"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsMotivoInativacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_MOTIVO_INATIVACAO,NM_MOTIVO_INATIVACAO FROM TB_MOTIVO_INATIVACAO

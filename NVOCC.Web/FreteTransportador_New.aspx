@@ -172,11 +172,11 @@
    </asp:UpdatePanel>
                             <br />        
 
-                             <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
+                             <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
     <ContentTemplate>
-                          <asp:TextBox ID="txtCopia" Style="display:none" runat="server"></asp:TextBox>
+                          <asp:TextBox ID="TextBox2" Style="display:none" runat="server"></asp:TextBox> 
 
-                            <div id="DivGrid" class="table-responsive tableFixHead DivGrid" >
+                             <div id="DivGrid" class="table-responsive tableFixHead DivGrid" >
                                 <asp:GridView ID="dgvFreteTranportador" DataKeyNames="ID" CssClass="table table-hover table-sm grdViewTable dgvFreteTranportador" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFreteTranportador"  AutoGenerateColumns="false" style="max-height:600px; overflow:auto;" AllowSorting="true" OnSorting="dgvFreteTranportador_Sorting"  EmptyDataText="Nenhum registro encontrado." allowpaging="true" PageSize="100">
                                     <Columns>
                                        <asp:TemplateField  HeaderStyle-ForeColor="#337ab7">
@@ -191,11 +191,11 @@
                                                                         
                                         <asp:TemplateField ShowHeader="False" >
                                     <EditItemTemplate>
-                                        <asp:LinkButton ID="btnEditarParcela" runat="server" CausesValidation="True" CommandName="Update" CssClass="btnGrid" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');"><i class="glyphicon glyphicon-floppy-disk"  style="font-size:small"></i></asp:LinkButton> 
+                                        <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="True" CommandName="Update" CssClass="btnGrid" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');"><i class="glyphicon glyphicon-floppy-disk"  style="font-size:small"></i></asp:LinkButton> 
                                         &nbsp;<asp:LinkButton ID="btnCancelar" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancelar" CssClass="btnGrid" ><i class="glyphicon glyphicon-remove"  style="font-size:small"></i></asp:LinkButton> 
                                     </EditItemTemplate>
                                          <ItemTemplate>    
-                                             <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="Edit" CommandArgument='<%# Eval("ID") %>'
+                                             <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="Edit" CommandArgument='<%# Eval("ID") %>'  OnClientClick="SalvaPosicao()"
                                                                             Text="Editar" ><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
 
                                              
@@ -212,6 +212,7 @@
 
 
                                           <asp:BoundField DataField="ID" HeaderText="ID" SortExpression="ID" ReadOnly="true" />
+
                                          <asp:TemplateField HeaderText="POL" HeaderStyle-ForeColor="#337ab7" SortExpression="PORTO_ORIGEM">
                                                 <ItemTemplate>
                                                      <asp:label runat="server" Text='<%# Eval("PORTO_ORIGEM") %>' />
@@ -269,8 +270,8 @@
                                       
                                         <asp:TemplateField HeaderText="Obs. Cliente" HeaderStyle-ForeColor="#337ab7" SortExpression="OBS_CLIENTE">
                                                 <ItemTemplate>
-                                                    <asp:label ID="lblCliente" runat="server" Text='<%# Eval("OBS_CLIENTE") %>'  />
-                                            <asp:LinkButton ID="btnCopiarCliente" runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Cliente" CommandArgument='<%# Eval("OBS_CLIENTE") %>' Text="Copiar"><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></i></div></asp:LinkButton>
+                                                    <asp:label ID="lblCliente" runat="server" Text='<%# Eval("OBS_CLIENTE_REDUZIDO") %>' ToolTip='<%# Eval("OBS_CLIENTE") %>' />
+                                            <asp:LinkButton ID="btnCopiarCliente" runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Cliente" CommandArgument='<%# Eval("OBS_CLIENTE") %>' Text="Copiar"  OnClientClick="SalvaPosicao()" ><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></i></div></asp:LinkButton>
                                                 </ItemTemplate>
                                              <EditItemTemplate>
                                                 <asp:Textbox ID="txtCliente" runat="server" Text='<%# Eval("OBS_CLIENTE") %>'></asp:Textbox> 
@@ -279,8 +280,8 @@
 
                                         <asp:TemplateField HeaderText="Obs. Interna" HeaderStyle-ForeColor="#337ab7" SortExpression="OBS_INTERNA">
                                                 <ItemTemplate>
-                                                   <asp:label runat="server" Text='<%# Eval("OBS_INTERNA") %>'  />
-                                            <asp:LinkButton ID="btnCopiarInterna" OnClientClick='copiarTexto("<%# Eval("OBS_INTERNA") %>)'  runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Interna1" CommandArgument='<%# Eval("OBS_INTERNA") %>' Text="Copiar"><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></i></div></asp:LinkButton>
+                                                   <asp:label ID="lblInterna" runat="server" Text='<%# Eval("OBS_INTERNA_REDUZIDO") %>' ToolTip='<%# Eval("OBS_INTERNA") %>' />
+                                            <asp:LinkButton ID="btnCopiarInterna" runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Interna" CommandArgument='<%# Eval("OBS_INTERNA") %>' Text="Copiar"  OnClientClick="SalvaPosicao()" ><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></i></div></asp:LinkButton>
                                                 </ItemTemplate>
                                              <EditItemTemplate>
                                                 <asp:Textbox ID="txtInterna" runat="server" Text='<%# Eval("OBS_INTERNA") %>'></asp:Textbox> 
@@ -289,12 +290,9 @@
 
                                         <asp:TemplateField HeaderText="Tipo Container" SortExpression="QTD_CNTR" HeaderStyle-ForeColor="#337ab7" >
                                                 <ItemTemplate>
-                                                     <asp:label runat="server" Text='<%# Eval("QTD_CNTR") %>' />
-                                                     </ItemTemplate>
-                                             <EditItemTemplate>                                              
-                                                  <asp:LinkButton ID="btnCntr" runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Cntr" CommandArgument='<%# Eval("ID") %>' Text="Copiar"><i class="glyphicon glyphicon-plus-sign"  style="font-size:small"></i></div></asp:LinkButton>
-
-                                             </EditItemTemplate>
+                                                     <asp:label ID="lblQTDCNTR" Visible="false" runat="server" Text='<%# Eval("QTD_CNTR") %>' />                                            
+                                                  <asp:LinkButton ID="btnCntr" runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Cntr" CommandArgument='<%# Eval("ID") %>' Text="Detalhes Container"  OnClientClick="SalvaPosicao()"><i class="glyphicon glyphicon-plus-sign"  style="font-size:small"></i></div></asp:LinkButton>
+                                             </ItemTemplate>
                                          </asp:TemplateField>
 
                                         <asp:TemplateField HeaderText="Validade Final" HeaderStyle-ForeColor="#337ab7" SortExpression="DT_VALIDADE_FINAL">
@@ -302,15 +300,14 @@
                                                      <asp:label runat="server" Text='<%# Eval("DT_VALIDADE_FINAL") %>' CssClass="data" />
                                                      </ItemTemplate>
                                              <EditItemTemplate>
-                                                <asp:Textbox ID="txtValidadeFinal" runat="server" CssClass="data" Text='<%# Eval("DT_VALIDADE_FINAL") %>'>
-                                        </asp:Textbox> 
+                                                <asp:Textbox ID="txtValidadeFinal" runat="server" CssClass="data" Text='<%# Eval("DT_VALIDADE_FINAL") %>'></asp:Textbox> 
                                              </EditItemTemplate>
                                          </asp:TemplateField>
                                         
                                         <asp:TemplateField HeaderText="Frequencia" HeaderStyle-ForeColor="#337ab7" SortExpression="NM_TIPO_FREQUENCIA">
                                                 <ItemTemplate>
                                                      <asp:label runat="server" Text='<%# Eval("NM_TIPO_FREQUENCIA") %>' />
-                                                     </ItemTemplate>
+                                                </ItemTemplate>
                                              <EditItemTemplate>
                                                 <asp:DropDownList ID="ddlFrequencia" runat="server" DataTextField="NM_TIPO_FREQUENCIA" DataSourceID="dsFrequencia" DataValueField="ID_TIPO_FREQUENCIA">
                                         </asp:DropDownList> 
@@ -320,28 +317,28 @@
                                         <asp:TemplateField HeaderText="Ativo?" HeaderStyle-ForeColor="#337ab7" SortExpression="Ativo">
                                                 <ItemTemplate>
                                                      <asp:label runat="server" Text='<%# Eval("Ativo") %>' />
-                                                     </ItemTemplate>
+                                                </ItemTemplate>
                                              <EditItemTemplate>
-                                                <asp:DropDownList ID="ddlAtivo" runat="server">
-                                                    <asp:ListItem Text="Sim" Value="1"></asp:ListItem>
-                                                    <asp:ListItem Text="Não" Value="0"></asp:ListItem>
-                                        </asp:DropDownList> 
+                                                     <asp:CheckBox ID="ckAtivo" runat="server" checked='<%# Eval("FL_ATIVO") %>'></asp:CheckBox>
                                              </EditItemTemplate>
                                          </asp:TemplateField>
 
+                                        <asp:TemplateField HeaderText="Historico" HeaderStyle-ForeColor="#337ab7" SortExpression="QTD_HISTORICO">
+                                                <ItemTemplate>
+                                                     <asp:label ID="lblQTD_HISTORICO" Visible="false" runat="server" Text='<%# Eval("QTD_HISTORICO") %>' />
+                                                     <asp:LinkButton ID="btnHistorico" runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Historico" CommandArgument='<%# Eval("ID") %>' Text="Historico"  OnClientClick="SalvaPosicao()"></div></asp:LinkButton>
+                                                     </ItemTemplate>
+                                         </asp:TemplateField>
 
-                                        <asp:BoundField DataField="QTD_HISTORICO" HeaderText="Historico" SortExpression="QTD_HISTORICO" ReadOnly="true"/>
                                         
                                         <asp:TemplateField HeaderText="Consolidada?" HeaderStyle-ForeColor="#337ab7" SortExpression="QTD_CONSOLIDADA">
-                                                <ItemTemplate>
+                                             <ItemTemplate>
                                                      <asp:label runat="server" Text='<%# Eval("QTD_CONSOLIDADA") %>' />
                                                      </ItemTemplate>
                                              <EditItemTemplate>
-                                                <asp:DropDownList ID="ddlConsolidada" runat="server">
-                                                    <asp:ListItem Text="Sim" Value="1"></asp:ListItem>
-                                                    <asp:ListItem Text="Não" Value="0"></asp:ListItem>
-                                        </asp:DropDownList> 
+                                                     <asp:CheckBox ID="ckConsolidada" runat="server" checked='<%# Eval("QTD_CONSOLIDADA") %>'></asp:CheckBox>
                                              </EditItemTemplate>
+
                                          </asp:TemplateField>
                                     </Columns>
                                     <HeaderStyle CssClass="headerStyle" />
@@ -350,6 +347,7 @@
              
          </ContentTemplate>
   <Triggers>
+        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvFreteTranportador" />
         <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvFreteTranportador" />
         <asp:AsyncPostBackTrigger ControlID="btnBusca" />
     </Triggers>
@@ -438,13 +436,16 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA">
             document.getElementById('DivGrid').scrollTop = valor;
         };
         
-        function copiarTexto(x) {
-            console.log(x);
-            let textoCopiado = document.getElementById('<%= txtCopia.ClientID %>');
+        function copiarTexto() {
+           
+            document.getElementById('<%= TextBox2.ClientID %>').style.display = 'block';
+            let textoCopiado = document.getElementById('<%= TextBox2.ClientID %>');
             textoCopiado.select();
             textoCopiado.setSelectionRange(0, 99999)
             document.execCommand("copy");
-            alert("O texto é: " + textoCopiado.value);
+            console.log("O texto é: " + textoCopiado.value); 
+            document.getElementById('<%= TextBox2.ClientID %>').style.display = 'none';
+
         }
 
     </script> 

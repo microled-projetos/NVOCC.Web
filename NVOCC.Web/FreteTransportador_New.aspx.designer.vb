@@ -248,13 +248,13 @@ Partial Public Class FreteTransportador_New
     Protected WithEvents updPainel1 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
-    '''Controle txtCopia.
+    '''Controle TextBox2.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtCopia As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle dgvFreteTranportador.
