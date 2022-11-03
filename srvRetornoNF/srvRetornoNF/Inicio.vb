@@ -43,9 +43,9 @@ Module Inicio
             Con.ExecutarQuery("EXEC [dbo].[Proc_Comissoes_Nacional_Totvs]")
 
 
-            ''ROTINA QUE DELETA ARQUIVOC DE UPLOAD DO GLOBAL SYS - CHAMADO 33531 
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 47 - DeletaArquivos ")
-            DeletaArquivos()
+            '''ROTINA QUE DELETA ARQUIVOC DE UPLOAD DO GLOBAL SYS - CHAMADO 33531 
+            'Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 47 - DeletaArquivos ")
+            'DeletaArquivos()
 
 
             FlagExecutando = True
