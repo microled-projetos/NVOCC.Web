@@ -82,7 +82,7 @@
                            <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
                                      <asp:LinkButton ID="lkComissoes" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Comissões</asp:LinkButton>
                                         <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>
-                                        <asp:LinkButton ID="lkGravarCCProcessoModal" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gravar no CC do Processo</asp:LinkButton>
+                                        <asp:LinkButton ID="lkGravarCCProcessoModal" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px" Visible="false">Gravar no CC do Processo</asp:LinkButton>
 
 
                        </div>
@@ -104,7 +104,9 @@
                                                     <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_DETALHE_COMISSAO_NACIONAL") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="COMPETENCIA_QUINZENA" HeaderText="DATA COMPETENCIA" SortExpression="COMPETENCIA_QUINZENA" />
+                                            <asp:BoundField DataField="DT_BAIXA_NF_TOTVS" HeaderText="BAIXA TOTVS" SortExpression="DT_BAIXA_NF_TOTVS" DataFormatString="{0:dd/MM/yyyy}"  />
+                                            <asp:BoundField DataField="NR_NF_TOTVS" HeaderText="NF TOTVS" SortExpression="NR_NF_TOTVS" />
+                                            <asp:BoundField DataField="COMPETENCIA_QUINZENA" HeaderText="COMPETENCIA" SortExpression="COMPETENCIA_QUINZENA" />
                                             <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />                             
                                             <asp:BoundField DataField="PARCEIRO_INDICADOR" HeaderText="INDICADOR" SortExpression="PARCEIRO_INDICADOR" />
                                             <asp:BoundField DataField="MBL" HeaderText="MBL" SortExpression="MBL" />
@@ -118,14 +120,6 @@
                                             <asp:BoundField DataField="PARCEIRO_IMPORTADOR" HeaderText="IMPORTADOR" SortExpression="PARCEIRO_IMPORTADOR" />                          
                                             <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DATA LIQUIDAÇÃO" SortExpression="DT_LIQUIDACAO" />
                                             <asp:BoundField DataField="DT_EXPORTACAO" HeaderText="DATA EXPORTAÇÃO" SortExpression="DT_EXPORTACAO" />
-
-                                            <asp:TemplateField HeaderText="">
-                                                <ItemTemplate>
-                                                    <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                        CommandArgument='<%# Eval("ID_DETALHE_COMISSAO_NACIONAL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicao()"></asp:LinkButton>
-                                                </ItemTemplate>
-                                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                            </asp:TemplateField>
                                         </Columns>
                                         <HeaderStyle CssClass="headerStyle" />
                                     </asp:GridView>
@@ -421,19 +415,15 @@
     </div>
     <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Comissao_Nacional] WHERE COMPETENCIA = '@COMPETENCIA' ORDER BY PARCEIRO_INDICADOR,NR_PROCESSO">
+        SelectCommand="SELECT * FROM [dbo].[View_Comissao_Nacional] WHERE COMPETENCIA = @COMPETENCIA and NR_QUINZENA = @QUINZENA  ORDER BY PARCEIRO_INDICADOR,NR_PROCESSO">
         <SelectParameters>
             <asp:ControlParameter Name="COMPETENCIA" Type="string" ControlID="txtCompetencia" />
+            <asp:ControlParameter Name="QUINZENA" Type="string" ControlID="txtQuinzena" />
         </SelectParameters>
-    </asp:SqlDataSource>
-
-      
+    </asp:SqlDataSource>      
      <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione'  ORDER BY ID_MOEDA">
 </asp:SqlDataSource>
-
-
-
 
         <asp:SqlDataSource ID="dsContaBancaria" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CONTA_BANCARIA,NM_CONTA_BANCARIA FROM TB_CONTA_BANCARIA WHERE FL_ATIVO = 1

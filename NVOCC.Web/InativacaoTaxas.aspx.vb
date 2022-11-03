@@ -113,7 +113,8 @@ VL_TAXA_BR,
 LANCAMENTO,
 TIPO_MOVIMENTO,
 HISTORICO,
-DT_EMBARQUE 
+DT_EMBARQUE,
+GRAU 
 FROM [dbo].[View_Inativacao_Taxas] WHERE ISNULL(ID_BL_TAXA,0) <> 0 " & FILTRO & " ORDER BY ID_BL_TAXA DESC"
 
         Session("ExportarCSV") = FILTRO
@@ -289,10 +290,12 @@ ORDER BY ID_BL_TAXA DESC"
 
                 For Each linha As GridViewRow In dgvTaxas.Rows
                     Dim ID_BL_TAXA As String = CType(linha.FindControl("lblTaxa"), Label).Text
+                    Dim GRAU As String = CType(linha.FindControl("lblGrau"), Label).Text
+
                     Dim check As CheckBox = linha.FindControl("ckbSelecionar")
                     If check.Checked Then
                         Dim I As New InativaAtivaTaxa
-                        Dim Retorno As Boolean = I.InativarAtivar(ID_BL_TAXA, txtMotivo.Text, ddlMotivos.SelectedIndex, Session("ID_USUARIO"))
+                        Dim Retorno As Boolean = I.InativarAtivar(GRAU, ID_BL_TAXA, txtMotivo.Text, ddlMotivos.SelectedIndex, Session("ID_USUARIO"))
                         If Retorno = False Then
                             If TaxaErro = "" Then
                                 TaxaErro = ID_BL_TAXA
