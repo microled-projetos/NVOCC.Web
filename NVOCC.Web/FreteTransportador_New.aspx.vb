@@ -186,8 +186,11 @@ Public Class FreteTransportador_New
 
     Private Sub dgvFreteTranportador_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvFreteTranportador.RowCommand
 
+        If e.CommandName = "Edit" Then
 
-        If e.CommandName = "Excluir" Then
+            txtID.Text = e.CommandArgument
+
+        ElseIf e.CommandName = "Excluir" Then
 
             txtID.Text = e.CommandArgument
 
@@ -203,6 +206,7 @@ Public Class FreteTransportador_New
 
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_COTACAO)QTD FROM TB_COTACAO WHERE ID_FRETE_TRANSPORTADOR = " & ID)
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID.Text & ",'EXCLUSÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
 
                     Con.ExecutarQuery("DELETE FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & ID)
                     Con.ExecutarQuery("DELETE FROM TB_TABELA_FRETE_TAXA WHERE ID_FRETE_TRANSPORTADOR = " & ID)
@@ -265,6 +269,41 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "copiarTexto()", True)
 
 
+        ElseIf e.CommandName = "Update" Then
+
+
+            For Each linha As GridViewRow In dgvFreteTranportador.Rows
+                Dim ID_FRETE_TRANSPORTADOR As String = CType(linha.FindControl("lblID"), Label).Text
+                Dim ID_PORTO_ORIGEM As DropDownList = CType(linha.FindControl("ddlOrigem"), DropDownList)
+                Dim ID_PORTO_DESTINO As DropDownList = CType(linha.FindControl("ddlDestino"), DropDownList)
+                Dim ID_TIPO_CARGA As DropDownList = CType(linha.FindControl("ddlTipoCarga"), DropDownList)
+                Dim ID_TRANSPORTADOR As DropDownList = CType(linha.FindControl("ddlTransportador"), DropDownList)
+                Dim ID_AGENTE As DropDownList = CType(linha.FindControl("ddlAgente"), DropDownList)
+                Dim QT_DIAS_TRANSITTIME_INICIAL As TextBox = CType(linha.FindControl("txtTTInicial"), TextBox)
+                Dim QT_DIAS_TRANSITTIME_FINAL As TextBox = CType(linha.FindControl("txtTTFinal"), TextBox)
+                Dim FL_ATIVO As CheckBox = CType(linha.FindControl("ckAtivo"), CheckBox)
+                Dim DT_VALIDADE_FINAL As TextBox = CType(linha.FindControl("txtValidadeFinal"), TextBox)
+                Dim OBS_CLIENTE As TextBox = CType(linha.FindControl("txtCliente"), TextBox)
+                Dim OBS_INTERNA As TextBox = CType(linha.FindControl("txtInterna"), TextBox)
+                Dim ID_TIPO_FREQUENCIA As DropDownList = CType(linha.FindControl("ddlFrequencia"), DropDownList)
+                Dim ID_VIA_ROTA As DropDownList = CType(linha.FindControl("ddlRota"), DropDownList)
+                Dim FL_CONSOLIDADA As CheckBox = CType(linha.FindControl("ckConsolidada"), CheckBox)
+
+
+                If ID_FRETE_TRANSPORTADOR = txtID.Text Then
+                    Dim Con As New Conexao_sql
+                    Con.Conectar()
+
+                    'REALIZA UPDATE DO FRETE TRANSPORTADOR
+                    Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID.Text & ",'EDIÇÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+
+                    Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR  SET  ID_TRANSPORTADOR = " & ID_TRANSPORTADOR.SelectedValue & ", ID_AGENTE = " & ID_AGENTE.SelectedValue & ", ID_PORTO_ORIGEM = " & ID_PORTO_ORIGEM.SelectedValue & " , ID_PORTO_DESTINO = " & ID_PORTO_DESTINO.SelectedValue & ", ID_TIPO_CARGA = " & ID_TIPO_CARGA.SelectedValue & ", ID_VIA_ROTA =  " & ID_VIA_ROTA.SelectedValue & " , QT_DIAS_TRANSITTIME_INICIAL =  " & QT_DIAS_TRANSITTIME_INICIAL.Text & ", QT_DIAS_TRANSITTIME_FINAL = " & QT_DIAS_TRANSITTIME_FINAL.Text & ", ID_TIPO_FREQUENCIA = " & ID_TIPO_FREQUENCIA.SelectedValue & ",  FL_ATIVO = '" & FL_ATIVO.Checked & "', OBS_INTERNA =  '" & OBS_INTERNA.Text & "', OBS_CLIENTE =  '" & OBS_CLIENTE.Text & "', DT_VALIDADE_FINAL =  CONVERT(DATETIME,'" & DT_VALIDADE_FINAL.Text & "',103), FL_CONSOLIDADA = '" & FL_CONSOLIDADA.Checked & "'  WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
+                    txtID.Text = ""
+                    Con.Fechar()
+
+                End If
+
+            Next
 
         End If
 
@@ -412,7 +451,7 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
             End If
         End If
 
-        Dim sql As String = "SELECT * FROM [View_FreteTransportador_new]  " & filtro & " order by ID DESC"
+        Dim sql As String = "SELECT * FROM [View_FreteTransportador_new]  " & filtro & " order by ID_FRETE_TRANSPORTADOR DESC"
         dsFreteTranportador.SelectCommand = sql
 
         dgvFreteTranportador.DataBind()
@@ -495,17 +534,4 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
         End If
     End Sub
 
-    Private Sub dgvFreteTranportador_RowUpdated(sender As Object, e As GridViewUpdatedEventArgs) Handles dgvFreteTranportador.RowUpdated
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANPORTADOR_HIST (ID_FRETE_TRANPORTADOR,ACAO,ID_USUARIO_STATUS,DT_STATUS_COTACAO) VALUES (" & txtID.Text & ",'EXCLUSÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
-        txtID.Text = ""
-    End Sub
-
-    Private Sub dgvFreteTranportador_RowDeleted(sender As Object, e As GridViewDeletedEventArgs) Handles dgvFreteTranportador.RowDeleted
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANPORTADOR_HIST (ID_FRETE_TRANPORTADOR,ACAO,ID_USUARIO_STATUS,DT_STATUS_COTACAO) VALUES (" & txtID.Text & ",'EDIÇÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
-        txtID.Text = ""
-    End Sub
 End Class

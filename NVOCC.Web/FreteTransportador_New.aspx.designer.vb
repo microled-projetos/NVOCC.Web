@@ -509,6 +509,24 @@ Partial Public Class FreteTransportador_New
     Protected WithEvents dsRota As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
+    '''Controle dsTransportadorGrid.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTransportadorGrid As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsAgenteGrid.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsAgenteGrid As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Controle TextBox1.
     '''</summary>
     '''<remarks>
