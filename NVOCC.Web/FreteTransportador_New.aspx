@@ -10,6 +10,10 @@
             color:black;
             margin:5px;
         }
+      
+        .myUL{
+                list-style: none;
+        }
        
     </style>
       <div class="row principal">
@@ -29,7 +33,12 @@
                        
                 <div class="panel-body">
                     <br />
-                                                                <asp:LinkButton ID="lkInserir" runat="server"  CssClass="btn btn-primary btn-sm" style="font-size:15px"><i  class="glyphicon glyphicon-plus"></i>&nbsp;Inserir</asp:LinkButton>
+                                         <select class="selectpicker" data-live-search="true">
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+</select>                       <asp:LinkButton ID="lkInserir" runat="server"  CssClass="btn btn-primary btn-sm" style="font-size:15px"><i  class="glyphicon glyphicon-plus"></i>&nbsp;Inserir</asp:LinkButton>
          
 
                         <div class="tab-pane fade active in" id="consulta">
@@ -63,7 +72,18 @@
                                             <div class="col-sm-1">
                                     <div class="form-group">
                                         <label class="control-label">Porto Origem:</label>
-                                        <asp:DropDownList ID="ddlOrigem" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" SelectionMode="Multiple" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>   
+                                        <asp:DropDownList ID="ddlOrigem" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" SelectionMode="Multiple" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList> 
+                                        
+ <%--<ul id="myUL" class="myUL" runat="server">         <li><asp:TextBox ID="TextBox33" runat="server" Placeholder="Pesquisa"/></li>
+                                        <li><asp:CheckBox runat="server" id="CheckBox1" Text="teste1"/></li>
+                                        <li><asp:CheckBox runat="server" id="CheckBox2" Text="teste2"/></li>
+                                        </ul>--%>
+
+                                        <input id='TextBoxTESTE' runat='server' Placeholder='Pesquisa' onkeypress="xxx()" />
+
+                                        <div id="divOrigem" runat="server">
+
+                                        </div>
                                         <%--<asp:ListBox ID="ListBox1" runat="server" CssClass="form-control" Rows="2"  DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO" SelectionMode="Multiple" ></asp:ListBox>
                                         <asp:CheckBoxList ID="CheckBoxList1" ItemType="CheckBox" runat="server"  DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO" SelectionMode="Multiple" AppendDataBoundItems="false"></asp:CheckBoxList>--%>
                                     </div>
@@ -73,6 +93,7 @@
                                         <label class="control-label">Porto Destino:</label>
                                         <asp:DropDownList ID="ddlDestino" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
+
                                 <div class="col-sm-1">
                                     <div class="form-group">
                                         <label class="control-label">Validade Inicial:</label>
@@ -540,6 +561,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA">
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/i18n/defaults-pt_BR.min.js"></script>
     <script type="text/javascript">
  
       function SalvaPosicao() {
@@ -576,5 +602,23 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA">
 
         }
 
+        function Filtro() {
+            var ID_VIATRANSPORTE = document.getElementById('<%= ddlViaTransporte.ClientID %>').value;
+            var FILTRO = document.getElementById('TextBoxP').value;
+            console.log("O FILTRO é: " + FILTRO);
+            console.log("O ID_VIATRANSPORTE é: " + ID_VIATRANSPORTE);
+            $.ajax({
+                type: "POST",
+                url: "FreteTransportador_New.aspx/CarregaPortos",
+                data: '{ID_VIATRANSPORTE: "' + ID_VIATRANSPORTE + '", FILTRO: "' + FILTRO + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            });
+
+        }
+
+        $(document).ready(function () {
+            $('.selectpicker').selectpicker();
+        });
     </script> 
 </asp:Content>

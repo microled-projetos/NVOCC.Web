@@ -131,6 +131,24 @@ Partial Public Class FreteTransportador_New
     Protected WithEvents ddlOrigem As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle TextBoxTESTE.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBoxTESTE As Global.System.Web.UI.HtmlControls.HtmlInputText
+
+    '''<summary>
+    '''Controle divOrigem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divOrigem As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
     '''Controle ddlDestino.
     '''</summary>
     '''<remarks>
