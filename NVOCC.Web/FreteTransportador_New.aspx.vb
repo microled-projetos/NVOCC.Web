@@ -407,6 +407,29 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
     Sub BUSCA()
         Dim v As New VerificaData
         Dim filtro As String = ""
+
+        If txtFiltroID.Text <> "" Then
+            If filtro = "" Then
+                filtro &= " WHERE ID_FRETE_TRANSPORTADOR = " & txtFiltroID.Text
+            Else
+                filtro &= " AND ID_FRETE_TRANSPORTADOR = " & txtFiltroID.Text
+            End If
+        End If
+
+        If txtValidadeInicial.Text <> "" Then
+            If v.ValidaData(txtValidadeInicial.Text) = False Then
+                divErro.Visible = True
+                lblmsgErro.Text = "Data Inválida."
+            Else
+                If filtro = "" Then
+                    filtro &= " WHERE DT_VALIDADE_INICIAL = Convert(smalldatetime, '" & txtValidadeInicial.Text & "', 103) "
+                Else
+                    filtro &= " AND DT_VALIDADE_INICIAL = Convert(smalldatetime, '" & txtValidadeInicial.Text & "', 103) "
+                End If
+
+            End If
+        End If
+
         If txtValidadeFinal.Text <> "" Then
             If v.ValidaData(txtValidadeFinal.Text) = False Then
                 divErro.Visible = True
@@ -421,7 +444,7 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
             End If
         End If
 
-
+        'Transportador
         If ddlTransportador.SelectedValue <> 0 Then
             If filtro = "" Then
                 filtro &= " WHERE ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue
@@ -429,6 +452,8 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
                 filtro &= " AND ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue
             End If
         End If
+
+        'Agente
         If ddlAgente.SelectedValue <> 0 Then
             If filtro = "" Then
                 filtro &= " WHERE ID_AGENTE = " & ddlAgente.SelectedValue
@@ -436,6 +461,8 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
                 filtro &= " AND ID_AGENTE = " & ddlAgente.SelectedValue
             End If
         End If
+
+        'Origem
         If ddlOrigem.SelectedValue <> 0 Then
             If filtro = "" Then
                 filtro &= " WHERE ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue
@@ -443,6 +470,8 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
                 filtro &= "  AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue
             End If
         End If
+
+        'Destino
         If ddlDestino.SelectedValue <> 0 Then
             If filtro = "" Then
                 filtro &= " WHERE ID_PORTO_DESTINO = " & ddlDestino.SelectedValue
@@ -451,7 +480,22 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
             End If
         End If
 
-        Dim sql As String = "SELECT * FROM [View_FreteTransportador_new]  " & filtro & " order by ID_FRETE_TRANSPORTADOR DESC"
+        'Inativo
+        If ckInativo.Checked = True Then
+            If filtro = "" Then
+                filtro &= " WHERE DT_VALIDADE_FINAL < GETDATE() = "
+            Else
+                filtro &= "  AND DT_VALIDADE_FINAL < GETDATE() "
+            End If
+        Else
+            If filtro = "" Then
+                filtro &= " WHERE DT_VALIDADE_FINAL >= GETDATE() = "
+            Else
+                filtro &= "  AND DT_VALIDADE_FINAL >= GETDATE() "
+            End If
+        End If
+
+        Dim sql As String = "SELECT TOP 50 * FROM [View_FreteTransportador_new]  " & filtro & " order by ID_FRETE_TRANSPORTADOR DESC"
         dsFreteTranportador.SelectCommand = sql
 
         dgvFreteTranportador.DataBind()
@@ -524,11 +568,39 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
             Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_VINCULO_USUARIO WHERE ID_TIPO_USUARIO =15 AND ID_USUARIO = " & Session("ID_USUARIO"))
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                dgvFreteTranportador.Columns(18).Visible = False
+                dgvFreteTranportador.Columns(17).Visible = False
 
             Else
-                dgvFreteTranportador.Columns(18).Visible = True
+                dgvFreteTranportador.Columns(17).Visible = True
 
+            End If
+
+            If e.Row.RowState = DataControlRowState.Edit Then
+
+                ds = Con.ExecutarQuery("SELECT ID_TRANSPORTADOR,ID_AGENTE,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_VIA_ROTA,ID_TIPO_FREQUENCIA,ID_TIPO_CARGA FROM View_FreteTransportador_new WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
+                If ds.Tables(0).Rows.Count > 0 Then
+
+                    Dim ID_FRETE_TRANSPORTADOR As String = CType(e.Row.FindControl("lblID"), Label).Text
+                    Dim ID_PORTO_ORIGEM As DropDownList = CType(e.Row.FindControl("ddlOrigem"), DropDownList)
+                    Dim ID_PORTO_DESTINO As DropDownList = CType(e.Row.FindControl("ddlDestino"), DropDownList)
+                    Dim ID_TIPO_CARGA As DropDownList = CType(e.Row.FindControl("ddlTipoCarga"), DropDownList)
+                    Dim ID_TRANSPORTADOR As DropDownList = CType(e.Row.FindControl("ddlTransportador"), DropDownList)
+                    Dim ID_AGENTE As DropDownList = CType(e.Row.FindControl("ddlAgente"), DropDownList)
+                    Dim ID_TIPO_FREQUENCIA As DropDownList = CType(e.Row.FindControl("ddlFrequencia"), DropDownList)
+                    Dim ID_VIA_ROTA As DropDownList = CType(e.Row.FindControl("ddlRota"), DropDownList)
+
+                    If ID_FRETE_TRANSPORTADOR = txtID.Text Then
+                        ID_PORTO_ORIGEM.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString()
+                        ID_PORTO_DESTINO.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO").ToString()
+                        ID_TIPO_CARGA.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_CARGA").ToString()
+                        ID_TRANSPORTADOR.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
+                        ID_AGENTE.SelectedValue = ds.Tables(0).Rows(0).Item("ID_AGENTE").ToString()
+                        ID_TIPO_FREQUENCIA.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FREQUENCIA").ToString()
+                        ID_VIA_ROTA.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VIA_ROTA").ToString()
+                    End If
+
+
+                End If
             End If
 
         End If

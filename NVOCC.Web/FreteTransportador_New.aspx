@@ -30,7 +30,8 @@
                 <div class="panel-body">
                     <br />
                                                                 <asp:LinkButton ID="lkInserir" runat="server"  CssClass="btn btn-primary btn-sm" style="font-size:15px"><i  class="glyphicon glyphicon-plus"></i>&nbsp;Inserir</asp:LinkButton>
-          
+         
+
                         <div class="tab-pane fade active in" id="consulta">
                             <br />
                              <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
@@ -41,15 +42,7 @@
                                     <div class="alert alert-danger" ID="divErro" runat="server" visible="false">
                                         <asp:label ID="lblmsgErro" runat="server"></asp:label>
                                     </div>
-                                                                                     
-                                      <%-- <asp:LinkButton ID="lkAlterar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px"><i  class="glyphicon glyphicon-pencil"></i>&nbsp;Alterar</asp:LinkButton>
-                                       <asp:LinkButton ID="lkDuplicar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px"><i  class="glyphicon glyphicon-duplicate" ></i>&nbsp;Duplicar</asp:LinkButton>
-                                      <asp:LinkButton ID="lkFiltrar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px"><i  class="glyphicon glyphicon-search" ></i>&nbsp;Filtrar</asp:LinkButton>
-                                         <asp:LinkButton ID="lkInativar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px"><i class="fa fa-toggle-on" ></i>&nbsp;Ativar/Inativar</asp:LinkButton>
-                                                <asp:LinkButton ID="lkRemover" runat="server" OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
-                                 
-                                         <asp:LinkButton ID="lkSair" runat="server" OnClientClick="return confirm('Antes de sair verifique se há algum registro a ser salvo. Deseja mesmo sair?')" CssClass="btn btnn btn-default btn-sm" style="font-size:15px"><i class="glyphicon glyphicon-log-out" ></i>&nbsp;Sair</asp:LinkButton>--%>
-                       
+                                                                                                            
                <br />
                             <div class="row" runat="server" >                        
                                <div class="col-sm-1">
@@ -181,21 +174,12 @@
                                     <Columns>
                                        <asp:TemplateField  HeaderStyle-ForeColor="#337ab7">
                                                 <HeaderTemplate>
-                                                    <asp:CheckBox ID="ckbSelecionarTodos" runat="server" text="Selecionar Todos" AutoPostBack="true" OnCheckedChanged="CheckUncheckAll" />
+                                                    <asp:CheckBox ID="ckbSelecionarTodos" runat="server" Font-Size="Small" text="Selecionar Todos" AutoPostBack="true" OnCheckedChanged="CheckUncheckAll" />
+                                                    <asp:Button ID="btnEditar" runat="server" CssClass="btn-default" OnClientClick="SalvaPosicao()" Text="Expandir/Recolher"></asp:Button>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <asp:CheckBox ID="ckbSelecionar" runat="server"/>
-
-                                                    </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                                        
-                                        <asp:TemplateField ShowHeader="False" >
-                                    <EditItemTemplate>
-                                        <asp:LinkButton ID="btnSalvar" runat="server" CausesValidation="True" CommandName="Update" CssClass="btnGrid" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');"><i class="glyphicon glyphicon-floppy-disk"  style="font-size:small"></i></asp:LinkButton> 
-                                        <%--&nbsp;<asp:LinkButton ID="btnCancelar" runat="server" CausesValidation="False" CommandName="Salvar" Text="Cancelar" CssClass="btnGrid" ><i class="glyphicon glyphicon-remove"  style="font-size:small"></i></asp:LinkButton> --%>
-                                    </EditItemTemplate>
-                                         <ItemTemplate>    
-                                             <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="Edit" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'  OnClientClick="SalvaPosicao()" Text="Editar" ><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
+                                                    <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="Edit" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'  OnClientClick="SalvaPosicao()" Text="Editar" ><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
 
                                              
                                              <asp:LinkButton ID="btnDuplicar" runat="server"  CssClass="btnGrid" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'
@@ -203,7 +187,14 @@
                                                                     
                                              <asp:LinkButton ID="btnExcluir" title="Excluir"  CssClass="btnGrid" runat="server"  CommandName="Excluir"
                                                                             OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:small"></span></asp:LinkButton>
-                                                                    </ItemTemplate>
+                                                    </ItemTemplate>
+                          
+                                                                        
+                                    <EditItemTemplate>
+                                        <asp:LinkButton ID="btnSalvar" runat="server" CausesValidation="True" CommandName="Update" CssClass="btnGrid" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');"><i class="glyphicon glyphicon-floppy-disk"  style="font-size:small"></i></asp:LinkButton> 
+                                        &nbsp;<asp:LinkButton ID="btnCancelar" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancelar" CssClass="btnGrid" ><i class="glyphicon glyphicon-remove"  style="font-size:small"></i></asp:LinkButton> 
+                                    </EditItemTemplate>
+   
 
                                 </asp:TemplateField>
 
@@ -277,18 +268,18 @@
 
                                         <asp:TemplateField HeaderText="Transportador" HeaderStyle-ForeColor="#337ab7" SortExpression="Transportador">
                                                 <ItemTemplate>
-                                                     <asp:label runat="server" Text='<%# Eval("Transportador") %>'  />
+                                                     <asp:label runat="server" Text='<%# Eval("TRANSPORTADOR") %>'  />
                                                      </ItemTemplate>
                                              <EditItemTemplate>
-                                                 <asp:DropDownList ID="ddlTransportador" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportadorGrid" DataValueField="ID_PARCEIRO"></asp:DropDownList>   
+                                                 <asp:DropDownList ID="ddlTransportador" runat="server" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportadorGrid" DataValueField="ID_PARCEIRO"></asp:DropDownList>   
                                              </EditItemTemplate>
                                          </asp:TemplateField>  
                                          <asp:TemplateField HeaderText="Agente" HeaderStyle-ForeColor="#337ab7" SortExpression="Agente">
                                                 <ItemTemplate>
-                                                     <asp:label runat="server" Text='<%# Eval("Agente") %>'  />
+                                                     <asp:label runat="server" Text='<%# Eval("AGENTE") %>'  />
                                                      </ItemTemplate>
                                              <EditItemTemplate>
-                                                 <asp:DropDownList ID="ddlAgente" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_RAZAO" DataSourceID="dsAgenteGrid" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                                 <asp:DropDownList ID="ddlAgente" runat="server" Font-Size="11px"  DataTextField="NM_RAZAO" DataSourceID="dsAgenteGrid" DataValueField="ID_PARCEIRO"></asp:DropDownList>
   
                                              </EditItemTemplate>
                                          </asp:TemplateField>  
@@ -344,7 +335,7 @@
 
                                         <asp:TemplateField HeaderText="Ativo?" HeaderStyle-ForeColor="#337ab7" SortExpression="Ativo">
                                                 <ItemTemplate>
-                                                     <asp:label runat="server" Text='<%# Eval("Ativo") %>' />
+                                                     <asp:label runat="server" Text='<%# Eval("ATIVO") %>' />
                                                 </ItemTemplate>
                                              <EditItemTemplate>
                                                      <asp:CheckBox ID="ckAtivo" runat="server" checked='<%# Eval("FL_ATIVO") %>'></asp:CheckBox>
@@ -361,7 +352,7 @@
                                         
                                         <asp:TemplateField HeaderText="Consolidada?" HeaderStyle-ForeColor="#337ab7" SortExpression="FL_CONSOLIDADA">
                                              <ItemTemplate>
-                                                     <asp:label runat="server" Text='<%# Eval("Consolidada") %>' />
+                                                     <asp:label runat="server" Text='<%# Eval("CONSOLIDADA") %>' />
                                                      </ItemTemplate>
                                              <EditItemTemplate>
                                                      <asp:CheckBox ID="ckConsolidada" runat="server" checked='<%# Eval("FL_CONSOLIDADA") %>'></asp:CheckBox>
@@ -472,7 +463,7 @@
         </div>
         </div> 
         <asp:SqlDataSource ID="dsFreteTranportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT * FROM [View_FreteTransportador_new] order by ID_FRETE_TRANSPORTADOR DESC" updatecommand="">
+        selectcommand="SELECT TOP 50 * FROM [View_FreteTransportador_new] order by ID_FRETE_TRANSPORTADOR DESC" updatecommand="">
 </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsCntr" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
