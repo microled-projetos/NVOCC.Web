@@ -41,6 +41,24 @@ Partial Public Class FreteTransportador_New
     Protected WithEvents txtlinha As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtOrigem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtOrigem As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtDestino.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDestino As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle lkInserir.
     '''</summary>
     '''<remarks>
@@ -122,24 +140,6 @@ Partial Public Class FreteTransportador_New
     Protected WithEvents ddlViaTransporte As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlOrigem.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlOrigem As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle TextBoxTESTE.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents TextBoxTESTE As Global.System.Web.UI.HtmlControls.HtmlInputText
-
-    '''<summary>
     '''Controle divOrigem.
     '''</summary>
     '''<remarks>
@@ -149,13 +149,13 @@ Partial Public Class FreteTransportador_New
     Protected WithEvents divOrigem As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle ddlDestino.
+    '''Controle divDestino.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlDestino As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents divDestino As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle txtValidadeInicial.

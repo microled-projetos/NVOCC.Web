@@ -55,42 +55,49 @@ Public Class FreteTransportador_New
             'lkRemover.Visible = True
         End If
         Con.Fechar()
-        portos()
+        CarregaPortos()
     End Sub
-
-    Sub portos()
-        Dim tabela As String = CarregaPortos("", "")
-        divOrigem.InnerHtml = tabela
-
-    End Sub
-
-    <System.Web.Services.WebMethod()>
-    Public Shared Function CarregaPortos(ByVal ID_VIATRANSPORTE As String, ByVal FILTRO As String) As String
-
-        Dim tabela As String = ""
-        tabela &= "<ul id='POrigem' Class='myUL' runat='server' >"
-        tabela &= "<li><input id='TextBoxP' runat='server' Placeholder='Pesquisa' onkeypress='Filtro()' /></li>"
-
+    Sub CarregaPortos()
         Dim Con As New Conexao_sql
         Con.Conectar()
 
-        If FILTRO <> "" Then
+        Dim tabela As String = "<select data-live-search='True' ID='comboOrigem' data-live-search-style='startsWith' class='selectpicker' multiple='multiple' onchange='IDOrigem()'  title='Selecione'>"
+        Dim dsdados As DataSet
+        Dim sql As String = "SELECT top 100 ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE NM_PORTO IS NOT NULL AND FL_ATIVO = 1"
+        If ddlViaTransporte.SelectedValue <> "" Then
+            If ddlViaTransporte.SelectedValue <> 0 Then
 
-            Dim dsdados As DataSet = Con.ExecutarQuery("SELECT top 10 ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE NM_PORTO IS NOT NULL " & ID_VIATRANSPORTE & " " & FILTRO & " ORDER BY NM_PORTO ")
-
-            If dsdados.Tables(0).Rows.Count > 0 Then
-
-                For Each linhadados As DataRow In dsdados.Tables(0).Rows
-                    tabela &= "<li><input type='CheckBox' runat='server' id='CheckBox" & linhadados("ID_PORTO") & "' />" & linhadados("NM_PORTO") & "</li>"
-                Next
-
+                sql &= " AND ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue
             End If
+        End If
+        sql &= " ORDER BY NM_PORTO "
+
+        'ORIGEM
+        dsdados = Con.ExecutarQuery(sql)
+        If dsdados.Tables(0).Rows.Count > 0 Then
+
+            For Each linhadados As DataRow In dsdados.Tables(0).Rows
+                tabela &= "<option value='" & linhadados("ID_PORTO") & "'>" & linhadados("NM_PORTO") & "</option>"
+            Next
 
         End If
+        tabela &= "</select>"
+        divOrigem.InnerHtml = tabela
 
-        tabela &= " </ul>"
-        Return tabela
-    End Function
+        'DESTINO
+        tabela = "<select data-live-search='True' ID='comboDestino' data-live-search-style='startsWith' class='selectpicker' multiple='multiple' onchange='IDDestino()'  title='Selecione'>"
+        dsdados = Con.ExecutarQuery(sql)
+        If dsdados.Tables(0).Rows.Count > 0 Then
+
+            For Each linhadados As DataRow In dsdados.Tables(0).Rows
+                tabela &= "<option value='" & linhadados("ID_PORTO") & "'>" & linhadados("NM_PORTO") & "</option>"
+            Next
+
+        End If
+        tabela &= "</select>"
+        divDestino.InnerHtml = tabela
+    End Sub
+
     Private Sub lkInserir_Click(sender As Object, e As EventArgs) Handles lkInserir.Click
         Response.Redirect("CadastrarFreteTransportador.aspx")
     End Sub
@@ -497,20 +504,20 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
         End If
 
         'Origem
-        If ddlOrigem.SelectedValue <> 0 Then
+        If txtOrigem.Text <> "" Then
             If filtro = "" Then
-                filtro &= " WHERE ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue
+                filtro &= " WHERE ID_PORTO_ORIGEM IN ( " & txtOrigem.Text & " )"
             Else
-                filtro &= "  AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue
+                filtro &= "  AND ID_PORTO_ORIGEM IN ( " & txtOrigem.Text & " )"
             End If
         End If
 
         'Destino
-        If ddlDestino.SelectedValue <> 0 Then
+        If txtDestino.Text <> "" Then
             If filtro = "" Then
-                filtro &= " WHERE ID_PORTO_DESTINO = " & ddlDestino.SelectedValue
+                filtro &= " WHERE ID_PORTO_DESTINO IN ( " & txtDestino.Text & " )"
             Else
-                filtro &= "  AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue
+                filtro &= "  AND ID_PORTO_DESTINO IN ( " & txtDestino.Text & " )"
             End If
         End If
 

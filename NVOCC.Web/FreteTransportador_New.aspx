@@ -10,17 +10,14 @@
             color:black;
             margin:5px;
         }
-      
-        .myUL{
-                list-style: none;
-        }
-       
     </style>
       <div class="row principal">
 
-          <div runat="server" id="divAuxiliar" visible="false" >
+          <div runat="server" id="divAuxiliar" style="display:none" >
               <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
               <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
+              <asp:TextBox ID="txtOrigem" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
+              <asp:TextBox ID="txtDestino" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
           </div>
                                 
                  
@@ -33,13 +30,8 @@
                        
                 <div class="panel-body">
                     <br />
-                                         <select class="selectpicker" data-live-search="true">
-  <option>1</option>
-  <option>2</option>
-  <option>3</option>
-  <option>4</option>
-</select>                       <asp:LinkButton ID="lkInserir" runat="server"  CssClass="btn btn-primary btn-sm" style="font-size:15px"><i  class="glyphicon glyphicon-plus"></i>&nbsp;Inserir</asp:LinkButton>
-         
+
+                         <asp:LinkButton ID="lkInserir" runat="server"  CssClass="btn btn-primary btn-sm" style="font-size:15px"><i  class="glyphicon glyphicon-plus"></i>&nbsp;Inserir</asp:LinkButton>
 
                         <div class="tab-pane fade active in" id="consulta">
                             <br />
@@ -61,7 +53,7 @@
                                     </div>
                                 </div>
                                 
-                                 <div class="col-sm-2">
+                                 <div class="col-sm-1">
                                     <div class="form-group">
                                         <label class="control-label">Via Transporte:</label>
                                            <asp:TextBox ID="txtViaTransporte" runat="server" style="display:none" CssClass="form-control" />
@@ -69,29 +61,18 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                            <div class="col-sm-1">
-                                    <div class="form-group">
-                                        <label class="control-label">Porto Origem:</label>
-                                        <asp:DropDownList ID="ddlOrigem" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" SelectionMode="Multiple" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList> 
+                                            <div class="col-sm-2"> 
+                                                <label class="control-label">Porto Origem:</label>
+                                    <div class="form-group" id="divOrigem" runat="server">
+                                       
                                         
- <%--<ul id="myUL" class="myUL" runat="server">         <li><asp:TextBox ID="TextBox33" runat="server" Placeholder="Pesquisa"/></li>
-                                        <li><asp:CheckBox runat="server" id="CheckBox1" Text="teste1"/></li>
-                                        <li><asp:CheckBox runat="server" id="CheckBox2" Text="teste2"/></li>
-                                        </ul>--%>
-
-                                        <input id='TextBoxTESTE' runat='server' Placeholder='Pesquisa' onkeypress="xxx()" />
-
-                                        <div id="divOrigem" runat="server">
-
-                                        </div>
-                                        <%--<asp:ListBox ID="ListBox1" runat="server" CssClass="form-control" Rows="2"  DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO" SelectionMode="Multiple" ></asp:ListBox>
-                                        <asp:CheckBoxList ID="CheckBoxList1" ItemType="CheckBox" runat="server"  DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO" SelectionMode="Multiple" AppendDataBoundItems="false"></asp:CheckBoxList>--%>
                                     </div>
                                 </div>
-                                            <div class="col-sm-1">
+                                            <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Porto Destino:</label>
-                                        <asp:DropDownList ID="ddlDestino" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                       <div id="divDestino" runat="server"></div>
+                                    </div>
                                 </div>
 
                                 <div class="col-sm-1">
@@ -561,11 +542,10 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA">
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/i18n/defaults-pt_BR.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
+
     <script type="text/javascript">
  
       function SalvaPosicao() {
@@ -617,8 +597,32 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA">
 
         }
 
-        $(document).ready(function () {
-            $('.selectpicker').selectpicker();
-        });
+        //$(document).ready(function () {
+        //    $('.selectpicker').selectpicker();
+        //});
+
+        function IDDestino() {
+
+            var selected = [];
+            for (var option of document.getElementById('comboDestino').options) {
+                if (option.selected) {
+                    selected.push(option.value);
+                }
+            }
+            console.log("IDDestino selected : " + selected);
+            document.getElementById('<%= txtDestino.ClientID %>').value = selected;
+        }
+
+        function IDOrigem() {
+
+            var selected = [];
+            for (var option of document.getElementById('comboOrigem').options) {
+                if (option.selected) {
+                    selected.push(option.value);
+                }
+            }
+            console.log("IDOrigem selected : " + selected);
+            document.getElementById('<%= txtOrigem.ClientID %>').value = selected;
+        }
     </script> 
 </asp:Content>
