@@ -545,7 +545,7 @@
                                         <asp:LinkButton Visible="false" ID="lkCancelaHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="icomoon icon-cancel-circle"></i>&nbsp;Cancelar</asp:LinkButton>
                                         <asp:LinkButton Visible="false" ID="lkRemoverHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
                                         <asp:LinkButton ID="lkFiltrarHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-search"></i>&nbsp;Filtrar</asp:LinkButton>
-                                        <asp:LinkButton ID="lkCalcularHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-calculator"></i>&nbsp;Calcular</asp:LinkButton>
+                                        <asp:LinkButton ID="lkCalcularHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px" OnClientClick="MouseWait()"><i class="fa fa-calculator"></i>&nbsp;Calcular</asp:LinkButton>
                                         <asp:LinkButton ID="lkCourrierHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-transfer"></i>&nbsp;Courrier</asp:LinkButton>
                                         <asp:LinkButton ID="lkBLHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-file"></i>&nbsp;Emissão BL</asp:LinkButton>
                                         <asp:LinkButton ID="lkFollowUpHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-list"></i>&nbsp;FollowUp</asp:LinkButton>
@@ -893,15 +893,15 @@
 
 
     <asp:SqlDataSource ID="dsHouse" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT TOP 1000  * FROM View_House
+        SelectCommand="SELECT TOP 500  * FROM View_House
 WHERE  ID_BL_MASTER IS NOT NULL AND ID_SERVICO = 1 AND GRAU = 'C' ORDER BY ID_BL DESC "></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsMaster" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT TOP 1000  * FROM View_Master
+        SelectCommand="SELECT TOP 500  * FROM View_Master
 WHERE GRAU = 'M' and ID_SERVICO = 1 ORDER BY ID_BL DESC "></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsEmbarque" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT TOP 1000  * FROM View_Embarque
+        SelectCommand="SELECT TOP 500  * FROM View_Embarque
 WHERE GRAU = 'C' and ID_BL_MASTER is null and ID_SERVICO = 1 ORDER BY ID_BL DESC "></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsDocConferidoMaster" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -994,6 +994,15 @@ ORDER BY DATA DESC">
         function EndRequestHandler(sender, args) {
             var valor = document.getElementById('<%= txtPosicaoHouse.ClientID %>').value;
             document.getElementById('DivGridHouse').scrollTop = valor;
+        };
+
+        function MouseWait() {
+            console.log("wait");
+            document.body.style.cursor = "wait";
+        };
+        function MouseDefault() {
+            console.log("default");
+            document.body.style.cursor = "default";
         };
     </script>
 

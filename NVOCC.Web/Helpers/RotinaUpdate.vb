@@ -54,9 +54,10 @@ CASE WHEN ID_PARCEIRO_IMPORTADOR IS NULL THEN ID_CLIENTE WHEN ID_PARCEIRO_IMPORT
                 Con.ExecutarQuery("UPDATE TB_BL SET ID_PARCEIRO_INDICADOR = " & dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICADOR").ToString & " WHERE ID_BL = " & ID_BL)
             End If
 
-            If dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR").ToString Then
-                Con.ExecutarQuery("UPDATE TB_BL SET ID_PARCEIRO_EXPORTADOR = " & dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR").ToString & " WHERE ID_BL = " & ID_BL)
-            End If
+            'CHAMADO 5682
+            'If dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR").ToString Then
+            '    Con.ExecutarQuery("UPDATE TB_BL SET ID_PARCEIRO_EXPORTADOR = " & dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR").ToString & " WHERE ID_BL = " & ID_BL)
+            'End If
 
             If dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR").ToString Then
                 Con.ExecutarQuery("UPDATE TB_BL SET ID_PARCEIRO_IMPORTADOR = " & dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR").ToString & " WHERE ID_BL = " & ID_BL)
