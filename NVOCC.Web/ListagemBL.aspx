@@ -545,7 +545,7 @@
                                         <asp:LinkButton Visible="false" ID="lkCancelaHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="icomoon icon-cancel-circle"></i>&nbsp;Cancelar</asp:LinkButton>
                                         <asp:LinkButton Visible="false" ID="lkRemoverHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
                                         <asp:LinkButton ID="lkFiltrarHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-search"></i>&nbsp;Filtrar</asp:LinkButton>
-                                        <asp:LinkButton ID="lkCalcularHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-calculator"></i>&nbsp;Calcular</asp:LinkButton>
+                                        <asp:LinkButton ID="lkCalcularHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px" OnClientClick="MouseWait()"><i class="fa fa-calculator"></i>&nbsp;Calcular</asp:LinkButton>
                                         <asp:LinkButton ID="lkCourrierHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-transfer"></i>&nbsp;Courrier</asp:LinkButton>
                                         <asp:LinkButton ID="lkBLHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-file"></i>&nbsp;Emissão BL</asp:LinkButton>
                                         <asp:LinkButton ID="lkFollowUpHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-list"></i>&nbsp;FollowUp</asp:LinkButton>
@@ -994,6 +994,16 @@ ORDER BY DATA DESC">
         function EndRequestHandler(sender, args) {
             var valor = document.getElementById('<%= txtPosicaoHouse.ClientID %>').value;
             document.getElementById('DivGridHouse').scrollTop = valor;
+        };
+
+
+        function MouseWait() {
+            console.log("wait");
+            document.body.style.cursor = "wait";
+        };
+        function MouseDefault() {
+            console.log("default");
+            document.body.style.cursor = "default";
         };
     </script>
 

@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 24102022 (2)\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 08112022\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -531,6 +531,9 @@
     <Content Include="MontagemPagamento.aspx" />
     <Content Include="Oracle.DataAccess.dll" />
     <Content Include="OUTLOOK.aspx" />
+    <Content Include="PowerBIGerencial.aspx" />
+    <Content Include="PowerBIGerencial.aspx.cs" />
+    <Content Include="PowerBIGerencial.aspx.designer.cs" />
     <Content Include="Premiacao.aspx" />
     <Content Include="Premiacao.aspx.cs" />
     <Content Include="Premiacao.aspx.designer.cs" />

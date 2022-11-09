@@ -63,7 +63,7 @@ Public Class FreteTransportador_New
 
         Dim tabela As String = "<select data-live-search='True' ID='comboOrigem' data-live-search-style='startsWith' class='selectpicker' multiple='multiple' onchange='IDOrigem()'  title='Selecione'>"
         Dim dsdados As DataSet
-        Dim sql As String = "SELECT top 100 ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE NM_PORTO IS NOT NULL AND FL_ATIVO = 1"
+        Dim sql As String = "SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE NM_PORTO IS NOT NULL AND FL_ATIVO = 1"
         If ddlViaTransporte.SelectedValue <> "" Then
             If ddlViaTransporte.SelectedValue <> 0 Then
 

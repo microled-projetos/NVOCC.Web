@@ -264,6 +264,9 @@
                             <li>
                                 <a style="font-size: 13px;" href="TaxasInativas.aspx" runat="server" id="mnRelTaxasInativas">Relatório de Taxas Inativadas</a>
                             </li>
+                            <li>
+                                <a style="font-size: 13px;" href="PowerBIGerencial.aspx" runat="server" id="mnPowerBIGerencial">Power BI Gerencial</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

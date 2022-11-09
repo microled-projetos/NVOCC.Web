@@ -175,6 +175,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnInativacaoTaxas.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2067 And linha.Item("Acessar").ToString() = 0 Then
                         mnRelTaxasInativas.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2068 And linha.Item("Acessar").ToString() = 0 Then
+                        mnPowerBIGerencial.Visible = False
                     End If
 
 
@@ -220,7 +222,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuFaturamento.Visible = False
             End If
 
-            If mnDashBoard.Visible = False And mnGerencialMaster.Visible = False And mnModuloGerencial.Visible = False And mnModuloOperacional.Visible = False Then
+            If mnDashBoard.Visible = False And mnGerencialMaster.Visible = False And mnModuloGerencial.Visible = False And mnModuloOperacional.Visible = False And mnRelTaxasInativas.Visible = False And mnPowerBIGerencial.Visible = False Then
                 MenuGerencial.Visible = False
             End If
 
