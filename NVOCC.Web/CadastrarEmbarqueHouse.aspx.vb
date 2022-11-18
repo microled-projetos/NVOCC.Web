@@ -4992,6 +4992,90 @@ WHERE ID_BL = " & ID_BL & " GROUP BY B.NM_MOEDA "
         End If
     End Sub
 
+    Function ArredondarPesoTaxado(ID_BL As String, Optional PESO_TAXADO As Decimal = 0) As Decimal
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim M3 As Decimal = 0
+        Dim PESO_BRUTO As Decimal = 0
+
+        If txtPesoVolumetrico_CargaAereo.Text <> "" Then
+            M3 = txtPesoVolumetrico_CargaAereo.Text
+        End If
+
+        If txtPesoBruto_CargaAereo.Text <> "" Then
+            PESO_BRUTO = txtPesoBruto_CargaAereo.Text
+        End If
+
+
+        If PESO_TAXADO = 0 Then
+            Dim ds As DataSet = Con.ExecutarQuery("Select A.ID_TIPO_ESTUFAGEM, A.ID_SERVICO from TB_BL A Where A.ID_BL = " & ID_BL)
+            If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                'AEREO
+
+
+                If M3 >= PESO_BRUTO Then
+                    PESO_TAXADO = M3
+                Else
+                    PESO_TAXADO = PESO_BRUTO
+                End If
+
+            End If
+        End If
+
+        If PESO_TAXADO <> 0 Then
+            Dim PrimeiraCasa As String = PESO_TAXADO.ToString
+            If PrimeiraCasa.IndexOf(",") > 0 Then
+                PrimeiraCasa = PrimeiraCasa.Substring(PrimeiraCasa.IndexOf(","), 2)
+                PrimeiraCasa = PrimeiraCasa.Replace(",", "")
+                If PrimeiraCasa = 5 Then
+                    Dim SegundaCasa As String = PESO_TAXADO.ToString
+                    Dim tamanho = SegundaCasa.Substring(SegundaCasa.IndexOf("," & PrimeiraCasa))
+                    If tamanho.Length > 2 Then
+                        SegundaCasa = SegundaCasa.Substring(SegundaCasa.IndexOf("," & PrimeiraCasa), 3)
+                        SegundaCasa = SegundaCasa.Replace("," & PrimeiraCasa, "")
+                        If SegundaCasa > 0 Then
+                            PESO_TAXADO = Math.Ceiling(PESO_TAXADO)
+                        End If
+                    End If
+                ElseIf PrimeiraCasa = 0 Then
+
+                    Dim SegundaCasa As String = PESO_TAXADO.ToString
+                    Dim tamanho = SegundaCasa.Substring(SegundaCasa.IndexOf("," & PrimeiraCasa))
+                    If tamanho.Length > 2 Then
+                        SegundaCasa = SegundaCasa.Substring(SegundaCasa.IndexOf("," & PrimeiraCasa), 3)
+                        SegundaCasa = SegundaCasa.Replace("," & PrimeiraCasa, "")
+                        If SegundaCasa > 0 Then
+                            Dim PESO_TAXADO_INTEIRO As Decimal = Math.Truncate(PESO_TAXADO)
+                            PESO_TAXADO = PESO_TAXADO_INTEIRO + 0.5
+                        Else
+                            Dim TerceiraCasa As String = PESO_TAXADO.ToString
+                            tamanho = TerceiraCasa.Substring(TerceiraCasa.IndexOf("," & SegundaCasa))
+                            If tamanho.Length > 3 Then
+                                TerceiraCasa = TerceiraCasa.Substring(TerceiraCasa.IndexOf("," & SegundaCasa), 4)
+                                TerceiraCasa = TerceiraCasa.Replace("," & PrimeiraCasa & SegundaCasa, "")
+                                If TerceiraCasa > 0 Then
+                                    Dim PESO_TAXADO_INTEIRO As Decimal = Math.Truncate(PESO_TAXADO)
+                                    PESO_TAXADO = PESO_TAXADO_INTEIRO + 0.5
+                                End If
+                            End If
+                        End If
+                    End If
+
+                ElseIf PrimeiraCasa > 5 Then
+                    PESO_TAXADO = Math.Ceiling(PESO_TAXADO)
+
+                ElseIf PrimeiraCasa < 5 Then
+
+                    Dim PESO_TAXADO_INTEIRO As Decimal = Math.Truncate(PESO_TAXADO)
+                    PESO_TAXADO = PESO_TAXADO_INTEIRO + 0.5
+                End If
+
+            End If
+        End If
+        Return PESO_TAXADO.ToString("0.000")
+
+    End Function
     Sub AdicionarMedidasAereo()
         divErro_CargaAereo2.Visible = False
         divSuccess_CargaAereo2.Visible = False
@@ -5029,7 +5113,7 @@ WHERE ID_BL = " & ID_BL & " GROUP BY B.NM_MOEDA "
             CalculaCLA()
             sumMedidasAereo(txtID_CargaAereo.Text)
 
-
+            txtPesoTaxado_CargaAereo.Text = ArredondarPesoTaxado(txtID_BasicoAereo.Text)
             dgvMedidasAereo.DataBind()
             txtAlturaMercadoriaAereo.Text = ""
             txtLarguraMercadoriaAereo.Text = ""
@@ -5125,6 +5209,7 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
             lblSuccess_CargaAereo2.Text = "Registro CLA deletado!"
             divSuccess_CargaAereo2.Visible = True
             dgvMedidasAereo.DataBind()
+            txtPesoTaxado_CargaAereo.Text = ArredondarPesoTaxado(txtID_BasicoAereo.Text)
         End If
 
     End Sub
@@ -5459,5 +5544,14 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
             End If
 
         End If
+    End Sub
+
+    Private Sub txtPesoBruto_CargaAereo_TextChanged(sender As Object, e As EventArgs) Handles txtPesoBruto_CargaAereo.TextChanged
+        txtPesoTaxado_CargaAereo.Text = ArredondarPesoTaxado(txtID_BasicoAereo.Text)
+    End Sub
+
+    Private Sub txtPesoVolumetrico_CargaAereo_TextChanged(sender As Object, e As EventArgs) Handles txtPesoVolumetrico_CargaAereo.TextChanged
+        txtPesoTaxado_CargaAereo.Text = ArredondarPesoTaxado(txtID_BasicoAereo.Text)
+
     End Sub
 End Class

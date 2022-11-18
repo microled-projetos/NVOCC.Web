@@ -105,7 +105,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Número BL:</label>
-                                                <asp:TextBox ID="txtNumeroBL_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtNumeroBL_BasicoMaritimo" runat="server" CssClass="form-control BL"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3" style="display: none">
@@ -1338,7 +1338,7 @@
                                                     <div class="col-sm-3">
                                                         <div class="form-group">
                                                             <label class="control-label">MAWB:</label>
-                                                            <asp:TextBox ID="txtNumeroBL_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                            <asp:TextBox ID="txtNumeroBL_BasicoAereo" runat="server" CssClass="form-control BL"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-3" style="display: none">

@@ -132,7 +132,7 @@
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Número do HBL:</label>
-                                                <asp:TextBox ID="txtHBL_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtHBL_BasicoMaritimo" runat="server" CssClass="form-control BL"></asp:TextBox>
                                             </div>
                                         </div>
                                          <div class="col-sm-3">
@@ -1526,7 +1526,7 @@ VENDAS:
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">HAWB:</label>
-                                                        <asp:TextBox ID="txtHBL_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                        <asp:TextBox ID="txtHBL_BasicoAereo" runat="server" CssClass="form-control BL"></asp:TextBox>
                                                     </div>
                                                 </div>
                         
@@ -2084,19 +2084,19 @@ VENDAS:
                                                                      <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Peso Bruto:</label>
-                                                                        <asp:TextBox ID="txtPesoBruto_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtPesoBruto_CargaAereo" runat="server" AutoPostBack="true" CssClass="form-control peso"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Peso Cubado:</label>
-                                                                        <asp:TextBox ID="txtPesoVolumetrico_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtPesoVolumetrico_CargaAereo" runat="server" AutoPostBack="true" CssClass="form-control peso"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Peso Taxado:</label>
-                                                                        <asp:TextBox ID="txtPesoTaxado_CargaAereo" Enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtPesoTaxado_CargaAereo" Enabled="false" runat="server" CssClass="form-control peso"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 </div>
@@ -2132,20 +2132,20 @@ VENDAS:
 
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Comprimento:</label>
-                                                                        <asp:TextBox ID="txtComprimento_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        <label class="control-label">Comprimento:</label><small style="color: gray"> (cm)</small>
+                                                                        <asp:TextBox ID="txtComprimento_CargaAereo" runat="server" CssClass="form-control medidas"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Largura:</label>
-                                                                        <asp:TextBox ID="txtLargura_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        <label class="control-label">Largura:</label><small style="color: gray"> (cm)</small>
+                                                                        <asp:TextBox ID="txtLargura_CargaAereo" runat="server" CssClass="form-control medidas"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Altura:</label>
-                                                                        <asp:TextBox ID="txtAltura_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        <label class="control-label">Altura:</label><small style="color: gray"> (cm)</small>
+                                                                        <asp:TextBox ID="txtAltura_CargaAereo" runat="server" CssClass="form-control medidas"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2159,20 +2159,20 @@ VENDAS:
                                                                 </div>
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Comprimento:</label>
-                                                                        <asp:TextBox ID="txtComprimentoMercadoriaAereo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <label class="control-label">Comprimento:</label><small style="color: gray"> (cm)</small>
+                                                                        <asp:TextBox ID="txtComprimentoMercadoriaAereo" runat="server" CssClass="form-control medidas" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Largura:</label>
-                                                                        <asp:TextBox ID="txtLarguraMercadoriaAereo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <label class="control-label">Largura:</label><small style="color: gray"> (cm)</small>
+                                                                        <asp:TextBox ID="txtLarguraMercadoriaAereo" runat="server" CssClass="form-control medidas" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Altura:</label>
-                                                                        <asp:TextBox ID="txtAlturaMercadoriaAereo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <label class="control-label">Altura:</label><small style="color: gray"> (cm)</small>
+                                                                        <asp:TextBox ID="txtAlturaMercadoriaAereo" runat="server" CssClass="form-control medidas" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-1"> 
@@ -2221,58 +2221,12 @@ VENDAS:
 
                                                 </div>
 
-<%--                                                 <ajaxToolkit:ModalPopupExtender ID="mpeNCM_CargaAereo" runat="server" PopupControlID="PanelNCM_CargaAereo" TargetControlID="ddlNCM_CargaAereo" CancelControlID="btnFecharNCM_CargaAereo"></ajaxToolkit:ModalPopupExtender>
-                                    <asp:Panel ID="PanelNCM_CargaAereo" runat="server" CssClass="modalPopup" Style="display: none;">
-                                      
-                                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" >Selecione um NCM</h5>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <br />
-
-                                                            <asp:Label ID="Label2" Style="padding-left: 35px" runat="server">Pesquisa:</asp:Label>
-                                                            <div class="row linhabotao text-center" style="margin-left: 20px; margin-right: 20px">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <div class="form-group">
-                                                                            <asp:TextBox ID="txtNCMFiltro_CargaAereo" AutoPostBack="true" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-                                                                <div class="row" style="max-height: 300px; overflow: auto;">
-
-                                                                    <div class="col-sm-12">
-
-                                                                        <div class="form-group">
-                                                                            <asp:RadioButtonList ID="rdNCM_CargaAereo" runat="server" AutoPostBack="true" DataTextField="NCM" DataSourceID="dsNCM_CargaAereo" DataValueField="ID_NCM" Style="text-align:justify;font-size:12px;">
-                                                                            </asp:RadioButtonList>
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-
-
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharNCM_CargaAereo" Text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarNCM_CargaAereo" Text="Salvar NCM" />
-                                                        </div>
-
-
-                                                    </div>
-                                                </div>
-                               
-                                    </asp:Panel>--%>
 
                                             </ContentTemplate>
                                             <Triggers>
                                                 <asp:AsyncPostBackTrigger ControlID="txtNCMFiltro_CargaAereo" />
-<%--                                                <asp:AsyncPostBackTrigger ControlID="btnSalvarNCM_CargaAereo" />--%>
+                                                <asp:AsyncPostBackTrigger ControlID="txtPesoVolumetrico_CargaAereo" />
+                                                <asp:AsyncPostBackTrigger ControlID="txtPesoBruto_CargaAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnAdicionarMedidasAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvar_CargaAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnFechar_CargaAereo" />
@@ -3585,5 +3539,6 @@ C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACA
              }
 
          }
+      
     </script>
 </asp:Content>
