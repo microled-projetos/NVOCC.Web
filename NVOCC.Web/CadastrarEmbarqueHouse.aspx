@@ -142,7 +142,7 @@
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Número do HBL:</label>
-                                                <asp:TextBox ID="txtHBL_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtHBL_BasicoMaritimo" runat="server" CssClass="form-control BL"></asp:TextBox>
                                             </div>
                                         </div>
                                          <div class="col-sm-3">
@@ -1541,10 +1541,11 @@
                                                         <asp:TextBox ID="txtProcesso_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
+
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">HAWB:</label>
-                                                        <asp:TextBox ID="txtHBL_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                        <asp:TextBox ID="txtHBL_BasicoAereo" runat="server" CssClass="form-control BL"></asp:TextBox>
                                                     </div>
                                                 </div>
                         
