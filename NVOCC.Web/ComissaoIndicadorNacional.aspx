@@ -179,6 +179,10 @@
                                 <div class="alert alert-info" id="divInfoGerarComissao" runat="server" visible="false">
                                     <asp:Label ID="lblInfoGerarComissao" runat="server"></asp:Label>
                                 </div>
+
+                                                            <div class="alert alert-warning" id="divInfoCCProcesso" runat="server" visible="false">
+                                    <asp:Label ID="lblInfoCCProcesso" runat="server"></asp:Label>
+                                </div>
                                                             <div class="alert alert-warning" id="divAtencaoGerarComissao" runat="server" visible="false">
                                     <asp:Label ID="lblAtencaoGerarComissao" runat="server"></asp:Label>
                                 </div>
@@ -188,7 +192,7 @@
 
                                                <asp:Label ID="Label11" runat="server">Competência</asp:Label><label runat="server" style="color: red">*</label><br />
 
-                               <asp:TextBox ID="txtNovaCompetencia" AUTOPOSTBACK="true" placeholder="MM/AAAA" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                               <asp:TextBox ID="txtNovaCompetencia" placeholder="MM/AAAA" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                          </div>
                                      <div class="col-sm-2">
@@ -241,7 +245,6 @@
                                         <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />
                                         <asp:AsyncPostBackTrigger ControlID="btnGerarComissao" />
                                         <asp:AsyncPostBackTrigger ControlID="txtNovaQuinzena" />
-                                        <asp:AsyncPostBackTrigger ControlID="txtNovaCompetencia" />
                                     </Triggers>
                                 </asp:UpdatePanel>
 
@@ -350,9 +353,7 @@
                                                             <h5 class="modal-title">CONTA CORRENTE DO PROCESSO</h5>
                                                         </div>
                                                         <div class="modal-body" >         
-                                                            <div class="alert alert-warning" id="divInfoCCProcesso" runat="server" visible="false">
-                                    <asp:Label ID="lblInfoCCProcesso" runat="server"></asp:Label>
-                                </div>
+                                                            
                                                              <div class="alert alert-danger" id="divErroCCProcesso" runat="server" visible="false">
                                     <asp:Label ID="lblErroCCProcesso" runat="server"></asp:Label>
                                 </div> 

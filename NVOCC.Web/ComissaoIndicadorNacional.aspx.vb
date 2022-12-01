@@ -205,16 +205,17 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
             End If
 
         End If
+        divInfoCCProcesso.Visible = False
         btnGerarComissao.Visible = True
         ModalPopupExtender3.Show()
     End Sub
 
-    Private Sub txtNovaCompetencia_TextChanged(sender As Object, e As EventArgs) Handles txtNovaCompetencia.TextChanged
-        VerificaCompetencia()
-    End Sub
-
     Private Sub txtNovaQuinzena_TextChanged(sender As Object, e As EventArgs) Handles txtNovaQuinzena.TextChanged
         VerificaCompetencia()
+        VerificaCCPRocesso()
+        If divInfoCCProcesso.Visible = True Then
+            divAtencaoGerarComissao.Visible = False
+        End If
     End Sub
     Sub VerificaCompetencia()
         Dim Con As New Conexao_sql
@@ -260,6 +261,7 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
 
     End Sub
     Private Sub btnFecharGerarComissao_Click(sender As Object, e As EventArgs) Handles btnFecharGerarComissao.Click
+        divInfoCCProcesso.Visible = False
         divAtencaoGerarComissao.Visible = False
         divSuccessGerarComissao.Visible = False
         divErroGerarComissao.Visible = False
@@ -435,7 +437,7 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
         Con.Conectar()
 
         'Verifica se a competencia já existe
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER FROM TB_CONTA_PAGAR_RECEBER WHERE TP_EXPORTACAO = 'CNAC' AND DT_COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA = '" & txtQuinzena.Text & "'")
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER FROM TB_CONTA_PAGAR_RECEBER WHERE TP_EXPORTACAO = 'CNAC' AND DT_COMPETENCIA = '" & txtNovaCompetencia.Text & "' AND NR_QUINZENA = '" & txtNovaQuinzena.Text & "'")
         If ds.Tables(0).Rows.Count > 0 Then
             divInfoCCProcesso.Visible = True
             lblInfoCCProcesso.Text = "COMPETENCIA JÁ EXPORTADA!<br/> Prosseguir com esta ação ocasionará a sobreposição dos dados."
@@ -444,11 +446,15 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
             lblContasReceber.Text = 0
             divInfoCCProcesso.Visible = False
         End If
-        ModalPopupExtender6.Show()
+        ModalPopupExtender3.Show()
     End Sub
 
     Private Sub txtLiquidacaoFinal_TextChanged(sender As Object, e As EventArgs) Handles txtLiquidacaoFinal.TextChanged
         VerificaCompetencia()
+        VerificaCCPRocesso()
+        If divInfoCCProcesso.Visible = True Then
+            divAtencaoGerarComissao.Visible = False
+        End If
     End Sub
 
     Private Sub btnFecharCCProcesso_Click(sender As Object, e As EventArgs) Handles btnFecharCCProcesso.Click

@@ -992,7 +992,7 @@
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Valor da Carga:</label>
-                                                                        <asp:TextBox ID="txtValorCargaMercadoria" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtValorCargaMercadoria" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1024,19 +1024,19 @@
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Compra Unit.):</label>
-                                                                        <asp:TextBox ID="txtFreteCompraMercadoriaUnitario" AutoPostBack="true" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtFreteCompraMercadoriaUnitario" AutoPostBack="true" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Compra Calc.):</label>
-                                                                        <asp:TextBox ID="txtFreteCompraMercadoriaCalc" runat="server" Enabled="false" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtFreteCompraMercadoriaCalc" runat="server" Enabled="false" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-2" runat="server" id="divCompraMinimaLCL">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Compra Mín.):</label>
-                                                                        <asp:TextBox ID="txtFreteCompraMinima" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtFreteCompraMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1045,19 +1045,19 @@
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Venda Unit.):</label>
-                                                                        <asp:TextBox ID="txtFreteVendaMercadoriaUnitario" runat="server" AutoPostBack="true" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtFreteVendaMercadoriaUnitario" runat="server" AutoPostBack="true" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Venda Calc.):</label>
-                                                                        <asp:TextBox ID="txtFreteVendaMercadoriaCalc" runat="server" Enabled="false" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtFreteVendaMercadoriaCalc" runat="server" Enabled="false" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-2" runat="server" id="divVendaMinimaLCL">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Frete(Venda Mín.):</label>
-                                                                        <asp:TextBox ID="txtFreteVendaMinima" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtFreteVendaMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1093,7 +1093,7 @@
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Valor Divisão Profit:</label>
-                                                                        <asp:TextBox ID="txtValorProfitMercadoria" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtValorProfitMercadoria" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
 
@@ -1136,9 +1136,9 @@
                                                                             <Columns>
                                                                                 <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" Visible="false" />
                                                                                 <asp:BoundField DataField="QTD_CAIXA" HeaderText="Qtd. Caixas" ItemStyle-HorizontalAlign="Center" />
-                                                                                <asp:BoundField DataField="VL_COMPRIMENTO" HeaderText="Comprimento" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" />
-                                                                                <asp:BoundField DataField="VL_LARGURA" HeaderText="Largura" ItemStyle-HorizontalAlign="Center" />
-                                                                                <asp:BoundField DataField="VL_ALTURA" HeaderText="Altura" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="VL_COMPRIMENTO" HeaderText="Comprimento (cm)" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="VL_LARGURA" HeaderText="Largura (cm)" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="VL_ALTURA" HeaderText="Altura (cm)" ItemStyle-HorizontalAlign="Center" />
                                                                                 <asp:TemplateField HeaderText="">
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton runat="server" Text="Excluir" ID="ButtonExcluir" CommandName="Excluir" CommandArgument='<%# Eval("ID") %>' OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')" />

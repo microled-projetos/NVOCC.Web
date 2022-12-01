@@ -4788,6 +4788,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
             Dim btnVisualizar As LinkButton = CType(linha.FindControl("btnVisualizar"), LinkButton)
             Dim btnDuplicar As LinkButton = CType(linha.FindControl("btnDuplicar"), LinkButton)
+            Dim Ativa As Label = CType(linha.FindControl("lblAtiva"), Label)
 
             If ORIGEM = "COTAÇÃO" Then
                 btnExcluir.Visible = False
@@ -4798,6 +4799,10 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
                 dgvTaxaMaritimoVendas.Rows(linha.RowIndex).CssClass = "venda"
             Else
                 btnExcluir.Visible = True
+            End If
+
+            If Ativa.Text = "NÃO" Then
+                dgvTaxaMaritimoVendas.Rows(linha.RowIndex).CssClass = "inativa"
             End If
         Next
 
