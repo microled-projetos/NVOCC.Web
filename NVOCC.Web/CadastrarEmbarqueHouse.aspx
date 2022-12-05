@@ -2472,6 +2472,11 @@
                                                                 <asp:Label ID="lblORIGEM" runat="server" Text='<%# Eval("ORIGEM") %>' />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="ATIVA?" SortExpression="ATIVA">
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblAtiva" runat="server" Text='<%# Eval("ATIVA") %>' />
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
