@@ -235,13 +235,13 @@
                                 $("#grdEstimativaPagamentoRecebimentoBody").append("<tr>" +
                                     "<td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NM_RAZAO"] + "</td>" +
-                                    "<td class='text-center'> " + dado[i]["DATA_EMBARQUE"] + "</td>" +
-                                    "<td class='text-center'> " + dado[i]["DATA_CHEGADA"] + "</td>" +
+                                    "<td class='text-center'> " + dado[i]["DT_EMBARQUE"] + "</td>" +
+                                    "<td class='text-center'> " + dado[i]["DT_CHEGADA"] + "</td>" +
                                     "<td class='text-center'> " + dado[i]["NR_MASTER"] + "</td>" +
                                     "<td class='text-center'> " + dado[i]["NR_HOUSE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["SIGLA_MOEDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VALOR_CALCULADO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["TIPO"] + "</td></tr>");                                
+                                    "<td class='text-center'>" + dado[i]["VALOR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["TIPO_MOVIMENTO"] + "</td></tr>");                                
                             }
                         }
                         else {
@@ -281,14 +281,14 @@
                             $("#grdPagamentoRecebimentoBody").append("<tr>" +
                                 "<td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NM_RAZAO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DATA_EMBARQUE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DATA_CHEGADA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_EMBARQUE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_MASTER"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_HOUSE"] + "</td>" +
                                 "<td class='text-center'> " + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["SIGLA_MOEDA"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["VALOR_CALCULADO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["TIPO"] + "</td></tr>");
+                                "<td class='text-center'>" + dado[i]["VL_TAXA_CALCULADO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["TIPO_MOVIMENTO"] + "</td></tr>");
                         }
                     }
                     else {

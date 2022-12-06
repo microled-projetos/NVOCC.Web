@@ -2117,7 +2117,7 @@ namespace ABAINFRA.Web
             SQL += "AND E.ID_BL IN(SELECT DISTINCT(A.ID_BL) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
             SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER ";
             SQL += "WHERE B.DT_CANCELAMENTO IS NULL AND A.ID_ITEM_DESPESA = 14 AND CD_PR = 'P') ";
-            SQL += ""+ chkE + " "+ chkB+ " AND(A.FL_TAXA_INATIVA = 0 OR A.FL_TAXA_INATIVA IS NULL) ";
+            SQL += ""+ chkE + " "+ chkB+ " AND(A.FL_TAXA_INATIVA = 0 OR A.FL_TAXA_INATIVA IS NULL) AND A.VL_TAXA <> 0.00 ";
             SQL += " ";
             SQL += "UNION ";
             SQL += " ";
@@ -8563,7 +8563,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        /*[WebMethod]
         public string ProcessosPorAgente(string dataI, string dataF, string nota, string filter)
         {
             string SQL;
@@ -8637,11 +8637,77 @@ namespace ABAINFRA.Web
             listTable = DBS.List(SQL);
 
             return JsonConvert.SerializeObject(listTable);
+        }*/
+
+        [WebMethod]
+        public string ProcessosPorAgente(string dataI, string dataF, string nota, string filter)
+        {
+            string SQL;
+            string diaI;
+            string mesI;
+            string anoI;
+            string diaF;
+            string mesF;
+            string anoF;
+
+            if (dataI != "")
+            {
+                diaI = dataI.Substring(8, 2);
+                mesI = dataI.Substring(5, 2);
+                anoI = dataI.Substring(0, 4);
+                dataI = diaI + '-' + mesI + '-' + anoI;
+            }
+            else
+            {
+                dataI = "01-01-1900";
+            }
+
+            if (dataF != "")
+            {
+                diaF = dataF.Substring(8, 2);
+                mesF = dataF.Substring(5, 2);
+                anoF = dataF.Substring(0, 4);
+                dataF = diaF + '-' + mesF + '-' + anoF;
+            }
+            else
+            {
+                dataF = "01-01-2900";
+            }
+
+
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND NM_RAZAO LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            SQL = "SELECT NR_PROCESSO, NR_HOUSE, NR_MASTER, NM_RAZAO, DT_CHEGADA, DT_PREVISAO_CHEGADA, ";
+            SQL += "DT_EMBARQUE, DT_PREVISAO_EMBARQUE, ";
+            SQL += "SUM(VL_TAXA_CALCULADO) AS VALOR, SIGLA_MOEDA, TIPO_MOVIMENTO ";
+            SQL += "FROM VW_ACCOUNT_TAXAS_ABERTA ";
+            SQL += "WHERE CONVERT(DATE, DT_EMBARQUE, 103) BETWEEN CONVERT(DATE,'" + dataI + "',103) ";
+            SQL += "AND CONVERT(DATE,'" + dataF + "',103) ";
+            SQL += "" + nota + " ";
+            SQL += "GROUP BY NR_PROCESSO, NR_HOUSE, NR_MASTER, NM_RAZAO, ";
+            SQL += "DT_CHEGADA, DT_PREVISAO_CHEGADA, DT_EMBARQUE, DT_PREVISAO_EMBARQUE, SIGLA_MOEDA, TIPO_MOVIMENTO ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
         }
 
 
 
-        [WebMethod]
+        /*[WebMethod]
         public string TaxaProcesso(string dataI, string dataF, string nota, string filter)
         {
             string SQL;
@@ -8713,6 +8779,71 @@ namespace ABAINFRA.Web
             SQL += "AND CONVERT(DATE,B.DT_EMBARQUE,103) BETWEEN CONVERT(DATE,'" + dataI + "',103) AND CONVERT(DATE,'" + dataF + "',103) ";
             SQL += " " + nota + " ";
             SQL += "ORDER BY B.NR_PROCESSO ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }*/
+
+        [WebMethod]
+        public string TaxaProcesso(string dataI, string dataF, string nota, string filter)
+        {
+            string SQL;
+            string diaI;
+            string mesI;
+            string anoI;
+            string diaF;
+            string mesF;
+            string anoF;
+
+            if (dataI != "")
+            {
+                diaI = dataI.Substring(8, 2);
+                mesI = dataI.Substring(5, 2);
+                anoI = dataI.Substring(0, 4);
+                dataI = diaI + '-' + mesI + '-' + anoI;
+            }
+            else
+            {
+                dataI = "01-01-1900";
+            }
+
+            if (dataF != "")
+            {
+                diaF = dataF.Substring(8, 2);
+                mesF = dataF.Substring(5, 2);
+                anoF = dataF.Substring(0, 4);
+                dataF = diaF + '-' + mesF + '-' + anoF;
+            }
+            else
+            {
+                dataF = "01-01-2900";
+            }
+
+
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND NM_RAZAO LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            SQL = "SELECT NR_PROCESSO, NR_HOUSE, NR_MASTER, ";
+            SQL += "NM_RAZAO, DT_CHEGADA, DT_PREVISAO_CHEGADA, ";
+            SQL += "DT_EMBARQUE, DT_PREVISAO_EMBARQUE, ";
+            SQL += "NM_ITEM_DESPESA, VL_TAXA_CALCULADO, SIGLA_MOEDA, TIPO_MOVIMENTO ";
+            SQL += "FROM VW_ACCOUNT_TAXAS_ABERTA ";
+            SQL += "WHERE CONVERT(DATE,DT_EMBARQUE,103) BETWEEN CONVERT(DATE,'" + dataI + "',103) AND CONVERT(DATE,'" + dataF + "',103) ";
+            SQL += " " + nota + " ";
+            SQL += "ORDER BY NR_PROCESSO ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -9797,6 +9928,19 @@ namespace ABAINFRA.Web
 
         }
 
+        [WebMethod]
+        public string listarReportOCR()
+        {
+            string SQL;
+            SQL = "SELECT Data, [Tipo Mov.] as TP_MOV, [Nr. Aut.] AS NR_AUT, [Veículo Lanç.] AS VEIC_LANC, NUMBER, [Usuário] AS USUARIO, [Balança] BALANCE, MOTIVO, ERRO_OCR, SIM, NAO, TOTAL FROM VW_REPORT_EXPORT_OCR ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+
+        }
+
         public static string fmtTotvs2(string campo)
         {
             if (string.IsNullOrEmpty(campo)) { return ";"; }
@@ -9938,7 +10082,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_USUARIO J ON I.ID_USUARIO_INATIVACAO=J.ID_USUARIO ";
             SQL += "LEFT JOIN TB_MOTIVO_INATIVACAO K ON I.ID_MOTIVO_INATIVACAO = K.ID_MOTIVO_INATIVACAO ";
             SQL += "WHERE B.FL_TAXA_INATIVA = 1 ";
-            SQL += "AND CONVERT(DATE,A.DT_ABERTURA,103) BETWEEN CONVERT(DATE,'" + dados.DATAINICIAL + "',103) AND CONVERT(DATE,'" + dados.DATAFINAL+ "' ,103) ";
+            SQL += "AND CONVERT(DATE,A.DT_EMBARQUE,103) BETWEEN CONVERT(DATE,'" + dados.DATAINICIAL + "',103) AND CONVERT(DATE,'" + dados.DATAFINAL+ "' ,103) ";
             SQL += "" + Filtro + "";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
