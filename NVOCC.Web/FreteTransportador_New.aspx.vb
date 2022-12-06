@@ -524,13 +524,13 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
         'Inativo
         If ckInativo.Checked = True Then
             If filtro = "" Then
-                filtro &= " WHERE DT_VALIDADE_FINAL < GETDATE() = "
+                filtro &= " WHERE DT_VALIDADE_FINAL < GETDATE() "
             Else
                 filtro &= "  AND DT_VALIDADE_FINAL < GETDATE() "
             End If
         Else
             If filtro = "" Then
-                filtro &= " WHERE DT_VALIDADE_FINAL >= GETDATE() = "
+                filtro &= " WHERE DT_VALIDADE_FINAL >= GETDATE() "
             Else
                 filtro &= "  AND DT_VALIDADE_FINAL >= GETDATE() "
             End If

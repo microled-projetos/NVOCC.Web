@@ -465,7 +465,7 @@
         </div>
         </div> 
         <asp:SqlDataSource ID="dsFreteTranportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT TOP 50 * FROM [View_FreteTransportador_new] order by ID_FRETE_TRANSPORTADOR DESC" updatecommand="">
+        selectcommand="SELECT TOP 50 * FROM [View_FreteTransportador_new] WHERE DT_VALIDADE_FINAL >= GETDATE() order by ID_FRETE_TRANSPORTADOR DESC" updatecommand="">
 </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsCntr" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
