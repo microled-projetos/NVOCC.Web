@@ -72,11 +72,14 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center" scope="col">NR PROCESSO</th>
-                                                <th class="text-center" scope="col">AGENTE</th>
-                                                <th class="text-center" scope="col">DATA EMBARQUE</th>
-                                                <th class="text-center" scope="col">DATA CHEGADA</th>
                                                 <th class="text-center" scope="col">NR MASTER</th>
                                                 <th class="text-center" scope="col">NR HOUSE</th>
+                                                <th class="text-center" scope="col">AGENTE</th>
+                                                <th class="text-center" scope="col">DATA EMBARQUE</th>
+                                                <th class="text-center" scope="col">DATA PREV. EMBARQUE</th>
+                                                <th class="text-center" scope="col">DATA CHEGADA</th>
+                                                <th class="text-center" scope="col">DATA PREV. CHEGADA</th>
+
                                                 <th class="text-center" scope="col">ITEM DESPESA</th>
                                                 <th class="text-center" scope="col">MOEDA</th>
                                                 <th class="text-center" scope="col">VALOR</th>
@@ -235,13 +238,13 @@
                                 $("#grdEstimativaPagamentoRecebimentoBody").append("<tr>" +
                                     "<td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NM_RAZAO"] + "</td>" +
-                                    "<td class='text-center'> " + dado[i]["DATA_EMBARQUE"] + "</td>" +
-                                    "<td class='text-center'> " + dado[i]["DATA_CHEGADA"] + "</td>" +
+                                    "<td class='text-center'> " + dado[i]["DT_EMBARQUE"] + "</td>" +
+                                    "<td class='text-center'> " + dado[i]["DT_CHEGADA"] + "</td>" +
                                     "<td class='text-center'> " + dado[i]["NR_MASTER"] + "</td>" +
                                     "<td class='text-center'> " + dado[i]["NR_HOUSE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["SIGLA_MOEDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VALOR_CALCULADO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["TIPO"] + "</td></tr>");                                
+                                    "<td class='text-center'>" + dado[i]["VALOR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["TIPO_MOVIMENTO"] + "</td></tr>");                                
                             }
                         }
                         else {
@@ -280,15 +283,17 @@
                         for (let i = 0; i < dado.length; i++) {
                             $("#grdPagamentoRecebimentoBody").append("<tr>" +
                                 "<td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["NM_RAZAO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DATA_EMBARQUE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DATA_CHEGADA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_MASTER"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_HOUSE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["NM_RAZAO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_EMBARQUE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_PREVISAO_EMBARQUE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td>" +
                                 "<td class='text-center'> " + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["SIGLA_MOEDA"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["VALOR_CALCULADO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["TIPO"] + "</td></tr>");
+                                "<td class='text-center'>" + dado[i]["VL_TAXA_CALCULADO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["TIPO_MOVIMENTO"] + "</td></tr>");
                         }
                     }
                     else {

@@ -8563,7 +8563,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        /*[WebMethod]
         public string ProcessosPorAgente(string dataI, string dataF, string nota, string filter)
         {
             string SQL;
@@ -8637,11 +8637,77 @@ namespace ABAINFRA.Web
             listTable = DBS.List(SQL);
 
             return JsonConvert.SerializeObject(listTable);
+        }*/
+
+        [WebMethod]
+        public string ProcessosPorAgente(string dataI, string dataF, string nota, string filter)
+        {
+            string SQL;
+            string diaI;
+            string mesI;
+            string anoI;
+            string diaF;
+            string mesF;
+            string anoF;
+
+            if (dataI != "")
+            {
+                diaI = dataI.Substring(8, 2);
+                mesI = dataI.Substring(5, 2);
+                anoI = dataI.Substring(0, 4);
+                dataI = diaI + '-' + mesI + '-' + anoI;
+            }
+            else
+            {
+                dataI = "01-01-1900";
+            }
+
+            if (dataF != "")
+            {
+                diaF = dataF.Substring(8, 2);
+                mesF = dataF.Substring(5, 2);
+                anoF = dataF.Substring(0, 4);
+                dataF = diaF + '-' + mesF + '-' + anoF;
+            }
+            else
+            {
+                dataF = "01-01-2900";
+            }
+
+
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND NM_RAZAO LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            SQL = "SELECT NR_PROCESSO, NR_HOUSE, NR_MASTER, NM_RAZAO, DT_CHEGADA, DT_PREVISAO_CHEGADA, ";
+            SQL += "DT_EMBARQUE, DT_PREVISAO_EMBARQUE, ";
+            SQL += "SUM(VL_TAXA_CALCULADO) AS VALOR, SIGLA_MOEDA, TIPO_MOVIMENTO ";
+            SQL += "FROM VW_ACCOUNT_TAXAS_ABERTA ";
+            SQL += "WHERE CONVERT(DATE, DT_EMBARQUE, 103) BETWEEN CONVERT(DATE,'" + dataI + "',103) ";
+            SQL += "AND CONVERT(DATE,'" + dataF + "',103) ";
+            SQL += "" + nota + " ";
+            SQL += "GROUP BY NR_PROCESSO, NR_HOUSE, NR_MASTER, NM_RAZAO, ";
+            SQL += "DT_CHEGADA, DT_PREVISAO_CHEGADA, DT_EMBARQUE, DT_PREVISAO_EMBARQUE, SIGLA_MOEDA, TIPO_MOVIMENTO ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
         }
 
 
 
-        [WebMethod]
+        /*[WebMethod]
         public string TaxaProcesso(string dataI, string dataF, string nota, string filter)
         {
             string SQL;
@@ -8713,6 +8779,71 @@ namespace ABAINFRA.Web
             SQL += "AND CONVERT(DATE,B.DT_EMBARQUE,103) BETWEEN CONVERT(DATE,'" + dataI + "',103) AND CONVERT(DATE,'" + dataF + "',103) ";
             SQL += " " + nota + " ";
             SQL += "ORDER BY B.NR_PROCESSO ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }*/
+
+        [WebMethod]
+        public string TaxaProcesso(string dataI, string dataF, string nota, string filter)
+        {
+            string SQL;
+            string diaI;
+            string mesI;
+            string anoI;
+            string diaF;
+            string mesF;
+            string anoF;
+
+            if (dataI != "")
+            {
+                diaI = dataI.Substring(8, 2);
+                mesI = dataI.Substring(5, 2);
+                anoI = dataI.Substring(0, 4);
+                dataI = diaI + '-' + mesI + '-' + anoI;
+            }
+            else
+            {
+                dataI = "01-01-1900";
+            }
+
+            if (dataF != "")
+            {
+                diaF = dataF.Substring(8, 2);
+                mesF = dataF.Substring(5, 2);
+                anoF = dataF.Substring(0, 4);
+                dataF = diaF + '-' + mesF + '-' + anoF;
+            }
+            else
+            {
+                dataF = "01-01-2900";
+            }
+
+
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND NM_RAZAO LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            SQL = "SELECT NR_PROCESSO, NR_HOUSE, NR_MASTER, ";
+            SQL += "NM_RAZAO, DT_CHEGADA, DT_PREVISAO_CHEGADA, ";
+            SQL += "DT_EMBARQUE, DT_PREVISAO_EMBARQUE, ";
+            SQL += "NM_ITEM_DESPESA, VL_TAXA_CALCULADO, SIGLA_MOEDA, TIPO_MOVIMENTO ";
+            SQL += "FROM VW_ACCOUNT_TAXAS_ABERTA ";
+            SQL += "WHERE CONVERT(DATE,DT_EMBARQUE,103) BETWEEN CONVERT(DATE,'" + dataI + "',103) AND CONVERT(DATE,'" + dataF + "',103) ";
+            SQL += " " + nota + " ";
+            SQL += "ORDER BY NR_PROCESSO ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -9789,6 +9920,19 @@ namespace ABAINFRA.Web
             SQL += "AND CONVERT(DATE, A.DT_PREVISAO_CHEGADA, 103) ";
             SQL += "BETWEEN CONVERT(DATE,'" + sqlFormattedDate + "',103) AND  CONVERT(DATE,'" + sqlFormattedDate2 + "',103)) X ";
             SQL += "GROUP BY X.NR_CNTR, X.NM_NAVIO, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM, X.NM_PORTO ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+
+        }
+
+        [WebMethod]
+        public string listarReportOCR()
+        {
+            string SQL;
+            SQL = "SELECT Data, [Tipo Mov.] as TP_MOV, [Nr. Aut.] AS NR_AUT, [Veículo Lanç.] AS VEIC_LANC, NUMBER, [Usuário] AS USUARIO, [Balança] BALANCE, MOTIVO, ERRO_OCR, SIM, NAO, TOTAL FROM VW_REPORT_EXPORT_OCR ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
