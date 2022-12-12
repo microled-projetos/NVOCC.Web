@@ -374,6 +374,24 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents lblInfoGerarComissao As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle divInfoCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divInfoCCProcesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblInfoCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblInfoCCProcesso As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle divAtencaoGerarComissao.
     '''</summary>
     '''<remarks>
@@ -723,24 +741,6 @@ Partial Public Class ComissaoIndicadorNacional
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents pnlCCProcesso As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''Controle divInfoCCProcesso.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divInfoCCProcesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle lblInfoCCProcesso.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblInfoCCProcesso As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle divErroCCProcesso.
