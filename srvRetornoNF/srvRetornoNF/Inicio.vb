@@ -78,13 +78,15 @@ WHERE B.FL_EXPIRA = 1 AND DATEDIFF( DAY , DT_UPLOAD,GETDATE()) >= (SELECT QT_DIA
         Con.Fechar()
 
         Dim di As DirectoryInfo = New DirectoryInfo(HttpContext.Current.Server.MapPath("/Content/temp"))
-        For Each file As FileInfo In di.GetFiles()
-            If file.LastAccessTime < DateTime.Now.AddDays(-1) Then
-                file.Delete()
-            End If
+
+        For Each pastas As DirectoryInfo In di.GetDirectories
+            For Each file As FileInfo In pastas.GetFiles()
+                If file.LastAccessTime < DateTime.Now.AddDays(-1) Then
+                    file.Delete()
+                End If
+            Next
+            pastas.Delete()
         Next
-
-
     End Sub
 
 

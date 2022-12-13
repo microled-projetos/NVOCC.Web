@@ -16,7 +16,14 @@ Public Class VisualizarUpload
                 End If
             End If
 
-            Dim di As System.IO.DirectoryInfo = New DirectoryInfo(Server.MapPath("/Content/temp"))
+            Dim diretorio_arquivos As String = Server.MapPath("/Content/temp/" & Request.QueryString("id") & "/")
+
+            If Not Directory.Exists(diretorio_arquivos) Then
+                System.IO.Directory.CreateDirectory(diretorio_arquivos)
+            End If
+
+            Dim di As System.IO.DirectoryInfo = New DirectoryInfo(Server.MapPath("/Content/temp/" & Request.QueryString("id") & "/"))
+
             For Each file As FileInfo In di.GetFiles()
                 If file.LastAccessTime < DateTime.Now.AddDays(-1) Then
                     file.Delete()
@@ -25,9 +32,9 @@ Public Class VisualizarUpload
 
             If File.Exists(CAMINHO_ARQUIVO) = True Then
                 If File.Exists(Server.MapPath("~/Content/temp/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO"))) = False Then
-                    File.Copy(CAMINHO_ARQUIVO, Server.MapPath("~/Content/temp/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO")))
+                    File.Copy(CAMINHO_ARQUIVO, Server.MapPath("~/Content/temp/" & Request.QueryString("id") & "/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO")))
                 End If
-                txtArquivoSelecionado.Text = "/Content/temp/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO")
+                txtArquivoSelecionado.Text = "/Content/temp/" & Request.QueryString("id") & "/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO")
                 If ds.Tables(0).Rows(0).Item("NM_ARQUIVO").IndexOf(".msg") > 1 Then
 
                     Response.ContentType = ContentType
