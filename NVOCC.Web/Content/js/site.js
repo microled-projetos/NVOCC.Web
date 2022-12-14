@@ -1,8 +1,9 @@
 ﻿
 $(document).ready(function () {
 
+
     $(".BL").on("keypress keyup blur", function (event) {
-         console.log("entrou")
+        console.log("entrou")
         return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9]/g) === null
 
     }); 
@@ -44,7 +45,7 @@ $(document).ready(function () {
 
     $('.competencia').mask('00/0000');
 
-    $(".medidas").mask('##0,00', { reverse: true });
+    $(".medidas").mask('##0,00');
 
     $(".peso").mask('#0,000', { reverse: true });
 

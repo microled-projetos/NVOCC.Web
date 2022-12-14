@@ -645,7 +645,7 @@
                                                                         <div class="form-group">
                                                                             <label class="control-label">Busca NCM:</label>
                                                                           <asp:TextBox ID="txtIDNCM_CargaMaritimo" runat="server" style="display: none"></asp:TextBox>                            
-                                                                            <asp:TextBox ID="txtNCMFiltro_CargaMaritimo" AutoPostBack="true" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                            <asp:TextBox ID="txtNCMFiltro_CargaMaritimo" AutoPostBack="true" runat="server" CssClass="form-control xxx "></asp:TextBox>
                                                                         </div>
                                                                     </div>
                                                                         <div class="col-sm-4">

@@ -118,7 +118,7 @@
 
 
                             <li>
-                                <a href="FreteTransportador.aspx" runat="server" id="mnFreteTransportador">Frete Transportador</a>
+                                <a href="FreteTransportador_New.aspx" runat="server" id="mnFreteTransportador">Frete Transportador</a>
                             </li>
                             <li>
                                 <a href="CotacaoComercial.aspx" runat="server" id="mnCotacaoComercial">Cotação Comercial</a>
@@ -312,7 +312,7 @@
 
     <div class="container-fluid">
         <form runat="server" aria-expanded="true">
-            <asp:ScriptManager runat="server" AsyncPostBackTimeout="360000">
+            <asp:ScriptManager runat="server" AsyncPostBackTimeout="360000" >
                 <%-- AllowCustomErrorsRedirect="true" OnAsyncPostBackError="Unnamed_AsyncPostBackError"--%>
                 <Scripts>
                     <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
