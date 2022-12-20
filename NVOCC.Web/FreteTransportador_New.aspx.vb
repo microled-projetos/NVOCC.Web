@@ -10,11 +10,6 @@ Imports System.Linq
 Imports System.Text.RegularExpressions
 Imports System.Web
 
-
-
-
-
-
 Public Class FreteTransportador_New
     Inherits System.Web.UI.Page
 
@@ -310,8 +305,9 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "copiarTexto()", True)
 
 
-        ElseIf e.CommandName = "Update" Then
+        ElseIf e.CommandName = "Atualizar" Then
 
+            txtID.Text = e.CommandArgument
 
             For Each linha As GridViewRow In dgvFreteTranportador.Rows
                 Dim ID_FRETE_TRANSPORTADOR As String = CType(linha.FindControl("lblID"), Label).Text
@@ -342,13 +338,50 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
                     txtID.Text = ""
                     Con.Fechar()
 
+                    Exit For
+
                 End If
 
             Next
 
+            divSuccess.Visible = True
+            lblmsgSuccess.Text = "Registro atualizado com sucesso!"
+            Exit Sub
+
+        ElseIf e.CommandName = "Incluir" Then
+
+            Dim ID_PORTO_ORIGEM As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlOrigem")
+            Dim ID_PORTO_DESTINO As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlDestino")
+            Dim ID_TIPO_CARGA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlTipoCarga")
+            Dim ID_TRANSPORTADOR As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlTransportador")
+            Dim ID_AGENTE As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlAgente")
+            Dim QT_DIAS_TRANSITTIME_INICIAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtTTInicial")
+            Dim QT_DIAS_TRANSITTIME_FINAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtTTFinal")
+            Dim FL_ATIVO As CheckBox = dgvFreteTranportador.FooterRow.FindControl("ckAtivo")
+            Dim DT_VALIDADE_FINAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtValidadeFinal")
+            Dim OBS_CLIENTE As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtCliente")
+            Dim OBS_INTERNA As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtInterna")
+            Dim ID_TIPO_FREQUENCIA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlFrequencia")
+            Dim ID_VIA_ROTA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlRota")
+            Dim FL_CONSOLIDADA As CheckBox = dgvFreteTranportador.FooterRow.FindControl("ckConsolidada")
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR ( ID_TRANSPORTADOR, ID_AGENTE, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_CARGA, ID_VIA_ROTA, QT_DIAS_TRANSITTIME_INICIAL, QT_DIAS_TRANSITTIME_FINAL, ID_TIPO_FREQUENCIA, FL_ATIVO,DT_VALIDADE_FINAL,OBS_CLIENTE,OBS_INTERNA,FL_CONSOLIDADA) VALUES (" & ID_TRANSPORTADOR.SelectedValue & "," & ID_AGENTE.SelectedValue & "," & ID_PORTO_ORIGEM.SelectedValue & " ," & ID_PORTO_DESTINO.SelectedValue & ", " & ID_TIPO_CARGA.SelectedValue & ", " & ID_VIA_ROTA.SelectedValue & ",  '" & QT_DIAS_TRANSITTIME_INICIAL.Text & "','" & QT_DIAS_TRANSITTIME_FINAL.Text & "'," & ID_TIPO_FREQUENCIA.SelectedValue & ",'" & FL_ATIVO.Checked & "', CONVERT(DATETIME,'" & DT_VALIDADE_FINAL.Text & "',103),'" & OBS_CLIENTE.Text & "','" & OBS_INTERNA.Text & "','" & FL_CONSOLIDADA.Checked & "' ) Select SCOPE_IDENTITY() as ID_FRETE_TRANSPORTADOR ")
+
+
+            Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID.Text & ",'INCLUSÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+
+            Con.Fechar()
+
+            BUSCA()
+
+            divSuccess.Visible = True
+            lblmsgSuccess.Text = "Registro cadastrado com sucesso!"
+            Exit Sub
+
         End If
 
-        BUSCA()
 
     End Sub
 
@@ -575,6 +608,8 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
                 If Interna.Text = "" Then
 
                     btnCopiarInterna.Visible = False
+                Else
+                    btnHistorico.Visible = True
 
                 End If
             End If
@@ -583,6 +618,8 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
                 If Cliente.Text = "" Then
 
                     btnCopiarCliente.Visible = False
+                Else
+                    btnHistorico.Visible = True
 
                 End If
             End If
@@ -592,6 +629,8 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
                 If QTD_Cntr.Text = "0" Then
 
                     btnCntr.Visible = False
+                Else
+                    btnHistorico.Visible = True
 
                 End If
             End If
@@ -602,6 +641,8 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
 
                     btnHistorico.Visible = False
 
+                Else
+                    btnHistorico.Visible = True
                 End If
             End If
 

@@ -2282,19 +2282,6 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
          Sys.WebForms.PageRequestManager.getInstance().add_endRequest(InIEvent);
 
 
-     //$(".xxx").on("keypress keyup blur", function (e) {
-     //        console.log("entrou")
-     //        var chr = String.fromCharCode(e.which);
-     //        if ("1234567890,".indexOf(chr) < 0)
-     //            return false;
-
-     //});      
-     //    //document.getElementById("teste").onkeypress = function (e) {
-     //    //    var chr = String.fromCharCode(e.which);
-     //    //    if ("1234567890qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM".indexOf(chr) < 0)
-     //    //        return false;
-     //    //};
-
          function InIEvent() {
              $(".valores").on("keypress keyup blur", function (e) {
                  console.log("entrou")
