@@ -273,16 +273,8 @@ Public Class FreteTransportador_New
 
         ElseIf e.CommandName = "Cntr" Then
 
-            Dim ID As String = e.CommandArgument
-            dsCntr.SelectCommand = "select A.ID_FRETE_TRANSPORTADOR,NM_TIPO_CONTAINER,QT_DIAS_FREETIME,VL_COMPRA,ID_AGENTE,
-CASE WHEN ID_VIATRANSPORTE = 1 AND ID_TIPO_COMEX = 1
-THEN (SELECT SUM(VL_TAXA_COMPRA) FROM TB_TAXA_CLIENTE D WHERE A.ID_AGENTE = D.ID_PARCEIRO AND ID_TIPO_ESTUFAGEM = 1) ELSE 0 END Origin_Charges
-FROM TB_FRETE_TRANSPORTADOR A
-INNER JOIN TB_TARIFARIO_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR
-INNER JOIN TB_TIPO_CONTAINER C ON B.ID_TIPO_CONTAINER= C.ID_TIPO_CONTAINER
-WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
-            dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = ID
-
+            txtID.Text = e.CommandArgument
+            dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = txtID.Text
             dgvCntr.DataBind()
             mpeCntr.Show()
 
@@ -338,6 +330,7 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
                     txtID.Text = ""
                     Con.Fechar()
 
+
                     Exit For
 
                 End If
@@ -346,6 +339,21 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
 
             divSuccess.Visible = True
             lblmsgSuccess.Text = "Registro atualizado com sucesso!"
+
+
+            If DataControlRowState.Edit Then
+                Dim teste = 2
+                Dim row As GridViewRow = CType(((CType(e.CommandSource, Control)).NamingContainer), GridViewRow)
+
+                row.RowState = 0
+
+            End If
+
+
+            If DataControlRowState.Normal Then
+                Dim teste = 3
+            End If
+
             Exit Sub
 
         ElseIf e.CommandName = "Incluir" Then
@@ -688,4 +696,111 @@ WHERE A.ID_FRETE_TRANSPORTADOR = " & ID
         End If
     End Sub
 
+    Private Sub dgvCntr_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvCntr.RowCommand
+
+        If e.CommandName = "Excluir" Then
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet
+
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblmsgErro.Text = "Usuário não tem permissão para realizar exclusões"
+                divErro.Visible = True
+            Else
+
+                Con.ExecutarQuery("DELETE FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & e.CommandArgument)
+                lblmsgSuccess.Text = "Registro deletado!"
+                divSuccess.Visible = True
+                dgvFreteTranportador.DataBind()
+
+            End If
+            Con.Fechar()
+
+        ElseIf e.CommandName = "Duplicar" Then
+
+            Dim ID As String = e.CommandArgument
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR,ID_TIPO_CONTAINER,VL_COMPRA,QT_DIAS_FREETIME,ID_MOEDA)   SELECT ID_FRETE_TRANSPORTADOR,ID_TIPO_CONTAINER,VL_COMPRA,QT_DIAS_FREETIME,ID_MOEDA FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & ID)
+            Con.Fechar()
+
+            dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = txtID.Text
+            dgvCntr.DataBind()
+            divSuccess.Visible = True
+            lblmsgSuccess.Text = "Item duplicado com sucesso!"
+            mpeCntr.Show()
+
+        ElseIf e.CommandName = "Atualizar" Then
+
+            txtID.Text = e.CommandArgument
+
+            For Each linha As GridViewRow In dgvCntr.Rows
+                Dim ID_TARIFARIO_FRETE_TRANSPORTADOR As String = CType(linha.FindControl("lblID"), Label).Text
+                Dim ID_FRETE_TRANSPORTADOR As String = CType(linha.FindControl("lblID_FRETE_TRANSPORTADOR"), Label).Text
+                Dim ID_TIPO_CONTAINER As DropDownList = CType(linha.FindControl("ddlCntr"), DropDownList)
+                Dim ID_MOEDA As DropDownList = CType(linha.FindControl("ddlMoeda"), DropDownList)
+                Dim QT_DIAS_FREETIME As TextBox = CType(linha.FindControl("txtFreeTime"), TextBox)
+                Dim VL_COMPRA As TextBox = CType(linha.FindControl("txtCompra"), TextBox)
+
+
+
+                If ID_TARIFARIO_FRETE_TRANSPORTADOR = txtID.Text Then
+                    Dim Con As New Conexao_sql
+                    Con.Conectar()
+
+                    'REALIZA UPDATE DO FRETE TRANSPORTADOR
+                    Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & ID_FRETE_TRANSPORTADOR & ",'EDIÇÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+
+                    Con.ExecutarQuery("UPDATE TB_TARIFARIO_FRETE_TRANSPORTADOR  SET  ID_TIPO_CONTAINER = " & ID_TIPO_CONTAINER.SelectedValue & ", VL_COMPRA = " & VL_COMPRA.Text.Replace(".", "").Replace(",", ".") & ", QT_DIAS_FREETIME = " & QT_DIAS_FREETIME.Text & ", ID_MOEDA = " & ID_MOEDA.SelectedValue & "  WHERE ID_FRETE_TRANSPORTADOR = " & ID_TARIFARIO_FRETE_TRANSPORTADOR)
+
+                    txtID.Text = ""
+
+                    Con.Fechar()
+
+
+                    Exit For
+
+                End If
+
+            Next
+
+            divSuccess.Visible = True
+            lblmsgSuccess.Text = "Registro atualizado com sucesso!"
+
+            Exit Sub
+
+        ElseIf e.CommandName = "Incluir" Then
+
+            Dim ID_FRETE_TRANSPORTADOR As Label = dgvCntr.FooterRow.FindControl("lblID_FRETE_TRANSPORTADOR")
+            Dim ID_TIPO_CONTAINER As DropDownList = dgvCntr.FooterRow.FindControl("ddlCntr")
+            Dim ID_MOEDA As DropDownList = dgvCntr.FooterRow.FindControl("ddlMoeda")
+            Dim QT_DIAS_FREETIME As TextBox = dgvCntr.FooterRow.FindControl("txtFreeTime")
+            Dim VL_COMPRA As TextBox = dgvCntr.FooterRow.FindControl("txtCompra")
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Con.ExecutarQuery("INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_TRANSPORTADOR, ID_TIPO_CONTAINER, VL_COMPRA, QT_DIAS_FREETIME, ID_MOEDA ) VALUES (" & ID_FRETE_TRANSPORTADOR.Text & "," & ID_TIPO_CONTAINER.SelectedValue & "," & VL_COMPRA.Text.Replace(".", "").Replace(",", ".") & " ," & QT_DIAS_FREETIME.Text & ", " & ID_MOEDA.SelectedValue & " ) ")
+
+
+            Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & ID_FRETE_TRANSPORTADOR.Text & ",'INCLUSÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+
+            Con.Fechar()
+
+            BUSCA()
+
+            divSuccess.Visible = True
+            lblmsgSuccess.Text = "Registro cadastrado com sucesso!"
+            Exit Sub
+
+        End If
+
+    End Sub
+
+    Private Sub btnFecharCntr_Click(sender As Object, e As EventArgs) Handles btnFecharCntr.Click
+        CarregaPortos()
+        txtID.Text = ""
+        mpeCntr.Hide()
+    End Sub
 End Class

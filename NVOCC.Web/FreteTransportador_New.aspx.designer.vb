@@ -266,6 +266,15 @@ Partial Public Class FreteTransportador_New
     Protected WithEvents updPainel1 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle TextBox4.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox4 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle TextBox3.
     '''</summary>
     '''<remarks>
@@ -552,4 +561,13 @@ Partial Public Class FreteTransportador_New
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsAgenteGrid As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsMoeda.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsMoeda As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

@@ -16,6 +16,10 @@
         th {
             z-index: 1000;
         }
+
+        .portos {
+            z-index: 1100;
+        }
     </style>
     <div class="row principal">
 
@@ -67,12 +71,12 @@
                                             </asp:DropDownList>
                                         </div>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-2 portos">
                                         <label class="control-label">Porto Origem:</label>
                                         <div class="form-group" id="divOrigem" runat="server">
                                         </div>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-2 portos">
                                         <div class="form-group">
                                             <label class="control-label">Porto Destino:</label>
                                             <div id="divDestino" runat="server"></div>
@@ -176,6 +180,7 @@
 
                         <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
                             <ContentTemplate>
+                                <asp:TextBox ID="TextBox4" Style="display: none" runat="server"></asp:TextBox>
                                 <asp:TextBox ID="TextBox3" Style="display: none" runat="server"></asp:TextBox>
                                 <asp:TextBox ID="TextBox2" Style="display: none" runat="server"></asp:TextBox>
                                 <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
@@ -418,12 +423,12 @@
 
 
 
-                                <ajaxToolkit:ModalPopupExtender ID="mpeCntr" runat="server" PopupControlID="pnlCntr" TargetControlID="TextBox3" CancelControlID="btnFecharCntr"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeCntr" runat="server" PopupControlID="pnlCntr" TargetControlID="TextBox3" CancelControlID="TextBox4"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlCntr" runat="server" CssClass="modalPopup" Style="display: none;">
                                             <center>     
-                                                <div class=" modal-dialog modal-dialog-centered" role="document">
+                                                <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">CONTAINER</h5>
@@ -432,23 +437,105 @@
                                                             <div class="alert alert-danger" id="divErroCntr" runat="server" visible="false">
                                     <asp:Label ID="lblErroCntr" runat="server"></asp:Label>
                                 </div>                        
-                                    <div class="row">
+                                    <div class="row"> <div class="col-sm-12">
                                         <div class="table-responsive tableFixHead">
-<asp:GridView ID="dgvCntr" DataKeyNames="ID_FRETE_TRANSPORTADOR" DataSourceID="dsCntr" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." >
+<asp:GridView ID="dgvCntr" DataKeyNames="ID_TARIFARIO_FRETE_TRANSPORTADOR" DataSourceID="dsCntr" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." >
                                             <Columns>
-                                                <asp:TemplateField HeaderText="ID" Visible="False">
+                                                 <asp:TemplateField HeaderStyle-ForeColor="#337ab7">
+
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="Edit" CommandArgument='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>' Text="Editar"><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
+
+
+                                                    <asp:LinkButton ID="btnDuplicar" runat="server" CssClass="btnGrid" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>'
+                                                        Text="Visualizar" OnClientClick="javascript:return confirm('Deseja realmente duplicar este registro?');"><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></div></asp:LinkButton>
+
+                                                    <asp:LinkButton ID="btnExcluir" title="Excluir" CssClass="btnGrid" runat="server" CommandName="Excluir"
+                                                        OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:small"></span></asp:LinkButton>
+                                                </ItemTemplate>
+
+
+                                                <EditItemTemplate>
+                                                    <asp:LinkButton ID="btnSalvar" runat="server" CausesValidation="True" CommandName="Atualizar" CssClass="btnGrid" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');" CommandArgument='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>'><i class="glyphicon glyphicon-floppy-disk"  style="font-size:small"></i></asp:LinkButton>
+                                                    &nbsp;<asp:LinkButton ID="btnCancelar" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancelar" CssClass="btnGrid"><i class="glyphicon glyphicon-remove"  style="font-size:small"></i></asp:LinkButton>
+                                                </EditItemTemplate>
+
+                                                <FooterTemplate>
+                                                    <asp:LinkButton ID="btnNovo" runat="server" CausesValidation="False" CommandName="Incluir" Text="Incluir" CssClass="btnGrid"><i class="glyphicon glyphicon-plus"  style="font-size:small"></i></asp:LinkButton>
+                                                </FooterTemplate>
+                                            </asp:TemplateField>
+
+
+                                                <asp:TemplateField HeaderText="ID" SortExpression="ID_TARIFARIO_FRETE_TRANSPORTADOR">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'  />
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>'  />
+                                                         <asp:Label ID="lblID_FRETE_TRANSPORTADOR" Visible="False" runat="server" Text='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:BoundField DataField="NM_TIPO_CONTAINER" HeaderText="TIPO CONTAINER" SortExpression="NM_TIPO_CONTAINER" />
-                                                <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FREETIME" SortExpression="QT_DIAS_FREETIME" />
-                                                <asp:BoundField DataField="VL_COMPRA" HeaderText="VALOR COMPRA" SortExpression="VL_COMPRA" />
+                                              
+                                                 <asp:TemplateField HeaderText="CONTAINER" HeaderStyle-ForeColor="#337ab7" SortExpression="NM_TIPO_CONTAINER">
+                                                <ItemTemplate>
+                                                    <asp:Label runat="server" Text='<%# Eval("NM_TIPO_CONTAINER") %>' />
+                                                </ItemTemplate>
+                                                <EditItemTemplate>
+                                                    <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER">
+                                                    </asp:DropDownList>
+                                                </EditItemTemplate>
+                                                <FooterTemplate>
+                                                    <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER"></asp:DropDownList>
+                                                </FooterTemplate>
+                                            </asp:TemplateField>
+
+                                                 <asp:TemplateField HeaderText="MOEDA" HeaderStyle-ForeColor="#337ab7" SortExpression="SIGLA_MOEDA">
+                                                <ItemTemplate>
+                                                    <asp:Label runat="server" Text='<%# Eval("SIGLA_MOEDA") %>' />
+                                                </ItemTemplate>
+                                                <EditItemTemplate>
+                                                    <asp:DropDownList ID="ddlMoeda" runat="server" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
+                                                    </asp:DropDownList>
+                                                </EditItemTemplate>
+                                                <FooterTemplate>
+                                                    <asp:DropDownList ID="ddlMoeda" runat="server" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
+                                                </FooterTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="COMPRA" HeaderStyle-ForeColor="#337ab7" SortExpression="VL_COMPRA">
+                                                <ItemTemplate>
+                                                    <asp:Label runat="server" Text='<%# Eval("VL_COMPRA") %>' />
+                                                </ItemTemplate>
+                                                <EditItemTemplate>
+                                                      <asp:TextBox ID="txtCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>'></asp:TextBox>
+                                                </EditItemTemplate>
+                                                <FooterTemplate>
+                                                      <asp:TextBox ID="txtCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>'></asp:TextBox>
+                                                </FooterTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="FREETIME" HeaderStyle-ForeColor="#337ab7" SortExpression="QT_DIAS_FREETIME">
+                                                <ItemTemplate>
+                                                    <asp:Label runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>' />
+                                                </ItemTemplate>
+                                                <EditItemTemplate>
+                                                      <asp:TextBox ID="txtFreeTime" runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>'></asp:TextBox>
+                                                </EditItemTemplate>
+                                                <FooterTemplate>
+                                                      <asp:TextBox ID="txtFreeTime" runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>'></asp:TextBox>
+                                                </FooterTemplate>
+                                            </asp:TemplateField>
+
+
+                                                <asp:TemplateField HeaderText="ORIGIN CHARGES" HeaderStyle-ForeColor="#337ab7" SortExpression="ORIGIN_CHARGES">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblORIGIN_CHARGES" runat="server" Text='<%# Eval("ORIGIN_CHARGES") %>' />                                                  
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+
                                              </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
                                        </div>                        
-                                  </div>  
+                                  </div>  </div>
                                <div class="modal-footer">                   
                                    <asp:Button runat="server" CssClass="btn btn-success" ID="btnGravarCntr" text="Gravar" />
                                    <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharCntr" text="Close" />
@@ -458,12 +545,14 @@
                                             </center>
                                         </asp:Panel>
                                     </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCntr" />
+                                    </Triggers>
                                 </asp:UpdatePanel>
 
 
                                 <ajaxToolkit:ModalPopupExtender ID="mpeHistorico" runat="server" PopupControlID="pnlHistorico" TargetControlID="Textbox1" CancelControlID="btnFecharHistorico"></ajaxToolkit:ModalPopupExtender>
-                                <%--  <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
-                                    <ContentTemplate>--%>
+
                                 <asp:Panel ID="pnlHistorico" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     
                                                 <div class=" modal-dialog modal-dialog-centered" role="document">
@@ -501,8 +590,6 @@
                                                 </div>  
                                             </center>
                                 </asp:Panel>
-                                <%-- </ContentTemplate>
-                                </asp:UpdatePanel>    --%>
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvFreteTranportador" />
@@ -520,32 +607,28 @@
         SelectCommand="SELECT TOP 50 * FROM [View_FreteTransportador_new] WHERE DT_VALIDADE_FINAL >= GETDATE() order by ID_FRETE_TRANSPORTADOR DESC"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsCntr" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT A.ID_FRETE_TRANSPORTADOR,NM_TIPO_CONTAINER,QT_DIAS_FREETIME,VL_COMPRA,ID_AGENTE,
+        SelectCommand="SELECT A.ID_FRETE_TRANSPORTADOR, 
+B.ID_TARIFARIO_FRETE_TRANSPORTADOR,
+C.NM_TIPO_CONTAINER,
+B.QT_DIAS_FREETIME,
+B.VL_COMPRA,
+B.ID_MOEDA,
+M.SIGLA_MOEDA,
+A.ID_AGENTE,
 CASE WHEN ID_VIATRANSPORTE = 1 AND ID_TIPO_COMEX = 1
-THEN (SELECT SUM(VL_TAXA_COMPRA) FROM TB_TAXA_CLIENTE D WHERE A.ID_AGENTE = D.ID_PARCEIRO AND ID_TIPO_ESTUFAGEM = 1) ELSE 0 END ORIGIN_CHARGES
+THEN (SELECT SUM(VL_TAXA_COMPRA) FROM TB_TAXA_CLIENTE D WHERE A.ID_AGENTE = D.ID_PARCEIRO AND ID_TIPO_ESTUFAGEM = 1 AND D.ID_MOEDA_COMPRA = M.CD_MOEDA AND D.ID_BASE_CALCULO_TAXA IN (SELECT  I.ID_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA I WHERE ISNULL(I.ID_TIPO_CONTAINER,0) = B.ID_TIPO_CONTAINER) AND D.FL_DECLARADO = 1 AND ID_ORIGEM_PAGAMENTO = 2) ELSE 0 END ORIGIN_CHARGES
 FROM TB_FRETE_TRANSPORTADOR A
 INNER JOIN TB_TARIFARIO_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR
 INNER JOIN TB_TIPO_CONTAINER C ON B.ID_TIPO_CONTAINER= C.ID_TIPO_CONTAINER
-WHERE A.ID_FRETE_TRANSPORTADOR = @ID_FRETE_TRANSPORTADOR">
+INNER JOIN TB_MOEDA M ON M.ID_MOEDA= B.ID_MOEDA
+WHERE A.ID_FRETE_TRANSPORTADOR =@ID_FRETE_TRANSPORTADOR ">
         <SelectParameters>
             <asp:Parameter Name="ID_FRETE_TRANSPORTADOR" Type="Int32" DefaultValue="0" />
         </SelectParameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsHistorico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT A.ID_FRETE_TRANSPORTADOR,
-C.NM_TIPO_CONTAINER,
-B.QT_DIAS_FREETIME,
-B.VL_COMPRA,
-B.ID_MOEDA,
-A.ID_AGENTE,
-CASE WHEN ID_VIATRANSPORTE = 1 AND ID_TIPO_COMEX = 1
-THEN (SELECT SUM(VL_TAXA_VENDA) FROM TB_TAXA_CLIENTE D WHERE A.ID_AGENTE = D.ID_PARCEIRO AND ID_TIPO_ESTUFAGEM = 1 AND D.ID_MOEDA_VENDA = M.CD_MOEDA AND D.ID_BASE_CALCULO_TAXA IN (SELECT  I.ID_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA I WHERE ISNULL(I.ID_TIPO_CONTAINER,0)<>0 ) AND D.FL_DECLARADO = 1 AND ID_ORIGEM_PAGAMENTO = 2) ELSE 0 END ORIGIN_CHARGES
-FROM TB_FRETE_TRANSPORTADOR A
-INNER JOIN TB_TARIFARIO_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR
-INNER JOIN TB_TIPO_CONTAINER C ON B.ID_TIPO_CONTAINER= C.ID_TIPO_CONTAINER
-INNER JOIN TB_MOEDA M ON M.ID_MOEDA= B.ID_MOEDA
-WHERE A.ID_FRETE_TRANSPORTADOR =@ID_FRETE_TRANSPORTADOR ">
+        SelectCommand="SELECT A.ID_HISTORICO, A.ID_FRETE_TRANSPORTADOR, A.ACAO, A.ID_USUARIO, B.NOME AS USUARIO, A.DATA FROM TB_FRETE_TRANSPORTADOR_HIST A INNER JOIN TB_USUARIO B ON A.ID_USUARIO = B.ID_USUARIO WHERE A.ID_FRETE_TRANSPORTADOR = @ID_FRETE_TRANSPORTADOR ORDER BY A.DATA DESC">
         <SelectParameters>
             <asp:Parameter Name="ID_FRETE_TRANSPORTADOR" Type="Int32" DefaultValue="0" />
         </SelectParameters>
@@ -568,9 +651,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIATRANSPORTE"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1
 union SELECT  0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsContainer" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE FL_ATIVO = 1
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_CONTAINER"></asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
 union SELECT  0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
@@ -578,9 +663,11 @@ union SELECT  0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsFrequencia" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_FREQUENCIA, NM_TIPO_FREQUENCIA FROM [dbo].[TB_TIPO_FREQUENCIA] 
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_FREQUENCIA"></asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsCarga" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_CARGA, NM_TIPO_CARGA FROM [dbo].[TB_TIPO_CARGA] WHERE FL_ATIVO = 1
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_CARGA"></asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsRota" runat="server" DataSourceMode="DataSet" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_VIA_ROTA,NM_VIA_ROTA FROM [dbo].[TB_VIA_ROTA]
 union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
@@ -590,6 +677,9 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsAgenteGrid" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL= 1 and FL_ATIVO = 1 union SELECT  0,'', '   Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] WHERE ID_MOEDA <> 124 union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
 
 
 </asp:Content>
@@ -601,49 +691,44 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
     <script type="text/javascript">
 
 
+
+
         function SalvaPosicao() {
             var posicao = document.getElementById('DivGrid').scrollTop;
             if (posicao) {
                 document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
-                    console.log('if:' + posicao);
+                   console.log('if:' + posicao);
 
-            }
-            else {
-                    document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
-                    console.log('else:' + posicao);
+               }
+               else {
+                   document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('else:' + posicao);
 
             }
         };
-
 
         Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
 
         function EndRequestHandler(sender, args) {
             var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
             document.getElementById('DivGrid').scrollTop = valor;
-            InIEvent()
+            IDDestino();
+            IDOrigem();
+            copiarTexto();
+
         };
 
-        function InIEvent() {
+        function copiarTexto() {
 
+            document.getElementById('<%= TextBox2.ClientID %>').style.display = 'block';
+                let textoCopiado = document.getElementById('<%= TextBox2.ClientID %>');
+                textoCopiado.select();
+                textoCopiado.setSelectionRange(0, 99999)
+                document.execCommand("copy");
+                console.log("O texto é: " + textoCopiado.value);
+                document.getElementById('<%= TextBox2.ClientID %>').style.display = 'none';
 
-
-
-
-    
-
-
-            function copiarTexto() {
-
-                document.getElementById('<%= TextBox2.ClientID %>').style.display = 'block';
-            let textoCopiado = document.getElementById('<%= TextBox2.ClientID %>');
-            textoCopiado.select();
-            textoCopiado.setSelectionRange(0, 99999)
-            document.execCommand("copy");
-            console.log("O texto é: " + textoCopiado.value);
-            document.getElementById('<%= TextBox2.ClientID %>').style.display = 'none';
-
-            }
+        }
 
       <%--  function Filtro() {
             var ID_VIATRANSPORTE = document.getElementById('<%= ddlViaTransporte.ClientID %>').value;
@@ -660,34 +745,34 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
 
         }--%>
 
-            //$(document).ready(function () {
-            //    $('.selectpicker').selectpicker();
-            //});
+        //$(document).ready(function () {
+        //    $('.selectpicker').selectpicker();
+        //});
 
-            function IDDestino() {
+        function IDDestino() {
 
-                var selected = [];
-                for (var option of document.getElementById('comboDestino').options) {
-                    if (option.selected) {
-                        selected.push(option.value);
-                    }
+            var selected = [];
+            for (var option of document.getElementById('comboDestino').options) {
+                if (option.selected) {
+                    selected.push(option.value);
                 }
-                console.log("IDDestino selected : " + selected);
-                document.getElementById('<%= txtDestino.ClientID %>').value = selected;
             }
-
-            function IDOrigem() {
-
-                var selected = [];
-                for (var option of document.getElementById('comboOrigem').options) {
-                    if (option.selected) {
-                        selected.push(option.value);
-                    }
-                }
-                console.log("IDOrigem selected : " + selected);
-                document.getElementById('<%= txtOrigem.ClientID %>').value = selected;
-            }
-
+            console.log("IDDestino selected : " + selected);
+            document.getElementById('<%= txtDestino.ClientID %>').value = selected;
         }
+
+        function IDOrigem() {
+
+            var selected = [];
+            for (var option of document.getElementById('comboOrigem').options) {
+                if (option.selected) {
+                    selected.push(option.value);
+                }
+            }
+            console.log("IDOrigem selected : " + selected);
+            document.getElementById('<%= txtOrigem.ClientID %>').value = selected;
+        }
+
+
     </script>
 </asp:Content>
