@@ -21,11 +21,6 @@ Public Class FreteTransportador_New
         End If
 
 
-        If Not Page.IsPostBack Then
-            txtID.Text = ""
-        End If
-
-
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
@@ -339,54 +334,63 @@ Public Class FreteTransportador_New
 
             divSuccess.Visible = True
             lblmsgSuccess.Text = "Registro atualizado com sucesso!"
+            dgvFreteTranportador.SetEditRow(-1)
+            BUSCA()
 
-
-            If DataControlRowState.Edit Then
-                Dim teste = 2
-                Dim row As GridViewRow = CType(((CType(e.CommandSource, Control)).NamingContainer), GridViewRow)
-
-                row.RowState = 0
-
-            End If
-
-
-            If DataControlRowState.Normal Then
-                Dim teste = 3
-            End If
-
-            Exit Sub
 
         ElseIf e.CommandName = "Incluir" Then
 
             Dim ID_PORTO_ORIGEM As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlOrigem")
-            Dim ID_PORTO_DESTINO As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlDestino")
-            Dim ID_TIPO_CARGA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlTipoCarga")
-            Dim ID_TRANSPORTADOR As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlTransportador")
-            Dim ID_AGENTE As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlAgente")
-            Dim QT_DIAS_TRANSITTIME_INICIAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtTTInicial")
-            Dim QT_DIAS_TRANSITTIME_FINAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtTTFinal")
-            Dim FL_ATIVO As CheckBox = dgvFreteTranportador.FooterRow.FindControl("ckAtivo")
-            Dim DT_VALIDADE_FINAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtValidadeFinal")
-            Dim OBS_CLIENTE As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtCliente")
-            Dim OBS_INTERNA As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtInterna")
-            Dim ID_TIPO_FREQUENCIA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlFrequencia")
-            Dim ID_VIA_ROTA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlRota")
-            Dim FL_CONSOLIDADA As CheckBox = dgvFreteTranportador.FooterRow.FindControl("ckConsolidada")
+                Dim ID_PORTO_DESTINO As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlDestino")
+                Dim ID_TIPO_CARGA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlTipoCarga")
+                Dim ID_TRANSPORTADOR As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlTransportador")
+                Dim ID_AGENTE As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlAgente")
+                Dim QT_DIAS_TRANSITTIME_INICIAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtTTInicial")
+                Dim QT_DIAS_TRANSITTIME_FINAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtTTFinal")
+                Dim FL_ATIVO As CheckBox = dgvFreteTranportador.FooterRow.FindControl("ckAtivo")
+                Dim DT_VALIDADE_FINAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtValidadeFinal")
+                Dim OBS_CLIENTE As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtCliente")
+                Dim OBS_INTERNA As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtInterna")
+                Dim ID_TIPO_FREQUENCIA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlFrequencia")
+                Dim ID_VIA_ROTA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlRota")
+                Dim FL_CONSOLIDADA As CheckBox = dgvFreteTranportador.FooterRow.FindControl("ckConsolidada")
 
-            Dim Con As New Conexao_sql
-            Con.Conectar()
-            Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR ( ID_TRANSPORTADOR, ID_AGENTE, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_CARGA, ID_VIA_ROTA, QT_DIAS_TRANSITTIME_INICIAL, QT_DIAS_TRANSITTIME_FINAL, ID_TIPO_FREQUENCIA, FL_ATIVO,DT_VALIDADE_FINAL,OBS_CLIENTE,OBS_INTERNA,FL_CONSOLIDADA) VALUES (" & ID_TRANSPORTADOR.SelectedValue & "," & ID_AGENTE.SelectedValue & "," & ID_PORTO_ORIGEM.SelectedValue & " ," & ID_PORTO_DESTINO.SelectedValue & ", " & ID_TIPO_CARGA.SelectedValue & ", " & ID_VIA_ROTA.SelectedValue & ",  '" & QT_DIAS_TRANSITTIME_INICIAL.Text & "','" & QT_DIAS_TRANSITTIME_FINAL.Text & "'," & ID_TIPO_FREQUENCIA.SelectedValue & ",'" & FL_ATIVO.Checked & "', CONVERT(DATETIME,'" & DT_VALIDADE_FINAL.Text & "',103),'" & OBS_CLIENTE.Text & "','" & OBS_INTERNA.Text & "','" & FL_CONSOLIDADA.Checked & "' ) Select SCOPE_IDENTITY() as ID_FRETE_TRANSPORTADOR ")
+                Dim Con As New Conexao_sql
+                Con.Conectar()
+                Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR ( ID_TRANSPORTADOR, ID_AGENTE, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_CARGA, ID_VIA_ROTA, QT_DIAS_TRANSITTIME_INICIAL, QT_DIAS_TRANSITTIME_FINAL, ID_TIPO_FREQUENCIA, FL_ATIVO,DT_VALIDADE_FINAL,OBS_CLIENTE,OBS_INTERNA,FL_CONSOLIDADA) VALUES (" & ID_TRANSPORTADOR.SelectedValue & "," & ID_AGENTE.SelectedValue & "," & ID_PORTO_ORIGEM.SelectedValue & " ," & ID_PORTO_DESTINO.SelectedValue & ", " & ID_TIPO_CARGA.SelectedValue & ", " & ID_VIA_ROTA.SelectedValue & ",  '" & QT_DIAS_TRANSITTIME_INICIAL.Text & "','" & QT_DIAS_TRANSITTIME_FINAL.Text & "'," & ID_TIPO_FREQUENCIA.SelectedValue & ",'" & FL_ATIVO.Checked & "', CONVERT(DATETIME,'" & DT_VALIDADE_FINAL.Text & "',103),'" & OBS_CLIENTE.Text & "','" & OBS_INTERNA.Text & "','" & FL_CONSOLIDADA.Checked & "' ) Select SCOPE_IDENTITY() as ID_FRETE_TRANSPORTADOR ")
 
 
-            Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID.Text & ",'INCLUSÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+                Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID.Text & ",'INCLUSÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
 
-            Con.Fechar()
+                Con.Fechar()
 
-            BUSCA()
+                BUSCA()
 
-            divSuccess.Visible = True
-            lblmsgSuccess.Text = "Registro cadastrado com sucesso!"
-            Exit Sub
+                divSuccess.Visible = True
+                lblmsgSuccess.Text = "Registro cadastrado com sucesso!"
+                Exit Sub
+
+
+            ElseIf e.CommandName = "ExpandirRecolher" Then
+
+                For Each linha As GridViewRow In dgvFreteTranportador.Rows
+                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+
+                If check.Checked Then
+
+                    txtID.Text = ID
+
+                    Exit For
+
+                End If
+            Next
+
+
+            dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = txtID.Text
+            dgvCntr.DataBind()
+            mpeCntr.Show()
+
 
         End If
 
@@ -639,7 +643,7 @@ Public Class FreteTransportador_New
                     btnCntr.Visible = False
                 Else
                     btnHistorico.Visible = True
-
+                    btnHistorico.Enabled = False
                 End If
             End If
 
@@ -656,7 +660,7 @@ Public Class FreteTransportador_New
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_VINCULO_USUARIO WHERE ID_TIPO_USUARIO =15 AND ID_USUARIO = " & Session("ID_USUARIO"))
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_VINCULO_USUARIO WHERE ID_TIPO_USUARIO in (1,11) AND ID_USUARIO = " & Session("ID_USUARIO"))
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                 dgvFreteTranportador.Columns(17).Visible = False
 
@@ -689,6 +693,17 @@ Public Class FreteTransportador_New
                         ID_VIA_ROTA.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VIA_ROTA").ToString()
                     End If
 
+                    If Not QTD_Cntr Is Nothing Then
+
+                        If QTD_Cntr.Text = "0" Then
+
+                            btnCntr.Visible = False
+                        Else
+                            btnHistorico.Visible = True
+                            btnHistorico.Enabled = True
+
+                        End If
+                    End If
 
                 End If
             End If
@@ -697,6 +712,8 @@ Public Class FreteTransportador_New
     End Sub
 
     Private Sub dgvCntr_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvCntr.RowCommand
+        divSuccessCntr.Visible = False
+        divErroCntr.Visible = False
 
         If e.CommandName = "Excluir" Then
 
@@ -706,14 +723,16 @@ Public Class FreteTransportador_New
 
             ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                lblmsgErro.Text = "Usuário não tem permissão para realizar exclusões"
-                divErro.Visible = True
+                lblErroCntr.Text = "Usuário não tem permissão para realizar exclusões"
+                divErroCntr.Visible = True
             Else
 
                 Con.ExecutarQuery("DELETE FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & e.CommandArgument)
-                lblmsgSuccess.Text = "Registro deletado!"
-                divSuccess.Visible = True
-                dgvFreteTranportador.DataBind()
+                lblmsgSuccessCntr.Text = "Registro deletado!"
+                divSuccessCntr.Visible = True
+                dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = txtID.Text
+                dgvCntr.DataBind()
+                mpeCntr.Show()
 
             End If
             Con.Fechar()
@@ -728,9 +747,10 @@ Public Class FreteTransportador_New
 
             dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = txtID.Text
             dgvCntr.DataBind()
-            divSuccess.Visible = True
-            lblmsgSuccess.Text = "Item duplicado com sucesso!"
+            divSuccessCntr.Visible = True
+            lblmsgSuccessCntr.Text = "Item duplicado com sucesso!"
             mpeCntr.Show()
+            Exit Sub
 
         ElseIf e.CommandName = "Atualizar" Then
 
@@ -753,9 +773,9 @@ Public Class FreteTransportador_New
                     'REALIZA UPDATE DO FRETE TRANSPORTADOR
                     Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & ID_FRETE_TRANSPORTADOR & ",'EDIÇÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
 
-                    Con.ExecutarQuery("UPDATE TB_TARIFARIO_FRETE_TRANSPORTADOR  SET  ID_TIPO_CONTAINER = " & ID_TIPO_CONTAINER.SelectedValue & ", VL_COMPRA = " & VL_COMPRA.Text.Replace(".", "").Replace(",", ".") & ", QT_DIAS_FREETIME = " & QT_DIAS_FREETIME.Text & ", ID_MOEDA = " & ID_MOEDA.SelectedValue & "  WHERE ID_FRETE_TRANSPORTADOR = " & ID_TARIFARIO_FRETE_TRANSPORTADOR)
+                    Con.ExecutarQuery("UPDATE TB_TARIFARIO_FRETE_TRANSPORTADOR  SET  ID_TIPO_CONTAINER = " & ID_TIPO_CONTAINER.SelectedValue & ", VL_COMPRA = " & VL_COMPRA.Text.Replace(".", "").Replace(",", ".") & ", QT_DIAS_FREETIME = " & QT_DIAS_FREETIME.Text & ", ID_MOEDA = " & ID_MOEDA.SelectedValue & "  WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & ID_TARIFARIO_FRETE_TRANSPORTADOR)
 
-                    txtID.Text = ""
+                    txtID.Text = ID_FRETE_TRANSPORTADOR
 
                     Con.Fechar()
 
@@ -766,10 +786,12 @@ Public Class FreteTransportador_New
 
             Next
 
-            divSuccess.Visible = True
-            lblmsgSuccess.Text = "Registro atualizado com sucesso!"
-
-            Exit Sub
+            divSuccessCntr.Visible = True
+            lblmsgSuccessCntr.Text = "Registro atualizado com sucesso!"
+            dgvCntr.SetEditRow(-1)
+            dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = txtID.Text
+            dgvCntr.DataBind()
+            mpeCntr.Show()
 
         ElseIf e.CommandName = "Incluir" Then
 
@@ -790,9 +812,14 @@ Public Class FreteTransportador_New
 
             BUSCA()
 
-            divSuccess.Visible = True
-            lblmsgSuccess.Text = "Registro cadastrado com sucesso!"
+            divSuccessCntr.Visible = True
+            lblmsgSuccessCntr.Text = "Registro cadastrado com sucesso!"
             Exit Sub
+
+
+        ElseIf e.CommandName = "Edit" Then
+
+            mpeCntr.Show()
 
         End If
 
@@ -800,7 +827,12 @@ Public Class FreteTransportador_New
 
     Private Sub btnFecharCntr_Click(sender As Object, e As EventArgs) Handles btnFecharCntr.Click
         CarregaPortos()
-        txtID.Text = ""
         mpeCntr.Hide()
+        divSuccessCntr.Visible = False
+        divErroCntr.Visible = False
+    End Sub
+
+    Private Sub dgvCntr_RowCancelingEdit(sender As Object, e As GridViewCancelEditEventArgs) Handles dgvCntr.RowCancelingEdit
+        mpeCntr.Show()
     End Sub
 End Class

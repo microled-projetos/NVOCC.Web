@@ -356,6 +356,24 @@ Partial Public Class FreteTransportador_New
     Protected WithEvents lblErroCntr As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle divSuccessCntr.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divSuccessCntr As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblmsgSuccessCntr.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblmsgSuccessCntr As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle dgvCntr.
     '''</summary>
     '''<remarks>
@@ -363,15 +381,6 @@ Partial Public Class FreteTransportador_New
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvCntr As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
-    '''Controle btnGravarCntr.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnGravarCntr As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle btnFecharCntr.

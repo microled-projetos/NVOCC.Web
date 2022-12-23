@@ -191,7 +191,7 @@
                                             <asp:TemplateField HeaderStyle-ForeColor="#337ab7">
                                                 <HeaderTemplate>
                                                     <asp:CheckBox ID="ckbSelecionarTodos" runat="server" Font-Size="Small" Text="Selecionar Todos" AutoPostBack="true" OnCheckedChanged="CheckUncheckAll" />
-                                                    <asp:Button ID="btnEditar" runat="server" CssClass="btn-default" OnClientClick="SalvaPosicao()" Text="Expandir/Recolher"></asp:Button>
+                                                    <asp:Button ID="btnExpandirRecolher" runat="server" CssClass="btn-default" CommandName="ExpandirRecolher" Text="Expandir/Recolher"></asp:Button>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <asp:CheckBox ID="ckbSelecionar" runat="server" />
@@ -424,7 +424,7 @@
 
 
                                 <ajaxToolkit:ModalPopupExtender ID="mpeCntr" runat="server" PopupControlID="pnlCntr" TargetControlID="TextBox3" CancelControlID="TextBox4"></ajaxToolkit:ModalPopupExtender>
-                                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
+                                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlCntr" runat="server" CssClass="modalPopup" Style="display: none;">
                                             <center>     
@@ -437,7 +437,12 @@
                                                             <div class="alert alert-danger" id="divErroCntr" runat="server" visible="false">
                                     <asp:Label ID="lblErroCntr" runat="server"></asp:Label>
                                 </div>                        
-                                    <div class="row"> <div class="col-sm-12">
+                                    <div class="row"> 
+                                         <div class="alert alert-success" id="divSuccessCntr" runat="server" visible="false">
+                                    <asp:Label ID="lblmsgSuccessCntr" runat="server"></asp:Label>
+                                </div>
+                                        
+                                        <div class="col-sm-12">
                                         <div class="table-responsive tableFixHead">
 <asp:GridView ID="dgvCntr" DataKeyNames="ID_TARIFARIO_FRETE_TRANSPORTADOR" DataSourceID="dsCntr" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." >
                                             <Columns>
@@ -537,7 +542,7 @@
                                        </div>                        
                                   </div>  </div>
                                <div class="modal-footer">                   
-                                   <asp:Button runat="server" CssClass="btn btn-success" ID="btnGravarCntr" text="Gravar" />
+                                  <%-- <asp:Button runat="server" CssClass="btn btn-success" ID="btnGravarCntr" text="Gravar" />--%>
                                    <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharCntr" text="Close" />
                               </div>
                                                     </div>    
@@ -592,6 +597,7 @@
                                 </asp:Panel>
                             </ContentTemplate>
                             <Triggers>
+                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCntr" />
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvFreteTranportador" />
                                 <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvFreteTranportador" />
                                 <asp:AsyncPostBackTrigger ControlID="btnBusca" />
