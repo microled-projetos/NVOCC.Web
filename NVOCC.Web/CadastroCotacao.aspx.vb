@@ -4070,7 +4070,7 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             Dim ID As String = ds.Tables(0).Rows(0).Item("ID").ToString()
             Dim CLA As Decimal
 
-            ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS CLA
+            ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/5988 AS CLA
 from TB_COTACAO A  
 left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
 Where A.ID_COTACAO = " & txtID.Text)
@@ -4162,7 +4162,7 @@ Where A.ID_COTACAO = " & txtID.Text)
             End If
 
 
-            ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS CLA
+            ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/5988 AS CLA
 from TB_COTACAO A  
 left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
 Where A.ID_COTACAO = " & txtID.Text)
