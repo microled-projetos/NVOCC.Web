@@ -506,7 +506,7 @@ UPDATE TB_BL SET QT_MERCADORIA = (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADOR
         Dim PESO_BRUTO As Decimal
         Dim PESO_TAXADO As Decimal
         Dim ds As DataSet = Con.ExecutarQuery("SELECT isnull(VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(VL_M3,0)VL_M3, isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
-(isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS LCA
+(isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/5988 AS LCA
 from TB_BL A 
 left join TB_CARGA_BL_DIMENSAO D ON D.ID_BL = A.ID_BL
 Where A.ID_BL = " & ID_BL)

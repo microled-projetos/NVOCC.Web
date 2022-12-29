@@ -2173,20 +2173,20 @@
 
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Comprimento:</label>
-                                                                        <asp:TextBox ID="txtComprimento_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        <label class="control-label">Comprimento:</label><small style="color: gray"> (cm)</small>
+                                                                        <asp:TextBox ID="txtComprimento_CargaAereo" runat="server" CssClass="form-control valores"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Largura:</label>
-                                                                        <asp:TextBox ID="txtLargura_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        <label class="control-label">Largura:</label><small style="color: gray"> (cm)</small>
+                                                                        <asp:TextBox ID="txtLargura_CargaAereo" runat="server" CssClass="form-control valores"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Altura:</label>
-                                                                        <asp:TextBox ID="txtAltura_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        <label class="control-label">Altura:</label><small style="color: gray"> (cm)</small>
+                                                                        <asp:TextBox ID="txtAltura_CargaAereo" runat="server" CssClass="form-control valores"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2200,20 +2200,20 @@
                                                                 </div>
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Comprimento:</label>
-                                                                        <asp:TextBox ID="txtComprimentoMercadoriaAereo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <label class="control-label">Comprimento:</label><small style="color: gray"> (cm)</small>
+                                                                        <asp:TextBox ID="txtComprimentoMercadoriaAereo" runat="server" CssClass="form-control valores" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Largura:</label>
-                                                                        <asp:TextBox ID="txtLarguraMercadoriaAereo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <label class="control-label">Largura:</label><small style="color: gray"> (cm)</small>
+                                                                        <asp:TextBox ID="txtLarguraMercadoriaAereo" runat="server" CssClass="form-control valores" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Altura:</label>
-                                                                        <asp:TextBox ID="txtAlturaMercadoriaAereo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                        <label class="control-label">Altura:</label><small style="color: gray"> (cm)</small>
+                                                                        <asp:TextBox ID="txtAlturaMercadoriaAereo" runat="server" CssClass="form-control valores" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-1">
@@ -2228,9 +2228,9 @@
                                                                             <Columns>
                                                                                 <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" Visible="false" />
                                                                                 <asp:BoundField DataField="QTD_CAIXA" HeaderText="Qtd. Caixas" ItemStyle-HorizontalAlign="Center" />
-                                                                                <asp:BoundField DataField="VL_COMPRIMENTO" HeaderText="Comprimento" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" />
-                                                                                <asp:BoundField DataField="VL_LARGURA" HeaderText="Largura" ItemStyle-HorizontalAlign="Center" />
-                                                                                <asp:BoundField DataField="VL_ALTURA" HeaderText="Altura" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="VL_COMPRIMENTO" HeaderText="Comprimento (cm)" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="VL_LARGURA" HeaderText="Largura (cm)" ItemStyle-HorizontalAlign="Center" />
+                                                                                <asp:BoundField DataField="VL_ALTURA" HeaderText="Altura (cm)" ItemStyle-HorizontalAlign="Center" />
                                                                                 <asp:TemplateField HeaderText="">
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton runat="server" Text="Excluir" ID="ButtonExcluir" CommandName="Excluir" CommandArgument='<%# Eval("ID") %>' OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')" />
@@ -3614,5 +3614,22 @@ C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACA
                 btn.style.display = 'none';
             }
         }
+
+
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(InIEvent);
+
+        function InIEvent() {
+            $(".valores").on("keypress keyup blur", function (e) {
+                console.log("entrou")
+                var chr = String.fromCharCode(e.which);
+                if ("1234567890,".indexOf(chr) < 0)
+                    return false;
+            });
+        }
+
+
+        $(document).ready(InIEvent);
+
+
     </script>
 </asp:Content>
