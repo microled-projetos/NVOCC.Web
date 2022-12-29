@@ -24,15 +24,6 @@
     </style>
     <div class="row principal">
 
-        <div runat="server" id="divAuxiliar" style="display: none">
-            <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
-            <asp:TextBox ID="txtIDTafifario" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
-            <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
-            <asp:TextBox ID="txtOrigem" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
-            <asp:TextBox ID="txtDestino" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
-        </div>
-
-
         <div class="col-lg-12 table-responsive">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -43,13 +34,17 @@
                 <div class="panel-body">
                     <br />
 
-                    <asp:LinkButton ID="lkInserir" runat="server" CssClass="btn btn-primary btn-sm" Style="font-size: 15px" Visible="false"><i  class="glyphicon glyphicon-plus"></i>&nbsp;Inserir</asp:LinkButton>
-
                     <div class="tab-pane fade active in" id="consulta">
                         <br />
                         <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
                             <ContentTemplate>
-
+                                <div runat="server" id="divAuxiliar" style="display: none">
+            <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX" ></asp:TextBox>
+            <asp:TextBox ID="txtIDTafifario" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+            <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+            <asp:TextBox ID="txtOrigem" runat="server" CssClass="form-control" Width="50PX" ></asp:TextBox>
+            <asp:TextBox ID="txtDestino" runat="server" CssClass="form-control" Width="50PX" ></asp:TextBox>
+        </div>
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
                                 </div>
@@ -114,13 +109,13 @@
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Transportador:</label>
-                                            <asp:DropDownList ID="ddlTransportador" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                            <asp:DropDownList ID="ddlTransportador" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Agente:</label>
-                                            <asp:DropDownList ID="ddlAgente" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                            <asp:DropDownList ID="ddlAgente" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
@@ -480,9 +475,6 @@
                                                     &nbsp;<asp:LinkButton ID="btnCancelar" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancelar" CssClass="btnGrid"><i class="glyphicon glyphicon-remove"  style="font-size:small"></i></asp:LinkButton>
                                                 </EditItemTemplate>
 
-                                                <InsertItemTemplate>
-                                                    <asp:LinkButton ID="btnNovo" runat="server" CausesValidation="False" CommandName="Incluir" Text="Incluir" CssClass="btnGrid"><i class="glyphicon glyphicon-plus"  style="font-size:small"></i></asp:LinkButton>
-                                                </InsertItemTemplate>
                                             </asp:TemplateField>
 
 
@@ -493,8 +485,7 @@
                                                     </ItemTemplate>
                                                     <EditItemTemplate>
                                                     </EditItemTemplate>
-                                                    <InsertItemTemplate >
-                                                    </InsertItemTemplate>
+                                                   
                                                 </asp:TemplateField>
                                               
                                              <asp:TemplateField HeaderText="CONTAINER" HeaderStyle-ForeColor="#337ab7" SortExpression="NM_TIPO_CONTAINER">
@@ -505,9 +496,7 @@
                                                     <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER">
                                                     </asp:DropDownList>
                                                 </EditItemTemplate>
-                                              <InsertItemTemplate>
-                                                    <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER"></asp:DropDownList>
-                                                </InsertItemTemplate>
+                                             
                                             </asp:TemplateField>
 
                                              <asp:TemplateField HeaderText="MOEDA" HeaderStyle-ForeColor="#337ab7" SortExpression="SIGLA_MOEDA">
@@ -518,9 +507,7 @@
                                                     <asp:DropDownList ID="ddlMoeda" runat="server" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
                                                     </asp:DropDownList>
                                                 </EditItemTemplate>
-                                                <InsertItemTemplate>
-                                                    <asp:DropDownList ID="ddlMoeda" runat="server" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
-                                                </InsertItemTemplate>
+                                               
                                             </asp:TemplateField>
 
                                             <asp:TemplateField HeaderText="COMPRA" HeaderStyle-ForeColor="#337ab7" SortExpression="VL_COMPRA">
@@ -530,9 +517,7 @@
                                                 <EditItemTemplate>
                                                       <asp:TextBox ID="txtCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>'></asp:TextBox>
                                                 </EditItemTemplate>
-                                                <InsertItemTemplate >
-                                                      <asp:TextBox ID="txtCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>'></asp:TextBox>
-                                                </InsertItemTemplate>
+                                               
                                             </asp:TemplateField>
 
                                             <asp:TemplateField HeaderText="FREETIME" HeaderStyle-ForeColor="#337ab7" SortExpression="QT_DIAS_FREETIME">
@@ -542,9 +527,7 @@
                                                 <EditItemTemplate>
                                                       <asp:TextBox ID="txtFreeTime" runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>'></asp:TextBox>
                                                 </EditItemTemplate>
-                                                <InsertItemTemplate >
-                                                      <asp:TextBox ID="txtFreeTime" runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>'></asp:TextBox>
-                                                </InsertItemTemplate>
+                                               
                                             </asp:TemplateField>
 
 
@@ -554,41 +537,45 @@
                                                 </ItemTemplate>
                                                 <EditItemTemplate>
                                                 </EditItemTemplate>
-                                                <InsertItemTemplate>
-                                                </InsertItemTemplate>
-                                            </asp:TemplateField>
 
+                                               
+                                            </asp:TemplateField>
+ 
+                                                <asp:TemplateField HeaderText="MOEDA ORIGIN CHARGES" HeaderStyle-ForeColor="#337ab7" SortExpression="ORIGIN_CHARGES">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblMOEDAORIGIN_CHARGES" runat="server" Text='<%# Eval("SIGLA_MOEDA") %>' />                                                  
+                                                </ItemTemplate>
+                                                <EditItemTemplate>
+                                                </EditItemTemplate>
+
+                                               
+                                            </asp:TemplateField>
 
                                              </Columns>
 
     <EmptyDataTemplate>
-        <tr style="background-color: Green;">
-            <th scope="col">
-                Customer Name
-            </th>
-            <th scope="col">
-                Company Name
-            </th>
-            <th scope="col">
-                City
-            </th>
-            <th scope="col">
-                   
-            </th>
-        </tr>
+
         <tr>
+            
             <td>
-                <asp:TextBox ID="txtCustomerName" runat="server" />
+                <asp:LinkButton ID="btnNovo" runat="server" CausesValidation="False" CommandName="Incluir" Text="Incluir" CssClass="btnGrid"><i class="glyphicon glyphicon-plus"  style="font-size:small"></i></asp:LinkButton>
             </td>
             <td>
-                <asp:TextBox ID="txtCompanyName" runat="server" />
+             <asp:Label ID="lblIDFrete_Novo" runat="server" Text='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'  />
+             </td>
+            <td>
+                 <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER"></asp:DropDownList>
             </td>
             <td>
-                <asp:TextBox ID="txtCity" runat="server" />
+                 <asp:DropDownList ID="ddlMoeda" runat="server" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
             </td>
-            <td>
-                <asp:Button ID="btnAdd" runat="server" Text="Add"  />
+             <td>
+                <asp:TextBox ID="txtCompra" runat="server" />
             </td>
+             <td>
+                <asp:TextBox ID="txtFreeTime" runat="server" />
+            </td>
+
         </tr>
     </EmptyDataTemplate>
 
@@ -699,7 +686,7 @@ WHERE A.ID_FRETE_TRANSPORTADOR =@ID_FRETE_TRANSPORTADOR ">
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE ORDER BY NM_PORTO ">
+        SelectCommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE union SELECT  0, '    Selecione' ORDER BY NM_PORTO ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="txtViaTransporte" DefaultValue="1" />
         </SelectParameters>
@@ -709,14 +696,14 @@ WHERE A.ID_FRETE_TRANSPORTADOR =@ID_FRETE_TRANSPORTADOR ">
         SelectCommand="SELECT ID_VIATRANSPORTE,NM_VIATRANSPORTE FROM [dbo].[TB_VIATRANSPORTE]
 union SELECT  0, 'Selecione' ORDER BY ID_VIATRANSPORTE"></asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsTransportadorGrid" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1 union SELECT  0, '    Selecione'  ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsContainer" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE FL_ATIVO = 1
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_CONTAINER"></asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsAgenteGrid" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1 union SELECT  0, '    Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsFrequencia" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -731,10 +718,10 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_CARGA"></asp:SqlDataSource>
         SelectCommand="SELECT ID_VIA_ROTA,NM_VIA_ROTA FROM [dbo].[TB_VIA_ROTA]
 union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsTransportadorGrid" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_TRANSPORTADOR = 1 AND FL_ATIVO = 1 union SELECT  0,'', '  Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsAgenteGrid" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL= 1 and FL_ATIVO = 1 union SELECT  0,'', '   Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -755,7 +742,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
         });    
 
         function Combos() {
-            $(".combos").select2({ placeholder: "  Selecione" });
+            $(".combos").select2({ placeholder: "  Selecione", allowClear: true });
             $(".combos").val(null).trigger('change');
 
             $(".combos2").select2({ multiple: true, placeholder: "  Selecione" });

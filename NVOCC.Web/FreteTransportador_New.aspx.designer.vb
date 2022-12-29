@@ -14,6 +14,15 @@ Option Explicit On
 Partial Public Class FreteTransportador_New
 
     '''<summary>
+    '''Controle UpdatePanel1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel1 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
     '''Controle divAuxiliar.
     '''</summary>
     '''<remarks>
@@ -66,24 +75,6 @@ Partial Public Class FreteTransportador_New
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtDestino As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle lkInserir.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkInserir As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle UpdatePanel1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents UpdatePanel1 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
     '''Controle divSuccess.
@@ -509,13 +500,13 @@ Partial Public Class FreteTransportador_New
     Protected WithEvents dsViaTransporte As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsTransportador.
+    '''Controle dsTransportadorGrid.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsTransportador As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsTransportadorGrid As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsContainer.
@@ -527,13 +518,13 @@ Partial Public Class FreteTransportador_New
     Protected WithEvents dsContainer As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsAgente.
+    '''Controle dsAgenteGrid.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsAgente As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsAgenteGrid As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsFrequencia.
@@ -563,22 +554,22 @@ Partial Public Class FreteTransportador_New
     Protected WithEvents dsRota As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsTransportadorGrid.
+    '''Controle dsTransportador.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsTransportadorGrid As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsTransportador As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsAgenteGrid.
+    '''Controle dsAgente.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsAgenteGrid As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsAgente As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsMoeda.
