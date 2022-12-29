@@ -14,17 +14,19 @@
         }
 
         th {
-            z-index: 1000;
+            z-index: 90;
         }
 
         .portos {
-            z-index: 1100;
+            z-index: 100;
         }
+
     </style>
     <div class="row principal">
 
         <div runat="server" id="divAuxiliar" style="display: none">
             <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
+            <asp:TextBox ID="txtIDTafifario" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
             <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
             <asp:TextBox ID="txtOrigem" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
             <asp:TextBox ID="txtDestino" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
@@ -47,6 +49,7 @@
                         <br />
                         <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
                             <ContentTemplate>
+
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
                                 </div>
@@ -83,6 +86,19 @@
                                         </div>
                                     </div>
 
+
+                                     <%-- <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Porto Origem:</label>
+                                        <asp:DropDownList ID="ddlOrigem" runat="server" CssClass="combos2 form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                </div>
+                                            <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Porto Destino:</label>
+                                        <asp:DropDownList ID="ddlDestino" runat="server" CssClass="combos2 form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                </div>--%>
+
+
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Validade Inicial:</label>
@@ -98,13 +114,13 @@
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Transportador:</label>
-                                            <asp:DropDownList ID="ddlTransportador" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                            <asp:DropDownList ID="ddlTransportador" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Agente:</label>
-                                            <asp:DropDownList ID="ddlAgente" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                            <asp:DropDownList ID="ddlAgente" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
@@ -196,7 +212,6 @@
                                                 <ItemTemplate>
                                                     <asp:CheckBox ID="ckbSelecionar" runat="server" />
                                                     <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="Edit" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>' OnClientClick="SalvaPosicao()" Text="Editar"><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
-
 
                                                     <asp:LinkButton ID="btnDuplicar" runat="server" CssClass="btnGrid" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'
                                                         Text="Visualizar" OnClientClick="javascript:return confirm('Deseja realmente duplicar este registro?');"><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></div></asp:LinkButton>
@@ -444,7 +459,7 @@
                                         
                                         <div class="col-sm-12">
                                         <div class="table-responsive tableFixHead">
-<asp:GridView ID="dgvCntr" DataKeyNames="ID_TARIFARIO_FRETE_TRANSPORTADOR" DataSourceID="dsCntr" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." >
+<asp:GridView ID="dgvCntr" DataKeyNames="ID_TARIFARIO_FRETE_TRANSPORTADOR" DataSourceID="dsCntr" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." ShowHeaderWhenEmpty="true" ShowFooterWhenEmpty="true"  ShowFooter="true" >
                                             <Columns>
                                                  <asp:TemplateField HeaderStyle-ForeColor="#337ab7">
 
@@ -465,9 +480,9 @@
                                                     &nbsp;<asp:LinkButton ID="btnCancelar" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancelar" CssClass="btnGrid"><i class="glyphicon glyphicon-remove"  style="font-size:small"></i></asp:LinkButton>
                                                 </EditItemTemplate>
 
-                                                <FooterTemplate>
+                                                <InsertItemTemplate>
                                                     <asp:LinkButton ID="btnNovo" runat="server" CausesValidation="False" CommandName="Incluir" Text="Incluir" CssClass="btnGrid"><i class="glyphicon glyphicon-plus"  style="font-size:small"></i></asp:LinkButton>
-                                                </FooterTemplate>
+                                                </InsertItemTemplate>
                                             </asp:TemplateField>
 
 
@@ -476,9 +491,13 @@
                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>'  />
                                                          <asp:Label ID="lblID_FRETE_TRANSPORTADOR" Visible="False" runat="server" Text='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'  />
                                                     </ItemTemplate>
+                                                    <EditItemTemplate>
+                                                    </EditItemTemplate>
+                                                    <InsertItemTemplate >
+                                                    </InsertItemTemplate>
                                                 </asp:TemplateField>
                                               
-                                                 <asp:TemplateField HeaderText="CONTAINER" HeaderStyle-ForeColor="#337ab7" SortExpression="NM_TIPO_CONTAINER">
+                                             <asp:TemplateField HeaderText="CONTAINER" HeaderStyle-ForeColor="#337ab7" SortExpression="NM_TIPO_CONTAINER">
                                                 <ItemTemplate>
                                                     <asp:Label runat="server" Text='<%# Eval("NM_TIPO_CONTAINER") %>' />
                                                 </ItemTemplate>
@@ -486,12 +505,12 @@
                                                     <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER">
                                                     </asp:DropDownList>
                                                 </EditItemTemplate>
-                                                <FooterTemplate>
+                                              <InsertItemTemplate>
                                                     <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER"></asp:DropDownList>
-                                                </FooterTemplate>
+                                                </InsertItemTemplate>
                                             </asp:TemplateField>
 
-                                                 <asp:TemplateField HeaderText="MOEDA" HeaderStyle-ForeColor="#337ab7" SortExpression="SIGLA_MOEDA">
+                                             <asp:TemplateField HeaderText="MOEDA" HeaderStyle-ForeColor="#337ab7" SortExpression="SIGLA_MOEDA">
                                                 <ItemTemplate>
                                                     <asp:Label runat="server" Text='<%# Eval("SIGLA_MOEDA") %>' />
                                                 </ItemTemplate>
@@ -499,9 +518,9 @@
                                                     <asp:DropDownList ID="ddlMoeda" runat="server" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
                                                     </asp:DropDownList>
                                                 </EditItemTemplate>
-                                                <FooterTemplate>
+                                                <InsertItemTemplate>
                                                     <asp:DropDownList ID="ddlMoeda" runat="server" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
-                                                </FooterTemplate>
+                                                </InsertItemTemplate>
                                             </asp:TemplateField>
 
                                             <asp:TemplateField HeaderText="COMPRA" HeaderStyle-ForeColor="#337ab7" SortExpression="VL_COMPRA">
@@ -511,9 +530,9 @@
                                                 <EditItemTemplate>
                                                       <asp:TextBox ID="txtCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>'></asp:TextBox>
                                                 </EditItemTemplate>
-                                                <FooterTemplate>
+                                                <InsertItemTemplate >
                                                       <asp:TextBox ID="txtCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>'></asp:TextBox>
-                                                </FooterTemplate>
+                                                </InsertItemTemplate>
                                             </asp:TemplateField>
 
                                             <asp:TemplateField HeaderText="FREETIME" HeaderStyle-ForeColor="#337ab7" SortExpression="QT_DIAS_FREETIME">
@@ -523,20 +542,56 @@
                                                 <EditItemTemplate>
                                                       <asp:TextBox ID="txtFreeTime" runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>'></asp:TextBox>
                                                 </EditItemTemplate>
-                                                <FooterTemplate>
+                                                <InsertItemTemplate >
                                                       <asp:TextBox ID="txtFreeTime" runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>'></asp:TextBox>
-                                                </FooterTemplate>
+                                                </InsertItemTemplate>
                                             </asp:TemplateField>
 
 
-                                                <asp:TemplateField HeaderText="ORIGIN CHARGES" HeaderStyle-ForeColor="#337ab7" SortExpression="ORIGIN_CHARGES">
+                                            <asp:TemplateField HeaderText="ORIGIN CHARGES" HeaderStyle-ForeColor="#337ab7" SortExpression="ORIGIN_CHARGES">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblORIGIN_CHARGES" runat="server" Text='<%# Eval("ORIGIN_CHARGES") %>' />                                                  
                                                 </ItemTemplate>
+                                                <EditItemTemplate>
+                                                </EditItemTemplate>
+                                                <InsertItemTemplate>
+                                                </InsertItemTemplate>
                                             </asp:TemplateField>
 
 
                                              </Columns>
+
+    <EmptyDataTemplate>
+        <tr style="background-color: Green;">
+            <th scope="col">
+                Customer Name
+            </th>
+            <th scope="col">
+                Company Name
+            </th>
+            <th scope="col">
+                City
+            </th>
+            <th scope="col">
+                   
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <asp:TextBox ID="txtCustomerName" runat="server" />
+            </td>
+            <td>
+                <asp:TextBox ID="txtCompanyName" runat="server" />
+            </td>
+            <td>
+                <asp:TextBox ID="txtCity" runat="server" />
+            </td>
+            <td>
+                <asp:Button ID="btnAdd" runat="server" Text="Add"  />
+            </td>
+        </tr>
+    </EmptyDataTemplate>
+
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
                                        </div>                        
@@ -644,7 +699,7 @@ WHERE A.ID_FRETE_TRANSPORTADOR =@ID_FRETE_TRANSPORTADOR ">
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
+        SelectCommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE ORDER BY NM_PORTO ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="txtViaTransporte" DefaultValue="1" />
         </SelectParameters>
@@ -655,16 +710,14 @@ WHERE A.ID_FRETE_TRANSPORTADOR =@ID_FRETE_TRANSPORTADOR ">
 union SELECT  0, 'Selecione' ORDER BY ID_VIATRANSPORTE"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1
-union SELECT  0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1 union SELECT  0, '    Selecione'  ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsContainer" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE FL_ATIVO = 1
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_CONTAINER"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
-union SELECT  0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1 union SELECT  0, '    Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsFrequencia" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_FREQUENCIA, NM_TIPO_FREQUENCIA FROM [dbo].[TB_TIPO_FREQUENCIA] 
@@ -690,13 +743,27 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
     <script type="text/javascript">
 
+        $(document).ready(function () {
+            Combos();                
+        });    
 
+        function Combos() {
+            $(".combos").select2({ placeholder: "  Selecione" });
+            $(".combos").val(null).trigger('change');
+
+            $(".combos2").select2({ multiple: true, placeholder: "  Selecione" });
+            $(".combos2").val(null).trigger('change');
+
+            $('.selectpicker').selectpicker();
+
+        };
 
 
         function SalvaPosicao() {
@@ -720,8 +787,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
             document.getElementById('DivGrid').scrollTop = valor;
             IDDestino();
             IDOrigem();
-            copiarTexto();
-
+            copiarTexto();    
+            Combos();
         };
 
         function copiarTexto() {
@@ -736,24 +803,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
 
         }
 
-      <%--  function Filtro() {
-            var ID_VIATRANSPORTE = document.getElementById('<%= ddlViaTransporte.ClientID %>').value;
-            var FILTRO = document.getElementById('TextBoxP').value;
-            console.log("O FILTRO é: " + FILTRO);
-            console.log("O ID_VIATRANSPORTE é: " + ID_VIATRANSPORTE);
-            $.ajax({
-                type: "POST",
-                url: "FreteTransportador_New.aspx/CarregaPortos",
-                data: '{ID_VIATRANSPORTE: "' + ID_VIATRANSPORTE + '", FILTRO: "' + FILTRO + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json"
-            });
-
-        }--%>
-
-        //$(document).ready(function () {
-        //    $('.selectpicker').selectpicker();
-        //});
 
         function IDDestino() {
 

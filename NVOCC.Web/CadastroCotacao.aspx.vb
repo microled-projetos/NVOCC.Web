@@ -29,7 +29,7 @@ Public Class CadastroCotacao
                 ddlAnalista.SelectedValue = Session("ID_USUARIO")
                 txtAbertura.Text = Now.Date.ToString("dd-MM-yyyy")
                 btnNovoFrete.Attributes.CssStyle.Add("display", "none")
-                ddlStatusCotacao.SelectedValue = 1
+                ddlStatusCotacao.SelectedValue = 16
                 Session("ID_CLIENTE") = 0
 
             End If

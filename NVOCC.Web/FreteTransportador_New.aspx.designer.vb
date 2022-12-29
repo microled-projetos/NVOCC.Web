@@ -32,6 +32,15 @@ Partial Public Class FreteTransportador_New
     Protected WithEvents txtID As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtIDTafifario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDTafifario As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtlinha.
     '''</summary>
     '''<remarks>

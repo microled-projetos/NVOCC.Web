@@ -51,7 +51,7 @@ Public Class FreteTransportador_New
         Dim Con As New Conexao_sql
         Con.Conectar()
 
-        Dim tabela As String = "<select data-live-search='True' ID='comboOrigem' data-live-search-style='startsWith' class='selectpicker' multiple='multiple' onchange='IDOrigem()'  title='Selecione'>"
+        Dim tabela As String = "<select data-live-search='True' ID='comboOrigem' data-live-search-style='startsWith' class='selectpicker'style='width:270px !important;' multiple='multiple' onchange='IDOrigem()'  title='Selecione'>"
         Dim dsdados As DataSet
         Dim sql As String = "SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE NM_PORTO IS NOT NULL AND FL_ATIVO = 1"
         If ddlViaTransporte.SelectedValue <> "" Then
@@ -75,7 +75,7 @@ Public Class FreteTransportador_New
         divOrigem.InnerHtml = tabela
 
         'DESTINO
-        tabela = "<select data-live-search='True' ID='comboDestino' data-live-search-style='startsWith' class='selectpicker' multiple='multiple' onchange='IDDestino()'  title='Selecione'>"
+        tabela = "<select data-live-search='True' ID='comboDestino' data-live-search-style='startsWith' class='selectpicker' style='width:270px !important;' multiple='multiple' onchange='IDDestino()'  title='Selecione'>"
         dsdados = Con.ExecutarQuery(sql)
         If dsdados.Tables(0).Rows.Count > 0 Then
 
@@ -271,6 +271,15 @@ Public Class FreteTransportador_New
             txtID.Text = e.CommandArgument
             dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = txtID.Text
             dgvCntr.DataBind()
+            Dim row As GridViewRow = CType(((CType(e.CommandSource, Control)).NamingContainer), GridViewRow)
+            If row.RowState = 5 Then
+                dgvCntr.Columns(0).Visible = True
+
+            Else
+                dgvCntr.Columns(0).Visible = False
+            End If
+
+
             mpeCntr.Show()
 
         ElseIf e.CommandName = "Historico" Then
@@ -341,39 +350,39 @@ Public Class FreteTransportador_New
         ElseIf e.CommandName = "Incluir" Then
 
             Dim ID_PORTO_ORIGEM As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlOrigem")
-                Dim ID_PORTO_DESTINO As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlDestino")
-                Dim ID_TIPO_CARGA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlTipoCarga")
-                Dim ID_TRANSPORTADOR As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlTransportador")
-                Dim ID_AGENTE As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlAgente")
-                Dim QT_DIAS_TRANSITTIME_INICIAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtTTInicial")
-                Dim QT_DIAS_TRANSITTIME_FINAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtTTFinal")
-                Dim FL_ATIVO As CheckBox = dgvFreteTranportador.FooterRow.FindControl("ckAtivo")
-                Dim DT_VALIDADE_FINAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtValidadeFinal")
-                Dim OBS_CLIENTE As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtCliente")
-                Dim OBS_INTERNA As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtInterna")
-                Dim ID_TIPO_FREQUENCIA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlFrequencia")
-                Dim ID_VIA_ROTA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlRota")
-                Dim FL_CONSOLIDADA As CheckBox = dgvFreteTranportador.FooterRow.FindControl("ckConsolidada")
+            Dim ID_PORTO_DESTINO As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlDestino")
+            Dim ID_TIPO_CARGA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlTipoCarga")
+            Dim ID_TRANSPORTADOR As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlTransportador")
+            Dim ID_AGENTE As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlAgente")
+            Dim QT_DIAS_TRANSITTIME_INICIAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtTTInicial")
+            Dim QT_DIAS_TRANSITTIME_FINAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtTTFinal")
+            Dim FL_ATIVO As CheckBox = dgvFreteTranportador.FooterRow.FindControl("ckAtivo")
+            Dim DT_VALIDADE_FINAL As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtValidadeFinal")
+            Dim OBS_CLIENTE As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtCliente")
+            Dim OBS_INTERNA As TextBox = dgvFreteTranportador.FooterRow.FindControl("txtInterna")
+            Dim ID_TIPO_FREQUENCIA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlFrequencia")
+            Dim ID_VIA_ROTA As DropDownList = dgvFreteTranportador.FooterRow.FindControl("ddlRota")
+            Dim FL_CONSOLIDADA As CheckBox = dgvFreteTranportador.FooterRow.FindControl("ckConsolidada")
 
-                Dim Con As New Conexao_sql
-                Con.Conectar()
-                Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR ( ID_TRANSPORTADOR, ID_AGENTE, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_CARGA, ID_VIA_ROTA, QT_DIAS_TRANSITTIME_INICIAL, QT_DIAS_TRANSITTIME_FINAL, ID_TIPO_FREQUENCIA, FL_ATIVO,DT_VALIDADE_FINAL,OBS_CLIENTE,OBS_INTERNA,FL_CONSOLIDADA) VALUES (" & ID_TRANSPORTADOR.SelectedValue & "," & ID_AGENTE.SelectedValue & "," & ID_PORTO_ORIGEM.SelectedValue & " ," & ID_PORTO_DESTINO.SelectedValue & ", " & ID_TIPO_CARGA.SelectedValue & ", " & ID_VIA_ROTA.SelectedValue & ",  '" & QT_DIAS_TRANSITTIME_INICIAL.Text & "','" & QT_DIAS_TRANSITTIME_FINAL.Text & "'," & ID_TIPO_FREQUENCIA.SelectedValue & ",'" & FL_ATIVO.Checked & "', CONVERT(DATETIME,'" & DT_VALIDADE_FINAL.Text & "',103),'" & OBS_CLIENTE.Text & "','" & OBS_INTERNA.Text & "','" & FL_CONSOLIDADA.Checked & "' ) Select SCOPE_IDENTITY() as ID_FRETE_TRANSPORTADOR ")
-
-
-                Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID.Text & ",'INCLUSÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
-
-                Con.Fechar()
-
-                BUSCA()
-
-                divSuccess.Visible = True
-                lblmsgSuccess.Text = "Registro cadastrado com sucesso!"
-                Exit Sub
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR ( ID_TRANSPORTADOR, ID_AGENTE, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_CARGA, ID_VIA_ROTA, QT_DIAS_TRANSITTIME_INICIAL, QT_DIAS_TRANSITTIME_FINAL, ID_TIPO_FREQUENCIA, FL_ATIVO,DT_VALIDADE_FINAL,OBS_CLIENTE,OBS_INTERNA,FL_CONSOLIDADA) VALUES (" & ID_TRANSPORTADOR.SelectedValue & "," & ID_AGENTE.SelectedValue & "," & ID_PORTO_ORIGEM.SelectedValue & " ," & ID_PORTO_DESTINO.SelectedValue & ", " & ID_TIPO_CARGA.SelectedValue & ", " & ID_VIA_ROTA.SelectedValue & ",  '" & QT_DIAS_TRANSITTIME_INICIAL.Text & "','" & QT_DIAS_TRANSITTIME_FINAL.Text & "'," & ID_TIPO_FREQUENCIA.SelectedValue & ",'" & FL_ATIVO.Checked & "', CONVERT(DATETIME,'" & DT_VALIDADE_FINAL.Text & "',103),'" & OBS_CLIENTE.Text & "','" & OBS_INTERNA.Text & "','" & FL_CONSOLIDADA.Checked & "' ) Select SCOPE_IDENTITY() as ID_FRETE_TRANSPORTADOR ")
 
 
-            ElseIf e.CommandName = "ExpandirRecolher" Then
+            Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID.Text & ",'INCLUSÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
 
-                For Each linha As GridViewRow In dgvFreteTranportador.Rows
+            Con.Fechar()
+
+            BUSCA()
+
+            divSuccess.Visible = True
+            lblmsgSuccess.Text = "Registro cadastrado com sucesso!"
+            Exit Sub
+
+
+        ElseIf e.CommandName = "ExpandirRecolher" Then
+
+            For Each linha As GridViewRow In dgvFreteTranportador.Rows
                 Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
                 Dim check As CheckBox = linha.FindControl("ckbSelecionar")
 
@@ -389,6 +398,15 @@ Public Class FreteTransportador_New
 
             dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = txtID.Text
             dgvCntr.DataBind()
+
+            Dim row As GridViewRow = CType(((CType(e.CommandSource, Control)).NamingContainer), GridViewRow)
+            If row.RowState = 5 Then
+                dgvCntr.Columns(0).Visible = True
+
+            Else
+                dgvCntr.Columns(0).Visible = False
+            End If
+
             mpeCntr.Show()
 
 
@@ -492,7 +510,7 @@ Public Class FreteTransportador_New
     End Sub
     Sub BUSCA()
         Dim v As New VerificaData
-        Dim filtro As String = ""
+        Dim filtro As String = ""   
 
         If txtFiltroID.Text <> "" Then
             If filtro = "" Then
@@ -621,7 +639,7 @@ Public Class FreteTransportador_New
 
                     btnCopiarInterna.Visible = False
                 Else
-                    btnHistorico.Visible = True
+                    btnCopiarInterna.Visible = True
 
                 End If
             End If
@@ -631,7 +649,7 @@ Public Class FreteTransportador_New
 
                     btnCopiarCliente.Visible = False
                 Else
-                    btnHistorico.Visible = True
+                    btnCopiarCliente.Visible = True
 
                 End If
             End If
@@ -642,8 +660,7 @@ Public Class FreteTransportador_New
 
                     btnCntr.Visible = False
                 Else
-                    btnHistorico.Visible = True
-                    btnHistorico.Enabled = False
+                    btnCntr.Visible = True
                 End If
             End If
 
@@ -682,6 +699,7 @@ Public Class FreteTransportador_New
                     Dim ID_AGENTE As DropDownList = CType(e.Row.FindControl("ddlAgente"), DropDownList)
                     Dim ID_TIPO_FREQUENCIA As DropDownList = CType(e.Row.FindControl("ddlFrequencia"), DropDownList)
                     Dim ID_VIA_ROTA As DropDownList = CType(e.Row.FindControl("ddlRota"), DropDownList)
+                    Dim btnCntrLinha As LinkButton = CType(e.Row.FindControl("btnCntr2"), LinkButton)
 
                     If ID_FRETE_TRANSPORTADOR = txtID.Text Then
                         ID_PORTO_ORIGEM.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString()
@@ -693,17 +711,7 @@ Public Class FreteTransportador_New
                         ID_VIA_ROTA.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VIA_ROTA").ToString()
                     End If
 
-                    If Not QTD_Cntr Is Nothing Then
-
-                        If QTD_Cntr.Text = "0" Then
-
-                            btnCntr.Visible = False
-                        Else
-                            btnHistorico.Visible = True
-                            btnHistorico.Enabled = True
-
-                        End If
-                    End If
+                    btnCntrLinha.Visible = True
 
                 End If
             End If
@@ -789,6 +797,7 @@ Public Class FreteTransportador_New
             divSuccessCntr.Visible = True
             lblmsgSuccessCntr.Text = "Registro atualizado com sucesso!"
             dgvCntr.SetEditRow(-1)
+            txtIDTafifario.Text = ""
             dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = txtID.Text
             dgvCntr.DataBind()
             mpeCntr.Show()
@@ -835,4 +844,44 @@ Public Class FreteTransportador_New
     Private Sub dgvCntr_RowCancelingEdit(sender As Object, e As GridViewCancelEditEventArgs) Handles dgvCntr.RowCancelingEdit
         mpeCntr.Show()
     End Sub
+
+    'Private Sub dgvCntr_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvCntr.RowDataBound
+    '    If e.Row.RowType = DataControlRowType.DataRow Then
+    '        If e.Row.RowState = 5 Or e.Row.RowState = 1 Then
+    '            Dim Con As New Conexao_sql
+
+    '            Con.Conectar()
+
+
+    '            For Each linha As GridViewRow In dgvCntr.Rows
+    '                Dim ID_TARIFARIO_FRETE_TRANSPORTADOR As String = CType(linha.FindControl("lblID"), Label).Text
+    '                Dim ID_FRETE_TRANSPORTADOR As String = CType(linha.FindControl("lblID_FRETE_TRANSPORTADOR"), Label).Text
+    '                Dim ID_MOEDA As DropDownList = CType(linha.FindControl("ddlMoeda"), DropDownList)
+    '                Dim ID_TIPO_CONTAINER As DropDownList = CType(linha.FindControl("ddlCntr"), DropDownList)
+
+
+    '                If ID_TARIFARIO_FRETE_TRANSPORTADOR = txtIDTafifario.Text Then
+
+
+    '                    Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_MOEDA,0)ID_MOEDA, ISNULL(ID_TIPO_CONTAINER,0)ID_TIPO_CONTAINER  FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & txtIDTafifario.Text)
+
+    '                    ID_MOEDA.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA").ToString()
+    '                    ID_TIPO_CONTAINER.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER").ToString()
+
+    '                    txtID.Text = ID_FRETE_TRANSPORTADOR
+
+    '                    Con.Fechar()
+
+
+
+    '                    Exit For
+
+    '                End If
+
+    '            Next
+    '        End If
+
+
+    '    End If
+    'End Sub
 End Class
