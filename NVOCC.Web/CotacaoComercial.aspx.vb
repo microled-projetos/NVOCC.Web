@@ -32,6 +32,8 @@ WHERE A.ID_STATUS_COTACAO = 8")
 
         End If
 
+        txtData.Text = Now.Date.ToString("dd/MM/yyyy")
+
         Con.Fechar()
     End Sub
     Private Sub dgvCotacao_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvCotacao.RowCommand
@@ -58,9 +60,6 @@ WHERE A.ID_STATUS_COTACAO = 8")
                 txtlinha.Text = txtlinha.Text.Substring(txtlinha.Text.Length() - 2)
             End If
             dgvCotacao.Rows(txtlinha.Text).CssClass = "selected1"
-
-
-
 
             Dim Con As New Conexao_sql
             Con.Conectar()
@@ -101,13 +100,57 @@ WHERE A.ID_STATUS_COTACAO = 8")
 
             Dim ID As String = e.CommandArgument.Substring(0, e.CommandArgument.IndexOf("|"))
 
-            'dsHistoricoFrete.SelectCommand = "SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= " & txtQtd.Text & " and cnpj = '" & txtcnpj.Text & "' "
-            'dgvHistoricoFrete.DataBind()
-
-
             dsHistoricoStatus.SelectParameters("ID_COTACAO").DefaultValue = ID
             dgvHistoricoStatus.DataBind()
             mpeStatus.Show()
+
+        ElseIf e.CommandName = "Duplicar" Then
+
+            Dim ID As String = e.CommandArgument
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                divErro.Visible = True
+                lblmsgErro.Text = "Usuário não possui permissão."
+                dgvCotacao.Columns(0).Visible = False
+
+                Exit Sub
+            Else
+                If ID = "" Then
+
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Selecione o registro que deseja duplicar!"
+
+                Else
+
+                    Dim numero_cotacao As String = NumeroCotacao()
+
+                    Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, NR_PROCESSO_GERADO, ID_USUARIO_STATUS,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN,ID_PARCEIRO_INDICADOR,FL_FREE_HAND,ID_PARCEIRO_EXPORTADOR,ID_TIPO_PAGAMENTO,TRANSITTIME_TRUCKING_AEREO,ID_PARCEIRO_IMPORTADOR,ID_STATUS_FRETE_AGENTE,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO,VL_TOTAL_M3,VL_TOTAL_PESO_BRUTO,FINAL_DESTINATION,VL_TOTAL_FRETE_VENDA_CALCULADO,ID_PARCEIRO_RODOVIARIO,FL_DUPLICATA,ID_COTACAO_MENOR,REF_REPETIDAS )    SELECT '" & numero_cotacao & "', GETDATE(), 2, GETDATE(), DT_VALIDADE_COTACAO," & Session("ID_USUARIO") & ", ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, NULL, " & Session("ID_USUARIO") & ", ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN,ID_PARCEIRO_INDICADOR,FL_FREE_HAND,ID_PARCEIRO_EXPORTADOR,ID_TIPO_PAGAMENTO,TRANSITTIME_TRUCKING_AEREO,ID_PARCEIRO_IMPORTADOR,ID_STATUS_FRETE_AGENTE,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO,VL_TOTAL_M3,VL_TOTAL_PESO_BRUTO,FINAL_DESTINATION,VL_TOTAL_FRETE_VENDA_CALCULADO,ID_PARCEIRO_RODOVIARIO,1,ID_COTACAO, REF_REPETIDAS   FROM TB_COTACAO WHERE ID_COTACAO = " & ID & " Select SCOPE_IDENTITY() as ID_COTACAO;
+
+INSERT INTO TB_COTACAO_TAXA (ID_COTACAO,
+ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_DESTINATARIO_COBRANCA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA_CALCULADO,ID_MOEDA_VENDA,VL_TAXA_VENDA_CALCULADO,ID_BASE_CALCULO_TAXA,OB_TAXAS,VL_TAXA_VENDA_MIN,VL_TAXA_COMPRA,VL_TAXA_VENDA,VL_TAXA_COMPRA_MIN,QTD_BASE_CALCULO,ID_FORNECEDOR,FL_IMPORTADO_SISTEMA, FL_TAXA_TRANSPORTADOR,DT_IMPORTACAO )    
+SELECT  (Select SCOPE_IDENTITY() as ID_COTACAO),
+ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_DESTINATARIO_COBRANCA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA_CALCULADO,ID_MOEDA_VENDA,VL_TAXA_VENDA_CALCULADO,ID_BASE_CALCULO_TAXA,OB_TAXAS,VL_TAXA_VENDA_MIN,VL_TAXA_COMPRA,VL_TAXA_VENDA,VL_TAXA_COMPRA_MIN,QTD_BASE_CALCULO,ID_FORNECEDOR,FL_IMPORTADO_SISTEMA, FL_TAXA_TRANSPORTADOR,DT_IMPORTACAO  FROM TB_COTACAO_TAXA 
+WHERE  ID_COTACAO = " & ID & " 
+
+INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO, ID_MERCADORIA, ID_TIPO_CONTAINER, QT_CONTAINER, VL_FRETE_COMPRA,
+ VL_FRETE_VENDA, VL_PESO_BRUTO, VL_M3, DS_MERCADORIA, VL_COMPRIMENTO, VL_LARGURA, VL_ALTURA, VL_CARGA, QT_DIAS_FREETIME,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,OUTRAS_OBS,VL_FRETE_COMPRA_MIN,VL_FRETE_VENDA_MIN,ID_MOEDA_CARGA,QT_MERCADORIA) 
+SELECT (SELECT MAX(ID_COTACAO) FROM TB_COTACAO ), ID_MERCADORIA, ID_TIPO_CONTAINER, QT_CONTAINER, VL_FRETE_COMPRA,
+ VL_FRETE_VENDA, VL_PESO_BRUTO, VL_M3, DS_MERCADORIA, VL_COMPRIMENTO, VL_LARGURA, VL_ALTURA, VL_CARGA, QT_DIAS_FREETIME,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,OUTRAS_OBS,VL_FRETE_COMPRA_MIN,VL_FRETE_VENDA_MIN ,ID_MOEDA_CARGA,QT_MERCADORIA 
+FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & ID)
+
+                    Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALCOTACAO =  " & Session("NR_COTACAO") & ", ANOSEQUENCIALCOTACAO = YEAR(GETDATE())")
+
+                    dgvCotacao.DataBind()
+                    divSuccess.Visible = True
+                    lblmsgSuccess.Text = "Item duplicado com sucesso! <br/><br/><strong> Nova cotação:" & numero_cotacao & "</strong>"
+
+                End If
+
+            End If
 
         End If
 
@@ -169,9 +212,9 @@ WHERE A.ID_STATUS_COTACAO = 8")
                 divErro.Visible = True
                 lblmsgErro.Text = "Selecione o registro que deseja editar!"
             Else
-                Dim url As String = "/CadastroCotacao.aspx?id={0}"
-                url = String.Format(url, txtID.Text)
-                Response.Redirect(url)
+
+                Response.Redirect("CadastroCotacao.aspx?id=" & txtID.Text)
+
             End If
         End If
 
@@ -196,6 +239,9 @@ WHERE A.ID_STATUS_COTACAO = 8")
 
         Return NR_COTACAO
     End Function
+
+
+
 
     Private Sub lkDuplicar_Click(sender As Object, e As EventArgs) Handles lkDuplicar.Click
         divSuccess.Visible = False
@@ -1875,13 +1921,13 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
     End Sub
     Private Sub bntPesquisar_Click(sender As Object, e As EventArgs) Handles bntPesquisar.Click
+        divSuccess.Visible = False
+        divErro.Visible = False
+        lblmsgErro.Text = ""
         GRID()
     End Sub
 
     Sub GRID()
-        'divSuccess.Visible = False
-        'divErro.Visible = False
-        'lblmsgErro.Text = ""
         If ddlConsultas.SelectedValue = 0 Or txtPesquisa.Text = "" Then
             dgvCotacao.DataBind()
         Else
@@ -1903,7 +1949,6 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 FILTRO = " VENDEDOR LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 8 Then
                 FILTRO = " NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
-
             ElseIf ddlConsultas.SelectedValue = 10 Then
                 FILTRO = " CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 11 Then
@@ -1922,7 +1967,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
             End If
 
-            Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
+            Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
 
             dsCotacao.SelectCommand = sql
             dgvCotacao.DataBind()
@@ -2497,4 +2542,49 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
 
     End Function
 
+    Private Sub btnPesquisaRepetidas_Click(sender As Object, e As EventArgs) Handles btnPesquisaRepetidas.Click
+
+        If txtData.Text = "" Or ddlEstufagem.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlOrigem.SelectedValue = 0 Or ddlDestino.SelectedValue Or txtPeso.Text = "" Or txtCBM.Text = "" Then
+            lblmsgErro.Text = "Para verificação é necessario preencher todos os campos"
+            divErro.Visible = True
+        Else
+
+            Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IS NOT NULL  AND CONVERT(DATE,DT_ABERTURA,103) = CONVERT(DATE,'" & txtData.Text & "',103) AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & txtPeso.Text & " AND VL_CBM = " & txtCBM.Text & " ORDER BY DT_ABERTURA DESC"
+
+            dsCotacao.SelectCommand = sql
+            dgvCotacao.DataBind()
+
+            If dgvCotacao.Rows.Count = 0 Then
+                ''NENHUMA COTAÇÃO ENCONTRADA. DESEJA INSERIR UMA COTAÇÃO COM OS PARAMETROS PESQUISADOS?
+                mpeRepetida.Show()
+            End If
+
+        End If
+    End Sub
+
+    Private Sub btnInserirRepetida_Click(sender As Object, e As EventArgs) Handles btnInserirRepetida.Click
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        Dim numero_cotacao As String = NumeroCotacao()
+        Dim ID_COTACAO As String = ""
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_Cotacao_Repetidas_" & Now.Year.ToString & " REF_REPETIDAS")
+        Dim REF_REPETIDAS As String = "REP_" & ds.Tables(0).Rows(0).Item("NR_REF_REPETIDAS")
+
+
+        ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, ID_ANALISTA_COTACAO, ID_USUARIO_STATUS, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO  VL_TOTAL_PESO_BRUTO, REF_REPETIDAS) VALUES ('" & numero_cotacao & "', GETDATE(), 2, GETDATE(), GETDATE() + 5 , " & Session("ID_USUARIO") & " , " & Session("ID_USUARIO") & " , " & ddlIncoterm.SelectedIndex & " , " & ddlEstufagem.SelectedIndex & " , " & ddlOrigem.SelectedIndex & " ," & ddlDestino.SelectedIndex & "  , " & txtPeso.Text & ",  '" & REF_REPETIDAS & "' ) Select SCOPE_IDENTITY() as ID_COTACAO;")
+
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            ID_COTACAO = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+
+            Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO, VL_PESO_BRUTO, VL_CBM) VALUES (" & ID_COTACAO & ", " & txtPeso.Text & " , " & txtCBM.Text & " )")
+
+            Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALCOTACAO =  " & Session("NR_COTACAO") & ", ANOSEQUENCIALCOTACAO = YEAR(GETDATE())")
+
+
+            Response.Redirect("CadastroCotacao.aspx?ID=" & ID_COTACAO)
+
+        End If
+    End Sub
 End Class

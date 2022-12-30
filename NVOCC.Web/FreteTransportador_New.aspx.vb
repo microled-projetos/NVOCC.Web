@@ -38,7 +38,7 @@ Public Class FreteTransportador_New
         Dim Con As New Conexao_sql
         Con.Conectar()
 
-        Dim tabela As String = "<select data-live-search='True' ID='comboOrigem' data-live-search-style='startsWith' class='selectpicker'style='width:270px !important;' multiple='multiple' onchange='IDOrigem()'  title='Selecione'>"
+        Dim tabela As String = "<label style='font-size:12px'><strong>Porto Origem:<label></strong><select data-live-search='True' ID='comboOrigem' data-live-search-style='startsWith' class='form-control selectpicker'style='width:270px !important;' multiple='multiple' onchange='IDOrigem()'  title='Selecione'>"
         Dim dsdados As DataSet
         Dim sql As String = "SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE NM_PORTO IS NOT NULL AND FL_ATIVO = 1"
         If ddlViaTransporte.SelectedValue <> "" Then
@@ -62,7 +62,7 @@ Public Class FreteTransportador_New
         divOrigem.InnerHtml = tabela
 
         'DESTINO
-        tabela = "<select data-live-search='True' ID='comboDestino' data-live-search-style='startsWith' class='selectpicker' style='width:270px !important;' multiple='multiple' onchange='IDDestino()'  title='Selecione'>"
+        tabela = "<label style='font-size:12px'><strong>Porto Destino:<label></strong><select data-live-search='True' ID='comboDestino' data-live-search-style='startsWith' class='form-control selectpicker' style='width:270px !important;' multiple='multiple' onchange='IDDestino()'  title='Selecione'>"
         dsdados = Con.ExecutarQuery(sql)
         If dsdados.Tables(0).Rows.Count > 0 Then
 
@@ -185,6 +185,7 @@ Public Class FreteTransportador_New
             Dim row As GridViewRow = CType(((CType(e.CommandSource, Control)).NamingContainer), GridViewRow)
             If row.RowState = 5 Then
                 dgvCntr.Columns(0).Visible = True
+
 
             Else
                 dgvCntr.Columns(0).Visible = False
@@ -401,9 +402,9 @@ Public Class FreteTransportador_New
                 lblmsgErro.Text = "Data Inválida."
             Else
                 If filtro = "" Then
-                    filtro &= " WHERE Convert(date,DT_VALIDADE_FINAL, 103) >= Convert(date, '" & txtValidadeInicial.Text & "', 103) "
+                    filtro &= " WHERE Convert(date,DT_VALIDADE_FINAL, 103) = Convert(date, '" & txtValidadeInicial.Text & "', 103) "
                 Else
-                    filtro &= " AND Convert(date,DT_VALIDADE_FINAL, 103) >= Convert(date, '" & txtValidadeInicial.Text & "', 103) "
+                    filtro &= " AND Convert(date,DT_VALIDADE_FINAL, 103) = Convert(date, '" & txtValidadeInicial.Text & "', 103) "
                 End If
 
             End If
@@ -415,9 +416,9 @@ Public Class FreteTransportador_New
                 lblmsgErro.Text = "Data Inválida."
             Else
                 If filtro = "" Then
-                    filtro &= " WHERE Convert(date,DT_VALIDADE_FINAL, 103) <= Convert(date, '" & txtValidadeFinal.Text & "', 103) "
+                    filtro &= " WHERE Convert(date,DT_VALIDADE_FINAL, 103) = Convert(date, '" & txtValidadeFinal.Text & "', 103) "
                 Else
-                    filtro &= " AND Convert(date,DT_VALIDADE_FINAL, 103) <= Convert(date, '" & txtValidadeFinal.Text & "', 103) "
+                    filtro &= " AND Convert(date,DT_VALIDADE_FINAL, 103) = Convert(date, '" & txtValidadeFinal.Text & "', 103) "
                 End If
 
             End If
@@ -471,6 +472,21 @@ Public Class FreteTransportador_New
                 filtro &= " WHERE DT_VALIDADE_FINAL >= GETDATE() "
             Else
                 filtro &= "  AND DT_VALIDADE_FINAL >= GETDATE() "
+            End If
+        End If
+
+        'Consolidada
+        If ckConsolidada.Checked = True Then
+            If filtro = "" Then
+                filtro &= " WHERE FL_CONSOLIDADA = 1 "
+            Else
+                filtro &= "  AND FL_CONSOLIDADA = 1  "
+            End If
+        Else
+            If filtro = "" Then
+                filtro &= " WHERE FL_CONSOLIDADA = 0 "
+            Else
+                filtro &= "  AND FL_CONSOLIDADA = 0 "
             End If
         End If
 
@@ -730,5 +746,6 @@ Public Class FreteTransportador_New
     Private Sub dgvCntr_RowCancelingEdit(sender As Object, e As GridViewCancelEditEventArgs) Handles dgvCntr.RowCancelingEdit
         mpeCntr.Show()
     End Sub
+
 
 End Class

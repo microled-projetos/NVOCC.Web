@@ -2,11 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
-        .btnn {
-            background-color: #d5d8db;
-            margin: 5px;
-            font-size: 13px
-        }
 
         .btnGrid {
             color: black;
@@ -69,16 +64,11 @@
                                             </asp:DropDownList>
                                         </div>
                                     </div>
-                                    <div class="col-sm-2 portos">
-                                        <label class="control-label">Porto Origem:</label>
-                                        <div class="form-group" id="divOrigem" runat="server">
-                                        </div>
+                                    <div class="col-sm-1 portos" id="divOrigem" runat="server">
+                                       
                                     </div>
-                                    <div class="col-sm-2 portos">
-                                        <div class="form-group">
-                                            <label class="control-label">Porto Destino:</label>
-                                            <div id="divDestino" runat="server"></div>
-                                        </div>
+                                    <div class="col-sm-1 portos" id="divDestino" runat="server">
+                                         
                                     </div>
 
 
@@ -118,24 +108,25 @@
                                             <asp:DropDownList ID="ddlAgente" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                         </div>
                                     </div>
+                                    
+
                                     <div class="col-sm-1">
                                         <div class="form-group">
-                                            <label class="control-label" style="color: white">x:</label><br />
+                                            <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            <asp:CheckBox ID="ckInativo" runat="server" Text="&nbsp;&nbsp;Inativo" Font-Size="Medium" /><br />
+                                             <asp:CheckBox ID="ckConsolidada" runat="server" Text="&nbsp;&nbsp;Consolidada" Font-Size="Medium" /><br />
+                                    </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="form-group">
+                                          <label class="control-label" style="color: white">x:</label><br />
                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnBusca" Text="Pesquisar" />
-                                        </div>
+                                     </div>
                                     </div>
-
                                     <div class="col-sm-1">
                                         <div class="form-group">
-                                            <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br />
-                                            <asp:CheckBox ID="ckInativo" runat="server" Text="&nbsp;&nbsp;Inativo" Font-Size="Medium" />
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-1">
-                                        <div class="form-group">
-                                            <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br />
-                                            <asp:LinkButton ID="lkExportar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-file-excel"></i>&nbsp;Exportar</asp:LinkButton>
+                                            <label class="control-label"style="color: white">x:</label><br />
+                                            <asp:LinkButton ID="lkExportar" runat="server" CssClass="btn btn-default" Style="font-size: 15px;background-color:lightgray"><i class="fa fa-file-excel"></i>&nbsp;Exportar</asp:LinkButton>
                                         </div>
                                     </div>
                                 </div>
@@ -293,10 +284,10 @@
                                                     <asp:Label ID="lblTTInicial" runat="server" Text='<%# Eval("QT_DIAS_TRANSITTIME_INICIAL") %>' />
                                                 </ItemTemplate>
                                                 <EditItemTemplate>
-                                                    <asp:TextBox ID="txtTTInicial" runat="server" Text='<%# Eval("QT_DIAS_TRANSITTIME_INICIAL") %>'></asp:TextBox>
+                                                    <asp:TextBox ID="txtTTInicial" runat="server" Text='<%# Eval("QT_DIAS_TRANSITTIME_INICIAL") %>' CssClass="ApenasNumeros"></asp:TextBox>
                                                 </EditItemTemplate>
                                                 <FooterTemplate>
-                                                    <asp:TextBox ID="txtTTInicial" runat="server" Text='<%# Eval("QT_DIAS_TRANSITTIME_INICIAL") %>'></asp:TextBox>
+                                                    <asp:TextBox ID="txtTTInicial" runat="server" Text='<%# Eval("QT_DIAS_TRANSITTIME_INICIAL") %>' CssClass="ApenasNumeros"></asp:TextBox>
                                                 </FooterTemplate>
                                             </asp:TemplateField>
 
@@ -305,10 +296,10 @@
                                                     <asp:Label ID="lblTTFinal" runat="server" Text='<%# Eval("QT_DIAS_TRANSITTIME_FINAL") %>' />
                                                 </ItemTemplate>
                                                 <EditItemTemplate>
-                                                    <asp:TextBox ID="txtTTFinal" runat="server" Text='<%# Eval("QT_DIAS_TRANSITTIME_FINAL") %>'></asp:TextBox>
+                                                    <asp:TextBox ID="txtTTFinal" runat="server" Text='<%# Eval("QT_DIAS_TRANSITTIME_FINAL") %>' CssClass="ApenasNumeros"></asp:TextBox>
                                                 </EditItemTemplate>
                                                 <FooterTemplate>
-                                                    <asp:TextBox ID="txtTTFinal" runat="server" Text='<%# Eval("QT_DIAS_TRANSITTIME_FINAL") %>'></asp:TextBox>
+                                                    <asp:TextBox ID="txtTTFinal" runat="server" Text='<%# Eval("QT_DIAS_TRANSITTIME_FINAL") %>' CssClass="ApenasNumeros"></asp:TextBox>
                                                 </FooterTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Transportador" HeaderStyle-ForeColor="#337ab7" SortExpression="Transportador">
@@ -515,7 +506,7 @@
                                                     <asp:Label runat="server" Text='<%# Eval("VL_COMPRA") %>' />
                                                 </ItemTemplate>
                                                 <EditItemTemplate>
-                                                      <asp:TextBox ID="txtCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>'></asp:TextBox>
+                                                      <asp:TextBox ID="txtCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>' CssClass="valores"></asp:TextBox>
                                                 </EditItemTemplate>
                                                
                                             </asp:TemplateField>
@@ -525,7 +516,7 @@
                                                     <asp:Label runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>' />
                                                 </ItemTemplate>
                                                 <EditItemTemplate>
-                                                      <asp:TextBox ID="txtFreeTime" runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>'></asp:TextBox>
+                                                      <asp:TextBox ID="txtFreeTime" runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>' CssClass="ApenasNumeros"></asp:TextBox>
                                                 </EditItemTemplate>
                                                
                                             </asp:TemplateField>
@@ -556,12 +547,9 @@
     <EmptyDataTemplate>
 
         <tr>
-            
+             
             <td>
                 <asp:LinkButton ID="btnNovo" runat="server" CausesValidation="False" CommandName="Incluir" Text="Incluir" CssClass="btnGrid"><i class="glyphicon glyphicon-plus"  style="font-size:small"></i></asp:LinkButton>
-            </td>
-            <td>
-             <asp:Label ID="lblIDFrete_Novo" runat="server" Text='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'  />
              </td>
             <td>
                  <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER"></asp:DropDownList>
@@ -570,11 +558,16 @@
                  <asp:DropDownList ID="ddlMoeda" runat="server" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
             </td>
              <td>
-                <asp:TextBox ID="txtCompra" runat="server" />
+                <asp:TextBox ID="txtCompra" runat="server" CssClass="valores" />
             </td>
              <td>
-                <asp:TextBox ID="txtFreeTime" runat="server" />
+                <asp:TextBox ID="txtFreeTime" runat="server"  CssClass="ApenasNumeros"/>
             </td>
+             <td>
+            </td>
+            <td>
+            </td>
+
 
         </tr>
     </EmptyDataTemplate>
@@ -738,8 +731,23 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
     <script type="text/javascript">
 
         $(document).ready(function () {
-            Combos();                
+            Combos();      
+            InIEvent();
         });    
+
+
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+
+        function EndRequestHandler(sender, args) {
+            var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
+            document.getElementById('DivGrid').scrollTop = valor;
+            IDDestino();
+            IDOrigem();
+            copiarTexto();    
+            Combos();
+            InIEvent();
+        };
 
         function Combos() {
             $(".combos").select2({ placeholder: "  Selecione", allowClear: true });
@@ -752,7 +760,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
 
         };
 
-
         function SalvaPosicao() {
             var posicao = document.getElementById('DivGrid').scrollTop;
             if (posicao) {
@@ -761,22 +768,12 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
 
                }
                else {
-                   document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
                 console.log('else:' + posicao);
 
             }
         };
 
-        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
-
-        function EndRequestHandler(sender, args) {
-            var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
-            document.getElementById('DivGrid').scrollTop = valor;
-            IDDestino();
-            IDOrigem();
-            copiarTexto();    
-            Combos();
-        };
 
         function copiarTexto() {
 
@@ -813,6 +810,16 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
             }
             console.log("IDOrigem selected : " + selected);
             document.getElementById('<%= txtOrigem.ClientID %>').value = selected;
+        }
+
+        function InIEvent() {
+            $(".valores").on("keypress keyup blur", function (e) {
+                console.log("entrou")
+                var chr = String.fromCharCode(e.which);
+                if ("1234567890,".indexOf(chr) < 0)
+                    return false;
+
+            });
         }
 
 

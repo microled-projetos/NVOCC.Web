@@ -194,15 +194,6 @@ Partial Public Class FreteTransportador_New
     Protected WithEvents ddlAgente As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle btnBusca.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnBusca As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle ckInativo.
     '''</summary>
     '''<remarks>
@@ -210,6 +201,24 @@ Partial Public Class FreteTransportador_New
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ckInativo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckConsolidada.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckConsolidada As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle btnBusca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnBusca As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle lkExportar.

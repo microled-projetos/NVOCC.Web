@@ -21,13 +21,18 @@ Public Class CadastroCotacao
                 CarregaCampos()
             End If
 
+            'ElseIf Request.QueryString("R") = "1" Then
+            '    txtAbertura.Text = Now.Date.ToString("dd/MM/yyyy")
+            '    ddlEstufagem.SelectedValue = Request.QueryString("est")
+            '    ddlIncoterm.SelectedValue = Request.QueryString("inc")
+
         Else
             If txtID.Text = "" And Not Page.IsPostBack Then
                 txtCotacaoTaxa.Text = txtNumeroCotacao.Text
                 txtCotacaoMercadoria.Text = txtNumeroCotacao.Text
                 ddlUsuarioStatus.SelectedValue = Session("ID_USUARIO")
                 ddlAnalista.SelectedValue = Session("ID_USUARIO")
-                txtAbertura.Text = Now.Date.ToString("dd-MM-yyyy")
+                txtAbertura.Text = Now.Date.ToString("dd/MM/yyyy")
                 btnNovoFrete.Attributes.CssStyle.Add("display", "none")
                 ddlStatusCotacao.SelectedValue = 16
                 Session("ID_CLIENTE") = 0
@@ -651,7 +656,7 @@ SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ES
 
                 'Frete
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM")) Then
-                    ddlOrigemFrete.Text = ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM")
+                    ddlOrigemFrete.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM")
                 End If
 
                 ckFreteDeclarado.Checked = ds.Tables(0).Rows(0).Item("FL_FRETE_DECLARADO")
@@ -812,6 +817,14 @@ SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ES
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("FINAL_DESTINATION")) Then
                     ddlFinalDestination.Text = ds.Tables(0).Rows(0).Item("FINAL_DESTINATION")
                 End If
+
+
+                'If Request.QueryString("R") = "1" Then
+                '    ddlEstufagemFrete.SelectedValue = Request.QueryString("est")
+                '    ddlDestinoFrete.SelectedValue = Request.QueryString("orig")
+                '    ddlOrigemFrete.SelectedValue = Request.QueryString("dest")
+                'End If
+
 
                 mpeNovoFrete.Show()
 
@@ -1227,7 +1240,7 @@ WHERE A.ID_COTACAO_MERCADORIA = " & ID)
         Dim PROCESSO As String = ""
         Dim v As New VerificaData
 
-        txtAbertura.Text = txtAbertura.Text.Replace("-", "/")
+        ' txtAbertura.Text = txtAbertura.Text.Replace("-", "/")
 
         If txtAbertura.Text = "" Or ddlStatusCotacao.SelectedValue = 0 Or ddlUsuarioStatus.SelectedValue = 0 Or txtValidade.Text = "" Or ddlDestinatarioComercial.SelectedValue = 0 Or ddlAnalista.SelectedValue = 0 Or ddlCliente.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlEstufagem.SelectedValue = 0 Or ddlTipoBL.SelectedValue = 0 Or ddlServico.SelectedValue = 0 Or ddlVendedor.SelectedValue = 0 Then
             ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
