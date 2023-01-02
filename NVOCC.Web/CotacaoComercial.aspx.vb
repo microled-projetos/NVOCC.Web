@@ -1981,7 +1981,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
             lblmsgErro.Text = "Selecione o registro que deseja imprimir!"
         Else
             mpeImprimir.Show()
-            Panel1.Attributes.CssStyle.Add("display", "block")
+            PanelImprimir.Attributes.CssStyle.Add("display", "block")
         End If
 
     End Sub
@@ -2543,13 +2543,18 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
     End Function
 
     Private Sub btnPesquisaRepetidas_Click(sender As Object, e As EventArgs) Handles btnPesquisaRepetidas.Click
-
-        If txtData.Text = "" Or ddlEstufagem.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlOrigem.SelectedValue = 0 Or ddlDestino.SelectedValue Or txtPeso.Text = "" Or txtCBM.Text = "" Then
+        divSuccess.Visible = False
+        divErro.Visible = False
+        If txtData.Text = "" Or ddlEstufagem.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlOrigem.SelectedValue = 0 Or ddlDestino.SelectedValue = 0 Or txtPeso.Text = "" Or txtCBM.Text = "" Then
             lblmsgErro.Text = "Para verificação é necessario preencher todos os campos"
             divErro.Visible = True
         Else
 
-            Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IS NOT NULL  AND CONVERT(DATE,DT_ABERTURA,103) = CONVERT(DATE,'" & txtData.Text & "',103) AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & txtPeso.Text & " AND VL_CBM = " & txtCBM.Text & " ORDER BY DT_ABERTURA DESC"
+            Dim peso As String = txtPeso.Text
+            Dim cbm As String =  txtCBM.Text
+
+
+            Dim sql As String = " SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IN ( SELECT ID_COTACAO FROM [dbo].[View_Cotacao_Repetidas] WHERE CONVERT(DATE,DT_ABERTURA,103) = CONVERT(DATE,'" & txtData.Text & "',103) AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & peso.Replace(",", ".") & " AND VL_CBM = " & cbm.Replace(",", ".") & " ) ORDER BY DT_ABERTURA DESC"
 
             dsCotacao.SelectCommand = sql
             dgvCotacao.DataBind()
@@ -2569,16 +2574,18 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
         Dim numero_cotacao As String = NumeroCotacao()
         Dim ID_COTACAO As String = ""
         Dim ds As DataSet = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_Cotacao_Repetidas_" & Now.Year.ToString & " REF_REPETIDAS")
-        Dim REF_REPETIDAS As String = "REP_" & ds.Tables(0).Rows(0).Item("NR_REF_REPETIDAS")
+        Dim REF_REPETIDAS As String = "REP_" & ds.Tables(0).Rows(0).Item("REF_REPETIDAS")
 
+        Dim peso As String = txtPeso.Text
+        Dim cbm As String = txtCBM.Text
 
-        ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, ID_ANALISTA_COTACAO, ID_USUARIO_STATUS, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO  VL_TOTAL_PESO_BRUTO, REF_REPETIDAS) VALUES ('" & numero_cotacao & "', GETDATE(), 2, GETDATE(), GETDATE() + 5 , " & Session("ID_USUARIO") & " , " & Session("ID_USUARIO") & " , " & ddlIncoterm.SelectedIndex & " , " & ddlEstufagem.SelectedIndex & " , " & ddlOrigem.SelectedIndex & " ," & ddlDestino.SelectedIndex & "  , " & txtPeso.Text & ",  '" & REF_REPETIDAS & "' ) Select SCOPE_IDENTITY() as ID_COTACAO;")
+        ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, ID_ANALISTA_COTACAO, ID_USUARIO_STATUS, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO  , VL_TOTAL_PESO_BRUTO, REF_REPETIDAS) VALUES ('" & numero_cotacao & "', GETDATE(), 2, GETDATE(), GETDATE() + 5 , " & Session("ID_USUARIO") & " , " & Session("ID_USUARIO") & " , " & ddlIncoterm.SelectedIndex & " , " & ddlEstufagem.SelectedIndex & " , " & ddlOrigem.SelectedIndex & " ," & ddlDestino.SelectedIndex & "  , " & peso.Replace(",", ".") & ",  '" & REF_REPETIDAS & "' ) Select SCOPE_IDENTITY() as ID_COTACAO ;")
 
         If ds.Tables(0).Rows.Count > 0 Then
 
             ID_COTACAO = ds.Tables(0).Rows(0).Item("ID_COTACAO")
 
-            Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO, VL_PESO_BRUTO, VL_CBM) VALUES (" & ID_COTACAO & ", " & txtPeso.Text & " , " & txtCBM.Text & " )")
+            Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO, VL_PESO_BRUTO, VL_CBM) VALUES (" & ID_COTACAO & ", " & peso.Replace(",", ".") & " , " & cbm.Replace(",", ".") & " )")
 
             Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALCOTACAO =  " & Session("NR_COTACAO") & ", ANOSEQUENCIALCOTACAO = YEAR(GETDATE())")
 

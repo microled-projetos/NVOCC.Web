@@ -41,6 +41,14 @@
                         <br />
                         <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
                             <ContentTemplate>
+                                <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
+                                    <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
+                                </div>
+                                <div class="alert alert-danger" id="divErro" runat="server" visible="false">
+                                    <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
+                                </div>
+                                <br />
+
                                  <div class="row" id="divCotacoesRepetidas" style="border:groove;margin-left:5px;margin-right:5px;border-color:#005fad !important">
                                     <div class="col-sm-1">
                                         <div class="form-group">
@@ -92,14 +100,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                                                <br />
 
-                                <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
-                                    <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
-                                </div>
-                                <div class="alert alert-danger" id="divErro" runat="server" visible="false">
-                                    <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
-                                </div>
-                                <br />
+                    
                                 <div class="row linhabotao text-center">
                                     <asp:LinkButton ID="lkInserir" runat="server" CssClass="btn  btnn btn-default btn-sm" Style="font-size: 15px"><i  class="glyphicon glyphicon-plus"></i>&nbsp;Inserir</asp:LinkButton>
                                     <asp:LinkButton ID="lkAlterar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i  class="glyphicon glyphicon-pencil"></i>&nbsp;Alterar</asp:LinkButton>
@@ -154,8 +157,8 @@
 
 
 
-                                <ajaxToolkit:ModalPopupExtender ID="mpeImprimir" runat="server" PopupControlID="Panel1" TargetControlID="lkImprimir" CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" Style="display: none;">
+                                <ajaxToolkit:ModalPopupExtender ID="mpeImprimir" runat="server" PopupControlID="PanelImprimir" TargetControlID="lkImprimir" CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="PanelImprimir" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -195,8 +198,8 @@
 
 
                                 <asp:Button runat="server" Style="display: none" ID="btnAuxiliarStatus" />
-                                <ajaxToolkit:ModalPopupExtender ID="mpeStatus" runat="server" PopupControlID="Panel2" TargetControlID="btnAuxiliarStatus" CancelControlID="btnFecharStatus"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" Style="display: none;">
+                                <ajaxToolkit:ModalPopupExtender ID="mpeStatus" runat="server" PopupControlID="PanelStatus" TargetControlID="btnAuxiliarStatus" CancelControlID="btnFecharStatus"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="PanelStatus" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -228,8 +231,8 @@
 
 
                                   <asp:Button runat="server" Style="display: none" ID="btnAuxiliarRepetida" />
-                                  <ajaxToolkit:ModalPopupExtender ID="mpeRepetida" runat="server" PopupControlID="Panel1" TargetControlID="btnAuxiliarRepetida" CancelControlID="btnFecharRepetida"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="Panel3" runat="server" CssClass="modalPopup" Style="display: none;">
+                                  <ajaxToolkit:ModalPopupExtender ID="mpeRepetida" runat="server" PopupControlID="PanelRepetida" TargetControlID="btnAuxiliarRepetida" CancelControlID="btnFecharRepetida"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="PanelRepetida" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -239,10 +242,10 @@
                                                              <br/>
                                    
                                   
-                             <div class="row">
-                               <h5>Nenhuma cotação encontrada! Deseja inserir uma cotação com os parametros pesquisados?</h5> 
-                                 
-                             </div>
+                             <div class="row"><div class="col-sm-12">
+                               <h5>Nenhuma cotação encontrada! </h5> 
+                               <h5>Deseja inserir uma cotação com os parametros pesquisados?</h5> 
+                             </div></div>
                                                                                   </div>                     
                                <div class="modal-footer">
                                                              <asp:Button runat="server" CssClass="btn btn-success" ID="btnInserirRepetida" text="Sim" />
@@ -312,8 +315,8 @@
                                             <asp:BoundField DataField="REF_REPETIDAS" HeaderText="REF. REPETIDAS" SortExpression="REF_REPETIDAS" /> 
                                              <asp:TemplateField>                                              
                                                 <ItemTemplate>
-                                                 <asp:LinkButton ID="btnDuplicar" runat="server" CssClass="btnGrid" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_COTACAO") %>'
-                                                        Text="Visualizar" OnClientClick="javascript:return confirm('Deseja realmente duplicar este registro?');"><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></div></asp:LinkButton>
+                                                 <asp:Button ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_COTACAO") %>'
+                                                        Text="Duplicar" OnClientClick="javascript:return confirm('Deseja realmente duplicar este registro?');"></asp:Button>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>

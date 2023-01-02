@@ -2,6 +2,7 @@
 Imports System.Configuration
 Imports System.IO
 Imports System.Web
+Imports System.Net.Mail
 
 Module Inicio
 
@@ -43,7 +44,7 @@ Module Inicio
             Con.ExecutarQuery("EXEC [dbo].[Proc_Comissoes_Nacional_Totvs]")
 
 
-            ''ROTINA QUE DELETA ARQUIVOC DE UPLOAD DO GLOBAL SYS - CHAMADO 33531 
+            ''ROTINA QUE DELETA ARQUIVOC DE UPLOAD DO GLOBAL SYS - CHAMADO 33531  
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 47 - DeletaArquivos ")
             DeletaArquivos()
 
@@ -54,6 +55,8 @@ Module Inicio
             WriteToFile($"{DateTime.Now.ToString()} - Erro: " & ex.ToString)
 
             FlagExecutando = False
+
+            processaFila(ConfigurationManager.AppSettings("Email").ToString(), "Erro no srvRetornoNF - NVOCC", ex.ToString)
 
         End Try
 
@@ -90,6 +93,112 @@ WHERE B.FL_EXPIRA = 1 AND DATEDIFF( DAY , DT_UPLOAD,GETDATE()) >= (SELECT QT_DIA
 
 
     End Sub
+
+
+
+    Sub processaFila(email As String, assunto As String, msg As String)
+        Dim sSql As String
+        Dim anexos As Attachment()
+        Dim critica As String = ""
+        Dim enderecos As String = ""
+        Dim rsParam As DataSet = Nothing
+        Dim indExc As Long
+        Dim nomeArq As String
+        Dim validaEnd As String
+        Dim ends() As String
+        Dim Mail As New MailMessage
+        Dim smtp As New SmtpClient()
+
+        Try
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            sSql = "SELECT EMAIL_REMETENTE, END_SMTP, SENHA_REMETENTE, DOMINIO_REMETENTE, EXIGE_SSL, PORTA_SMTP, DIR_EMAIL_GER AS DIR_EMAIL "
+            sSql = sSql & " FROM TB_PARAMETROS "
+            rsParam = Con.ExecutarQuery(sSql)
+
+            If rsParam.Tables(0).Rows.Count > 0 Then
+
+
+                Mail = New MailMessage
+                Mail.From = New MailAddress(rsParam.Tables(0).Rows(0)("EMAIL_REMETENTE").ToString)
+                Try
+                    Mail.From = New MailAddress(rsParam.Tables(0).Rows(0)("EMAIL_REMETENTE").ToString)
+                Catch ex As Exception
+                    critica = "Endereço de envio dos e-mails inválido [" & rsParam.Tables(0).Rows(0)("EMAIL_REMETENTE").ToString & "] "
+                    WriteToFile($"{DateTime.Now.ToString()} - Erro: " & critica.ToString)
+                    WriteToFile($"{DateTime.Now.ToString()} - Erro: " & ex.ToString)
+                End Try
+
+
+                Try
+                    smtp = New SmtpClient(rsParam.Tables(0).Rows(0)("END_SMTP").ToString)
+                    If rsParam.Tables(0).Rows(0)("EXIGE_SSL").ToString = "1" Then
+                        smtp.EnableSsl = True
+                    Else
+                        smtp.EnableSsl = False
+                    End If
+                    smtp.Credentials = New System.Net.NetworkCredential(rsParam.Tables(0).Rows(0)("EMAIL_REMETENTE").ToString, rsParam.Tables(0).Rows(0)("SENHA_REMETENTE").ToString, rsParam.Tables(0).Rows(0)("DOMINIO_REMETENTE").ToString)
+                    smtp.Port = rsParam.Tables(0).Rows(0)("PORTA_SMTP").ToString
+                Catch ex As Exception
+                    critica = "Configurações de envio de e-mail inválidas, contate o suporte!" & Err.Description
+                    WriteToFile($"{DateTime.Now.ToString()} - Erro: " & critica.ToString)
+                    WriteToFile($"{DateTime.Now.ToString()} - Erro: " & ex.ToString)
+
+                End Try
+
+
+                'ASSUNTO
+                Mail.Subject = assunto
+
+
+                'CORPO
+                Mail.Body = msg
+                Mail.IsBodyHtml = True
+
+
+                'DESTINATARIO
+                enderecos = email
+                Dim palavras As String() = enderecos.Split(New String() _
+          {";"}, StringSplitOptions.RemoveEmptyEntries)
+
+                For i As Integer = 0 To palavras.GetUpperBound(0) Step 1
+                    Mail.To.Add(palavras(i).ToString)
+
+                Next
+
+                Try
+
+                    smtp.Send(Mail)
+
+                    smtp.Dispose()
+
+                Catch ex As Exception
+                    critica = "Ocorreu um erro ao enviar o e-mail! Erro:  " & Err.Description
+                    Err.Clear()
+                    WriteToFile($"{DateTime.Now.ToString()} - Erro: " & critica.ToString)
+                    WriteToFile($"{DateTime.Now.ToString()} - Erro: " & ex.ToString)
+
+                End Try
+
+            Else
+                critica = "Não foi possível acessar As configurações para envio de e-mails, contate o suporte!"
+                WriteToFile($"{DateTime.Now.ToString()} - Erro: " & critica.ToString)
+
+            End If
+
+        Catch ex As Exception
+
+            critica = "Ocorreu um erro ao realizar o envio de e-mails, contate o suporte!" & vbCrLf & "Erro:  " & Err.Description
+            WriteToFile($"{DateTime.Now.ToString()} - Erro: " & critica.ToString)
+            WriteToFile($"{DateTime.Now.ToString()} - Erro: " & ex.ToString)
+
+        End Try
+
+
+
+    End Sub
+
 
 
     Public Sub WriteToFile(strToWrite As String)
