@@ -49,7 +49,7 @@
                                 </div>
                                 <br />
 
-                                 <div class="row" id="divCotacoesRepetidas" style="border:groove;margin-left:5px;margin-right:5px;border-color:#005fad !important">
+                                 <div class="row" id="divCotacoesRepetidas">
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Data:</label><br/>

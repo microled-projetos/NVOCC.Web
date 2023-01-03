@@ -2579,7 +2579,7 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
         Dim peso As String = txtPeso.Text
         Dim cbm As String = txtCBM.Text
 
-        ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, ID_ANALISTA_COTACAO, ID_USUARIO_STATUS, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO  , VL_TOTAL_PESO_BRUTO, REF_REPETIDAS) VALUES ('" & numero_cotacao & "', GETDATE(), 2, GETDATE(), GETDATE() + 5 , " & Session("ID_USUARIO") & " , " & Session("ID_USUARIO") & " , " & ddlIncoterm.SelectedIndex & " , " & ddlEstufagem.SelectedIndex & " , " & ddlOrigem.SelectedIndex & " ," & ddlDestino.SelectedIndex & "  , " & peso.Replace(",", ".") & ",  '" & REF_REPETIDAS & "' ) Select SCOPE_IDENTITY() as ID_COTACAO ;")
+        ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, ID_ANALISTA_COTACAO, ID_USUARIO_STATUS, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO  , VL_TOTAL_PESO_BRUTO, REF_REPETIDAS, ID_SERVICO) VALUES ('" & numero_cotacao & "', GETDATE(), 2, GETDATE(), GETDATE() + 5 , " & Session("ID_USUARIO") & " , " & Session("ID_USUARIO") & " , " & ddlIncoterm.SelectedValue & " , " & ddlEstufagem.SelectedValue & " , " & ddlOrigem.SelectedValue & " ," & ddlDestino.SelectedValue & "  , " & peso.Replace(",", ".") & ",  '" & REF_REPETIDAS & "', (SELECT CASE WHEN (SELECT ISNULL(ID_VIATRANSPORTE,0) FROM TB_PORTO WHERE ID_PORTO = " & ddlOrigem.SelectedValue & " ) = 1 THEN 1 ELSE 2 END ID_SERVICO)) Select SCOPE_IDENTITY() as ID_COTACAO ;")
 
         If ds.Tables(0).Rows.Count > 0 Then
 
