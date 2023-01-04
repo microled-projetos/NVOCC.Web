@@ -59,6 +59,42 @@ Partial Public Class DebitNote
     Protected WithEvents lblGrau As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblEnderecoFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblEnderecoFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblEnderecoFCA2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblEnderecoFCA2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblContatoFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblContatoFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblDocFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblDocFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblEmpresa.
     '''</summary>
     '''<remarks>

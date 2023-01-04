@@ -216,6 +216,35 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE isnu
                     End If
                     Dim processo As String = lblProcesso.Text
                     Page.Title = "NOTA DE DEBITO " & processo.Replace("/", "-")
+
+
+
+
+
+
+
+                    dsParceiro = Con.ExecutarQuery("SELECT UPPER(NM_RAZAO),UPPER(ENDERECO)ENDERECO,NR_ENDERECO,CNPJ,CPF,CEP,ID_CIDADE,(SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE)CIDADE,UPPER(BAIRRO)BAIRRO,TELEFONE,(SELECT NM_PAIS FROM TB_PAIS WHERE ID_PAIS = A.ID_PAIS)PAIS,INSCR_ESTADUAL FROM TB_PARCEIRO A WHERE ID_PARCEIRO = 1 ")
+
+                    If ds.Tables(0).Rows.Count > 0 Then
+                        lblEnderecoFCA.Text = dsParceiro.Tables(0).Rows(0).Item("ENDERECO") & ", " & dsParceiro.Tables(0).Rows(0).Item("NR_ENDERECO") & " - " & dsParceiro.Tables(0).Rows(0).Item("BAIRRO")
+                        lblEnderecoFCA2.Text = dsParceiro.Tables(0).Rows(0).Item("CIDADE") & " - " & dsParceiro.Tables(0).Rows(0).Item("PAIS") & " - CEP: " & dsParceiro.Tables(0).Rows(0).Item("CEP")
+
+
+                        If Not IsDBNull(dsParceiro.Tables(0).Rows(0).Item("CNPJ")) Then
+                            lblDocFCA.Text = "CNPJ: " & dsParceiro.Tables(0).Rows(0).Item("CNPJ") & " - I.E: " & dsParceiro.Tables(0).Rows(0).Item("INSCR_ESTADUAL")
+                        End If
+
+                        If Not IsDBNull(dsParceiro.Tables(0).Rows(0).Item("TELEFONE")) Then
+                            lblContatoFCA.Text = "FONE: " & dsParceiro.Tables(0).Rows(0).Item("TELEFONE")
+                        End If
+
+                    End If
+
+
+
+
+
+
                     Con.Fechar()
                 End If
 
