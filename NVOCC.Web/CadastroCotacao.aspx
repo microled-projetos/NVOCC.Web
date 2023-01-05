@@ -2020,6 +2020,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO">
             <asp:SessionParameter Name="ID_CLIENTE" SessionField="ID_CLIENTE" />
         </SelectParameters>
     </asp:SqlDataSource>
+   
     <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE (FL_VENDEDOR = 1  AND FL_ATIVO = 1)  OR ID_PARCEIRO = @ID_PARCEIRO
 union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
@@ -2027,12 +2028,15 @@ union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
             <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtID_Vendedor" DefaultValue="0" />
         </SelectParameters>
     </asp:SqlDataSource>
+    
     <asp:SqlDataSource ID="dsMotivoCancelamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_MOTIVO_CANCELAMENTO,NM_MOTIVO_CANCELAMENTO FROM TB_MOTIVO_CANCELAMENTO
 union SELECT  0, 'Selecione' ORDER BY ID_MOTIVO_CANCELAMENTO"></asp:SqlDataSource>
+ 
     <asp:SqlDataSource ID="dsServico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO
 union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
+   
     <asp:SqlDataSource ID="dsBL" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_BL, NM_TIPO_BL FROM TB_TIPO_BL 
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_BL"></asp:SqlDataSource>

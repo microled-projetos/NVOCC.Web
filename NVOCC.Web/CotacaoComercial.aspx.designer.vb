@@ -77,6 +77,15 @@ Partial Public Class CotacaoComercial
     Protected WithEvents txtData As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ddlServico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlServico As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ddlEstufagem.
     '''</summary>
     '''<remarks>
@@ -597,4 +606,13 @@ Partial Public Class CotacaoComercial
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsPorto As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsServico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsServico As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

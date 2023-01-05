@@ -58,11 +58,18 @@
                                     </div>
                                      <div class="col-sm-2">
                                         <div class="form-group">
+                                             <label class="control-label">Serviço:</label></label><label runat="server" style="color: red">*</label>
+                                                <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServico" DataValueField="ID_SERVICO" AutoPostBack="true">
+                                                </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                     <div class="col-sm-1">
+                                        <div class="form-group">
                                             <label class="control-label">Estufagem:</label><br/>
                                             <asp:DropDownList ID="ddlEstufagem" runat="server" CssClass="form-control" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem"></asp:DropDownList>   
                                         </div>
                                     </div>
-                                     <div class="col-sm-2">
+                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Incoterm:</label><br/>
                                            <asp:DropDownList ID="ddlIncoterm" runat="server" CssClass="form-control" DataTextField="NM_INCOTERM" DataSourceID="dsIncoterm" DataValueField="ID_INCOTERM"></asp:DropDownList>   
@@ -83,20 +90,20 @@
                                      <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">CBM:</label>
-                                            <asp:TextBox ID="txtCBM" runat="server" CssClass="form-control"></asp:TextBox>
+                                            <asp:TextBox ID="txtCBM" runat="server" CssClass="form-control valores"></asp:TextBox>
                                         </div>
                                     </div>
                                      <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Peso:</label>
-                                            <asp:TextBox ID="txtPeso" runat="server" CssClass="form-control"></asp:TextBox>
+                                            <asp:TextBox ID="txtPeso" runat="server" CssClass="form-control valores"></asp:TextBox>
                                         </div>
                                     </div>
 
                                      <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label"></label><br/>
-                                           <asp:Button ID="btnPesquisaRepetidas" runat="server" CssClass="btn btn-primary" text="Verificar"></asp:Button>
+                                           <asp:Button ID="btnPesquisaRepetidas" runat="server" CssClass="btn btn-block btn-primary" text="Verificar"></asp:Button>
                                         </div>
                                     </div>
                                 </div>
@@ -332,6 +339,7 @@
                                 <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvCotacao" />
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCotacao" />
                                 <asp:AsyncPostBackTrigger ControlID="lkCalcular" />
+                                <asp:AsyncPostBackTrigger ControlID="ddlServico" />
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>
@@ -373,6 +381,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL union SELECT  0, '      Selecione' ORDER BY NM_PORTO ">     
     </asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsServico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO WHERE ISNULL(TP_VIA,'') <> '' 
+union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
 
@@ -401,6 +414,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM"></asp:SqlDataSource>
         function EndRequestHandler(sender, args) {
             var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
             document.getElementById('DivGrid').scrollTop = valor;
+            InIEvent();
         };
 
 
@@ -429,6 +443,20 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM"></asp:SqlDataSource>
             window.open('GeraPDF.aspx?c=' + ID + '&l=' + Linguagem + '&f=e', '_blank');
 
         }
+
+
+
+        function InIEvent() {
+            $(".valores").on("keypress keyup blur", function (e) {
+                console.log("entrou")
+                var chr = String.fromCharCode(e.which);
+                if ("1234567890,".indexOf(chr) < 0)
+                    return false;
+
+            });
+        }
+
+        $(document).ready(InIEvent);
 
     </script>
 </asp:Content>
