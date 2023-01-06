@@ -108,21 +108,31 @@ FL_SHIPPER,
 FL_CNEE,
 FL_RODOVIARIO,
 OB_COMPLEMENTARES,
-ISNULL(REGRA_ATUALIZACAO,0)REGRA_ATUALIZACAO 
+NEGOCIACOES_INTERNAS,
+ISNULL(REGRA_ATUALIZACAO,0)REGRA_ATUALIZACAO,
+ISNULL(FL_CIA_AEREA,0)FL_CIA_AEREA,
+ISNULL(ID_VIATRANSPORTE,0)ID_VIATRANSPORTE 
 FROM TB_PARCEIRO 
 WHERE ID_PARCEIRO =" & ID)
             If ds.Tables(0).Rows.Count > 0 Then
                 txtID.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO").ToString()
-                ckbImportador.Checked = ds.Tables(0).Rows(0).Item("FL_IMPORTADOR")
                 ckbExportador.Checked = ds.Tables(0).Rows(0).Item("FL_EXPORTADOR")
+                ckbImportador.Checked = ds.Tables(0).Rows(0).Item("FL_IMPORTADOR")
+                ckbCiaAerea.Checked = ds.Tables(0).Rows(0).Item("FL_CIA_AEREA")
                 ckbAgente.Checked = ds.Tables(0).Rows(0).Item("FL_AGENTE")
+
                 ckbAgenteInternacional.Checked = ds.Tables(0).Rows(0).Item("FL_AGENTE_INTERNACIONAL")
 
                 If ds.Tables(0).Rows(0).Item("FL_AGENTE_INTERNACIONAL") = "True" Then
                     divDadosBancarios.Attributes.CssStyle.Add("display", "block")
+                    divNegociacoesInternas.Attributes.CssStyle.Add("display", "block")
+                    divObsComplementares.Attributes.CssStyle.Add("display", "none")
                 Else
                     divDadosBancarios.Attributes.CssStyle.Add("display", "none")
+                    divNegociacoesInternas.Attributes.CssStyle.Add("display", "none")
+                    divObsComplementares.Attributes.CssStyle.Add("display", "block")
                 End If
+
                 ckbTransportador.Checked = ds.Tables(0).Rows(0).Item("FL_TRANSPORTADOR")
                 ckbComissaria.Checked = ds.Tables(0).Rows(0).Item("FL_COMISSARIA")
                 ckbVendedor.Checked = ds.Tables(0).Rows(0).Item("FL_VENDEDOR")
@@ -145,6 +155,9 @@ WHERE ID_PARCEIRO =" & ID)
                 txtBairro.Text = ds.Tables(0).Rows(0).Item("BAIRRO").ToString()
                 txtComplemento.Text = ds.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString()
                 txtOBSComplementares.Text = ds.Tables(0).Rows(0).Item("OB_COMPLEMENTARES").ToString()
+                txtDadosCadastrais.Text = ds.Tables(0).Rows(0).Item("OB_COMPLEMENTARES").ToString()
+                txtNegociacoesInternas.Text = ds.Tables(0).Rows(0).Item("NEGOCIACOES_INTERNAS").ToString()
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMAIL")) Then
                     txtEmailParceiro.Text = ds.Tables(0).Rows(0).Item("EMAIL").ToString()
                 End If
@@ -204,6 +217,7 @@ WHERE ID_PARCEIRO =" & ID)
                 txtMaritimoExpoLCL.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_LCL")
                 txtAereoImpo.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_IMPO")
                 txtAereoExpo.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_EXPO")
+                ddlTipoModal.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VIATRANSPORTE")
                 ddlAcordoCambioAereoIMPO.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO_IMPO")
                 ddlAcordoCambioAereoEXPO.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO_EXPO")
                 ddlAcordoCambioMaritimoImpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL")
@@ -352,7 +366,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False And ckbEquipeInsideSales.Checked = False And ckbIndicador.Checked = False And ckbShipper.Checked = False And ckbCNEE.Checked = False And ckbTranspRodoviario.Checked = False Then
+        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False And ckbEquipeInsideSales.Checked = False And ckbIndicador.Checked = False And ckbShipper.Checked = False And ckbCNEE.Checked = False And ckbTranspRodoviario.Checked = False And ckbCiaAerea.Checked = False Then
             msgErro.Text = "Marque o tipo de parceiro"
             divmsg1.Visible = True
             msgErro.Visible = True
@@ -435,6 +449,11 @@ WHERE ID_PARCEIRO =" & ID)
             txtInscEstadual.Text = txtInscEstadual.Text.Replace(" ", String.Empty)
             txtInscEstadual.Text = txtInscEstadual.Text.Replace("-", String.Empty)
             txtInscEstadual.Text = txtInscEstadual.Text.Replace("/", String.Empty)
+
+
+            If ckbAgenteInternacional.Checked And txtDadosCadastrais.Text <> "" Then
+                txtOBSComplementares.Text = txtDadosCadastrais.Text
+            End If
 
             If txtID.Text = "" Then
 
@@ -618,6 +637,12 @@ WHERE ID_PARCEIRO =" & ID)
                                 txtQtdFaturamento.Text = 0
                             End If
 
+                            If txtNegociacoesInternas.Text = "" Then
+                                txtNegociacoesInternas.Text = "NULL"
+                            Else
+                                txtNegociacoesInternas.Text = "'" & txtNegociacoesInternas.Text & "'"
+                            End If
+
                             Con.Conectar()
 
                             Dim SQL As String = ("INSERT INTO [dbo].[TB_PARCEIRO] (
@@ -682,7 +707,10 @@ WHERE ID_PARCEIRO =" & ID)
             REGRA_ATUALIZACAO,
             ID_PAIS,
             ID_USUARIO,
-            CREATED_AT
+            CREATED_AT,
+            NEGOCIACOES_INTERNAS,
+            FL_CIA_AEREA,
+            ID_VIATRANSPORTE
             ) 
             VALUES ( 
             '" & ckbImportador.Checked & "',
@@ -745,7 +773,10 @@ WHERE ID_PARCEIRO =" & ID)
             " & ddlRegraAtualizacao.SelectedValue & ",
             " & ddlPais.SelectedValue & " ,
             " & Session("ID_USUARIO") & ",
-             getdate() 
+             getdate(),
+            " & txtNegociacoesInternas.Text & ",
+            '" & ckbCiaAerea.Checked & "',
+            " & ddlTipoModal.SelectedValue & " 
             ) Select SCOPE_IDENTITY() as ID_PARCEIRO ")
 
 
@@ -1044,6 +1075,13 @@ WHERE ID_PARCEIRO =" & ID)
                                 txtInscMunicipal.Text = "'" & txtInscMunicipal.Text & "'"
                             End If
 
+
+                            If txtNegociacoesInternas.Text = "" Then
+                                txtNegociacoesInternas.Text = "NULL"
+                            Else
+                                txtNegociacoesInternas.Text = "'" & txtNegociacoesInternas.Text & "'"
+                            End If
+
                             Dim ID As String = Request.QueryString("id")
                             Con.Conectar()
 
@@ -1107,7 +1145,10 @@ WHERE ID_PARCEIRO =" & ID)
             REGRA_ATUALIZACAO = " & ddlRegraAtualizacao.SelectedValue & " ,
             ID_PAIS=" & ddlPais.SelectedValue & ",
             ID_USUARIO = " & Session("ID_USUARIO") & ",
-            UPDATED_AT = GETDATE() 
+            UPDATED_AT = GETDATE() ,
+            NEGOCIACOES_INTERNAS = " & txtNegociacoesInternas.Text & ",
+            FL_CIA_AEREA = '" & ckbCiaAerea.Checked & "',
+            ID_VIATRANSPORTE = " & ddlTipoModal.SelectedValue & " 
             where ID_PARCEIRO = " & ID)
                             Session("ID_Parceiro") = ID
 

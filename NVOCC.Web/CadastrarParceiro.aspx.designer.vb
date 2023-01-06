@@ -347,6 +347,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlPais As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle divObsComplementares.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divObsComplementares As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
     '''Controle txtOBSComplementares.
     '''</summary>
     '''<remarks>
@@ -354,6 +363,33 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtOBSComplementares As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divNegociacoesInternas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divNegociacoesInternas As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtDadosCadastrais.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDadosCadastrais As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNegociacoesInternas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNegociacoesInternas As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle mpeTaxas.
@@ -644,6 +680,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlRegraAtualizacao As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ddlTipoModal.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoModal As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ckbAtivo.
     '''</summary>
     '''<remarks>
@@ -822,6 +867,15 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ckbTranspRodoviario As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbCiaAerea.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbCiaAerea As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle divDadosBancarios.

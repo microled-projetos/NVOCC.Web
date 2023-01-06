@@ -208,7 +208,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row" runat="server" id="divObsComplementares">
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label class="control-label">Obs Complementares:</label>
@@ -216,6 +216,22 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row" runat="server" id="divNegociacoesInternas">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Dados Cadastrais do Parceiro:</label>
+                                                <asp:TextBox ID="txtDadosCadastrais" runat="server" CssClass="form-control" Rows="8" TextMode="Multiline" MaxLength="1000"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Negociações Internas:</label>
+                                                <asp:TextBox ID="txtNegociacoesInternas" runat="server" CssClass="form-control" Rows="8" TextMode="Multiline" MaxLength="1000"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
                                     <ajaxToolkit:ModalPopupExtender ID="mpeTaxas" runat="server" PopupControlID="Panel1" TargetControlID="txtID" CancelControlID="btnNao"></ajaxToolkit:ModalPopupExtender>
                                     <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" Style="display: none;">
                                         <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -435,13 +451,23 @@
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Regra de atualização:</label>
                                                 <asp:DropDownList ID="ddlRegraAtualizacao" runat="server" CssClass="form-control" Font-Size="11px">
                                                     <asp:ListItem Value="0" Selected="True">Selecione</asp:ListItem>
                                                     <asp:ListItem Value="1">DATA DE CHEGADA DO NAVIO</asp:ListItem>
                                                     <asp:ListItem Value="2">DATA DE SAIDA DO NAVIO</asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Tipo de Modal:</label>
+                                                <asp:DropDownList ID="ddlTipoModal" runat="server" CssClass="form-control" Font-Size="11px">
+                                                    <asp:ListItem Value="0" Selected="True">Selecione</asp:ListItem>
+                                                    <asp:ListItem Value="1">MARÍTIMO</asp:ListItem>
+                                                    <asp:ListItem Value="4">AÉREO</asp:ListItem>
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -566,6 +592,11 @@
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbTranspRodoviario" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Transp. Rodoviário"></asp:CheckBox>
+                                            </div>
+                                        </div>
+                                         <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <asp:CheckBox ID="ckbCiaAerea" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Cia Aérea"></asp:CheckBox>
                                             </div>
                                         </div>
                                         <div id="divDadosBancarios" class="divDadosBancarios" style="display: none" runat="server">

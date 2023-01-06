@@ -129,6 +129,32 @@ Public Class FreteTransportador_2
 
             txtID.Text = e.CommandArgument
 
+
+
+
+            For Each linha As GridViewRow In dgvFreteTranportador.Rows
+                Dim ID_FRETE_TRANSPORTADOR As String = CType(linha.FindControl("lblID"), Label).Text
+
+                If ID_FRETE_TRANSPORTADOR = txtID.Text Then
+                    Dim dgvCntr As GridView = CType(linha.FindControl("dgvCntr"), GridView)
+
+
+                    For Each linha2 As GridViewRow In dgvCntr.Rows
+                        dgvCntr.SetEditRow(linha2.RowIndex)
+                        '    dgvCntr.EditIndex = e.NewEditIndex
+                    Next
+
+                End If
+                Exit For
+            Next
+
+
+
+
+
+
+
+
         ElseIf e.CommandName = "Excluir" Then
 
             txtID.Text = e.CommandArgument
@@ -705,8 +731,6 @@ Public Class FreteTransportador_2
         If e.Row.RowType = DataControlRowType.DataRow Then
 
             Dim ID As Label = CType(e.Row.FindControl("lblID"), Label)
-            Dim QTD_Cntr As Label = CType(e.Row.FindControl("lblQTDCNTR"), Label)
-            Dim btnCntr As LinkButton = CType(e.Row.FindControl("btnCntr"), LinkButton)
 
             Dim Interna As Label = CType(e.Row.FindControl("lblInterna"), Label)
             Dim btnCopiarInterna As LinkButton = CType(e.Row.FindControl("btnCopiarInterna"), LinkButton)
@@ -737,15 +761,6 @@ Public Class FreteTransportador_2
                 End If
             End If
 
-            If Not QTD_Cntr Is Nothing Then
-
-                If QTD_Cntr.Text = "0" Then
-
-                    btnCntr.Visible = False
-                Else
-                    btnCntr.Visible = True
-                End If
-            End If
 
             If Not QTD_Historico Is Nothing Then
 
@@ -834,6 +849,7 @@ Public Class FreteTransportador_2
                                         Moeda.Visible = True
                                         Compra.Visible = True
                                         FreeTime.Visible = True
+                                        dgvCntr.Rows(index).RowState = DataControlRowState.Edit
                                     Else
                                         Novo.Visible = False
                                         Editar.Visible = False
@@ -877,6 +893,7 @@ Public Class FreteTransportador_2
                                         Moeda.Visible = True
                                         Compra.Visible = True
                                         FreeTime.Visible = True
+                                        dgvCntr.Rows(index).RowState = DataControlRowState.Edit
                                     Else
                                         Novo.Visible = False
                                         Editar.Visible = False
@@ -941,7 +958,6 @@ Public Class FreteTransportador_2
 
         ElseIf e.CommandName = "AtualizarCntr" Then
 
-            txtID.Text = e.CommandArgument
 
 
             Dim row As GridViewRow = CType(((CType(e.CommandSource, Control)).NamingContainer), GridViewRow)
@@ -1003,11 +1019,42 @@ Public Class FreteTransportador_2
             Exit Sub
 
 
-        ElseIf e.CommandName = "EditCntr" Then
+        ElseIf e.CommandName = "EditarCntr" Then
 
 
-            ' Dim dgvCntr As GridViewRow = CType(((CType(e.CommandSource, Control)).NamingContainer), GridViewRow)
-            Dim row As GridViewRow = CType(((CType(e.CommandSource, Control)).NamingContainer), GridViewRow)
+
+            Dim linhaCntr = e.CommandArgument
+
+            For Each linha As GridViewRow In dgvFreteTranportador.Rows
+                Dim ID_FRETE_TRANSPORTADOR As String = CType(linha.FindControl("lblID"), Label).Text
+
+                If ID_FRETE_TRANSPORTADOR = txtID.Text Then
+                    Dim dgvCntr As GridView = CType(linha.FindControl("dgvCntr"), GridView)
+
+                    Dim row As GridViewRow = CType(((CType(e.CommandSource, Control)).NamingContainer), GridViewRow)
+                    If dgvCntr IsNot Nothing Then
+                        For Each linha2 As GridViewRow In dgvCntr.Rows
+                            Dim ID_TARIFARIO_FRETE_TRANSPORTADOR As Label = TryCast(linha2.FindControl("lblID_TARIFARIO_FRETE_TRANSPORTADOR"), Label)
+                            If ID_TARIFARIO_FRETE_TRANSPORTADOR.Text = linhaCntr Then
+                                dgvCntr.SelectRow(1)
+                                mpeCntr.Show()
+                                Exit For
+                            End If
+                        Next
+
+
+
+
+
+                    End If
+
+
+
+                End If
+
+            Next
+
+
 
 
 
@@ -1015,5 +1062,62 @@ Public Class FreteTransportador_2
 
     End Sub
 
+    Public Function FindControlRecursivo(ByVal root As Control, ByVal id As String) As Control
 
+        If root.ID = id Then
+
+            Return (root)
+
+        End If
+
+
+
+        For Each c As Control In root.Controls
+
+            Dim t As Control = FindControlRecursivo(c, id)
+
+            If t IsNot Nothing Then
+
+                Return (t)
+
+            End If
+
+        Next
+
+        Return (Nothing)
+
+    End Function
+
+    Protected Sub dgvCntr_OnRowEditing(ByVal sender As Object, ByVal e As GridViewEditEventArgs)
+        'dgvCntr.DataSource = GetSomeSampleData();
+        '     dgvCntr.EditIndex = e.NewEditIndex;
+        '  dgvCntr.DataBind();
+        'For Each linha As GridViewRow In dgvFreteTranportador.Rows
+        '    Dim ID_FRETE_TRANSPORTADOR As String = CType(linha.FindControl("lblID"), Label).Text
+
+        '    If ID_FRETE_TRANSPORTADOR = txtID.Text Then
+        '        '  Dim dgvCntr As GridView = CType(linha.FindControl("dgvCntr"), GridView)
+
+        '        Dim dgvCntr As GridView = FindControlRecursivo(Me.Page, "dgvCntr")
+
+        '        For index = 0 To dgvCntr.Rows.Count - 1
+
+        '            Dim ID_TARIFARIO_FRETE_TRANSPORTADOR As Label = DirectCast(dgvCntr.Rows(index).Cells(0).FindControl("lblID_TARIFARIO_FRETE_TRANSPORTADOR"), Label)
+        '            Dim Editar As LinkButton = DirectCast(dgvCntr.Rows(index).Cells(0).FindControl("btnEditar"), LinkButton)
+        '            Dim Duplicar As LinkButton = DirectCast(dgvCntr.Rows(index).Cells(0).FindControl("btnDuplicar"), LinkButton)
+        '            Dim Excluir As LinkButton = DirectCast(dgvCntr.Rows(index).Cells(0).FindControl("btnExcluir"), LinkButton)
+        '            Dim Cntr As DropDownList = DirectCast(dgvCntr.Rows(index).Cells(0).FindControl("ddlCntr"), DropDownList)
+        '            Dim Moeda As DropDownList = DirectCast(dgvCntr.Rows(index).Cells(0).FindControl("ddlMoeda"), DropDownList)
+        '            Dim Compra As TextBox = DirectCast(dgvCntr.Rows(index).Cells(0).FindControl("txtCompra"), TextBox)
+        '            Dim FreeTime As TextBox = DirectCast(dgvCntr.Rows(index).Cells(0).FindControl("txtFreeTime"), TextBox)
+
+        '            Moeda.Visible = True
+        '            Compra.Visible = True
+        '            Exit For
+        '        Next
+
+        '    End If
+        '    Exit For
+        'Next
+    End Sub
 End Class
