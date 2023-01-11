@@ -464,7 +464,7 @@
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Tipo de Modal:</label>
-                                                <asp:DropDownList ID="ddlTipoModal" runat="server" CssClass="form-control" Font-Size="11px">
+                                                <asp:DropDownList ID="ddlTipoModal" runat="server" CssClass="form-control" Font-Size="11px" enabled="false">
                                                     <asp:ListItem Value="0" Selected="True">Selecione</asp:ListItem>
                                                     <asp:ListItem Value="1">MARÍTIMO</asp:ListItem>
                                                     <asp:ListItem Value="4">AÉREO</asp:ListItem>
@@ -552,7 +552,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <asp:CheckBox ID="ckbPrestador" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Prestador"></asp:CheckBox>
+                                                <asp:CheckBox ID="ckbPrestador" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Prestador" autopostback="true"></asp:CheckBox>
                                             </div>
                                         </div>
 

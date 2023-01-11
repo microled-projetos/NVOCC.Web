@@ -24,7 +24,7 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalFCLimpoTitle">TAXAS LOCAIS ARMADOR</h5><asp:Linkbutton ID="lkAnterior" runat="server" BackColor="White" ForeColor="Black" style="float: right;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-backward"></i></asp:Linkbutton><asp:Linkbutton ID="lkProximo" runat="server" BackColor="White" ForeColor="Black" style="float: right;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-forward"></i></asp:Linkbutton>
+                                                            <h5 class="modal-title" id="modalFCLimpoTitle">TAXAS LOCAIS  <asp:label runat="server" ID="lbltitulo"></asp:label></h5><asp:Linkbutton ID="lkAnterior" runat="server" BackColor="White" ForeColor="Black" style="float: right;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-backward"></i></asp:Linkbutton><asp:Linkbutton ID="lkProximo" runat="server" BackColor="White" ForeColor="Black" style="float: right;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-forward"></i></asp:Linkbutton>
                                                         </div>
                                                         <div class="modal-body">                                                           
                                     <div class="alert alert-success" ID="divSuccess" runat="server" visible="false">
@@ -43,7 +43,7 @@
                                 </div>
                                  <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Transportador:</label><label runat="server" style="color:red" >*</label>
+                                        <asp:label runat="server" ID="lblTransportadorTaxa" CssClass="control-label" style="font-weight:bold">Transportador:</asp:label><label runat="server" style="color:red" >*</label>
                                         <asp:DropDownList ID="ddlTransportadorTaxa" runat="server" Enabled="false" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>            </div>
                                     </div>
                             </div>
@@ -52,7 +52,7 @@
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Porto:</label><label runat="server" style="color:red" >*</label>
+                                        <asp:label runat="server" ID="lblPortoTaxa" CssClass="control-label" style="font-weight:bold">Porto:</asp:label><label runat="server" style="color:red" >*</label>
                                         <asp:DropDownList ID="ddlPortoTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -64,7 +64,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Via Transporte:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:DropDownList ID="ddlViaTransporte" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" >
+                                        <asp:DropDownList ID="ddlViaTransporte" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" Enabled="false" >
                                         </asp:DropDownList>                                    </div>
                                 </div>
                             </div>
@@ -146,7 +146,7 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">TAXAS LOCAIS ARMADOR</h5>
+                                                            <h5 class="modal-title">TAXAS LOCAIS <asp:label runat="server" ID="lbltituloNovo" ></asp:label></h5>
                                                         </div>
                                                         <div class="modal-body">                                                           
                                     <div class="alert alert-success" ID="divSuccessNovo" runat="server" visible="false">
@@ -164,7 +164,7 @@
                                 </div> 
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Transportador:</label><label runat="server" style="color:red" >*</label>
+                                       <asp:label runat="server" ID="lblTransportadorTaxaNovo" CssClass="control-label" style="font-weight:bold">Transportador:</asp:label><label runat="server" style="color:red" >*</label>
                                         <asp:DropDownList ID="ddlTransportadorTaxaNovo" Enabled="false" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>            </div>
                                     </div>
                             </div>
@@ -173,8 +173,8 @@
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Porto:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:DropDownList ID="ddlPortoTaxaNovo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                        <asp:label runat="server" ID="lblPortoTaxaNovo" CssClass="control-label" style="font-weight:bold">Porto:</asp:label><label runat="server" style="color:red" >*</label>
+                                        <asp:DropDownList ID="ddlPortoTaxaNovo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoNovo" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
                                  <div class="col-sm-4">
                                     <div class="form-group">
@@ -185,7 +185,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Via Transporte:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:DropDownList ID="ddlViaTransporteNovo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" >
+                                        <asp:DropDownList ID="ddlViaTransporteNovo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" Enabled="false" >
                                         </asp:DropDownList>                                    </div>
                                 </div>
                             </div>
@@ -227,7 +227,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Base de calculo:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:DropDownList ID="ddlBaseCalculoNovo" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA" >
+                                        <asp:DropDownList ID="ddlBaseCalculoNovo" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculoNovo" DataValueField="ID_BASE_CALCULO_TAXA" >
                                         </asp:DropDownList>
                                     </div>
                             </div>
@@ -385,7 +385,7 @@
         <div class="col-lg-12 ">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">TAXAS LOCAIS ARMADOR
+                    <h3 class="panel-title">TAXAS LOCAIS <asp:label runat="server" ID="lblTituloPrincipal"></asp:label>
                     </h3>                  
                 </div>
 
@@ -476,6 +476,7 @@
                                         
                                         <asp:BoundField DataField="ID_TAXA_LOCAL_TRANSPORTADOR" HeaderText="#"  SortExpression="ID_TAXA_LOCAL_TRANSPORTADOR"/>
                                         <asp:BoundField DataField="NM_PORTO" HeaderText="Porto"  SortExpression="NM_PORTO"/>
+                                        <asp:BoundField DataField="NM_PORTO" HeaderText="Aeroporto"  SortExpression="NM_PORTO"/>
                                         <asp:BoundField DataField="NM_TIPO_COMEX" HeaderText="Tipo Comex" SortExpression="NM_TIPO_COMEX" />
                                         <asp:BoundField DataField="NM_VIATRANSPORTE" HeaderText="Transporte" SortExpression="NM_VIATRANSPORTE" />
                                         <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="Item Despesa" SortExpression="NM_ITEM_DESPESA" />
@@ -516,6 +517,7 @@
      <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT A.ID_TAXA_LOCAL_TRANSPORTADOR,
 A.ID_TRANSPORTADOR,
@@ -541,30 +543,48 @@ LEFT JOIN TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
             </SelectParameters>
 
 </asp:SqlDataSource>
-      <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-         selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL 
-          union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
+
+      <asp:SqlDataSource ID="dsPortoNovo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+         selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ( ID_VIATRANSPORTE = @ID_VIATRANSPORTE OR ID_VIATRANSPORTE = 0 )
+          union SELECT  0, '    Selecione' ORDER BY NM_PORTO ">
+           <SelectParameters>
+            <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="ddlViaTransporteNovo" DefaultValue="0" />
+        </SelectParameters>
 </asp:SqlDataSource>
+
+           <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+         selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ( ID_VIATRANSPORTE = @ID_VIATRANSPORTE OR ID_VIATRANSPORTE = 0 )
+          union SELECT  0, '    Selecione' ORDER BY NM_PORTO ">
+           <SelectParameters>
+            <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="ddlViaTransporte" DefaultValue="0" />
+        </SelectParameters>
+</asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_COMEX">
 </asp:SqlDataSource>
+
         <asp:SqlDataSource ID="dsItemDespesa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_ITEM_DESPESA,NM_ITEM_DESPESA FROM  [dbo].[TB_ITEM_DESPESA]
 union SELECT  0, ' Selecione' FROM [dbo].[TB_ITEM_DESPESA] ORDER BY NM_ITEM_DESPESA">
 </asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsContinente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_CONTINENTE,NM_CONTINENTE FROM [dbo].[TB_CONTINENTE]
 union SELECT  0, 'Selecione' ORDER BY ID_CONTINENTE">
 </asp:SqlDataSource>
+
         <asp:SqlDataSource ID="dsViaTransporte" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_VIATRANSPORTE,NM_VIATRANSPORTE FROM [dbo].[TB_VIATRANSPORTE]
 union SELECT  0, 'Selecione' ORDER BY ID_VIATRANSPORTE">
-</asp:SqlDataSource>
+</asp:SqlDataSource> 
+
     <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1 
+        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1 or FL_CIA_AEREA = 1
 union SELECT  0, 'Selecione'  ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
+
      <asp:SqlDataSource ID="dsContainer" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE FL_ATIVO = 1
 union SELECT  0, 'Selecione'  ORDER BY ID_TIPO_CONTAINER">
@@ -574,6 +594,37 @@ union SELECT  0, 'Selecione'  ORDER BY ID_TIPO_CONTAINER">
         selectcommand="SELECT ID_ORIGEM_PAGAMENTO,NM_ORIGEM_PAGAMENTO FROM  [dbo].[TB_ORIGEM_PAGAMENTO]
 union SELECT  0, 'Selecione' ORDER BY ID_ORIGEM_PAGAMENTO">
 </asp:SqlDataSource> 
+
+         <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione'  ORDER BY ID_MOEDA">
+</asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsComexConsulta" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM TB_TIPO_COMEX ORDER BY ID_TIPO_COMEX">
+</asp:SqlDataSource>
+
+        <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA]  WHERE ID_VIATRANSPORTE = @ID_VIATRANSPORTE OR ID_VIATRANSPORTE = 0
+union SELECT  0,  '    Selecione' ORDER BY NM_BASE_CALCULO_TAXA">
+             <SelectParameters>
+            <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="ddlViaTransporte" DefaultValue="0" />
+        </SelectParameters>
+</asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsBaseCalculoNovo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE ID_VIATRANSPORTE = @ID_VIATRANSPORTE  OR ID_VIATRANSPORTE = 0
+union SELECT  0,  '    Selecione' ORDER BY NM_BASE_CALCULO_TAXA">
+         <SelectParameters>
+            <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="ddlViaTransporte" DefaultValue="0" />
+        </SelectParameters>
+</asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsAjustaTaxa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="select id_cotacao_taxa,ID_BL,A.ID_TRANSPORTADOR, (select nr_cotacao from tb_cotacao where nr_processo_gerado = NR_PROCESSO)NR_COTACAO,ARMADOR,NR_PROCESSO,NM_ITEM_DESPESA,PORTO,DT_EMBARQUE,DT_CHEGADA,REGRA,VL_TAXA_COMPRA,VL_TAXA_VENDA,vl_taxa_local_compra,DT_VALIDADE_INICIAL from VW_AJUSTA_TAXA A INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_STATUS_COTACAO <> 12 AND A.ID_TRANSPORTADOR = @ID ">
+           <SelectParameters>
+          <asp:QueryStringParameter Name="ID" QueryStringField="id" />
+            </SelectParameters>
+</asp:SqlDataSource>
 
  </div>
         </ContentTemplate>
@@ -590,28 +641,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_ORIGEM_PAGAMENTO">
    </asp:UpdatePanel>
 
 
-    <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione'  ORDER BY ID_MOEDA">
-</asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsComexConsulta" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM TB_TIPO_COMEX ORDER BY ID_TIPO_COMEX">
-</asp:SqlDataSource>
-
-        <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA]
-union SELECT  0,  '    Selecione' ORDER BY NM_BASE_CALCULO_TAXA">
-</asp:SqlDataSource>
-
-
-     <asp:SqlDataSource ID="dsAjustaTaxa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="select id_cotacao_taxa,ID_BL,A.ID_TRANSPORTADOR, (select nr_cotacao from tb_cotacao where nr_processo_gerado = NR_PROCESSO)NR_COTACAO,ARMADOR,NR_PROCESSO,NM_ITEM_DESPESA,PORTO,DT_EMBARQUE,DT_CHEGADA,REGRA,VL_TAXA_COMPRA,VL_TAXA_VENDA,vl_taxa_local_compra,DT_VALIDADE_INICIAL from VW_AJUSTA_TAXA A INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_STATUS_COTACAO <> 12 AND A.ID_TRANSPORTADOR = @ID ">
-           <SelectParameters>
-          <asp:QueryStringParameter Name="ID" QueryStringField="id" />
-<%--                  and VL_TAXA_COMPRA > @ValorAntigo          <asp:ControlParameter Name="ValorAntigo" Type="DECIMAL" ControlID="lblValorAntigo" />--%>
-            </SelectParameters>
-
-</asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

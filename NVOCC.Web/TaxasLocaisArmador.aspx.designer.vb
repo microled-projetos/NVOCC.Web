@@ -68,6 +68,15 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents UpdatePanel1 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle lbltitulo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lbltitulo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lkAnterior.
     '''</summary>
     '''<remarks>
@@ -131,6 +140,15 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents txtIDTaxa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle lblTransportadorTaxa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTransportadorTaxa As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle ddlTransportadorTaxa.
     '''</summary>
     '''<remarks>
@@ -138,6 +156,15 @@ Partial Public Class TaxasLocaisArmador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlTransportadorTaxa As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle lblPortoTaxa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblPortoTaxa As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle ddlPortoTaxa.
@@ -275,6 +302,15 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents UpdatePanel4 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle lbltituloNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lbltituloNovo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle divSuccessNovo.
     '''</summary>
     '''<remarks>
@@ -320,6 +356,15 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents txtIDTaxaNovo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle lblTransportadorTaxaNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTransportadorTaxaNovo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle ddlTransportadorTaxaNovo.
     '''</summary>
     '''<remarks>
@@ -327,6 +372,15 @@ Partial Public Class TaxasLocaisArmador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlTransportadorTaxaNovo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle lblPortoTaxaNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblPortoTaxaNovo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle ddlPortoTaxaNovo.
@@ -635,6 +689,15 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents btnFecharAjustaTaxa As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle lblTituloPrincipal.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTituloPrincipal As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle ddlComexConsulta.
     '''</summary>
     '''<remarks>
@@ -788,6 +851,15 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents dsTaxas As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
+    '''Controle dsPortoNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsPortoNovo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Controle dsPorto.
     '''</summary>
     '''<remarks>
@@ -885,6 +957,15 @@ Partial Public Class TaxasLocaisArmador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsBaseCalculo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsBaseCalculoNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsBaseCalculoNovo As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsAjustaTaxa.

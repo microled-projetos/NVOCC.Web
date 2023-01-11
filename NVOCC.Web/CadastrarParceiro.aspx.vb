@@ -140,6 +140,12 @@ WHERE ID_PARCEIRO =" & ID)
                 ckbArmazemDesembaraco.Checked = ds.Tables(0).Rows(0).Item("FL_ARMAZEM_DESEMBARACO")
                 ckbArmazemDescarga.Checked = ds.Tables(0).Rows(0).Item("FL_ARMAZEM_DESCARGA")
                 ckbPrestador.Checked = ds.Tables(0).Rows(0).Item("FL_PRESTADOR")
+                If ds.Tables(0).Rows(0).Item("FL_PRESTADOR") = True Then
+                    ddlTipoModal.Enabled = True
+                Else
+                    ddlTipoModal.Enabled = False
+                End If
+
                 ckbShipper.Checked = ds.Tables(0).Rows(0).Item("FL_SHIPPER")
                 ckbCNEE.Checked = ds.Tables(0).Rows(0).Item("FL_CNEE")
                 ckbTranspRodoviario.Checked = ds.Tables(0).Rows(0).Item("FL_RODOVIARIO")
@@ -1512,7 +1518,7 @@ WHERE ID_PARCEIRO =" & ID)
     End Sub
 
     Private Sub btnSim_Click(sender As Object, e As EventArgs) Handles btnSim.Click
-        If ckbTransportador.Checked = True Then
+        If ckbTransportador.Checked = True Or ckbCiaAerea.Checked = True Then
             Response.Redirect("TaxasLocaisArmador.aspx?id=" & Session("ID_Parceiro"))
         Else
             Response.Redirect("TaxaParceiro.aspx?id=" & Session("ID_Parceiro"))
@@ -1814,5 +1820,13 @@ WHERE ID_PARCEIRO =" & ID)
 
         End If
 
+    End Sub
+
+    Private Sub ckbPrestador_CheckedChanged(sender As Object, e As EventArgs) Handles ckbPrestador.CheckedChanged
+        If ckbPrestador.Checked = True Then
+            ddlTipoModal.Enabled = True
+        Else
+            ddlTipoModal.Enabled = False
+        End If
     End Sub
 End Class

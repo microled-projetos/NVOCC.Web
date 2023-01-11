@@ -17,16 +17,68 @@ Public Class TaxasLocaisArmador
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
             Response.Redirect("Default.aspx")
+
         Else
+
             dsTaxas.SelectParameters("ID").DefaultValue = Request.QueryString("id")
             dgvTaxas.DataBind()
             ddlTransportadorTaxaNovo.SelectedValue = Request.QueryString("id")
+
+            ds = Con.ExecutarQuery("SELECT ISNULL(FL_TRANSPORTADOR,0)FL_TRANSPORTADOR, ISNULL(FL_CIA_AEREA,0)FL_CIA_AEREA FROM [TB_PARCEIRO] WHERE ID_PARCEIRO = " & Request.QueryString("id"))
+
+            modal()
 
         End If
 
         Con.Fechar()
     End Sub
 
+    Sub modal()
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_TRANSPORTADOR,0)FL_TRANSPORTADOR, ISNULL(FL_CIA_AEREA,0)FL_CIA_AEREA FROM [TB_PARCEIRO] WHERE ID_PARCEIRO = " & Request.QueryString("id"))
+
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            If ds.Tables(0).Rows(0).Item("FL_TRANSPORTADOR") = True Then
+                lblTransportadorTaxaNovo.Text = "Transportador"
+                lblPortoTaxaNovo.Text = "Porto"
+                ddlViaTransporteNovo.SelectedValue = 1
+                dsPortoNovo.SelectParameters("ID_VIATRANSPORTE").DefaultValue = 1
+                lbltituloNovo.Text = "ARMADOR"
+
+                lbltitulo.Text = "ARMADOR"
+                lblTransportadorTaxa.Text = "Transportador"
+                lblPortoTaxa.Text = "Porto"
+                ddlViaTransporte.SelectedValue = 1
+                dsPorto.SelectParameters("ID_VIATRANSPORTE").DefaultValue = 1
+
+                dgvTaxas.Columns(5).Visible = True
+                dgvTaxas.Columns(6).Visible = False
+                lblTituloPrincipal.Text = "ARMADOR"
+
+            ElseIf ds.Tables(0).Rows(0).Item("FL_CIA_AEREA") = True Then
+                lblTransportadorTaxaNovo.Text = "Cia Aerea"
+                lblPortoTaxaNovo.Text = "Aeroporto"
+                ddlViaTransporteNovo.SelectedValue = 4
+                dsPortoNovo.SelectParameters("ID_VIATRANSPORTE").DefaultValue = 4
+                lbltituloNovo.Text = "CIA AEREA"
+
+                lbltitulo.Text = "CIA AEREA"
+                lblTransportadorTaxa.Text = "Cia Aerea"
+                lblPortoTaxa.Text = "Aeroporto"
+                ddlViaTransporte.SelectedValue = 4
+                dsPorto.SelectParameters("ID_VIATRANSPORTE").DefaultValue = 4
+
+                dgvTaxas.Columns(5).Visible = False
+                dgvTaxas.Columns(6).Visible = True
+                lblTituloPrincipal.Text = "CIA AEREA"
+
+            End If
+
+        End If
+    End Sub
     Private Sub btnSalvar_Click(sender As Object, e As EventArgs) Handles btnSalvar.Click
         divErro.Visible = False
         divSuccess.Visible = False
@@ -473,6 +525,7 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
         Call Limpar(Me)
         Pesquisa()
         mpeNovo.Hide()
+        modal()
     End Sub
 
     Private Sub btnFechar_Click(sender As Object, e As EventArgs) Handles btnFechar.Click
@@ -482,6 +535,7 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
         Pesquisa()
         mpeNovo.Hide()
         mpe.Hide()
+        modal()
     End Sub
 
     Private Sub lkProximo_Click(sender As Object, e As EventArgs) Handles lkProximo.Click
