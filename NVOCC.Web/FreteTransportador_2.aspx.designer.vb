@@ -383,40 +383,13 @@ Partial Public Class FreteTransportador_2
     Protected WithEvents lblmsgSuccessCntr As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle ddlContainer.
+    '''Controle dgvCntrEdicao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlContainer As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlMoeda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlMoeda As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle txtValorCompra.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtValorCompra As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtFreetime.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtFreetime As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents dgvCntrEdicao As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle btnGravarCntr.

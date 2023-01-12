@@ -1304,4 +1304,24 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
 
         End If
     End Sub
+
+    Private Sub lkReenviarSI_Click(sender As Object, e As EventArgs) Handles lkReenviarSI.Click
+        divSuccessEmbarque.Visible = False
+        divErroEmbarque.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtID_Embarque.Text = "" Then
+            divErroEmbarque.Visible = True
+            lblErroEmbarque.Text = "Selecione um registro!"
+        Else
+
+            Con.ExecutarQuery(" INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE) SELECT GETDATE(), CONVERT(DATETIME,GETDATE(),103), CASE WHEN ID_TIPO_ESTUFAGEM = 1 THEN 14 WHEN ID_TIPO_ESTUFAGEM = 2 THEN 15 ELSE 0 END IDTIPOAVISO, ID_BL , ID_PARCEIRO_CLIENTE FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Text)
+
+            lblSuccessEmbarque.Text = "S.I reenviada com sucesso!"
+            divSuccessEmbarque.Visible = True
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "SI()", True)
+
+        End If
+
+    End Sub
 End Class

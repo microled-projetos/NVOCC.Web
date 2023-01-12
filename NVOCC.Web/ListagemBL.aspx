@@ -70,6 +70,7 @@
                                         <asp:LinkButton Visible="false" ID="lkRemoverEmbarque" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
                                         <asp:LinkButton ID="lkFiltrarEmbarque" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-search"></i>&nbsp;Filtrar</asp:LinkButton>
                                         <asp:LinkButton ID="lkCancelarEmbarque" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;Cancelar</asp:LinkButton>
+                                        <asp:LinkButton ID="lkReenviarSI" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-send"></i>&nbsp;Reenviar SI</asp:LinkButton>
                                     </div>
                                     <br />
                                     <br />
@@ -1004,6 +1005,10 @@ ORDER BY DATA DESC">
         function MouseDefault() {
             console.log("default");
             document.body.style.cursor = "default";
+        };
+
+        function SI() {
+            alert("S.I reenviada com sucesso!");
         };
     </script>
 
