@@ -194,6 +194,15 @@ Partial Public Class FreteTransportador_2
     Protected WithEvents ddlAgente As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ckAtivo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckAtivo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle ckInativo.
     '''</summary>
     '''<remarks>
@@ -210,6 +219,15 @@ Partial Public Class FreteTransportador_2
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ckConsolidada As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckNaoConsolidada.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckNaoConsolidada As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle btnBusca.
@@ -275,6 +293,24 @@ Partial Public Class FreteTransportador_2
     Protected WithEvents updPainel1 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle TextBox2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle dgvFreteTranportador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvFreteTranportador As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
     '''Controle TextBox4.
     '''</summary>
     '''<remarks>
@@ -291,33 +327,6 @@ Partial Public Class FreteTransportador_2
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents TextBox3 As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle TextBox2.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle TextBox1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle dgvFreteTranportador.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dgvFreteTranportador As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle mpeCntr.
@@ -345,6 +354,15 @@ Partial Public Class FreteTransportador_2
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents pnlCntr As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle lblID_FRETE_TRANSPORTADOR.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblID_FRETE_TRANSPORTADOR As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle divErroCntr.
@@ -392,15 +410,6 @@ Partial Public Class FreteTransportador_2
     Protected WithEvents dgvCntrEdicao As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle btnGravarCntr.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnGravarCntr As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle btnFecharCntr.
     '''</summary>
     '''<remarks>
@@ -408,6 +417,15 @@ Partial Public Class FreteTransportador_2
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnFecharCntr As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle TextBox1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle mpeHistorico.

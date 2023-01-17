@@ -67,19 +67,6 @@
                                     <div class="col-sm-1 portos" id="divDestino" runat="server">
                                     </div>
 
-
-                                    <%-- <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="control-label">Porto Origem:</label>
-                                        <asp:DropDownList ID="ddlOrigem" runat="server" CssClass="combos2 form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
-                                </div>
-                                            <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="control-label">Porto Destino:</label>
-                                        <asp:DropDownList ID="ddlDestino" runat="server" CssClass="combos2 form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
-                                </div>--%>
-
-
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Validade Inicial:</label>
@@ -109,8 +96,12 @@
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                            <asp:CheckBox ID="ckInativo" runat="server" Text="&nbsp;&nbsp;Inativo" Font-Size="Medium" /><br />
-                                            <asp:CheckBox ID="ckConsolidada" runat="server" Text="&nbsp;&nbsp;Consolidada" Font-Size="Medium" /><br />
+                                            <asp:CheckBox ID="ckAtivo" runat="server" Text="&nbsp;&nbsp;Ativo" Font-Size="Medium" /><br /><asp:CheckBox ID="ckInativo" runat="server" Text="&nbsp;&nbsp;Inativo" Font-Size="Medium" /> 
+
+                                             </div>
+                                    </div><div class="col-sm-2">
+                                        <div class="form-group">
+                                            <asp:CheckBox ID="ckConsolidada" runat="server" Text="&nbsp;&nbsp;Consolidada" Font-Size="Medium" /><br /><asp:CheckBox ID="ckNaoConsolidada" runat="server" Text="&nbsp;&nbsp;Não Consolidada" Font-Size="Medium" /> 
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
@@ -170,7 +161,6 @@
                             <Triggers>
                                 <asp:PostBackTrigger ControlID="lkExportar" />
                                 <asp:PostBackTrigger ControlID="ddlViaTransporte" />
-
                                 <asp:PostBackTrigger ControlID="lkExportaTarifario" />
                             </Triggers>
                         </asp:UpdatePanel>
@@ -178,18 +168,17 @@
 
                         <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
                             <ContentTemplate>
-                                <asp:TextBox ID="TextBox4" Style="display: none" runat="server"></asp:TextBox>
-                                <asp:TextBox ID="TextBox3" Style="display: none" runat="server"></asp:TextBox>
                                 <asp:TextBox ID="TextBox2" Style="display: none" runat="server"></asp:TextBox>
-                                <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
+
+
 
                                 <div id="DivGrid" class="table-responsive tableFixHead DivGrid">
-                                    <asp:GridView ID="dgvFreteTranportador" DataKeyNames="ID_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable dgvFreteTranportador" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFreteTranportador" AutoGenerateColumns="false" Style="max-height: 600px; overflow: auto;" AllowSorting="true" OnSorting="dgvFreteTranportador_Sorting" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="100" ShowFooter="True">
+                                    <asp:GridView ID="dgvFreteTranportador" DataKeyNames="ID_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable dgvFreteTranportador" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFreteTranportador" AutoGenerateColumns="false" Style="max-height: 600px; overflow: auto;" AllowSorting="true" OnSorting="dgvFreteTranportador_Sorting" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="50" ShowFooter="True">
                                         <Columns>
                                             <asp:TemplateField HeaderStyle-ForeColor="#337ab7">
                                                 <HeaderTemplate>
                                                     <asp:CheckBox ID="ckbSelecionarTodos" runat="server" Font-Size="Small" Text="Selecionar Todos" AutoPostBack="true" OnCheckedChanged="CheckUncheckAll" />
-                                                    <asp:Button ID="btnExpandirRecolher" runat="server" CssClass="btn-default" CommandName="ExpandirRecolher" Text="Expandir/Recolher"></asp:Button>
+                                                    <asp:Button ID="btnExpandirRecolher" runat="server" CssClass="btn-default" Text="Expandir/Recolher" OnClientClick="Expandir()"></asp:Button> 
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <asp:CheckBox ID="ckbSelecionar" runat="server" />
@@ -351,13 +340,15 @@
 
                                             <asp:TemplateField HeaderText="Tipo Container" SortExpression="QTD_CNTR" HeaderStyle-ForeColor="#337ab7">
                                                 <ItemTemplate>
-                                                    <a href="JavaScript:divexpandcollapse('div<%# Eval("ID_FRETE_TRANSPORTADOR") %>');">
+                                                    <a href="JavaScript:divexpandcollapse('div<%# Eval("ID_FRETE_TRANSPORTADOR") %>');" id="teste_1">
                                                         <img id="imgdiv<%# Eval("ID_FRETE_TRANSPORTADOR") %>" border="0" src="Content/imagens/plus.png" alt="" /></a>
+                                                    <asp:LinkButton ID="btnEditarCntr" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="EditCntr" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>' OnClientClick="SalvaPosicao()" Text="Editar"><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="20px" VerticalAlign="Middle"></ItemStyle>
                                                 <EditItemTemplate>
-                                                    <a href="JavaScript:divexpandcollapse('div<%# Eval("ID_FRETE_TRANSPORTADOR") %>');">
+                                                    <a href="JavaScript:divexpandcollapse('div<%# Eval("ID_FRETE_TRANSPORTADOR") %>');" id="teste_2">
                                                         <img id="imgdiv<%# Eval("ID_FRETE_TRANSPORTADOR") %>" border="0" src="Content/imagens/plus.png" alt="" /></a>
+                                                    <asp:LinkButton ID="btnEditarCntr" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="EditCntr" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>' OnClientClick="SalvaPosicao()" Text="Editar"><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
                                                 </EditItemTemplate>
                                             </asp:TemplateField>
 
@@ -426,97 +417,45 @@
                                                         <td colspan="8">
 
                                                             <div class="col-md-12">
-                                                                <div id="div<%# Eval("ID_FRETE_TRANSPORTADOR") %>" style="display: none; position: relative; left: 15px; top: 10px; white-space: nowrap;">
+                                                                <div id="div<%# Eval("ID_FRETE_TRANSPORTADOR") %>" style="display: none; position: relative; left: 15px; top: 10px; white-space: nowrap;" class="teste_div">
 
                                                                     <div class="table-responsive">
-                                                                        <asp:GridView ID="dgvCntr" DataKeyNames="ID_TARIFARIO_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." ShowHeaderWhenEmpty="true" ShowFooterWhenEmpty="true" ShowFooter="true" OnRowCommand="dgvCntr_RowCommand" OnRowEditing="dgvCntr_OnRowEditing" >
+                                                                        <asp:GridView ID="dgvCntr" DataKeyNames="ID_TARIFARIO_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." ShowHeaderWhenEmpty="true" ShowFooterWhenEmpty="true" ShowFooter="true">
                                                                             <Columns>
-                                                                                <asp:TemplateField HeaderStyle-ForeColor="#337ab7">
-
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="EditarCntr" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>' Text="Editar"><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
-
-                                                                                        <asp:LinkButton ID="btnDuplicar" runat="server" CssClass="btnGrid" CausesValidation="False" CommandName="DuplicarCntr" CommandArgument='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>'
-                                                                                            Text="Duplicar" OnClientClick="javascript:return confirm('Deseja realmente duplicar este registro?');"><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></div></asp:LinkButton>
-
-                                                                                        <asp:LinkButton ID="btnExcluir" title="Excluir" CssClass="btnGrid" runat="server" CommandName="ExcluirCntr"
-                                                                                            OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:small"></span></asp:LinkButton>
-                                                                                    </ItemTemplate>
-
-
-                                                                                    <EditItemTemplate>
-                                                                                        <asp:LinkButton ID="btnSalvar" runat="server" CausesValidation="True" CommandName="AtualizarCntr" CssClass="btnGrid" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');" CommandArgument='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") & "|" & Eval("ID_FRETE_TRANSPORTADOR") %>'><i class="glyphicon glyphicon-floppy-disk"  style="font-size:small"></i></asp:LinkButton>
-                                                                                        &nbsp;<asp:LinkButton ID="btnCancelar" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancelar" CssClass="btnGrid"><i class="glyphicon glyphicon-remove"  style="font-size:small"></i></asp:LinkButton>
-                                                                                    </EditItemTemplate>
-
-                                                                                    <FooterTemplate>
-                                                                                        <asp:LinkButton ID="btnNovoCntr" runat="server" CausesValidation="False" CommandName="IncluirCntr" Text="Incluir" CssClass="btnGrid" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'><i class="glyphicon glyphicon-plus"  style="font-size:small"></i></asp:LinkButton>
-                                                                                    </FooterTemplate>
-
-                                                                                </asp:TemplateField>
-
-
                                                                                 <asp:TemplateField HeaderText="ID" SortExpression="ID_TARIFARIO_FRETE_TRANSPORTADOR">
                                                                                     <ItemTemplate>
                                                                                         <asp:Label ID="lblID_TARIFARIO_FRETE_TRANSPORTADOR" runat="server" Text='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>' />
                                                                                         <asp:Label ID="lblID_FRETE_TRANSPORTADOR" Visible="False" runat="server" Text='<%# Eval("ID_FRETE_TRANSPORTADOR") %>' />
                                                                                     </ItemTemplate>
-                                                                                    <EditItemTemplate>
-                                                                                    </EditItemTemplate>
-                                                                                    <FooterTemplate>
-                                                                                    </FooterTemplate>
+
                                                                                 </asp:TemplateField>
 
                                                                                 <asp:TemplateField HeaderText="CONTAINER" HeaderStyle-ForeColor="#337ab7" SortExpression="NM_TIPO_CONTAINER">
                                                                                     <ItemTemplate>
                                                                                         <asp:Label runat="server" Text='<%# Eval("NM_TIPO_CONTAINER") %>' />
                                                                                     </ItemTemplate>
-                                                                                    <EditItemTemplate>
-                                                                                        <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER">
-                                                                                        </asp:DropDownList>
-                                                                                    </EditItemTemplate>
-                                                                                    <FooterTemplate>
-                                                                                        <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER">
-                                                                                        </asp:DropDownList>
-                                                                                    </FooterTemplate>
+
                                                                                 </asp:TemplateField>
 
                                                                                 <asp:TemplateField HeaderText="MOEDA" HeaderStyle-ForeColor="#337ab7" SortExpression="SIGLA_MOEDA">
                                                                                     <ItemTemplate>
                                                                                         <asp:Label runat="server" Text='<%# Eval("SIGLA_MOEDA") %>' />
                                                                                     </ItemTemplate>
-                                                                                    <EditItemTemplate>
-                                                                                        <asp:DropDownList ID="ddlMoeda" runat="server" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
-                                                                                        </asp:DropDownList>
-                                                                                    </EditItemTemplate>
-                                                                                    <FooterTemplate>
-                                                                                        <asp:DropDownList ID="ddlMoeda" runat="server" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
-                                                                                        </asp:DropDownList>
-                                                                                    </FooterTemplate>
+
                                                                                 </asp:TemplateField>
 
                                                                                 <asp:TemplateField HeaderText="COMPRA" HeaderStyle-ForeColor="#337ab7" SortExpression="VL_COMPRA">
                                                                                     <ItemTemplate>
                                                                                         <asp:Label runat="server" Text='<%# Eval("VL_COMPRA") %>' />
                                                                                     </ItemTemplate>
-                                                                                    <EditItemTemplate>
-                                                                                        <asp:TextBox ID="txtCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>' CssClass="valores"></asp:TextBox>
-                                                                                    </EditItemTemplate>
-                                                                                    <FooterTemplate>
-                                                                                        <asp:TextBox ID="txtCompra" runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>' CssClass="ApenasNumeros"></asp:TextBox>
-                                                                                    </FooterTemplate>
+
                                                                                 </asp:TemplateField>
 
                                                                                 <asp:TemplateField HeaderText="FREETIME" HeaderStyle-ForeColor="#337ab7" SortExpression="QT_DIAS_FREETIME">
                                                                                     <ItemTemplate>
                                                                                         <asp:Label runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>' />
                                                                                     </ItemTemplate>
-                                                                                    <EditItemTemplate>
-                                                                                        <asp:TextBox ID="txtFreeTime" runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>' CssClass="ApenasNumeros"></asp:TextBox>
-                                                                                    </EditItemTemplate>
-                                                                                    <FooterTemplate>
-                                                                                        <asp:TextBox ID="txtFreeTime" runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>' CssClass="ApenasNumeros"></asp:TextBox>
-                                                                                    </FooterTemplate>
+
                                                                                 </asp:TemplateField>
 
 
@@ -524,54 +463,18 @@
                                                                                     <ItemTemplate>
                                                                                         <asp:Label ID="lblORIGIN_CHARGES" runat="server" Text='<%# Eval("ORIGIN_CHARGES") %>' />
                                                                                     </ItemTemplate>
-                                                                                    <EditItemTemplate>
-                                                                                    </EditItemTemplate>
-                                                                                    <FooterTemplate>
-                                                                                    </FooterTemplate>
+
                                                                                 </asp:TemplateField>
 
                                                                                 <asp:TemplateField HeaderText="MOEDA ORIGIN CHARGES" HeaderStyle-ForeColor="#337ab7" SortExpression="ORIGIN_CHARGES">
                                                                                     <ItemTemplate>
                                                                                         <asp:Label ID="lblMOEDAORIGIN_CHARGES" runat="server" Text='<%# Eval("SIGLA_MOEDA") %>' />
                                                                                     </ItemTemplate>
-                                                                                    <EditItemTemplate>
-                                                                                    </EditItemTemplate>
-                                                                                    <FooterTemplate>
-                                                                                    </FooterTemplate>
+
                                                                                 </asp:TemplateField>
 
                                                                             </Columns>
 
-                                                                            <%--    <EmptyDataTemplate>
-
-        <tr>
-             
-            <td>
-                <asp:LinkButton ID="btnNovo" runat="server" CausesValidation="False" CommandName="IncluirCntr" Text="Incluir" CssClass="btnGrid" CommandArgument="0" ><i class="glyphicon glyphicon-plus"  style="font-size:small"></i></asp:LinkButton>
-             </td>
-            <td> 
-               <asp:Label ID="lblID_FRETE_TRANSPORTADOR_INCLUSAO" Visible="true" runat="server" Text='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'  />
-              </td>
-            <td>
-                 <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER"></asp:DropDownList>
-            </td>
-            <td>
-                 <asp:DropDownList ID="ddlMoeda" runat="server" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
-            </td>
-             <td>
-                <asp:TextBox ID="txtCompra" runat="server" CssClass="valores" />
-            </td>
-             <td>
-                <asp:TextBox ID="txtFreeTime" runat="server"  CssClass="ApenasNumeros"/>
-            </td>
-             <td>
-            </td>
-            <td>
-            </td>
-
-
-        </tr>
-    </EmptyDataTemplate>--%>
 
                                                                             <HeaderStyle CssClass="headerStyle" />
                                                                         </asp:GridView>
@@ -590,24 +493,11 @@
                                         <PagerStyle CssClass="pagination-ys" HorizontalAlign="Right" />
                                     </asp:GridView>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                 </div>
 
 
-                                
+                                <asp:TextBox ID="TextBox4" Style="display: none" runat="server"></asp:TextBox>
+                                <asp:TextBox ID="TextBox3" Style="display: none" runat="server"></asp:TextBox>
                                 <ajaxToolkit:ModalPopupExtender ID="mpeCntr" runat="server" PopupControlID="pnlCntr" TargetControlID="TextBox3" CancelControlID="TextBox4"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
@@ -616,7 +506,7 @@
                                                 <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">CONTAINER</h5>
+                                                            <h5 class="modal-title">CONTAINER - FRETE TRANSPORTADOR Nº <asp:Label ID="lblID_FRETE_TRANSPORTADOR" runat="server"></asp:Label> </h5>
                                                         </div>
                                                         <div class="modal-body">   
                                                             <div class="alert alert-danger" id="divErroCntr" runat="server" visible="false">
@@ -649,13 +539,14 @@
 
                                             </asp:TemplateField>
 
-
                                                 <asp:TemplateField HeaderText="ID" SortExpression="ID_TARIFARIO_FRETE_TRANSPORTADOR">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>'  />
                                                          <asp:Label ID="lblID_FRETE_TRANSPORTADOR" Visible="False" runat="server" Text='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'  />
                                                     </ItemTemplate>
                                                     <EditItemTemplate>
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>'  />
+                                                         <asp:Label ID="lblID_FRETE_TRANSPORTADOR" Visible="False" runat="server" Text='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'  />
                                                     </EditItemTemplate>
                                                    
                                                 </asp:TemplateField>
@@ -732,6 +623,7 @@
             <td>
                 <asp:LinkButton ID="btnNovo" runat="server" CausesValidation="False" CommandName="Incluir" Text="Incluir" CssClass="btnGrid"><i class="glyphicon glyphicon-plus"  style="font-size:small"></i></asp:LinkButton>
              </td>
+            <td></td>
             <td>
                  <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER"></asp:DropDownList>
             </td>
@@ -756,7 +648,7 @@
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
                                <div class="modal-footer">                   
-                                   <asp:Button runat="server" CssClass="btn btn-success" ID="btnGravarCntr" text="Gravar" /> 
+<%--                                   <asp:Button runat="server" CssClass="btn btn-success" ID="btnGravarCntr" text="Gravar" /> --%>
                                    <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharCntr" text="Close" />
                               </div>
                                                     </div>    
@@ -765,14 +657,14 @@
                                         </asp:Panel>
                                     </ContentTemplate>
                                     <Triggers>
-                                        <asp:AsyncPostBackTrigger ControlID="btnGravarCntr" />
+                                        <%--                                        <asp:AsyncPostBackTrigger ControlID="btnGravarCntr" />--%>
+                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCntrEdicao" />
                                     </Triggers>
                                 </asp:UpdatePanel>
 
 
-
+                                <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
                                 <ajaxToolkit:ModalPopupExtender ID="mpeHistorico" runat="server" PopupControlID="pnlHistorico" TargetControlID="Textbox1" CancelControlID="btnFecharHistorico"></ajaxToolkit:ModalPopupExtender>
-
                                 <asp:Panel ID="pnlHistorico" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     
                                                 <div class=" modal-dialog modal-dialog-centered" role="document">
@@ -810,12 +702,16 @@
                                                 </div>  
                                             </center>
                                 </asp:Panel>
+
                             </ContentTemplate>
                             <Triggers>
-                             <%--   <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvFreteTranportador" />
-                                <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvFreteTranportador" />--%>
-                                <asp:PostBackTrigger ControlID="dgvFreteTranportador" />
-                                <asp:PostBackTrigger ControlID="dgvFreteTranportador" />
+                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCntrEdicao" />
+                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvFreteTranportador" />
+                                <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvFreteTranportador" />
+                                <%-- <asp:PostBackTrigger ControlID="dgvFreteTranportador" />
+                                <asp:PostBackTrigger ControlID="dgvFreteTranportador" />--%>
+
+
                                 <asp:AsyncPostBackTrigger ControlID="btnBusca" />
                             </Triggers>
                         </asp:UpdatePanel>
@@ -826,10 +722,10 @@
         </div>
     </div>
     <asp:SqlDataSource ID="dsFreteTranportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT TOP 50 * FROM [View_FreteTransportador_new] WHERE DT_VALIDADE_FINAL >= GETDATE() order by ID_FRETE_TRANSPORTADOR DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [View_FreteTransportador_new] WHERE DT_VALIDADE_FINAL >= GETDATE() order by ID_FRETE_TRANSPORTADOR DESC"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsCntr" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT A.ID_FRETE_TRANSPORTADOR, 
+        SelectCommand=" SELECT A.ID_FRETE_TRANSPORTADOR, 
 B.ID_TARIFARIO_FRETE_TRANSPORTADOR,
 C.NM_TIPO_CONTAINER,
 B.QT_DIAS_FREETIME,
@@ -838,12 +734,12 @@ B.ID_MOEDA,
 M.SIGLA_MOEDA,
 A.ID_AGENTE,
 CASE WHEN ID_VIATRANSPORTE = 1 AND ID_TIPO_COMEX = 1
-THEN (SELECT SUM(VL_TAXA_COMPRA) FROM TB_TAXA_CLIENTE D WHERE A.ID_AGENTE = D.ID_PARCEIRO AND ID_TIPO_ESTUFAGEM = 1 AND D.ID_MOEDA_COMPRA = M.CD_MOEDA AND D.ID_BASE_CALCULO_TAXA IN (SELECT  I.ID_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA I WHERE ISNULL(I.ID_TIPO_CONTAINER,0) = B.ID_TIPO_CONTAINER) AND D.FL_DECLARADO = 1 AND ID_ORIGEM_PAGAMENTO = 2) ELSE 0 END ORIGIN_CHARGES
+THEN (SELECT ISNULL(SUM(VL_TAXA_COMPRA),0) FROM TB_TAXA_CLIENTE D WHERE A.ID_AGENTE = D.ID_PARCEIRO AND ID_TIPO_ESTUFAGEM = 1 AND D.ID_MOEDA_COMPRA = M.CD_MOEDA AND D.ID_BASE_CALCULO_TAXA IN (SELECT  I.ID_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA I WHERE ISNULL(I.ID_TIPO_CONTAINER,0) = B.ID_TIPO_CONTAINER) AND D.FL_DECLARADO = 1 AND ID_ORIGEM_PAGAMENTO = 2) ELSE 0 END ORIGIN_CHARGES
 FROM TB_FRETE_TRANSPORTADOR A
 INNER JOIN TB_TARIFARIO_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR
 INNER JOIN TB_TIPO_CONTAINER C ON B.ID_TIPO_CONTAINER= C.ID_TIPO_CONTAINER
 INNER JOIN TB_MOEDA M ON M.ID_MOEDA= B.ID_MOEDA
-WHERE A.ID_FRETE_TRANSPORTADOR =@ID_FRETE_TRANSPORTADOR ">
+WHERE A.ID_FRETE_TRANSPORTADOR = @ID_FRETE_TRANSPORTADOR ">
         <SelectParameters>
             <asp:Parameter Name="ID_FRETE_TRANSPORTADOR" Type="Int32" DefaultValue="0" />
         </SelectParameters>
@@ -906,7 +802,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
     <script type="text/javascript">
@@ -928,8 +824,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
             copiarTexto();
             Combos();
             InIEvent();
-
-        };
+         };
 
         function Combos() {
             $(".combos").select2({ placeholder: "  Selecione", allowClear: true });
@@ -1019,28 +914,29 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
 
         }
 
-        function SomaComissoes() {
-            var total = 0;
+
+        function Expandir() {
             var gridView = document.getElementById('<%= dgvFreteTranportador.ClientID %>');
             console.log('Inicio:');
-            for (var i = 1; i < gridView.rows.length; i++) {
+            for (var i = 0; i < 50 ; i++) {
                 var inputs = gridView.rows[i].getElementsByTagName('input');
+                if (inputs[0] != undefined) {
+                    if (inputs[0].type == "checkbox") {
+                        if (inputs[0].checked) {
+                            console.log("sim");
+                            var auxiliar = i; //- 1
+                            console.log('auxiliar:' + auxiliar);
+                            var label = 'MainContent_dgvFreteTranportador_lblID_' + auxiliar;
+                           
+                            if (document.getElementById(label).innerHTML != undefined) {
+                                console.log('label:' + document.getElementById(label).innerHTML);
+                            }
 
-                if (inputs[0].type == "checkbox") {
-                    if (inputs[0].checked) {
-                        console.log("sim");
-                        var auxiliar = i - 1
-                        console.log('auxiliar:' + auxiliar);
-                        var label = 'MainContent_dgvComissoes_lblID_' + auxiliar
-
-
- 
-                        console.log('label:' + document.getElementById(label).innerHTML);
-                     }
-
+                            divexpandcollapse('div' + document.getElementById(label).innerHTML);
+                        }
+                    }
                 }
             }
-         };
-
+        };
     </script>
 </asp:Content>
