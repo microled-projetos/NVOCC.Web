@@ -37,6 +37,7 @@
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                     <asp:TextBox ID="txtOrigem" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                     <asp:TextBox ID="txtDestino" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                    <asp:TextBox ID="txtAuxiliarExpandir" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                 </div>
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
@@ -95,24 +96,27 @@
 
                                     <div class="col-sm-1">
                                         <div class="form-group">
-                                            <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                            <asp:CheckBox ID="ckAtivo" runat="server" Text="&nbsp;&nbsp;Ativo" Font-Size="Medium" /><br /><asp:CheckBox ID="ckInativo" runat="server" Text="&nbsp;&nbsp;Inativo" Font-Size="Medium" /> 
+                                            <asp:CheckBox ID="ckAtivo" runat="server" Text="&nbsp;&nbsp;Ativo" Checked="true"/><br />
+                                            <asp:CheckBox ID="ckInativo" runat="server" Text="&nbsp;&nbsp;Inativo" />
 
-                                             </div>
-                                    </div><div class="col-sm-2">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
                                         <div class="form-group">
-                                            <asp:CheckBox ID="ckConsolidada" runat="server" Text="&nbsp;&nbsp;Consolidada" Font-Size="Medium" /><br /><asp:CheckBox ID="ckNaoConsolidada" runat="server" Text="&nbsp;&nbsp;Não Consolidada" Font-Size="Medium" /> 
+                                            <asp:CheckBox ID="ckConsolidada" runat="server" Text="&nbsp;&nbsp;Consolidada" Checked="true"/><br />
+                                            <asp:CheckBox ID="ckNaoConsolidada" runat="server" Text="&nbsp;&nbsp;Não Consolidada" Checked="true"/>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
                                         <div class="form-group">
-                                            <label class="control-label" style="color: white">x:</label><br />
-                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnBusca" Text="Pesquisar" />
-                                        </div>
+                                            <%--                                            <label class="control-label" style="color: white">x:</label><br />--%>
+                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnBusca" Text="Pesquisar" /><br />
+                                            <br />
+                                            <%--     </div>
                                     </div>
                                     <div class="col-sm-1">
                                         <div class="form-group">
-                                            <label class="control-label" style="color: white">x:</label><br />
+                                            <label class="control-label" style="color: white">x:</label><br />--%>
                                             <asp:LinkButton ID="lkExportar" runat="server" CssClass="btn btn-default" Style="font-size: 15px; background-color: lightgray"><i class="fa fa-file-excel"></i>&nbsp;Exportar</asp:LinkButton>
                                         </div>
                                     </div>
@@ -177,12 +181,12 @@
                                         <Columns>
                                             <asp:TemplateField HeaderStyle-ForeColor="#337ab7">
                                                 <HeaderTemplate>
-                                                    <asp:CheckBox ID="ckbSelecionarTodos" runat="server" Font-Size="Small" Text="Selecionar Todos" AutoPostBack="true" OnCheckedChanged="CheckUncheckAll" />
-                                                    <asp:Button ID="btnExpandirRecolher" runat="server" CssClass="btn-default" Text="Expandir/Recolher" OnClientClick="Expandir()"></asp:Button> 
+                                                    <asp:CheckBox ID="ckbSelecionarTodos" runat="server" Font-Size="Small" Text="Selecionar Todos" AutoPostBack="true" OnCheckedChanged="CheckUncheckAll" /><%-- OnCheckedChanged="CheckUncheckAll"--%>
+                                                    <asp:Button ID="btnExpandirRecolher" runat="server" CssClass="btn-default" Text="Expandir/Recolher" CommandName="ExpandirRecolher" OnClientClick="Expandir()"></asp:Button>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <asp:CheckBox ID="ckbSelecionar" runat="server" />
-                                                    <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="Edit" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>' OnClientClick="SalvaPosicao()" Text="Editar"><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
+                                                    <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="Edit" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>' Text="Editar"><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
 
                                                     <asp:LinkButton ID="btnDuplicar" runat="server" CssClass="btnGrid" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'
                                                         Text="Visualizar" OnClientClick="javascript:return confirm('Deseja realmente duplicar este registro?');"><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></div></asp:LinkButton>
@@ -537,6 +541,9 @@
                                                     &nbsp;<asp:LinkButton ID="btnCancelar" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancelar" CssClass="btnGrid"><i class="glyphicon glyphicon-remove"  style="font-size:small"></i></asp:LinkButton>
                                                 </EditItemTemplate>
 
+                                                <FooterTemplate>
+                                                    <asp:LinkButton ID="btnNovo" runat="server" CausesValidation="False" CommandName="IncluirFooter" Text="Incluir" CssClass="btnGrid"><i class="glyphicon glyphicon-plus"  style="font-size:small"></i></asp:LinkButton>
+                                                </FooterTemplate>
                                             </asp:TemplateField>
 
                                                 <asp:TemplateField HeaderText="ID" SortExpression="ID_TARIFARIO_FRETE_TRANSPORTADOR">
@@ -548,7 +555,9 @@
                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>'  />
                                                          <asp:Label ID="lblID_FRETE_TRANSPORTADOR" Visible="False" runat="server" Text='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'  />
                                                     </EditItemTemplate>
+                                                   <FooterTemplate>
                                                    
+                                                </FooterTemplate>
                                                 </asp:TemplateField>
                                               
                                              <asp:TemplateField HeaderText="CONTAINER" HeaderStyle-ForeColor="#337ab7" SortExpression="NM_TIPO_CONTAINER">
@@ -559,7 +568,9 @@
                                                     <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER">
                                                     </asp:DropDownList>
                                                 </EditItemTemplate>
-                                             
+                                             <FooterTemplate>
+                                                   <asp:DropDownList ID="ddlCntr" runat="server" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER"> </asp:DropDownList>
+                                                </FooterTemplate>
                                             </asp:TemplateField>
 
                                              <asp:TemplateField HeaderText="MOEDA" HeaderStyle-ForeColor="#337ab7" SortExpression="SIGLA_MOEDA">
@@ -570,7 +581,10 @@
                                                     <asp:DropDownList ID="ddlMoeda" runat="server" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
                                                     </asp:DropDownList>
                                                 </EditItemTemplate>
-                                               
+                                               <FooterTemplate>
+                                                   <asp:DropDownList ID="ddlMoeda" runat="server" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
+                                                    </asp:DropDownList>
+                                                </FooterTemplate>
                                             </asp:TemplateField>
 
                                             <asp:TemplateField HeaderText="COMPRA" HeaderStyle-ForeColor="#337ab7" SortExpression="VL_COMPRA">
@@ -580,7 +594,9 @@
                                                 <EditItemTemplate>
                                                       <asp:TextBox ID="txtCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>' CssClass="valores"></asp:TextBox>
                                                 </EditItemTemplate>
-                                               
+                                               <FooterTemplate>
+                                                      <asp:TextBox ID="txtCompra" runat="server" CssClass="valores" />
+                                                </FooterTemplate>
                                             </asp:TemplateField>
 
                                             <asp:TemplateField HeaderText="FREETIME" HeaderStyle-ForeColor="#337ab7" SortExpression="QT_DIAS_FREETIME">
@@ -590,7 +606,9 @@
                                                 <EditItemTemplate>
                                                       <asp:TextBox ID="txtFreeTime" runat="server" Text='<%# Eval("QT_DIAS_FREETIME") %>' CssClass="ApenasNumeros"></asp:TextBox>
                                                 </EditItemTemplate>
-                                               
+                                               <FooterTemplate>
+                                                    <asp:TextBox ID="txtFreeTime" runat="server"  CssClass="ApenasNumeros"/>
+                                                </FooterTemplate>
                                             </asp:TemplateField>
 
 
@@ -600,7 +618,9 @@
                                                 </ItemTemplate>
                                                 <EditItemTemplate>
                                                 </EditItemTemplate>
-
+                                                <FooterTemplate>
+                                                   <asp:Label ID="lblORIGIN_CHARGES" runat="server" />     
+                                                </FooterTemplate>
                                                
                                             </asp:TemplateField>
  
@@ -610,7 +630,9 @@
                                                 </ItemTemplate>
                                                 <EditItemTemplate>
                                                 </EditItemTemplate>
-
+                                                    <FooterTemplate>
+                                                   <asp:Label ID="lblMOEDAORIGIN_CHARGES" runat="server"   />       
+                                                </FooterTemplate>
                                                
                                             </asp:TemplateField>
 
@@ -737,8 +759,8 @@ CASE WHEN ID_VIATRANSPORTE = 1 AND ID_TIPO_COMEX = 1
 THEN (SELECT ISNULL(SUM(VL_TAXA_COMPRA),0) FROM TB_TAXA_CLIENTE D WHERE A.ID_AGENTE = D.ID_PARCEIRO AND ID_TIPO_ESTUFAGEM = 1 AND D.ID_MOEDA_COMPRA = M.CD_MOEDA AND D.ID_BASE_CALCULO_TAXA IN (SELECT  I.ID_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA I WHERE ISNULL(I.ID_TIPO_CONTAINER,0) = B.ID_TIPO_CONTAINER) AND D.FL_DECLARADO = 1 AND ID_ORIGEM_PAGAMENTO = 2) ELSE 0 END ORIGIN_CHARGES
 FROM TB_FRETE_TRANSPORTADOR A
 INNER JOIN TB_TARIFARIO_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR
-INNER JOIN TB_TIPO_CONTAINER C ON B.ID_TIPO_CONTAINER= C.ID_TIPO_CONTAINER
-INNER JOIN TB_MOEDA M ON M.ID_MOEDA= B.ID_MOEDA
+LEFT JOIN TB_TIPO_CONTAINER C ON B.ID_TIPO_CONTAINER= C.ID_TIPO_CONTAINER
+LEFT JOIN TB_MOEDA M ON M.ID_MOEDA= B.ID_MOEDA
 WHERE A.ID_FRETE_TRANSPORTADOR = @ID_FRETE_TRANSPORTADOR ">
         <SelectParameters>
             <asp:Parameter Name="ID_FRETE_TRANSPORTADOR" Type="Int32" DefaultValue="0" />
@@ -824,7 +846,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
             copiarTexto();
             Combos();
             InIEvent();
-         };
+            // SelecionarTudo();
+        };
 
         function Combos() {
             $(".combos").select2({ placeholder: "  Selecione", allowClear: true });
@@ -914,29 +937,80 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
 
         }
 
-
         function Expandir() {
+
+            var txtAuxiliarExpandir = document.getElementById('<%= txtAuxiliarExpandir.ClientID %>').value;
+
+             for (var i = 0; txtAuxiliarExpandir.length > 0; i++) {
+
+                 var resultado = txtAuxiliarExpandir.substring(0, txtAuxiliarExpandir.indexOf(","));
+                 console.log('teste2 =' + resultado);
+
+                 if (resultado == "" && txtAuxiliarExpandir.length > 0) {
+                     resultado = txtAuxiliarExpandir.substring(0);
+                 }
+                 console.log('teste3 =' + resultado);
+
+                 divexpandcollapse("div" + resultado);
+
+                 console.log(txtAuxiliarExpandir.indexOf(","));
+
+                 if (txtAuxiliarExpandir.indexOf(",") == -1) {
+                     txtAuxiliarExpandir = txtAuxiliarExpandir.replace(resultado, "");
+                 } else {
+                     txtAuxiliarExpandir = txtAuxiliarExpandir.replace(resultado + ",", "");
+                 }
+
+                 console.log('AuxiliarExpandir atualizado =' + txtAuxiliarExpandir);
+                 console.log('AuxiliarExpandir length =' + txtAuxiliarExpandir.length);
+             }
+
+        }
+
+
+       <%-- function SelecionarTudo() {
             var gridView = document.getElementById('<%= dgvFreteTranportador.ClientID %>');
             console.log('Inicio:');
-            for (var i = 0; i < 50 ; i++) {
+            for (var i = 0; i < gridView.rows.length; i++) {
+                var inputs = gridView.rows[i].getElementsByTagName('input');
+                if (inputs[0] != undefined) {
+                    if (inputs[0].type == "checkbox") {
+                        inputs[0].checked = true;
+                        console.log('checked = true');
+                    }
+                }
+            }
+        };--%>
+
+
+
+       
+
+
+       <%-- function Expandir2() {
+            var gridView = document.getElementById('<%= dgvFreteTranportador.ClientID %>');
+            console.log('Inicio:');
+            for (var i = 1; i < gridView.rows.length; i++) {
                 var inputs = gridView.rows[i].getElementsByTagName('input');
                 if (inputs[0] != undefined) {
                     if (inputs[0].type == "checkbox") {
                         if (inputs[0].checked) {
-                            console.log("sim");
-                            var auxiliar = i; //- 1
+                            var auxiliar = i;
                             console.log('auxiliar:' + auxiliar);
                             var label = 'MainContent_dgvFreteTranportador_lblID_' + auxiliar;
-                           
+
                             if (document.getElementById(label).innerHTML != undefined) {
                                 console.log('label:' + document.getElementById(label).innerHTML);
                             }
 
                             divexpandcollapse('div' + document.getElementById(label).innerHTML);
+
+
                         }
                     }
+
                 }
             }
-        };
+        };--%>
     </script>
 </asp:Content>

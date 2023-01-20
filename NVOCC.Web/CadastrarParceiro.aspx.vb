@@ -461,6 +461,10 @@ WHERE ID_PARCEIRO =" & ID)
                 txtOBSComplementares.Text = txtDadosCadastrais.Text
             End If
 
+            Dim Razao = txtRazaoSocial.Text
+            Razao = Razao.Replace("'", "''")
+
+
             If txtID.Text = "" Then
 
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
@@ -605,9 +609,11 @@ WHERE ID_PARCEIRO =" & ID)
 
                             If txtNomeFantasia.Text = "" Then
                                 txtNomeFantasia.Text = "NULL"
-                            Else
-                                txtNomeFantasia.Text = "'" & txtNomeFantasia.Text & "'"
                             End If
+
+
+                            Dim Fantasia = txtNomeFantasia.Text
+                            Fantasia = Fantasia.Replace("'", "''")
 
                             If txtTelefone.Text = "" Then
                                 txtTelefone.Text = "NULL"
@@ -651,7 +657,7 @@ WHERE ID_PARCEIRO =" & ID)
 
                             Con.Conectar()
 
-                            Dim SQL As String = ("INSERT INTO [dbo].[TB_PARCEIRO] (
+                            Dim SQL As String = "INSERT INTO [dbo].[TB_PARCEIRO] (
             FL_IMPORTADOR, 
             FL_EXPORTADOR, 
             FL_AGENTE, 
@@ -730,9 +736,16 @@ WHERE ID_PARCEIRO =" & ID)
             '" & ckbArmazemDesembaraco.Checked & "',
             '" & ckbArmazemDescarga.Checked & "',
             '" & ckbPrestador.Checked & "', 
-            '" & txtRazaoSocial.Text & "',
-            " & txtNomeFantasia.Text & ",
-            #filtro 
+            '" & Razao & "',"
+
+                            If Fantasia = "NULL" Then
+                                SQL &= "" & Fantasia & ","
+
+                            Else
+                                SQL &= "'" & Fantasia & "',"
+                            End If
+
+                            SQL &= " #filtro 
             " & ddlTipoPessoa.SelectedValue & ",
             " & txtInscEstadual.Text & ",
             " & txtInscMunicipal.Text & ",
@@ -783,7 +796,7 @@ WHERE ID_PARCEIRO =" & ID)
             " & txtNegociacoesInternas.Text & ",
             '" & ckbCiaAerea.Checked & "',
             " & ddlTipoModal.SelectedValue & " 
-            ) Select SCOPE_IDENTITY() as ID_PARCEIRO ")
+            ) Select SCOPE_IDENTITY() as ID_PARCEIRO "
 
 
 
@@ -945,10 +958,10 @@ WHERE ID_PARCEIRO =" & ID)
 
                             If txtNomeFantasia.Text = "" Then
                                 txtNomeFantasia.Text = "NULL"
-                            Else
-                                txtNomeFantasia.Text = "'" & txtNomeFantasia.Text & "'"
                             End If
 
+                            Dim Fantasia = txtNomeFantasia.Text
+                            Fantasia = Fantasia.Replace("'", "''")
 
 
                             If txtCEP.Text = "" Then
@@ -1091,7 +1104,7 @@ WHERE ID_PARCEIRO =" & ID)
                             Dim ID As String = Request.QueryString("id")
                             Con.Conectar()
 
-                            Dim SQL As String = ("UPDATE [dbo].[TB_PARCEIRO] SET FL_IMPORTADOR = '" & ckbImportador.Checked & "',
+                            Dim SQL As String = "UPDATE [dbo].[TB_PARCEIRO] SET FL_IMPORTADOR = '" & ckbImportador.Checked & "',
             FL_EXPORTADOR = '" & ckbExportador.Checked & "',
             FL_AGENTE = '" & ckbAgente.Checked & "' ,
             FL_AGENTE_INTERNACIONAL= '" & ckbAgenteInternacional.Checked & "',
@@ -1102,9 +1115,15 @@ WHERE ID_PARCEIRO =" & ID)
             FL_ARMAZEM_DESEMBARACO = '" & ckbArmazemDesembaraco.Checked & "',
             FL_ARMAZEM_ATRACACAO= '" & ckbArmazemAtracacao.Checked & "',
             FL_PRESTADOR= '" & ckbPrestador.Checked & "',
-            NM_RAZAO= '" & txtRazaoSocial.Text & "',
-            NM_FANTASIA = " & txtNomeFantasia.Text & ",
-            #filtro 
+            NM_RAZAO= '" & Razao & "',"
+                            If Fantasia = "NULL" Then
+                                SQL &= "NM_FANTASIA = " & Fantasia & ","
+
+                            Else
+                                SQL &= "NM_FANTASIA = '" & Fantasia & "',"
+                            End If
+
+                            SQL &= "#filtro 
             TP_PESSOA= '" & ddlTipoPessoa.SelectedValue & "',
             INSCR_ESTADUAL=" & txtInscEstadual.Text & ",
             INSCR_MUNICIPAL= " & txtInscMunicipal.Text & ",
@@ -1155,7 +1174,8 @@ WHERE ID_PARCEIRO =" & ID)
             NEGOCIACOES_INTERNAS = " & txtNegociacoesInternas.Text & ",
             FL_CIA_AEREA = '" & ckbCiaAerea.Checked & "',
             ID_VIATRANSPORTE = " & ddlTipoModal.SelectedValue & " 
-            where ID_PARCEIRO = " & ID)
+            where ID_PARCEIRO = " & ID
+
                             Session("ID_Parceiro") = ID
 
                             SQL = SQL.Replace("#filtro", FILTRO)

@@ -166,8 +166,8 @@ Public Class FreteTransportador_2
             Dim ID As String = e.CommandArgument
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR ( ID_TRANSPORTADOR, ID_AGENTE, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_PORTO_ESCALA, ID_MOEDA_FRETE, ID_TIPO_CARGA, ID_VIA_ROTA, ID_TIPO_COMEX, QT_DIAS_TRANSITTIME_INICIAL, QT_DIAS_TRANSITTIME_FINAL, QT_DIAS_TRANSITTIME_MEDIA, ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, FL_ATIVO, DT_VALIDADE_FINAL,FL_DUPLICATA,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_VIATRANSPORTE,ID_ORIGEM_PAGAMENTO)    SELECT ID_TRANSPORTADOR, ID_AGENTE, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_PORTO_ESCALA, ID_MOEDA_FRETE, ID_TIPO_CARGA, ID_VIA_ROTA, ID_TIPO_COMEX, QT_DIAS_TRANSITTIME_INICIAL, QT_DIAS_TRANSITTIME_FINAL, QT_DIAS_TRANSITTIME_MEDIA, ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, FL_ATIVO, DT_VALIDADE_FINAL,1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_VIATRANSPORTE,ID_ORIGEM_PAGAMENTO FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & ID & " Select SCOPE_IDENTITY() as ID_FRETE_TRANSPORTADOR;
-            INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR, ID_TIPO_CONTAINER, ID_TIPO_ESTUFAGEM, DT_VALIDADE_INICIAL, VL_COMPRA, VL_MINIMO, QT_DIAS_FREETIME, FL_IMO, FL_CARGA_ESPECIAL, VL_M3_INICIAL, VL_M3_FINAL, ID_MERCADORIA,SERVICO,DT_VALIDADE_FINAL)    SELECT  (Select SCOPE_IDENTITY() as ID_FRETE_TRANSPORTADOR),ID_TIPO_CONTAINER, ID_TIPO_ESTUFAGEM, DT_VALIDADE_INICIAL, VL_COMPRA, VL_MINIMO, QT_DIAS_FREETIME, FL_IMO, FL_CARGA_ESPECIAL, VL_M3_INICIAL, VL_M3_FINAL, ID_MERCADORIA,SERVICO,DT_VALIDADE_FINAL FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & ID & " INSERT INTO TB_TABELA_FRETE_TAXA (  ID_FRETE_TRANSPORTADOR, ID_TIPO_ESTUFAGEM, ID_ITEM_DESPESA, ID_ORIGEM_PAGAMENTO, ID_BASE_CALCULO_TAXA, ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA,VL_TAXA_VENDA_MIN,QTD_BASE_CALCULO)    SELECT(SELECT IDENT_CURRENT('TB_FRETE_TRANSPORTADOR')), ID_TIPO_ESTUFAGEM, ID_ITEM_DESPESA, ID_ORIGEM_PAGAMENTO, ID_BASE_CALCULO_TAXA, ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA,VL_TAXA_VENDA_MIN,QTD_BASE_CALCULO FROM TB_TABELA_FRETE_TAXA WHERE ID_FRETE_TRANSPORTADOR = " & ID)
+            Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR ( ID_TRANSPORTADOR, ID_AGENTE, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_PORTO_ESCALA, ID_MOEDA_FRETE, ID_TIPO_CARGA, ID_VIA_ROTA, ID_TIPO_COMEX, QT_DIAS_TRANSITTIME_INICIAL, QT_DIAS_TRANSITTIME_FINAL, QT_DIAS_TRANSITTIME_MEDIA, ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, FL_ATIVO, DT_VALIDADE_FINAL,FL_DUPLICATA,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_VIATRANSPORTE,ID_ORIGEM_PAGAMENTO,FL_CONSOLIDADA,OBS_INTERNA,OBS_CLIENTE )    SELECT ID_TRANSPORTADOR, ID_AGENTE, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_PORTO_ESCALA, ID_MOEDA_FRETE, ID_TIPO_CARGA, ID_VIA_ROTA, ID_TIPO_COMEX, QT_DIAS_TRANSITTIME_INICIAL, QT_DIAS_TRANSITTIME_FINAL, QT_DIAS_TRANSITTIME_MEDIA, ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, FL_ATIVO, DT_VALIDADE_FINAL,1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_VIATRANSPORTE,ID_ORIGEM_PAGAMENTO, FL_CONSOLIDADA,OBS_INTERNA,OBS_CLIENTE  FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & ID & " Select SCOPE_IDENTITY() as ID_FRETE_TRANSPORTADOR;
+            INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR, ID_TIPO_CONTAINER, ID_TIPO_ESTUFAGEM, DT_VALIDADE_INICIAL, VL_COMPRA, VL_MINIMO, QT_DIAS_FREETIME, FL_IMO, FL_CARGA_ESPECIAL, VL_M3_INICIAL, VL_M3_FINAL, ID_MERCADORIA,SERVICO,DT_VALIDADE_FINAL,ID_MOEDA)    SELECT  (Select SCOPE_IDENTITY() as ID_FRETE_TRANSPORTADOR),ID_TIPO_CONTAINER, ID_TIPO_ESTUFAGEM, DT_VALIDADE_INICIAL, VL_COMPRA, VL_MINIMO, QT_DIAS_FREETIME, FL_IMO, FL_CARGA_ESPECIAL, VL_M3_INICIAL, VL_M3_FINAL, ID_MERCADORIA,SERVICO,DT_VALIDADE_FINAL,ID_MOEDA FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & ID & " INSERT INTO TB_TABELA_FRETE_TAXA (  ID_FRETE_TRANSPORTADOR, ID_TIPO_ESTUFAGEM, ID_ITEM_DESPESA, ID_ORIGEM_PAGAMENTO, ID_BASE_CALCULO_TAXA, ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA,VL_TAXA_VENDA_MIN,QTD_BASE_CALCULO)    SELECT(SELECT IDENT_CURRENT('TB_FRETE_TRANSPORTADOR')), ID_TIPO_ESTUFAGEM, ID_ITEM_DESPESA, ID_ORIGEM_PAGAMENTO, ID_BASE_CALCULO_TAXA, ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA,VL_TAXA_VENDA_MIN,QTD_BASE_CALCULO FROM TB_TABELA_FRETE_TAXA WHERE ID_FRETE_TRANSPORTADOR = " & ID)
             Con.Fechar()
 
             dgvFreteTranportador.DataBind()
@@ -281,6 +281,7 @@ Public Class FreteTransportador_2
 
         ElseIf e.CommandName = "EditCntr" Then
 
+            txtID.Text = e.CommandArgument
             lblID_FRETE_TRANSPORTADOR.Text = e.CommandArgument
             dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = e.CommandArgument
             dgvCntrEdicao.DataBind()
@@ -288,18 +289,22 @@ Public Class FreteTransportador_2
 
         ElseIf e.CommandName = "ExpandirRecolher" Then
 
+            Dim IDs As String = ""
             For Each linha As GridViewRow In dgvFreteTranportador.Rows
                 Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
                 Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-
                 If check.Checked Then
-
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "divexpandcollapse('div" & ID & "');", True)
-
+                    If IDs = "" Then
+                        IDs = ID
+                    Else
+                        IDs &= "," & ID
+                    End If
                 End If
             Next
 
 
+            txtAuxiliarExpandir.Text = IDs
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "Expandir();", True)
 
         End If
 
@@ -434,34 +439,40 @@ Public Class FreteTransportador_2
             End If
         End If
 
-        'Inativo
-        If ckInativo.Checked = True Then
-            If filtro = "" Then
-                filtro &= " WHERE DT_VALIDADE_FINAL < GETDATE() "
-            Else
-                filtro &= "  AND DT_VALIDADE_FINAL < GETDATE() "
-            End If
-        Else
+        'Inativo      
+        If ckAtivo.Checked = True And ckInativo.Checked = False Then
+
             If filtro = "" Then
                 filtro &= " WHERE DT_VALIDADE_FINAL >= GETDATE() "
             Else
                 filtro &= "  AND DT_VALIDADE_FINAL >= GETDATE() "
             End If
+
+        ElseIf ckAtivo.Checked = False And ckInativo.Checked = True Then
+
+            If filtro = "" Then
+                filtro &= " WHERE DT_VALIDADE_FINAL < GETDATE() "
+            Else
+                filtro &= "  AND DT_VALIDADE_FINAL < GETDATE() "
+            End If
+
         End If
 
+
         'Consolidada
-        If ckConsolidada.Checked = True Then
+        If ckConsolidada.Checked = True And ckNaoConsolidada.Checked = False Then
             If filtro = "" Then
                 filtro &= " WHERE FL_CONSOLIDADA = 1 "
             Else
                 filtro &= "  AND FL_CONSOLIDADA = 1  "
             End If
-        Else
+        ElseIf ckConsolidada.Checked = False And ckNaoConsolidada.Checked = True Then
             If filtro = "" Then
                 filtro &= " WHERE FL_CONSOLIDADA = 0 "
             Else
                 filtro &= "  AND FL_CONSOLIDADA = 0 "
             End If
+
         End If
 
         Dim sql As String = "SELECT * FROM [View_FreteTransportador_new]  " & filtro & " order by ID_FRETE_TRANSPORTADOR DESC"
@@ -698,6 +709,30 @@ Public Class FreteTransportador_2
             lblmsgSuccessCntr.Text = "Registro cadastrado com sucesso!"
             Exit Sub
 
+        ElseIf e.CommandName = "IncluirFooter" Then
+
+
+            Dim ID_MOEDA As DropDownList = dgvCntrEdicao.FooterRow.FindControl("ddlMoeda")
+            Dim ID_TIPO_CONTAINER As DropDownList = dgvCntrEdicao.FooterRow.FindControl("ddlCntr")
+            Dim QT_DIAS_FREETIME As TextBox = dgvCntrEdicao.FooterRow.FindControl("txtFreeTime")
+            Dim VL_COMPRA As TextBox = dgvCntrEdicao.FooterRow.FindControl("txtCompra")
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Con.ExecutarQuery("INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR, ID_TIPO_CONTAINER, VL_COMPRA, QT_DIAS_FREETIME, ID_MOEDA ) VALUES (" & txtID.Text & "," & ID_TIPO_CONTAINER.SelectedValue & "," & VL_COMPRA.Text.Replace(".", "").Replace(",", ".") & " ,'" & QT_DIAS_FREETIME.Text & "', " & ID_MOEDA.SelectedValue & " ) ")
+
+
+            Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID.Text & ",'INCLUSÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+
+            Con.Fechar()
+
+            dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = txtID.Text
+            dgvCntrEdicao.DataBind()
+            mpeCntr.Show()
+
+            divSuccessCntr.Visible = True
+            lblmsgSuccessCntr.Text = "Registro cadastrado com sucesso!"
+            Exit Sub
 
         ElseIf e.CommandName = "Edit" Then
             txtIDTafifario.Text = e.CommandArgument
@@ -710,8 +745,11 @@ Public Class FreteTransportador_2
     Private Sub btnFecharCntr_Click(sender As Object, e As EventArgs) Handles btnFecharCntr.Click
         CarregaPortos()
         mpeCntr.Hide()
+        txtID.Text = ""
+        txtIDTafifario.Text = ""
         divSuccessCntr.Visible = False
         divErroCntr.Visible = False
+        dgvFreteTranportador.DataBind()
     End Sub
 
     Private Sub dgvCntrEdicao_RowCancelingEdit(sender As Object, e As GridViewCancelEditEventArgs) Handles dgvCntrEdicao.RowCancelingEdit

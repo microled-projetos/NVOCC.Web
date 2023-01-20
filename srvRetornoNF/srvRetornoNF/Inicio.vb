@@ -56,7 +56,7 @@ Module Inicio
 
             FlagExecutando = False
 
-            processaFila(ConfigurationManager.AppSettings("Email").ToString(), "Erro no srvRetornoNF - NVOCC", ex.ToString)
+            ' processaFila(ConfigurationManager.AppSettings("Email").ToString(), "Erro no srvRetornoNF - NVOCC", ex.ToString)
 
         End Try
 

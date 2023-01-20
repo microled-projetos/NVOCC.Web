@@ -89,7 +89,7 @@
                                     </div>
                                      <div class="col-sm-1">
                                         <div class="form-group">
-                                            <label class="control-label">CBM:</label>
+                                            <label class="control-label">Peso Cubado:</label>
                                             <asp:TextBox ID="txtCBM" runat="server" CssClass="form-control valores"></asp:TextBox>
                                         </div>
                                     </div>
@@ -383,7 +383,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM"></asp:SqlDataSource>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsServico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO WHERE ISNULL(TP_VIA,'') <> '' 
+        SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO WHERE ISNULL(TP_VIA,'') <> '' AND ID_SERVICO in (1,4) 
 union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
 
 </asp:Content>
