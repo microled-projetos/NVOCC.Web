@@ -26,11 +26,12 @@
 
         For Each linhaTitulo As DataRow In ds.Tables(0).Rows
             If Request.QueryString("ag") <> "" And Request.QueryString("ag") <> 0 Then
-                Dim dsDadosBancarios As DataSet = Con.ExecutarQuery("SELECT NM_RAZAO,TAX_ID,BANK_NAME,BANK_ADDRESS,ACCOUNT_NUMBER, AGENCY, SWIFT_CODE, IBAN_BR, UPPER(ENDERECO)ENDERECO, UPPER(COMPL_ENDERECO)COMPL_ENDERECO, UPPER(BAIRRO)BAIRRO, NR_ENDERECO FROM TB_PARCEIRO WHERE ID_PARCEIRO= " & Request.QueryString("ag"))
+                Dim dsDadosBancarios As DataSet = Con.ExecutarQuery("SELECT NM_RAZAO,TAX_ID,BANK_NAME,BANK_ADDRESS,ACCOUNT_NUMBER, AGENCY, SWIFT_CODE, IBAN_BR, UPPER(ENDERECO)ENDERECO, UPPER(COMPL_ENDERECO)COMPL_ENDERECO, UPPER(BAIRRO)BAIRRO, NR_ENDERECO, PAYMENT_TO FROM TB_PARCEIRO WHERE ID_PARCEIRO= " & Request.QueryString("ag"))
 
                 DadosBancarios = "<strong>Agente Name: </strong> " & dsDadosBancarios.Tables(0).Rows(0).Item("NM_RAZAO").ToString()
                 DadosBancarios &= "<br/><strong>Address: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("ENDERECO").ToString() & ", " & dsDadosBancarios.Tables(0).Rows(0).Item("NR_ENDERECO").ToString() & " - " & dsDadosBancarios.Tables(0).Rows(0).Item("BAIRRO").ToString() & " - " & dsDadosBancarios.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString()
                 DadosBancarios &= "<br/><strong>Tax ID: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("TAX_ID").ToString()
+                DadosBancarios &= "<br/><strong>Payment To: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("PAYMENT_TO").ToString()
                 DadosBancarios &= "<br/><strong>Bank Name: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("BANK_NAME").ToString()
                 DadosBancarios &= "<br/><strong>Bank Address: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("BANK_ADDRESS").ToString()
                 DadosBancarios &= "<br/><strong>Account Number: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("ACCOUNT_NUMBER").ToString() & " - " & dsDadosBancarios.Tables(0).Rows(0).Item("AGENCY").ToString()
@@ -45,11 +46,12 @@
             Dim SIGLA_MOEDA As String = linhaTitulo("SIGLA_MOEDA")
           
              If Request.QueryString("ag") = 0  Then
-                Dim dsDadosBancarios As DataSet = Con.ExecutarQuery("SELECT NM_RAZAO,TAX_ID,BANK_NAME,BANK_ADDRESS,ACCOUNT_NUMBER, AGENCY, SWIFT_CODE, IBAN_BR, UPPER(ENDERECO)ENDERECO, UPPER(COMPL_ENDERECO)COMPL_ENDERECO, UPPER(BAIRRO)BAIRRO, NR_ENDERECO FROM TB_PARCEIRO WHERE ID_PARCEIRO= " & PARCEIRO)
+                Dim dsDadosBancarios As DataSet = Con.ExecutarQuery("SELECT NM_RAZAO,TAX_ID,BANK_NAME,BANK_ADDRESS,ACCOUNT_NUMBER, AGENCY, SWIFT_CODE, IBAN_BR, UPPER(ENDERECO)ENDERECO, UPPER(COMPL_ENDERECO)COMPL_ENDERECO, UPPER(BAIRRO)BAIRRO, NR_ENDERECO, PAYMENT_TO FROM TB_PARCEIRO WHERE ID_PARCEIRO= " & PARCEIRO)
 
                 DadosBancarios = "<br/><br/><div class='divDadosBancarios' style='float:right'><strong>Agente Name: </strong> " & dsDadosBancarios.Tables(0).Rows(0).Item("NM_RAZAO").ToString()
                 DadosBancarios &= "<br/><strong>Address: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("ENDERECO").ToString() & ", " & dsDadosBancarios.Tables(0).Rows(0).Item("NR_ENDERECO").ToString() & " - " & dsDadosBancarios.Tables(0).Rows(0).Item("BAIRRO").ToString() & " - " & dsDadosBancarios.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString()
                 DadosBancarios &= "<br/><strong>Tax ID: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("TAX_ID").ToString()
+                DadosBancarios &= "<br/><strong>Payment To: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("PAYMENT_TO").ToString()
                 DadosBancarios &= "<br/><strong>Bank Name: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("BANK_NAME").ToString()
                 DadosBancarios &= "<br/><strong>Bank Address: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("BANK_ADDRESS").ToString()
                 DadosBancarios &= "<br/><strong>Account Number: </strong>" & dsDadosBancarios.Tables(0).Rows(0).Item("ACCOUNT_NUMBER").ToString() & " - " & dsDadosBancarios.Tables(0).Rows(0).Item("AGENCY").ToString()
