@@ -599,9 +599,13 @@
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblValorVenda" runat="server" Text='<%# Eval("VL_VENDA") %>'  />
                                                     </ItemTemplate>
-                                                </asp:TemplateField>    
-                                                                                               <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />
-                                       
+                                                </asp:TemplateField>   
+                                                 <asp:TemplateField HeaderText="DIFERENCA DE FRETE" SortExpression="DIFERENCA">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblValorDiferenca" runat="server" Text='<%# Eval("DIFERENCA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>  
+                                                <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />                                      
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>

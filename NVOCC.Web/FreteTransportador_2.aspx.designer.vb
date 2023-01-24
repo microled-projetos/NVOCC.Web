@@ -167,42 +167,6 @@ Partial Public Class FreteTransportador_2
     Protected WithEvents divDestino As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle txtValidadeInicial.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtValidadeInicial As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtValidadeFinal.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtValidadeFinal As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle ddlTransportador.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlTransportador As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlAgente.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlAgente As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle ckAtivo.
     '''</summary>
     '''<remarks>
@@ -237,6 +201,42 @@ Partial Public Class FreteTransportador_2
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ckNaoConsolidada As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle txtValidadeInicial.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValidadeInicial As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtValidadeFinal.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValidadeFinal As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlTransportador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTransportador As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlAgente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAgente As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle btnBusca.

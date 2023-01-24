@@ -5559,4 +5559,14 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
         txtPesoTaxado_CargaAereo.Text = ArredondarPesoTaxado(txtID_BasicoAereo.Text)
 
     End Sub
+
+    Private Sub ddlTipoPagamento_BasicoMaritimo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoPagamento_BasicoMaritimo.SelectedIndexChanged
+        Dim AtualizaStatus As New AtualizaStatusFreteAgente
+        ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgente(txtID_BasicoMaritimo.Text)
+    End Sub
+
+    Private Sub ddlTipoPagamento_BasicoAereo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoPagamento_BasicoAereo.SelectedIndexChanged
+        Dim AtualizaStatus As New AtualizaStatusFreteAgente
+        ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgente(txtID_BasicoAereo.Text)
+    End Sub
 End Class

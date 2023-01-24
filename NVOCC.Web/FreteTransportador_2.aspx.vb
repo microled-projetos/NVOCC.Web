@@ -37,7 +37,7 @@ Public Class FreteTransportador_2
         Dim Con As New Conexao_sql
         Con.Conectar()
 
-        Dim tabela As String = "<label style='font-size:12px'><strong>Porto Origem:<label></strong><select data-live-search='True' ID='comboOrigem' data-live-search-style='startsWith' class='form-control selectpicker'style='width:270px !important;' multiple='multiple' onchange='IDOrigem()'  title='Selecione'>"
+        Dim tabela As String = "<label style='font-size:12px'><strong>Porto Origem:<label></strong><br/><select data-live-search='True' ID='comboOrigem' data-live-search-style='startsWith' class='form-group selectpicker' multiple='multiple' onchange='IDOrigem()'  title='Selecione'>"
         Dim dsdados As DataSet
         Dim sql As String = "SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE NM_PORTO IS NOT NULL AND FL_ATIVO = 1"
         If ddlViaTransporte.SelectedValue <> "" Then
@@ -61,7 +61,7 @@ Public Class FreteTransportador_2
         divOrigem.InnerHtml = tabela
 
         'DESTINO
-        tabela = "<label style='font-size:12px'><strong>Porto Destino:<label></strong><select data-live-search='True' ID='comboDestino' data-live-search-style='startsWith' class='form-control selectpicker' style='width:270px !important;' multiple='multiple' onchange='IDDestino()'  title='Selecione'>"
+        tabela = "<label style='font-size:12px'><strong>Porto Destino:<label></strong><br/><select data-live-search='True' ID='comboDestino' data-live-search-style='startsWith' class='form-group selectpicker' multiple='multiple' onchange='IDDestino()'  title='Selecione' >"
         dsdados = Con.ExecutarQuery(sql)
         If dsdados.Tables(0).Rows.Count > 0 Then
 

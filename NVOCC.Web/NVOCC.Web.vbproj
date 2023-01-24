@@ -653,7 +653,7 @@
     </Compile>
     <Compile Include="Account.aspx.vb">
       <DependentUpon>Account.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
@@ -677,28 +677,28 @@
     </Compile>
     <Compile Include="Erro.aspx.vb">
       <DependentUpon>Erro.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FaturamentoArquivo.aspx.designer.vb">
       <DependentUpon>FaturamentoArquivo.aspx</DependentUpon>
     </Compile>
     <Compile Include="FaturamentoArquivo.aspx.vb">
       <DependentUpon>FaturamentoArquivo.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="AvisoEmbarque.aspx.designer.vb">
       <DependentUpon>AvisoEmbarque.aspx</DependentUpon>
     </Compile>
     <Compile Include="AvisoEmbarque.aspx.vb">
       <DependentUpon>AvisoEmbarque.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaixarComissao.aspx.designer.vb">
       <DependentUpon>BaixarComissao.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaixarComissao.aspx.vb">
       <DependentUpon>BaixarComissao.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaixasCancelamentos.aspx.designer.vb">
       <DependentUpon>BaixasCancelamentos.aspx</DependentUpon>
@@ -747,7 +747,7 @@
     </Compile>
     <Compile Include="CadastrarSubVendedor.aspx.vb">
       <DependentUpon>CadastrarSubVendedor.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CadastrarUsuario.aspx.designer.vb">
       <DependentUpon>CadastrarUsuario.aspx</DependentUpon>
@@ -814,6 +814,7 @@
     </Compile>
     <Compile Include="Helpers\AtualizaBancoEudmarco.vb" />
     <Compile Include="Helpers\AprovaCotacao.vb" />
+    <Compile Include="Helpers\AtualizaStatusFreteAgente.vb" />
     <Compile Include="Helpers\CalculaCotacao.vb" />
     <Compile Include="Helpers\Conexao_oracle.vb" />
     <Compile Include="Class\Aduana.vb" />
@@ -843,7 +844,7 @@
     </Compile>
     <Compile Include="ComissaoIndicadorInternacional.aspx.vb">
       <DependentUpon>ComissaoIndicadorInternacional.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ComissaoIndicadorNacional.aspx.designer.vb">
       <DependentUpon>ComissaoIndicadorNacional.aspx</DependentUpon>
@@ -857,7 +858,7 @@
     </Compile>
     <Compile Include="ComissaoVendedor.aspx.vb">
       <DependentUpon>ComissaoVendedor.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Helpers\Conexao_sql.vb" />
     <Compile Include="Conferencia.aspx.designer.vb">
@@ -865,7 +866,7 @@
     </Compile>
     <Compile Include="Conferencia.aspx.vb">
       <DependentUpon>Conferencia.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ConsultaParceiro.aspx.designer.vb">
       <DependentUpon>ConsultaParceiro.aspx</DependentUpon>
@@ -879,14 +880,14 @@
     </Compile>
     <Compile Include="CreditNote.aspx.vb">
       <DependentUpon>CreditNote.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="DebitNote.aspx.designer.vb">
       <DependentUpon>DebitNote.aspx</DependentUpon>
     </Compile>
     <Compile Include="DebitNote.aspx.vb">
       <DependentUpon>DebitNote.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Helpers\ExtensoEstrangeira.vb" />
     <Compile Include="Helpers\InativaAtivaTaxa.vb" />
@@ -896,7 +897,7 @@
     </Compile>
     <Compile Include="ImprimirND.aspx.vb">
       <DependentUpon>ImprimirND.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EmissaoND.aspx.designer.vb">
       <DependentUpon>EmissaoND.aspx</DependentUpon>
@@ -1017,7 +1018,7 @@
     </Compile>
     <Compile Include="InativacaoTaxas.aspx.vb">
       <DependentUpon>InativacaoTaxas.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ItemDespesa.aspx.designer.vb">
       <DependentUpon>ItemDespesa.aspx</DependentUpon>
@@ -1127,7 +1128,7 @@
     </Compile>
     <Compile Include="ReciboProvisorioServico.aspx.vb">
       <DependentUpon>ReciboProvisorioServico.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RecuperarSenha.aspx.designer.vb">
       <DependentUpon>RecuperarSenha.aspx</DependentUpon>
@@ -1148,7 +1149,7 @@
     </Compile>
     <Compile Include="ContratosFirmados.aspx.vb">
       <DependentUpon>ContratosFirmados.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RelatorioFaturamento.aspx.designer.vb">
       <DependentUpon>RelatorioFaturamento.aspx</DependentUpon>
@@ -1169,7 +1170,7 @@
     </Compile>
     <Compile Include="RemessaBoletos.aspx.vb">
       <DependentUpon>RemessaBoletos.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SelecionaPerfil.aspx.designer.vb">
       <DependentUpon>SelecionaPerfil.aspx</DependentUpon>
@@ -1192,7 +1193,7 @@
     </Compile>
     <Compile Include="ProcessosPeriodo.aspx.vb">
       <DependentUpon>ProcessosPeriodo.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SOA_II.aspx.designer.vb">
       <DependentUpon>SOA_II.aspx</DependentUpon>
@@ -1241,7 +1242,7 @@
     </Compile>
     <Compile Include="TextoCotacao.aspx.vb">
       <DependentUpon>TextoCotacao.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TrocarSenha.aspx.designer.vb">
       <DependentUpon>TrocarSenha.aspx</DependentUpon>
@@ -1275,7 +1276,7 @@
     </Compile>
     <Compile Include="EmissaoNDFaturamento.aspx.vb">
       <DependentUpon>EmissaoNDFaturamento.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>

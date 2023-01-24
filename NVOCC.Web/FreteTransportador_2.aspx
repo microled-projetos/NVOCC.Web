@@ -14,7 +14,22 @@
         .portos {
             z-index: 100;
         }
-    </style>
+        
+         /*  .bootstrap-select {
+             min-width: 230px !important;
+      width:auto !important; 
+          max-width: 430px !important;
+          min-width: 150px !important;  
+        }      
+    */
+
+      /* .select2-container .select2-selection--single {
+ 
+     height: 33px !important; 
+    
+}*/
+   
+        </style>
     <div class="row principal">
 
         <div class="col-lg-12 table-responsive">
@@ -55,7 +70,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-2">
                                         <div class="form-group">
                                             <label class="control-label">Via Transporte:</label>
                                             <asp:TextBox ID="txtViaTransporte" runat="server" Style="display: none" CssClass="form-control" />
@@ -63,37 +78,10 @@
                                             </asp:DropDownList>
                                         </div>
                                     </div>
-                                    <div class="col-sm-1 portos" id="divOrigem" runat="server">
+                                    <div class="col-sm-3 portos" id="divOrigem" runat="server">
                                     </div>
-                                    <div class="col-sm-1 portos" id="divDestino" runat="server">
+                                    <div class="col-sm-3 portos" id="divDestino" runat="server">
                                     </div>
-
-                                    <div class="col-sm-1">
-                                        <div class="form-group">
-                                            <label class="control-label">Validade Inicial:</label>
-                                            <asp:TextBox ID="txtValidadeInicial" runat="server" CssClass="form-control data"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <div class="form-group">
-                                            <label class="control-label">Validade Final:</label>
-                                            <asp:TextBox ID="txtValidadeFinal" runat="server" CssClass="form-control data"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <div class="form-group">
-                                            <label class="control-label">Transportador:</label>
-                                            <asp:DropDownList ID="ddlTransportador" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <div class="form-group">
-                                            <label class="control-label">Agente:</label>
-                                            <asp:DropDownList ID="ddlAgente" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>
-                                        </div>
-                                    </div>
-
-
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <asp:CheckBox ID="ckAtivo" runat="server" Text="&nbsp;&nbsp;Ativo" Checked="true"/><br />
@@ -101,22 +89,52 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-sm-2">
+                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <asp:CheckBox ID="ckConsolidada" runat="server" Text="&nbsp;&nbsp;Consolidada" Checked="true"/><br />
                                             <asp:CheckBox ID="ckNaoConsolidada" runat="server" Text="&nbsp;&nbsp;Não Consolidada" Checked="true"/>
                                         </div>
                                     </div>
+                                    </div>
+                                    <div class="row" runat="server">
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Validade Inicial:</label>
+                                            <asp:TextBox ID="txtValidadeInicial" runat="server" CssClass="form-control data"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Validade Final:</label>
+                                            <asp:TextBox ID="txtValidadeFinal" runat="server" CssClass="form-control data"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Transportador:</label><br />
+                                            <asp:DropDownList ID="ddlTransportador" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO" style="font-size:15px" ></asp:DropDownList>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Agente:</label><br />
+                                            <asp:DropDownList ID="ddlAgente" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                        </div>
+                                    </div>
+
+
+                                    
+                                   
                                     <div class="col-sm-1">
                                         <div class="form-group">
-                                            <%--                                            <label class="control-label" style="color: white">x:</label><br />--%>
+                                          <label class="control-label" style="color: white">x:</label><br />
                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnBusca" Text="Pesquisar" /><br />
                                             <br />
-                                            <%--     </div>
+                                                 </div>
                                     </div>
                                     <div class="col-sm-1">
                                         <div class="form-group">
-                                            <label class="control-label" style="color: white">x:</label><br />--%>
+                                            <label class="control-label" style="color: white">x:</label><br />
                                             <asp:LinkButton ID="lkExportar" runat="server" CssClass="btn btn-default" Style="font-size: 15px; background-color: lightgray"><i class="fa fa-file-excel"></i>&nbsp;Exportar</asp:LinkButton>
                                         </div>
                                     </div>
