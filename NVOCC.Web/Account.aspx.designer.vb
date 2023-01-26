@@ -779,6 +779,15 @@ Partial Public Class Account
     Protected WithEvents lblValorFreteVenda As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblValorDifFrete.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblValorDifFrete As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblValorFreteDevolucao.
     '''</summary>
     '''<remarks>

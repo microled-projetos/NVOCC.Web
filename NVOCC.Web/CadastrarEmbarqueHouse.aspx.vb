@@ -5519,6 +5519,27 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
 
     End Sub
 
+    Public Sub ckEnvioSI_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
+        Dim chk As CheckBox = DirectCast(sender, CheckBox)
+        Dim row = DirectCast(chk.NamingContainer, GridViewRow)
+        Dim ID_ARQUIVO = DirectCast(row.FindControl("lblID_ARQUIVO"), Label).Text
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ENVIO_SI = '" & chk.Checked & "' WHERE ID_ARQUIVO = " & ID_ARQUIVO)
+        If Request.QueryString("s") = "A" Then
+            divSuccessUploadAereo.Visible = True
+            dgvArquivosAereo.DataBind()
+            Con.Fechar()
+            txtUPAereo.Text = 1
+        ElseIf Request.QueryString("s") = "M" Then
+            divSuccessUploadMaritimo.Visible = True
+            dgvArquivosMaritimo.DataBind()
+            Con.Fechar()
+            txtUPMaritimo.Text = 1
+        End If
+
+    End Sub
+
     Private Sub dgvArquivosMaritimo_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvArquivosMaritimo.RowDataBound
         If e.Row.RowType = DataControlRowType.DataRow Then
 
@@ -5562,11 +5583,11 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
 
     Private Sub ddlTipoPagamento_BasicoMaritimo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoPagamento_BasicoMaritimo.SelectedIndexChanged
         Dim AtualizaStatus As New AtualizaStatusFreteAgente
-        ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgente(txtID_BasicoMaritimo.Text)
+        ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoMaritimo.Text, ddlTipoPagamento_BasicoMaritimo.SelectedValue)
     End Sub
 
     Private Sub ddlTipoPagamento_BasicoAereo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoPagamento_BasicoAereo.SelectedIndexChanged
         Dim AtualizaStatus As New AtualizaStatusFreteAgente
-        ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgente(txtID_BasicoAereo.Text)
+        ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoAereo.Text, ddlTipoPagamento_BasicoAereo.SelectedValue)
     End Sub
 End Class

@@ -617,16 +617,21 @@
                                                             <div class="row">
                                      
                                       
-                                       <div class="col-sm-4">
+                                       <div class="col-sm-3">
                                                              Compra: <asp:label ID="lblValorFreteCompra" runat="server"/>
 
                                            </div>
-                                                                <div class="col-sm-4">
+                                                                <div class="col-sm-3">
                                                              Venda: <asp:label ID="lblValorFreteVenda" runat="server"/>
 
 
                                            </div>
-                                                                <div class="col-sm-4">
+                                                                <div class="col-sm-3">
+                                                            Dif. Frete: <asp:label ID="lblValorDifFrete" runat="server"/>
+
+
+                                           </div>
+                                                                <div class="col-sm-3">
                                                             Total: <asp:label ID="lblValorFreteDevolucao" runat="server"/>
 
 
@@ -1428,6 +1433,7 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
                     console.log('DEVOLUÇÃO DO FRETE DE COMPRA:');
                     //DEVOLUÇÃO DO FRETE DE COMPRA
                     document.getElementById('<%= lblValorFreteDevolucao.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
+                    document.getElementById('<%= lblValorDifFrete.ClientID %>').innerHTML = Number(diferenca).toFixed(2);
                      document.getElementById('<%= lblValorFreteCompra.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
                      document.getElementById('<%= lblValorFreteVenda.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
                  }
@@ -1436,6 +1442,7 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
                          console.log('DEVOLUÇÃO DO FRETE DE VENDA:');
                          //DEVOLUÇÃO DO FRETE DE VENDA
                          document.getElementById('<%= lblValorFreteDevolucao.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
+                         document.getElementById('<%= lblValorDifFrete.ClientID %>').innerHTML = Number(diferenca).toFixed(2);
                          document.getElementById('<%= lblValorFreteCompra.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
                          document.getElementById('<%= lblValorFreteVenda.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
 
@@ -1445,6 +1452,7 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
                              console.log('DEVOLUÇÃO DA DIFERENÇA DE FRETE:');
                              //DEVOLUÇÃO DA DIFERENÇA DE FRETE
                              document.getElementById('<%= lblValorFreteDevolucao.ClientID %>').innerHTML = Number(diferenca).toFixed(2);
+                             document.getElementById('<%= lblValorDifFrete.ClientID %>').innerHTML = Number(diferenca).toFixed(2);
                              document.getElementById('<%= lblValorFreteCompra.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
                              document.getElementById('<%= lblValorFreteVenda.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
                         }

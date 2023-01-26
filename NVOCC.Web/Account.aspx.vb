@@ -675,6 +675,7 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         lblValorFreteDevolucao.Text = 0
         lblValorFreteCompra.Text = 0
         lblValorFreteVenda.Text = 0
+        lblValorDifFrete.Text = 0
 
         If ddlTipoDevolucao.SelectedValue = 2 Then
             'DEVOLUÇÃO DO FRETE DE COMPRA
@@ -683,13 +684,16 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
                 Dim check As CheckBox = linha.FindControl("ckbSelecionar")
                 Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
                 Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+                ' Dim ValorDiferenca As Decimal = CType(linha.FindControl("lblValorDiferenca"), Label).Text
 
                 Dim ValorCompra2 As Decimal = lblValorFreteCompra.Text
                 Dim ValorVenda2 As Decimal = lblValorFreteVenda.Text
+                '  Dim ValorDiferenca2 As Decimal = lblValorDifFrete.Text
 
                 If check.Checked Then
                     lblValorFreteCompra.Text = ValorCompra + ValorCompra2
                     lblValorFreteVenda.Text = ValorVenda + ValorVenda2
+                    lblValorDifFrete.Text = lblValorFreteVenda.Text - lblValorFreteCompra.Text
 
                     lblValorFreteDevolucao.Text = lblValorFreteCompra.Text
                 End If
@@ -702,13 +706,16 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
                 Dim check As CheckBox = linha.FindControl("ckbSelecionar")
                 Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
                 Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+                ' Dim ValorDiferenca As Decimal = CType(linha.FindControl("lblValorDiferenca"), Label).Text
 
                 Dim ValorCompra2 As Decimal = lblValorFreteCompra.Text
                 Dim ValorVenda2 As Decimal = lblValorFreteVenda.Text
+                '  Dim ValorDiferenca2 As Decimal = lblValorDifFrete.Text
 
                 If check.Checked Then
                     lblValorFreteCompra.Text = ValorCompra + ValorCompra2
                     lblValorFreteVenda.Text = ValorVenda + ValorVenda2
+                    lblValorDifFrete.Text = lblValorFreteVenda.Text - lblValorFreteCompra.Text
 
                     lblValorFreteDevolucao.Text = lblValorFreteVenda.Text
                 End If
@@ -722,13 +729,16 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
                 Dim check As CheckBox = linha.FindControl("ckbSelecionar")
                 Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
                 Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+                '   Dim ValorDiferenca As Decimal = CType(linha.FindControl("lblValorDiferenca"), Label).Text
 
                 Dim ValorCompra2 As Decimal = lblValorFreteCompra.Text
                 Dim ValorVenda2 As Decimal = lblValorFreteVenda.Text
+                ' Dim ValorDiferenca2 As Decimal = lblValorDifFrete.Text
 
                 If check.Checked Then
                     lblValorFreteCompra.Text = ValorCompra + ValorCompra2
                     lblValorFreteVenda.Text = ValorVenda + ValorVenda2
+                    lblValorDifFrete.Text = lblValorFreteVenda.Text - lblValorFreteCompra.Text
 
                     lblValorFreteDevolucao.Text = lblValorFreteVenda.Text - lblValorFreteCompra.Text
                 End If

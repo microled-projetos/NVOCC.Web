@@ -375,7 +375,7 @@
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Tipo de Pagamento:</label>
-                                                <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO">
+                                                <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" AutoPostBack="true">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -529,7 +529,8 @@
                                         </div>
                                     </div>
 </ContentTemplate>
-                                        <Triggers>
+                                        <Triggers>                                          
+                                            <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoMaritimo" />
@@ -1245,6 +1246,10 @@ VENDAS:
                                                     <asp:BoundField DataField="DT_UPLOAD" HeaderText="Data/Hora" SortExpression="DT_UPLOAD" />
                                                     <asp:TemplateField HeaderText="Ativo para clientes?" HeaderStyle-ForeColor="#337ab7" >
                                                         <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" autopostback="true"  OnCheckedChanged="ckAtivoClientes_CheckedChanged" />                                                            
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                      <asp:TemplateField HeaderText="Enviar na S.I?" HeaderStyle-ForeColor="#337ab7" >
+                                                        <ItemTemplate><asp:CheckBox ID="ckEnvioSI" Checked='<%# Eval("FL_ENVIO_SI") %>' runat="server" AutoPostBack="true" OnCheckedChanged="ckEnvioSI_CheckedChanged" />                                                            
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
@@ -2669,6 +2674,10 @@ VENDAS:
                                                         <ItemTemplate><asp:CheckBox ID="ckAtivoClientes" Checked='<%# Eval("FL_ATIVO_CLIENTES") %>' runat="server" AutoPostBack="true" OnCheckedChanged="ckAtivoClientes_CheckedChanged" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
+                                                     <asp:TemplateField HeaderText="Enviar na S.I?" HeaderStyle-ForeColor="#337ab7" >
+                                                        <ItemTemplate><asp:CheckBox ID="ckEnvioSI" Checked='<%# Eval("FL_ENVIO_SI") %>' runat="server" AutoPostBack="true" OnCheckedChanged="ckEnvioSI_CheckedChanged" />                                                            
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
                                                              <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar"><asp:Label ID="lblBotaoVisualizar" runat="server" Text="Visualizar" /></a>          
@@ -3367,7 +3376,7 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
 
 
         <asp:SqlDataSource ID="dsUploadsMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO FROM TB_UPLOADS  A
+        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO, A.FL_ENVIO_SI FROM TB_UPLOADS  A
  INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
 INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
     WHERE A.ID_BL = @ID_BL ">

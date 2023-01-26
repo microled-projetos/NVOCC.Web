@@ -553,8 +553,8 @@ Public Class FreteTransportador_2
 
             End If
 
-            If e.Row.RowState = DataControlRowState.Edit Then
 
+            If e.Row.RowState = DataControlRowState.Edit Or e.Row.RowState = 5 Then
                 ds = Con.ExecutarQuery("SELECT ID_TRANSPORTADOR,ID_AGENTE,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_VIA_ROTA,ID_TIPO_FREQUENCIA,ID_TIPO_CARGA FROM View_FreteTransportador_new WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
 

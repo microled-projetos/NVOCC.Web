@@ -171,7 +171,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Tipo de Pagamento:</label>
-                                                <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO">
+                                                <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" AutoPostBack="true">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -1449,7 +1449,7 @@
                                                     <div class="col-sm-3">
                                                         <div class="form-group">
                                                             <label class="control-label">Tipo de Pagamento:</label>
-                                                            <asp:DropDownList ID="ddlTipoPagamento_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO">
+                                                            <asp:DropDownList ID="ddlTipoPagamento_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" AutoPostBack="true">
                                                             </asp:DropDownList>
                                                         </div>
                                                     </div>
@@ -1572,8 +1572,9 @@
                                                 </div>
                                             </ContentTemplate>
                                             <Triggers>
-                                                <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoAereo" />
+                                                <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoAereo" />
+                                                <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlWeekAereo" />
                                             </Triggers>
                                         </asp:UpdatePanel>
