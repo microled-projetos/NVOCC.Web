@@ -381,9 +381,9 @@ Public Class FreteTransportador_2
                 lblmsgErro.Text = "Data Inválida."
             Else
                 If filtro = "" Then
-                    filtro &= " WHERE CONVERT(DATE,DT_VALIDADE_FINAL, 103) = CONVERT(DATE, '" & txtValidadeInicial.Text & "', 103) "
+                    filtro &= " WHERE CONVERT(DATE,DT_VALIDADE_FINAL, 103) >= CONVERT(DATE, '" & txtValidadeInicial.Text & "', 103) "
                 Else
-                    filtro &= " AND CONVERT(DATE,DT_VALIDADE_FINAL, 103) = CONVERT(DATE, '" & txtValidadeInicial.Text & "', 103) "
+                    filtro &= " AND CONVERT(DATE,DT_VALIDADE_FINAL, 103) >= CONVERT(DATE, '" & txtValidadeInicial.Text & "', 103) "
                 End If
 
             End If
@@ -395,9 +395,9 @@ Public Class FreteTransportador_2
                 lblmsgErro.Text = "Data Inválida."
             Else
                 If filtro = "" Then
-                    filtro &= " WHERE CONVERT(DATE,DT_VALIDADE_FINAL, 103) = CONVERT(DATE, '" & txtValidadeFinal.Text & "', 103) "
+                    filtro &= " WHERE CONVERT(DATE,DT_VALIDADE_FINAL, 103) <= CONVERT(DATE, '" & txtValidadeFinal.Text & "', 103) "
                 Else
-                    filtro &= " AND CONVERT(DATE,DT_VALIDADE_FINAL, 103) = CONVERT(DATE, '" & txtValidadeFinal.Text & "', 103) "
+                    filtro &= " AND CONVERT(DATE,DT_VALIDADE_FINAL, 103) <= CONVERT(DATE, '" & txtValidadeFinal.Text & "', 103) "
                 End If
 
             End If

@@ -1470,7 +1470,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                             If Session("ID_STATUS") <> 10 And txtProcessoCotacao.Text = "" Then
                                 Dim AprovaCotacao As New AprovaCotacao
-                                txtProcessoCotacao.Text = AprovaCotacao.AprovaCotacao(txtID.Text, ddlServico.SelectedValue, ddlEstufagem.SelectedValue, ddlDivisaoProfit.SelectedValue)
+                                txtProcessoCotacao.Text = AprovaCotacao.AprovaCotacao(txtID.Text, ddlServico.SelectedValue, ddlEstufagem.SelectedValue, ddlDivisaoProfit.SelectedValue, Session("ID_USUARIO"))
                             Else
 
                                 Dim RotinaUpdate As New RotinaUpdate
@@ -5091,5 +5091,14 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
             End If
 
         End If
+    End Sub
+
+    Sub VerificaRepetida()
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT  REF_REPETIDAS ,DT_ABERTURA, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_ESTUFAGEM, ID_INCOTERM, VL_TOTAL_PESO_BRUTO, VL_M3 FROM [dbo].[View_Cotacao_Repetidas] WHERE ID_COTACAO = " & txtID.Text)
+        Dim REF_REPETIDAS As String = "REP_" & ds.Tables(0).Rows(0).Item("REF_REPETIDAS")
+
+
     End Sub
 End Class
