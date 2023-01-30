@@ -1614,7 +1614,7 @@ VENDAS:
                                             <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Tipo de Pagamento:</label>
-                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO">
+                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" AutoPostBack="true">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>  <%--<div class="col-sm-2">
@@ -1975,6 +1975,7 @@ VENDAS:
 
                                         </ContentTemplate>
                                         <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoAereo" />
@@ -3386,7 +3387,7 @@ INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
     </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsUploadsAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO FROM TB_UPLOADS  A
+        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO, A.FL_ENVIO_SI FROM TB_UPLOADS  A
  INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
 INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
     WHERE A.ID_BL = @ID_BL ">
