@@ -10090,6 +10090,20 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
+        [WebMethod(EnableSession = true)]
+        public string getHomePage()
+        {
+            string SQL;
+
+            SQL = "SELECT DS_LINK_ACESSO FROM TB_VINCULO_USUARIO A ";
+            SQL += "JOIN TB_POWER_BI B ON A.ID_TIPO_USUARIO = B.ID_TIPO_USUARIO ";
+            SQL += "WHERE ID_USUARIO = '"+Session["ID_USUARIO"]+"' ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
 
     }
 }

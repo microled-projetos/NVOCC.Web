@@ -2,8 +2,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
         th {
-    color: #337ab7;
-}
+            color: #337ab7;
+        }
     </style>
       <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
     <ContentTemplate> 
@@ -491,13 +491,12 @@
          </ContentTemplate>
  <Triggers>
        <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvTaxas" />
-            <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
+       <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
                     <asp:AsyncPostBackTrigger  ControlID="btnSalvar" />
                                <asp:AsyncPostBackTrigger  ControlID="btnSalvarNovo" />
                                     <asp:AsyncPostBackTrigger  ControlID="txtConsulta" />
-
+       <asp:AsyncPostBackTrigger  ControlID="ddlConsulta" />
      <asp:AsyncPostBackTrigger  ControlID="ddlComexConsulta" />
-
 </Triggers>
    </asp:UpdatePanel>
   
@@ -622,7 +621,7 @@ union SELECT  0,  '    Selecione' ORDER BY NM_BASE_CALCULO_TAXA">
      <asp:SqlDataSource ID="dsAjustaTaxa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="select id_cotacao_taxa,ID_BL,A.ID_TRANSPORTADOR, (select nr_cotacao from tb_cotacao where nr_processo_gerado = NR_PROCESSO)NR_COTACAO,ARMADOR,NR_PROCESSO,NM_ITEM_DESPESA,PORTO,DT_EMBARQUE,DT_CHEGADA,REGRA,VL_TAXA_COMPRA,VL_TAXA_VENDA,vl_taxa_local_compra,DT_VALIDADE_INICIAL from VW_AJUSTA_TAXA A INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_STATUS_COTACAO <> 12 AND A.ID_TRANSPORTADOR = @ID ">
            <SelectParameters>
-          <asp:QueryStringParameter Name="ID" QueryStringField="id" />
+          <asp:QueryStringParameter Name="ID" QueryStringField="id" DefaultValue="0"  />
             </SelectParameters>
 </asp:SqlDataSource>
 

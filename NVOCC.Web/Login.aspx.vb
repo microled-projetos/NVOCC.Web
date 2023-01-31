@@ -79,7 +79,8 @@
                                     'Caso seja usuario externo e se pertenca a um unico grupo de usuario é direcionado a tela default
                                     Session("ID_TIPO_USUARIO") = ds.Tables(0).Rows(0).Item("ID_TIPO_USUARIO").ToString()
                                     Session("ID_EMPRESA") = ddlEmpresa.SelectedValue
-                                    Response.Redirect("Default.aspx?ID=" & ID)
+                                    ' Response.Redirect("Default.aspx?ID=" & ID)
+                                    Response.Redirect("HomePage.aspx?ID=" & ID)
                                 Else
                                     'Caso seja usuario externo e se pertenca a mais de grupo de usuario é direcionado a tela de seleção de perfil
                                     Session("ID_TIPO_USUARIO") = 0
@@ -103,7 +104,8 @@ WHERE a.ID_USUARIO = " & Session("ID_USUARIO"))
                                     End If
                                 Next
                                 Session("ID_EMPRESA") = 1
-                                Response.Redirect("Default.aspx?ID=" & ID)
+                                'Response.Redirect("Default.aspx?ID=" & ID)
+                                Response.Redirect("HomePage.aspx?ID=" & ID)
                             Else
                                 'Caso seja usuario interno, se o mesmo pertencer nao pertencer a grupo de usuario retorna msg de erro
                                 msgErro.Visible = True

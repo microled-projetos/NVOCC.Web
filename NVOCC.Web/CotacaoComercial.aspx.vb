@@ -1979,6 +1979,8 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                     FILTRO = " ANALISTA_COTACAO_PRICING LIKE '%" & txtPesquisa.Text & "%' "
                 ElseIf ddlConsultas.SelectedValue = 17 Then
                     FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 18 Then
+                    FILTRO = " EXPORTADOR LIKE '%" & txtPesquisa.Text & "%' "
                 End If
 
                 Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
@@ -2004,7 +2006,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
     Private Sub dgvCotacao_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvCotacao.RowDataBound
         If e.Row.RowType = DataControlRowType.DataRow Then
-            Dim btnDuplicar As Label = CType(e.Row.FindControl("btnDuplicar"), Label)
+            Dim btnDuplicar As Button = CType(e.Row.FindControl("btnDuplicar"), Button)
             Dim Status As Label = CType(e.Row.FindControl("lblStatus"), Label)
 
             Dim Cor As Label = CType(e.Row.FindControl("lblCor"), Label)
@@ -2017,10 +2019,10 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
             End If
 
-            If txtData.Text <> "" And ddlEstufagem.SelectedValue <> 0 And ddlIncoterm.SelectedValue <> 0 And ddlOrigem.SelectedValue <> 0 And ddlDestino.SelectedValue <> 0 And txtPeso.Text <> "" And txtCBM.Text <> "" And ddlServico.SelectedValue <> 0 Then
-                btnDuplicar.Visible = False
-            Else
+            If ddlEstufagem.SelectedValue <> 0 And ddlIncoterm.SelectedValue <> 0 And ddlOrigem.SelectedValue <> 0 And ddlDestino.SelectedValue <> 0 And txtPeso.Text <> "" And txtCBM.Text <> "" And ddlServico.SelectedValue <> 0 Then
                 btnDuplicar.Visible = True
+            Else
+                btnDuplicar.Visible = False
             End If
 
         End If

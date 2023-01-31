@@ -1399,11 +1399,14 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     txtDataFollowUp.Text = txtDataFollowUp.Text.Replace("CONVERT(varchar,'", "")
                     txtDataFollowUp.Text = txtDataFollowUp.Text.Replace("',103)", "")
 
-                    Con.Fechar()
                     divsuccess.Visible = True
                     dgvFrete.DataBind()
                     dgvHistoricoFrete.DataBind()
                     dgvHistoricoCotacao.DataBind()
+
+                    VerificaRepetida()
+                    Con.Fechar()
+
                 End If
 
 
@@ -1551,12 +1554,13 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     txtDataFollowUp.Text = txtDataFollowUp.Text.Replace("',103)", "")
 
                     divsuccess.Visible = True
-                    Con.Fechar()
-                    dgvFrete.DataBind()
 
+                    dgvFrete.DataBind()
                     dgvHistoricoFrete.DataBind()
                     dgvHistoricoCotacao.DataBind()
 
+                    VerificaRepetida()
+                    Con.Fechar()
 
                 End If
 
@@ -5096,9 +5100,12 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
     Sub VerificaRepetida()
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT  REF_REPETIDAS ,DT_ABERTURA, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_ESTUFAGEM, ID_INCOTERM, VL_TOTAL_PESO_BRUTO, VL_M3 FROM [dbo].[View_Cotacao_Repetidas] WHERE ID_COTACAO = " & txtID.Text)
-        Dim REF_REPETIDAS As String = "REP_" & ds.Tables(0).Rows(0).Item("REF_REPETIDAS")
+        Dim dsCotacao As DataSet = Con.ExecutarQuery("SELECT  REF_REPETIDAS ,DT_ABERTURA, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_ESTUFAGEM, ID_INCOTERM, VL_TOTAL_PESO_BRUTO, VL_M3 FROM [dbo].[View_Cotacao_Repetidas] WHERE ID_COTACAO = " & txtID.Text)
 
+        Dim dsCopias As DataSet = Con.ExecutarQuery("SELECT  REF_REPETIDAS ,DT_ABERTURA, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_ESTUFAGEM, ID_INCOTERM, VL_TOTAL_PESO_BRUTO, VL_M3 FROM [dbo].[View_Cotacao_Repetidas] WHERE REF_REPETIDAS = '" & dsCotacao.Tables(0).Rows(0).Item("REF_REPETIDAS") & "'")
+        If dsCotacao.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM") <> dsCopias.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM") Or dsCotacao.Tables(0).Rows(0).Item("ID_PORTO_DESTINO") <> dsCopias.Tables(0).Rows(0).Item("ID_PORTO_DESTINO") Or dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") <> dsCopias.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") Or dsCotacao.Tables(0).Rows(0).Item("ID_INCOTERM") <> dsCopias.Tables(0).Rows(0).Item("ID_INCOTERM") Or dsCotacao.Tables(0).Rows(0).Item("VL_TOTAL_PESO_BRUTO") <> dsCopias.Tables(0).Rows(0).Item("VL_TOTAL_PESO_BRUTO") Or dsCotacao.Tables(0).Rows(0).Item("VL_M3") <> dsCopias.Tables(0).Rows(0).Item("VL_M3") Or dsCotacao.Tables(0).Rows(0).Item("DT_ABERTURA") <> dsCopias.Tables(0).Rows(0).Item("DT_ABERTURA") Then
+            Con.ExecutarQuery("UPDATE TB_COTACAO SET REF_REPETIDAS = NULL WHERE ID_COTACAO = " & txtID.Text)
+        End If
 
     End Sub
 End Class
