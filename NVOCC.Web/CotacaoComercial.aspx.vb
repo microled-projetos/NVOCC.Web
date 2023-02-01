@@ -1920,6 +1920,8 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 FILTRO = " ANALISTA_COTACAO_PRICING LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 17 Then
                 FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 18 Then
+                FILTRO = " EXPORTADOR LIKE '%" & txtPesquisa.Text & "%' "
             End If
 
             Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"

@@ -79,9 +79,10 @@
                                                     <asp:ListItem Value="3">Cliente</asp:ListItem>
                                                     <asp:ListItem Value="4">Origem</asp:ListItem>
                                                     <asp:ListItem Value="5">Destino</asp:ListItem>
-                                                    <asp:ListItem Value="6">Nome do agente</asp:ListItem>
-                                                    <asp:ListItem Value="7">Nome do vendedor</asp:ListItem>
-                                                    <asp:ListItem Value="8">Número processo</asp:ListItem>
+                                                    <asp:ListItem Value="6">Nome do Agente</asp:ListItem>
+                                                    <asp:ListItem Value="7">Nome do Vendedor</asp:ListItem>
+                                                    <asp:ListItem Value="18">Nome do Exportador</asp:ListItem>
+                                                    <asp:ListItem Value="8">Número Processo</asp:ListItem>
                                                     <asp:ListItem Value="10">Cliente Final</asp:ListItem>
                                                     <asp:ListItem Value="11">Via Transporte</asp:ListItem>
                                                     <asp:ListItem Value="12">Estufagem</asp:ListItem>
