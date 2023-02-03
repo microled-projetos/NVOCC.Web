@@ -44,8 +44,8 @@
 
                     <div class="tab-pane fade active in" id="consulta">
                         <br />
-                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
-                            <ContentTemplate>
+                       <%-- <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
+                            <ContentTemplate>--%>
                                 <div runat="server" id="divAuxiliar" style="display: none">
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                     <asp:TextBox ID="txtIDTafifario" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
@@ -66,7 +66,7 @@
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">ID:</label>
-                                            <asp:TextBox ID="txtFiltroID" runat="server" CssClass="form-control"></asp:TextBox>
+                                            <asp:TextBox ID="txtFiltroID" runat="server" CssClass="form-control ApenasNumeros"></asp:TextBox>
                                         </div>
                                     </div>
 
@@ -97,13 +97,13 @@
                                     </div>
                                     </div>
                                     <div class="row" runat="server">
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Validade Inicial:</label>
                                             <asp:TextBox ID="txtValidadeInicial" runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Validade Final:</label>
                                             <asp:TextBox ID="txtValidadeFinal" runat="server" CssClass="form-control data"></asp:TextBox>
@@ -129,6 +129,13 @@
                                         <div class="form-group">
                                           <label class="control-label" style="color: white">x:</label><br />
                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnBusca" Text="Pesquisar" /><br />
+                                            <br />
+                                                 </div>
+                                    </div>
+                                        <div class="col-sm-1">
+                                        <div class="form-group">
+                                          <label class="control-label" style="color: white">x:</label><br />
+                                            <asp:Button runat="server" CssClass="btn btn-alert" ID="btnLimparFiltros" Text="Limpar Filtros" /><br />
                                             <br />
                                                  </div>
                                     </div>
@@ -179,13 +186,13 @@
                                 </asp:Panel>
 
 
-                            </ContentTemplate>
+                            <%--</ContentTemplate>
                             <Triggers>
                                 <asp:PostBackTrigger ControlID="lkExportar" />
                                 <asp:PostBackTrigger ControlID="ddlViaTransporte" />
                                 <asp:PostBackTrigger ControlID="lkExportaTarifario" />
                             </Triggers>
-                        </asp:UpdatePanel>
+                        </asp:UpdatePanel>--%>
                         <br />
 
                         <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
@@ -372,6 +379,18 @@
                                                         <img id="imgdiv<%# Eval("ID_FRETE_TRANSPORTADOR") %>" border="0" src="Content/imagens/plus.png" alt="" /></a>
                                                     <asp:LinkButton ID="btnEditarCntr" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="EditCntr" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>' OnClientClick="SalvaPosicao()" Text="Editar"><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
                                                 </EditItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Validade Inicial" HeaderStyle-ForeColor="#337ab7" SortExpression="DT_VALIDADE_INICIAL">
+                                                <ItemTemplate>
+                                                    <asp:Label runat="server" Text='<%# Eval("DT_VALIDADE_INICIAL") %>' CssClass="data" />
+                                                </ItemTemplate>
+                                                <EditItemTemplate>
+                                                    <asp:TextBox ID="txtValidadeInicial" runat="server" CssClass="data" Text='<%# Eval("DT_VALIDADE_INICIAL") %>'></asp:TextBox>
+                                                </EditItemTemplate>
+                                                <FooterTemplate>
+                                                    <asp:TextBox ID="txtValidadeInicial" runat="server" CssClass="data" Text='<%# Eval("DT_VALIDADE_INICIAL") %>'></asp:TextBox>
+                                                </FooterTemplate>
                                             </asp:TemplateField>
 
                                             <asp:TemplateField HeaderText="Validade Final" HeaderStyle-ForeColor="#337ab7" SortExpression="DT_VALIDADE_FINAL">
@@ -750,8 +769,6 @@
                                 <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvFreteTranportador" />
                                 <%-- <asp:PostBackTrigger ControlID="dgvFreteTranportador" />
                                 <asp:PostBackTrigger ControlID="dgvFreteTranportador" />--%>
-
-
                                 <asp:AsyncPostBackTrigger ControlID="btnBusca" />
                             </Triggers>
                         </asp:UpdatePanel>
@@ -864,18 +881,12 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
             copiarTexto();
             Combos();
             InIEvent();
-            // SelecionarTudo();
         };
 
         function Combos() {
             $(".combos").select2({ placeholder: "  Selecione", allowClear: true });
-            $(".combos").val(null).trigger('change');
-
-            $(".combos2").select2({ multiple: true, placeholder: "  Selecione" });
-            $(".combos2").val(null).trigger('change');
-
+         
             $('.selectpicker').selectpicker();
-
         };
 
         function SalvaPosicao() {
