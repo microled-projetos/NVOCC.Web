@@ -31,7 +31,7 @@ Public Class VisualizarUpload
             Next
 
             If File.Exists(CAMINHO_ARQUIVO) = True Then
-                If File.Exists(Server.MapPath("~/Content/temp/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO"))) = False Then
+                If File.Exists(Server.MapPath("~/Content/temp/" & Request.QueryString("id") & "/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO"))) = False Then
                     File.Copy(CAMINHO_ARQUIVO, Server.MapPath("~/Content/temp/" & Request.QueryString("id") & "/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO")))
                 End If
                 txtArquivoSelecionado.Text = "/Content/temp/" & Request.QueryString("id") & "/" & ds.Tables(0).Rows(0).Item("NM_ARQUIVO")

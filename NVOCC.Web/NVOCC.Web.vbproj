@@ -871,7 +871,6 @@
     </Compile>
     <Compile Include="Helpers\ExtensoEstrangeira.vb" />
     <Compile Include="Helpers\InativaAtivaTaxa.vb" />
-    <Compile Include="Helpers\RotinaDeletaDoc.vb" />
     <Compile Include="ImprimirND.aspx.designer.vb">
       <DependentUpon>ImprimirND.aspx</DependentUpon>
     </Compile>
