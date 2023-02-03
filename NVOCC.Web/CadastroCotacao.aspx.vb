@@ -1042,7 +1042,7 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
 
             ds = Con.ExecutarQuery("SELECT 
 A.ID_COTACAO_MERCADORIA,A.ID_COTACAO,A.ID_MERCADORIA,A.ID_TIPO_CONTAINER,A.QT_CONTAINER,A.VL_FRETE_COMPRA,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,
-A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.OUTRAS_OBS,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,A.QT_MERCADORIA,A.VL_FRETE_COMPRA_MIN,A.VL_FRETE_VENDA_MIN,OBS_ENDERECO, ISNULL(ID_MOEDA_CARGA,0)ID_MOEDA_CARGA, B.VL_PESO_TAXADO,B.ID_MOEDA_FRETE,B.ID_TIPO_DIVISAO_FRETE, B.VL_DIVISAO_FRETE, B.FL_FRETE_DECLARADO ,B.FL_FRETE_PROFIT,VL_CBM 
+A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.OUTRAS_OBS,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,A.QT_MERCADORIA,A.VL_FRETE_COMPRA_MIN,A.VL_FRETE_VENDA_MIN,OBS_ENDERECO, ISNULL(ID_MOEDA_CARGA,0)ID_MOEDA_CARGA, B.ID_MOEDA_FRETE,B.ID_TIPO_DIVISAO_FRETE, B.VL_DIVISAO_FRETE, B.FL_FRETE_DECLARADO ,B.FL_FRETE_PROFIT,VL_CBM, CASE WHEN A.VL_M3 > A.VL_PESO_BRUTO/100 THEN A.VL_M3 ELSE A.VL_PESO_BRUTO END VL_PESO_TAXADO 
 FROM TB_COTACAO_MERCADORIA A
 INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO
 WHERE A.ID_COTACAO_MERCADORIA = " & ID)
@@ -1847,12 +1847,22 @@ WHERE ID_COTACAO = " & txtID.Text)
     End Sub
 
     Sub AlteraMercadoriaAereo()
+        AtualizaFreteMercadoria()
 
         'ALTERA FRETE
         Dim Con As New Conexao_sql
         Con.Conectar()
+        '        Con.ExecutarQuery("UPDATE TB_COTACAO SET 
+        'VL_PESO_TAXADO = " & txtPesoTaxadoMercadoria.Text.Replace(",", ".") & ", 
+        'ID_MOEDA_FRETE = " & ddlMoedaFreteMercadoria.SelectedValue & ",
+        'ID_TIPO_DIVISAO_FRETE = " & ddlProfitMercadoria.SelectedValue & ",
+        'VL_DIVISAO_FRETE = " & txtValorProfitMercadoria.Text.Replace(",", ".") & ", 
+        'FL_FRETE_DECLARADO = '" & ckFreteDeclarado.Checked & "',
+        'FL_FRETE_PROFIT = '" & ckFreteProfit.Checked & "' 
+        'WHERE ID_COTACAO = " & txtID.Text)
+
         Con.ExecutarQuery("UPDATE TB_COTACAO SET 
-VL_PESO_TAXADO = " & txtPesoTaxadoMercadoria.Text.Replace(",", ".") & ", 
+VL_PESO_TAXADO = (SELECT SUM(CASE WHEN VL_TOTAL_M3 > VL_TOTAL_PESO_BRUTO/100 THEN VL_TOTAL_M3 ELSE VL_TOTAL_PESO_BRUTO END )PESO_TAXADO FROM TB_COTACAO WHERE ID_COTACAO= " & txtID.Text & "), 
 ID_MOEDA_FRETE = " & ddlMoedaFreteMercadoria.SelectedValue & ",
 ID_TIPO_DIVISAO_FRETE = " & ddlProfitMercadoria.SelectedValue & ",
 VL_DIVISAO_FRETE = " & txtValorProfitMercadoria.Text.Replace(",", ".") & ", 
@@ -2276,6 +2286,8 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
 
                     End If
 
+                    VerificaRepetida()
+
                 End If
 
 
@@ -2367,6 +2379,9 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
                             Session("RefTaxado") = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
                         End If
                     End If
+
+                    VerificaRepetida()
+
                 End If
 
             End If
@@ -4087,10 +4102,17 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             Dim ID As String = ds.Tables(0).Rows(0).Item("ID").ToString()
             Dim CLA As Decimal
 
+            '            ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/5988 AS CLA
+            'from TB_COTACAO A  
+            'left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
+            'Where A.ID_COTACAO = " & txtID.Text)
+
+
             ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/5988 AS CLA
 from TB_COTACAO A  
-left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
-Where A.ID_COTACAO = " & txtID.Text)
+left join TB_COTACAO_MERCADORIA B ON B.ID_COTACAO = A.ID_COTACAO
+left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO_MERCADORIA = B.ID_COTACAO_MERCADORIA
+Where B.ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
 
 
             If ds.Tables(0).Rows.Count > 0 Then
@@ -4179,10 +4201,17 @@ Where A.ID_COTACAO = " & txtID.Text)
             End If
 
 
+            '            ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/5988 AS CLA
+            'from TB_COTACAO A  
+            'left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
+            'Where A.ID_COTACAO = " & txtID.Text)
+
             ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/5988 AS CLA
 from TB_COTACAO A  
-left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
-Where A.ID_COTACAO = " & txtID.Text)
+left join TB_COTACAO_MERCADORIA B ON B.ID_COTACAO = A.ID_COTACAO
+left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO_MERCADORIA = B.ID_COTACAO_MERCADORIA
+Where B.ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
+
             Dim CLA As Decimal
 
             If ds.Tables(0).Rows.Count > 0 Then
@@ -5103,7 +5132,7 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         Dim dsCotacao As DataSet = Con.ExecutarQuery("SELECT  REF_REPETIDAS ,DT_ABERTURA, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_ESTUFAGEM, ID_INCOTERM, VL_TOTAL_PESO_BRUTO, VL_M3 FROM [dbo].[View_Cotacao_Repetidas] WHERE ID_COTACAO = " & txtID.Text)
         If dsCotacao.Tables(0).Rows.Count > 0 Then
 
-            Dim dsCopias As DataSet = Con.ExecutarQuery("SELECT  REF_REPETIDAS ,DT_ABERTURA, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_ESTUFAGEM, ID_INCOTERM, VL_TOTAL_PESO_BRUTO, VL_M3 FROM [dbo].[View_Cotacao_Repetidas] WHERE REF_REPETIDAS = '" & dsCotacao.Tables(0).Rows(0).Item("REF_REPETIDAS") & "'")
+            Dim dsCopias As DataSet = Con.ExecutarQuery("SELECT  REF_REPETIDAS ,DT_ABERTURA, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_ESTUFAGEM, ID_INCOTERM, VL_TOTAL_PESO_BRUTO, VL_M3 FROM [dbo].[View_Cotacao_Repetidas] WHERE REF_REPETIDAS = '" & dsCotacao.Tables(0).Rows(0).Item("REF_REPETIDAS") & "' AND  ID_COTACAO <> " & txtID.Text)
             If dsCopias.Tables(0).Rows.Count > 0 Then
                 If dsCotacao.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM") <> dsCopias.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM") Or dsCotacao.Tables(0).Rows(0).Item("ID_PORTO_DESTINO") <> dsCopias.Tables(0).Rows(0).Item("ID_PORTO_DESTINO") Or dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") <> dsCopias.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") Or dsCotacao.Tables(0).Rows(0).Item("ID_INCOTERM") <> dsCopias.Tables(0).Rows(0).Item("ID_INCOTERM") Or dsCotacao.Tables(0).Rows(0).Item("VL_TOTAL_PESO_BRUTO") <> dsCopias.Tables(0).Rows(0).Item("VL_TOTAL_PESO_BRUTO") Or dsCotacao.Tables(0).Rows(0).Item("VL_M3") <> dsCopias.Tables(0).Rows(0).Item("VL_M3") Or dsCotacao.Tables(0).Rows(0).Item("DT_ABERTURA") <> dsCopias.Tables(0).Rows(0).Item("DT_ABERTURA") Then
                     Con.ExecutarQuery("UPDATE TB_COTACAO SET REF_REPETIDAS = NULL WHERE ID_COTACAO = " & txtID.Text)

@@ -480,6 +480,12 @@
 
                                                                                 </asp:TemplateField>
 
+                                                                                 <asp:TemplateField HeaderText="MOEDA ORIGIN CHARGES" HeaderStyle-ForeColor="#337ab7" SortExpression="ORIGIN_CHARGES">
+                                                                                    <ItemTemplate>
+                                                                                        <asp:Label ID="lblMOEDAORIGIN_CHARGES" runat="server" Text='<%# Eval("SIGLA_MOEDA") %>' />
+                                                                                    </ItemTemplate>
+
+                                                                                </asp:TemplateField>
 
                                                                                 <asp:TemplateField HeaderText="ORIGIN CHARGES" HeaderStyle-ForeColor="#337ab7" SortExpression="ORIGIN_CHARGES">
                                                                                     <ItemTemplate>
@@ -488,12 +494,7 @@
 
                                                                                 </asp:TemplateField>
 
-                                                                                <asp:TemplateField HeaderText="MOEDA ORIGIN CHARGES" HeaderStyle-ForeColor="#337ab7" SortExpression="ORIGIN_CHARGES">
-                                                                                    <ItemTemplate>
-                                                                                        <asp:Label ID="lblMOEDAORIGIN_CHARGES" runat="server" Text='<%# Eval("SIGLA_MOEDA") %>' />
-                                                                                    </ItemTemplate>
-
-                                                                                </asp:TemplateField>
+                                                                               
 
                                                                             </Columns>
 
@@ -629,6 +630,17 @@
                                                 </FooterTemplate>
                                             </asp:TemplateField>
 
+                                                
+                                                <asp:TemplateField HeaderText="MOEDA ORIGIN CHARGES" HeaderStyle-ForeColor="#337ab7" SortExpression="ORIGIN_CHARGES">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblMOEDAORIGIN_CHARGES" runat="server" Text='<%# Eval("SIGLA_MOEDA") %>' />                                                  
+                                                </ItemTemplate>
+                                                <EditItemTemplate>
+                                                </EditItemTemplate>
+                                                    <FooterTemplate>
+                                                </FooterTemplate>
+                                               
+                                            </asp:TemplateField>
 
                                             <asp:TemplateField HeaderText="ORIGIN CHARGES" HeaderStyle-ForeColor="#337ab7" SortExpression="ORIGIN_CHARGES">
                                                 <ItemTemplate>
@@ -637,22 +649,10 @@
                                                 <EditItemTemplate>
                                                 </EditItemTemplate>
                                                 <FooterTemplate>
-                                                   <asp:Label ID="lblORIGIN_CHARGES" runat="server" />     
                                                 </FooterTemplate>
                                                
                                             </asp:TemplateField>
  
-                                                <asp:TemplateField HeaderText="MOEDA ORIGIN CHARGES" HeaderStyle-ForeColor="#337ab7" SortExpression="ORIGIN_CHARGES">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblMOEDAORIGIN_CHARGES" runat="server" Text='<%# Eval("SIGLA_MOEDA") %>' />                                                  
-                                                </ItemTemplate>
-                                                <EditItemTemplate>
-                                                </EditItemTemplate>
-                                                    <FooterTemplate>
-                                                   <asp:Label ID="lblMOEDAORIGIN_CHARGES" runat="server"   />       
-                                                </FooterTemplate>
-                                               
-                                            </asp:TemplateField>
 
                                              </Columns>
 
@@ -762,7 +762,7 @@
         </div>
     </div>
     <asp:SqlDataSource ID="dsFreteTranportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [View_FreteTransportador_new] WHERE DT_VALIDADE_FINAL >= GETDATE() order by ID_FRETE_TRANSPORTADOR DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [View_FreteTransportador] WHERE DT_VALIDADE_FINAL >= GETDATE() order by ID_FRETE_TRANSPORTADOR DESC"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsCntr" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand=" SELECT A.ID_FRETE_TRANSPORTADOR, 
