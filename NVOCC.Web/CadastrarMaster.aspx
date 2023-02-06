@@ -123,7 +123,7 @@
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label"></label>
-                                                <asp:CheckBox ID="ckTrakingAutomaticoMaritimo" runat="server" CssClass="form-control" Checked="true" Visible="false" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
+                                                <asp:CheckBox ID="ckTrakingAutomaticoMaritimo" runat="server" CssClass="form-control" Checked="false" Visible="false" Text="&nbsp;&nbsp;Traking Automatico"></asp:CheckBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-offset-5 col-sm-1">
