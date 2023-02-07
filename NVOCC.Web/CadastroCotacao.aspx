@@ -500,7 +500,7 @@
                                 </ContentTemplate>
 
                                 <Triggers>
-
+                                    <asp:AsyncPostBackTrigger ControlID="btnSalvarFrete" />
                                     <asp:PostBackTrigger ControlID="btnCalcular" />
                                     <asp:PostBackTrigger ControlID="ddlServico" />
                                     <asp:PostBackTrigger ControlID="ddlEstufagem" />

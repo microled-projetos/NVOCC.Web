@@ -118,7 +118,7 @@
 
 
                             <li>
-                                <a href="FreteTransportador_2.aspx" runat="server" id="mnFreteTransportador">Frete Transportador</a>
+                                <a href="FreteTransportador.aspx" runat="server" id="mnFreteTransportador">Frete Transportador</a>
                             </li>
                             <li>
                                 <a href="CotacaoComercial.aspx" runat="server" id="mnCotacaoComercial">Cotação Comercial</a>

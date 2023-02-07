@@ -442,7 +442,7 @@
     <Content Include="DemurrageVendas.aspx.designer.cs" />
     <Content Include="DadosBancariosAgente.aspx" />
     <Content Include="favicon.ico" />
-    <Content Include="FreteTransportador_2.aspx" />
+    <Content Include="FreteTransportador.aspx" />
     <Content Include="FreteTransportador_New.aspx" />
     <Content Include="Gerencial.asmx" />
     <Content Include="Gerencial.asmx.cs" />
@@ -467,7 +467,7 @@
     <Content Include="DemurragesCls.cs" />
     <Content Include="EmissaoBL.aspx" />
     <Content Include="FollowUp.aspx" />
-    <Content Include="FreteTransportador.aspx" />
+    <Content Include="FreteTransportador_OLD.aspx" />
     <Content Include="CotacaoComercial.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="EmailParceiro.aspx" />
@@ -801,11 +801,11 @@
       <DependentUpon>DadosBancariosAgente.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="FreteTransportador_2.aspx.designer.vb">
-      <DependentUpon>FreteTransportador_2.aspx</DependentUpon>
+    <Compile Include="FreteTransportador.aspx.designer.vb">
+      <DependentUpon>FreteTransportador.aspx</DependentUpon>
     </Compile>
-    <Compile Include="FreteTransportador_2.aspx.vb">
-      <DependentUpon>FreteTransportador_2.aspx</DependentUpon>
+    <Compile Include="FreteTransportador.aspx.vb">
+      <DependentUpon>FreteTransportador.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FreteTransportador_New.aspx.designer.vb">
@@ -960,11 +960,11 @@
       <DependentUpon>FollowUp.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="FreteTransportador.aspx.designer.vb">
-      <DependentUpon>FreteTransportador.aspx</DependentUpon>
+    <Compile Include="FreteTransportador_OLD.aspx.designer.vb">
+      <DependentUpon>FreteTransportador_OLD.aspx</DependentUpon>
     </Compile>
-    <Compile Include="FreteTransportador.aspx.vb">
-      <DependentUpon>FreteTransportador.aspx</DependentUpon>
+    <Compile Include="FreteTransportador_OLD.aspx.vb">
+      <DependentUpon>FreteTransportador_OLD.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CotacaoComercial.aspx.designer.vb">
