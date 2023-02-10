@@ -19,7 +19,7 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://homologacao.ginfes.com.br//ServiceGinfesImpl?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="https://homologacao.ginfes.com.br//ServiceGinfesImpl?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="ServiceGinfesImplService.wsdl" MetadataType="Wsdl" ID="5e45c64c-a5ea-485c-baf3-aee33530fd35" SourceId="1" SourceUrl="https://homologacao.ginfes.com.br//ServiceGinfesImpl?wsdl" />

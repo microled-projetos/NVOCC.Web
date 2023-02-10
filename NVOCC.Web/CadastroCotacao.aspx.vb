@@ -290,8 +290,28 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
                 Session("RefVolumeSum") = ds.Tables(0).Rows(0).Item("VL_TOTAL_M3").ToString()
             End If
+
             GridHistoricoCotacao()
             GridHistoricoFrete()
+
+
+            ''ATUALIZA PORTO E AGENTE NO MODAL DE ENVIO DE S.I
+            Dim ID_AGENTE_INTERNACIONAL = ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL").ToString()
+            Dim ID_PORTO_ORIGEM = ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString()
+
+            ds = Con.ExecutarQuery("SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_AGENTE_INTERNACIONAL)
+            If ds.Tables(0).Rows.Count > 0 Then
+                lblAgenteSI.Text = "Agente Internacional: " & ds.Tables(0).Rows(0).Item("NM_RAZAO")
+            Else
+                lblAgenteSI.Text = ""
+            End If
+
+            ds = Con.ExecutarQuery("SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = " & ID_PORTO_ORIGEM)
+            If ds.Tables(0).Rows.Count > 0 Then
+                lblPortoOrigemSI.Text = "Porto de Origem: " & ds.Tables(0).Rows(0).Item("NM_PORTO")
+            Else
+                lblPortoOrigemSI.Text = ""
+            End If
 
         End If
     End Sub
@@ -1230,6 +1250,14 @@ WHERE A.ID_COTACAO_MERCADORIA = " & ID)
         Return NR_COTACAO
     End Function
     Private Sub btnGravar_Click(sender As Object, e As EventArgs) Handles btnGravar.Click
+        If ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15 Then
+            mpeEnvioSI.Show()
+        Else
+            Gravar()
+        End If
+    End Sub
+
+    Sub Gravar()
         lblmsgSuccess.Text = "Registro cadastrado/atualizado com sucesso!"
         diverro.Visible = False
         divsuccess.Visible = False
@@ -1405,6 +1433,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     dgvHistoricoCotacao.DataBind()
 
                     VerificaRepetida()
+                    AtualizaPortoAgenteSI()
+
                     Con.Fechar()
 
                 End If
@@ -1560,6 +1590,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     dgvHistoricoCotacao.DataBind()
 
                     VerificaRepetida()
+                    AtualizaPortoAgenteSI()
+
                     Con.Fechar()
 
                 End If
@@ -1570,7 +1602,9 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
             dsFornecedor.DataBind()
             ddlFornecedor.DataBind()
         End If
+
     End Sub
+
 
     Function ValorMinimoPendente(ID_COTACAO As Integer) As Boolean
         Dim Con As New Conexao_sql
@@ -2239,6 +2273,8 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                         txtLarguraMercadoria.Text = txtLarguraMercadoria.Text.Replace(".", ",")
                         txtAlturaMercadoria.Text = txtAlturaMercadoria.Text.Replace(".", ",")
                         txtValorProfitMercadoria.Text = txtValorProfitMercadoria.Text.Replace(".", ",")
+
+                        AtualizaPortoAgenteSI()
                     Else
 
                         ddlMercadoria.SelectedValue = 0
@@ -2386,6 +2422,7 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
                     End If
 
                     VerificaRepetida()
+                    AtualizaPortoAgenteSI()
 
                 End If
 
@@ -2665,6 +2702,7 @@ QTD_BASE_CALCULO = " & txtQtdBaseCalculo.Text & "
 
     Private Sub ddlOrigemFrete_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlOrigemFrete.SelectedIndexChanged
         CarregaTabelaFrete()
+
     End Sub
 
     Private Sub ddlTransportadorFrete_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTransportadorFrete.SelectedIndexChanged
@@ -4008,8 +4046,8 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         End If
 
 
-
     End Sub
+
 
     Private Sub dgvReferencia_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvReferencia.RowCommand
         divSuccessReferencia.Visible = False
@@ -5044,7 +5082,7 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
             lblErroUpload.Text = "Necessário inserir cotação!"
             divErroUpload.Visible = True
 
-        ElseIf ddlTipoArquivo.selectedvalue = 0 Then
+        ElseIf ddlTipoArquivo.SelectedValue = 0 Then
             lblErroUpload.Text = "Necessário selecionar um tipo de arquivo!"
             divErroUpload.Visible = True
 
@@ -5153,6 +5191,39 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
                 End If
             End If
 
+        End If
+    End Sub
+
+    Private Sub btnConfirmaEnviarSI_Click(sender As Object, e As EventArgs) Handles btnConfirmaEnviarSI.Click
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Con.ExecutarQuery("UPDATE TB_COTACAO SET FL_ENVIA_SI = 1 WHERE ID_COTACAO = " & txtID.Text)
+        Gravar()
+        mpeEnvioSI.Hide()
+    End Sub
+
+    Private Sub btnCancelaEnvioSI_Click(sender As Object, e As EventArgs) Handles btnCancelaEnvioSI.Click
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Con.ExecutarQuery("UPDATE TB_COTACAO SET FL_ENVIA_SI = 0 WHERE ID_COTACAO = " & txtID.Text)
+        Gravar()
+        mpeEnvioSI.Hide()
+    End Sub
+    Sub AtualizaPortoAgenteSI()
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlAgente.SelectedValue)
+        If ds.Tables(0).Rows.Count > 0 Then
+            lblAgenteSI.Text = "Agente Internacional: " & ds.Tables(0).Rows(0).Item("NM_RAZAO")
+        Else
+            lblAgenteSI.Text = ""
+        End If
+
+        ds = Con.ExecutarQuery("SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = " & ddlOrigemFrete.SelectedValue)
+        If ds.Tables(0).Rows.Count > 0 Then
+            lblPortoOrigemSI.Text = "Porto de Origem: " & ds.Tables(0).Rows(0).Item("NM_PORTO")
+        Else
+            lblPortoOrigemSI.Text = ""
         End If
     End Sub
 End Class

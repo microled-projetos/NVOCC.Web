@@ -42,7 +42,7 @@
             AtualizaGrid()
         ElseIf e.CommandName = "Taxas" Then
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_TRANSPORTADOR,0)FL_TRANSPORTADOR, ISNULL(FL_CIA_AEREA,0)FL_CIA_AEREA FROM [TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_TRANSPORTADOR,0)FL_TRANSPORTADOR, ISNULL(FL_CIA_AEREA,0)FL_CIA_AEREA, ISNULL(FL_AGENTE_INTERNACIONAL,0)FL_AGENTE_INTERNACIONAL, ISNULL(FL_PRESTADOR,0)FL_PRESTADOR FROM [TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID)
 
             If ds.Tables(0).Rows.Count > 0 Then
                 txtID.text = ID
@@ -54,9 +54,21 @@
 
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaTransportador()", True)
 
+
+                ElseIf ds.Tables(0).Rows(0).Item("FL_PRESTADOR") = True Then
+
+
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaPrestador()", True)
+
+                ElseIf ds.Tables(0).Rows(0).Item("FL_AGENTE_INTERNACIONAL") = True Then
+
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaAgenteInternacional()", True)
+
                 Else
 
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaParceiro()", True)
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaAgenteInternacional()", True)
+
+                    '  ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaParceiro()", True)
                 End If
 
             End If

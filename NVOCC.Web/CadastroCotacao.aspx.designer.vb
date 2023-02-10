@@ -662,6 +662,69 @@ Partial Public Class CadastroCotacao
     Protected WithEvents btnGravar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle btnAuxiliarEnvioSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnAuxiliarEnvioSI As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeEnvioSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeEnvioSI As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnlEnvioSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlEnvioSI As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle lblAgenteSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblAgenteSI As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblPortoOrigemSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblPortoOrigemSI As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle btnConfirmaEnviarSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnConfirmaEnviarSI As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnCancelaEnvioSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnCancelaEnvioSI As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle UpdatePanel3.
     '''</summary>
     '''<remarks>

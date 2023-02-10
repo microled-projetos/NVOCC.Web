@@ -154,6 +154,7 @@
 
             window.open('TaxaParceiro.aspx?id=' + ID, '_blank');
         }
+
         function TaxaTransportador() {
 
 
@@ -162,6 +163,26 @@
 
             window.open('TaxasLocaisArmador.aspx?id=' + ID, '_blank');
         }
+
+        function TaxaPrestador() {
+
+
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+                    console.log(ID);
+
+            window.open('TaxaParceiroPrestador.aspx?id=' + ID, '_blank');
+        }
+
+
+        function TaxaAgenteInternacional() {
+
+
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+            console.log(ID);
+
+            window.open('TaxaParceiroAgenteInternacional.aspx?id=' + ID, '_blank');
+        }
+
     </script>
    
 </asp:Content>
