@@ -398,11 +398,11 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         Next
 
 
-        If ddlTipoInvoice.SelectedValue = 2 And ddlTipoFatura.SelectedValue = 1 And ddlEmissor.SelectedValue = 2 Then
-            ddlTipoDevolucao.Enabled = False
-        Else
-            ddlTipoDevolucao.Enabled = True
-        End If
+        'If ddlTipoInvoice.SelectedValue = 2 And ddlTipoFatura.SelectedValue = 1 And ddlEmissor.SelectedValue = 2 Then
+        '    ddlTipoDevolucao.Enabled = False
+        'Else
+        '    ddlTipoDevolucao.Enabled = True
+        'End If
 
         atualizaTotalFrete()
         ModalPopupExtender3.Show()
