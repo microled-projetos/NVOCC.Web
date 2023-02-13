@@ -46,20 +46,8 @@
                         <br />
                        <%-- <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
                             <ContentTemplate>--%>
-                                <div runat="server" id="divAuxiliar" style="display: none">
-                                    <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
-                                    <asp:TextBox ID="txtIDTafifario" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
-                                    <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
-                                    <asp:TextBox ID="txtOrigem" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
-                                    <asp:TextBox ID="txtDestino" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
-                                    <asp:TextBox ID="txtAuxiliarExpandir" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
-                                </div>
-                                <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
-                                    <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
-                                </div>
-                                <div class="alert alert-danger" id="divErro" runat="server" visible="false">
-                                    <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
-                                </div>
+                               
+                               
 
                                 <br />
                                 <div class="row" runat="server">
@@ -197,9 +185,27 @@
 
                         <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
                             <ContentTemplate>
-                                <asp:TextBox ID="TextBox2" Style="display: none" runat="server"></asp:TextBox>
+                                <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
+                                    <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
+                                </div>
+                                <div class="alert alert-danger" id="divErro" runat="server" visible="false">
+                                    <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
+                                </div>
+
+                                <br />
 
 
+                                
+
+                                 <div runat="server" id="divAuxiliar" style="display: none">
+                                    <asp:TextBox ID="TextBox2"  runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                    <asp:TextBox ID="txtIDTafifario" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                    <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                    <asp:TextBox ID="txtOrigem" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                    <asp:TextBox ID="txtDestino" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                    <asp:TextBox ID="txtAuxiliarExpandir" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                </div>
 
                                 <div id="DivGrid" class="table-responsive tableFixHead DivGrid">
                                     <asp:GridView ID="dgvFreteTranportador" DataKeyNames="ID_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable dgvFreteTranportador" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFreteTranportador" AutoGenerateColumns="false" Style="max-height: 600px; overflow: auto;" AllowSorting="true" OnSorting="dgvFreteTranportador_Sorting" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="50" ShowFooter="True">

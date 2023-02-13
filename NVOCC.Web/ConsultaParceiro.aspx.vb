@@ -42,7 +42,26 @@
             AtualizaGrid()
         ElseIf e.CommandName = "Taxas" Then
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_TRANSPORTADOR,0)FL_TRANSPORTADOR, ISNULL(FL_CIA_AEREA,0)FL_CIA_AEREA, ISNULL(FL_AGENTE_INTERNACIONAL,0)FL_AGENTE_INTERNACIONAL, ISNULL(FL_PRESTADOR,0)FL_PRESTADOR FROM [TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_PRESTADOR,0)FL_PRESTADOR FROM [TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID)
+
+            If ds.Tables(0).Rows.Count > 0 Then
+                txtID.text = ID
+                If ds.Tables(0).Rows(0).Item("FL_PRESTADOR") = True Then
+
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaPrestador()", True)
+
+                Else
+
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaAgenteInternacional()", True)
+
+                    '  ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaParceiro()", True)
+                End If
+
+            End If
+
+        ElseIf e.CommandName = "TaxasArmador" Then
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_TRANSPORTADOR,0)FL_TRANSPORTADOR, ISNULL(FL_CIA_AEREA,0)FL_CIA_AEREA FROM [TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID)
 
             If ds.Tables(0).Rows.Count > 0 Then
                 txtID.text = ID
@@ -54,24 +73,16 @@
 
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaTransportador()", True)
 
-
-                ElseIf ds.Tables(0).Rows(0).Item("FL_PRESTADOR") = True Then
-
-
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaPrestador()", True)
-
-                ElseIf ds.Tables(0).Rows(0).Item("FL_AGENTE_INTERNACIONAL") = True Then
-
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaAgenteInternacional()", True)
-
                 Else
 
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaAgenteInternacional()", True)
+
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "script", "<script>alert('Parceiro selecionado não é TRANSPORTADOR e nem CIA AÉREA!');</script>", False)
 
                     '  ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaParceiro()", True)
                 End If
 
             End If
+
         ElseIf e.CommandName = "Duplicar" Then
             txtID.Text = ID
             Con.ExecutarQuery("INSERT INTO [dbo].[TB_PARCEIRO] (FL_IMPORTADOR, FL_EXPORTADOR, FL_AGENTE, FL_AGENTE_INTERNACIONAL, FL_TRANSPORTADOR,  FL_COMISSARIA,  FL_VENDEDOR,  FL_ARMAZEM_ATRACACAO, FL_ARMAZEM_DESEMBARACO, FL_ARMAZEM_DESCARGA,  FL_PRESTADOR,  NM_RAZAO,  NM_FANTASIA, CNPJ,  CPF,  TP_PESSOA,  INSCR_ESTADUAL,  INSCR_MUNICIPAL,  ENDERECO, NR_ENDERECO, BAIRRO, COMPL_ENDERECO, OB_COMPLEMENTARES, ID_CIDADE, TELEFONE, CEP, ID_VENDEDOR, FL_ISENTO_ISS, FL_ISENTO_PIS, FL_ISENTO_COFINS, VL_ALIQUOTA_ISS, VL_ALIQUOTA_PIS, VL_ALIQUOTA_COFINS, EMAIL_NF_ELETRONICA, CD_IATA, FL_SIMPLES_NACIONAL, FL_ATIVO, FL_INDICADOR, SPREAD_MARITIMO_IMPO_FCL, SPREAD_MARITIMO_IMPO_LCL, SPREAD_MARITIMO_EXPO_FCL, SPREAD_MARITIMO_EXPO_LCL, SPREAD_AEREO_IMPO, SPREAD_AEREO_EXPO, ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL, ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL, ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL, ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL, ID_ACORDO_CAMBIO_AEREO_IMPO, ID_ACORDO_CAMBIO_AEREO_EXPO, QT_DIAS_FATURAMENTO, ID_TIPO_FATURAMENTO, EMAIL, FL_VENDEDOR_DIRETO, FL_EQUIPE_INSIDE_SALES, FL_SHIPPER, REGRA_ATUALIZACAO)			SELECT FL_IMPORTADOR,  FL_EXPORTADOR,  FL_AGENTE,  FL_AGENTE_INTERNACIONAL,  FL_TRANSPORTADOR,  FL_COMISSARIA,  FL_VENDEDOR,  FL_ARMAZEM_ATRACACAO, FL_ARMAZEM_DESEMBARACO, FL_ARMAZEM_DESCARGA,  FL_PRESTADOR,  NM_RAZAO,  NM_FANTASIA, CNPJ,  CPF,  TP_PESSOA,  INSCR_ESTADUAL,  INSCR_MUNICIPAL,  ENDERECO, NR_ENDERECO, BAIRRO, COMPL_ENDERECO, OB_COMPLEMENTARES, ID_CIDADE, TELEFONE, CEP, ID_VENDEDOR, FL_ISENTO_ISS, FL_ISENTO_PIS, FL_ISENTO_COFINS, VL_ALIQUOTA_ISS, VL_ALIQUOTA_PIS, VL_ALIQUOTA_COFINS, EMAIL_NF_ELETRONICA, CD_IATA, FL_SIMPLES_NACIONAL, FL_ATIVO, FL_INDICADOR, SPREAD_MARITIMO_IMPO_FCL, SPREAD_MARITIMO_IMPO_LCL, SPREAD_MARITIMO_EXPO_FCL, SPREAD_MARITIMO_EXPO_LCL, SPREAD_AEREO_IMPO, SPREAD_AEREO_EXPO, ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL, ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL, ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL, ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL, ID_ACORDO_CAMBIO_AEREO_IMPO, ID_ACORDO_CAMBIO_AEREO_EXPO, QT_DIAS_FATURAMENTO, ID_TIPO_FATURAMENTO, EMAIL, FL_VENDEDOR_DIRETO, FL_EQUIPE_INSIDE_SALES, FL_SHIPPER, REGRA_ATUALIZACAO FROM TB_PARCEIRO WHERE ID_PARCEIRO =" & txtID.Text)
@@ -94,7 +105,7 @@
 LEFT JOIN TB_TIPO_USUARIO C ON C.ID_TIPO_USUARIO = A.ID_TIPO_USUARIO
 WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-            dgvParceiros.Columns(10).Visible = False
+            dgvParceiros.Columns(11).Visible = False
         End If
 
 
@@ -109,21 +120,21 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
         'verifica se o usuario tem permissão de acesso ao cadastro de Email x Eventos
         ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-            dgvParceiros.Columns(7).Visible = False
+            dgvParceiros.Columns(8).Visible = False
         End If
 
 
         'verifica se o usuario tem permissão de acesso ao cadastro de Cliente Final
         ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 23 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-            dgvParceiros.Columns(8).Visible = False
+            dgvParceiros.Columns(9).Visible = False
         End If
 
 
         'verifica se o usuario tem permissão de cadastrar novos parceiros para usar a opção de duplicar
         ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-            dgvParceiros.Columns(9).Visible = False
+            dgvParceiros.Columns(10).Visible = False
         End If
 
         Con.Fechar()

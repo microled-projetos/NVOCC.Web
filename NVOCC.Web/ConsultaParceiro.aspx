@@ -73,10 +73,18 @@
                          <asp:Label ID="lblAtivo"  runat="server" Text='<%# Eval("Ativo") %>'/>
                     </ItemTemplate>
                 </asp:TemplateField>
+                                         <asp:TemplateField HeaderText="">
+                                            <ItemTemplate>
+                                                 <asp:linkButton ID="btnTaxas" title="Taxa Parceiro" runat="server" style=" border-color:#337ab7" CssClass="btn btn-secondary btn-sm" CommandName="Taxas"
+                                  CommandArgument='<%# Eval("Id") %>'><i class="fas fa-plus" style="font-size:medium"></i></asp:linkButton>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                        </asp:TemplateField>
+
                                         <asp:TemplateField HeaderText="">
                                             <ItemTemplate>
-                                                 <asp:linkButton ID="btnTaxas" title="Taxa Parceiro" runat="server" style="background-color:#e3d810;border-color:#e3d810" CssClass="btn btn-info btn-sm" CommandName="Taxas"
-                                  CommandArgument='<%# Eval("Id") %>'><i class="fas fa-plus" style="font-size:medium"></i></asp:linkButton>
+                                                 <asp:linkButton ID="btnTaxasArmador" title="Taxa Armador" runat="server" style="background-color:#e3d810;border-color:#e3d810" CssClass="btn btn-info btn-sm" CommandName="TaxasArmador"
+                                  CommandArgument='<%# Eval("Id") %>'><i class="glyphicon glyphicon-transfer" style="font-size:medium"></i></asp:linkButton>
                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>

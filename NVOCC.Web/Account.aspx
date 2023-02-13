@@ -560,7 +560,7 @@
                                      <div class="col-sm-12">
                                     <div class="form-group">
                                            <label class="control-label">TIPO DE DEVOLUÇÃO:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="ddlTipoDevolucao" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsDevolucaoFrete" DataValueField="ID_STATUS_FRETE_AGENTE" AutoPostBack="True" ></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlTipoDevolucao" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsDevolucaoFrete" DataValueField="ID_STATUS_FRETE_AGENTE" AutoPostBack="True" enabled="false"></asp:DropDownList>
 
                                     </div>
                                         </div>
