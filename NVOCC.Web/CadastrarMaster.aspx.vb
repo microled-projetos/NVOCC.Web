@@ -3931,4 +3931,5 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
     '    End If
 
     'End Sub
+
 End Class

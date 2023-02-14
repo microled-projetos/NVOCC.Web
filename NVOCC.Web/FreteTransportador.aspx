@@ -195,10 +195,10 @@
                                 <br />
 
 
-                                
+                                <asp:TextBox ID="TextBox2"  runat="server"  style="display: none"></asp:TextBox>
 
                                  <div runat="server" id="divAuxiliar" style="display: none">
-                                    <asp:TextBox ID="TextBox2"  runat="server"></asp:TextBox>
+                                    
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                     <asp:TextBox ID="txtIDTafifario" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
@@ -776,6 +776,9 @@
                                 <%-- <asp:PostBackTrigger ControlID="dgvFreteTranportador" />
                                 <asp:PostBackTrigger ControlID="dgvFreteTranportador" />--%>
                                 <asp:AsyncPostBackTrigger ControlID="btnBusca" />
+                                                                <asp:AsyncPostBackTrigger ControlID="btnFecharCntr" />
+
+                                
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>

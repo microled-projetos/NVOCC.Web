@@ -723,7 +723,7 @@ Public Class FreteTransportador
         txtIDTafifario.Text = ""
         divSuccessCntr.Visible = False
         divErroCntr.Visible = False
-        dgvFreteTranportador.DataBind()
+        BUSCA()
     End Sub
 
     Private Sub dgvCntrEdicao_RowCancelingEdit(sender As Object, e As GridViewCancelEditEventArgs) Handles dgvCntrEdicao.RowCancelingEdit
