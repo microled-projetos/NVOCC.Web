@@ -681,7 +681,7 @@
                              <asp:GridView ID="dgvHistoricoDatasMaritimo" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="ID_LOG_DATA_BL" DataSourceID="dsHistoricoDatas" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado." >
                                                                             <Columns>
                                                                                 <asp:BoundField DataField="ID_LOG_DATA_BL" HeaderText="#" SortExpression="Id" Visible="false" />
-                                                                                 <asp:BoundField DataField="DT_LOG_HIST" HeaderText="Atualização de data" ItemStyle-HorizontalAlign="Center"  DataFormatString="{0:dd/MM/yyyy}"/>
+                                                                                 <asp:BoundField DataField="DT_LOG_HIST" HeaderText="Data Anterior" ItemStyle-HorizontalAlign="Center"  DataFormatString="{0:dd/MM/yyyy}"/>
                                                                                 <asp:BoundField DataField="NOME" HeaderText="Usuário" ItemStyle-HorizontalAlign="Center" />
                                                                                 <asp:BoundField DataField="UPDATED_AT" HeaderText="Data/Hora gravação" ItemStyle-HorizontalAlign="Center" DataFormatString="{0:dd/MM/yyyy}" />
                                                                             </Columns>
@@ -1704,7 +1704,7 @@
                              <asp:GridView ID="dgvHistoricoDatasAereo" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="ID_LOG_DATA_BL" DataSourceID="dsHistoricoDatas" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado." >
                                                                             <Columns>
                                                                                 <asp:BoundField DataField="ID_LOG_DATA_BL" HeaderText="#" SortExpression="Id" Visible="false" />
-                                                                                 <asp:BoundField DataField="DT_LOG_HIST" HeaderText="Atualização de data" ItemStyle-HorizontalAlign="Center"  DataFormatString="{0:dd/MM/yyyy}"/>
+                                                                                 <asp:BoundField DataField="DT_LOG_HIST" HeaderText="Data Anterior" ItemStyle-HorizontalAlign="Center"  DataFormatString="{0:dd/MM/yyyy}"/>
                                                                                 <asp:BoundField DataField="NOME" HeaderText="Usuário" ItemStyle-HorizontalAlign="Center" />
                                                                                 <asp:BoundField DataField="UPDATED_AT" HeaderText="Data/Hora gravação" ItemStyle-HorizontalAlign="Center" DataFormatString="{0:dd/MM/yyyy}" />
                                                                             </Columns>

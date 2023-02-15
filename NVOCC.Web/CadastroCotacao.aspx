@@ -509,7 +509,7 @@
                                                              <br/>
                                    
                                   <div class="row"><div class="col-sm-12">
-                                                                                              <asp:Label ID="lblAgenteSI" runat="server" Text=""></asp:Label>
+                                                                                              <asp:Label ID="lblAgenteSI" runat="server" Text=""></asp:Label><br /><br />
                                                                 <asp:Label ID="lblPortoOrigemSI" runat="server" Text=""></asp:Label>
 
                                
@@ -520,7 +520,7 @@
                              </div></div>
                                                                                   </div>                     
                                <div class="modal-footer">
-                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnConfirmaEnviarSI" text="Sim" /><br /><br />
+                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnConfirmaEnviarSI" text="Sim" />
                                                             <asp:Button runat="server" CssClass="btn btn-danger" ID="btnCancelaEnvioSI" text="Não" />
                                                                                                
                                                         </div>
