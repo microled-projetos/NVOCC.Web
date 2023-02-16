@@ -1055,8 +1055,15 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
                 divDeleteMercadoria.Visible = True
                 dgvMercadoria.DataBind()
                 AtualizaFreteMercadoria()
+                ds = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO,NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO =" & txtID.Text)
+                If ds.Tables(0).Rows.Count > 0 Then
+                    If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 10 And Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO")) Then
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.UpdateCarga(txtID.Text, ID, txtProcessoCotacao.Text, Session("RefPeso"), Session("RefVolume"), Session("RefPesoSum"), Session("RefVolumeSum"))
+                        RotinaUpdate.DeletaCarga(txtID.Text, ID, txtProcessoCotacao.Text)
+                    End If
+                End If
             End If
-
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
@@ -2312,7 +2319,7 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                         Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
 
                         Dim RotinaUpdate As New RotinaUpdate
-                        RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, Session("RefPeso"), Session("RefVolume"), Session("RefPesoSum"), Session("RefVolumeSum"))
+                        RotinaUpdate.UpdateCarga(txtID.Text, dsMercadoria.Tables(0).Rows(0).Item("ID_COTACAO_MERCADORIA").ToString(), txtProcessoCotacao.Text, Session("RefPeso"), Session("RefVolume"), Session("RefPesoSum"), Session("RefVolumeSum"))
                         ' RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
 
                         RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)

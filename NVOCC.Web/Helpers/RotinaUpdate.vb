@@ -1342,143 +1342,148 @@ UPDATE TB_BL SET QT_MERCADORIA = (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADOR
 
                     Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA,ISNULL(QT_CONTAINER,0)QT_CONTAINER FROM TB_COTACAO_MERCADORIA
                 WHERE  ID_COTACAO = " & ID_COTACAO & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                    If ds.Tables(0).Rows.Count > 0 Then
 
 
-                    If ds.Tables(0).Rows(0).Item("QT_CONTAINER") > 1 Then
 
-                        dsProcesso = Con.ExecutarQuery("SELECT ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_TIPO_CNTR FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
-                        dsCotacao = Con.ExecutarQuery("SELECT ID_MERCADORIA,QT_MERCADORIA,isnull(VL_PESO_BRUTO,0)/isnull(QT_CONTAINER,0)VL_PESO_BRUTO,isnull(VL_M3,0)/isnull(QT_CONTAINER,0)VL_M3,ID_TIPO_CONTAINER FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & ID_COTACAO & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                        If ds.Tables(0).Rows(0).Item("QT_CONTAINER") > 1 Then
 
-                        If dsProcesso.Tables(0).Rows.Count > 0 Then
+                            dsProcesso = Con.ExecutarQuery("SELECT ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_TIPO_CNTR FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                            dsCotacao = Con.ExecutarQuery("SELECT ID_MERCADORIA,QT_MERCADORIA,isnull(VL_PESO_BRUTO,0)/isnull(QT_CONTAINER,0)VL_PESO_BRUTO,isnull(VL_M3,0)/isnull(QT_CONTAINER,0)VL_M3,ID_TIPO_CONTAINER FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & ID_COTACAO & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+
+                            If dsProcesso.Tables(0).Rows.Count > 0 Then
 
 
-                            If dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString Then
-                                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_MERCADORIA = " & dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
-                            End If
+                                If dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString Then
+                                    Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_MERCADORIA = " & dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                End If
 
-                            If dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_EMBALAGEM").ToString Then
-                                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_EMBALAGEM = " & dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
-                            End If
+                                If dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_EMBALAGEM").ToString Then
+                                    Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_EMBALAGEM = " & dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                End If
 
-                            If dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString Then
-                                If RefPeso <> "" Then
-                                    If RefPeso <> dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString Then
-                                        Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_PESO_BRUTO = " & dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                If dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString Then
+                                    If RefPeso <> "" Then
+                                        If RefPeso <> dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString Then
+                                            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_PESO_BRUTO = " & dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                        End If
                                     End If
                                 End If
-                            End If
 
-                            If dsCotacao.Tables(0).Rows(0).Item("QT_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("QT_MERCADORIA").ToString Then
-                                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET QT_MERCADORIA = " & dsCotacao.Tables(0).Rows(0).Item("QT_MERCADORIA").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
-                            End If
+                                If dsCotacao.Tables(0).Rows(0).Item("QT_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("QT_MERCADORIA").ToString Then
+                                    Con.ExecutarQuery("UPDATE TB_CARGA_BL SET QT_MERCADORIA = " & dsCotacao.Tables(0).Rows(0).Item("QT_MERCADORIA").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                End If
 
-                            If dsCotacao.Tables(0).Rows(0).Item("VL_M3").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_M3").ToString Then
-                                If RefVolume <> "" Then
-                                    If RefVolume <> dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString Then
-                                        Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_M3 = " & dsCotacao.Tables(0).Rows(0).Item("VL_M3").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                If dsCotacao.Tables(0).Rows(0).Item("VL_M3").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_M3").ToString Then
+                                    If RefVolume <> "" Then
+                                        If RefVolume <> dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString Then
+                                            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_M3 = " & dsCotacao.Tables(0).Rows(0).Item("VL_M3").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                        End If
                                     End If
                                 End If
-                            End If
 
-                            If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_TIPO_CNTR").ToString Then
-                                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_TIPO_CNTR = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
-                            End If
+                                If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_TIPO_CNTR").ToString Then
+                                    Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_TIPO_CNTR = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                End If
 
-                            Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
+                                Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
 (SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & ID_BL & ") WHERE ID_BL =  " & ID_BL & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
 (SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & ID_BL & ") WHERE ID_BL =  " & ID_BL & " ; UPDATE TB_BL SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & ID_BL & ") WHERE ID_BL =  " & ID_BL)
 
-                        ElseIf dsProcesso.Tables(0).Rows.Count = 0 Then
+                            ElseIf dsProcesso.Tables(0).Rows.Count = 0 Then
 
-                            'InsereCarga()
+                                InsereCarga(ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_COTACAO, ID_COTACAO_MERCADORIA, ID_BL)
 
-                        End If
-
-                    Else
-
-                        dsProcesso = Con.ExecutarQuery("SELECT ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_TIPO_CNTR,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
-                        dsCotacao = Con.ExecutarQuery("SELECT ID_MERCADORIA,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_TIPO_CONTAINER,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & ID_COTACAO & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
-                        If dsProcesso.Tables(0).Rows.Count > 0 Then
-                            If dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString Then
-                                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_MERCADORIA = " & dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
                             End If
 
-                            If dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_EMBALAGEM").ToString Then
-                                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_EMBALAGEM = " & dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
-                            End If
+                        Else
 
-                            If dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString Then
-                                If RefPeso <> "" Then
-                                    If RefPeso <> dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString Then
-                                        Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_PESO_BRUTO = " & dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                            dsProcesso = Con.ExecutarQuery("SELECT ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_TIPO_CNTR,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                            dsCotacao = Con.ExecutarQuery("SELECT ID_MERCADORIA,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_TIPO_CONTAINER,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & ID_COTACAO & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                            If dsProcesso.Tables(0).Rows.Count > 0 Then
+                                If dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString Then
+                                    Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_MERCADORIA = " & dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                End If
+
+                                If dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_EMBALAGEM").ToString Then
+                                    Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_EMBALAGEM = " & dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                End If
+
+                                If dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString Then
+                                    If RefPeso <> "" Then
+                                        If RefPeso <> dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString Then
+                                            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_PESO_BRUTO = " & dsCotacao.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                        End If
                                     End If
                                 End If
-                            End If
 
-                            If dsCotacao.Tables(0).Rows(0).Item("QT_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("QT_MERCADORIA").ToString Then
-                                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET QT_MERCADORIA = " & dsCotacao.Tables(0).Rows(0).Item("QT_MERCADORIA").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
-                            End If
+                                If dsCotacao.Tables(0).Rows(0).Item("QT_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("QT_MERCADORIA").ToString Then
+                                    Con.ExecutarQuery("UPDATE TB_CARGA_BL SET QT_MERCADORIA = " & dsCotacao.Tables(0).Rows(0).Item("QT_MERCADORIA").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                End If
 
-                            If dsCotacao.Tables(0).Rows(0).Item("VL_M3").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_M3").ToString Then
-                                If RefVolume <> "" Then
-                                    If RefVolume <> dsCotacao.Tables(0).Rows(0).Item("VL_M3").ToString Then
-                                        Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_M3 = " & dsCotacao.Tables(0).Rows(0).Item("VL_M3").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                If dsCotacao.Tables(0).Rows(0).Item("VL_M3").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_M3").ToString Then
+                                    If RefVolume <> "" Then
+                                        If RefVolume <> dsCotacao.Tables(0).Rows(0).Item("VL_M3").ToString Then
+                                            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_M3 = " & dsCotacao.Tables(0).Rows(0).Item("VL_M3").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                        End If
                                     End If
                                 End If
-                            End If
 
-                            If dsCotacao.Tables(0).Rows(0).Item("VL_ALTURA").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_ALTURA").ToString Then
-                                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_ALTURA = " & dsCotacao.Tables(0).Rows(0).Item("VL_ALTURA").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
-                            End If
+                                If dsCotacao.Tables(0).Rows(0).Item("VL_ALTURA").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_ALTURA").ToString Then
+                                    Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_ALTURA = " & dsCotacao.Tables(0).Rows(0).Item("VL_ALTURA").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                End If
 
-                            If dsCotacao.Tables(0).Rows(0).Item("VL_LARGURA").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_LARGURA").ToString Then
-                                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_LARGURA = " & dsCotacao.Tables(0).Rows(0).Item("VL_LARGURA").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
-                            End If
+                                If dsCotacao.Tables(0).Rows(0).Item("VL_LARGURA").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_LARGURA").ToString Then
+                                    Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_LARGURA = " & dsCotacao.Tables(0).Rows(0).Item("VL_LARGURA").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                End If
 
-                            If dsCotacao.Tables(0).Rows(0).Item("VL_COMPRIMENTO").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_COMPRIMENTO").ToString Then
-                                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_COMPRIMENTO = " & dsCotacao.Tables(0).Rows(0).Item("VL_COMPRIMENTO").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
-                            End If
+                                If dsCotacao.Tables(0).Rows(0).Item("VL_COMPRIMENTO").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_COMPRIMENTO").ToString Then
+                                    Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_COMPRIMENTO = " & dsCotacao.Tables(0).Rows(0).Item("VL_COMPRIMENTO").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                End If
 
-                            If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_TIPO_CNTR").ToString Then
-                                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_TIPO_CNTR = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
-                            End If
+                                If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_TIPO_CNTR").ToString Then
+                                    Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_TIPO_CNTR = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                                End If
 
 
-                            Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
+                                Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
 (SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & ID_BL & ") WHERE ID_BL =  " & ID_BL & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
 (SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & ID_BL & ") WHERE ID_BL =  " & ID_BL & " ; UPDATE TB_BL SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & ID_BL & ") WHERE ID_BL =  " & ID_BL)
+                            ElseIf dsProcesso.Tables(0).Rows.Count = 0 Then
 
+                                InsereCarga(ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_COTACAO, ID_COTACAO_MERCADORIA, ID_BL)
+
+
+                            End If
 
                         End If
 
                     End If
-
-
 
 
 
                     'CHAMADO 2372 - ATUALIZA FREE TIME MASTER
                     dsProcesso = Con.ExecutarQuery("SELECT ID_TIPO_CNTR, QT_DIAS_FREETIME FROM TB_CNTR_BL WHERE ID_BL_MASTER = (SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & " AND ID_COTACAO = " & ID_COTACAO & ") AND ID_TIPO_CNTR = ( SELECT ID_TIPO_CONTAINER FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA & " ) ")
-                    If dsProcesso.Tables(0).Rows.Count > 0 Then
-                        dsCotacao = Con.ExecutarQuery("SELECT ID_TIPO_CONTAINER, QT_DIAS_FREETIME FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+                        If dsProcesso.Tables(0).Rows.Count > 0 Then
+                            dsCotacao = Con.ExecutarQuery("SELECT ID_TIPO_CONTAINER, QT_DIAS_FREETIME FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
 
-                        For Each linha As DataRow In dsProcesso.Tables(0).Rows
+                            For Each linha As DataRow In dsProcesso.Tables(0).Rows
 
-                            If linha.Item("ID_TIPO_CNTR").ToString = dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER").ToString Then
-                                If linha.Item("QT_DIAS_FREETIME").ToString <> dsCotacao.Tables(0).Rows(0).Item("QT_DIAS_FREETIME").ToString Then
-                                    Con.ExecutarQuery("UPDATE TB_CNTR_BL SET QT_DIAS_FREETIME = " & dsCotacao.Tables(0).Rows(0).Item("QT_DIAS_FREETIME").ToString & " WHERE ID_BL_MASTER = (SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & " AND ID_COTACAO = " & ID_COTACAO & ") ")
+                                If linha.Item("ID_TIPO_CNTR").ToString = dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER").ToString Then
+                                    If linha.Item("QT_DIAS_FREETIME").ToString <> dsCotacao.Tables(0).Rows(0).Item("QT_DIAS_FREETIME").ToString Then
+                                        Con.ExecutarQuery("UPDATE TB_CNTR_BL SET QT_DIAS_FREETIME = " & dsCotacao.Tables(0).Rows(0).Item("QT_DIAS_FREETIME").ToString & " WHERE ID_BL_MASTER = (SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & " AND ID_COTACAO = " & ID_COTACAO & ") ")
+                                    End If
                                 End If
-                            End If
 
-                        Next
-                    End If
+                            Next
+                        End If
 
 
-                ElseIf ID_TIPO_ESTUFAGEM = 2 Then
+                    ElseIf ID_TIPO_ESTUFAGEM = 2 Then
 
-                    Dim dsCarga As DataSet
+                        Dim dsCarga As DataSet
                     Dim ID_MERCADORIA As Integer = 11
                     dsCarga = Con.ExecutarQuery("Select DISTINCT ID_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & ID_COTACAO)
                     If dsCarga.Tables(0).Rows.Count = 1 Then
@@ -1522,6 +1527,12 @@ UPDATE TB_BL SET QT_MERCADORIA = (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADOR
 (SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & ID_BL & ") WHERE ID_BL =  " & ID_BL & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
 (SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & ID_BL & ") WHERE ID_BL =  " & ID_BL & " ; UPDATE TB_BL SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & ID_BL & ") WHERE ID_BL =  " & ID_BL)
+
+                    ElseIf dsProcesso.Tables(0).Rows.Count = 0 Then
+
+                        InsereCarga(ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_COTACAO, ID_COTACAO_MERCADORIA, ID_BL)
+
+
                     End If
 
 
@@ -1534,34 +1545,83 @@ UPDATE TB_BL SET QT_MERCADORIA = (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADOR
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim dsCarga As DataSet
+        '        If ID_SERVICO = 2 Or ID_SERVICO = 5 Then
+
+        '            dsCarga = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & ID_COTACAO)
+        '            If dsCarga.Tables(0).Rows.Count > 0 Then
+
+        '                For Each linha As DataRow In dsCarga.Tables(0).Rows
+        '                    Dim dsInsertCarga As DataSet = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,VL_PESO_BRUTO,VL_M3,ID_BL,ID_COTACAO_MERCADORIA,DS_MERCADORIA,ID_TIPO_CARGA) 
+        'SELECT ID_MERCADORIA, ID_MERCADORIA, VL_PESO_BRUTO, VL_M3, " & ID_BL & " , ID_COTACAO_MERCADORIA,DS_MERCADORIA, (SELECT ID_TIPO_CARGA FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO & ") FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA") & " Select SCOPE_IDENTITY() as ID_CARGA_BL")
+
+        '                    Dim ID_CARGA_BL As String = dsInsertCarga.Tables(0).Rows(0).Item("ID_CARGA_BL")
+
+        '                    Con.ExecutarQuery("INSERT INTO TB_CARGA_BL_DIMENSAO (QTD_CAIXA,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,ID_COTACAO_MERCADORIA,ID_COTACAO_MERCADORIA_DIMENSAO,ID_BL,ID_CARGA_BL) 
+        'SELECT B.QTD_CAIXA,B.VL_ALTURA,B.VL_COMPRIMENTO,B.VL_LARGURA, A.ID_COTACAO_MERCADORIA, ID , " & ID_BL & " , " & ID_CARGA_BL & "
+        'FROM TB_COTACAO_MERCADORIA A
+        'INNER JOIN TB_COTACAO_MERCADORIA_DIMENSAO B ON A.ID_COTACAO_MERCADORIA = B.ID_COTACAO_MERCADORIA AND A.ID_COTACAO = B.ID_COTACAO
+        'WHERE A.ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA"))
+
+        '                Next
+
+
+        '            End If
+
+        '        Else
+
+        '            If ID_ESTUFAGEM = 1 Then
+
+        '                dsCarga = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA,QT_CONTAINER FROM TB_COTACAO_MERCADORIA
+        '         WHERE QT_CONTAINER is not null and QT_CONTAINER <> 0 and ID_COTACAO = " & ID_COTACAO)
+        '                If dsCarga.Tables(0).Rows.Count > 0 Then
+        '                    Dim QT_CONTAINER As Integer
+        '                    For Each linha As DataRow In dsCarga.Tables(0).Rows
+        '                        QT_CONTAINER = linha.Item("QT_CONTAINER")
+
+        '                        For i As Integer = 1 To QT_CONTAINER Step 1
+        '                            Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_TIPO_CNTR,ID_COTACAO_MERCADORIA,ID_TIPO_CARGA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,isnull(VL_PESO_BRUTO,0)/isnull(QT_CONTAINER,0)VL_PESO_BRUTO,isnull(VL_M3,0)/isnull(QT_CONTAINER,0)VL_M3," & ID_BL & ",ID_TIPO_CONTAINER, ID_COTACAO_MERCADORIA, (SELECT ID_TIPO_CARGA FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO & ")  FROM TB_COTACAO_MERCADORIA
+        '                WHERE ID_COTACAO_MERCADORIA =  " & linha.Item("ID_COTACAO_MERCADORIA"))
+        '                        Next
+        '                    Next
+        '                Else
+        '                    Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,ID_BL,ID_COTACAO_MERCADORIA,ID_TIPO_CARGA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO," & ID_BL & ",ID_COTACAO_MERCADORIA, (SELECT ID_TIPO_CARGA FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO & ")  FROM TB_COTACAO_MERCADORIA
+        '         WHERE ID_COTACAO =  " & ID_COTACAO)
+        '                End If
+
+
+        '            ElseIf ID_ESTUFAGEM = 2 Then
+
+        '                Dim ID_MERCADORIA As Integer = 11
+        '                dsCarga = Con.ExecutarQuery("SELECT DISTINCT ID_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & ID_COTACAO)
+        '                If dsCarga.Tables(0).Rows.Count = 1 Then
+        '                    ID_MERCADORIA = dsCarga.Tables(0).Rows(0).Item("ID_MERCADORIA")
+        '                End If
+
+        '                Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_MERCADORIA,ID_EMBALAGEM,ID_TIPO_CARGA) 
+        '        SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3)VL_M3," & ID_BL & ", " & ID_MERCADORIA & "," & ID_MERCADORIA & ",(SELECT ID_TIPO_CARGA FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO & ")  FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & ID_COTACAO)
+
+        '            End If
+        '        End If
+
         If ID_SERVICO = 2 Or ID_SERVICO = 5 Then
 
-            dsCarga = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & ID_COTACAO)
-            If dsCarga.Tables(0).Rows.Count > 0 Then
+            Dim dsInsertCarga As DataSet = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,VL_PESO_BRUTO,VL_M3,ID_BL,ID_COTACAO_MERCADORIA,DS_MERCADORIA,ID_TIPO_CARGA) 
+SELECT ID_MERCADORIA, ID_MERCADORIA, VL_PESO_BRUTO, VL_M3, " & ID_BL & " , ID_COTACAO_MERCADORIA,DS_MERCADORIA, (SELECT ID_TIPO_CARGA FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO & ") FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA =" & ID_COTACAO_MERCADORIA & " Select SCOPE_IDENTITY() as ID_CARGA_BL")
 
-                For Each linha As DataRow In dsCarga.Tables(0).Rows
-                    Dim dsInsertCarga As DataSet = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,VL_PESO_BRUTO,VL_M3,ID_BL,ID_COTACAO_MERCADORIA,DS_MERCADORIA,ID_TIPO_CARGA) 
-SELECT ID_MERCADORIA, ID_MERCADORIA, VL_PESO_BRUTO, VL_M3, " & ID_BL & " , ID_COTACAO_MERCADORIA,DS_MERCADORIA, (SELECT ID_TIPO_CARGA FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO & ") FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA") & " Select SCOPE_IDENTITY() as ID_CARGA_BL")
+            Dim ID_CARGA_BL As String = dsInsertCarga.Tables(0).Rows(0).Item("ID_CARGA_BL")
 
-                    Dim ID_CARGA_BL As String = dsInsertCarga.Tables(0).Rows(0).Item("ID_CARGA_BL")
-
-                    Con.ExecutarQuery("INSERT INTO TB_CARGA_BL_DIMENSAO (QTD_CAIXA,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,ID_COTACAO_MERCADORIA,ID_COTACAO_MERCADORIA_DIMENSAO,ID_BL,ID_CARGA_BL) 
+            Con.ExecutarQuery("INSERT INTO TB_CARGA_BL_DIMENSAO (QTD_CAIXA,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,ID_COTACAO_MERCADORIA,ID_COTACAO_MERCADORIA_DIMENSAO,ID_BL,ID_CARGA_BL) 
 SELECT B.QTD_CAIXA,B.VL_ALTURA,B.VL_COMPRIMENTO,B.VL_LARGURA, A.ID_COTACAO_MERCADORIA, ID , " & ID_BL & " , " & ID_CARGA_BL & "
 FROM TB_COTACAO_MERCADORIA A
 INNER JOIN TB_COTACAO_MERCADORIA_DIMENSAO B ON A.ID_COTACAO_MERCADORIA = B.ID_COTACAO_MERCADORIA AND A.ID_COTACAO = B.ID_COTACAO
-WHERE A.ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA"))
-
-                Next
-
-
-            End If
+WHERE A.ID_COTACAO_MERCADORIA =" & ID_COTACAO_MERCADORIA)
 
         Else
 
             If ID_ESTUFAGEM = 1 Then
 
                 dsCarga = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA,QT_CONTAINER FROM TB_COTACAO_MERCADORIA
-         WHERE QT_CONTAINER is not null and QT_CONTAINER <> 0 and ID_COTACAO = " & ID_COTACAO)
+         WHERE QT_CONTAINER is not null and QT_CONTAINER <> 0 and ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
                 If dsCarga.Tables(0).Rows.Count > 0 Then
                     Dim QT_CONTAINER As Integer
                     For Each linha As DataRow In dsCarga.Tables(0).Rows
@@ -1569,7 +1629,7 @@ WHERE A.ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA"))
 
                         For i As Integer = 1 To QT_CONTAINER Step 1
                             Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_TIPO_CNTR,ID_COTACAO_MERCADORIA,ID_TIPO_CARGA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,isnull(VL_PESO_BRUTO,0)/isnull(QT_CONTAINER,0)VL_PESO_BRUTO,isnull(VL_M3,0)/isnull(QT_CONTAINER,0)VL_M3," & ID_BL & ",ID_TIPO_CONTAINER, ID_COTACAO_MERCADORIA, (SELECT ID_TIPO_CARGA FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO & ")  FROM TB_COTACAO_MERCADORIA
-                WHERE ID_COTACAO_MERCADORIA =  " & linha.Item("ID_COTACAO_MERCADORIA"))
+                WHERE ID_COTACAO_MERCADORIA =  " & ID_COTACAO_MERCADORIA)
                         Next
                     Next
                 Else
@@ -1590,43 +1650,6 @@ WHERE A.ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA"))
         SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3)VL_M3," & ID_BL & ", " & ID_MERCADORIA & "," & ID_MERCADORIA & ",(SELECT ID_TIPO_CARGA FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO & ")  FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & ID_COTACAO)
 
             End If
-        End If
-
-    End Sub
-
-    Sub DeletaTaxas(ID_COTACAO As String, ID_COTACAO_TAXA As String, NR_PROCESSO As String)
-        If ID_COTACAO = "" Then
-            Exit Sub
-
-        ElseIf NR_PROCESSO = "" Then
-            Exit Sub
-
-        Else
-            Dim Con As New Conexao_sql
-            Con.Conectar()
-
-            Dim dsInfo As DataSet = Con.ExecutarQuery("SELECT A.ID_BL FROM TB_BL A INNER JOIN TB_COTACAO C ON A.NR_PROCESSO=C.NR_PROCESSO_GERADO AND A.ID_COTACAO = C.ID_COTACAO WHERE A.ID_COTACAO = " & ID_COTACAO & " AND A.NR_PROCESSO = '" & NR_PROCESSO & "'")
-            Dim ID_BL As String = dsInfo.Tables(0).Rows(0).Item("ID_BL").ToString
-
-            Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND ID_BL =" & ID_BL & " AND  CD_ORIGEM_INF='COTA' AND ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND ID_BL_MASTER IS NULL AND ID_BL_TAXA_MASTER IS NULL AND ID_BL_TAXA NOT IN (SELECT I.ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS I WHERE I.ID_BL_TAXA IS NOT NULL)")
-
-
-        End If
-    End Sub
-
-
-    Sub DeletaDimensaoCarga(ID_COTACAO As String, ID_COTACAO_MERCADORIA As String, NR_PROCESSO As String, Optional ID_COTACAO_MERCADORIA_DIMENSAO As String = "")
-        If ID_COTACAO = "" Or NR_PROCESSO = "" Then
-            Exit Sub
-        Else
-            Dim Con As New Conexao_sql
-            Con.Conectar()
-
-            Dim dsInfo As DataSet = Con.ExecutarQuery("SELECT C.ID_TIPO_ESTUFAGEM,A.ID_BL FROM TB_BL A INNER JOIN TB_COTACAO C ON A.NR_PROCESSO=C.NR_PROCESSO_GERADO AND A.ID_COTACAO = C.ID_COTACAO WHERE A.ID_COTACAO = " & ID_COTACAO & " AND A.NR_PROCESSO = '" & NR_PROCESSO & "'")
-            Dim ID_BL As String = dsInfo.Tables(0).Rows(0).Item("ID_BL").ToString
-
-            Con.ExecutarQuery("DELETE FROM TB_CARGA_BL_DIMENSAO WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA & " AND ID_COTACAO_MERCADORIA_DIMENSAO =" & ID_COTACAO_MERCADORIA_DIMENSAO)
-
         End If
 
     End Sub
@@ -1659,4 +1682,61 @@ SELECT ID_MERCADORIA, ID_MERCADORIA, VL_PESO_BRUTO, VL_M3, " & ID_BL & " , ID_CO
         End If
 
     End Sub
+
+    Sub DeletaTaxas(ID_COTACAO As String, ID_COTACAO_TAXA As String, NR_PROCESSO As String)
+        If ID_COTACAO = "" Then
+            Exit Sub
+
+        ElseIf NR_PROCESSO = "" Then
+            Exit Sub
+
+        Else
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim dsInfo As DataSet = Con.ExecutarQuery("SELECT A.ID_BL FROM TB_BL A INNER JOIN TB_COTACAO C ON A.NR_PROCESSO=C.NR_PROCESSO_GERADO AND A.ID_COTACAO = C.ID_COTACAO WHERE A.ID_COTACAO = " & ID_COTACAO & " AND A.NR_PROCESSO = '" & NR_PROCESSO & "'")
+            Dim ID_BL As String = dsInfo.Tables(0).Rows(0).Item("ID_BL").ToString
+
+            Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND ID_BL =" & ID_BL & " AND  CD_ORIGEM_INF='COTA' AND ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND ID_BL_MASTER IS NULL AND ID_BL_TAXA_MASTER IS NULL AND ID_BL_TAXA NOT IN (SELECT I.ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS I WHERE I.ID_BL_TAXA IS NOT NULL)")
+
+
+        End If
+    End Sub
+
+    Sub DeletaCarga(ID_COTACAO As String, ID_COTACAO_MERCADORIA As String, NR_PROCESSO As String)
+        If ID_COTACAO = "" Then
+            Exit Sub
+
+        ElseIf NR_PROCESSO = "" Then
+            Exit Sub
+
+        Else
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim dsInfo As DataSet = Con.ExecutarQuery("SELECT A.ID_BL FROM TB_BL A INNER JOIN TB_COTACAO C ON A.NR_PROCESSO=C.NR_PROCESSO_GERADO AND A.ID_COTACAO = C.ID_COTACAO WHERE A.ID_COTACAO = " & ID_COTACAO & " AND A.NR_PROCESSO = '" & NR_PROCESSO & "'")
+            Dim ID_BL As String = dsInfo.Tables(0).Rows(0).Item("ID_BL").ToString
+
+            Con.ExecutarQuery("DELETE FROM TB_CARGA_BL WHERE ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA & " AND ID_BL = " & ID_BL)
+
+
+        End If
+    End Sub
+    Sub DeletaDimensaoCarga(ID_COTACAO As String, ID_COTACAO_MERCADORIA As String, NR_PROCESSO As String, Optional ID_COTACAO_MERCADORIA_DIMENSAO As String = "")
+        If ID_COTACAO = "" Or NR_PROCESSO = "" Then
+            Exit Sub
+        Else
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim dsInfo As DataSet = Con.ExecutarQuery("SELECT C.ID_TIPO_ESTUFAGEM,A.ID_BL FROM TB_BL A INNER JOIN TB_COTACAO C ON A.NR_PROCESSO=C.NR_PROCESSO_GERADO AND A.ID_COTACAO = C.ID_COTACAO WHERE A.ID_COTACAO = " & ID_COTACAO & " AND A.NR_PROCESSO = '" & NR_PROCESSO & "'")
+            Dim ID_BL As String = dsInfo.Tables(0).Rows(0).Item("ID_BL").ToString
+
+            Con.ExecutarQuery("DELETE FROM TB_CARGA_BL_DIMENSAO WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA & " AND ID_COTACAO_MERCADORIA_DIMENSAO =" & ID_COTACAO_MERCADORIA_DIMENSAO)
+
+        End If
+
+    End Sub
+
+
 End Class
