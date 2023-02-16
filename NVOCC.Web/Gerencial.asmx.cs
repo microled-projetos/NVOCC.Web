@@ -2015,13 +2015,13 @@ namespace ABAINFRA.Web
             switch (filter)
             {
                 case "1":
-                    filter = "AND VENDEDOR LIKE '" + text + "%' ";
+                    filter = "AND NM_VENDEDOR LIKE '" + text + "%' ";
                     break;
                 case "2":
                     filter = "AND INSIDE LIKE '" + text + "%' ";
                     break;
                 case "3":
-                    filter = "AND CLIENTE LIKE '" + text + "%' ";
+                    filter = "AND NM_CLIENTE LIKE '" + text + "%' ";
                     break;
                 default:
                     filter = "";
