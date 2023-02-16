@@ -271,14 +271,6 @@
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
-
-
-
-
-
-
-
-
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-1" style="display: none">
@@ -539,8 +531,8 @@
                                     <asp:PostBackTrigger ControlID="ddlServico" />
                                     <asp:PostBackTrigger ControlID="ddlEstufagem" />
                                     <asp:PostBackTrigger ControlID="btnGravar" />
-                                                                        <asp:PostBackTrigger ControlID="btnConfirmaEnviarSI" />
-                                                                        <asp:PostBackTrigger ControlID="btnCancelaEnvioSI" />
+                                    <asp:PostBackTrigger ControlID="btnConfirmaEnviarSI" />
+                                    <asp:PostBackTrigger ControlID="btnCancelaEnvioSI" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeCliente" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeAgente" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeIndicador" />
@@ -548,6 +540,7 @@
                                     <asp:AsyncPostBackTrigger ControlID="ddlCliente" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeImportador" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeTranspRodoviario" />
+                                    <asp:AsyncPostBackTrigger ControlID="ddlFreteTransportador_Frete" />
                                 </Triggers>
                             </asp:UpdatePanel>
 

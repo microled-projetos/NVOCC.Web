@@ -57,33 +57,6 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(parceiroTransportador);
         }
 
-        [WebMethod]
-        public void SalvarObs(int Id, string obsGeral)
-        {
-            try
-            {
-                string SQL;
-                SQL = "UPDATE TB_PARCEIRO SET OBS_GERAL = '" + obsGeral + "' WHERE ID_PARCEIRO = "+Id+" ";
-                DBS.ExecuteScalar(SQL);
-                return;
-            }
-			catch(Exception e)
-			{
-                throw e;
-                return;
-			}
-        }
-
-        [WebMethod]
-        public string BuscarObs(int Id)
-        {
-            string SQL;
-            SQL = "SELECT OBS_GERAL FROM TB_PARCEIRO WHERE ID_PARCEIRO = "+Id+"";
-            DataTable parceiroTransportador = new DataTable();
-            parceiroTransportador = DBS.List(SQL);
-            return JsonConvert.SerializeObject(parceiroTransportador);
-        }
-
 
         [WebMethod]
         public string ListarDemurrageContainer(string armador)
@@ -607,7 +580,7 @@ namespace ABAINFRA.Web
                 }
             }
 
-            SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, B.NR_BL AS MBL, PFCL.NM_TIPO_CONTAINER, TC.NM_TIPO_CARGA, PFCL.NR_PROCESSO, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ";
+            SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, B.NR_BL AS MBL, PFCL.NM_TIPO_CONTAINER, ISNULL(TC.NM_TIPO_CARGA,'') AS NM_TIPO_CARGA, PFCL.NR_PROCESSO, ISNULL(P.NM_RAZAO,C.NM_RAZAO) AS CLIENTE, ";
             SQL += "ISNULL(P2.NM_RAZAO, '') AS TRANSPORTADOR, ISNULL(FORMAT(PFCL.DT_CHEGADA, 'dd/MM/yyyy'), '') AS DT_CHEGADA, ";
             SQL += "ISNULL(CONVERT(VARCHAR,PFCL.QT_DIAS_FREETIME), '') AS QT_DIAS_FREETIME, ISNULL(CONVERT(VARCHAR,PFCL.QT_DIAS_FREETIME_CONFIRMA),'') AS QT_DIAS_FREETIME_CONFIRMA, ISNULL(FORMAT(DFCL.DT_FINAL_FREETIME, 'dd/MM/yyyy'), '') AS FINAL_FREETIME, ";
             SQL += "ISNULL(FORMAT(PFCL.DT_DEVOLUCAO_CNTR, 'dd/MM/yyyy'), '') AS DEVOLUCAO_CNTR, ";
@@ -627,6 +600,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL AND PFCL.ID_BL = DFCL.ID_BL ";
             SQL += "INNER JOIN TB_BL B ON PFCL.ID_BL_MASTER = B.ID_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_IMPORTADOR = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO C ON PFCL.ID_PARCEIRO_CLIENTE = C.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_STATUS_DEMURRAGE D ON PFCL.ID_STATUS_DEMURRAGE_COMPRA= D.ID_STATUS_DEMURRAGE ";
             SQL += "LEFT JOIN TB_STATUS_DEMURRAGE D1 ON PFCL.ID_STATUS_DEMURRAGE = D1.ID_STATUS_DEMURRAGE ";
@@ -10122,9 +10096,9 @@ namespace ABAINFRA.Web
         {
             string SQL;
 
-            SQL = "SELECT DS_LINK_ACESSO FROM TB_VINCULO_USUARIO A ";
-            SQL += "JOIN TB_POWER_BI B ON A.ID_TIPO_USUARIO = B.ID_TIPO_USUARIO ";
-            SQL += "WHERE ID_USUARIO = '"+Session["ID_USUARIO"]+"' ";
+            SQL = "SELECT NM_LINK_BI FROM TB_VINCULO_USUARIO A ";
+            SQL += "JOIN TB_POWER_BI B ON A.ID_TIPO_USUARIO = B.ID_GRUPO_USUARIO ";
+            SQL += "WHERE ID_USUARIO = 3 ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -10645,7 +10619,7 @@ namespace ABAINFRA.Web
                 SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "',0,0,'" + dados.ID_MOEDA_VENDA + "', ";
                 SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
                 SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + "," + dados.ID_TIPO_ESTUFAGEM + ",'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "','" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "','" + tarifaC.ToString().Replace(',', '.') + "','" + dados.ID_PORTO_DESCARGA.ToString() + "','" + dados.ID_TIPO_COBRANCA.ToString() + "','"+dados.ID_PORTO_CARREGAMENTO+"', '"+ dados.ID_PORTO_RECEBIMENTO+ "', '"+dados.ID_INCOTERM+"') ";
+                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + "," + dados.ID_TIPO_ESTUFAGEM + ",'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "','" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "','" + tarifaC.ToString().Replace(',', '.') + "','" + dados.ID_PORTO_DESCARGA.ToString() + "','" + dados.ID_TIPO_COBRANCA.ToString() + "','" + dados.ID_PORTO_CARREGAMENTO + "', '" + dados.ID_PORTO_RECEBIMENTO + "', '" + dados.ID_INCOTERM + "') ";
                 string taxa = DBS.ExecuteScalar(SQL);
                 return "1";
             }
@@ -10991,6 +10965,5 @@ namespace ABAINFRA.Web
 
             return numero = numero.Replace(',', '.');
         }
-
     }
 }
