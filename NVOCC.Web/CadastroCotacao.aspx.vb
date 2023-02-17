@@ -1867,6 +1867,34 @@ WHERE ID_COTACAO = " & txtID.Text)
                     RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
                 End If
 
+
+
+                If ddlFreteTransportador_Frete.SelectedValue <> 0 Then
+                    Dim ObsCliente As String = ""
+                    Dim ObsOperacional As String = ""
+
+                    If txtObsCliente.Text = "" Then
+                        ObsCliente = "NULL"
+                    Else
+                        ObsCliente = txtObsCliente.Text
+                        ObsCliente = ObsCliente.Replace("'", "''")
+                        ObsCliente = ObsCliente.Replace(vbNewLine, "<br/>")
+                        ObsCliente = "'" & ObsCliente & "'"
+                    End If
+
+                    If txtObsOperacional.Text = "" Then
+                        ObsOperacional = "NULL"
+                    Else
+                        ObsOperacional = txtObsOperacional.Text
+                        ObsOperacional = ObsOperacional.Replace("'", "''")
+                        ObsOperacional = "'" & ObsOperacional & "'"
+                    End If
+
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET  OB_OPERACIONAL = " & ObsOperacional & ", OB_CLIENTE = " & ObsCliente & " WHERE ID_COTACAO = " & txtID.Text)
+
+                End If
+
                 Session("ID_FRETE_TRANSPORTADOR") = ddlFreteTransportador_Frete.SelectedValue
             End If
 
