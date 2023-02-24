@@ -365,7 +365,7 @@ WHERE DT_LIQUIDACAO IS NOT NULL AND ID_FATURAMENTO =" & txtID.Text)
 
                 End If
 
-                ModalPopupExtender4.Show()
+                mpeDemonstrativos.Show()
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "FuncRecibo()", True)
 
             Else
@@ -391,7 +391,7 @@ WHERE DT_LIQUIDACAO IS NOT NULL AND ID_FATURAMENTO =" & txtID.Text)
 
             Dim ds As DataSet = Con.ExecutarQuery("SELECT DT_RPS FROM [TB_FATURAMENTO] WHERE DT_RPS IS NOT NULL AND ID_FATURAMENTO = " & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
-                ModalPopupExtender8.Hide()
+                mpeRPS.Hide()
                 ModalPopupExtender10.Show()
 
             Else
@@ -606,7 +606,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             End If
 
         End If
-        ModalPopupExtender8.Show()
+        mpeRPS.Show()
     End Sub
 
 
@@ -698,6 +698,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             divErro.Visible = True
             lblmsgErro.Text = "Selecione um registro"
         Else
+
             Dim Con As New Conexao_sql
             Con.Conectar()
 
@@ -1056,7 +1057,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
         Dim Con As New Conexao_sql
         Dim contador As Integer = 0
         Dim IDs As String = ""
-
+        txtID.Text = ""
         For Each linha As GridViewRow In dgvFaturamento.Rows
             Dim check As CheckBox = linha.FindControl("ckSelecionar")
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
@@ -1391,7 +1392,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
 
                 divSuccess.Visible = True
                 lblmsgSuccess.Text = "Boleto gerado com sucesso!"
-                ModalPopupExtender11.Show()
+                mpeOpcoesBoletos.Show()
 
 
             Catch ex As Exception
@@ -1533,7 +1534,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
         If txtConsultaPagamentoInicio.Text <> "" Then
             If txtConsultaPagamentoFim.Text <> "" Then
                 'filtro
-                filtro &= " AND CONVERT(DATE,DT_LIQUIDACAO,103) BETWEEN CONVERT(DATE,'" & txtConsultaPagamentoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaPagamentoFim.Text & "',103) "
+                filtro &= " AND CONVERT(DATE,DT_NOTA_FISCAL,103) BETWEEN CONVERT(DATE,'" & txtConsultaPagamentoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaPagamentoFim.Text & "',103) "
 
             Else
                 'msg erro
@@ -1578,12 +1579,12 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
             Con.ExecutarQuery("UPDATE [TB_FATURAMENTO] SET OB_RPS = '" & txtOBSRPS.Text & "' WHERE ID_FATURAMENTO = " & txtID.Text)
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "FuncImprimirRPS()", True)
         End If
-        ModalPopupExtender8.Show()
+        mpeRPS.Show()
 
     End Sub
 
     Private Sub btnFecharDesmosntrativos_Click(sender As Object, e As EventArgs) Handles btnFecharDesmosntrativos.Click
-        ModalPopupExtender4.Hide()
+        mpeDemonstrativos.Hide()
         divSuccess.Visible = False
         divErro.Visible = False
         divinf.Visible = False
@@ -1750,25 +1751,68 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
     End Sub
 
     Private Sub lkOpcoesBoletos_Click(sender As Object, e As EventArgs) Handles lkOpcoesBoletos.Click
-        ModalPopupExtender4.Hide()
-        ModalPopupExtender11.Show()
+        divSuccess.Visible = False
+        divErro.Visible = False
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro"
+        Else
+            mpeOpcoesBoletos.Show()
+            mpeDemonstrativos.Hide()
+
+        End If
     End Sub
     Private Sub btnFecharOpcoesBoletos_Click(sender As Object, e As EventArgs) Handles btnFecharOpcoesBoletos.Click
-        ModalPopupExtender11.Hide()
-        ModalPopupExtender4.Show()
+        mpeOpcoesBoletos.Hide()
+        mpeDemonstrativos.Show()
     End Sub
     Private Sub lkRPS_Click(sender As Object, e As EventArgs) Handles lkRPS.Click
-        ModalPopupExtender4.Hide()
-        ModalPopupExtender8.Show()
+        mpeDemonstrativos.Hide()
+        mpeRPS.Show()
     End Sub
 
     Private Sub btnFecharRPS_Click(sender As Object, e As EventArgs) Handles btnFecharRPS.Click
-        ModalPopupExtender4.Show()
-        ModalPopupExtender8.Hide()
+        mpeDemonstrativos.Show()
+        mpeRPS.Hide()
     End Sub
 
     Private Sub btnFecharBoleto_Click(sender As Object, e As EventArgs) Handles btnFecharBoleto.Click
-        ModalPopupExtender6.Hide()
-        ModalPopupExtender11.Show()
+        mpeBoleto.Hide()
+        mpeOpcoesBoletos.Show()
+    End Sub
+
+
+    Private Sub lkFatura_Click(sender As Object, e As EventArgs) Handles lkFatura.Click
+        divSuccess.Visible = False
+        divErro.Visible = False
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro"
+        Else
+            mpeOpcoesFatura.Show()
+        End If
+
+    End Sub
+
+    Private Sub lkNotaDebito_Click(sender As Object, e As EventArgs) Handles lkNotaDebito.Click
+        divSuccess.Visible = False
+        divErro.Visible = False
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro"
+        Else
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirND()", True)
+        End If
+    End Sub
+
+    Private Sub lkNotasFiscais_Click(sender As Object, e As EventArgs) Handles lkNotasFiscais.Click
+        divSuccess.Visible = False
+        divErro.Visible = False
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro"
+        Else
+            mpeNotasFiscais.Show()
+        End If
     End Sub
 End Class

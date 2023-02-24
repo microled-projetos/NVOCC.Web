@@ -89,7 +89,7 @@
                                     </div>
                                      <div class="col-sm-1">
                                         <div class="form-group">
-                                            <label class="control-label">Peso Cubado:</label>
+                                            <label class="control-label">Valor M3:</label>
                                             <asp:TextBox ID="txtCBM" runat="server" CssClass="form-control valores"></asp:TextBox>
                                         </div>
                                     </div>

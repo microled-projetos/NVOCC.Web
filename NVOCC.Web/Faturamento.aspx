@@ -187,7 +187,7 @@
                                 
                                 <asp:TextBox ID="TextBox9" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <asp:TextBox ID="TextBox7" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender11" runat="server" PopupControlID="pnlOpcoesBoletos" TargetControlID="TextBox7" CancelControlID="TextBox9" OkControlID="lkBoleto"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeOpcoesBoletos" runat="server" PopupControlID="pnlOpcoesBoletos" TargetControlID="TextBox7" CancelControlID="TextBox9" OkControlID="lkBoleto"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlOpcoesBoletos" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
@@ -223,9 +223,10 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender7" runat="server" PopupControlID="pnlFatura" TargetControlID="lkFatura" CancelControlID="btnFecharFatura" OkControlID="lkBaixarFatura"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnAuxOpcoesFatura" style="display: none;"/>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeOpcoesFatura" runat="server" PopupControlID="pnlFatura" TargetControlID="btnAuxOpcoesFatura" CancelControlID="btnFecharFatura" OkControlID="lkBaixarFatura"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlFatura" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document" id="modalFatura">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">OPÇÕES DE FATURA</h5>
@@ -259,7 +260,7 @@
 
                                                                 <asp:TextBox ID="TextBox6" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <asp:TextBox ID="TextBox8" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender8" runat="server" PopupControlID="pnlRPS" TargetControlID="TextBox6" CancelControlID="TextBox8"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeRPS" runat="server" PopupControlID="pnlRPS" TargetControlID="TextBox6" CancelControlID="TextBox8"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlRPS" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
@@ -369,7 +370,7 @@
                                        </div>     </center>
                                 </asp:Panel>
                                 <asp:TextBox ID="TextBox4" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlDesmosntrativos" TargetControlID="lkDesmosntrativos" CancelControlID="TextBox4"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeDemonstrativos" runat="server" PopupControlID="pnlDesmosntrativos" TargetControlID="lkDesmosntrativos" CancelControlID="TextBox4"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlDesmosntrativos" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
@@ -381,7 +382,7 @@
                                    <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
-<asp:LinkButton ID="lkNotaDebito" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px"  href="#" OnClientClick="ImprimirND()" >Nota de Débito</asp:LinkButton>
+<asp:LinkButton ID="lkNotaDebito" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Nota de Débito</asp:LinkButton>
                                     </div>
                                         </div>
                                          </div>
@@ -418,7 +419,7 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlNotasFiscais" TargetControlID="lkNotasFiscais" CancelControlID="btnFecharNotas"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeNotasFiscais" runat="server" PopupControlID="pnlNotasFiscais" TargetControlID="lkNotasFiscais" CancelControlID="btnFecharNotas"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlNotasFiscais" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
@@ -431,7 +432,8 @@
                                      <div class="col-sm-10">
                                     <div class="form-group">
                                            
-<asp:LinkButton ID="lkCancelarNota" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" OnClientClick="return confirm( getProcesso() + '\n'+ getCliente() + '\n\n\n\CONFIRMAR CANCELAMENTO DA NOTA FISCAL');" >Cancelar Nota</asp:LinkButton>
+<%--<asp:LinkButton ID="lkCancelarNota" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" OnClientClick="return confirm( getProcesso() + '\n'+ getCliente() + '\n\n\n\CONFIRMAR CANCELAMENTO DA NOTA FISCAL');" >Cancelar Nota</asp:LinkButton>--%>
+                                        <asp:LinkButton ID="lkCancelarNota" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" OnClientClick="if (VerificaSelecao() == '') {console.log('saiu');}else {return confirm( getProcesso() + '\n'+ getCliente() + '\n\n\n\CONFIRMAR CANCELAMENTO DA NOTA FISCAL?')}" >Cancelar Nota</asp:LinkButton>
                                     </div>
                                         </div>
                                          </div>
@@ -574,7 +576,7 @@
 
                                 <asp:TextBox ID="TextBox10" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <asp:TextBox ID="TextBox5" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlBanco" TargetControlID="lkboleto" CancelControlID="TextBox10"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeBoleto" runat="server" PopupControlID="pnlBanco" TargetControlID="lkboleto" CancelControlID="TextBox10"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlBanco" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content" >
@@ -672,7 +674,7 @@
                                      </div>
                                                                  </div>
                                                                  <div class="col-sm-6">  
-                      <div class="linha-colorida">Liquidação</div>
+                      <div class="linha-colorida">Data de Emissão</div>
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
@@ -706,6 +708,16 @@
                               <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="COD" DataTextField="NM_CLIENTE" DataSourceID="dsClientes">
                                                 </asp:DropDownList>
                            </div>
+                                     </div></div>
+                                                            <div class="row">                                                                                                                           
+                                <div class="col-sm-6">
+                                    <div class="linha-colorida">Taxa</div><br />
+                                     <div class="form-group">
+                               <asp:DropDownList ID="ddlTaxa" runat="server" CssClass="form-control" Font-Size="11px"  DataValueField="ID_ITEM_DESPESA" DataTextField="NM_ITEM_DESPESA" DataSourceID="dsTaxa"> </asp:DropDownList>
+                           </div>
+                                     </div> 
+                                                             
+                                                                <div class="col-sm-6">
                                      </div></div>
                                                             
                              </div>
@@ -787,6 +799,9 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsClientes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT DISTINCT 1 COD, NM_CLIENTE FROM TB_FATURAMENTO WHERE NM_CLIENTE IS NOT NULL union SELECT  0, 'Selecione' ORDER BY COD"></asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsTaxa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1 UNION SELECT  0, '    TODAS AS TAXAS' ORDER BY ID_ITEM_DESPESA"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>
@@ -887,6 +902,21 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
             window.open('FaturamentoArquivo.aspx?id=' + ID, '_blank');
 
+        }
+
+     
+
+        function VerificaSelecao() {
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+            console.log("1");
+            if (ID == null) {
+                console.log("2");
+                return "";
+            }
+            else {
+                console.log("3");
+                return ID;
+            }
         }
     </script>
 </asp:Content>
