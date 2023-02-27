@@ -331,7 +331,7 @@ WHERE ID_FATURAMENTO = " & IDFatura)
 
             Dim rsServicos As DataSet
             Dim rsValImp As DataTable
-            sSql = "SELECT 
+            sSql = "SELECT  ISNULL(OB_RPS,'')OB_RPS,
 SUM(ISNULL(VL_LIQUIDO,0))VALOR, 
 SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(A.VL_ISS,0)) - SUM(ISNULL(B.VL_IR_NF,0)) AS VL_LIQUIDO, 
 SUM(ISNULL(A.VL_ISS,0)) VL_ISS, 
@@ -343,7 +343,7 @@ SUM(ISNULL(A.VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM
 CASE WHEN SUM(ISNULL(B.VL_IR_NF,0))> 0 THEN 1 ELSE 0 END FL_IR 
 FROM TB_CONTA_PAGAR_RECEBER_ITENS A
 LEFT JOIN TB_FATURAMENTO B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER
-WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1 ) AND ID_FATURAMENTO IN (" & IDFatura & ")"
+WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1 ) AND ID_FATURAMENTO IN (" & IDFatura & ") GROUP BY OB_RPS "
 
 
 
@@ -514,6 +514,8 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                         dfinal = " Valor aproximado dos tributos R$ "
                         dfinal = dfinal & Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VL_IMPOSTOS").ToString, 0)
                         dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
+                        dfinal = dfinal & " \n \n " & rsServicos.Tables(0).Rows(I)("OB_RPS").ToString
+
                         dfinal = Funcoes.tiraCaracEspXML(dfinal)
 
                         dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)
@@ -1069,7 +1071,7 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             Dim sSql As String
 
 
-            sSql = "SELECT 
+            sSql = "SELECT ISNULL(OB_RPS,'')OB_RPS,
 SUM(ISNULL(VL_LIQUIDO,0))VALOR, 
 SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(A.VL_ISS,0)) - SUM(ISNULL(B.VL_IR_NF,0)) AS VL_LIQUIDO, 
 SUM(ISNULL(A.VL_ISS,0)) VL_ISS, 
@@ -1081,7 +1083,7 @@ SUM(ISNULL(A.VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM
 CASE WHEN SUM(ISNULL(B.VL_IR_NF,0))> 0 THEN 1 ELSE 0 END FL_IR 
 FROM TB_CONTA_PAGAR_RECEBER_ITENS A
 LEFT JOIN TB_FATURAMENTO B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER
-WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1 ) AND ID_FATURAMENTO IN (" & rsRPS.Rows(0)("IDFATURA").ToString & ")"
+WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1 ) AND ID_FATURAMENTO IN (" & rsRPS.Rows(0)("IDFATURA").ToString & ") GROUP BY OB_RPS "
 
             GRAVARLOG(rsRPS.Rows(0)("IDFATURA").ToString, "INFORMACOES DE VALORES DA NOTA")
 
@@ -1250,6 +1252,8 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                         dfinal = " Valor aproximado dos tributos R$ "
                         dfinal = dfinal & Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VL_IMPOSTOS").ToString, 0)
                         dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
+                        dfinal = dfinal & " \n \n " & rsServicos.Tables(0).Rows(I)("OB_RPS").ToString
+
                         dfinal = Funcoes.tiraCaracEspXML(dfinal)
 
                         dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)

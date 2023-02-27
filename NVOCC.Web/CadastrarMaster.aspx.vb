@@ -3924,16 +3924,4 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
         Classes.Excel.exportaExcel("SELECT DT_LOG_HIST AS AtualizacaoData, NOME as Usuario, UPDATED_AT as DataHoraGravacao FROM TB_LOG_DATA_BL A LEFT JOIN TB_USUARIO B ON A.ID_USUARIO = B.ID_USUARIO WHERE A.ID_BL = " & txtID_BasicoMaritimo.Text & " AND CD_TIPO_DATA = " & txtTipoDataMaritimo.Text & " ORDER BY UPDATED_AT DESC", "NVOCC", "Historico_ETD_ATD_ETA_ATA")
     End Sub
 
-
-    'Sub HistoricoDatas(ID As String, TIPO As String)
-    '    Dim Con As New Conexao_sql
-    '    Con.Conectar()
-    '    Dim ds As DataSet = Con.ExecutarQuery("SELECT DT_PREVISAO_CHEGADA, DT_CHEGADA, DT_PREVISAO_EMBARQUE, DT_EMBARQUE FROM TB_BL WHERE ID_BL = " & ID)
-    '    If ds.Tables(0).Rows.Count > 0 Then
-    '        If txtPrevisaoEmbarque_BasicoMaritimo.Text <> ds.Tables(0).Rows(0).Item("DT_PREVISAO_EMBARQUE") Then
-    '        End If
-    '    End If
-
-    'End Sub
-
 End Class

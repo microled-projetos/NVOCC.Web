@@ -736,10 +736,13 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                                <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender10" runat="server" PopupControlID="pnlOBSRPS" TargetControlID="TextBox2" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="pnlOBSRPS" runat="server" CssClass="modalPopup" Style="display: none;">
+                                <asp:TextBox ID="txtAuxObsRps" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+                                <asp:Button ID="btnAuxObsRps" runat="server" CssClass="form-control" Style="display: none;"></asp:Button>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeObsRps" runat="server" PopupControlID="pnlOBSRPS" TargetControlID="btnAuxObsRps" CancelControlID="btnAuxObsRps"></ajaxToolkit:ModalPopupExtender>
+                              <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>  
+                                        <asp:Panel ID="pnlOBSRPS" runat="server" CssClass="modalPopup" Style="display: none;">
+                                           
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" >
                                                         <div class="modal-header">
@@ -762,7 +765,15 @@
                                                 </div>
       
                                        </div>     </center>
-                                </asp:Panel>
+
+</asp:Panel>
+
+                                    </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID="btnProsseguir" />                               
+                            </Triggers>
+                        </asp:UpdatePanel>
+                                
 
                             </ContentTemplate>
                             <Triggers>
@@ -772,7 +783,7 @@
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvFaturamento" />
                                 <asp:AsyncPostBackTrigger ControlID="lkOpcoesBoletos" />
                                 <asp:AsyncPostBackTrigger ControlID="lkRPS" />
-                            </Triggers>
+                             </Triggers>
                         </asp:UpdatePanel>
                     </div>
 

@@ -1229,22 +1229,40 @@ Partial Public Class Faturamento
     Protected WithEvents btnFecharConsulta As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle TextBox2.
+    '''Controle txtAuxObsRps.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtAuxObsRps As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ModalPopupExtender10.
+    '''Controle btnAuxObsRps.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ModalPopupExtender10 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents btnAuxObsRps As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeObsRps.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeObsRps As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle UpdatePanel3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel3 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
     '''Controle pnlOBSRPS.
