@@ -47,18 +47,18 @@ Public Class WsNvocc
     Public Function IntegraNFePrefeitura(ByVal RPS As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String, ByVal Reprocessamento As Boolean) As String
         Con.Conectar()
 
+
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_RPS FROM TB_FATURAMENTO WHERE NR_RPS = '" & RPS & "'")
         If ds.Tables(0).Rows.Count > 0 Then
             For I = 0 To ds.Tables(0).Rows.Count - 1
 
+                GRAVARLOG(ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, "CHAMA ROTINA DE IntegraNFePrefeitura")
+
                 If Reprocessamento Then
                     Call montaLoteRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, 0), 1, 1)
-
                 Else
-
                     Call montaLoteRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, 0), , 1)
                 End If
-
 
             Next
 
@@ -91,6 +91,7 @@ Public Class WsNvocc
             Next
 
         Else
+            GRAVARLOG(ID_Faturamento, "ID Faturamento não encontrado no select de consulta")
             Return "00000000ID Faturamento NAO ENCONTRADO NO BANCO DE DADOS"
 
         End If
