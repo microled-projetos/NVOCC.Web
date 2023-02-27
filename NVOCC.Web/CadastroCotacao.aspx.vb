@@ -21,10 +21,7 @@ Public Class CadastroCotacao
                 CarregaCampos()
             End If
 
-            'ElseIf Request.QueryString("R") = "1" Then
-            '    txtAbertura.Text = Now.Date.ToString("dd/MM/yyyy")
-            '    ddlEstufagem.SelectedValue = Request.QueryString("est")
-            '    ddlIncoterm.SelectedValue = Request.QueryString("inc")
+
 
         Else
             If txtID.Text = "" And Not Page.IsPostBack Then
@@ -81,7 +78,6 @@ FROM  TB_COTACAO A
             ckbTC6.Checked = ds.Tables(0).Rows(0).Item("FL_TC6")
             ckbTranspDedicado.Checked = ds.Tables(0).Rows(0).Item("FL_TRANSP_DEDICADO")
             txtAbertura.Text = ds.Tables(0).Rows(0).Item("DT_ABERTURA").ToString()
-            ' ddlStatusFreteAgente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE").ToString()
 
             If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 10 Then
                 Dim sql As String = "SELECT ID_STATUS_COTACAO, NM_STATUS_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO IN(7,8,15, " & ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO").ToString() & ")
@@ -5259,6 +5255,40 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
             lblPortoOrigemSI.Text = "Porto de Origem: " & ds.Tables(0).Rows(0).Item("NM_PORTO")
         Else
             lblPortoOrigemSI.Text = ""
+        End If
+    End Sub
+
+    Private Sub btnEnviar_Click(sender As Object, e As EventArgs) Handles btnEnviar.Click
+        If txtID.Text = "" Then
+            diverro.Visible = True
+            lblmsgErro.Text = "Selecione o registro que deseja enviar!"
+
+        Else
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "EnviarCotacao()", True)
+
+        End If
+    End Sub
+
+    Private Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
+        If txtID.Text = "" Then
+            diverro.Visible = True
+            lblmsgErro.Text = "Selecione o registro que deseja imprimir!"
+
+        Else
+            lblmsgErro.Text = ""
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("Select count(*)QTD from TB_COTACAO where DT_CALCULO_COTACAO is not null and id_cotacao = " & txtID.Text)
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                diverro.Visible = True
+                lblmsgErro.Text = "Cotação necessita de cálculo!"
+            Else
+
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirCotacao()", True)
+
+            End If
+            Con.Fechar()
         End If
     End Sub
 End Class

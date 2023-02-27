@@ -644,6 +644,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtObsCancelamento As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle btnImprimirEnviar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnImprimirEnviar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle btnLimpar.
     '''</summary>
     '''<remarks>
@@ -660,6 +669,69 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnGravar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeImprimir.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeImprimir As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle PanelImprimir.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents PanelImprimir As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle Label2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle ddlLinguagem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlLinguagem As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle btnFechar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFechar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnImprimir.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnImprimir As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnEnviar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnEnviar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle btnAuxiliarEnvioSI.

@@ -472,8 +472,14 @@
 
 
                                     <div class="row">
+                                        <div class="col-sm-3 col-sm-offset-3">
+                                            <div class="form-group">
+                                                <label>&nbsp;</label>
+                                                <asp:Button ID="btnImprimirEnviar" runat="server" CssClass="btn btn-block" Style="background-color: #d5d8db;" Text="Imprimir/Enviar" />
+                                            </div>
+                                        </div>
 
-                                        <div class="col-sm-3 col-sm-offset-6">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label>&nbsp;</label>
                                                 <asp:Button ID="btnLimpar" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
@@ -487,6 +493,46 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                     <ajaxToolkit:ModalPopupExtender ID="mpeImprimir" runat="server" PopupControlID="PanelImprimir" TargetControlID="btnImprimirEnviar" CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="PanelImprimir" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Imprimir/Enviar</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                   
+                                  
+                            <div class="row"  style="padding-left:18px">
+                               <asp:label ID="Label2" runat="server">Selecione o idioma:</asp:label> 
+                                <div>
+                                   <div class="row">
+                                     <div class="col-sm-3">
+                                    <div class="form-group">
+                                             <asp:DropDownList ID="ddlLinguagem" Width="230px" runat="server"  CssClass="form-control" Font-Size="15px" >
+                                             <asp:ListItem Value="p" Selected="True">PORTUGUÊS</asp:ListItem>
+                                            <asp:ListItem Value="i">INGLÊS</asp:ListItem>
+                                        </asp:DropDownList>
+                                        </div>
+                                         </div>
+                                   </div>      
+                                </div>  
+                             </div>
+                                                                                  </div>                     
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar" text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnImprimir" text="Imprimir" />
+                                                            <asp:Button runat="server" CssClass="btn btn-info" ID="btnEnviar" text="Enviar" />
+                                                                                               
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
+
 
 
                                      <asp:Button runat="server" Style="display: none" ID="btnAuxiliarEnvioSI" />
@@ -533,6 +579,8 @@
                                     <asp:PostBackTrigger ControlID="btnGravar" />
                                     <asp:PostBackTrigger ControlID="btnConfirmaEnviarSI" />
                                     <asp:PostBackTrigger ControlID="btnCancelaEnvioSI" />
+                                    <asp:AsyncPostBackTrigger ControlID="btnImprimir" />
+                                    <asp:AsyncPostBackTrigger ControlID="btnEnviar" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeCliente" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeAgente" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeIndicador" />
@@ -2340,6 +2388,30 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
          }
 
          $(document).ready(InIEvent);
+
+
+         function ImprimirCotacao() {
+
+             var ID = document.getElementById('<%= txtID.ClientID %>').value;
+              var Linguagem = document.getElementById('<%= ddlLinguagem.ClientID %>').value;
+
+            console.log(Linguagem);
+            console.log(ID);
+            window.open('GeraPDF.aspx?c=' + ID + '&l=' + Linguagem + '&f=i', '_blank');
+
+        }
+
+        function EnviarCotacao() {
+
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+            var Linguagem = document.getElementById('<%= ddlLinguagem.ClientID %>').value;
+
+            console.log(Linguagem);
+            console.log(ID);
+            window.open('GeraPDF.aspx?c=' + ID + '&l=' + Linguagem + '&f=e', '_blank');
+
+        }
+
 
      </script>
 </asp:Content>
