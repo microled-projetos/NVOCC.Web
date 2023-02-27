@@ -167,15 +167,6 @@ Partial Public Class Faturamento
     Protected WithEvents txtDataCheckFim As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle Label1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Controle btnPesquisar.
     '''</summary>
     '''<remarks>
@@ -183,6 +174,15 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnPesquisar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnLimpar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnLimpar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle lkFatura.

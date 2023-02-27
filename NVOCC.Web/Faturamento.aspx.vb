@@ -45,8 +45,8 @@ Public Class Faturamento
                 AtualizaGrid()
                 If Not Page.IsPostBack Then
                     ddlBanco.SelectedValue = "1"
-                    Session("filtros") = ""
-                    Session("RelFat") = ""
+                    'Session("filtros") = ""
+                    'Session("RelFat") = ""
                 End If
             End If
             txtData.Text = Now.Date.ToString("dd/MM/yyyy")
@@ -63,6 +63,7 @@ Public Class Faturamento
         AtualizaGrid()
     End Sub
     Sub AtualizaGrid()
+        lkRelatorioFaturamento.Text = "Relatório de Faturamento"
         txtID.Text = ""
         txtlinha.Text = ""
         Session("RelFat") = ""
@@ -1473,6 +1474,9 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
     End Function
 
     Private Sub btnConsultaNotas_Click(sender As Object, e As EventArgs) Handles btnConsultaNotas.Click
+        Session("RelFat") = ""
+        Session("filtros") = ""
+
         Dim filtro As String = ""
 
         If ddlCliente.SelectedValue <> 0 Then
@@ -1480,6 +1484,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
             filtro &= " AND NM_CLIENTE = '" & nome & "' "
 
         End If
+
         If ddlStatusConsultaNotas.SelectedValue <> 0 Then
             If ddlStatusConsultaNotas.SelectedValue = 1 Then
                 filtro &= " AND DT_CANCELAMENTO IS NULL "
@@ -1545,6 +1550,13 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
             End If
         End If
 
+        If ddlTaxa.SelectedValue <> 0 Then
+            filtro &= " AND ID_CONTA_PAGAR_RECEBER IN (SELECT DISTINCT ID_CONTA_PAGAR_RECEBER FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_ITEM_DESPESA = " & ddlTaxa.SelectedValue & ") "
+        End If
+
+
+        Session("RelFat") = " WHERE NR_NOTA_FISCAL IS NOT NULL " & filtro
+
         Dim sql As String = "SELECT * FROM [dbo].[View_Faturamento] WHERE NR_NOTA_FISCAL IS NOT NULL " & filtro & " ORDER BY DT_VENCIMENTO,NR_PROCESSO"
         dsFaturamento.SelectCommand = sql
         dgvFaturamento.DataBind()
@@ -1565,7 +1577,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
 
         txtConsultaPagamentoInicio.Text = ""
         txtConsultaPagamentoFim.Text = ""
-
+        lkRelatorioFaturamento.Text = "Imprimir Relatório de Nota"
     End Sub
 
     Private Sub btnProsseguir_Click(sender As Object, e As EventArgs) Handles btnProsseguir.Click
@@ -1813,6 +1825,21 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
             lblmsgErro.Text = "Selecione um registro"
         Else
             mpeNotasFiscais.Show()
+        End If
+    End Sub
+
+    Private Sub btnLimpar_Click(sender As Object, e As EventArgs) Handles btnLimpar.Click
+        Response.Redirect("Faturamento.aspx")
+    End Sub
+
+    Private Sub lkRelatorioFaturamento_Click(sender As Object, e As EventArgs) Handles lkRelatorioFaturamento.Click
+        divSuccess.Visible = False
+        divErro.Visible = False
+        If dgvFaturamento.Rows.Count = 0 Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Não há registros para serem impressos"
+        Else
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "RelatorioFaturamento()", True)
         End If
     End Sub
 End Class

@@ -109,9 +109,8 @@
                                     </div>
                                     <div class="col-sm-1" style="padding-top: 20px;">
                                         <div class="form-group">
-                                            <asp:Label ID="Label1" Style="color: white" runat="server">x</asp:Label>
-                                            <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisar" CssClass="btn btn-success" />
-
+                                             <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisar" CssClass="btn btn-success" /><br /><br />
+                                             <asp:Button runat="server" Text="Limpar" ID="btnLimpar" CssClass="btn btn-info" />
                                         </div>
                                     </div>
 
@@ -120,7 +119,7 @@
                                         <asp:LinkButton ID="lkDesmosntrativos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Demonstrativos</asp:LinkButton>
                                         <asp:LinkButton ID="lkNotasFiscais" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Notas Ficais</asp:LinkButton>
                                         <asp:LinkButton ID="lkBoletoRemessa" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gerar Remessa</asp:LinkButton>
-                                        <asp:LinkButton ID="lkRelatorioFaturamento" href="RelatorioFaturamento.aspx" target="_blank" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Relatório de Faturamento</asp:LinkButton>
+                                        <asp:LinkButton ID="lkRelatorioFaturamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px" Text="Relatório de Faturamento" />
                                     </div>
                                 </div>
                                 <div runat="server" id="divAuxiliar" style="display: none">
@@ -904,6 +903,9 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
         }
 
+        function RelatorioFaturamento() { 
+            window.open('RelatorioFaturamento.aspx', '_blank');
+         }
      
 
         function VerificaSelecao() {
