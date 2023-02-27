@@ -85,12 +85,7 @@
                                     <a href="#VinculosMaritimo" role="tab" data-toggle="tab">
                                         <i class="fa fa-edit" style="padding-right: 8px;"></i>Vincular Houses
                                     </a>
-                                </li>
-                                 <li>
-                                    <a href="#TrackingMaritimo" role="tab" data-toggle="tab">
-                                        <i class="fa fa-edit" style="padding-right: 8px;"></i>Tracking
-                                    </a>
-                                </li>
+                                </li>                                
                             </ul>
 
                             <div class="tab-content">
@@ -1357,26 +1352,7 @@
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
-                                 <div class="tab-pane fade" id="TrackingMaritimo">
-                                 <div class="table-responsive tableFixHead topMarg">
-                                <table id="courrierExportteste" class="table tablecont tablesorter">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CODIGO</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">NOME CODIGO</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA PREVISTA</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">LOCAL</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CODIGO LOCAL</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CARGA</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="containerCourrierteste">
-                                       
-                                    </tbody>
-                                </table>
-                            </div>
-                                </div>
+                                 
                             </div>
                         </div>
                         <div class="tab-pane fade" id="Aereo">
@@ -2552,8 +2528,6 @@ C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACA
 
             }
 
-            BuscarMBL();
-
         });
 
 
@@ -2716,91 +2690,8 @@ C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACA
         }
 
 
-
-
-
-
-
-        ///THIAGO
-
-        //function BuscarMBL(id) {
-        //    var result;
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "DemurrageService.asmx/BuscarMBL",
-        //        data: '{id: "' + id + '" }',
-        //        contentType: "application/json; charset=utf-8",
-        //        dataType: "json",
-        //        beforeSend: function () {
-        //            $("#containerCourrierteste").empty();
-        //            $("#containerCourrierteste").append("<tr><td colspan='9'><div class='loader'></div></td></tr>");
-        //        },
-        //        success: function (dado) {
-        //            var dado = dado.d;
-        //            dado = $.parseJSON(dado);
-        //            if (dado != null) {
-        //                $("#containerCourrierteste").empty();
-        //                for (let i = 0; i < dado.length; i++) {
-        //                    result += "<tr>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["NM_CODE"] + "</td>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["NM_CODE_NAME"] + "</td>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["DT_ESTIMATE_TIME"] + "</td>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["DT_ACTUAL_TIME"] + "</td>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["NM_LOCATION"] + "</td>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["NM_CODE_LOCATION"] + "</td>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["HAS_CARGO"] + "</td>";
-        //                    result += "</tr>";
-        //                }
-        //                $("#containerCourrierteste").append(result);
-        //            }
-        //            else {
-        //            }
-        //        }
-        //    })
-        //}
-
-
-        function BuscarMBL() {
-            var txtid = document.getElementById('<%= txtID_BasicoMaritimo.ClientID %>');
-            //console.log(btn.value);
-            //var url = window.location.search.replace("?", "");
-            //var itens = url.split("&");
-            //var id_master = itens.toString().replace("id=", "");
-            var id = txtid.value; //parseInt(id_master);
-            var result;
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/BuscarMBL",
-                data: '{id: "' + id + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                beforeSend: function () {
-                    $("#containerCourrierteste").empty();
-                    $("#containerCourrierteste").append("<tr><td colspan='9'><div class='loader'></div></td></tr>");
-                },
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        $("#containerCourrierteste").empty();
-                        for (let i = 0; i < dado.length; i++) {
-                            result += "<tr>";
-                            result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["NM_CODE"] + "</td>";
-                            result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["NM_CODE_NAME"] + "</td>";
-                            result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["DT_ESTIMATE_TIME"] + "</td>";
-                            result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["DT_ACTUAL_TIME"] + "</td>";
-                            result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["NM_LOCATION"] + "</td>";
-                            result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["NM_CODE_LOCATION"] + "</td>";
-                            result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["HAS_CARGO"] + "</td>";
-                            result += "</tr>";
-                        }
-                        $("#containerCourrierteste").append(result);
-                    }
-                    else {
-                    }
-                }
-            })
-        }
+  
+        
     </script>
  
 </asp:Content>
