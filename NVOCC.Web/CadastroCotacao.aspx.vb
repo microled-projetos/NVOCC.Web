@@ -2983,7 +2983,7 @@ union SELECT  0, '    Selecione' ORDER BY NM_CLIENTE_FINAL"
 
         Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
         If dsTaxas.Tables(0).Rows(0).Item("QTD") = 0 Then
-            ds = Con.ExecutarQuery("SELECT ID_TAXA_CLIENTE,ID_ITEM_DESPESA FROM TB_TAXA_CLIENTE A WHERE ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_PARCEIRO = " & ddlCliente.SelectedValue & FILTROCOMEX & FILTROVIA)
+            ds = Con.ExecutarQuery("SELECT ID_TAXA_CLIENTE,ID_ITEM_DESPESA FROM TB_TAXA_CLIENTE A WHERE (( ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " ) OR (ID_TIPO_ESTUFAGEM IS NULL)) AND ID_PARCEIRO = " & ddlCliente.SelectedValue & FILTROCOMEX & FILTROVIA)
             If ds.Tables(0).Rows.Count > 0 Then
 
                 For Each linha As DataRow In ds.Tables(0).Rows
@@ -3006,7 +3006,11 @@ ELSE 0 END ID_FORNECEDOR,
 VL_TARIFA_MINIMA_COMPRA,
 VL_TARIFA_MINIMA
 FROM TB_TAXA_CLIENTE
-WHERE ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & FILTROCOMEX & FILTROVIA & " AND ID_PARCEIRO = " & ddlCliente.SelectedValue & " AND ID_TAXA_CLIENTE = " & linha.Item("ID_TAXA_CLIENTE"))
+WHERE 
+(( ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " ) OR (ID_TIPO_ESTUFAGEM IS NULL)) AND 
+(( " & FILTROCOMEX & " ) OR (ID_TIPO_COMEX IS NULL)) AND 
+(( " & FILTROVIA & " ) OR (ID_VIATRANSPORTE IS NULL)) AND 
+ID_PARCEIRO = " & ddlCliente.SelectedValue & " AND ID_TAXA_CLIENTE = " & linha.Item("ID_TAXA_CLIENTE"))
                 Next
 
                 divDeleteTaxas.Visible = True
@@ -3140,7 +3144,7 @@ ELSE " & ID_DESTINATARIO_COBRANCA & " END ID_DESTINATARIO_COBRANCA ,
 
             ''CASO A TABELA ESTEJA JA TENHA REGISTROS
 
-            ds = Con.ExecutarQuery("SELECT ID_TAXA_CLIENTE,ID_ITEM_DESPESA FROM TB_TAXA_CLIENTE A WHERE ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_PARCEIRO = " & ddlCliente.SelectedValue & FILTROCOMEX & FILTROVIA & " AND ID_ITEM_DESPESA NOT IN(SELECT ID_ITEM_DESPESA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text & " AND VL_TAXA_COMPRA = A.VL_TAXA_COMPRA AND VL_TAXA_VENDA = A.VL_TAXA_VENDA)")
+            ds = Con.ExecutarQuery("SELECT ID_TAXA_CLIENTE,ID_ITEM_DESPESA FROM TB_TAXA_CLIENTE A WHERE (( ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " ) OR (ID_TIPO_ESTUFAGEM IS NULL)) AND ID_PARCEIRO = " & ddlCliente.SelectedValue & FILTROCOMEX & FILTROVIA & " AND ID_ITEM_DESPESA NOT IN(SELECT ID_ITEM_DESPESA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text & " AND VL_TAXA_COMPRA = A.VL_TAXA_COMPRA AND VL_TAXA_VENDA = A.VL_TAXA_VENDA)")
             If ds.Tables(0).Rows.Count > 0 Then
 
                 For Each linha As DataRow In ds.Tables(0).Rows
@@ -3162,7 +3166,13 @@ then (SELECT ID_PARCEIRO_INDICADOR FROM TB_COTACAO WHERE ID_COTACAO =  " & txtID
 ELSE 0 END ID_FORNECEDOR,
 VL_TARIFA_MINIMA_COMPRA,
 VL_TARIFA_MINIMA
-FROM TB_TAXA_CLIENTE WHERE ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & FILTROCOMEX & FILTROVIA & " AND ID_PARCEIRO = " & ddlCliente.SelectedValue & " AND ID_TAXA_CLIENTE = " & linha.Item("ID_TAXA_CLIENTE"))
+FROM TB_TAXA_CLIENTE 
+WHERE 
+(( ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " ) OR (ID_TIPO_ESTUFAGEM IS NULL)) AND 
+(( " & FILTROCOMEX & " ) OR (ID_TIPO_COMEX IS NULL)) AND 
+(( " & FILTROVIA & " ) OR (ID_VIATRANSPORTE IS NULL)) AND 
+ID_PARCEIRO = " & ddlCliente.SelectedValue & " AND ID_TAXA_CLIENTE = " & linha.Item("ID_TAXA_CLIENTE"))
+
                 Next
 
                 divDeleteTaxas.Visible = True
