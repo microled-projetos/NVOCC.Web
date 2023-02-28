@@ -80,6 +80,17 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
                     'AGENCIAMENTO DE EXPORTACAO MARITIMA
                     'AGENCIAMENTO DE IMPORTACAO MARITIMA
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_DTA_HUB")) Then
+                        ckbDtaHub_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_DTA_HUB")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_LTL")) Then
+                        ckbLTL_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_LTL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_TRANSP_DEDICADO")) Then
+                        ckbTranspDedicado_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_TRANSP_DEDICADO")
+                    End If
 
                     If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
                         Dim Rastreio As New RastreioService
@@ -326,9 +337,18 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
                     'AGENCIAMENTO DE EXPORTAÇÃO AEREO
                     'AGENCIAMENTO DE IMPORTACAO AEREO
 
-                    'If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_CONTRATO_ARMADOR")) Then
-                    '    txtContratoArmador_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("NR_CONTRATO_ARMADOR").ToString()
-                    'End If
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_DTA_HUB")) Then
+                        ckbDtaHub_BasicoAereo.Checked = ds.Tables(0).Rows(0).Item("FL_DTA_HUB")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_LTL")) Then
+                        ckbLTL_BasicoAereo.Checked = ds.Tables(0).Rows(0).Item("FL_LTL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_TRANSP_DEDICADO")) Then
+                        ckbTranspDedicado_BasicoAereo.Checked = ds.Tables(0).Rows(0).Item("FL_TRANSP_DEDICADO")
+                    End If
+
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
@@ -578,7 +598,20 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
 
                 Else
 
-                    'OUTROS                  
+                    'OUTROS
+
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_DTA_HUB")) Then
+                        ckbDtaHub_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_DTA_HUB")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_LTL")) Then
+                        ckbLTL_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_LTL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_TRANSP_DEDICADO")) Then
+                        ckbTranspDedicado_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_TRANSP_DEDICADO")
+                    End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
