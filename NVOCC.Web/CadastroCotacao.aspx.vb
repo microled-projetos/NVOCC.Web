@@ -1065,7 +1065,7 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
 
             ds = Con.ExecutarQuery("SELECT 
 A.ID_COTACAO_MERCADORIA,A.ID_COTACAO,A.ID_MERCADORIA,A.ID_TIPO_CONTAINER,A.QT_CONTAINER,A.VL_FRETE_COMPRA,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,
-A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.OUTRAS_OBS,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,A.QT_MERCADORIA,A.VL_FRETE_COMPRA_MIN,A.VL_FRETE_VENDA_MIN,OBS_ENDERECO, ISNULL(ID_MOEDA_CARGA,0)ID_MOEDA_CARGA, B.ID_MOEDA_FRETE,B.ID_TIPO_DIVISAO_FRETE, B.VL_DIVISAO_FRETE, B.FL_FRETE_DECLARADO ,B.FL_FRETE_PROFIT,VL_CBM, CASE WHEN A.VL_M3 > A.VL_PESO_BRUTO/100 THEN A.VL_M3 ELSE A.VL_PESO_BRUTO END VL_PESO_TAXADO 
+A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.OUTRAS_OBS,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,A.QT_MERCADORIA,A.VL_FRETE_COMPRA_MIN,A.VL_FRETE_VENDA_MIN,OBS_ENDERECO, ISNULL(ID_MOEDA_CARGA,0)ID_MOEDA_CARGA, B.VL_PESO_TAXADO,B.ID_MOEDA_FRETE,B.ID_TIPO_DIVISAO_FRETE, B.VL_DIVISAO_FRETE, B.FL_FRETE_DECLARADO ,B.FL_FRETE_PROFIT,VL_CBM 
 FROM TB_COTACAO_MERCADORIA A
 INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO
 WHERE A.ID_COTACAO_MERCADORIA = " & ID)
@@ -1912,22 +1912,13 @@ WHERE ID_COTACAO = " & txtID.Text)
     End Sub
 
     Sub AlteraMercadoriaAereo()
-        AtualizaFreteMercadoria()
 
         'ALTERA FRETE
         Dim Con As New Conexao_sql
         Con.Conectar()
-        '        Con.ExecutarQuery("UPDATE TB_COTACAO SET 
-        'VL_PESO_TAXADO = " & txtPesoTaxadoMercadoria.Text.Replace(",", ".") & ", 
-        'ID_MOEDA_FRETE = " & ddlMoedaFreteMercadoria.SelectedValue & ",
-        'ID_TIPO_DIVISAO_FRETE = " & ddlProfitMercadoria.SelectedValue & ",
-        'VL_DIVISAO_FRETE = " & txtValorProfitMercadoria.Text.Replace(",", ".") & ", 
-        'FL_FRETE_DECLARADO = '" & ckFreteDeclarado.Checked & "',
-        'FL_FRETE_PROFIT = '" & ckFreteProfit.Checked & "' 
-        'WHERE ID_COTACAO = " & txtID.Text)
 
         Con.ExecutarQuery("UPDATE TB_COTACAO SET 
-VL_PESO_TAXADO = (SELECT SUM(CASE WHEN VL_TOTAL_M3 > VL_TOTAL_PESO_BRUTO/100 THEN VL_TOTAL_M3 ELSE VL_TOTAL_PESO_BRUTO END )PESO_TAXADO FROM TB_COTACAO WHERE ID_COTACAO= " & txtID.Text & "), 
+VL_PESO_TAXADO = " & txtPesoTaxadoMercadoria.Text.Replace(",", ".") & ", 
 ID_MOEDA_FRETE = " & ddlMoedaFreteMercadoria.SelectedValue & ",
 ID_TIPO_DIVISAO_FRETE = " & ddlProfitMercadoria.SelectedValue & ",
 VL_DIVISAO_FRETE = " & txtValorProfitMercadoria.Text.Replace(",", ".") & ", 
@@ -4165,9 +4156,6 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
         Con.Conectar()
         Dim ds As DataSet
 
-
-        ' sumMedidasAereo(txtIDMercadoria.Text)
-
         If txtID.Text = "" Then
             lblErroMercadoria.Text = "Necessário inserir cotação na Aba de Informações Básicas."
             divErroMercadoria.Visible = True
@@ -4195,17 +4183,10 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             Dim ID As String = ds.Tables(0).Rows(0).Item("ID").ToString()
             Dim CLA As Decimal
 
-            '            ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/5988 AS CLA
-            'from TB_COTACAO A  
-            'left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
-            'Where A.ID_COTACAO = " & txtID.Text)
-
-
             ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/5988 AS CLA
 from TB_COTACAO A  
-left join TB_COTACAO_MERCADORIA B ON B.ID_COTACAO = A.ID_COTACAO
-left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO_MERCADORIA = B.ID_COTACAO_MERCADORIA
-Where B.ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
+left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
+Where A.ID_COTACAO = " & txtID.Text)
 
 
             If ds.Tables(0).Rows.Count > 0 Then
@@ -4223,19 +4204,6 @@ Where B.ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
 
 
             txtPesoTaxadoMercadoria.Text = ArredondarPesoTaxado(txtID.Text)
-
-            'Dim CalCotacao As New CalculaCotacao
-            'Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
-
-            'ds = Con.ExecutarQuery("SELECT isnull(VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(VL_TOTAL_M3,0)VL_TOTAL_M3 from TB_COTACAO where ID_COTACAO =" & txtID.Text)
-            'If ds.Tables(0).Rows.Count > 0 Then
-            '    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
-            '        txtPesoTaxadoMercadoria.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
-            '    End If
-            '    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
-            '        txtM3Mercadoria.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")
-            '    End If
-            'End If
 
             dgvMedidasAereo.DataBind()
             txtAlturaMercadoriaAereo.Text = ""
@@ -4293,17 +4261,10 @@ Where B.ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
                 RotinaUpdate.DeletaDimensaoCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, ID)
             End If
 
-
-            '            ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/5988 AS CLA
-            'from TB_COTACAO A  
-            'left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
-            'Where A.ID_COTACAO = " & txtID.Text)
-
             ds = Con.ExecutarQuery("SELECT (isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/5988 AS CLA
 from TB_COTACAO A  
-left join TB_COTACAO_MERCADORIA B ON B.ID_COTACAO = A.ID_COTACAO
-left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO_MERCADORIA = B.ID_COTACAO_MERCADORIA
-Where B.ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
+left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
+Where A.ID_COTACAO = " & txtID.Text)
 
             Dim CLA As Decimal
 
@@ -4314,19 +4275,6 @@ Where B.ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
             End If
             txtM3Mercadoria.Text = CLA.ToString("0.000")
             txtPesoTaxadoMercadoria.Text = ArredondarPesoTaxado(txtID.Text)
-
-            'Dim CalCotacao As New CalculaCotacao
-            'Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
-
-            'ds = Con.ExecutarQuery("SELECT isnull(VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(VL_TOTAL_M3,0)VL_TOTAL_M3 from TB_COTACAO where ID_COTACAO =" & txtID.Text)
-            'If ds.Tables(0).Rows.Count > 0 Then
-            '    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
-            '        txtPesoTaxadoMercadoria.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
-            '    End If
-            '    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
-            '        txtM3Mercadoria.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")
-            '    End If
-            'End If
 
         End If
 

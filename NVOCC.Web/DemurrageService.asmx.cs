@@ -10184,264 +10184,153 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string EditarTaxaPrestador(Taxas dadosEdit)
+        public string EditarTaxaPrestador(TaxasPrestador dadosEdit)
         {
-            try
+            string tarifaV;
+            string tarifaC;
+
+
+            if (dadosEdit.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
+            if (dadosEdit.ID_TIPO_COMEX.ToString() == "") { dadosEdit.ID_TIPO_COMEX = "null"; }
+            if (dadosEdit.ID_TIPO_ESTUFAGEM.ToString() == "") { dadosEdit.ID_TIPO_ESTUFAGEM = "null"; }
+            if (dadosEdit.ID_VIATRANSPORTE.ToString() == "") { dadosEdit.ID_VIATRANSPORTE = "null"; }
+            if (dadosEdit.ID_INCOTERM.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Incoterm" }); }
+            if (dadosEdit.ID_PORTO_RECEBIMENTO.ToString() == "") { dadosEdit.ID_PORTO_RECEBIMENTO = "null"; }
+            if (dadosEdit.ID_PORTO_DESCARGA.ToString() == "") { dadosEdit.ID_PORTO_DESCARGA = "null"; };
+            if (dadosEdit.ID_PORTO_CARREGAMENTO.ToString() == "") { dadosEdit.ID_PORTO_CARREGAMENTO = "null"; }
+            if (dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
+
+            if (dadosEdit.ID_MOEDA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Compra" }); }
+            if (dadosEdit.VL_TAXA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Compra" }); }
+            if (Double.Parse(dadosEdit.VL_TAXA_COMPRA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Compra menor ou igual a 0" }); }
+            if (dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
             {
-                string tarifaV;
-                string tarifaC;
-                if (dadosEdit.ID_TAXA_CLIENTE.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.ID_ITEM_DESPESA.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "")
-                {
-                    return "0";
-                }
-                if ((dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "6" || dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "7" || dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "13" || dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "14" || dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "37") && dadosEdit.VL_TARIFA_MINIMA.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.VL_TARIFA_MINIMA.ToString() == "")
-                {
-                    tarifaV = "0";
-                }
-                else
-                {
-                    tarifaV = dadosEdit.VL_TARIFA_MINIMA.ToString();
-                }
-                if (dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
-                {
-                    tarifaC = "0";
-                }
-                else
-                {
-                    tarifaC = dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString();
-                }
-                if (dadosEdit.ID_MOEDA_VENDA.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.VL_TAXA_VENDA.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.FL_DECLARADO.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.ID_DESTINATARIO_COBRANCA.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.FL_DIVISAO_PROFIT.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.ID_PARCEIRO.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "")
-                {
-                    dadosEdit.ID_ORIGEM_PAGAMENTO = "null";
-                }
-                if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "")
-                {
-                    dadosEdit.ID_TIPO_PAGAMENTO = "null";
-                }
-                if (dadosEdit.ID_TIPO_COMEX.ToString() == "0") { return "0"; }
-                if (dadosEdit.ID_TIPO_ESTUFAGEM.ToString() == "0") { dadosEdit.ID_TIPO_ESTUFAGEM = "0"; }
-                if (dadosEdit.ID_TIPO_COBRANCA.ToString() == "0") { return "0"; }
-
-
-                string SQL;
-                string vlTaxaVenda = decBD(dadosEdit.VL_TAXA_VENDA.ToString());
-                string vlTaxaCompra = decBD(dadosEdit.VL_TAXA_COMPRA.ToString());
-
-                if (dadosEdit.ID_MOEDA_COMPRA.ToString() == "")
-                {
-                    SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
-                    SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
-                    SQL += "ID_MOEDA_COMPRA = 0, VL_TAXA_COMPRA = 0, ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                    SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
-                    SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "',";
-                    SQL += "FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
-                    SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', FL_TAXA_TRANSPORTADOR = '" + dadosEdit.FL_TAXA_TRANSPORTADOR + "', VL_TARIFA_MINIMA = '" + tarifaV + "', VL_TARIFA_MINIMA_COMPRA = " + tarifaC + ", ";
-                    SQL += "ID_TIPO_ESTUFAGEM ='" + dadosEdit.ID_TIPO_ESTUFAGEM + "', ";
-                    SQL += "ID_TIPO_COMEX ='" + dadosEdit.ID_TIPO_COMEX + "', ";
-                    SQL += "ID_VIATRANSPORTE ='" + dadosEdit.ID_VIATRANSPORTE + "', ";
-                    SQL += "ID_TIPO_COBRANCA ='" + dadosEdit.ID_TIPO_COBRANCA + "', ";
-                    SQL += "ID_PORTO_DESCARGA ='" + dadosEdit.ID_PORTO_DESCARGA + "', ";
-                    SQL += "ID_PORTO_CARREGAMENTO ='" + dadosEdit.ID_PORTO_CARREGAMENTO + "', ";
-                    SQL += "ID_PORTO_RECEBIMENTO ='" + dadosEdit.ID_PORTO_RECEBIMENTO + "', ";
-                    SQL += "ID_INCOTERM ='" + dadosEdit.ID_INCOTERM + "' ";
-                    SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
-
-                    string editTaxa = DBS.ExecuteScalar(SQL);
-                    return "1";
-                }
-                else
-                {
-                    SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
-                    SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
-                    SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                    SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
-                    SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
-                    SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', FL_TAXA_TRANSPORTADOR = '" + dadosEdit.FL_TAXA_TRANSPORTADOR + "', VL_TARIFA_MINIMA = '" + tarifaV + "', VL_TARIFA_MINIMA_COMPRA = " + tarifaC + ",  ";
-                    SQL += "ID_TIPO_ESTUFAGEM ='" + dadosEdit.ID_TIPO_ESTUFAGEM + "', ";
-                    SQL += "ID_TIPO_COMEX ='" + dadosEdit.ID_TIPO_COMEX + "', ";
-                    SQL += "ID_VIATRANSPORTE ='" + dadosEdit.ID_VIATRANSPORTE + "', ";
-                    SQL += "ID_TIPO_COBRANCA ='" + dadosEdit.ID_TIPO_COBRANCA + "', ";
-                    SQL += "ID_PORTO_DESCARGA ='" + dadosEdit.ID_PORTO_DESCARGA + "', ";
-                    SQL += "ID_PORTO_CARREGAMENTO ='" + dadosEdit.ID_PORTO_CARREGAMENTO + "', ";
-                    SQL += "ID_PORTO_RECEBIMENTO ='" + dadosEdit.ID_PORTO_RECEBIMENTO + "', ";
-                    SQL += "ID_INCOTERM ='" + dadosEdit.ID_INCOTERM + "' ";
-                    SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
-
-                    string editTaxa = DBS.ExecuteScalar(SQL);
-                    return "1";
-                }
+                tarifaC = "0.00";
             }
-            catch (Exception e)
+            else
             {
-                throw e;
+                tarifaC = dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString();
             }
+
+            if (dadosEdit.ID_MOEDA_VENDA.ToString() == "") { dadosEdit.ID_MOEDA_VENDA = "null"; }
+            if (dadosEdit.VL_TAXA_VENDA.ToString() == "") { dadosEdit.VL_TAXA_VENDA = "0.00"; }
+            if (dadosEdit.VL_TARIFA_MINIMA.ToString() == "")
+            {
+                tarifaV = "0.00";
+            }else
+            {
+                tarifaV = dadosEdit.VL_TARIFA_MINIMA.ToString();
+            }
+
+            if (dadosEdit.FL_DECLARADO.ToString() == "") { dadosEdit.FL_DECLARADO = "0"; }
+            if (dadosEdit.FL_DIVISAO_PROFIT.ToString() == "") { dadosEdit.FL_DIVISAO_PROFIT = "0"; }
+            if (dadosEdit.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
+            if (dadosEdit.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
+            if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
+            if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
+
+
+            string SQL;
+            string vlTaxaVenda = dadosEdit.VL_TAXA_VENDA.ToString().Replace(',', '.');
+            string vlTaxaCompra = dadosEdit.VL_TAXA_COMPRA.ToString().Replace(',', '.');
+            SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
+            SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
+            SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = " + dadosEdit.ID_MOEDA_VENDA + ", ";
+            SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
+            SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
+            SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', FL_TAXA_TRANSPORTADOR = '" + dadosEdit.FL_TAXA_TRANSPORTADOR + "', VL_TARIFA_MINIMA = '" + tarifaV + "', VL_TARIFA_MINIMA_COMPRA = " + tarifaC + ",  ";
+            SQL += "ID_TIPO_ESTUFAGEM =" + dadosEdit.ID_TIPO_ESTUFAGEM + ", ";
+            SQL += "ID_TIPO_COMEX =" + dadosEdit.ID_TIPO_COMEX + ", ";
+            SQL += "ID_VIATRANSPORTE =" + dadosEdit.ID_VIATRANSPORTE + ", ";
+            SQL += "ID_TIPO_COBRANCA ='" + dadosEdit.ID_TIPO_COBRANCA + "', ";
+            SQL += "ID_PORTO_DESCARGA =" + dadosEdit.ID_PORTO_DESCARGA + ", ";
+            SQL += "ID_PORTO_CARREGAMENTO =" + dadosEdit.ID_PORTO_CARREGAMENTO + ", ";
+            SQL += "ID_PORTO_RECEBIMENTO =" + dadosEdit.ID_PORTO_RECEBIMENTO + ", ";
+            SQL += "ID_INCOTERM ='" + dadosEdit.ID_INCOTERM + "' ";
+            SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
+
+            string editTaxa = DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
         }
 
         [WebMethod]
-        public string EditarTaxaAgenteInternacional(Taxas dadosEdit)
+        public string EditarTaxaAgenteInternacional(TaxasPrestador dadosEdit)
         {
-            try
-            {
+            
                 string tarifaV;
                 string tarifaC;
-                if (dadosEdit.ID_TAXA_CLIENTE.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.ID_ITEM_DESPESA.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "")
-                {
-                    return "0";
-                }
-                if ((dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "6" || dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "7" || dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "13" || dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "14" || dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "37") && dadosEdit.VL_TARIFA_MINIMA.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.VL_TARIFA_MINIMA.ToString() == "")
-                {
-                    tarifaV = "0";
-                }
-                else
-                {
-                    tarifaV = dadosEdit.VL_TARIFA_MINIMA.ToString();
-                }
+                if (dadosEdit.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
+                if (dadosEdit.ID_TIPO_COMEX.ToString() == "") { dadosEdit.ID_TIPO_COMEX = "null"; }
+                if (dadosEdit.ID_TIPO_ESTUFAGEM.ToString() == "") { dadosEdit.ID_TIPO_ESTUFAGEM = "null"; }
+                if (dadosEdit.ID_VIATRANSPORTE.ToString() == "") { dadosEdit.ID_VIATRANSPORTE = "null"; }
+                if (dadosEdit.ID_INCOTERM.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Incoterm" }); }
+                if (dadosEdit.ID_PORTO_RECEBIMENTO.ToString() == "") { dadosEdit.ID_PORTO_RECEBIMENTO = "null"; }
+                if (dadosEdit.ID_PORTO_DESCARGA.ToString() == "") { dadosEdit.ID_PORTO_DESCARGA = "null"; };
+                if (dadosEdit.ID_PORTO_CARREGAMENTO.ToString() == "") { dadosEdit.ID_PORTO_CARREGAMENTO = "null"; }
+                if (dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
+
+                if (dadosEdit.ID_MOEDA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Compra" }); }
+                if (dadosEdit.VL_TAXA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Compra" }); }
+                if (Double.Parse(dadosEdit.VL_TAXA_COMPRA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Compra menor ou igual a 0" }); }
                 if (dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
                 {
-                    tarifaC = "0";
+                    return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Compra" });
+                }
+                if (Double.Parse(dadosEdit.VL_TARIFA_MINIMA_COMPRA) <= 0.00)
+                {
+                    return JsonConvert.SerializeObject(new { success = false, message = "Campo Tarifa Minima Compra menor ou igual a 0" });
                 }
                 else
                 {
                     tarifaC = dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString();
                 }
-                if (dadosEdit.ID_MOEDA_VENDA.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.VL_TAXA_VENDA.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.FL_DECLARADO.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.ID_DESTINATARIO_COBRANCA.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.FL_DIVISAO_PROFIT.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.ID_PARCEIRO.ToString() == "")
-                {
-                    return "0";
-                }
-                if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "")
-                {
-                    dadosEdit.ID_ORIGEM_PAGAMENTO = "null";
-                }
-                if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "")
-                {
-                    dadosEdit.ID_TIPO_PAGAMENTO = "null";
-                }
-                if (dadosEdit.ID_TIPO_COMEX.ToString() == "0") { return "0"; }
-                if (dadosEdit.ID_TIPO_ESTUFAGEM.ToString() == "0") { dadosEdit.ID_TIPO_ESTUFAGEM = "0"; }
-                if (dadosEdit.ID_TIPO_COBRANCA.ToString() == "0") { return "0"; }
 
-
-                string SQL;
-                string vlTaxaVenda = decBD(dadosEdit.VL_TAXA_VENDA.ToString());
-                string vlTaxaCompra = decBD(dadosEdit.VL_TAXA_COMPRA.ToString());
-
-                if (dadosEdit.ID_MOEDA_COMPRA.ToString() == "")
+                if (dadosEdit.ID_MOEDA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Venda" }); }
+                if (dadosEdit.VL_TAXA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Venda" }); }
+                if (Double.Parse(dadosEdit.VL_TAXA_VENDA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Venda menor ou igual a 0" }); }
+                if (dadosEdit.VL_TARIFA_MINIMA.ToString() == "")
                 {
-                    SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
-                    SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
-                    SQL += "ID_MOEDA_COMPRA = 0, VL_TAXA_COMPRA = 0, ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                    SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
-                    SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "',";
-                    SQL += "FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
-                    SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', FL_TAXA_TRANSPORTADOR = '" + dadosEdit.FL_TAXA_TRANSPORTADOR + "', VL_TARIFA_MINIMA = '" + tarifaV + "', VL_TARIFA_MINIMA_COMPRA = " + tarifaC + ", ";
-                    SQL += "ID_TIPO_ESTUFAGEM ='" + dadosEdit.ID_TIPO_ESTUFAGEM + "', ";
-                    SQL += "ID_TIPO_COMEX ='" + dadosEdit.ID_TIPO_COMEX + "', ";
-                    SQL += "ID_VIATRANSPORTE ='" + dadosEdit.ID_VIATRANSPORTE + "', ";
-                    SQL += "ID_TIPO_COBRANCA ='" + dadosEdit.ID_TIPO_COBRANCA.ToString() + "', ";
-                    SQL += "ID_PORTO_DESCARGA ='" + dadosEdit.ID_PORTO_DESCARGA.ToString() + "', ";
-                    SQL += "ID_PORTO_CARREGAMENTO ='" + dadosEdit.ID_PORTO_CARREGAMENTO.ToString() + "', ";
-                    SQL += "ID_PORTO_RECEBIMENTO ='" + dadosEdit.ID_PORTO_RECEBIMENTO.ToString() + "', ";
-                    SQL += "ID_INCOTERM ='" + dadosEdit.ID_INCOTERM.ToString() + "' ";
-                    SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
-
-                    string editTaxa = DBS.ExecuteScalar(SQL);
-                    return "1";
+                    return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
+                }
+                if (Double.Parse(dadosEdit.VL_TARIFA_MINIMA) <= 0.00)
+                {
+                    return JsonConvert.SerializeObject(new { success = false, message = "Campo Tarifa Minima Venda menor ou igual a 0" });
                 }
                 else
                 {
-                    SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
-                    SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
-                    SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                    SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
-                    SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
-                    SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', FL_TAXA_TRANSPORTADOR = '" + dadosEdit.FL_TAXA_TRANSPORTADOR + "', VL_TARIFA_MINIMA = '" + tarifaV + "', VL_TARIFA_MINIMA_COMPRA = " + tarifaC + ",  ";
-                    SQL += "ID_TIPO_ESTUFAGEM ='" + dadosEdit.ID_TIPO_ESTUFAGEM + "', ";
-                    SQL += "ID_TIPO_COMEX ='" + dadosEdit.ID_TIPO_COMEX + "', ";
-                    SQL += "ID_VIATRANSPORTE ='" + dadosEdit.ID_VIATRANSPORTE + "', ";
-                    SQL += "ID_TIPO_COBRANCA ='" + dadosEdit.ID_TIPO_COBRANCA.ToString() + "', ";
-                    SQL += "ID_PORTO_DESCARGA ='" + dadosEdit.ID_PORTO_DESCARGA.ToString() + "', ";
-                    SQL += "ID_PORTO_CARREGAMENTO ='" + dadosEdit.ID_PORTO_CARREGAMENTO.ToString() + "', ";
-                    SQL += "ID_PORTO_RECEBIMENTO ='" + dadosEdit.ID_PORTO_RECEBIMENTO.ToString() + "', ";
-                    SQL += "ID_INCOTERM ='" + dadosEdit.ID_INCOTERM.ToString() + "' ";
-                    SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
-
-                    string editTaxa = DBS.ExecuteScalar(SQL);
-                    return "1";
+                    tarifaV = dadosEdit.VL_TARIFA_MINIMA.ToString();
                 }
+
+                if (dadosEdit.FL_DECLARADO.ToString() == "") { dadosEdit.FL_DECLARADO = "0"; }
+                if (dadosEdit.FL_DIVISAO_PROFIT.ToString() == "") { dadosEdit.FL_DIVISAO_PROFIT = "0"; }
+                if (dadosEdit.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
+                if (dadosEdit.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
+                if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
+                if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
+
+
+                string SQL;
+                string vlTaxaVenda = dadosEdit.VL_TAXA_VENDA.ToString().Replace(',', '.');
+                string vlTaxaCompra = dadosEdit.VL_TAXA_COMPRA.ToString().Replace(',', '.');
+                SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
+                SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
+                SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = " + dadosEdit.ID_MOEDA_VENDA + ", ";
+                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
+                SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
+                SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', FL_TAXA_TRANSPORTADOR = '" + dadosEdit.FL_TAXA_TRANSPORTADOR + "', VL_TARIFA_MINIMA = '" + tarifaV + "', VL_TARIFA_MINIMA_COMPRA = " + tarifaC + ",  ";
+                SQL += "ID_TIPO_ESTUFAGEM =" + dadosEdit.ID_TIPO_ESTUFAGEM + ", ";
+                SQL += "ID_TIPO_COMEX =" + dadosEdit.ID_TIPO_COMEX + ", ";
+                SQL += "ID_VIATRANSPORTE =" + dadosEdit.ID_VIATRANSPORTE + ", ";
+                SQL += "ID_TIPO_COBRANCA ='" + dadosEdit.ID_TIPO_COBRANCA + "', ";
+                SQL += "ID_PORTO_DESCARGA =" + dadosEdit.ID_PORTO_DESCARGA + ", ";
+                SQL += "ID_PORTO_CARREGAMENTO =" + dadosEdit.ID_PORTO_CARREGAMENTO + ", ";
+                SQL += "ID_PORTO_RECEBIMENTO =" + dadosEdit.ID_PORTO_RECEBIMENTO + ", ";
+                SQL += "ID_INCOTERM ='" + dadosEdit.ID_INCOTERM + "' ";
+                SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
+
+                string editTaxa = DBS.ExecuteScalar(SQL);
+                return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
 
         [WebMethod]
         public string ListarTaxaCliente(int Id, string comex, string via, string estufagem)
@@ -10481,8 +10370,8 @@ namespace ABAINFRA.Web
             SQL = "SELECT ID_TAXA_CLIENTE, B.NM_ITEM_DESPESA as ITEM, C.NM_BASE_CALCULO_TAXA, ISNULL(H.NM_PORTO,'') AS NM_PORTO, D.NM_MOEDA, VL_TAXA_VENDA, E.NM_TIPO_ESTUFAGEM, F.NM_TIPO_COMEX, G.NM_VIATRANSPORTE, ISNULL(I.NM_TIPO_COBRANCA,'') AS NM_TIPO_COBRANCA ";
             SQL += "FROM TB_TAXA_CLIENTE A ";
             SQL += "INNER JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
-            SQL += "JOIN TB_BASE_CALCULO_TAXA C ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
-            SQL += "JOIN TB_MOEDA D ON A.ID_MOEDA_VENDA= D.CD_MOEDA ";
+            SQL += "LEFT JOIN TB_BASE_CALCULO_TAXA C ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
+            SQL += "LEFT JOIN TB_MOEDA D ON A.ID_MOEDA_VENDA= D.CD_MOEDA ";
             SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM E ON A.ID_TIPO_ESTUFAGEM = E.ID_TIPO_ESTUFAGEM ";
             SQL += "LEFT JOIN TB_TIPO_COMEX F ON A.ID_TIPO_COMEX = F.ID_TIPO_COMEX ";
             SQL += "LEFT JOIN TB_VIATRANSPORTE G ON A.ID_VIATRANSPORTE = G.ID_VIATRANSPORTE ";
@@ -10505,15 +10394,16 @@ namespace ABAINFRA.Web
 
             string SQL;
             string filter = "";
-            if (comex != "0") { filter += " AND A.ID_TIPO_COMEX = '" + comex + "' "; }
-            if (via != "0") { filter += " AND A.ID_VIATRANSPORTE = '" + via + "' "; }
-            if (estufagem != "0") { filter += " AND A.ID_TIPO_ESTUFAGEM= '" + estufagem + "' "; }
+            if (comex != "0") { filter += " AND (A.ID_TIPO_COMEX = '" + comex + "' OR A.ID_TIPO_COMEX IS NULL) "; }
+            if (via != "0") { filter += " AND (A.ID_VIATRANSPORTE = '" + via + "'  OR A.ID_VIATRANSPORTE  IS NULL) "; }
+            if (estufagem != "0") { filter += " AND (A.ID_TIPO_ESTUFAGEM= '" + estufagem + "' OR A.ID_TIPO_ESTUFAGEM IS NULL) "; }
 
-            SQL = "SELECT ID_TAXA_CLIENTE, B.NM_ITEM_DESPESA as ITEM, ISNULL(H1.NM_PORTO,'') AS DESCARGA, ISNULL(H2.NM_PORTO,'') AS RECEBIMENTO, ISNULL(H3.NM_PORTO,'') AS CARREGAMENTO, CONCAT(CD_INCOTERM, ' - ', NM_INCOTERM) AS INCOTERM, C.NM_BASE_CALCULO_TAXA, D.NM_MOEDA, VL_TAXA_VENDA, E.NM_TIPO_ESTUFAGEM, F.NM_TIPO_COMEX, G.NM_VIATRANSPORTE, ISNULL(I.NM_TIPO_COBRANCA,'') AS NM_TIPO_COBRANCA ";
+            SQL = "SELECT ID_TAXA_CLIENTE, B.NM_ITEM_DESPESA as ITEM, ISNULL(H1.NM_PORTO,'TODOS') AS DESCARGA, ISNULL(H2.NM_PORTO,'') AS RECEBIMENTO, ISNULL(H3.NM_PORTO,'TODOS') AS CARREGAMENTO, CONCAT(CD_INCOTERM, ' - ', NM_INCOTERM) AS INCOTERM, C.NM_BASE_CALCULO_TAXA, ISNULL(D.NM_MOEDA,'') AS NM_MOEDA, D1.NM_MOEDA AS NM_MOEDA_COMPRA, VL_TAXA_VENDA, VL_TAXA_COMPRA, ISNULL(E.NM_TIPO_ESTUFAGEM,'TODOS') AS NM_TIPO_ESTUFAGEM, ISNULL(F.NM_TIPO_COMEX,'TODOS') AS NM_TIPO_COMEX, ISNULL(G.NM_VIATRANSPORTE,'TODOS') AS NM_VIATRANSPORTE, ISNULL(I.NM_TIPO_COBRANCA,'') AS NM_TIPO_COBRANCA ";
             SQL += "FROM TB_TAXA_CLIENTE A ";
             SQL += "INNER JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
-            SQL += "JOIN TB_BASE_CALCULO_TAXA C ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
-            SQL += "JOIN TB_MOEDA D ON A.ID_MOEDA_VENDA= D.CD_MOEDA ";
+            SQL += "LEFT JOIN TB_BASE_CALCULO_TAXA C ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
+            SQL += "LEFT JOIN TB_MOEDA D ON A.ID_MOEDA_VENDA= D.CD_MOEDA ";
+            SQL += "LEFT JOIN TB_MOEDA D1 ON A.ID_MOEDA_COMPRA = D1.CD_MOEDA ";
             SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM E ON A.ID_TIPO_ESTUFAGEM = E.ID_TIPO_ESTUFAGEM ";
             SQL += "LEFT JOIN TB_TIPO_COMEX F ON A.ID_TIPO_COMEX = F.ID_TIPO_COMEX ";
             SQL += "LEFT JOIN TB_VIATRANSPORTE G ON A.ID_VIATRANSPORTE = G.ID_VIATRANSPORTE ";
@@ -10535,213 +10425,153 @@ namespace ABAINFRA.Web
 
 
         [WebMethod]
-        public string CadastrarTaxaAgenteInternacional(Taxas dados)
+        public string CadastrarTaxaAgenteInternacional(TaxasPrestador dados)
         {
             string tarifaV;
             string tarifaC;
 
-            if (dados.ID_ITEM_DESPESA.ToString() == "")
-            {
-                return "0";
-            }
-            if (dados.ID_BASE_CALCULO_TAXA.ToString() == "")
-            {
-                return "0";
-            }
-            if ((dados.ID_BASE_CALCULO_TAXA.ToString() == "6" || dados.ID_BASE_CALCULO_TAXA.ToString() == "7" || dados.ID_BASE_CALCULO_TAXA.ToString() == "13" || dados.ID_BASE_CALCULO_TAXA.ToString() == "14" || dados.ID_BASE_CALCULO_TAXA.ToString() == "37") && dados.VL_TARIFA_MINIMA.ToString() == "")
-            {
-                return "0";
-            }
-            if (dados.ID_MOEDA_VENDA.ToString() == "")
-            {
-                return "0";
-            }
-            if (dados.VL_TAXA_VENDA.ToString() == "")
-            {
-                return "0";
-            }
-            if (dados.FL_DECLARADO.ToString() == "")
-            {
-                return "0";
-            }
-            if (dados.VL_TARIFA_MINIMA.ToString() == "")
-            {
-                tarifaV = "0";
-            }
-            else
-            {
-                tarifaV = dados.VL_TARIFA_MINIMA.ToString();
-            }
+            if (dados.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
+            if (dados.ID_TIPO_COMEX.ToString() == "") { dados.ID_TIPO_COMEX = "null"; }
+            if (dados.ID_TIPO_ESTUFAGEM.ToString() == "") { dados.ID_TIPO_ESTUFAGEM = "null"; }
+            if (dados.ID_VIATRANSPORTE.ToString() == "") { dados.ID_VIATRANSPORTE = "null"; }
+            if (dados.ID_INCOTERM.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Incoterm" }); }
+            if (dados.ID_PORTO_RECEBIMENTO.ToString() == "") { dados.ID_PORTO_RECEBIMENTO = "null"; }
+            if (dados.ID_PORTO_DESCARGA.ToString() == "") { dados.ID_PORTO_DESCARGA = "null"; };
+            if (dados.ID_PORTO_CARREGAMENTO.ToString() == "") { dados.ID_PORTO_CARREGAMENTO = "null"; }
+            if (dados.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
+
+            if (dados.ID_MOEDA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Compra" }); }
+            if (dados.VL_TAXA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Compra" }); }
+            if (Double.Parse(dados.VL_TAXA_COMPRA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Compra menor ou igual a 0" }); }
             if (dados.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
             {
-                tarifaC = "0";
+                return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Compra" });
+            }
+            if (Double.Parse(dados.VL_TARIFA_MINIMA_COMPRA) <= 0.00)
+            {
+                return JsonConvert.SerializeObject(new { success = false, message = "Campo Tarifa Minima Compra menor ou igual a 0" });
             }
             else
             {
                 tarifaC = dados.VL_TARIFA_MINIMA_COMPRA.ToString();
             }
-            if (dados.ID_DESTINATARIO_COBRANCA.ToString() == "")
+
+            if (dados.ID_MOEDA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Venda" }); }
+            if (dados.VL_TAXA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Venda" }); }
+            if (Double.Parse(dados.VL_TAXA_VENDA) <= 0.00 ) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Venda menor ou igual a 0" }); }
+            if (dados.VL_TARIFA_MINIMA.ToString() == "")
             {
-                return "0";
+                return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
             }
-            if (dados.FL_DIVISAO_PROFIT.ToString() == "")
-            {
-                return "0";
+            if(Double.Parse(dados.VL_TARIFA_MINIMA) <= 0.00)
+			{
+                return JsonConvert.SerializeObject(new { success = false, message = "Campo Tarifa Minima Venda menor ou igual a 0" });
             }
-            if (dados.ID_PARCEIRO.ToString() == "")
+            else
             {
-                return "0";
-            }
-            if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "")
-            {
-                dados.ID_ORIGEM_PAGAMENTO = "null";
-            }
-            if (dados.ID_TIPO_PAGAMENTO.ToString() == "")
-            {
-                dados.ID_TIPO_PAGAMENTO = "null";
+                tarifaV = dados.VL_TARIFA_MINIMA.ToString();
             }
 
-            if (dados.ID_TIPO_COMEX.ToString() == "0") { return "0"; }
-            if (dados.ID_TIPO_ESTUFAGEM.ToString() == "0") { dados.ID_TIPO_ESTUFAGEM = "0"; }
-            if (dados.ID_TIPO_COBRANCA.ToString() == "0") { return "0"; }
-            if (dados.ID_PORTO_DESCARGA.ToString() == "") { return "0"; };
+            
+
+            if (dados.FL_DECLARADO.ToString() == "") { dados.FL_DECLARADO = "0"; }
+            if (dados.FL_DIVISAO_PROFIT.ToString() == "") { dados.FL_DIVISAO_PROFIT = "0"; }
+            if (dados.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
+            if (dados.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
+            if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
+            if (dados.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
+
 
             string SQL;
             string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
             string vlTaxaCompra = dados.VL_TAXA_COMPRA.ToString().Replace(',', '.');
 
-            if (dados.ID_MOEDA_COMPRA.ToString() == "")
-            {
-                SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
-                SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA,";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_DESCARGA, ID_TIPO_COBRANCA, ID_PORTO_CARREGAMENTO, ID_PORTO_RECEBIMENTO, ID_INCOTERM) ";
-                SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
-                SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "',0,0,'" + dados.ID_MOEDA_VENDA + "', ";
-                SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
-                SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + "," + dados.ID_TIPO_ESTUFAGEM + ",'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "','" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "','" + tarifaC.ToString().Replace(',', '.') + "','" + dados.ID_PORTO_DESCARGA.ToString() + "','" + dados.ID_TIPO_COBRANCA.ToString() + "','" + dados.ID_PORTO_CARREGAMENTO + "', '" + dados.ID_PORTO_RECEBIMENTO + "', '" + dados.ID_INCOTERM + "') ";
-                string taxa = DBS.ExecuteScalar(SQL);
-                return "1";
-            }
-            else
-            {
-                SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
-                SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM,ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_DESCARGA, ID_TIPO_COBRANCA, ID_PORTO_CARREGAMENTO, ID_PORTO_RECEBIMENTO, ID_INCOTERM) ";
-                SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
-                SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "','" + dados.ID_MOEDA_COMPRA + "','" + vlTaxaCompra + "','" + dados.ID_MOEDA_VENDA + "', ";
-                SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
-                SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + "," + dados.ID_TIPO_ESTUFAGEM + ",'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "','" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "','" + tarifaC.ToString().Replace(',', '.') + "','" + dados.ID_PORTO_DESCARGA.ToString() + "','" + dados.ID_TIPO_COBRANCA.ToString() + "','" + dados.ID_PORTO_CARREGAMENTO + "', '" + dados.ID_PORTO_RECEBIMENTO + "', '" + dados.ID_INCOTERM + "') ";
 
-                string taxa = DBS.ExecuteScalar(SQL);
-                return "1";
-            }
+            SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
+            SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA,";
+            SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_DESCARGA, ID_TIPO_COBRANCA, ID_PORTO_CARREGAMENTO, ID_PORTO_RECEBIMENTO, ID_INCOTERM) ";
+            SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
+            SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "'," + dados.ID_MOEDA_COMPRA + ",'" + vlTaxaCompra + "'," + dados.ID_MOEDA_VENDA + ", ";
+            SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "'," + dados.ID_DESTINATARIO_COBRANCA + ", ";
+            SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
+            SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + ", ";
+            SQL += "" + dados.ID_TIPO_ESTUFAGEM + "," + dados.ID_ORIGEM_PAGAMENTO + "," + dados.ID_TIPO_PAGAMENTO + ", ";
+            SQL += "'" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "', ";
+            SQL += "'" + tarifaC.ToString().Replace(',', '.') + "'," + dados.ID_PORTO_DESCARGA + ", ";
+            SQL += "" + dados.ID_TIPO_COBRANCA.ToString() + ", " + dados.ID_PORTO_CARREGAMENTO + ", ";
+            SQL += "" + dados.ID_PORTO_RECEBIMENTO + ", '" + dados.ID_INCOTERM + "') ";
+            string taxa = DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
         }
 
         [WebMethod]
-        public string CadastrarTaxaPrestador(Taxas dados)
+        public string CadastrarTaxaPrestador(TaxasPrestador dados)
         {
             string tarifaV;
             string tarifaC;
 
-            if (dados.ID_ITEM_DESPESA.ToString() == "")
-            {
-                return "0";
-            }
-            if (dados.ID_BASE_CALCULO_TAXA.ToString() == "")
-            {
-                return "0";
-            }
-            if ((dados.ID_BASE_CALCULO_TAXA.ToString() == "6" || dados.ID_BASE_CALCULO_TAXA.ToString() == "7" || dados.ID_BASE_CALCULO_TAXA.ToString() == "13" || dados.ID_BASE_CALCULO_TAXA.ToString() == "14" || dados.ID_BASE_CALCULO_TAXA.ToString() == "37") && dados.VL_TARIFA_MINIMA.ToString() == "")
-            {
-                return "0";
-            }
-            if (dados.ID_MOEDA_VENDA.ToString() == "")
-            {
-                return "0";
-            }
-            if (dados.VL_TAXA_VENDA.ToString() == "")
-            {
-                return "0";
-            }
-            if (dados.FL_DECLARADO.ToString() == "")
-            {
-                return "0";
-            }
-            if (dados.VL_TARIFA_MINIMA.ToString() == "")
-            {
-                tarifaV = "0";
-            }
-            else
-            {
-                tarifaV = dados.VL_TARIFA_MINIMA.ToString();
-            }
+
+            if (dados.ID_ITEM_DESPESA.ToString() == "") {return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" });}
+            if (dados.ID_TIPO_COMEX.ToString() == "") { dados.ID_TIPO_COMEX = "null"; }
+            if (dados.ID_TIPO_ESTUFAGEM.ToString() == "") { dados.ID_TIPO_ESTUFAGEM = "null"; }
+            if (dados.ID_VIATRANSPORTE.ToString() == "") { dados.ID_VIATRANSPORTE = "null"; }
+            if (dados.ID_INCOTERM.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Incoterm" }); }
+            if (dados.ID_PORTO_RECEBIMENTO.ToString() == "") { dados.ID_PORTO_RECEBIMENTO = "null"; }
+            if (dados.ID_PORTO_DESCARGA.ToString() == "") { dados.ID_PORTO_DESCARGA = "null"; };
+            if (dados.ID_PORTO_CARREGAMENTO.ToString() == "") { dados.ID_PORTO_CARREGAMENTO = "null"; }
+            if (dados.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
+
+            if (dados.ID_MOEDA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Compra" }); }
+            if (dados.VL_TAXA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Compra" }); }
+            if (Double.Parse(dados.VL_TAXA_COMPRA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Compra menor ou igual a 0" }); }
             if (dados.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
             {
-                tarifaC = "0";
+                tarifaC = "0.00";
             }
             else
             {
                 tarifaC = dados.VL_TARIFA_MINIMA_COMPRA.ToString();
             }
-            if (dados.ID_DESTINATARIO_COBRANCA.ToString() == "")
+
+            if (dados.ID_MOEDA_VENDA.ToString() == "") { dados.ID_MOEDA_VENDA = "null"; }
+            if (dados.VL_TAXA_VENDA.ToString() == "") { dados.VL_TAXA_VENDA = "0.00"; }
+            if (dados.VL_TARIFA_MINIMA.ToString() == "")
             {
-                return "0";
+                tarifaV = "0.00";
             }
-            if (dados.FL_DIVISAO_PROFIT.ToString() == "")
+            else
             {
-                return "0";
-            }
-            if (dados.ID_PARCEIRO.ToString() == "")
-            {
-                return "0";
-            }
-            if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "")
-            {
-                dados.ID_ORIGEM_PAGAMENTO = "null";
-            }
-            if (dados.ID_TIPO_PAGAMENTO.ToString() == "")
-            {
-                dados.ID_TIPO_PAGAMENTO = "null";
+                tarifaV = dados.VL_TARIFA_MINIMA.ToString();
             }
 
-            if (dados.ID_TIPO_COMEX.ToString() == "0") { return "0"; }
-            if (dados.ID_TIPO_ESTUFAGEM.ToString() == "0") { dados.ID_TIPO_ESTUFAGEM = "0"; }
-            if (dados.ID_TIPO_COBRANCA.ToString() == "0") { return "0"; }
-            if (dados.ID_PORTO_DESCARGA.ToString() == "") { return "0"; };
+            if (dados.FL_DECLARADO.ToString() == "") {dados.FL_DECLARADO = "0";}
+            if (dados.FL_DIVISAO_PROFIT.ToString() == "") {dados.FL_DIVISAO_PROFIT = "0";}
+            if (dados.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
+            if (dados.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" });}
+            if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" });}
+            if (dados.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" });}
+            
 
             string SQL;
             string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
             string vlTaxaCompra = dados.VL_TAXA_COMPRA.ToString().Replace(',', '.');
 
-            if (dados.ID_MOEDA_COMPRA.ToString() == "")
-            {
-                SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
-                SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA,";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_DESCARGA, ID_TIPO_COBRANCA, ID_PORTO_CARREGAMENTO, ID_PORTO_RECEBIMENTO, ID_INCOTERM) ";
-                SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
-                SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "',0,0,'" + dados.ID_MOEDA_VENDA + "', ";
-                SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
-                SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + "," + dados.ID_TIPO_ESTUFAGEM + ",'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "','" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "','" + tarifaC.ToString().Replace(',', '.') + "','" + dados.ID_PORTO_DESCARGA.ToString() + "','" + dados.ID_TIPO_COBRANCA.ToString() + "', '" + dados.ID_PORTO_CARREGAMENTO + "', '" + dados.ID_PORTO_RECEBIMENTO + "', '" + dados.ID_INCOTERM + "') ";
-                string taxa = DBS.ExecuteScalar(SQL);
-                return "1";
-            }
-            else
-            {
-                SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
-                SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM,ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_DESCARGA, ID_TIPO_COBRANCA, ID_PORTO_CARREGAMENTO, ID_PORTO_RECEBIMENTO, ID_INCOTERM) ";
-                SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
-                SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "','" + dados.ID_MOEDA_COMPRA + "','" + vlTaxaCompra + "','" + dados.ID_MOEDA_VENDA + "', ";
-                SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
-                SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + "," + dados.ID_TIPO_ESTUFAGEM + ",'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "','" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "','" + tarifaC.ToString().Replace(',', '.') + "','" + dados.ID_PORTO_DESCARGA.ToString() + "','" + dados.ID_TIPO_COBRANCA.ToString() + "', '" + dados.ID_PORTO_CARREGAMENTO + "', '" + dados.ID_PORTO_RECEBIMENTO + "', '" + dados.ID_INCOTERM + "') ";
-
-                string taxa = DBS.ExecuteScalar(SQL);
-                return "1";
-            }
+            
+            SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
+            SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA,";
+            SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_DESCARGA, ID_TIPO_COBRANCA, ID_PORTO_CARREGAMENTO, ID_PORTO_RECEBIMENTO, ID_INCOTERM) ";
+            SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
+            SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "',"+dados.ID_MOEDA_COMPRA+",'"+ vlTaxaCompra + "'," + dados.ID_MOEDA_VENDA + ", ";
+            SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "'," + dados.ID_DESTINATARIO_COBRANCA + ", ";
+            SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
+            SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + ", ";
+            SQL += "" + dados.ID_TIPO_ESTUFAGEM + "," + dados.ID_ORIGEM_PAGAMENTO + "," + dados.ID_TIPO_PAGAMENTO + ", ";
+            SQL += "'" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "', ";
+            SQL += "'" + tarifaC.ToString().Replace(',', '.') + "',"+dados.ID_PORTO_DESCARGA+", ";
+            SQL += "" + dados.ID_TIPO_COBRANCA.ToString() + ", " + dados.ID_PORTO_CARREGAMENTO + ", ";
+            SQL += "" + dados.ID_PORTO_RECEBIMENTO + ", '" + dados.ID_INCOTERM + "') ";
+            string taxa = DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
         }
 
         [WebMethod]
@@ -10765,15 +10595,15 @@ namespace ABAINFRA.Web
 
                 DataTable carregarDados = new DataTable();
                 carregarDados = DBS.List(SQL);
-                Taxas resultado = new Taxas();
-                resultado.ID_TAXA_CLIENTE = Id;
-                resultado.ID_ITEM_DESPESA = (int)carregarDados.Rows[0]["ID_ITEM_DESPESA"];
-                resultado.ID_BASE_CALCULO_TAXA = (int)carregarDados.Rows[0]["ID_BASE_CALCULO_TAXA"];
+                TaxasPrestador resultado = new TaxasPrestador();
+                resultado.ID_TAXA_CLIENTE = Id.ToString();
+                resultado.ID_ITEM_DESPESA = carregarDados.Rows[0]["ID_ITEM_DESPESA"].ToString();
+                resultado.ID_BASE_CALCULO_TAXA = carregarDados.Rows[0]["ID_BASE_CALCULO_TAXA"].ToString();
                 resultado.VL_TARIFA_MINIMA = carregarDados.Rows[0]["VL_TARIFA_MINIMA"].ToString();
                 resultado.VL_TARIFA_MINIMA_COMPRA = carregarDados.Rows[0]["VL_TARIFA_MINIMA_COMPRA"].ToString();
                 resultado.VL_TAXA_COMPRA = carregarDados.Rows[0]["VL_TAXA_COMPRA"].ToString();
                 resultado.ID_MOEDA_COMPRA = carregarDados.Rows[0]["MOEDA_COMPRA"].ToString();
-                resultado.VL_TAXA_VENDA = (decimal)carregarDados.Rows[0]["VL_TAXA_VENDA"];
+                resultado.VL_TAXA_VENDA = carregarDados.Rows[0]["VL_TAXA_VENDA"].ToString();
                 resultado.ID_MOEDA_VENDA = carregarDados.Rows[0]["MOEDA_VENDA"].ToString();
                 resultado.ID_TIPO_ESTUFAGEM = carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"].ToString();
                 resultado.ID_TIPO_COMEX = carregarDados.Rows[0]["ID_TIPO_COMEX"].ToString();
@@ -10782,29 +10612,29 @@ namespace ABAINFRA.Web
                 resultado.ID_VIATRANSPORTE = carregarDados.Rows[0]["ID_VIATRANSPORTE"].ToString();
                 if (carregarDados.Rows[0]["FL_DECLARADO"].ToString() == "true")
                 {
-                    resultado.FL_DECLARADO = 1;
+                    resultado.FL_DECLARADO = "1";
                 }
                 else
                 {
-                    resultado.FL_DECLARADO = 0;
+                    resultado.FL_DECLARADO = "0";
                 }
                 if (carregarDados.Rows[0]["FL_DIVISAO_PROFIT"].ToString() == "true")
                 {
-                    resultado.FL_DIVISAO_PROFIT = 1;
+                    resultado.FL_DIVISAO_PROFIT = "1";
                 }
                 else
                 {
-                    resultado.FL_DIVISAO_PROFIT = 0;
+                    resultado.FL_DIVISAO_PROFIT = "0";
                 }
                 if (carregarDados.Rows[0]["FL_TAXA_TRANSPORTADOR"].ToString() == "true")
                 {
-                    resultado.FL_TAXA_TRANSPORTADOR = 1;
+                    resultado.FL_TAXA_TRANSPORTADOR = "1";
                 }
                 else
                 {
-                    resultado.FL_TAXA_TRANSPORTADOR = 0;
+                    resultado.FL_TAXA_TRANSPORTADOR = "0";
                 }
-                resultado.ID_DESTINATARIO_COBRANCA = (int)carregarDados.Rows[0]["ID_DESTINATARIO_COBRANCA"];
+                resultado.ID_DESTINATARIO_COBRANCA = carregarDados.Rows[0]["ID_DESTINATARIO_COBRANCA"].ToString();
                 resultado.ID_TIPO_PAGAMENTO = carregarDados.Rows[0]["ID_TIPO_PAGAMENTO"].ToString();
                 resultado.ID_ORIGEM_PAGAMENTO = carregarDados.Rows[0]["ID_ORIGEM_PAGAMENTO"].ToString();
                 resultado.OB_TAXAS = carregarDados.Rows[0]["OB_TAXAS"].ToString();
@@ -10820,67 +10650,112 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public void CopiarTaxa(int Id)
+		{
+            string SQL;
+
+            try
+            {
+                SQL = "INSERT INTO TB_TAXA_CLIENTE ";
+                SQL += "SELECT ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_TIPO_PAGAMENTO, ID_ORIGEM_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_RECEBIMENTO, ID_PORTO_CARREGAMENTO, ID_PORTO_DESCARGA, ID_INCOTERM, ID_TIPO_COBRANCA FROM TB_TAXA_CLIENTE WHERE ID_TAXA_CLIENTE = " + Id + " SELECT SCOPE_IDENTITY()";
+                string newTaxa = DBS.ExecuteScalar(SQL);
+
+                SQL = "SELECT * FROM TB_TAXA_CLIENTE_VARIACAO WHERE ID_TAXA_CLIENTE = " + Id + "";
+                DataTable carregarDados = new DataTable();
+                carregarDados = DBS.List(SQL);
+
+                if (carregarDados != null)
+                {
+                    SQL = "INSERT INTO TB_TAXA_CLIENTE_VARIACAO ";
+                    SQL += "SELECT " + newTaxa + ", ID_CALCULO_VARIACAO, QT_ITEM, QT_ITEM_INICIAL, QT_ITEM_FINAL, ID_MOEDA, VL_COMPRA FROM TB_TAXA_CLIENTE_VARIACAO WHERE ID_TAXA_CLIENTE = " + Id + " ";
+                    DBS.ExecuteScalar(SQL);
+                }
+            }catch(Exception e)
+			{
+                throw e;
+			}
+
+        }
+
+        [WebMethod]
+        public string ListarPortoAeroporto(string via)
+		{
+            string SQL;
+
+            
+            SQL = "SELECT ID_PORTO, NM_PORTO FROM TB_PORTO ";
+            if (via != "")
+            {
+                SQL += "WHERE ID_VIATRANSPORTE = " + via + " ";
+            }
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(carregarDados);
+        }
+
+        [WebMethod]
         public string BuscaClienteParceiro(int Id)
         {
             if (Id != 0)
             {
                 string SQL;
                 SQL = "SELECT ISNULL(A.ID_TIPO_ESTUFAGEM,0) AS ID_TIPO_ESTUFAGEM, ISNULL(A.ID_TIPO_COMEX,0) AS ID_TIPO_COMEX, ISNULL(A.ID_VIATRANSPORTE,0) AS ID_VIATRANSPORTE, A.OB_TAXAS, B.ID_ITEM_DESPESA, A.ID_BASE_CALCULO_TAXA, VL_TAXA_COMPRA, ISNULL(A.ID_PORTO_DESCARGA,0) AS ID_PORTO_DESCARGA, ISNULL(A.ID_TIPO_COBRANCA,0) AS ID_TIPO_COBRANCA, ";
-                SQL += "REPLICATE('0', 3 - LEN(ID_MOEDA_COMPRA)) + RTRIM(ID_MOEDA_COMPRA) AS MOEDA_COMPRA, VL_TAXA_VENDA, REPLICATE('0', 3 - LEN(ID_MOEDA_VENDA)) + RTRIM(ID_MOEDA_VENDA) AS MOEDA_VENDA, A.FL_DECLARADO, A.FL_DIVISAO_PROFIT, ";
+                SQL += "ISNULL(ID_MOEDA_COMPRA,'') AS MOEDA_COMPRA, VL_TAXA_VENDA, ISNULL(ID_MOEDA_VENDA,'') AS MOEDA_VENDA, A.FL_DECLARADO, A.FL_DIVISAO_PROFIT, ";
                 SQL += "A.ID_DESTINATARIO_COBRANCA, A.ID_TIPO_PAGAMENTO, A.ID_ORIGEM_PAGAMENTO, ";
                 SQL += "ISNULL(A.ID_PORTO_RECEBIMENTO,0) RECEBIMENTO, ISNULL(A.ID_PORTO_CARREGAMENTO,0) AS CARREGAMENTO, ISNULL(A.ID_INCOTERM,0) AS INCOTERM, A.ID_TIPO_PAGAMENTO, A.ID_ORIGEM_PAGAMENTO, ";
                 SQL += "A.ID_ITEM_DESPESA, FL_TAXA_TRANSPORTADOR, isnull(A.VL_TARIFA_MINIMA,0) as VL_TARIFA_MINIMA, isnull(A.VL_TARIFA_MINIMA_COMPRA,0) as VL_TARIFA_MINIMA_COMPRA ";
                 SQL += "FROM TB_TAXA_CLIENTE A ";
                 SQL += "INNER JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
-                SQL += "JOIN TB_BASE_CALCULO_TAXA C ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
-                SQL += "JOIN TB_MOEDA D ON A.ID_MOEDA_VENDA = D.CD_MOEDA ";
+                SQL += "LEFT JOIN TB_BASE_CALCULO_TAXA C ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
+                SQL += "LEFT JOIN TB_MOEDA D ON A.ID_MOEDA_VENDA = D.CD_MOEDA ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + Id + "'";
 
                 DataTable carregarDados = new DataTable();
                 carregarDados = DBS.List(SQL);
-                Taxas resultado = new Taxas();
-                resultado.ID_TAXA_CLIENTE = Id;
-                resultado.ID_ITEM_DESPESA = (int)carregarDados.Rows[0]["ID_ITEM_DESPESA"];
-                resultado.ID_BASE_CALCULO_TAXA = (int)carregarDados.Rows[0]["ID_BASE_CALCULO_TAXA"];
+                TaxasPrestador resultado = new TaxasPrestador();
+                resultado.ID_TAXA_CLIENTE = Id.ToString();
+                resultado.ID_ITEM_DESPESA = carregarDados.Rows[0]["ID_ITEM_DESPESA"].ToString();
+                resultado.ID_BASE_CALCULO_TAXA = carregarDados.Rows[0]["ID_BASE_CALCULO_TAXA"].ToString();
                 resultado.VL_TARIFA_MINIMA = carregarDados.Rows[0]["VL_TARIFA_MINIMA"].ToString();
                 resultado.VL_TARIFA_MINIMA_COMPRA = carregarDados.Rows[0]["VL_TARIFA_MINIMA_COMPRA"].ToString();
                 resultado.VL_TAXA_COMPRA = carregarDados.Rows[0]["VL_TAXA_COMPRA"].ToString();
                 resultado.ID_MOEDA_COMPRA = carregarDados.Rows[0]["MOEDA_COMPRA"].ToString();
-                resultado.VL_TAXA_VENDA = (decimal)carregarDados.Rows[0]["VL_TAXA_VENDA"];
+                resultado.VL_TAXA_VENDA = carregarDados.Rows[0]["VL_TAXA_VENDA"].ToString();
                 resultado.ID_MOEDA_VENDA = carregarDados.Rows[0]["MOEDA_VENDA"].ToString();
                 resultado.ID_TIPO_ESTUFAGEM = carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"].ToString();
                 resultado.ID_TIPO_COMEX = carregarDados.Rows[0]["ID_TIPO_COMEX"].ToString();
                 resultado.ID_PORTO_DESCARGA = carregarDados.Rows[0]["ID_PORTO_DESCARGA"].ToString();
-                resultado.ID_PORTO_RECEBIMENTO = (int)carregarDados.Rows[0]["RECEBIMENTO"];
-                resultado.ID_PORTO_CARREGAMENTO = (int)carregarDados.Rows[0]["CARREGAMENTO"];
-                resultado.ID_INCOTERM = (int)carregarDados.Rows[0]["INCOTERM"];
+                resultado.ID_PORTO_RECEBIMENTO = carregarDados.Rows[0]["RECEBIMENTO"].ToString();
+                resultado.ID_PORTO_CARREGAMENTO = carregarDados.Rows[0]["CARREGAMENTO"].ToString();
+                resultado.ID_INCOTERM = carregarDados.Rows[0]["INCOTERM"].ToString();
                 resultado.ID_TIPO_COBRANCA = carregarDados.Rows[0]["ID_TIPO_COBRANCA"].ToString();
                 resultado.ID_VIATRANSPORTE = carregarDados.Rows[0]["ID_VIATRANSPORTE"].ToString();
-                if (carregarDados.Rows[0]["FL_DECLARADO"].ToString() == "true")
+                if (carregarDados.Rows[0]["FL_DECLARADO"].ToString() == "True")
                 {
-                    resultado.FL_DECLARADO = 1;
+                    resultado.FL_DECLARADO = "1";
                 }
                 else
                 {
-                    resultado.FL_DECLARADO = 0;
+                    resultado.FL_DECLARADO = "0";
                 }
-                if (carregarDados.Rows[0]["FL_DIVISAO_PROFIT"].ToString() == "true")
+                if (carregarDados.Rows[0]["FL_DIVISAO_PROFIT"].ToString() == "True")
                 {
-                    resultado.FL_DIVISAO_PROFIT = 1;
+                    resultado.FL_DIVISAO_PROFIT = "1";
                 }
                 else
                 {
-                    resultado.FL_DIVISAO_PROFIT = 0;
+                    resultado.FL_DIVISAO_PROFIT = "0";
                 }
-                if (carregarDados.Rows[0]["FL_TAXA_TRANSPORTADOR"].ToString() == "true")
+                if (carregarDados.Rows[0]["FL_TAXA_TRANSPORTADOR"].ToString() == "True")
                 {
-                    resultado.FL_TAXA_TRANSPORTADOR = 1;
+                    resultado.FL_TAXA_TRANSPORTADOR = "1";
                 }
                 else
                 {
-                    resultado.FL_TAXA_TRANSPORTADOR = 0;
+                    resultado.FL_TAXA_TRANSPORTADOR = "0";
                 }
-                resultado.ID_DESTINATARIO_COBRANCA = (int)carregarDados.Rows[0]["ID_DESTINATARIO_COBRANCA"];
+                resultado.ID_DESTINATARIO_COBRANCA = carregarDados.Rows[0]["ID_DESTINATARIO_COBRANCA"].ToString();
                 resultado.ID_TIPO_PAGAMENTO = carregarDados.Rows[0]["ID_TIPO_PAGAMENTO"].ToString();
                 resultado.ID_ORIGEM_PAGAMENTO = carregarDados.Rows[0]["ID_ORIGEM_PAGAMENTO"].ToString();
                 resultado.OB_TAXAS = carregarDados.Rows[0]["OB_TAXAS"].ToString();

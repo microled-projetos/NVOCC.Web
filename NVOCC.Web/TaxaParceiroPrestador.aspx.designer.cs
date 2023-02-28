@@ -60,6 +60,24 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.Label Label2;
 
 		/// <summary>
+		/// Controle txtCodigoTipoItem.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtCodigoTipoItem;
+
+		/// <summary>
+		/// Controle ddlTipoItem.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.DropDownList ddlTipoItem;
+
+		/// <summary>
 		/// Controle ddlTipoComex.
 		/// </summary>
 		/// <remarks>
@@ -87,22 +105,13 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.DropDownList ddlTipoEstufagem;
 
 		/// <summary>
-		/// Controle txtCodigoTipoItem.
+		/// Controle ddlIncoterm.
 		/// </summary>
 		/// <remarks>
 		/// Campo gerado automaticamente.
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtCodigoTipoItem;
-
-		/// <summary>
-		/// Controle ddlTipoItem.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlTipoItem;
+		protected global::System.Web.UI.WebControls.DropDownList ddlIncoterm;
 
 		/// <summary>
 		/// Controle ddlPortoRecebimento.
@@ -112,33 +121,6 @@ namespace ABAINFRA.Web
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.DropDownList ddlPortoRecebimento;
-
-		/// <summary>
-		/// Controle ddlPortoCarregamento.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlPortoCarregamento;
-
-		/// <summary>
-		/// Controle ddlPortoDescarga.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlPortoDescarga;
-
-		/// <summary>
-		/// Controle ddlIncoterm.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlIncoterm;
 
 		/// <summary>
 		/// Controle ddlBaseCalculo.
@@ -231,15 +213,6 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.TextBox txtTarifaMinVenda;
 
 		/// <summary>
-		/// Controle ddlTipoCobranca.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlTipoCobranca;
-
-		/// <summary>
 		/// Controle ddlDeclarado.
 		/// </summary>
 		/// <remarks>
@@ -256,6 +229,15 @@ namespace ABAINFRA.Web
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.DropDownList ddlProfit;
+
+		/// <summary>
+		/// Controle ddlTipoCobranca.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.DropDownList ddlTipoCobranca;
 
 		/// <summary>
 		/// Controle ddlCobranca.

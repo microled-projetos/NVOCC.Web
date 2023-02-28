@@ -86,13 +86,15 @@
                                         <th class="text-align" scope="col">#</th>
                                         <th class="text-align" scope="col">Id Taxa</th>
                                         <th class="text-align" scope="col">Item Despesa</th>
-                                        <th class="text-align" scope="col">POR</th>
+                                        <th class="text-align" scope="col">Place Of Receipt</th>
                                         <th class="text-align" scope="col">POL / AOL</th>
                                         <th class="text-align" scope="col">POD / AOD</th>
                                         <th class="text-align" scope="col">INCOTERM</th>
                                         <th class="text-align" scope="col">Base Cálculo</th>
                                         <th class="text-align" scope="col">Moeda Venda</th>
                                         <th class="text-align" scope="col">Valor Venda</th>
+                                        <th class="text-align" scope="col">Moeda Compra</th>
+                                        <th class="text-align" scope="col">Valor Compra</th>
                                         <th class="text-align" scope="col">Tipo Cobranca</th>
                                         <th class="text-align" scope="col">Via</th>
                                         <th class="text-align" scope="col">Comex</th>
@@ -170,6 +172,21 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Código Item:</label><label runat="server" style="color: red">*</label>
+                                                        <asp:TextBox ID="txtCodigoTipoItem" runat="server" onkeyup="MostrarItem(this)" CssClass="form-control" TextMode="Number" Required="true"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Item</label><label runat="server" style="color: red">*</label>
+                                                        <asp:DropDownList ID="ddlTipoItem" runat="server" onchange="MostrarValor(this)" CssClass="form-control" DataTextField="NM_ITEM_DESPESA" data DataValueField="ID_ITEM_DESPESA">
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                </div>
+                                            </div>
                                              <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
@@ -178,40 +195,33 @@
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Via Transporte</label><label runat="server" style="color: red">*</label>
                                                         <asp:DropDownList ID="ddlViaTransporte" runat="server" CssClass="form-control" DataTextField="NM_VIATRANSPORTE" DataValueField="ID_VIATRANSPORTE">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                 <div class="col-sm-9">
+                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Tipo Estufagem</label><label runat="server" style="color: red">*</label>
                                                         <asp:DropDownList ID="ddlTipoEstufagem" runat="server" CssClass="form-control" DataTextField="NM_TIPO_ESTUFAGEM" DataValueField="ID_TIPO_ESTUFAGEM">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-3">
+                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Código Item:</label><label runat="server" style="color: red">*</label>
-                                                        <asp:TextBox ID="txtCodigoTipoItem" runat="server" onkeyup="MostrarItem(this)" CssClass="form-control" TextMode="Number"></asp:TextBox>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Item</label><label runat="server" style="color: red">*</label>
-                                                        <asp:DropDownList ID="ddlTipoItem" runat="server" onchange="MostrarValor(this)" CssClass="form-control" DataTextField="NM_ITEM_DESPESA" DataValueField="ID_ITEM_DESPESA">
+                                                        <label class="control-label">INCOTERM</label><label runat="server" style="color: red">*</label>
+                                                        <asp:DropDownList ID="ddlIncoterm" runat="server" CssClass="form-control" DataTextField="INCOTERM" DataValueField="ID_INCOTERM" alt="Esse campo serve para saber quem é o parceiro">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                             <div class="row" style="display: flex; align-items: flex-end;">
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">POR</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Place of Receipt</label>
                                                         <asp:DropDownList ID="ddlPortoRecebimento" runat="server" CssClass="form-control" DataTextField="NM_PORTO" DataValueField="ID_PORTO" alt="Esse campo serve para saber quem é o parceiro">
                                                         </asp:DropDownList>
                                                     </div>
@@ -219,24 +229,20 @@
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">POL / AOL</label><label runat="server" style="color: red">*</label>
-                                                        <asp:DropDownList ID="ddlPortoCarregamento" runat="server" CssClass="form-control" DataTextField="NM_PORTO" DataValueField="ID_PORTO" alt="Esse campo serve para saber quem é o parceiro">
-                                                        </asp:DropDownList>
+                                                        <select id="MainContent_ddlPortoCarregamento" class="form-control">
+                                                            <option value="">TODOS</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">POD / AOD</label><label runat="server" style="color: red">*</label>
-                                                        <asp:DropDownList ID="ddlPortoDescarga" runat="server" CssClass="form-control" DataTextField="NM_PORTO" DataValueField="ID_PORTO" alt="Esse campo serve para saber quem é o parceiro">
-                                                        </asp:DropDownList>
+                                                        <select id="MainContent_ddlPortoDescarga" class="form-control">                                                   
+                                                            <option value="">TODOS</option>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">INCOTERM</label><label runat="server" style="color: red">*</label>
-                                                        <asp:DropDownList ID="ddlIncoterm" runat="server" CssClass="form-control" DataTextField="INCOTERM" DataValueField="ID_INCOTERM" alt="Esse campo serve para saber quem é o parceiro">
-                                                        </asp:DropDownList>
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                             <div class="row" style="display: flex; align-items: flex-end;">
                                                 <div class="col-sm-6">
@@ -253,26 +259,26 @@
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Moeda Compra</label>
+                                                        <label class="control-label">Moeda Compra</label><label runat="server" style="color: red">*</label>
                                                         <asp:TextBox ID="txtMoedaCompra" runat="server" onkeyup="MostrarMoedaCompra(this)" CssClass="form-control" TextMode="Number"></asp:TextBox>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">&nbsp</label>
+                                                        <label class="control-label">&nbsp</label><label runat="server" style="color: red">*</label>
                                                         <asp:DropDownList ID="ddlTipoMoedaCompra" runat="server" CssClass="form-control" onchange="cd_moeda_compra(this)" DataTextField="NM_MOEDA" DataValueField="CD_MOEDA">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Base Compra</label>
+                                                        <label class="control-label">Base Compra</label><label runat="server" style="color: red">*</label>
                                                         <asp:TextBox ID="baseCompra" runat="server" CssClass="form-control numero"></asp:TextBox>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Tarífa Mínima Compra</label>
                                                         <asp:TextBox ID="txtTarifaMin" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
                                                         </asp:TextBox>
                                                     </div>
@@ -290,7 +296,7 @@
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Moeda Venda</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Moeda Venda</label>
                                                         <asp:TextBox ID="txtMoedaVenda" runat="server" onkeyup="MostrarMoedaVenda(this)" CssClass="form-control" TextMode="Number"></asp:TextBox>
                                                     </div>
                                                 </div>
@@ -303,31 +309,22 @@
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Base Venda</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Base Venda</label>
                                                         <asp:TextBox ID="baseVenda" runat="server" CssClass="form-control numero"></asp:TextBox>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Tarífa Mínima Venda</label>
                                                         <asp:TextBox ID="txtTarifaMinVenda" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
                                                         </asp:TextBox>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">Tipo de Cobrança:</label><label runat="server" style="color: red">*</label>
-                                                        <asp:DropDownList ID="ddlTipoCobranca" runat="server" CssClass="form-control" DataTextField="NM_TIPO_COBRANCA" DataValueField="ID_TIPO_COBRANCA">
-                                                        </asp:DropDownList>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Declarado:</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Declarado:</label>
                                                         <asp:DropDownList ID="ddlDeclarado" runat="server" CssClass="form-control">
                                                             <asp:ListItem Value="">Selecione</asp:ListItem>
                                                             <asp:ListItem Value="1">Sim</asp:ListItem>
@@ -335,13 +332,20 @@
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">Profit:</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Profit:</label>
                                                         <asp:DropDownList ID="ddlProfit" runat="server" CssClass="form-control">
                                                             <asp:ListItem Value="">Selecione</asp:ListItem>
                                                             <asp:ListItem Value="1">Sim</asp:ListItem>
                                                             <asp:ListItem Value="0">Não</asp:ListItem>
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Tipo de Cobrança:</label><label runat="server" style="color: red">*</label>
+                                                        <asp:DropDownList ID="ddlTipoCobranca" runat="server" CssClass="form-control" DataTextField="NM_TIPO_COBRANCA" DataValueField="ID_TIPO_COBRANCA">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -372,16 +376,16 @@
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="form-group">
-                                                        <label class="control-label">Observação Taxa</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Observação Taxa</label>
                                                         <asp:TextBox ID="txtObsTaxa" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" id="btnSalvar" class="btn btn-success" data-dismiss="modal">Cadastrar Taxa</button>
+                                            <button type="button" id="btnSalvar" class="btn btn-success">Cadastrar Taxa</button>
                                             <button type="button" id="btnEditar" class="btn btn-success">Editar Taxa</button>
-                                            <button type="button" id="btnSalvarEdit" class="btn btn-success" data-dismiss="modal">Salvar Edição</button>
+                                            <button type="button" id="btnSalvarEdit" class="btn btn-success">Salvar Edição</button>
                                             <button type="button" id="btnCancel" class="btn btn-danger">Cancelar</button>
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                         </div>
@@ -459,7 +463,38 @@
     <script>
         $(document).ready(function () {
             CarregarLista();
+            appendList()
             ListarTaxa();
+        });
+
+        function appendList() {
+            var portoAeroporto = document.getElementById("MainContent_ddlViaTransporte").value;
+            var option = "";
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/ListarPortoAeroporto",
+                data: '{via:"' + portoAeroporto + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var data = data.d;
+                    data = $.parseJSON(data);
+                    $("#MainContent_ddlPortoCarregamento").empty();
+                    $("#MainContent_ddlPortoDescarga").empty();
+                    if (data != null) {
+                        option += "<option value=''>TODOS</option>";
+                        for (let i = 0; i < data.length; i++) {
+                            option += "<option value=" + data[i]["ID_PORTO"] + ">" + data[i]["NM_PORTO"] + "</option>";
+                        }
+                        $("#MainContent_ddlPortoCarregamento").append(option);
+                        $("#MainContent_ddlPortoDescarga").append(option);
+                    }
+                }
+            })
+        }
+
+        $("#MainContent_ddlViaTransporte").change(function () {
+            appendList()
         });
 
         function MostrarValor(selecionado) {
@@ -515,15 +550,15 @@
                 success: function (data) {
                     var data = data.d;
                     data = $.parseJSON(data);
+                    document.getElementById("MainContent_ddlViaTransporte").value = data.ID_VIATRANSPORTE == "0" ? "" : data.ID_VIATRANSPORTE;
                     document.getElementById('ddlTaxaCliente').value = Id;
-                    document.getElementById("MainContent_ddlPortoDescarga").value = data.ID_PORTO_DESCARGA;
-                    document.getElementById("MainContent_ddlPortoRecebimento").value = data.ID_PORTO_RECEBIMENTO;
-                    document.getElementById("MainContent_ddlPortoCarregamento").value = data.ID_PORTO_CARREGAMENTO;
+                    document.getElementById("MainContent_ddlPortoDescarga").value = data.ID_PORTO_DESCARGA == "0" ? "" : data.ID_PORTO_DESCARGA;
+                    document.getElementById("MainContent_ddlPortoRecebimento").value = data.ID_PORTO_RECEBIMENTO == "0" ? "" : data.ID_PORTO_RECEBIMENTO;
+                    document.getElementById("MainContent_ddlPortoCarregamento").value = data.ID_PORTO_CARREGAMENTO == "0" ? "" : data.ID_PORTO_CARREGAMENTO;
                     document.getElementById("MainContent_ddlIncoterm").value = data.ID_INCOTERM;
                     document.getElementById("MainContent_ddlTipoCobranca").value = data.ID_TIPO_COBRANCA;
-                    document.getElementById("MainContent_ddlViaTransporte").value = data.ID_VIATRANSPORTE;
-                    document.getElementById("MainContent_ddlTipoEstufagem").value = data.ID_TIPO_ESTUFAGEM;
-                    document.getElementById("MainContent_ddlTipoComex").value = data.ID_TIPO_COMEX;
+                    document.getElementById("MainContent_ddlTipoEstufagem").value = data.ID_TIPO_ESTUFAGEM == "0" ? "" : data.ID_TIPO_ESTUFAGEM;
+                    document.getElementById("MainContent_ddlTipoComex").value = data.ID_TIPO_COMEX == "0" ? "" : data.ID_TIPO_COMEX;
                     document.getElementById('MainContent_txtCodigoTipoItem').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlTipoItem').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlBaseCalculo').value = data.ID_BASE_CALCULO_TAXA;
@@ -576,6 +611,61 @@
                 }
             })
         };
+
+        function Copiar(Id) {
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/CopiarTaxa",
+                data: '{Id:"' + Id + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function () {
+                    LimparFiltro();
+                    CarregarLista()
+                    ListarTaxa();
+                    Toastify({
+                        text: "Cadastrado com Sucesso",
+                        close: true,
+                        gravity: "bottom",
+                        style: {
+                            color: "white",
+                            background: "#1a8226",
+
+                            borderRadius: "4px",
+                            width: "500px",
+                            height: "100px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            fontSize: "18px"
+                        }
+                    }).showToast();
+                },
+                error: function () {
+                    LimparFiltro();
+                    CarregarLista()
+                    ListarTaxa();
+                    Toastify({
+                        text: "Erro ao copiar Taxa",
+                        close: true,
+                        gravity: "bottom",
+                        style: {
+                            color: "white",
+                            background: "#921a30",
+
+                            borderRadius: "4px",
+                            width: "500px",
+                            height: "100px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            fontSize: "18px"
+                        }
+                    }).showToast();
+                }
+            })
+        };
+
 
         function ObsGeral() {
             var url = window.location.search.replace("?", "");
@@ -642,12 +732,12 @@
                     CarregarLista()
                     ListarTaxa();
                     Toastify({
-                        text: "Cadastrado com Sucesso",
+                        text: "Erro ao cadastrar",
                         close: true,
                         gravity: "bottom",
                         style: {
                             color: "white",
-                            background: "#1a8226",
+                            background: "#921a30",
                             
                             borderRadius: "4px",
                             width: "500px",
@@ -816,6 +906,9 @@
             if (document.getElementById("MainContent_baseCompra").value == "") {
                 document.getElementById("MainContent_baseCompra").value = 0;
             }
+
+            if (document.getElementById("MainContent_txtCodigoTipoItem").value == "") {  }
+
             var dado = {
                 "ID_PORTO_RECEBIMENTO": document.getElementById("MainContent_ddlPortoRecebimento").value,
                 "ID_PORTO_CARREGAMENTO": document.getElementById("MainContent_ddlPortoCarregamento").value,
@@ -849,7 +942,9 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    if (data.d == "1") {
+                    var data = data.d;
+                    data = $.parseJSON(data);
+                    if (data.success) {
                         LimparFiltro();
                         CarregarLista()
                         ListarTaxa();
@@ -870,13 +965,11 @@
                                 fontSize: "18px"
                             }
                         }).showToast();
+                        $("#modal").modal('hide')
                     }
                     else {
-                        LimparFiltro();
-                        CarregarLista()
-                        ListarTaxa();
                         Toastify({
-                            text: "Erro ao cadastrar",
+                            text: data.message,
                             close: true,
                             gravity: "bottom",
                             style: {
@@ -894,7 +987,7 @@
                         }).showToast();
                     }
                 },
-                error: function () {
+                error: function (data) {
                     Toastify({
                         text: "Erro ao cadastrar",
                         close: true,
@@ -945,8 +1038,9 @@
                         for (let i = 0; i < dado.length; i++) {
                             result += "<tr>";
                             result += "<td>";
-                            result += "<div class='editar btn btn-primary' data-toggle='modal' data-value='" + dado[i]['ID_TAXA_CLIENTE'] + "' data-target='#modal' onclick = 'Buscar(" + dado[i]['ID_TAXA_CLIENTE'] + ")'> <i class='fas fa-eye'></i></div>";
-                            result += "<div class='delete btn btn-primary' data-toggle='modal' data-value='" + dado[i]["ID_TAXA_CLIENTE"] + "'><i class='fas fa-trash'></i></div>";
+                            result += "<div class='editar btn btn-primary' style='margin-right: 4px;' data-toggle='modal' data-value='" + dado[i]['ID_TAXA_CLIENTE'] + "' data-target='#modal' onclick = 'Buscar(" + dado[i]['ID_TAXA_CLIENTE'] + ")'> <i class='fas fa-eye'></i></div>";
+                            result += "<div class='copiar btn btn-warning' style='margin-right: 4px;' data-value='" + dado[i]['ID_TAXA_CLIENTE'] + "' onclick = 'Copiar(" + dado[i]['ID_TAXA_CLIENTE'] + ")'> <i class='fas fa-copy'></i></div>";
+                            result += "<div class='delete btn btn-danger' data-toggle='modal' data-value='" + dado[i]["ID_TAXA_CLIENTE"] + "'><i class='fas fa-trash'></i></div>";
                             result += "</td>";
                             result += "<td>" + dado[i]["ID_TAXA_CLIENTE"] + "</td>";
                             result += "<td>" + dado[i]["ITEM"] + "</td>";
@@ -957,6 +1051,8 @@
                             result += "<td>" + dado[i]["NM_BASE_CALCULO_TAXA"] + "</td>";
                             result += "<td>" + dado[i]["NM_MOEDA"] + "</td>";
                             result += "<td>" + dado[i]["VL_TAXA_VENDA"] + "</td>";
+                            result += "<td>" + dado[i]["NM_MOEDA_COMPRA"] + "</td>";
+                            result += "<td>" + dado[i]["VL_TAXA_COMPRA"] + "</td>";
                             result += "<td>" + dado[i]["NM_TIPO_COBRANCA"] + "</td>";
                             result += "<td>" + dado[i]["NM_TIPO_COMEX"] + "</td>";
                             result += "<td>" + dado[i]["NM_VIATRANSPORTE"] + "</td>";
@@ -1257,9 +1353,9 @@
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculo").value,
                 "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVenda').value.replace(',', '.'),
                 "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMin').value.replace(',', '.'),
-                "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompra").value,
+                "ID_MOEDA_COMPRA": document.getElementById("MainContent_ddlTipoMoedaCompra").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompra").value.replace(',', '.'),
-                "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVenda").value,
+                "ID_MOEDA_VENDA": document.getElementById("MainContent_ddlTipoMoedaVenda").value,
                 "VL_TAXA_VENDA": document.getElementById("MainContent_baseVenda").value.replace(',', '.'),
                 "FL_DECLARADO": document.getElementById("MainContent_ddlDeclarado").value,
                 "FL_DIVISAO_PROFIT": document.getElementById("MainContent_ddlProfit").value,
@@ -1278,10 +1374,11 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    if (data.d == "1") {
+                    var data = data.d;
+                    data = $.parseJSON(data);
+                    if (data.success) {
                         LimparFiltro();
                         CarregarLista()
-                        ListarTaxa();
                         Toastify({
                             text: "Cadastrado com Sucesso",
                             close: true,
@@ -1299,13 +1396,11 @@
                                 fontSize: "18px"
                             }
                         }).showToast();
+                        $("#modal").modal('hide');
                     }
                     else {
-                        LimparFiltro();
-                        CarregarLista()
-                        ListarTaxa();
                         Toastify({
-                            text: "Erro ao cadastrar",
+                            text: data.message,
                             close: true,
                             gravity: "bottom",
                             style: {
@@ -1347,6 +1442,7 @@
         });
 
         function Disable() {
+            appendList();
             var forms = ['MainContent_ddlTipoCobranca',
                 'MainContent_ddlTipoComex',
                 'MainContent_ddlViaTransporte',
@@ -1511,6 +1607,12 @@
             console.log($(this).attr('data-value'));
         });
 
+        $(document).on("click", ".copiar", function () {
+            idTaxa = $(this).attr('data-value');
+            console.log(idTaxa);
+            console.log($(this).attr('data-value'));
+        });
+
         $(document).on("click", ".deleteTaxaVariacao", function () {
             idTaxaVariacao = $(this).attr('data-value');
         });
@@ -1528,7 +1630,7 @@
                 },
                 success: function () {
                     Toastify({
-                        text: "Cadastrado com Sucesso",
+                        text: "Deletado com Sucesso",
                         close: true,
                         gravity: "bottom",
                         style: {

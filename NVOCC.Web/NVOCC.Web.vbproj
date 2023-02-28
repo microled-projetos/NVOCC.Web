@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 16022023\GlobalSys-Homolog\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 28022023\GlobalSys-Homolog\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -268,6 +268,7 @@
     <Content Include="CadastrarEquipe.aspx" />
     <Content Include="CadastrarTipoFaturamento.aspx" />
     <Content Include="Classes\FiltrosTaxasInativas.cs" />
+    <Content Include="Classes\TaxaPrestador.cs" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />

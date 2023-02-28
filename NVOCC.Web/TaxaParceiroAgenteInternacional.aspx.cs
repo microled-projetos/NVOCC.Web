@@ -15,7 +15,7 @@ using System.Configuration;
 
 namespace ABAINFRA.Web
 {
-	public partial class TaxaParceiroAgenteInternacional : System.Web.UI.Page
+    public partial class TaxaParceiroAgenteInternacional : System.Web.UI.Page
     {
         string SQL;
         string URL;
@@ -146,7 +146,8 @@ namespace ABAINFRA.Web
             Session["TaskTableTipoEstufagem"] = tipoEstufagem;
             ddlTipoEstufagem.DataSource = Session["TaskTableTipoEstufagem"];
             ddlTipoEstufagem.DataBind();
-            ddlTipoEstufagem.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlTipoEstufagem.Items.Insert(0, new ListItem("TODOS", ""));
+
         }
         private void CarregarOrigem()
         {
@@ -168,7 +169,7 @@ namespace ABAINFRA.Web
             Session["TaskTableComex"] = comex;
             ddlTipoComex.DataSource = Session["TaskTableComex"];
             ddlTipoComex.DataBind();
-            ddlTipoComex.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlTipoComex.Items.Insert(0, new ListItem("TODOS", ""));
         }
         private void CarregarVia()
         {
@@ -179,11 +180,11 @@ namespace ABAINFRA.Web
             Session["TaskTableVia"] = via;
             ddlViaTransporte.DataSource = Session["TaskTableVia"];
             ddlViaTransporte.DataBind();
-            ddlViaTransporte.Items.Insert(0, new ListItem("Selecione", ""));
-        }
+            ddlViaTransporte.Items.Insert(0, new ListItem("TODOS", ""));
 
+        }
         private void CarregarIncoterm()
-		{
+        {
             SQL = "SELECT ID_INCOTERM, CONCAT(CD_INCOTERM,' - ', NM_INCOTERM) AS INCOTERM FROM TB_INCOTERM ";
 
             DataTable incoterm = new DataTable();
@@ -200,17 +201,10 @@ namespace ABAINFRA.Web
             DataTable porto = new DataTable();
             porto = DBS.List(SQL);
             Session["TaskTablePorto"] = porto;
-            ddlPortoDescarga.DataSource = Session["TaskTablePorto"];
-            ddlPortoDescarga.DataBind();
-            ddlPortoDescarga.Items.Insert(0, new ListItem("Selecione", "0"));
-
-            ddlPortoCarregamento.DataSource = Session["TaskTablePorto"];
-            ddlPortoCarregamento.DataBind();
-            ddlPortoCarregamento.Items.Insert(0, new ListItem("Selecione", "0"));
-
             ddlPortoRecebimento.DataSource = Session["TaskTablePorto"];
             ddlPortoRecebimento.DataBind();
-            ddlPortoRecebimento.Items.Insert(0, new ListItem("Selecione", "0"));
+            ddlPortoRecebimento.Items.Insert(0, new ListItem("Selecione", ""));
+
         }
         private void CarregarTipoCobranca()
         {
@@ -218,11 +212,13 @@ namespace ABAINFRA.Web
 
             DataTable cobranca = new DataTable();
             cobranca = DBS.List(SQL);
-            Session["TaskTableTipoCobranca"] = cobranca;
-            ddlTipoCobranca.DataSource = Session["TaskTableTipoCobranca"];
+            Session["TaskTableCobranca"] = cobranca;
+            ddlTipoCobranca.DataSource = Session["TaskTableCobranca"];
             ddlTipoCobranca.DataBind();
-            ddlTipoCobranca.Items.Insert(0, new ListItem("Selecione", "0"));
+            ddlTipoCobranca.Items.Insert(0, new ListItem("Selecione", ""));
+
         }
+
         public static string decBD(string numero)
         {
             if (string.IsNullOrEmpty(numero) == true) { return "0"; }
