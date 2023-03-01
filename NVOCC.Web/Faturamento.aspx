@@ -808,7 +808,7 @@ NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_LIQUIDACAO,DT_CANCELAMENTO,
 union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsClientes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT DISTINCT 1 COD, NM_CLIENTE FROM TB_FATURAMENTO WHERE NM_CLIENTE IS NOT NULL union SELECT  0, 'Selecione' ORDER BY COD"></asp:SqlDataSource>
+        SelectCommand="SELECT DISTINCT ID_PARCEIRO_CLIENTE COD, NM_CLIENTE FROM TB_FATURAMENTO WHERE NM_CLIENTE IS NOT NULL union SELECT  0, 'Selecione' ORDER BY COD"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsTaxa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1 UNION SELECT  0, '    TODAS AS TAXAS' ORDER BY ID_ITEM_DESPESA"></asp:SqlDataSource>

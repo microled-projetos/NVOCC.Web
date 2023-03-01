@@ -59,7 +59,7 @@
                                      <div class="col-sm-2">
                                         <div class="form-group">
                                              <label class="control-label">Serviço:</label></label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServico" DataValueField="ID_SERVICO" AutoPostBack="true">
+                                                <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServico" DataValueField="ID_SERVICO">
                                                 </asp:DropDownList>
                                         </div>
                                     </div>
@@ -333,6 +333,7 @@
                                             <asp:BoundField DataField="ID_COTACAO" HeaderText="#" Visible="false" />
 											<asp:BoundField DataField="DT_ABERTURA" HeaderText="Abertura" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_ABERTURA" />
                                             <asp:BoundField DataField="NR_COTACAO" HeaderText="Nº Cotação" SortExpression="NR_COTACAO" />
+                                            <asp:BoundField DataField="REF_REPETIDAS" HeaderText="REF. REPETIDAS" SortExpression="REF_REPETIDAS" /> 
                                             <asp:TemplateField HeaderText="Status" SortExpression="Status">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnStatus" runat="server" CssClass="btn-default"
@@ -354,7 +355,6 @@
                                             <asp:BoundField DataField="ARMADOR" HeaderText="Armador" SortExpression="ARMADOR" />
                                             <asp:BoundField DataField="ANALISTA_COTACAO_INSIDE" HeaderText="Analista Inside" SortExpression="ANALISTA_COTACAO_INSIDE" />
                                             <asp:BoundField DataField="ANALISTA_COTACAO_PRICING" HeaderText="Analista Pricing" SortExpression="ANALISTA_COTACAO_PRICING" />
-                                            <asp:BoundField DataField="REF_REPETIDAS" HeaderText="REF. REPETIDAS" SortExpression="REF_REPETIDAS" /> 
                                              <asp:TemplateField>                                              
                                                 <ItemTemplate>
                                                  <asp:Button ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_COTACAO") %>'
@@ -414,7 +414,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_INCOTERM"></asp:SqlDataSource>
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ISNULL(ID_VIATRANSPORTE,0) <> 4 union SELECT  0, '      Selecione' ORDER BY NM_PORTO ">     
+        SelectCommand="SELECT ID_PORTO,  NM_PORTO + ' - ' +  CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ISNULL(ID_VIATRANSPORTE,0) <> 4 union SELECT  0, '      Selecione' ORDER BY NM_PORTO ">     
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsServico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"

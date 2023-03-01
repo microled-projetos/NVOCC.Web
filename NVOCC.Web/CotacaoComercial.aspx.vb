@@ -2680,23 +2680,23 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
         End If
     End Sub
 
-    Private Sub ddlServico_TextChanged(sender As Object, e As EventArgs) Handles ddlServico.TextChanged
-        If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 4 Then
-            'AGENCIAMENTO DE IMPORTACAO MARITIMA (1)
-            'AGENCIAMENTO DE EXPORTACAO MARITIMA (4)
-            dsPorto.SelectCommand = " SELECT ID_PORTO, NM_PORTO + ' - ' +  CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
-            ddlOrigem.DataBind()
-            ddlDestino.DataBind()
+    'Private Sub ddlServico_TextChanged(sender As Object, e As EventArgs) Handles ddlServico.TextChanged
+    'If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 4 Then
+    '    'AGENCIAMENTO DE IMPORTACAO MARITIMA (1)
+    '    'AGENCIAMENTO DE EXPORTACAO MARITIMA (4)
+    '    dsPorto.SelectCommand = " SELECT ID_PORTO, NM_PORTO + ' - ' +  CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
+    '    ddlOrigem.DataBind()
+    '    ddlDestino.DataBind()
 
-        ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
-            'AGENCIAMENTO DE IMPORTACAO AEREO (2)
-            'AGENCIAMENTO DE EXPORTAÇÃO AEREO (5)
-            dsPorto.SelectCommand = " SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
-            ddlOrigem.DataBind()
-            ddlDestino.DataBind()
+    'ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
+    '    'AGENCIAMENTO DE IMPORTACAO AEREO (2)
+    '    'AGENCIAMENTO DE EXPORTAÇÃO AEREO (5)
+    '    dsPorto.SelectCommand = " SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
+    '    ddlOrigem.DataBind()
+    '    ddlDestino.DataBind()
 
-        End If
-    End Sub
+    'End If
+    'End Sub
 
     Private Sub btnCancelaEnvioSI_Click(sender As Object, e As EventArgs) Handles btnCancelaEnvioSI.Click
         Dim Con As New Conexao_sql
