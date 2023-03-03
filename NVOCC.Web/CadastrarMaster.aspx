@@ -2393,7 +2393,7 @@ left join TB_PARCEIRO P on P.ID_PARCEIRO = A.ID_PARCEIRO_CLIENTE
 left join TB_PORTO O on O.ID_PORTO = A.ID_PORTO_ORIGEM
 left join TB_PORTO D on D.ID_PORTO = A.ID_PORTO_DESTINO 
 left join TB_COTACAO E on E.ID_COTACAO = A.ID_COTACAO 
-WHERE ID_BL_MASTER IS NULL AND GRAU='C' AND A.ID_PORTO_ORIGEM = @ORIGEM AND A.ID_PORTO_DESTINO = @DESTINO AND NR_PROCESSO IS NOT NULL AND ISNULL(E.ID_STATUS_COTACAO,9) in(9,12,15,10)">
+WHERE ID_BL_MASTER IS NULL AND GRAU='C' AND A.ID_PORTO_ORIGEM = @ORIGEM AND A.ID_PORTO_DESTINO = @DESTINO AND ISNULL(A.FL_CANCELADO,0) = 0 AND A.DT_CANCELAMENTO IS NULL AND NR_PROCESSO IS NOT NULL AND ISNULL(E.ID_STATUS_COTACAO,9) in(9,12,15,10)">
         <SelectParameters>
             <asp:ControlParameter Name="ORIGEM" Type="Int32" ControlID="ddlOrigem_BasicoAereo" />
             <asp:ControlParameter Name="DESTINO" Type="Int32" ControlID="ddlDestino_BasicoAereo" />
@@ -2724,50 +2724,11 @@ C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACA
 
         ///THIAGO
 
-        //function BuscarMBL(id) {
-        //    var result;
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "DemurrageService.asmx/BuscarMBL",
-        //        data: '{id: "' + id + '" }',
-        //        contentType: "application/json; charset=utf-8",
-        //        dataType: "json",
-        //        beforeSend: function () {
-        //            $("#containerCourrierteste").empty();
-        //            $("#containerCourrierteste").append("<tr><td colspan='9'><div class='loader'></div></td></tr>");
-        //        },
-        //        success: function (dado) {
-        //            var dado = dado.d;
-        //            dado = $.parseJSON(dado);
-        //            if (dado != null) {
-        //                $("#containerCourrierteste").empty();
-        //                for (let i = 0; i < dado.length; i++) {
-        //                    result += "<tr>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["NM_CODE"] + "</td>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["NM_CODE_NAME"] + "</td>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["DT_ESTIMATE_TIME"] + "</td>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["DT_ACTUAL_TIME"] + "</td>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["NM_LOCATION"] + "</td>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["NM_CODE_LOCATION"] + "</td>";
-        //                    result += "<td class='text-center' scope='col' style='cursor: pointer'>" + dado[i]["HAS_CARGO"] + "</td>";
-        //                    result += "</tr>";
-        //                }
-        //                $("#containerCourrierteste").append(result);
-        //            }
-        //            else {
-        //            }
-        //        }
-        //    })
-        //}
-
+       
 
         function BuscarMBL() {
             var txtid = document.getElementById('<%= txtID_BasicoMaritimo.ClientID %>');
-            //console.log(btn.value);
-            //var url = window.location.search.replace("?", "");
-            //var itens = url.split("&");
-            //var id_master = itens.toString().replace("id=", "");
-            var id = txtid.value; //parseInt(id_master);
+            var id = txtid.value;  
             var result;
             $.ajax({
                 type: "POST",
