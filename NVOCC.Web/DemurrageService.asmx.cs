@@ -10194,7 +10194,7 @@ namespace ABAINFRA.Web
             if (dadosEdit.ID_TIPO_COMEX.ToString() == "") { dadosEdit.ID_TIPO_COMEX = "null"; }
             if (dadosEdit.ID_TIPO_ESTUFAGEM.ToString() == "") { dadosEdit.ID_TIPO_ESTUFAGEM = "null"; }
             if (dadosEdit.ID_VIATRANSPORTE.ToString() == "") { dadosEdit.ID_VIATRANSPORTE = "null"; }
-            if (dadosEdit.ID_INCOTERM.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Incoterm" }); }
+            if (dadosEdit.ID_INCOTERM.ToString() == "") { dadosEdit.ID_INCOTERM = "null"; }
             if (dadosEdit.ID_PORTO_RECEBIMENTO.ToString() == "") { dadosEdit.ID_PORTO_RECEBIMENTO = "null"; }
             if (dadosEdit.ID_PORTO_DESCARGA.ToString() == "") { dadosEdit.ID_PORTO_DESCARGA = "null"; };
             if (dadosEdit.ID_PORTO_CARREGAMENTO.ToString() == "") { dadosEdit.ID_PORTO_CARREGAMENTO = "null"; }
@@ -10246,7 +10246,7 @@ namespace ABAINFRA.Web
             SQL += "ID_PORTO_DESCARGA =" + dadosEdit.ID_PORTO_DESCARGA + ", ";
             SQL += "ID_PORTO_CARREGAMENTO =" + dadosEdit.ID_PORTO_CARREGAMENTO + ", ";
             SQL += "ID_PORTO_RECEBIMENTO =" + dadosEdit.ID_PORTO_RECEBIMENTO + ", ";
-            SQL += "ID_INCOTERM ='" + dadosEdit.ID_INCOTERM + "' ";
+            SQL += "ID_INCOTERM =" + dadosEdit.ID_INCOTERM + " ";
             SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
 
             string editTaxa = DBS.ExecuteScalar(SQL);
@@ -10263,22 +10263,17 @@ namespace ABAINFRA.Web
                 if (dadosEdit.ID_TIPO_COMEX.ToString() == "") { dadosEdit.ID_TIPO_COMEX = "null"; }
                 if (dadosEdit.ID_TIPO_ESTUFAGEM.ToString() == "") { dadosEdit.ID_TIPO_ESTUFAGEM = "null"; }
                 if (dadosEdit.ID_VIATRANSPORTE.ToString() == "") { dadosEdit.ID_VIATRANSPORTE = "null"; }
-                if (dadosEdit.ID_INCOTERM.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Incoterm" }); }
+                if (dadosEdit.ID_INCOTERM.ToString() == "") { dadosEdit.ID_INCOTERM = "null"; }
                 if (dadosEdit.ID_PORTO_RECEBIMENTO.ToString() == "") { dadosEdit.ID_PORTO_RECEBIMENTO = "null"; }
                 if (dadosEdit.ID_PORTO_DESCARGA.ToString() == "") { dadosEdit.ID_PORTO_DESCARGA = "null"; };
                 if (dadosEdit.ID_PORTO_CARREGAMENTO.ToString() == "") { dadosEdit.ID_PORTO_CARREGAMENTO = "null"; }
                 if (dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
 
-                if (dadosEdit.ID_MOEDA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Compra" }); }
-                if (dadosEdit.VL_TAXA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Compra" }); }
-                if (Double.Parse(dadosEdit.VL_TAXA_COMPRA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Compra menor ou igual a 0" }); }
+                if (dadosEdit.ID_MOEDA_COMPRA.ToString() == "") { dadosEdit.ID_MOEDA_COMPRA = "null"; }
+                if (dadosEdit.VL_TAXA_COMPRA.ToString() == "") { dadosEdit.VL_TAXA_COMPRA = "0.00"; }
                 if (dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
                 {
-                    return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Compra" });
-                }
-                if (Double.Parse(dadosEdit.VL_TARIFA_MINIMA_COMPRA) <= 0.00)
-                {
-                    return JsonConvert.SerializeObject(new { success = false, message = "Campo Tarifa Minima Compra menor ou igual a 0" });
+                    tarifaC = "0.00";
                 }
                 else
                 {
@@ -10325,7 +10320,7 @@ namespace ABAINFRA.Web
                 SQL += "ID_PORTO_DESCARGA =" + dadosEdit.ID_PORTO_DESCARGA + ", ";
                 SQL += "ID_PORTO_CARREGAMENTO =" + dadosEdit.ID_PORTO_CARREGAMENTO + ", ";
                 SQL += "ID_PORTO_RECEBIMENTO =" + dadosEdit.ID_PORTO_RECEBIMENTO + ", ";
-                SQL += "ID_INCOTERM ='" + dadosEdit.ID_INCOTERM + "' ";
+                SQL += "ID_INCOTERM =" + dadosEdit.ID_INCOTERM + " ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
 
                 string editTaxa = DBS.ExecuteScalar(SQL);
@@ -10398,7 +10393,7 @@ namespace ABAINFRA.Web
             if (via != "0") { filter += " AND (A.ID_VIATRANSPORTE = '" + via + "'  OR A.ID_VIATRANSPORTE  IS NULL) "; }
             if (estufagem != "0") { filter += " AND (A.ID_TIPO_ESTUFAGEM= '" + estufagem + "' OR A.ID_TIPO_ESTUFAGEM IS NULL) "; }
 
-            SQL = "SELECT ID_TAXA_CLIENTE, B.NM_ITEM_DESPESA as ITEM, ISNULL(H1.NM_PORTO,'TODOS') AS DESCARGA, ISNULL(H2.NM_PORTO,'') AS RECEBIMENTO, ISNULL(H3.NM_PORTO,'TODOS') AS CARREGAMENTO, CONCAT(CD_INCOTERM, ' - ', NM_INCOTERM) AS INCOTERM, C.NM_BASE_CALCULO_TAXA, ISNULL(D.NM_MOEDA,'') AS NM_MOEDA, D1.NM_MOEDA AS NM_MOEDA_COMPRA, VL_TAXA_VENDA, VL_TAXA_COMPRA, ISNULL(E.NM_TIPO_ESTUFAGEM,'TODOS') AS NM_TIPO_ESTUFAGEM, ISNULL(F.NM_TIPO_COMEX,'TODOS') AS NM_TIPO_COMEX, ISNULL(G.NM_VIATRANSPORTE,'TODOS') AS NM_VIATRANSPORTE, ISNULL(I.NM_TIPO_COBRANCA,'') AS NM_TIPO_COBRANCA ";
+            SQL = "SELECT ID_TAXA_CLIENTE, B.NM_ITEM_DESPESA as ITEM, ISNULL(H1.NM_PORTO,'TODOS') AS DESCARGA, ISNULL(H2.NM_PORTO,'') AS RECEBIMENTO, ISNULL(H3.NM_PORTO,'TODOS') AS CARREGAMENTO, ISNULL(NM_INCOTERM,'TODOS') AS INCOTERM, CD_INCOTERM, C.NM_BASE_CALCULO_TAXA, ISNULL(D.NM_MOEDA,'') AS NM_MOEDA, ISNULL(D1.NM_MOEDA,'') AS NM_MOEDA_COMPRA, VL_TAXA_VENDA, VL_TAXA_COMPRA, ISNULL(E.NM_TIPO_ESTUFAGEM,'TODOS') AS NM_TIPO_ESTUFAGEM, ISNULL(F.NM_TIPO_COMEX,'TODOS') AS NM_TIPO_COMEX, ISNULL(G.NM_VIATRANSPORTE,'TODOS') AS NM_VIATRANSPORTE, ISNULL(I.NM_TIPO_COBRANCA,'') AS NM_TIPO_COBRANCA ";
             SQL += "FROM TB_TAXA_CLIENTE A ";
             SQL += "INNER JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
             SQL += "LEFT JOIN TB_BASE_CALCULO_TAXA C ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
@@ -10434,22 +10429,17 @@ namespace ABAINFRA.Web
             if (dados.ID_TIPO_COMEX.ToString() == "") { dados.ID_TIPO_COMEX = "null"; }
             if (dados.ID_TIPO_ESTUFAGEM.ToString() == "") { dados.ID_TIPO_ESTUFAGEM = "null"; }
             if (dados.ID_VIATRANSPORTE.ToString() == "") { dados.ID_VIATRANSPORTE = "null"; }
-            if (dados.ID_INCOTERM.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Incoterm" }); }
+            if (dados.ID_INCOTERM.ToString() == "") { dados.ID_INCOTERM = "null"; }
             if (dados.ID_PORTO_RECEBIMENTO.ToString() == "") { dados.ID_PORTO_RECEBIMENTO = "null"; }
             if (dados.ID_PORTO_DESCARGA.ToString() == "") { dados.ID_PORTO_DESCARGA = "null"; };
             if (dados.ID_PORTO_CARREGAMENTO.ToString() == "") { dados.ID_PORTO_CARREGAMENTO = "null"; }
             if (dados.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
 
-            if (dados.ID_MOEDA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Compra" }); }
-            if (dados.VL_TAXA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Compra" }); }
-            if (Double.Parse(dados.VL_TAXA_COMPRA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Compra menor ou igual a 0" }); }
+            if (dados.ID_MOEDA_COMPRA.ToString() == "") { dados.ID_MOEDA_COMPRA = "null"; }
+            if (dados.VL_TAXA_COMPRA.ToString() == "") { dados.VL_TAXA_COMPRA = "0.00"; }
             if (dados.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
             {
-                return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Compra" });
-            }
-            if (Double.Parse(dados.VL_TARIFA_MINIMA_COMPRA) <= 0.00)
-            {
-                return JsonConvert.SerializeObject(new { success = false, message = "Campo Tarifa Minima Compra menor ou igual a 0" });
+                tarifaC = "0.00";
             }
             else
             {
@@ -10499,7 +10489,7 @@ namespace ABAINFRA.Web
             SQL += "'" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "', ";
             SQL += "'" + tarifaC.ToString().Replace(',', '.') + "'," + dados.ID_PORTO_DESCARGA + ", ";
             SQL += "" + dados.ID_TIPO_COBRANCA.ToString() + ", " + dados.ID_PORTO_CARREGAMENTO + ", ";
-            SQL += "" + dados.ID_PORTO_RECEBIMENTO + ", '" + dados.ID_INCOTERM + "') ";
+            SQL += "" + dados.ID_PORTO_RECEBIMENTO + ", " + dados.ID_INCOTERM + ") ";
             string taxa = DBS.ExecuteScalar(SQL);
             return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
         }
@@ -10515,7 +10505,7 @@ namespace ABAINFRA.Web
             if (dados.ID_TIPO_COMEX.ToString() == "") { dados.ID_TIPO_COMEX = "null"; }
             if (dados.ID_TIPO_ESTUFAGEM.ToString() == "") { dados.ID_TIPO_ESTUFAGEM = "null"; }
             if (dados.ID_VIATRANSPORTE.ToString() == "") { dados.ID_VIATRANSPORTE = "null"; }
-            if (dados.ID_INCOTERM.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Incoterm" }); }
+            if (dados.ID_INCOTERM.ToString() == "") { dados.ID_INCOTERM = "null"; }
             if (dados.ID_PORTO_RECEBIMENTO.ToString() == "") { dados.ID_PORTO_RECEBIMENTO = "null"; }
             if (dados.ID_PORTO_DESCARGA.ToString() == "") { dados.ID_PORTO_DESCARGA = "null"; };
             if (dados.ID_PORTO_CARREGAMENTO.ToString() == "") { dados.ID_PORTO_CARREGAMENTO = "null"; }
@@ -10569,7 +10559,7 @@ namespace ABAINFRA.Web
             SQL += "'" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "', ";
             SQL += "'" + tarifaC.ToString().Replace(',', '.') + "',"+dados.ID_PORTO_DESCARGA+", ";
             SQL += "" + dados.ID_TIPO_COBRANCA.ToString() + ", " + dados.ID_PORTO_CARREGAMENTO + ", ";
-            SQL += "" + dados.ID_PORTO_RECEBIMENTO + ", '" + dados.ID_INCOTERM + "') ";
+            SQL += "" + dados.ID_PORTO_RECEBIMENTO + ", " + dados.ID_INCOTERM + ") ";
             string taxa = DBS.ExecuteScalar(SQL);
             return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
         }
@@ -10683,10 +10673,15 @@ namespace ABAINFRA.Web
             string SQL;
 
             
-            SQL = "SELECT ID_PORTO, NM_PORTO FROM TB_PORTO ";
+            SQL = "SELECT ID_PORTO, NM_PORTO, CD_PORTO FROM TB_PORTO ";
             if (via != "")
             {
-                SQL += "WHERE ID_VIATRANSPORTE = " + via + " ";
+                SQL += "WHERE ID_VIATRANSPORTE = " + via + " ORDER BY NM_PORTO";
+			}
+			else
+			{
+                SQL += "ORDER BY NM_PORTO";
+
             }
             DataTable carregarDados = new DataTable();
             carregarDados = DBS.List(SQL);

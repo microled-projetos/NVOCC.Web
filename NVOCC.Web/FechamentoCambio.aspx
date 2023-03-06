@@ -389,7 +389,7 @@
                    
                                <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharBaixa" text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarBaixa" text="Salvar" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarBaixa" text="Salvar" OnClientClick="desabilitaButtonOnClick" />
 
                                                         </div>
                                                     
@@ -592,6 +592,14 @@ union SELECT 0, ' Selecione' ORDER BY NM_CONTA_BANCARIA"></asp:SqlDataSource>
            window.open('ContratosFirmados.aspx', '_blank');
        };
 
+
+       function desabilitaButtonOnClick() {
+           document.getElementById('<%= btnSalvarBaixa.ClientID %>').style.display = 'none';
+       }
+
+       function habilitaButtonOnClick() {
+           document.getElementById('<%= btnSalvarBaixa.ClientID %>').style.display = 'block';
+       }
 
    </script>
 

@@ -192,7 +192,7 @@ namespace ABAINFRA.Web
             Session["TaskTableIncoterm"] = incoterm;
             ddlIncoterm.DataSource = Session["TaskTableIncoterm"];
             ddlIncoterm.DataBind();
-            ddlIncoterm.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlIncoterm.Items.Insert(0, new ListItem("TODOS", ""));
         }
         private void CarregarPortos()
         {

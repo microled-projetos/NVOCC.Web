@@ -256,26 +256,26 @@
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Moeda Compra</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Moeda Compra</label>
                                                         <asp:TextBox ID="txtMoedaCompra" runat="server" onkeyup="MostrarMoedaCompra(this)" CssClass="form-control" TextMode="Number"></asp:TextBox>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">&nbsp</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">&nbsp</label>
                                                         <asp:DropDownList ID="ddlTipoMoedaCompra" runat="server" CssClass="form-control" onchange="cd_moeda_compra(this)" DataTextField="NM_MOEDA" DataValueField="CD_MOEDA">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Base Compra</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Base Compra</label>
                                                         <asp:TextBox ID="baseCompra" runat="server" CssClass="form-control numero"></asp:TextBox>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Tarífa Mínima Compra</label>
                                                         <asp:TextBox ID="txtTarifaMin" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
                                                         </asp:TextBox>
                                                     </div>
@@ -427,7 +427,7 @@
                     if (data != null) {
                         option += "<option value=''>TODOS</option>";
                         for (let i = 0; i < data.length; i++) {
-                            option += "<option value=" + data[i]["ID_PORTO"] + ">" + data[i]["NM_PORTO"] + "</option>";
+                            option += "<option value=" + data[i]["ID_PORTO"] + ">" + data[i]["NM_PORTO"] + " - " + data[i]["CD_PORTO"] + "</option>";
                         }
                         $("#MainContent_ddlPortoCarregamento").append(option);
                         $("#MainContent_ddlPortoDescarga").append(option);
@@ -499,7 +499,7 @@
                     document.getElementById("MainContent_ddlPortoDescarga").value = data.ID_PORTO_DESCARGA == "0" ? "" : data.ID_PORTO_DESCARGA;
                     document.getElementById("MainContent_ddlPortoRecebimento").value = data.ID_PORTO_RECEBIMENTO == "0" ? "" : data.ID_PORTO_RECEBIMENTO;
                     document.getElementById("MainContent_ddlPortoCarregamento").value = data.ID_PORTO_CARREGAMENTO == "0" ? "" : data.ID_PORTO_CARREGAMENTO;
-                    document.getElementById("MainContent_ddlIncoterm").value = data.ID_INCOTERM;
+                    document.getElementById("MainContent_ddlIncoterm").value = data.ID_INCOTERM == "0" ? "" : data.ID_ICOTERM;
                     document.getElementById("MainContent_ddlTipoCobranca").value = data.ID_TIPO_COBRANCA;
                     document.getElementById("MainContent_ddlTipoEstufagem").value = data.ID_TIPO_ESTUFAGEM == "0" ? "" : data.ID_TIPO_ESTUFAGEM;
                     document.getElementById("MainContent_ddlTipoComex").value = data.ID_TIPO_COMEX == "0" ? "" : data.ID_TIPO_COMEX;
@@ -984,7 +984,7 @@
                             result += "<td>" + dado[i]["RECEBIMENTO"] + "</td>";
                             result += "<td>" + dado[i]["CARREGAMENTO"] + "</td>";
                             result += "<td>" + dado[i]["DESCARGA"] + "</td>";
-                            result += "<td>" + dado[i]["INCOTERM"] + "</td>";
+                            result += dado[i]["INCOTERM"] == "TODOS" ? "<td>" + dado[i]["INCOTERM"] + "</td>" : "<td>" + dado[i]["CD_INCOTERM"] +" - "+ dado[i]["INCOTERM"] + "</td>" ;
                             result += "<td>" + dado[i]["NM_BASE_CALCULO_TAXA"] + "</td>";
                             result += "<td>" + dado[i]["NM_MOEDA"] + "</td>";
                             result += "<td>" + dado[i]["VL_TAXA_VENDA"] + "</td>";

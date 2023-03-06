@@ -484,7 +484,7 @@
                     if (data != null) {
                         option += "<option value=''>TODOS</option>";
                         for (let i = 0; i < data.length; i++) {
-                            option += "<option value=" + data[i]["ID_PORTO"] + ">" + data[i]["NM_PORTO"] + "</option>";
+                            option += "<option value=" + data[i]["ID_PORTO"] + ">" + data[i]["NM_PORTO"] + " - " + data[i]["CD_PORTO"] + "</option>";
                         }
                         $("#MainContent_ddlPortoCarregamento").append(option);
                         $("#MainContent_ddlPortoDescarga").append(option);
