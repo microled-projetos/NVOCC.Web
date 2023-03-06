@@ -2919,6 +2919,8 @@ union SELECT  0, '    Selecione' ORDER BY NM_CLIENTE_FINAL"
         Dim ID_PORTO As Integer = 0
         Dim FILTROCOMEX As String = ""
         Dim FILTROVIA As String = ""
+        Dim FILTROCOMEX2 As String = ""
+        Dim FILTROVIA2 As String = ""
 
         If ddlServico.SelectedValue = 1 Then
             'AGENCIAMENTO DE IMPORTACAO MARITIMA
@@ -2944,10 +2946,12 @@ union SELECT  0, '    Selecione' ORDER BY NM_CLIENTE_FINAL"
 
         If comex > 0 Then
             FILTROCOMEX = " AND ID_TIPO_COMEX = " & comex
+            FILTROCOMEX2 = " AND (( ID_TIPO_COMEX = " & comex & " ) Or (ID_VIATRANSPORTE Is NULL)) "
         End If
 
         If via > 0 Then
             FILTROVIA = " AND ID_VIATRANSPORTE = " & via
+            FILTROVIA2 = " AND (( ID_VIATRANSPORTE = " & via & " ) Or (ID_VIATRANSPORTE Is NULL)) "
         End If
 
         Dim ID_DESTINATARIO_COBRANCA As Integer = 1
@@ -2974,7 +2978,7 @@ union SELECT  0, '    Selecione' ORDER BY NM_CLIENTE_FINAL"
 
         Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
         If dsTaxas.Tables(0).Rows(0).Item("QTD") = 0 Then
-            ds = Con.ExecutarQuery("SELECT ID_TAXA_CLIENTE,ID_ITEM_DESPESA FROM TB_TAXA_CLIENTE A WHERE (( ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " ) OR (ID_TIPO_ESTUFAGEM IS NULL)) AND ID_PARCEIRO = " & ddlCliente.SelectedValue & FILTROCOMEX & FILTROVIA)
+            ds = Con.ExecutarQuery("SELECT ID_TAXA_CLIENTE,ID_ITEM_DESPESA FROM TB_TAXA_CLIENTE A WHERE (( ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " ) OR (ID_TIPO_ESTUFAGEM IS NULL)) AND ID_PARCEIRO = " & ddlCliente.SelectedValue & FILTROCOMEX2 & FILTROVIA2)
             If ds.Tables(0).Rows.Count > 0 Then
 
                 For Each linha As DataRow In ds.Tables(0).Rows
@@ -2998,9 +3002,7 @@ VL_TARIFA_MINIMA_COMPRA,
 VL_TARIFA_MINIMA
 FROM TB_TAXA_CLIENTE
 WHERE 
-(( ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " ) OR (ID_TIPO_ESTUFAGEM IS NULL)) AND 
-(( " & FILTROCOMEX & " ) OR (ID_TIPO_COMEX IS NULL)) AND 
-(( " & FILTROVIA & " ) OR (ID_VIATRANSPORTE IS NULL)) AND 
+(( ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " ) OR (ID_TIPO_ESTUFAGEM IS NULL)) " & FILTROCOMEX2 & FILTROVIA2 & " AND 
 ID_PARCEIRO = " & ddlCliente.SelectedValue & " AND ID_TAXA_CLIENTE = " & linha.Item("ID_TAXA_CLIENTE"))
                 Next
 
@@ -3135,7 +3137,7 @@ ELSE " & ID_DESTINATARIO_COBRANCA & " END ID_DESTINATARIO_COBRANCA ,
 
             ''CASO A TABELA ESTEJA JA TENHA REGISTROS
 
-            ds = Con.ExecutarQuery("SELECT ID_TAXA_CLIENTE,ID_ITEM_DESPESA FROM TB_TAXA_CLIENTE A WHERE (( ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " ) OR (ID_TIPO_ESTUFAGEM IS NULL)) AND ID_PARCEIRO = " & ddlCliente.SelectedValue & FILTROCOMEX & FILTROVIA & " AND ID_ITEM_DESPESA NOT IN(SELECT ID_ITEM_DESPESA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text & " AND VL_TAXA_COMPRA = A.VL_TAXA_COMPRA AND VL_TAXA_VENDA = A.VL_TAXA_VENDA)")
+            ds = Con.ExecutarQuery("SELECT ID_TAXA_CLIENTE,ID_ITEM_DESPESA FROM TB_TAXA_CLIENTE A WHERE (( ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " ) OR (ID_TIPO_ESTUFAGEM IS NULL)) AND ID_PARCEIRO = " & ddlCliente.SelectedValue & FILTROCOMEX2 & FILTROVIA2 & " AND ID_ITEM_DESPESA NOT IN(SELECT ID_ITEM_DESPESA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text & " AND VL_TAXA_COMPRA = A.VL_TAXA_COMPRA AND VL_TAXA_VENDA = A.VL_TAXA_VENDA)")
             If ds.Tables(0).Rows.Count > 0 Then
 
                 For Each linha As DataRow In ds.Tables(0).Rows
@@ -3159,9 +3161,7 @@ VL_TARIFA_MINIMA_COMPRA,
 VL_TARIFA_MINIMA
 FROM TB_TAXA_CLIENTE 
 WHERE 
-(( ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " ) OR (ID_TIPO_ESTUFAGEM IS NULL)) AND 
-(( " & FILTROCOMEX & " ) OR (ID_TIPO_COMEX IS NULL)) AND 
-(( " & FILTROVIA & " ) OR (ID_VIATRANSPORTE IS NULL)) AND 
+(( ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " ) OR (ID_TIPO_ESTUFAGEM IS NULL)) " & FILTROCOMEX2 & FILTROVIA2 & " AND
 ID_PARCEIRO = " & ddlCliente.SelectedValue & " AND ID_TAXA_CLIENTE = " & linha.Item("ID_TAXA_CLIENTE"))
 
                 Next

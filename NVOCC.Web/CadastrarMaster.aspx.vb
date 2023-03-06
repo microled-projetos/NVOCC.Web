@@ -1494,6 +1494,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         Session("ID_BL") = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
                         txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
 
+
+
                         'Dim Rastreio As New RastreioService
                         'Rastreio.trackingbl(ds.Tables(0).Rows(0).Item("ID_BL").ToString())
 
@@ -1879,9 +1881,10 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
                         'PREENCHE SESSÃO E CAMPO DE ID
                         Session("ID_BL") = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
-
-
                         txtID_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
+
+
+
 
                         If ddlWeekMaritimo.SelectedValue <> Session("ID_WEEK") Then
                             Week(1)
@@ -2524,6 +2527,12 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
                     txtCotacao_BasicoMaritimo.Text = Session("ID_COTACAO")
 
                 End If
+
+                Dim AtualizaStatus As New AtualizaStatusFreteAgente
+                ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteMaster(txtID_BasicoMaritimo.Text, ddlTipoPagamento_BasicoMaritimo.SelectedValue)
+                Con.ExecutarQuery(" UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente_BasicoMaritimo.SelectedValue & " WHERE ID_BL = " & txtID_BasicoMaritimo.Text)
+
+
                 AtualizaHouse(1)
 
             End If
@@ -3042,6 +3051,11 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
                     txtCotacao_BasicoAereo.Text = Session("ID_COTACAO")
 
                 End If
+
+                Dim AtualizaStatus As New AtualizaStatusFreteAgente
+                ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteMaster(txtID_BasicoAereo.Text, ddlTipoPagamento_BasicoAereo.SelectedValue)
+                Con.ExecutarQuery(" UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente_BasicoAereo.SelectedValue & " WHERE ID_BL = " & txtID_BasicoAereo.Text)
+
                 AtualizaHouse(2)
 
             End If

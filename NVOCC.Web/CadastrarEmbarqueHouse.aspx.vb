@@ -67,7 +67,7 @@ ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORT
 (SELECT NM_TIPO_BL FROM TB_TIPO_BL WHERE ID_TIPO_BL = (SELECT ID_TIPO_BL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO))NM_TIPO_BL,(SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = (SELECT ID_CLIENTE_FINAL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO))NM_CLIENTE_FINAL, VL_CARGA, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO,ISNULL(FINAL_DESTINATION,0)FINAL_DESTINATION,ISNULL(FL_EMAIL_COTACAO,0)FL_EMAIL_COTACAO, EMAIL_COTACAO,NR_CONTRATO_ARMADOR, ISNULL(FL_TC4,0)FL_TC4,ISNULL(FL_TC6,0)FL_TC6, ISNULL(A.ID_TIPO_AERONAVE,0)ID_TIPO_AERONAVE,ISNULL(FL_DOC_CONFERIDO,0)FL_DOC_CONFERIDO, 
 ISNULL((SELECT B.FL_DTA_HUB FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO),0)FL_DTA_HUB,
 ISNULL((SELECT B.FL_LTL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO),0)FL_LTL,
-ISNULL((SELECT B.FL_TRANSP_DEDICADO FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO),0)FL_TRANSP_DEDICADO  FROM TB_BL A
+ISNULL((SELECT B.FL_TRANSP_DEDICADO FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO),0)FL_TRANSP_DEDICADO, ISNULL(ID_STATUS_FRETE_AGENTE,0)ID_STATUS_FRETE_AGENTE FROM TB_BL A
 OUTER APPLY FN_DOC_CONFERIDO(A.ID_BL)
 WHERE A.ID_BL = " & Request.QueryString("id"))
 
@@ -308,6 +308,11 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_CARGA")) Then
                         txtValorCarga_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_CARGA")
                     End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")) Then
+                        ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")
+                    End If
+
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CHEGADA_MASTER")) Then
 
@@ -570,6 +575,10 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
                         txtValorCarga_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("VL_CARGA")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")) Then
+                        ddlStatusFreteAgente_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")
+                    End If
+
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CHEGADA_MASTER")) Then
 
                         btnGravar_BasicoAereo.Visible = False
@@ -821,6 +830,10 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_CARGA")) Then
                         txtValorCarga_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_CARGA")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")) Then
+                        ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CHEGADA_MASTER")) Then
