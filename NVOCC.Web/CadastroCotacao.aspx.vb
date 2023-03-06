@@ -1006,14 +1006,11 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
         Con.Conectar()
         If e.CommandName = "Excluir" Then
 
-
             Dim ID As String = e.CommandArgument
-
             ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                 lblDeleteErroMercadoria.Text = "Usuário não tem permissão para realizar exclusões"
                 divDeleteErroMercadoria.Visible = True
-
             Else
                 Con.ExecutarQuery("DELETE From TB_COTACAO_MERCADORIA Where ID_COTACAO_MERCADORIA = " & ID)
                 Con.ExecutarQuery("DELETE From TB_COTACAO_MERCADORIA_DIMENSAO Where ID_COTACAO_MERCADORIA = " & ID)
@@ -1022,6 +1019,14 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
                 divDeleteMercadoria.Visible = True
                 dgvMercadoria.DataBind()
                 AtualizaFreteMercadoria()
+                ds = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO,NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO =" & txtID.Text)
+                If ds.Tables(0).Rows.Count > 0 Then
+                    If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 10 And Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO")) Then
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.UpdateCarga(txtID.Text, ID, txtProcessoCotacao.Text, Session("RefPeso"), Session("RefVolume"), Session("RefPesoSum"), Session("RefVolumeSum"))
+                        RotinaUpdate.DeletaCarga(txtID.Text, ID, txtProcessoCotacao.Text)
+                    End If
+                End If
             End If
 
         ElseIf e.CommandName = "visualizar" Then
@@ -2244,9 +2249,7 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                         Dim retorno As String = CalCotacao.CalculaCotacao(txtID.Text)
 
                         Dim RotinaUpdate As New RotinaUpdate
-                        RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, Session("RefPeso"), Session("RefVolume"), Session("RefPesoSum"), Session("RefVolumeSum"))
-                        ' RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
-
+                        RotinaUpdate.UpdateCarga(txtID.Text, dsMercadoria.Tables(0).Rows(0).Item("ID_COTACAO_MERCADORIA").ToString(), txtProcessoCotacao.Text, Session("RefPeso"), Session("RefVolume"), Session("RefPesoSum"), Session("RefVolumeSum"))
                         RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
 
                         Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
