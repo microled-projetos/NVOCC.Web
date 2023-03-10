@@ -14,7 +14,7 @@
                     'ESTUFAGEM FCL
 
 
-                    If ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = 1 Then
+                    If ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = True Then
                         'É FREE HAND
 
                         'TIPO PAGAMENTO MASTER
@@ -53,7 +53,7 @@
 
                         End If
 
-                    ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = 0 Then
+                    ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = False Then
                         'NÃO É FREE HAND
 
                         'TIPO PAGAMENTO MASTER
@@ -96,7 +96,7 @@
                 Else ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2
                     'ESTUFAGEM LCL
 
-                    If ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = 1 Then
+                    If ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = True Then
                         'É FREE HAND
 
 
@@ -114,7 +114,7 @@
                         End If
 
 
-                    ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = 0 Then
+                    ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = False Then
                         'NÃO É FREE HAND
 
                         'TIPO PAGAMENTO HOUSE
@@ -136,7 +136,7 @@
                 ' AGENCIAMENTO DE IMPORTACAO AEREO
                 ' AGENCIAMENTO DE EXPORTAÇÃO AEREO
 
-                If ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = 1 Then
+                If ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = True Then
                     'É FREE HAND
 
                     'TIPO PAGAMENTO MASTER
@@ -174,7 +174,7 @@
 
                     End If
 
-                ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = 0 Then
+                ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = False Then
                     'NÃO É FREE HAND
 
                     'TIPO PAGAMENTO MASTER
@@ -241,7 +241,7 @@
                     'ESTUFAGEM FCL
 
 
-                    If ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = 1 Then
+                    If ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = True Then
                         'É FREE HAND
 
                         'TIPO PAGAMENTO MASTER
@@ -280,7 +280,7 @@
 
                         End If
 
-                    ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = 0 Then
+                    ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = False Then
                         'NÃO É FREE HAND
 
                         'TIPO PAGAMENTO MASTER
@@ -344,7 +344,7 @@
                 ' AGENCIAMENTO DE IMPORTACAO AEREO
                 ' AGENCIAMENTO DE EXPORTAÇÃO AEREO
 
-                If ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = 1 Then
+                If ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = True Then
                     'É FREE HAND
 
                     'TIPO PAGAMENTO MASTER
@@ -382,7 +382,7 @@
 
                     End If
 
-                ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = 0 Then
+                ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = False Then
                     'NÃO É FREE HAND
 
                     'TIPO PAGAMENTO MASTER
