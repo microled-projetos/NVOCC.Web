@@ -695,8 +695,10 @@
                                         </asp:Panel>
    </ContentTemplate>
                                 <Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="btnDesvincular" />
                                     <asp:AsyncPostBackTrigger ControlID="btnVincular" />
-                                </Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />
+                                 </Triggers>
                             </asp:UpdatePanel>
                                     </div>
                                  
