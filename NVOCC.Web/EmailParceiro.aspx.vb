@@ -219,7 +219,7 @@ WHERE B.ID = " & ID)
                         TIPO_PESSOA = "T"
                     ElseIf ds.Tables(0).Rows(0).Item("fl_prestador").ToString = True Then
                         TIPO_PESSOA = "P"
-                    ElseIf ds.Tables(0).Rows(0).Item("fl_prestador").ToString = True Then
+                    ElseIf ds.Tables(0).Rows(0).Item("fl_agente_internacional").ToString = True Then
                         TIPO_PESSOA = "P"
                     Else
                         TIPO_PESSOA = "C"
