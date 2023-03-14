@@ -820,6 +820,8 @@ WHERE ID_PARCEIRO =" & ID)
                                         TIPO_PESSOA = "T"
                                     ElseIf ckbPrestador.Checked = True Then
                                         TIPO_PESSOA = "P"
+                                    ElseIf ckbAgenteInternacional.Checked = True Then
+                                        TIPO_PESSOA = "P"
                                     Else
                                         TIPO_PESSOA = "C"
                                     End If
@@ -1188,6 +1190,8 @@ WHERE ID_PARCEIRO =" & ID)
                                     ElseIf ckbArmazemDescarga.Checked = True Then
                                         TIPO_PESSOA = "T"
                                     ElseIf ckbPrestador.Checked = True Then
+                                        TIPO_PESSOA = "P"
+                                    ElseIf ckbAgenteInternacional.Checked = True Then
                                         TIPO_PESSOA = "P"
                                     Else
                                         TIPO_PESSOA = "C"

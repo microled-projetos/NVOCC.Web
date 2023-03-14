@@ -157,7 +157,7 @@ WHERE B.ID = " & ID)
                 Dim TIPO_PESSOA As String = ""
 
                 'Verifica qual o tipo de pessoa
-                ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & ddlEmpresa.SelectedValue)
+                ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco, fl_agente_internacional FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & ddlEmpresa.SelectedValue)
                 If ds.Tables(0).Rows.Count > 0 Then
                     If ds.Tables(0).Rows(0).Item("fl_armazem_atracacao").ToString = True Then
                         TIPO_PESSOA = "T"
@@ -166,6 +166,8 @@ WHERE B.ID = " & ID)
                     ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_desembaraco").ToString = True Then
                         TIPO_PESSOA = "T"
                     ElseIf ds.Tables(0).Rows(0).Item("fl_prestador").ToString = True Then
+                        TIPO_PESSOA = "P"
+                    ElseIf ds.Tables(0).Rows(0).Item("fl_agente_internacional").ToString = True Then
                         TIPO_PESSOA = "P"
                     Else
                         TIPO_PESSOA = "C"
@@ -207,7 +209,7 @@ WHERE B.ID = " & ID)
                 Dim TIPO_PESSOA As String = ""
 
                 'Verifica qual o tipo de pessoa
-                ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & ID_PESSOA)
+                ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco, fl_agente_internacional FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & ID_PESSOA)
                 If ds.Tables(0).Rows.Count > 0 Then
                     If ds.Tables(0).Rows(0).Item("fl_armazem_atracacao").ToString = True Then
                         TIPO_PESSOA = "T"
@@ -216,6 +218,8 @@ WHERE B.ID = " & ID)
                     ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_desembaraco").ToString = True Then
                         TIPO_PESSOA = "T"
                     ElseIf ds.Tables(0).Rows(0).Item("fl_prestador").ToString = True Then
+                        TIPO_PESSOA = "P"
+                    ElseIf ds.Tables(0).Rows(0).Item("fl_agente_internacional").ToString = True Then
                         TIPO_PESSOA = "P"
                     Else
                         TIPO_PESSOA = "C"
