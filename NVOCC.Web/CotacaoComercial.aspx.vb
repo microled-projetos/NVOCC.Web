@@ -32,6 +32,8 @@ WHERE A.ID_STATUS_COTACAO = 8")
 
         End If
 
+        txtData.Text = Now.Date.ToString("dd/MM/yyyy")
+
         Con.Fechar()
     End Sub
     Private Sub dgvCotacao_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvCotacao.RowCommand
@@ -109,7 +111,66 @@ WHERE A.ID_STATUS_COTACAO = 8")
             dgvHistoricoStatus.DataBind()
             mpeStatus.Show()
 
+        ElseIf e.CommandName = "Duplicar" Then
+
+            Dim ID As String = e.CommandArgument
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                divErro.Visible = True
+                lblmsgErro.Text = "Usuário não possui permissão."
+                dgvCotacao.Columns(0).Visible = False
+
+                Exit Sub
+            Else
+                If ID = "" Then
+
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Selecione o registro que deseja duplicar!"
+
+                Else
+
+                    'Verifica se cotação duplicada tem sequencial de repetição
+                    Dim dsVerifica As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_COTACAO WHERE REF_REPETIDAS IS NULL AND ID_COTACAO = " & ID)
+                    If dsVerifica.Tables(0).Rows(0).Item("QTD") > 0 Then
+                        'Em caso negativo faz update com sequencial na cotação mãe que posteriormente se repetirá na filha
+                        ds = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_Cotacao_Repetidas_" & Now.Year.ToString & " REF_REPETIDAS")
+                        Dim REF_REPETIDAS As String = "REP_" & ds.Tables(0).Rows(0).Item("REF_REPETIDAS")
+                        Con.ExecutarQuery("UPDATE TB_COTACAO SET REF_REPETIDAS = '" & REF_REPETIDAS & "' WHERE ID_COTACAO = " & ID)
+
+                    End If
+
+                    Dim numero_cotacao As String = NumeroCotacao()
+
+                    Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE,   OB_OPERACIONAL,   NR_PROCESSO_GERADO, ID_USUARIO_STATUS,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN,ID_PARCEIRO_INDICADOR,FL_FREE_HAND,ID_PARCEIRO_EXPORTADOR,ID_TIPO_PAGAMENTO,TRANSITTIME_TRUCKING_AEREO,ID_PARCEIRO_IMPORTADOR,ID_STATUS_FRETE_AGENTE,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO,VL_TOTAL_M3,VL_TOTAL_PESO_BRUTO,FINAL_DESTINATION,VL_TOTAL_FRETE_VENDA_CALCULADO,ID_PARCEIRO_RODOVIARIO,FL_DUPLICATA,ID_COTACAO_MENOR,REF_REPETIDAS )    SELECT '" & numero_cotacao & "', GETDATE(), 16, GETDATE(), DT_VALIDADE_COTACAO," & Session("ID_USUARIO") & ", ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE,  OB_OPERACIONAL, NULL, " & Session("ID_USUARIO") & ", ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN,ID_PARCEIRO_INDICADOR,FL_FREE_HAND,ID_PARCEIRO_EXPORTADOR,ID_TIPO_PAGAMENTO,TRANSITTIME_TRUCKING_AEREO,ID_PARCEIRO_IMPORTADOR,ID_STATUS_FRETE_AGENTE,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO,VL_TOTAL_M3,VL_TOTAL_PESO_BRUTO,FINAL_DESTINATION,VL_TOTAL_FRETE_VENDA_CALCULADO,ID_PARCEIRO_RODOVIARIO,1,ID_COTACAO, REF_REPETIDAS   FROM TB_COTACAO WHERE ID_COTACAO = " & ID & " Select SCOPE_IDENTITY() as ID_COTACAO;
+
+INSERT INTO TB_COTACAO_TAXA (ID_COTACAO,
+ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_DESTINATARIO_COBRANCA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA_CALCULADO,ID_MOEDA_VENDA,VL_TAXA_VENDA_CALCULADO,ID_BASE_CALCULO_TAXA,OB_TAXAS,VL_TAXA_VENDA_MIN,VL_TAXA_COMPRA,VL_TAXA_VENDA,VL_TAXA_COMPRA_MIN,QTD_BASE_CALCULO,ID_FORNECEDOR,FL_IMPORTADO_SISTEMA, FL_TAXA_TRANSPORTADOR,DT_IMPORTACAO )    
+SELECT  (Select SCOPE_IDENTITY() as ID_COTACAO),
+ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_DESTINATARIO_COBRANCA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA_CALCULADO,ID_MOEDA_VENDA,VL_TAXA_VENDA_CALCULADO,ID_BASE_CALCULO_TAXA,OB_TAXAS,VL_TAXA_VENDA_MIN,VL_TAXA_COMPRA,VL_TAXA_VENDA,VL_TAXA_COMPRA_MIN,QTD_BASE_CALCULO,ID_FORNECEDOR,FL_IMPORTADO_SISTEMA, FL_TAXA_TRANSPORTADOR,DT_IMPORTACAO  FROM TB_COTACAO_TAXA 
+WHERE  ID_COTACAO = " & ID & " 
+
+INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO, ID_MERCADORIA, ID_TIPO_CONTAINER, QT_CONTAINER, VL_FRETE_COMPRA,
+ VL_FRETE_VENDA, VL_PESO_BRUTO, VL_M3, DS_MERCADORIA, VL_COMPRIMENTO, VL_LARGURA, VL_ALTURA, VL_CARGA, QT_DIAS_FREETIME,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,OUTRAS_OBS,VL_FRETE_COMPRA_MIN,VL_FRETE_VENDA_MIN,ID_MOEDA_CARGA,QT_MERCADORIA) 
+SELECT (SELECT MAX(ID_COTACAO) FROM TB_COTACAO ), ID_MERCADORIA, ID_TIPO_CONTAINER, QT_CONTAINER, VL_FRETE_COMPRA,
+ VL_FRETE_VENDA, VL_PESO_BRUTO, VL_M3, DS_MERCADORIA, VL_COMPRIMENTO, VL_LARGURA, VL_ALTURA, VL_CARGA, QT_DIAS_FREETIME,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,OUTRAS_OBS,VL_FRETE_COMPRA_MIN,VL_FRETE_VENDA_MIN ,ID_MOEDA_CARGA,QT_MERCADORIA 
+FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & ID)
+
+                    Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALCOTACAO =  " & Session("NR_COTACAO") & ", ANOSEQUENCIALCOTACAO = YEAR(GETDATE())")
+
+                    dgvCotacao.DataBind()
+                    divSuccess.Visible = True
+                    lblmsgSuccess.Text = "Item duplicado com sucesso! <br/><br/><strong> Nova cotação:" & numero_cotacao & "</strong>"
+
+                End If
+
+            End If
+
         End If
+
 
 
     End Sub
@@ -1879,56 +1940,57 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
     End Sub
 
     Sub GRID()
-        'divSuccess.Visible = False
-        'divErro.Visible = False
-        'lblmsgErro.Text = ""
-        If ddlConsultas.SelectedValue = 0 Or txtPesquisa.Text = "" Then
-            dgvCotacao.DataBind()
+        If txtData.Text <> "" And ddlEstufagem.SelectedValue <> 0 And ddlIncoterm.SelectedValue <> 0 And ddlOrigem.SelectedValue <> 0 And ddlDestino.SelectedValue <> 0 And txtPeso.Text <> "" And txtCBM.Text <> "" And ddlServico.SelectedValue <> 0 Then
+            PesquisaRepetidas()
         Else
-            Dim FILTRO As String
+            If ddlConsultas.SelectedValue = 0 Or txtPesquisa.Text = "" Then
+                dgvCotacao.DataBind()
+            Else
+                Dim FILTRO As String
 
-            If ddlConsultas.SelectedValue = 1 Then
-                FILTRO = " NR_COTACAO LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 2 Then
-                FILTRO = " STATUS LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 3 Then
-                FILTRO = " CLIENTE LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 4 Then
-                FILTRO = " ORIGEM LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 5 Then
-                FILTRO = " DESTINO LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 6 Then
-                FILTRO = " AGENTE LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 7 Then
-                FILTRO = " VENDEDOR LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 8 Then
-                FILTRO = " NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
+                If ddlConsultas.SelectedValue = 1 Then
+                    FILTRO = " NR_COTACAO LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 2 Then
+                    FILTRO = " STATUS LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 3 Then
+                    FILTRO = " CLIENTE LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 4 Then
+                    FILTRO = " ORIGEM LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 5 Then
+                    FILTRO = " DESTINO LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 6 Then
+                    FILTRO = " AGENTE LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 7 Then
+                    FILTRO = " VENDEDOR LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 8 Then
+                    FILTRO = " NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
 
-            ElseIf ddlConsultas.SelectedValue = 10 Then
-                FILTRO = " CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 11 Then
-                FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 12 Then
-                FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 13 Then
-                FILTRO = " INCOTERM LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 14 Then
-                FILTRO = " ARMADOR LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 15 Then
-                FILTRO = " ANALISTA_COTACAO_INSIDE LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 16 Then
-                FILTRO = " ANALISTA_COTACAO_PRICING LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 17 Then
-                FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
-            ElseIf ddlConsultas.SelectedValue = 18 Then
-                FILTRO = " EXPORTADOR LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 10 Then
+                    FILTRO = " CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 11 Then
+                    FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 12 Then
+                    FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 13 Then
+                    FILTRO = " INCOTERM LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 14 Then
+                    FILTRO = " ARMADOR LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 15 Then
+                    FILTRO = " ANALISTA_COTACAO_INSIDE LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 16 Then
+                    FILTRO = " ANALISTA_COTACAO_PRICING LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 17 Then
+                    FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                ElseIf ddlConsultas.SelectedValue = 18 Then
+                    FILTRO = " EXPORTADOR LIKE '%" & txtPesquisa.Text & "%' "
+                End If
+
+                Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
+
+                dsCotacao.SelectCommand = sql
+                dgvCotacao.DataBind()
+
             End If
-
-            Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
-
-            dsCotacao.SelectCommand = sql
-            dgvCotacao.DataBind()
-
         End If
     End Sub
 
@@ -1945,18 +2007,25 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
     Private Sub dgvCotacao_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvCotacao.RowDataBound
         If e.Row.RowType = DataControlRowType.DataRow Then
-
+            Dim btnDuplicar As Button = CType(e.Row.FindControl("btnDuplicar"), Button)
             Dim Status As Label = CType(e.Row.FindControl("lblStatus"), Label)
 
             Dim Cor As Label = CType(e.Row.FindControl("lblCor"), Label)
 
             Status.Style("background-color") = Cor.Text
 
-            If Cor.Text = "#000000" Then
+            If Cor.Text = "#000000" Or Cor.Text = "#7517c2" Or Cor.Text = "#822830" Then
 
                 Status.Style("color") = "white"
 
             End If
+
+            If ddlEstufagem.SelectedValue <> 0 And ddlIncoterm.SelectedValue <> 0 And ddlOrigem.SelectedValue <> 0 And ddlDestino.SelectedValue <> 0 And txtPeso.Text <> "" And txtCBM.Text <> "" And ddlServico.SelectedValue <> 0 Then
+                btnDuplicar.Visible = True
+            Else
+                btnDuplicar.Visible = False
+            End If
+
 
         End If
     End Sub
@@ -1976,13 +2045,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 divErro.Visible = True
                 lblmsgErro.Text = "Cotação necessita de cálculo!"
             Else
-                'Dim url As String = ""
 
-                'url = "GeraPDF.aspx?c=" & txtID.Text & "&l=" & ddlLinguagem.SelectedValue & "&f=i"
-
-                'Response.Write("<script>")
-                'Response.Write("window.open('" & url & "','_blank')")
-                'Response.Write("</script>")
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirCotacao()", True)
 
             End If
@@ -1997,9 +2060,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
             lblmsgErro.Text = "Selecione o registro que deseja enviar!"
 
         Else
-            'Dim url As String = ""
-            'url = "GeraPDF.aspx?c=" & txtID.Text & "&l=" & ddlLinguagem.SelectedValue & "&f=e"
-            'Response.Redirect(url)
+
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "EnviarCotacao()", True)
 
         End If
@@ -2498,5 +2559,100 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
         Return True
 
     End Function
+
+    Sub PesquisaRepetidas()
+
+        If txtData.Text = "" Or ddlEstufagem.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlOrigem.SelectedValue = 0 Or ddlDestino.SelectedValue = 0 Or txtPeso.Text = "" Or txtCBM.Text = "" Or ddlServico.SelectedValue = 0 Then
+            lblmsgErro.Text = "Para verificação é necessario preencher todos os campos"
+            divErro.Visible = True
+        Else
+
+            Dim peso As String = txtPeso.Text
+            Dim cbm As String = txtCBM.Text
+
+            Dim sql As String = ""
+
+            If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 4 Then
+                'AGENCIAMENTO DE IMPORTACAO MARITIMA (1)
+                'AGENCIAMENTO DE EXPORTACAO MARITIMA (4)
+                sql = " SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IN ( SELECT ID_COTACAO FROM [dbo].[View_Cotacao_Repetidas] WHERE CONVERT(DATE,DT_ABERTURA,103) = CONVERT(DATE,'" & txtData.Text & "',103) AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & peso.Replace(",", ".") & " AND VL_M3 = " & cbm.Replace(",", ".") & " ) ORDER BY DT_ABERTURA DESC"
+
+            ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
+
+                'AGENCIAMENTO DE IMPORTACAO AEREO (2)
+                'AGENCIAMENTO DE EXPORTAÇÃO AEREO (5)
+                sql = " SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IN ( SELECT ID_COTACAO FROM [dbo].[View_Cotacao_Repetidas] WHERE CONVERT(DATE,DT_ABERTURA,103) = CONVERT(DATE,'" & txtData.Text & "',103) AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & peso.Replace(",", ".") & " AND VL_CBM= " & cbm.Replace(",", ".") & " ) ORDER BY DT_ABERTURA DESC"
+
+            End If
+
+
+            dsCotacao.SelectCommand = sql
+            dgvCotacao.DataBind()
+
+            If dgvCotacao.Rows.Count = 0 Then
+                ''NENHUMA COTAÇÃO ENCONTRADA. DESEJA INSERIR UMA COTAÇÃO COM OS PARAMETROS PESQUISADOS?
+                mpeRepetida.Show()
+            End If
+
+        End If
+    End Sub
+
+    Private Sub btnPesquisaRepetidas_Click(sender As Object, e As EventArgs) Handles btnPesquisaRepetidas.Click
+        divSuccess.Visible = False
+        divErro.Visible = False
+        PesquisaRepetidas()
+    End Sub
+
+    Private Sub btnInserirRepetida_Click(sender As Object, e As EventArgs) Handles btnInserirRepetida.Click
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        Dim numero_cotacao As String = NumeroCotacao()
+        Dim ID_COTACAO As String = ""
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_Cotacao_Repetidas_" & Now.Year.ToString & " REF_REPETIDAS")
+        Dim REF_REPETIDAS As String = "REP_" & ds.Tables(0).Rows(0).Item("REF_REPETIDAS")
+
+        Dim peso As String = txtPeso.Text
+        Dim cbm As String = txtCBM.Text
+
+        Dim sql As String = ""
+
+        If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 4 Then
+            'AGENCIAMENTO DE IMPORTACAO MARITIMA (1)
+            'AGENCIAMENTO DE EXPORTACAO MARITIMA (4)
+            sql = "INSERT INTO TB_COTACAO (NR_COTACAO, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, ID_ANALISTA_COTACAO, ID_USUARIO_STATUS, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO  , VL_TOTAL_PESO_BRUTO, REF_REPETIDAS, ID_SERVICO, VL_TOTAL_M3) VALUES ('" & numero_cotacao & "', GETDATE(), 2, GETDATE(), GETDATE() + 5 , " & Session("ID_USUARIO") & " , " & Session("ID_USUARIO") & " , " & ddlIncoterm.SelectedValue & " , " & ddlEstufagem.SelectedValue & " , " & ddlOrigem.SelectedValue & " ," & ddlDestino.SelectedValue & "  , " & peso.Replace(",", ".") & ",  '" & REF_REPETIDAS & "', (SELECT CASE WHEN (SELECT ISNULL(ID_VIATRANSPORTE,0) FROM TB_PORTO WHERE ID_PORTO = " & ddlOrigem.SelectedValue & " ) = 1 THEN 1 ELSE 2 END ID_SERVICO), " & cbm.Replace(",", ".") & " ) Select SCOPE_IDENTITY() as ID_COTACAO ;"
+
+        ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
+            'AGENCIAMENTO DE IMPORTACAO AEREO (2)
+            'AGENCIAMENTO DE EXPORTAÇÃO AEREO (5)
+            sql = "INSERT INTO TB_COTACAO (NR_COTACAO, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, ID_ANALISTA_COTACAO, ID_USUARIO_STATUS, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO  , VL_TOTAL_PESO_BRUTO, REF_REPETIDAS, ID_SERVICO) VALUES ('" & numero_cotacao & "', GETDATE(), 2, GETDATE(), GETDATE() + 5 , " & Session("ID_USUARIO") & " , " & Session("ID_USUARIO") & " , " & ddlIncoterm.SelectedValue & " , " & ddlEstufagem.SelectedValue & " , " & ddlOrigem.SelectedValue & " ," & ddlDestino.SelectedValue & "  , " & peso.Replace(",", ".") & ",  '" & REF_REPETIDAS & "', (SELECT CASE WHEN (SELECT ISNULL(ID_VIATRANSPORTE,0) FROM TB_PORTO WHERE ID_PORTO = " & ddlOrigem.SelectedValue & " ) = 1 THEN 1 ELSE 2 END ID_SERVICO)) Select SCOPE_IDENTITY() as ID_COTACAO ;"
+        End If
+
+        ds = Con.ExecutarQuery(sql)
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            ID_COTACAO = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+
+            If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 4 Then
+                'AGENCIAMENTO DE IMPORTACAO MARITIMA (1)
+                'AGENCIAMENTO DE EXPORTACAO MARITIMA (4)
+                Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO, VL_PESO_BRUTO, VL_M3) VALUES (" & ID_COTACAO & ", " & peso.Replace(",", ".") & " , " & cbm.Replace(",", ".") & " )")
+
+            ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
+                'AGENCIAMENTO DE IMPORTACAO AEREO (2)
+                'AGENCIAMENTO DE EXPORTAÇÃO AEREO (5)
+                Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO, VL_PESO_BRUTO, VL_CBM) VALUES (" & ID_COTACAO & ", " & peso.Replace(",", ".") & " , " & cbm.Replace(",", ".") & " )")
+
+            End If
+
+
+            Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALCOTACAO =  " & Session("NR_COTACAO") & ", ANOSEQUENCIALCOTACAO = YEAR(GETDATE())")
+
+
+            Response.Redirect("CadastroCotacao.aspx?ID=" & ID_COTACAO)
+
+        End If
+    End Sub
+
 
 End Class

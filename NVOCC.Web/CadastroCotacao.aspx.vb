@@ -58,7 +58,7 @@ A.ID_STATUS_COTACAO,
 CONVERT(varchar,A.DT_STATUS_COTACAO,103)DT_STATUS_COTACAO,
 CONVERT(varchar,A.DT_VALIDADE_COTACAO,103)DT_VALIDADE_COTACAO,
 CONVERT(varchar,A.DT_ENVIO_COTACAO,103)DT_ENVIO_COTACAO,
-A.ID_ANALISTA_COTACAO,A.ID_AGENTE_INTERNACIONAL,A.ID_TIPO_BL,A.ID_INCOTERM,A.ID_TIPO_ESTUFAGEM,A.ID_DESTINATARIO_COMERCIAL,ISNULL(A.ID_CLIENTE,0)ID_CLIENTE,ISNULL(A.ID_CLIENTE_FINAL,0)ID_CLIENTE_FINAL,A.ID_CONTATO,A.ID_SERVICO,A.ID_VENDEDOR,A.OB_CLIENTE,A.OB_MOTIVO_CANCELAMENTO,A.OB_OPERACIONAL,A.ID_MOTIVO_CANCELAMENTO,
+A.ID_ANALISTA_COTACAO,A.ID_AGENTE_INTERNACIONAL,A.ID_TIPO_BL,A.ID_INCOTERM,A.ID_TIPO_ESTUFAGEM,A.ID_DESTINATARIO_COMERCIAL,ISNULL(A.ID_CLIENTE,0)ID_CLIENTE,ISNULL(A.ID_CLIENTE_FINAL,0)ID_CLIENTE_FINAL,A.ID_CONTATO,A.ID_SERVICO,A.ID_VENDEDOR,A.OB_CLIENTE,A.OB_MOTIVO_CANCELAMENTO,A.OB_OPERACIONAL,ISNULL(A.ID_MOTIVO_CANCELAMENTO,0)ID_MOTIVO_CANCELAMENTO,
 CONVERT(varchar,A.DT_CALCULO_COTACAO,103)DT_CALCULO_COTACAO,ID_TIPO_CARGA, 
 NR_PROCESSO_GERADO,ID_PROCESSO, ID_USUARIO_STATUS,(SELECT FL_COTACAO_APROVADA FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_COTACAO_APROVADA, (SELECT FL_ENCERRA_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO )FL_ENCERRA_COTACAO, ISNULL(FL_LTL,0)FL_LTL,ISNULL(FL_DTA_HUB,0)FL_DTA_HUB,ISNULL(FL_TRANSP_DEDICADO,0)FL_TRANSP_DEDICADO, VL_TOTAL_PESO_BRUTO,VL_TOTAL_M3, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO, ISNULL(FL_EMAIL_COTACAO,0)FL_EMAIL_COTACAO,EMAIL_COTACAO,ISNULL([dbo].[FN_ANALISTA_COTACAO_PRICING](A.ID_COTACAO),0) AS ID_ANALISTA_COTACAO_PRICING,ISNULL(ID_TIPO_AERONAVE,0)ID_TIPO_AERONAVE, ISNULL(FL_TC4,0)FL_TC4,ISNULL(FL_TC6,0)FL_TC6 , ISNULL(VL_PESO_TAXADO,0)VL_PESO_TAXADO,ISNULL((SELECT ID_BL FROM TB_BL WHERE ID_COTACAO = A.ID_COTACAO AND GRAU = 'C' AND NR_PROCESSO = A.NR_PROCESSO_GERADO AND ISNULL(FL_CANCELADO,0) = 0 ),0)ID_BL 
 FROM  TB_COTACAO A
@@ -1391,11 +1391,17 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     txtDataFollowUp.Text = txtDataFollowUp.Text.Replace("CONVERT(varchar,'", "")
                     txtDataFollowUp.Text = txtDataFollowUp.Text.Replace("',103)", "")
 
-                    Con.Fechar()
+
                     divsuccess.Visible = True
+
                     dgvFrete.DataBind()
                     dgvHistoricoFrete.DataBind()
                     dgvHistoricoCotacao.DataBind()
+
+                    VerificaRepetida()
+
+                    Con.Fechar()
+
                 End If
 
 
@@ -1544,10 +1550,12 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                     divsuccess.Visible = True
                     Con.Fechar()
-                    dgvFrete.DataBind()
 
+                    dgvFrete.DataBind()
                     dgvHistoricoFrete.DataBind()
                     dgvHistoricoCotacao.DataBind()
+
+                    VerificaRepetida()
 
 
                 End If
@@ -2262,6 +2270,8 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
 
                     End If
 
+                    VerificaRepetida()
+
                 End If
 
 
@@ -2353,6 +2363,9 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
                             Session("RefTaxado") = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")
                         End If
                     End If
+
+                    VerificaRepetida()
+
                 End If
 
             End If
@@ -5066,4 +5079,57 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
 
         End If
     End Sub
+
+
+    Private Sub btnEnviar_Click(sender As Object, e As EventArgs) Handles btnEnviar.Click
+        If txtID.Text = "" Then
+            diverro.Visible = True
+            lblmsgErro.Text = "Selecione o registro que deseja enviar!"
+
+        Else
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "EnviarCotacao()", True)
+
+        End If
+    End Sub
+
+    Private Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
+        If txtID.Text = "" Then
+            diverro.Visible = True
+            lblmsgErro.Text = "Selecione o registro que deseja imprimir!"
+
+        Else
+            lblmsgErro.Text = ""
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("Select count(*)QTD from TB_COTACAO where DT_CALCULO_COTACAO is not null and id_cotacao = " & txtID.Text)
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                diverro.Visible = True
+                lblmsgErro.Text = "Cotação necessita de cálculo!"
+            Else
+
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirCotacao()", True)
+
+            End If
+            Con.Fechar()
+        End If
+    End Sub
+
+    Sub VerificaRepetida()
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim dsCotacao As DataSet = Con.ExecutarQuery("SELECT  REF_REPETIDAS ,DT_ABERTURA, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_ESTUFAGEM, ID_INCOTERM, VL_TOTAL_PESO_BRUTO, VL_M3 FROM [dbo].[View_Cotacao_Repetidas] WHERE ID_COTACAO = " & txtID.Text)
+        If dsCotacao.Tables(0).Rows.Count > 0 Then
+
+            Dim dsCopias As DataSet = Con.ExecutarQuery("SELECT  REF_REPETIDAS ,DT_ABERTURA, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_TIPO_ESTUFAGEM, ID_INCOTERM, VL_TOTAL_PESO_BRUTO, VL_M3 FROM [dbo].[View_Cotacao_Repetidas] WHERE REF_REPETIDAS = '" & dsCotacao.Tables(0).Rows(0).Item("REF_REPETIDAS") & "' AND  ID_COTACAO <> " & txtID.Text)
+            If dsCopias.Tables(0).Rows.Count > 0 Then
+                If dsCotacao.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM") <> dsCopias.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM") Or dsCotacao.Tables(0).Rows(0).Item("ID_PORTO_DESTINO") <> dsCopias.Tables(0).Rows(0).Item("ID_PORTO_DESTINO") Or dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") <> dsCopias.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") Or dsCotacao.Tables(0).Rows(0).Item("ID_INCOTERM") <> dsCopias.Tables(0).Rows(0).Item("ID_INCOTERM") Or dsCotacao.Tables(0).Rows(0).Item("VL_TOTAL_PESO_BRUTO") <> dsCopias.Tables(0).Rows(0).Item("VL_TOTAL_PESO_BRUTO") Or dsCotacao.Tables(0).Rows(0).Item("VL_M3") <> dsCopias.Tables(0).Rows(0).Item("VL_M3") Or dsCotacao.Tables(0).Rows(0).Item("DT_ABERTURA") <> dsCopias.Tables(0).Rows(0).Item("DT_ABERTURA") Then
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET REF_REPETIDAS = NULL WHERE ID_COTACAO = " & txtID.Text)
+                End If
+            End If
+
+        End If
+    End Sub
+
+
 End Class

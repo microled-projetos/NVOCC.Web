@@ -49,6 +49,66 @@
                                     <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
                                 </div>
                                 <br />
+                                <div class="row" id="divCotacoesRepetidas">
+                                    <div class="col-sm-1">
+                                        <div class="form-group">
+                                            <label class="control-label">Data:</label><br />
+                                            <asp:TextBox ID="txtData" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Serviço:</label></label><label runat="server" style="color: red">*</label>
+                                            <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServico" DataValueField="ID_SERVICO">
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="form-group">
+                                            <label class="control-label">Estufagem:</label><br />
+                                            <asp:DropDownList ID="ddlEstufagem" runat="server" CssClass="form-control" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem"></asp:DropDownList>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="form-group">
+                                            <label class="control-label">Incoterm:</label><br />
+                                            <asp:DropDownList ID="ddlIncoterm" runat="server" CssClass="form-control" DataTextField="NM_INCOTERM" DataSourceID="dsIncoterm" DataValueField="ID_INCOTERM"></asp:DropDownList>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Origem:</label><br />
+                                            <asp:DropDownList ID="ddlOrigem" runat="server" CssClass="form-control" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Destino:</label><br />
+                                            <asp:DropDownList ID="ddlDestino" runat="server" CssClass="form-control" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="form-group">
+                                            <label class="control-label">Valor M3:</label>
+                                            <asp:TextBox ID="txtCBM" runat="server" CssClass="form-control valores"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="form-group">
+                                            <label class="control-label">Peso:</label>
+                                            <asp:TextBox ID="txtPeso" runat="server" CssClass="form-control valores"></asp:TextBox>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-1">
+                                        <div class="form-group">
+                                            <label class="control-label"></label>
+                                            <br />
+                                            <asp:Button ID="btnPesquisaRepetidas" runat="server" CssClass="btn btn-block btn-primary" Text="Verificar"></asp:Button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
                                 <div class="row linhabotao text-center">
                                     <asp:LinkButton ID="lkInserir" runat="server" CssClass="btn  btnn btn-default btn-sm" Style="font-size: 15px"><i  class="glyphicon glyphicon-plus"></i>&nbsp;Inserir</asp:LinkButton>
                                     <asp:LinkButton ID="lkAlterar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i  class="glyphicon glyphicon-pencil"></i>&nbsp;Alterar</asp:LinkButton>
@@ -179,6 +239,37 @@
                                        </div>     </center>
                                 </asp:Panel>
 
+
+
+                                <asp:Button runat="server" Style="display: none" ID="btnAuxiliarRepetida" />
+                                <ajaxToolkit:ModalPopupExtender ID="mpeRepetida" runat="server" PopupControlID="PanelRepetida" TargetControlID="btnAuxiliarRepetida" CancelControlID="btnFecharRepetida"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="PanelRepetida" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" >COTAÇÃO REPETIDA</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                   
+                                  
+                             <div class="row"><div class="col-sm-12">
+                               <h5>Nenhuma cotação encontrada! </h5> 
+                               <h5>Deseja inserir uma cotação com os parametros pesquisados?</h5> 
+                             </div></div>
+                                                                                  </div>                     
+                               <div class="modal-footer">
+                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnInserirRepetida" text="Sim" />
+                                                            <asp:Button runat="server" CssClass="btn btn-danger" ID="btnFecharRepetida" text="Não" />
+                                                                                               
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
+
+
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger ControlID="lkFiltrar" />
@@ -199,7 +290,7 @@
                                 </div>
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align: center">
                                     <asp:GridView ID="dgvCotacao" DataKeyNames="ID_COTACAO" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsCotacao" AutoGenerateColumns="False" Style="max-height: 600px; overflow: auto;" AllowSorting="True" OnSorting="dgvCotacao_Sorting" EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" AllowPaging="true" PageSize="100">
-                                        <Columns>
+                                       <Columns>
                                             <asp:TemplateField HeaderText="">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
@@ -208,8 +299,9 @@
                                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="ID_COTACAO" HeaderText="#" Visible="false" />
-											<asp:BoundField DataField="DT_ABERTURA" HeaderText="Abertura" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_ABERTURA" />
+                                            <asp:BoundField DataField="DT_ABERTURA" HeaderText="Abertura" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_ABERTURA" />
                                             <asp:BoundField DataField="NR_COTACAO" HeaderText="Nº Cotação" SortExpression="NR_COTACAO" />
+                                            <asp:BoundField DataField="REF_REPETIDAS" HeaderText="REF. REPETIDAS" SortExpression="REF_REPETIDAS" />
                                             <asp:TemplateField HeaderText="Status" SortExpression="Status">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnStatus" runat="server" CssClass="btn-default"
@@ -219,18 +311,24 @@
                                                     </asp:LinkButton>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-										    <asp:BoundField DataField="NR_PROCESSO_GERADO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO_GERADO" />
-                                            <asp:BoundField DataField="CLIENTE" HeaderText="Cliente" SortExpression="CLIENTE" /> 
-                                            <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="TIPO_ESTUFAGEM" />                              
+                                            <asp:BoundField DataField="NR_PROCESSO_GERADO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO_GERADO" />
+                                            <asp:BoundField DataField="CLIENTE" HeaderText="Cliente" SortExpression="CLIENTE" />
+                                            <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="TIPO_ESTUFAGEM" />
                                             <asp:BoundField DataField="INCOTERM" HeaderText="Incoterm" SortExpression="INCOTERM" />
                                             <asp:BoundField DataField="ORIGEM" HeaderText="Origem" SortExpression="ORIGEM" />
-                                            <asp:BoundField DataField="DESTINO" HeaderText="Destino" SortExpression="DESTINO" />  
+                                            <asp:BoundField DataField="DESTINO" HeaderText="Destino" SortExpression="DESTINO" />
                                             <asp:BoundField DataField="SERVICO" HeaderText="Serviço" SortExpression="SERVICO" />
-											<asp:BoundField DataField="CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="CLIENTE_FINAL" />
+                                            <asp:BoundField DataField="CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="CLIENTE_FINAL" />
                                             <asp:BoundField DataField="AGENTE" HeaderText="Agente" SortExpression="AGENTE" />
                                             <asp:BoundField DataField="ARMADOR" HeaderText="Armador" SortExpression="ARMADOR" />
                                             <asp:BoundField DataField="ANALISTA_COTACAO_INSIDE" HeaderText="Analista Inside" SortExpression="ANALISTA_COTACAO_INSIDE" />
                                             <asp:BoundField DataField="ANALISTA_COTACAO_PRICING" HeaderText="Analista Pricing" SortExpression="ANALISTA_COTACAO_PRICING" />
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <asp:Button ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_COTACAO") %>'
+                                                        Text="Duplicar" OnClientClick="javascript:return confirm('Deseja realmente duplicar este registro?');"></asp:Button>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                         </Columns>
                                         <HeaderStyle CssClass="headerStyle" />
                                     </asp:GridView>
@@ -254,9 +352,9 @@
 
     </div>
 
-  
+
     <asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT top 500 * FROM View_Filtro_Cotacao ORDER BY DT_ABERTURA DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT top 500 * FROM View_Cotacao ORDER BY DT_ABERTURA DESC"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
@@ -273,6 +371,21 @@ ORDER BY D.DT_STATUS_COTACAO DESC">
             <asp:Parameter Name="ID_COTACAO" Type="Int32" />
         </SelectParameters>
     </asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsIncoterm" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_INCOTERM, cast((CD_INCOTERM)as varchar)+ ' - '+ NM_INCOTERM as NM_INCOTERM FROM TB_INCOTERM 
+union SELECT  0, 'Selecione' ORDER BY ID_INCOTERM"></asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsEstufagem" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_TIPO_ESTUFAGEM, NM_TIPO_ESTUFAGEM FROM [dbo].[TB_TIPO_ESTUFAGEM] 
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM"></asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_PORTO,  NM_PORTO + ' - ' +  CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ISNULL(ID_VIATRANSPORTE,0) <> 4 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "></asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsServico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO WHERE ISNULL(TP_VIA,'') <> '' AND ID_SERVICO in (1,4) 
+union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

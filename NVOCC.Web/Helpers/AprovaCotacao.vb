@@ -298,11 +298,27 @@ WHERE A.ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA"))
         End If
 
 
+        'Verifica se cotação aprovada tem sequencial de repetição
+        Dim dsVerifica As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_COTACAO WHERE REF_REPETIDAS IS NOT NULL AND ID_COTACAO = " & ID_COTACAO)
+        If dsVerifica.Tables(0).Rows(0).Item("QTD") > 0 Then
+            'Em caso positivo chama rotina de cancelamento das demais com o mesmo sequencial
+            ds = Con.ExecutarQuery("SELECT NR_COTACAO, ID_USUARIO_STATUS FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO)
+            CancelaCotacaoRepetidas(ID_COTACAO, ds.Tables(0).Rows(0).Item("ID_USUARIO_STATUS").ToString(), ds.Tables(0).Rows(0).Item("NR_COTACAO").ToString())
 
+        End If
 
 
         Return PROCESSO_FINAL
 
     End Function
+
+    Sub CancelaCotacaoRepetidas(ID_COTACAO As Integer, ID_USUARIO As String, NR_COTACAO As String)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+
+        Con.ExecutarQuery(" UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 17, DT_STATUS_COTACAO= GETDATE(), ID_USUARIO_STATUS = " & ID_USUARIO & ", OB_MOTIVO_CANCELAMENTO = 'COTAÇÃO REPETIDA: Cancelada devido a aprovação da cotação " & NR_COTACAO & "' WHERE ID_COTACAO <> " & ID_COTACAO & " AND NR_PROCESSO_GERADO IS NULL AND REF_REPETIDAS IN (SELECT B.REF_REPETIDAS FROM TB_COTACAO B WHERE B.ID_COTACAO = " & ID_COTACAO & " )")
+
+    End Sub
 
 End Class
