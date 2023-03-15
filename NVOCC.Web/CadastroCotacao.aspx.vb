@@ -27,7 +27,7 @@ Public Class CadastroCotacao
                 txtCotacaoMercadoria.Text = txtNumeroCotacao.Text
                 ddlUsuarioStatus.SelectedValue = Session("ID_USUARIO")
                 ddlAnalista.SelectedValue = Session("ID_USUARIO")
-                txtAbertura.Text = Now.Date.ToString("dd-MM-yyyy")
+                txtAbertura.Text = Now.Date.ToString("dd/MM/yyyy")
                 btnNovoFrete.Attributes.CssStyle.Add("display", "none")
                 ddlStatusCotacao.SelectedValue = 16
                 Session("ID_CLIENTE") = 0
@@ -1274,11 +1274,11 @@ WHERE A.ID_COTACAO_MERCADORIA = " & ID)
             lblmsgErro.Text = "Necessário calcular cotação!"
             Exit Sub
 
-            'ElseIf ckbFreeHand.Checked = True And ddlStatusFreteAgente.SelectedValue = 0 Then
-            '    ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
-            '    diverro.Visible = True
-            '    lblmsgErro.Text = "Necessário selecionar Status de Frete do Agente!"
-            '    Exit Sub
+        ElseIf ckbFreeHand.Checked = True And ddlStatusFreteAgente.SelectedValue = 0 Then
+            ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
+            diverro.Visible = True
+            lblmsgErro.Text = "Necessário selecionar Status de Frete do Agente!"
+            Exit Sub
 
         Else
 
