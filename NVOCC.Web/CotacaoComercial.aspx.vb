@@ -2105,6 +2105,28 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
     End Sub
 
     Private Sub lkAprovar_Click(sender As Object, e As EventArgs) Handles lkAprovar.Click
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro!"
+        Else
+            lkAprovar.Visible = False
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(C.ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,A.NM_RAZAO,P.NM_PORTO FROM TB_COTACAO C
+LEFT JOIN TB_PARCEIRO A ON C.ID_AGENTE_INTERNACIONAL = A.ID_PARCEIRO
+LEFT JOIN TB_PORTO P ON C.ID_PORTO_ORIGEM = P.ID_PORTO
+WHERE C.ID_COTACAO = " & txtID.Text)
+
+            If ds.Tables(0).Rows.Count > 0 Then
+                lblAgenteSI.Text = "Agente Internacional: " & ds.Tables(0).Rows(0).Item("NM_RAZAO")
+                lblPortoOrigemSI.Text = "Porto de Origem: " & ds.Tables(0).Rows(0).Item("NM_PORTO")
+                mpeEnvioSI.Show()
+            End If
+        End If
+    End Sub
+
+    Sub Aprovar()
         divSuccess.Visible = False
         divErro.Visible = False
         Dim Con As New Conexao_sql
@@ -2163,7 +2185,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                         If ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO") = "" Then
                             ' NumeroProcesso()
                             Dim AprovaCotacao As New AprovaCotacao
-                            AprovaCotacao.AprovaCotacao(txtID.Text, ds.Tables(0).Rows(0).Item("ID_SERVICO"), ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM"), ds.Tables(0).Rows(0).Item("ID_TIPO_DIVISAO_FRETE"))
+                            AprovaCotacao.AprovaCotacao(txtID.Text, ds.Tables(0).Rows(0).Item("ID_SERVICO"), ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM"), ds.Tables(0).Rows(0).Item("ID_TIPO_DIVISAO_FRETE"), Session("ID_USUARIO"))
                         End If
 
                     End If
@@ -2186,6 +2208,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                         Next
                     End If
 
+
                 End If
 
 
@@ -2206,7 +2229,6 @@ TB_PARAMETROS WHERE EMAIL_FECHAMENTO_COTACAO IS NOT NULL")
         End If
 
     End Sub
-
 
 
     Function ValorMinimoPendente(ID_COTACAO As Integer) As Boolean
@@ -2654,5 +2676,20 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
         End If
     End Sub
 
+    Private Sub btnCancelaEnvioSI_Click(sender As Object, e As EventArgs) Handles btnCancelaEnvioSI.Click
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Con.ExecutarQuery("UPDATE TB_COTACAO SET FL_ENVIA_SI = 0 WHERE ID_COTACAO = " & txtID.Text)
+        Aprovar()
+        mpeEnvioSI.Hide()
 
+    End Sub
+
+    Private Sub btnConfirmaEnviarSI_Click(sender As Object, e As EventArgs) Handles btnConfirmaEnviarSI.Click
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Con.ExecutarQuery("UPDATE TB_COTACAO SET FL_ENVIA_SI = 1 WHERE ID_COTACAO = " & txtID.Text)
+        Aprovar()
+        mpeEnvioSI.Hide()
+    End Sub
 End Class

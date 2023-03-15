@@ -269,6 +269,40 @@
                                        </div>     </center>
                                 </asp:Panel>
 
+                                
+                                <asp:Button runat="server" Style="display: none" ID="btnAuxiliarEnvioSI" />
+                                <ajaxToolkit:ModalPopupExtender ID="mpeEnvioSI" runat="server" PopupControlID="pnlEnvioSI" TargetControlID="btnAuxiliarEnvioSI" CancelControlID="btnAuxiliarEnvioSI"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlEnvioSI" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" >ENVIAR S.I</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                   
+                                  <div class="row"><div class="col-sm-12">
+                                                                                              <asp:Label ID="lblAgenteSI" runat="server" Text=""></asp:Label><br /><br />
+                                                                <asp:Label ID="lblPortoOrigemSI" runat="server" Text=""></asp:Label>
+
+                               
+                             </div></div>
+                             <div class="row"><div class="col-sm-12">
+                              
+                               <h5>Deseja enviar S.I?</h5> 
+                             </div></div>
+                                                                                  </div>                     
+                               <div class="modal-footer">
+                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnConfirmaEnviarSI" text="Sim" />
+                                                            <asp:Button runat="server" CssClass="btn btn-danger" ID="btnCancelaEnvioSI" text="Não" />
+                                                                                               
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
+
 
                             </ContentTemplate>
                             <Triggers>
