@@ -23,6 +23,15 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents UpdatePanel2 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle txtModalParceiro.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtModalParceiro As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle mpe.
     '''</summary>
     '''<remarks>
@@ -221,24 +230,6 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents txtValidadeInicialTaxa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtValorTaxaLocal.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtValorTaxaLocal As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle ddlMoeda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlMoeda As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle ddlBaseCalculo.
     '''</summary>
     '''<remarks>
@@ -255,6 +246,132 @@ Partial Public Class TaxasLocaisArmador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtQtdBaseCalculo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlTipoPagamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoPagamento As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle lblMoedaTaxa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblMoedaTaxa As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle ddlMoeda.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlMoeda As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle lblCompraTaxa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCompraTaxa As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtValorTaxaLocal.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValorTaxaLocal As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divTaxaAerea1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divTaxaAerea1 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtCompraMinAerea.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCompraMinAerea As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtCompraCalcAerea.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCompraCalcAerea As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divTaxaAerea2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divTaxaAerea2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle ddlMoedaVendaAerea.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlMoedaVendaAerea As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtVendaAerea.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtVendaAerea As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtVendaMinAerea.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtVendaMinAerea As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtVendaCalcAerea.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtVendaCalcAerea As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtObsTaxaAerea.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtObsTaxaAerea As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnSalvar.
@@ -437,24 +554,6 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents txtValidadeInicialTaxaNovo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtValorTaxaLocalNovo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtValorTaxaLocalNovo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle ddlMoedaNovo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlMoedaNovo As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle ddlBaseCalculoNovo.
     '''</summary>
     '''<remarks>
@@ -471,6 +570,132 @@ Partial Public Class TaxasLocaisArmador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtQtdBaseCalculoNovo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlTipoPagamentoNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoPagamentoNovo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle lblMoedaTaxaNova.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblMoedaTaxaNova As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle ddlMoedaNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlMoedaNovo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle lblCompraTaxaNova.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCompraTaxaNova As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtValorTaxaLocalNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValorTaxaLocalNovo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divNovaTaxaAerea1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divNovaTaxaAerea1 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtCompraMinAereaNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCompraMinAereaNovo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtCompraCalcAereaNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCompraCalcAereaNovo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divNovaTaxaAerea2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divNovaTaxaAerea2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle ddlMoedaVendaAereaNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlMoedaVendaAereaNovo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtVendaAereaNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtVendaAereaNovo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtVendaMinAereaNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtVendaMinAereaNovo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtVendaCalcAereaNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtVendaCalcAereaNovo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtObsTaxaAereaNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtObsTaxaAereaNovo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnSalvarNovo.
@@ -966,6 +1191,15 @@ Partial Public Class TaxasLocaisArmador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsBaseCalculoNovo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTipoPagamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTipoPagamento As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsAjustaTaxa.

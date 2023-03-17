@@ -42,7 +42,7 @@
             AtualizaGrid()
         ElseIf e.CommandName = "Taxas" Then
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_PRESTADOR,0)FL_PRESTADOR FROM [TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_PRESTADOR,0)FL_PRESTADOR, ISNULL(FL_AGENTE_INTERNACIONAL,0)FL_AGENTE_INTERNACIONAL FROM [TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID)
 
             If ds.Tables(0).Rows.Count > 0 Then
                 txtID.text = ID
@@ -50,11 +50,13 @@
 
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaPrestador()", True)
 
-                Else
+                ElseIf ds.Tables(0).Rows(0).Item("FL_AGENTE_INTERNACIONAL") = True Then
 
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaAgenteInternacional()", True)
 
-                    '  ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaParceiro()", True)
+                Else
+
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "script", "<script>alert('Parceiro selecionado não é AGENTE INTERNACIONAL e nem PRESTADOR!');</script>", False)
                 End If
 
             End If
@@ -75,10 +77,8 @@
 
                 Else
 
-
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "script", "<script>alert('Parceiro selecionado não é TRANSPORTADOR e nem CIA AÉREA!');</script>", False)
 
-                    '  ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaParceiro()", True)
                 End If
 
             End If
