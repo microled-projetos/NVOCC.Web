@@ -532,6 +532,12 @@
                                                 <asp:CheckBox ID="checkEsc" runat="server" CssClass="form-control noborder" Text="&nbsp;&nbsp;Escalonada"></asp:CheckBox>
                                             </div>
                                         </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group dflex">
+                                                <label class="control-label">&nbsp;</label>
+                                                <asp:CheckBox ID="checkIMO" runat="server" CssClass="form-control noborder" Text="&nbsp;&nbsp;Carga IMO"></asp:CheckBox>
+                                            </div>
+                                        </div>
                                         <div class="col-sm-6">
                                             <div class="form-group dflex">
                                                 <label class="control-label">&nbsp;</label>
@@ -1110,6 +1116,7 @@
                                                     <th class="text-center" scope="col">Moeda</th>
                                                     <th class="text-center" scope="col">Valor Demurrage</th>
                                                     <th class="text-center" scope="col">Desconto</th>
+                                                    <th class="text-center" scope="col">Juros / Multas</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="grdAtualizacaoCambialBody">
@@ -1128,6 +1135,18 @@
                                             <label class="control-label">&nbsp</label>
                                             <div class="form-group">
                                                 <button type="button" id="btnAplicarDesconto" onclick="aplicarDesconto()" class="btn btn-primary btn-ok">Aplicar</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Juros / Multa</label>
+                                                <input id="vlMultaBr" class="form-control" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label class="control-label">&nbsp</label>
+                                            <div class="form-group">
+                                                <button type="button" id="btnAplicarMulta" onclick="aplicarMulta()" class="btn btn-primary btn-ok">Aplicar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -1254,6 +1273,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" id="btnParcelamentoDemurrage" onclick='ParcelamentoDemurrage()' class="btn btn-primary btn-ok">Gerar Parcela</button>
+                                    <button type="button" id="btnFinalizarParcelamentoDemurrage" onclick='finalizarFaturaDemurrage()' class="btn btn-primary btn-ok">Finalizar Demurrage</button>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
                                 </div>
                             </div>
@@ -1744,6 +1764,12 @@
                     else {
                         $("#MainContent_checkEsc").prop('checked', false);
                     }
+                    if (data.FL_CARGA_IMO == "True") {
+                        $("#MainContent_checkIMO").prop('checked', true);
+                    }
+                    else {
+                        $("#MainContent_checkIMO").prop('checked', false);
+                    }
                     if (data.FL_INICIO_CHEGADA == "True") {
                         $("#MainContent_checkInicioFreetime").prop('checked', true);
                     }
@@ -1780,6 +1806,7 @@
                         'qtFreetime',
                         'MainContent_ddlMoeda',
                         'MainContent_checkEsc',
+                        'MainContent_checkIMO',
                         'MainContent_checkInicioFreetime',
                         'dtDemurrage1',
                         'vlDemurrage1',
@@ -1818,6 +1845,7 @@
                 'qtFreetime',
                 'MainContent_ddlMoeda',
                 'MainContent_checkEsc',
+                'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
                 'dtDemurrage1',
                 'vlDemurrage1',
@@ -1881,6 +1909,7 @@
                 'qtFreetime',
                 'MainContent_ddlMoeda',
                 'MainContent_checkEsc',
+                'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
                 'dtDemurrage1',
                 'vlDemurrage1',
@@ -1913,6 +1942,7 @@
                 'qtFreetime',
                 'MainContent_ddlMoeda',
                 'MainContent_checkEsc',
+                'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
                 'dtDemurrage1',
                 'vlDemurrage1',
@@ -1939,6 +1969,8 @@
         function EditarDemurrage() {
             var checkbox = document.getElementById("MainContent_checkEsc");
             var checkboxvalue;
+            var checkboxIMO = document.getElementById("MainContent_checkIMO");
+            var checkboxIMOvalue;
             var checkboxfreetime = document.getElementById("MainContent_checkInicioFreetime");
             var checkboxfreetimevalue;
             if (checkbox.checked) {
@@ -1953,6 +1985,12 @@
             else {
                 checkboxfreetimevalue = "0";
             }
+            if (checkboxIMO.checked) {
+                checkboxIMOvalue = "1";
+            } else {
+                checkboxIMOvalue = "0";
+            }
+
             var dadosEdit = {
                 "ID_TABELA_DEMURRAGE": document.getElementById("ddlDemurrage").value,
                 "ID_PARCEIRO_TRANSPORTADOR": document.getElementById("MainContent_ddlParceiroTransportador").value,
@@ -1962,6 +2000,7 @@
                 "ID_MOEDA": document.getElementById("MainContent_ddlMoeda").value,
                 "FL_ESCALONADA": checkboxvalue,
                 "FL_INICIO_CHEGADA": checkboxfreetimevalue,
+                "FL_CARGA_IMO": checkboxIMOvalue,
                 "QT_DIAS_01": document.getElementById("dtDemurrage1").value,
                 "VL_VENDA_01": document.getElementById("vlDemurrage1").value,
                 "QT_DIAS_02": document.getElementById("dtDemurrage2").value,
@@ -3931,7 +3970,8 @@
                                                     for (let i = 0; i < dado.length; i++) {
                                                         $("#grdAtualizacaoCambialBody").append("<tr id='r" + dado[i]["ID_CNTR_BL"] + "s' data-id='" + dado[i]["ID_CNTR_BL"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setIdFaturaItens(" + dado[i]["ID_CNTR_BL"] + ")'>Selecionar</div></td>" +
                                                             "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_MOEDA"] + "</td><td class='text-center vlDemurrage'>" + dado[i]["VL_DEMURRAGE"] + "</td>" +
-                                                            "<td class='text-center desconto'>" + dado[i]["DESCONTO"] + "</td></tr> ");
+                                                            "<td class='text-center desconto'>" + dado[i]["DESCONTO"] + "</td>" +
+                                                            "<td class='text-center multa'>" + dado[i]["MULTA"] + "</td></tr > ");
                                                     }
                                                 }
                                                 else {
@@ -4085,7 +4125,7 @@
                             vlParcelaJuros = dado[i]["VL_DEMURRAGE_PARCELA"] + (dado[i]["VL_DEMURRAGE_PARCELA"] * (dado[i]["VL_DEMURRAGE_PARCELA_JUROS"] / 100));
 
                             result = "<tr>";
-                            result += dado[i]["ID_CONTA_PAGAR_RECEBER"].toString() == "0" ? "<td class='text-center'><div class='btn btn-primary' onclick='BuscarParcela(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'><i class='fas fa-edit'></i></div>" :"<td class='text-center'>";
+                            result += dado[i]["ID_CONTA_PAGAR_RECEBER"] == null ? "<td class='text-center'><div class='btn btn-primary' onclick='BuscarParcela(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'><i class='fas fa-edit'></i></div>" :"<td class='text-center'>";
                             result += "<div class='btn btn-primary' style='margin-left: 5px;' onclick='DeletarParcelaModal(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'><i class='fas fa-trash'></i></div></td>";
                             result += "<td class='text-center' > " + parseFloat(i + 1) + "</td >";
                             result += "<td class='text-center'>" + dado[i]["DT_VENCIMENTO"] + "</td>";
@@ -4093,8 +4133,8 @@
                             result += "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_PARCELA_JUROS"] + "</td>";
                             result += "<td class='text-center'>" + vlParcelaJuros.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td>";
                             result += "<td class='text-center'>" + dado[i]["FL_PAGO"] + "</td>";
-                            result += dado[i]["ID_CONTA_PAGAR_RECEBER"].toString() == "0" ? "<td class='text-center'><div class='btn btn-primary' onclick='ExportarParcelaCC(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'>Exportar CC</div></td>" : "<td class='text-center'><div class='btn btn-primary' onclick='CancelarExportarParcelaCC(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'>Cancelar Exportação</div></td>";
-                            result += dado[i]["ID_CONTA_PAGAR_RECEBER"].toString() == "0" ? "<td></td>" : dado[i]["DT_ENVIO_FATURAMENTO"] == null ? "<td class='text-center'><div class='btn btn-primary' onclick='EnviarFaturamento(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'>Enviar Faturamento</div></td>" : "<td class='text-center'>Faturamento - " + dado[i]["DT_ENVIO_FATURAMENTO"] + "</td>";
+                            result += dado[i]["ID_CONTA_PAGAR_RECEBER"] == null ? "<td class='text-center'><div class='btn btn-primary' onclick='RegistrarTaxa(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'>Registrar Taxa</div></td>" : dado[i]["ID_CONTA_PAGAR_RECEBER"] !== null && dado[i]["FL_PAGO"].toString() == 'PENDENTE' ? "<td class='text-center'><div class='btn btn-primary' onclick='ExportarParcelaCC(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'>Exportar CC</div></td>" : "<td class='text-center'><div class='btn btn-primary' onclick='CancelarExportarParcelaCC(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'>Cancelar Exportação</div></td>";
+                            result += dado[i]["ID_CONTA_PAGAR_RECEBER"] == null ? "<td></td>" : dado[i]["DT_ENVIO_FATURAMENTO"] == null ? "<td class='text-center'><div class='btn btn-primary' onclick='EnviarFaturamento(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'>Enviar Faturamento</div></td>" : "<td class='text-center'>Faturamento - " + dado[i]["DT_ENVIO_FATURAMENTO"] + "</td>";
                             result += "</tr>";
                             $("#grdParcelamentoDemurrageBody").append(result);
                         }
@@ -4236,6 +4276,7 @@
                 var idContaBancaria = document.getElementById("MainContent_ddlContaBancaria").value;
                 var linhas = document.querySelectorAll(".desconto");
                 var linhas2 = document.querySelectorAll(".vlDemurrage");
+                var multa = document.querySelectorAll(".multa");
                 var desc = document.querySelectorAll("#grdAtualizacaoCambialBody tr");
                 var valorCambio = new String(vlCambio);
                 var vcambio = valorCambio.replace(",", ".");
@@ -4249,10 +4290,11 @@
                         for (var ind = 0; ind < linhas.length; ind++) {
                             var vlDemurrage = linhas2[ind].textContent.toString();
                             var descontoBRL = linhas[ind].textContent.toString();
+                            var multaBRL = multa[ind].textContent.toString();
                             $.ajax({
                                 type: "POST",
                                 url: "DemurrageService.asmx/atualizacaoCambialContainer",
-                                data: '{idCntr:"' + desc[ind].attributes[1].value + '",dtCambio: "' + dtCambio + '", vlCambio: "' + vcambio + '",vlDemurrage:"' + vlDemurrage + '" ,descontoBRL: "' + descontoBRL + '",check:"' + vlCheck + '"}',
+                                data: '{idCntr:"' + desc[ind].attributes[1].value + '",dtCambio: "' + dtCambio + '", vlCambio: "' + vcambio + '",vlDemurrage:"' + vlDemurrage + '" ,descontoBRL: "' + descontoBRL + '", multaBRL: "' + multaBRL+'", check:"' + vlCheck + '"}',
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function () {
@@ -4273,6 +4315,16 @@
             if (idFaturaItens != "") {
                 var desc = document.querySelector("#r" + idFaturaItens + "s td:nth-child(5)");
                 desc.textContent = document.getElementById("vlDescontoBr").value;
+            }
+            else {
+                $("#msgSelectErrFaturaItens").fadeIn(500).delay(1000).fadeOut(500);
+            }
+        }
+
+        function aplicarMulta() {
+            if (idFaturaItens != "") {
+                var desc2 = document.querySelector("#r" + idFaturaItens + "s td:nth-child(6)");
+                desc2.textContent = document.getElementById("vlMultaBr").value;
             }
             else {
                 $("#msgSelectErrFaturaItens").fadeIn(500).delay(1000).fadeOut(500);
@@ -4460,6 +4512,94 @@
                         listarFatura();
                         consultaFiltrada();
                     }
+                }
+            })
+        }
+
+        function finalizarFaturaDemurrage() {
+            Swal.fire({
+                title: 'Você tem certeza?',
+                text: "Você não poderá reverter essa ação!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, finalizar!',
+                customClass: 'swal-wide'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/finalizarFaturaDemurrage",
+                        data: '{idFatura:"' + idFatura + '", check: "' + vlCheck + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        beforeSend: function () {
+                        },
+                        success: function (dado) {
+                            var dado = dado.d;
+                            dado = $.parseJSON(dado);
+                            if (dado == "OK") {
+                                $("#modalParcelamentoDemurrage").modal("hide");
+                                listarFatura();
+                                consultaFiltrada();
+                            }
+                            else {
+                                $("#modalParcelamentoDemurrage").modal("hide");
+                                listarFatura();
+                                consultaFiltrada();
+                            }
+                        }
+                    })
+                }
+            })
+        }
+
+        function RegistrarTaxa(idParcela) {
+            var faturaParcela = document.getElementById("idFaturaParcelaContaCorrente").value;
+            var dsStatus = 0;
+
+            console.log(vlCheck);
+            Swal.fire({
+                title: 'Você tem certeza?',
+                text: "Você não poderá reverter essa ação!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim',
+                customClass: 'swal-wide'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/RegistrarTaxa",
+                        data: '{idFatura:"' + idFatura + '", idFaturaParcela: "' + idParcela + '", check: "' + vlCheck + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        beforeSend: function () {
+                        },
+                        success: function (dado) {
+                            var dado = dado.d;
+                            dado = $.parseJSON(dado);
+                            if (dado != "2") {
+                                Swal.fire('Saved!', '', 'success')
+                                $("#modalExportarParcelaContaCorrente").modal("hide");
+                                $("#modalParcelamentoDemurrage").modal("hide");
+                                /*$("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
+                                listarFatura();
+                                consultaFiltrada();
+                                listarParcelas();
+                            }
+                            else {
+                                Swal.fire('Changes are not saved', '', 'info')
+                                $("#modalExportarParcelaContaCorrente").modal("hide");
+                                $("#modalParcelamentoDemurrage").modal("hide");
+                                /*$("#msgErrUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
+                                listarFatura();
+                                consultaFiltrada();
+                                listarParcelas();
+                            }
+                        }
+                    })
                 }
             })
         }
@@ -4696,6 +4836,7 @@
                 'qtFreetime',
                 'MainContent_ddlMoeda',
                 'MainContent_checkEsc',
+                'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
                 'dtDemurrage1',
                 'vlDemurrage1',
@@ -4752,6 +4893,8 @@
         function CadastrarDemurrageContainer() {
             var checkbox = document.getElementById("MainContent_checkEsc");
             var checkboxvalue;
+            var checkboxIMO = document.getElementById("MainContent_checkIMO");
+            var checkboxIMOvalue;
             var checkboxfreetime = document.getElementById("MainContent_checkInicioFreetime");
             var checkboxfreetimevalue;
             if (checkbox.checked) {
@@ -4766,6 +4909,11 @@
             else {
                 checkboxfreetimevalue = "0";
             }
+            if (checkboxIMO.checked) {
+                checkboxIMOvalue = "1";
+            } else {
+                checkboxIMOvalue = "0";
+            }
             var dado = {
                 "ID_PARCEIRO_TRANSPORTADOR": document.getElementById("MainContent_ddlParceiroTransportador").value,
                 "ID_TIPO_CONTAINER": document.getElementById("MainContent_ddlTipoContainer").value,
@@ -4773,6 +4921,7 @@
                 "QT_DIAS_FREETIME": document.getElementById("qtFreetime").value,
                 "ID_MOEDA": document.getElementById("MainContent_ddlMoeda").value,
                 "FL_ESCALONADA": checkboxvalue,
+                "FL_CARGA_IMO": checkboxIMOvalue,
                 "FL_INICIO_CHEGADA": checkboxfreetimevalue,
                 "QT_DIAS_01": document.getElementById("dtDemurrage1").value,
                 "VL_VENDA_01": document.getElementById("vlDemurrage1").value,
@@ -4829,6 +4978,7 @@
                 'qtFreetime',
                 'MainContent_ddlMoeda',
                 'MainContent_checkEsc',
+                'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
                 'dtDemurrage1',
                 'vlDemurrage1',
@@ -4861,6 +5011,7 @@
                 'qtFreetime',
                 'MainContent_ddlMoeda',
                 'MainContent_checkEsc',
+                'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
                 'dtDemurrage1',
                 'vlDemurrage1',

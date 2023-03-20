@@ -132,6 +132,15 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.CheckBox checkEsc;
 
 		/// <summary>
+		/// Controle checkIMO.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.CheckBox checkIMO;
+
+		/// <summary>
 		/// Controle checkInicioFreetime.
 		/// </summary>
 		/// <remarks>

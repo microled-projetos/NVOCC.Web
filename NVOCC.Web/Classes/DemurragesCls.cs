@@ -37,6 +37,7 @@ namespace ABAINFRA.Web.Classes
         private string vl_venda_07;
         private string qt_dias_08;
         private string vl_venda_08;
+        private string fl_carga_imo;
 
         public int ID_TABELA_DEMURRAGE { get => id_tabela_demurrage; set => id_tabela_demurrage = value; }
         public int ID_PARCEIRO_TRANSPORTADOR { get => id_parceiro_transportador; set => id_parceiro_transportador = value; }
@@ -63,5 +64,6 @@ namespace ABAINFRA.Web.Classes
         public string VL_VENDA_07 { get => vl_venda_07; set => vl_venda_07 = value; }
         public string QT_DIAS_08 { get => qt_dias_08; set => qt_dias_08 = value; }
         public string VL_VENDA_08 { get => vl_venda_08; set => vl_venda_08 = value; }
+        public string FL_CARGA_IMO { get => fl_carga_imo; set => fl_carga_imo = value; }
     }
 }
