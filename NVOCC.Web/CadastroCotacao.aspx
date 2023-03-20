@@ -1799,6 +1799,9 @@
                                                             
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Enviar na S.I?" HeaderStyle-ForeColor="#337ab7" >
+                                                        <ItemTemplate><asp:CheckBox ID="ckEnvioSI" Checked='<%# Eval("FL_ENVIA_SI") %>' runat="server" AutoPostBack="true" OnCheckedChanged="ckEnvioSI_CheckedChanged" />   </ItemTemplate>
+                                                    </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
                                                        <a href="VisualizarUpload.aspx?id=<%# Eval("ID_ARQUIVO") %>" target="_blank" style="Font-Size:medium"  data-toggle="tooltip" data-placement="top" title="Visualizar"><asp:Label ID="lblBotaoVisualizar" runat="server" Text="Visualizar" /></a>                                                         
@@ -2283,7 +2286,7 @@ FROM TB_COTACAO_TAXA A
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsUploads" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO FROM TB_UPLOADS  A
+        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO,ISNULL(A.FL_ENVIA_SI,0)FL_ENVIA_SI FROM TB_UPLOADS  A
  INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
 INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
     WHERE A.ID_COTACAO = @ID_COTACAO ">

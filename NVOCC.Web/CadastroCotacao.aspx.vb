@@ -5173,4 +5173,18 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         End If
     End Sub
 
+    Public Sub ckEnvioSI_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
+        divErroUpload.Visible = False
+        divSuccessUpload.Visible = False
+        Dim chk As CheckBox = DirectCast(sender, CheckBox)
+        Dim row = DirectCast(chk.NamingContainer, GridViewRow)
+        Dim ID_ARQUIVO = DirectCast(row.FindControl("lblID_ARQUIVO"), Label).Text
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ENVIA_SI = '" & chk.Checked & "' WHERE ID_ARQUIVO = " & ID_ARQUIVO)
+        divSuccessUpload.Visible = True
+        dgvArquivos.DataBind()
+        Con.Fechar()
+        txtUP.Text = 1
+    End Sub
 End Class
