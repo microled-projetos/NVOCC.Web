@@ -5144,7 +5144,7 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         Dim ID_ARQUIVO = DirectCast(row.FindControl("lblID_ARQUIVO"), Label).Text
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ENVIO_SI = '" & chk.Checked & "' WHERE ID_ARQUIVO = " & ID_ARQUIVO)
+        Con.ExecutarQuery("UPDATE TB_UPLOADS SET FL_ENVIA_SI = '" & chk.Checked & "' WHERE ID_ARQUIVO = " & ID_ARQUIVO)
         divSuccessUpload.Visible = True
         dgvArquivos.DataBind()
         Con.Fechar()
