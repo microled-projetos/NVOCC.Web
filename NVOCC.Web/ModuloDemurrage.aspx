@@ -4104,6 +4104,7 @@
         }
 
         function listarParcelas() {
+            console.log("Fatura " + idFatura)
             var vlParcelaJuros = 0;
             var result;
             $.ajax({
@@ -4251,15 +4252,13 @@
                                 $("#modalDeleteParcela").modal("hide");
                                 $("#modalParcelamentoDemurrage").modal("hide");
                                 $("#msgExportSuccess").fadeIn(500).delay(1000).fadeOut(500);
-                                listarFatura();
-                                consultaFiltrada();
+                                listarParcelas();
                             }
                             else {
                                 $("#modalDeleteParcela").modal("hide");
                                 $("#modalParcelamentoDemurrage").modal("hide");
                                 $("#msgErrExportDadoConta").fadeIn(500).delay(1000).fadeOut(500);
-                                listarFatura();
-                                consultaFiltrada();
+                                listarParcelas();
                             }
                         }
                     })
@@ -4462,20 +4461,20 @@
                             dado = $.parseJSON(dado);
                             if (dado != "2") {
                                 Swal.fire('Saved!', '', 'success')
-                                $("#modalDialogParcela").modal("hide");
-                                $("#modalParcelamentoDemurrage").modal("hide");
+                                //$("#modalDialogParcela").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
                                 /*$("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
-                                listarFatura();
-                                consultaFiltrada();
+                                //listarFatura();
+                                //consultaFiltrada();
                                 listarParcelas();
                             }
                             else {
                                 Swal.fire('Changes are not saved', '', 'info')
-                                $("#modalDialogParcela").modal("hide");
-                                $("#modalParcelamentoDemurrage").modal("hide");
+                                //$("#modalDialogParcela").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
                                 /*$("#msgErrUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
-                                listarFatura();
-                                consultaFiltrada();
+                                //listarFatura();
+                                //consultaFiltrada();
                                 listarParcelas();
                             }
                         }
@@ -4582,20 +4581,14 @@
                             dado = $.parseJSON(dado);
                             if (dado != "2") {
                                 Swal.fire('Saved!', '', 'success')
-                                $("#modalExportarParcelaContaCorrente").modal("hide");
-                                $("#modalParcelamentoDemurrage").modal("hide");
-                                /*$("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
-                                listarFatura();
-                                consultaFiltrada();
+                                //$("#modalExportarParcelaContaCorrente").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
                                 listarParcelas();
                             }
                             else {
                                 Swal.fire('Changes are not saved', '', 'info')
-                                $("#modalExportarParcelaContaCorrente").modal("hide");
-                                $("#modalParcelamentoDemurrage").modal("hide");
-                                /*$("#msgErrUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
-                                listarFatura();
-                                consultaFiltrada();
+                                //$("#modalExportarParcelaContaCorrente").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
                                 listarParcelas();
                             }
                         }
@@ -4603,6 +4596,10 @@
                 }
             })
         }
+        $('#modalParcelamentoDemurrage').on('hidden.bs.modal', function () {
+            listarFatura();
+            consultaFiltrada();
+        })
 
         function exportarParcelaConta() {
             var dtLiquidacao = document.getElementById("dtLiquidacaoFaturaParcelaContaCorrente").value;
@@ -4634,19 +4631,19 @@
                             if (dado != "2") {
                                 Swal.fire('Saved!', '', 'success')
                                 $("#modalExportarParcelaContaCorrente").modal("hide");
-                                $("#modalParcelamentoDemurrage").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
                                 /*$("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
-                                listarFatura();
-                                consultaFiltrada();
+                                //listarFatura();
+                                //consultaFiltrada();
                                 listarParcelas();
                             }
                             else {
                                 Swal.fire('Changes are not saved', '', 'info')
                                 $("#modalExportarParcelaContaCorrente").modal("hide");
-                                $("#modalParcelamentoDemurrage").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
                                 /*$("#msgErrUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
-                                listarFatura();
-                                consultaFiltrada();
+                               // listarFatura();
+                                //consultaFiltrada();
                                 listarParcelas();
                             }
                         }
@@ -4679,20 +4676,20 @@
                             dado = $.parseJSON(dado);
                             if (dado != "2") {
                                 Swal.fire('Saved!', '', 'success')
-                                $("#modalDialogParcela").modal("hide");
-                                $("#modalParcelamentoDemurrage").modal("hide");
+                                //$("#modalDialogParcela").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
                                 /*$("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
-                                listarFatura();
-                                consultaFiltrada();
+                                //listarFatura();
+                                //consultaFiltrada();
                                 listarParcelas();
                             }
                             else {
                                 Swal.fire('Changes are not saved', '', 'info')
-                                $("#modalDialogParcela").modal("hide");
-                                $("#modalParcelamentoDemurrage").modal("hide");
+                                //$("#modalDialogParcela").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
                                 /*$("#msgErrUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
-                                listarFatura();
-                                consultaFiltrada();
+                                //listarFatura();
+                                //consultaFiltrada();
                                 listarParcelas();
                             }
                         }
