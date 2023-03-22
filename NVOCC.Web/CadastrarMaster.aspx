@@ -1334,6 +1334,9 @@
                                                                 <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" />
                                                                 <asp:BoundField DataField="NM_RAZAO" HeaderText="Cliente" />
                                                                 <asp:BoundField DataField="PORTOS" HeaderText="Origem/Destino" />
+                                                                <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso" />
+                                                                <asp:BoundField DataField="VL_M3" HeaderText="Cubagem" />
+                                                                <asp:BoundField DataField="QT_MERCADORIA" HeaderText="Qtd. Volumes" />
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <a href="CadastrarEmbarqueHouse.aspx?tipo=h&id=<%# Eval("ID_BL") %>" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" target="_blank" title="Editar"><span class="glyphicon glyphicon-edit"></a>
@@ -2183,9 +2186,7 @@
                                                                     <ItemTemplate>
                                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL") %>' />
                                                                     </ItemTemplate>
-
                                                                 </asp:TemplateField>
-
 
                                                                 <asp:TemplateField HeaderText="Processo">
                                                                     <ItemTemplate>
@@ -2195,6 +2196,9 @@
                                                                 <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" />
                                                                 <asp:BoundField DataField="NM_RAZAO" HeaderText="Cliente" />
                                                                 <asp:BoundField DataField="PORTOS" HeaderText="Origem/Destino" />
+                                                                <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso" />
+                                                                <asp:BoundField DataField="VL_M3" HeaderText="Cubagem" />
+                                                                <asp:BoundField DataField="QT_MERCADORIA" HeaderText="Qtd. Volumes" />
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <a href="CadastrarEmbarqueHouse.aspx?tipo=h&id=<%# Eval("ID_BL") %>" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" target="_blank" title="Editar"><span class="glyphicon glyphicon-edit"></a>
@@ -2304,7 +2308,6 @@ union SELECT 0, ' Selecione' FROM [dbo].[TB_TIPO_ITEM_DESPESA] ORDER BY NM_ITEM_
     <asp:SqlDataSource ID="dsContainer" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CNTR_BL,ID_TIPO_CNTR,
 (SELECT NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER = A.ID_TIPO_CNTR)TIPO_CNTR,NR_CNTR,NR_LACRE,VL_PESO_TARA,QT_DIAS_FREETIME FROM TB_CNTR_BL A WHERE ID_BL_MASTER = @ID_BL_MASTER ORDER BY ID_CNTR_BL DESC">
-
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL_MASTER" Type="Int32" ControlID="txtID_BasicoMaritimo" />
         </SelectParameters>
@@ -2330,56 +2333,34 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CONT
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsVinculadas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,substring(P.NM_RAZAO,0,20)NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
-left join TB_PARCEIRO P on P.ID_PARCEIRO = ID_PARCEIRO_CLIENTE
-left join TB_PORTO O on O.ID_PORTO = A.ID_PORTO_ORIGEM
-left join TB_PORTO D on D.ID_PORTO = A.ID_PORTO_DESTINO WHERE ID_BL_MASTER = @ID_BL">
+        SelectCommand="SELECT ID_BL, NR_BL, NR_PROCESSO, NM_RAZAO, PORTOS, VL_PESO_BRUTO, VL_M3 , QT_MERCADORIA FROM [FN_HOUSES_VINCULADOS](@ID_BL) ORDER BY ID_BL_MASTER DESC ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
         </SelectParameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsNaoVinculadas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,substring(P.NM_RAZAO,0,20)NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
-left join TB_PARCEIRO P on P.ID_PARCEIRO = A.ID_PARCEIRO_CLIENTE
-left join TB_PORTO O on O.ID_PORTO = A.ID_PORTO_ORIGEM
-left join TB_PORTO D on D.ID_PORTO = A.ID_PORTO_DESTINO 
-left join TB_COTACAO E on E.ID_COTACAO = A.ID_COTACAO 
-WHERE ID_BL_MASTER IS NULL AND GRAU='C' AND A.ID_PORTO_ORIGEM = @ORIGEM AND A.ID_PORTO_DESTINO = @DESTINO AND NR_PROCESSO IS NOT NULL AND ISNULL(E.ID_STATUS_COTACAO,9) in(9,12,15,10)">
+        SelectCommand="SELECT ID_BL, NR_BL, NR_PROCESSO, NM_RAZAO, PORTOS FROM [FN_HOUSES_NAO_VINCULADOS](@ORIGEM,@DESTINO) ORDER BY NR_PROCESSO">
         <SelectParameters>
             <asp:ControlParameter Name="ORIGEM" Type="Int32" ControlID="ddlOrigem_BasicoMaritimo" />
             <asp:ControlParameter Name="DESTINO" Type="Int32" ControlID="ddlDestino_BasicoMaritimo" />
         </SelectParameters>
     </asp:SqlDataSource>
 
-
-
-
-
     <asp:SqlDataSource ID="dsVinculadosAereos" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,substring(P.NM_RAZAO,0,20)NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
-left join TB_PARCEIRO P on P.ID_PARCEIRO = ID_PARCEIRO_CLIENTE
-left join TB_PORTO O on O.ID_PORTO = A.ID_PORTO_ORIGEM
-left join TB_PORTO D on D.ID_PORTO = A.ID_PORTO_DESTINO WHERE ID_BL_MASTER = @ID_BL">
+        SelectCommand="SELECT ID_BL, NR_BL, NR_PROCESSO, NM_RAZAO, PORTOS, VL_PESO_BRUTO, VL_M3 , QT_MERCADORIA FROM [FN_HOUSES_VINCULADOS](@ID_BL) ORDER BY ID_BL_MASTER DESC">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
         </SelectParameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsNaoVinculadosAereos" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,substring(P.NM_RAZAO,0,20)NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
-left join TB_PARCEIRO P on P.ID_PARCEIRO = A.ID_PARCEIRO_CLIENTE
-left join TB_PORTO O on O.ID_PORTO = A.ID_PORTO_ORIGEM
-left join TB_PORTO D on D.ID_PORTO = A.ID_PORTO_DESTINO 
-left join TB_COTACAO E on E.ID_COTACAO = A.ID_COTACAO 
-WHERE ID_BL_MASTER IS NULL AND GRAU='C' AND A.ID_PORTO_ORIGEM = @ORIGEM AND A.ID_PORTO_DESTINO = @DESTINO AND ISNULL(A.FL_CANCELADO,0) = 0 AND A.DT_CANCELAMENTO IS NULL AND NR_PROCESSO IS NOT NULL AND ISNULL(E.ID_STATUS_COTACAO,9) in(9,12,15,10)">
+        SelectCommand="SELECT ID_BL, NR_BL, NR_PROCESSO, NM_RAZAO, PORTOS FROM [FN_HOUSES_NAO_VINCULADOS](@ORIGEM,@DESTINO) ORDER BY NR_PROCESSO ">
         <SelectParameters>
             <asp:ControlParameter Name="ORIGEM" Type="Int32" ControlID="ddlOrigem_BasicoAereo" />
             <asp:ControlParameter Name="DESTINO" Type="Int32" ControlID="ddlDestino_BasicoAereo" />
         </SelectParameters>
     </asp:SqlDataSource>
-
-
 
     <asp:SqlDataSource ID="dsWeekAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_WEEK, NM_WEEK FROM TB_WEEK WHERE ID_PORTO_ORIGEM_DESTINO = 0 AND ID_PORTO_ORIGEM_LOCAL = 0
@@ -2397,6 +2378,7 @@ union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
             <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtCodEmpresa_TaxasMaritimo" DefaultValue="0" />
         </SelectParameters>
     </asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsFornecedorAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO)
 union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
@@ -2421,7 +2403,6 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO">
             <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtCodAgenciaMaritima_Maritimo" DefaultValue="0" />
         </SelectParameters>
     </asp:SqlDataSource>
-
 
     <asp:SqlDataSource ID="dsNavios" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_NAVIO, NM_NAVIO FROM [dbo].[TB_NAVIO] where (NM_NAVIO like '%' + @Nome + '%' Or @Nome = '0')">

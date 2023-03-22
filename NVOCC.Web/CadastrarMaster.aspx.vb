@@ -3937,5 +3937,35 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
     Private Sub btnCSVHistoricoDatasMaritimo_Click(sender As Object, e As EventArgs) Handles btnCSVHistoricoDatasMaritimo.Click
         Classes.Excel.exportaExcel("SELECT DT_LOG_HIST AS AtualizacaoData, NOME as Usuario, UPDATED_AT as DataHoraGravacao FROM TB_LOG_DATA_BL A LEFT JOIN TB_USUARIO B ON A.ID_USUARIO = B.ID_USUARIO WHERE A.ID_BL = " & txtID_BasicoMaritimo.Text & " AND CD_TIPO_DATA = " & txtTipoDataMaritimo.Text & " ORDER BY UPDATED_AT DESC", "NVOCC", "Historico_ETD_ATD_ETA_ATA")
     End Sub
+    Private Sub dgvVinculadas_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvVinculadas.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
 
+            Dim lblID As Label = CType(e.Row.FindControl("lblID"), Label)
+
+            Dim ckProcesso As CheckBox = CType(e.Row.FindControl("PROCESSO"), CheckBox)
+
+            If (lblID.Text = 0) Then
+                ckProcesso.Visible = False
+            Else
+                ckProcesso.Visible = True
+            End If
+
+        End If
+    End Sub
+
+    Private Sub dgvVinculadosAereos_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvVinculadosAereos.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim lblID As Label = CType(e.Row.FindControl("lblID"), Label)
+
+            Dim ckProcesso As CheckBox = CType(e.Row.FindControl("PROCESSO"), CheckBox)
+
+            If (lblID.Text = 0) Then
+                ckProcesso.Visible = False
+            Else
+                ckProcesso.Visible = True
+            End If
+
+        End If
+    End Sub
 End Class
