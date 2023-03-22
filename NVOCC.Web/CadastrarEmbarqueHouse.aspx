@@ -29,6 +29,18 @@
             color: gray;
             text-decoration: line-through;
         }
+       input[type='checkbox'][disabled][checked] {
+ height:0px;
+}
+input[type='checkbox'][disabled][checked]:after {
+ content:'\e013'; 
+ position:absolute; 
+ margin-top:-10px;
+ opacity: 1 !important;
+  font-family: 'Glyphicons Halflings';
+ background-color: #428bff;
+ color:white;
+}
     </style>
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="row principal">
