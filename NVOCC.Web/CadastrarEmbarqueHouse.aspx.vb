@@ -64,7 +64,10 @@ Public Class CadastrarEmbarqueHouse
 ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORTO_DESTINO, ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_COMISSARIA,ID_PARCEIRO_AGENTE,ID_INCOTERM,FL_FREE_HAND,ID_TIPO_PAGAMENTO,ID_TIPO_CARGA,ID_TIPO_ESTUFAGEM,NR_CE,CONVERT(varchar,DT_CE, 103)DT_CE,OB_REFERENCIA_COMERCIAL,OB_REFERENCIA_AUXILIAR,NM_RESUMO_MERCADORIA,OB_CLIENTE,OB_AGENTE_INTERNACIONAL,OB_COMERCIAL,OB_OPERACIONAL_INTERNA,CD_RASTREAMENTO_HBL,CD_RASTREAMENTO_MBL,ID_PARCEIRO_ARMAZEM_DESEMBARACO,ID_PARCEIRO_RODOVIARIO,(SELECT NR_BL FROM TB_BL WHERE ID_BL = A.ID_BL_MASTER)BL_MASTER,(SELECT DT_CHEGADA FROM TB_BL WHERE TB_BL.ID_BL = A.ID_BL_MASTER)DT_CHEGADA_MASTER,VL_PROFIT_DIVISAO,VL_PROFIT_DIVISAO_CALCULADO,ID_PROFIT_DIVISAO,ISNULL((SELECT B.ID_STATUS_COTACAO FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO),0)ID_STATUS_COTACAO,
 (SELECT B.OB_CLIENTE FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO)OB_CLIENTE_COTACAO,
 (SELECT B.OB_OPERACIONAL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO)OB_OPERACIONAL_COTACAO, 
-(SELECT NM_TIPO_BL FROM TB_TIPO_BL WHERE ID_TIPO_BL = (SELECT ID_TIPO_BL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO))NM_TIPO_BL,(SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = (SELECT ID_CLIENTE_FINAL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO))NM_CLIENTE_FINAL, VL_CARGA, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO,ISNULL(FINAL_DESTINATION,0)FINAL_DESTINATION,ISNULL(FL_EMAIL_COTACAO,0)FL_EMAIL_COTACAO, EMAIL_COTACAO,NR_CONTRATO_ARMADOR, ISNULL(FL_TC4,0)FL_TC4,ISNULL(FL_TC6,0)FL_TC6, ISNULL(A.ID_TIPO_AERONAVE,0)ID_TIPO_AERONAVE,ISNULL(FL_DOC_CONFERIDO,0)FL_DOC_CONFERIDO FROM TB_BL A
+(SELECT NM_TIPO_BL FROM TB_TIPO_BL WHERE ID_TIPO_BL = (SELECT ID_TIPO_BL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO))NM_TIPO_BL,(SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = (SELECT ID_CLIENTE_FINAL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO))NM_CLIENTE_FINAL, VL_CARGA, ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO,ISNULL(FINAL_DESTINATION,0)FINAL_DESTINATION,ISNULL(FL_EMAIL_COTACAO,0)FL_EMAIL_COTACAO, EMAIL_COTACAO,NR_CONTRATO_ARMADOR, ISNULL(FL_TC4,0)FL_TC4,ISNULL(FL_TC6,0)FL_TC6, ISNULL(A.ID_TIPO_AERONAVE,0)ID_TIPO_AERONAVE,ISNULL(FL_DOC_CONFERIDO,0)FL_DOC_CONFERIDO, 
+ISNULL((SELECT B.FL_DTA_HUB FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO),0)FL_DTA_HUB,
+ISNULL((SELECT B.FL_LTL FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO),0)FL_LTL,
+ISNULL((SELECT B.FL_TRANSP_DEDICADO FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO),0)FL_TRANSP_DEDICADO FROM TB_BL A
 OUTER APPLY FN_DOC_CONFERIDO(A.ID_BL)  
 WHERE A.ID_BL = " & Request.QueryString("id"))
 
@@ -81,6 +84,18 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
                     If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
                         Dim Rastreio As New RastreioService
                         Rastreio.trackingbl(Request.QueryString("id"))
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_DTA_HUB")) Then
+                        ckbDtaHub_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_DTA_HUB")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_LTL")) Then
+                        ckbLTL_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_LTL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_TRANSP_DEDICADO")) Then
+                        ckbTranspDedicado_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_TRANSP_DEDICADO")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
@@ -323,9 +338,18 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
                     'AGENCIAMENTO DE EXPORTAÇÃO AEREO
                     'AGENCIAMENTO DE IMPORTACAO AEREO
 
-                    'If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_CONTRATO_ARMADOR")) Then
-                    '    txtContratoArmador_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("NR_CONTRATO_ARMADOR").ToString()
-                    'End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_DTA_HUB")) Then
+                        ckbDtaHub_BasicoAereo.Checked = ds.Tables(0).Rows(0).Item("FL_DTA_HUB")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_LTL")) Then
+                        ckbLTL_BasicoAereo.Checked = ds.Tables(0).Rows(0).Item("FL_LTL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_TRANSP_DEDICADO")) Then
+                        ckbTranspDedicado_BasicoAereo.Checked = ds.Tables(0).Rows(0).Item("FL_TRANSP_DEDICADO")
+                    End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
@@ -576,6 +600,18 @@ WHERE A.ID_BL = " & Request.QueryString("id"))
                 Else
 
                     'OUTROS                  
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_DTA_HUB")) Then
+                        ckbDtaHub_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_DTA_HUB")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_LTL")) Then
+                        ckbLTL_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_LTL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_TRANSP_DEDICADO")) Then
+                        ckbTranspDedicado_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_TRANSP_DEDICADO")
+                    End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL")

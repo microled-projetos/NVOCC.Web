@@ -482,6 +482,42 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlEstufagem_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle divFlagMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divFlagMaritimo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle ckbLTL_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbLTL_BasicoMaritimo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbDtaHub_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbDtaHub_BasicoMaritimo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbTranspDedicado_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbTranspDedicado_BasicoMaritimo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle ckbFreeHand_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -1832,33 +1868,6 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents btnVisualizarMBL_Aereo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle ckbFreeHand_BasicoAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ckbFreeHand_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
-    '''Controle ckbTC4_BasicoAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ckbTC4_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
-    '''Controle ckbTC6_BasicoAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ckbTC6_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
     '''Controle ckTrakingAutomaticoAereo.
     '''</summary>
     '''<remarks>
@@ -1940,33 +1949,6 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlEstufagem_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlOrigem_BasicoAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlOrigem_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlDestino_BasicoAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlDestino_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlFinalDestination_BasicoAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlFinalDestination_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle txtDataCE_BasicoAereo.
     '''</summary>
     '''<remarks>
@@ -1992,6 +1974,96 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlIncoterm_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle divFlagAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divFlagAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle ckbLTL_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbLTL_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbDtaHub_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbDtaHub_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbTranspDedicado_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbTranspDedicado_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbFreeHand_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbFreeHand_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbTC4_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbTC4_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbTC6_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbTC6_BasicoAereo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ddlOrigem_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlOrigem_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlDestino_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlDestino_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlFinalDestination_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlFinalDestination_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtValorCarga_BasicoAereo.
