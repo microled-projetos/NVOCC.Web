@@ -1257,7 +1257,7 @@
                                                 <div class="col-sm-5">
                                                     <div class="form-group">
                                                         HOUSES EM INSTRUÇÃO DE EMBARQUE
-                                                        <asp:GridView ID="dgvNaoVinculadas"
+                                                        <asp:GridView ID="dgvNaoVinculados"
                                                             Style="max-height: 600px; overflow: auto;"
                                                             CssClass="table table-hover table-condensed table-bordered"
                                                             runat="server"
@@ -1266,7 +1266,7 @@
                                                             BorderStyle="None"
                                                             BorderWidth="0px"
                                                             GridLines="None"
-                                                            DataSourceID="dsNaoVinculadas"
+                                                            DataSourceID="dsNaoVinculados"
                                                             EmptyDataText="Nenhum registro encontrado.">
 
                                                             <Columns>
@@ -1304,7 +1304,7 @@
                                                 <div class="col-sm-5">
                                                     <div class="form-group">
                                                         HOUSES VINCULADOS AO MASTER
-                                                        <asp:GridView ID="dgvVinculadas"
+                                                        <asp:GridView ID="dgvVinculados"
                                                             Style="max-height: 600px; overflow: auto;"
                                                             CssClass="table table-hover table-condensed table-bordered"
                                                             runat="server"
@@ -1313,7 +1313,7 @@
                                                             BorderStyle="None"
                                                             BorderWidth="0px"
                                                             GridLines="None"
-                                                            DataSourceID="dsVinculadas"
+                                                            DataSourceID="dsVinculados"
                                                             EmptyDataText="Nenhum registro encontrado.">
                                                             <Columns>
                                                                 <asp:TemplateField HeaderText="ID" Visible="False">
@@ -1332,6 +1332,9 @@
                                                                 <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" />
                                                                 <asp:BoundField DataField="NM_RAZAO" HeaderText="Cliente" />
                                                                 <asp:BoundField DataField="PORTOS" HeaderText="Origem/Destino" />
+                                                                <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso" />
+                                                                <asp:BoundField DataField="VL_M3" HeaderText="Cubagem" />
+                                                                <asp:BoundField DataField="QT_MERCADORIA" HeaderText="Qtd. Volumes" />
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <a href="CadastrarEmbarqueHouse.aspx?tipo=h&id=<%# Eval("ID_BL") %>" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" target="_blank" title="Editar"><span class="glyphicon glyphicon-edit"></a>
@@ -2190,6 +2193,9 @@
                                                                 <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" />
                                                                 <asp:BoundField DataField="NM_RAZAO" HeaderText="Cliente" />
                                                                 <asp:BoundField DataField="PORTOS" HeaderText="Origem/Destino" />
+                                                                <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso" />
+                                                                <asp:BoundField DataField="VL_M3" HeaderText="Cubagem" />
+                                                                <asp:BoundField DataField="QT_MERCADORIA" HeaderText="Qtd. Volumes" />
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <a href="CadastrarEmbarqueHouse.aspx?tipo=h&id=<%# Eval("ID_BL") %>" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" target="_blank" title="Editar"><span class="glyphicon glyphicon-edit"></a>
@@ -2325,23 +2331,15 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CONT
         </SelectParameters>
     </asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsVinculadas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,substring(P.NM_RAZAO,0,20)NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
-left join TB_PARCEIRO P on P.ID_PARCEIRO = ID_PARCEIRO_CLIENTE
-left join TB_PORTO O on O.ID_PORTO = A.ID_PORTO_ORIGEM
-left join TB_PORTO D on D.ID_PORTO = A.ID_PORTO_DESTINO WHERE ID_BL_MASTER = @ID_BL">
+    <asp:SqlDataSource ID="dsVinculados" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_BL, NR_BL, NR_PROCESSO, NM_RAZAO, PORTOS, VL_PESO_BRUTO, VL_M3 , QT_MERCADORIA FROM [FN_HOUSES_VINCULADOS](@ID_BL) ORDER BY ID_BL_MASTER DESC ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
         </SelectParameters>
     </asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsNaoVinculadas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,substring(P.NM_RAZAO,0,20)NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
-left join TB_PARCEIRO P on P.ID_PARCEIRO = A.ID_PARCEIRO_CLIENTE
-left join TB_PORTO O on O.ID_PORTO = A.ID_PORTO_ORIGEM
-left join TB_PORTO D on D.ID_PORTO = A.ID_PORTO_DESTINO 
-left join TB_COTACAO E on E.ID_COTACAO = A.ID_COTACAO 
-WHERE ID_BL_MASTER IS NULL AND GRAU='C' AND A.ID_PORTO_ORIGEM = @ORIGEM AND A.ID_PORTO_DESTINO = @DESTINO AND ISNULL(A.FL_CANCELADO,0) = 0 AND A.DT_CANCELAMENTO IS NULL AND NR_PROCESSO IS NOT NULL AND ISNULL(E.ID_STATUS_COTACAO,9) in(9,12,15,10)">
+    <asp:SqlDataSource ID="dsNaoVinculados" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_BL, NR_BL, NR_PROCESSO, NM_RAZAO, PORTOS FROM [FN_HOUSES_NAO_VINCULADOS](@ORIGEM,@DESTINO) ORDER BY NR_PROCESSO">
         <SelectParameters>
             <asp:ControlParameter Name="ORIGEM" Type="Int32" ControlID="ddlOrigem_BasicoMaritimo" />
             <asp:ControlParameter Name="DESTINO" Type="Int32" ControlID="ddlDestino_BasicoMaritimo" />
@@ -2353,22 +2351,14 @@ WHERE ID_BL_MASTER IS NULL AND GRAU='C' AND A.ID_PORTO_ORIGEM = @ORIGEM AND A.ID
 
 
     <asp:SqlDataSource ID="dsVinculadosAereos" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,substring(P.NM_RAZAO,0,20)NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
-left join TB_PARCEIRO P on P.ID_PARCEIRO = ID_PARCEIRO_CLIENTE
-left join TB_PORTO O on O.ID_PORTO = A.ID_PORTO_ORIGEM
-left join TB_PORTO D on D.ID_PORTO = A.ID_PORTO_DESTINO WHERE ID_BL_MASTER = @ID_BL">
+        SelectCommand="SELECT ID_BL, NR_BL, NR_PROCESSO, NM_RAZAO, PORTOS, VL_PESO_BRUTO, VL_M3 , QT_MERCADORIA FROM [FN_HOUSES_VINCULADOS](@ID_BL) ORDER BY ID_BL_MASTER DESC">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
         </SelectParameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsNaoVinculadosAereos" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,substring(P.NM_RAZAO,0,20)NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
-left join TB_PARCEIRO P on P.ID_PARCEIRO = A.ID_PARCEIRO_CLIENTE
-left join TB_PORTO O on O.ID_PORTO = A.ID_PORTO_ORIGEM
-left join TB_PORTO D on D.ID_PORTO = A.ID_PORTO_DESTINO 
-left join TB_COTACAO E on E.ID_COTACAO = A.ID_COTACAO 
-WHERE ID_BL_MASTER IS NULL AND GRAU='C' AND A.ID_PORTO_ORIGEM = @ORIGEM AND A.ID_PORTO_DESTINO = @DESTINO AND ISNULL(A.FL_CANCELADO,0) = 0 AND A.DT_CANCELAMENTO IS NULL AND NR_PROCESSO IS NOT NULL AND ISNULL(E.ID_STATUS_COTACAO,9) in(9,12,15,10)">
+        SelectCommand="SELECT ID_BL, NR_BL, NR_PROCESSO, NM_RAZAO, PORTOS FROM [FN_HOUSES_NAO_VINCULADOS](@ORIGEM,@DESTINO) ORDER BY NR_PROCESSO">
         <SelectParameters>
             <asp:ControlParameter Name="ORIGEM" Type="Int32" ControlID="ddlOrigem_BasicoAereo" />
             <asp:ControlParameter Name="DESTINO" Type="Int32" ControlID="ddlDestino_BasicoAereo" />

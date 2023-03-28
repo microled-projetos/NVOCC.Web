@@ -2478,7 +2478,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
         divSuccess_Vinculo.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        For Each linha As GridViewRow In dgvVinculadas.Rows
+        For Each linha As GridViewRow In dgvVinculados.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
 
             Dim check As CheckBox = linha.FindControl("PROCESSO")
@@ -2491,8 +2491,8 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
         Next
         Con.Fechar()
         divSuccess_Vinculo.Visible = True
-        dgvNaoVinculadas.DataBind()
-        dgvVinculadas.DataBind()
+        dgvNaoVinculados.DataBind()
+        dgvVinculados.DataBind()
 
     End Sub
 
@@ -2500,7 +2500,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
         divSuccess_Vinculo.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        For Each linha As GridViewRow In dgvNaoVinculadas.Rows
+        For Each linha As GridViewRow In dgvNaoVinculados.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
 
             Dim check As CheckBox = linha.FindControl("PROCESSO")
@@ -2530,8 +2530,8 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
         Next
         Con.Fechar()
         divSuccess_Vinculo.Visible = True
-        dgvNaoVinculadas.DataBind()
-        dgvVinculadas.DataBind()
+        dgvNaoVinculados.DataBind()
+        dgvVinculados.DataBind()
 
     End Sub
 
@@ -3910,4 +3910,35 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
         Classes.Excel.exportaExcel("SELECT DT_LOG_HIST AS AtualizacaoData, NOME as Usuario, UPDATED_AT as DataHoraGravacao FROM TB_LOG_DATA_BL A LEFT JOIN TB_USUARIO B ON A.ID_USUARIO = B.ID_USUARIO WHERE A.ID_BL = " & txtID_BasicoMaritimo.Text & " AND CD_TIPO_DATA = " & txtTipoDataMaritimo.Text & " ORDER BY UPDATED_AT DESC", "NVOCC", "Historico_ETD_ATD_ETA_ATA")
     End Sub
 
+    Private Sub dgvVinculados_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvVinculados.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim lblID As Label = CType(e.Row.FindControl("lblID"), Label)
+
+            Dim ckProcesso As CheckBox = CType(e.Row.FindControl("PROCESSO"), CheckBox)
+
+            If (lblID.Text = 0) Then
+                ckProcesso.Visible = False
+            Else
+                ckProcesso.Visible = True
+            End If
+
+        End If
+    End Sub
+
+    Private Sub dgvVinculadosAereos_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvVinculadosAereos.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim lblID As Label = CType(e.Row.FindControl("lblID"), Label)
+
+            Dim ckProcesso As CheckBox = CType(e.Row.FindControl("PROCESSO"), CheckBox)
+
+            If (lblID.Text = 0) Then
+                ckProcesso.Visible = False
+            Else
+                ckProcesso.Visible = True
+            End If
+
+        End If
+    End Sub
 End Class

@@ -1688,13 +1688,13 @@ Partial Public Class CadastrarMaster
     Protected WithEvents lblErro_Vinculo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle dgvNaoVinculadas.
+    '''Controle dgvNaoVinculados.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvNaoVinculadas As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvNaoVinculados As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle btnVincular.
@@ -1715,13 +1715,13 @@ Partial Public Class CadastrarMaster
     Protected WithEvents btnDesvincular As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle dgvVinculadas.
+    '''Controle dgvVinculados.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvVinculadas As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvVinculados As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle UpdatePanel14.
@@ -2921,22 +2921,22 @@ Partial Public Class CadastrarMaster
     Protected WithEvents dsTaxasAereo As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsVinculadas.
+    '''Controle dsVinculados.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsVinculadas As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsVinculados As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsNaoVinculadas.
+    '''Controle dsNaoVinculados.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsNaoVinculadas As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsNaoVinculados As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsVinculadosAereos.
