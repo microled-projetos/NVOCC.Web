@@ -231,7 +231,7 @@
       </div>
                                 <br />
                                <div class="modal-footer"> 
-                                   <asp:Button runat="server" Text="Gerar" ID="btnGerarComissao" CssClass="btn btn-success" /> 
+                                   <asp:Button runat="server" Text="Gerar" ID="btnGerarComissao" CssClass="btn btn-success" OnClientClick="MouseWait(); return true;"/>
                                          <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharGerarComissao" text="Close" />
                                                                  
 
@@ -434,5 +434,18 @@ union SELECT 0, 'Selecione' FROM [dbo].TB_CONTA_BANCARIA ORDER BY ID_CONTA_BANCA
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA)
 union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">            
+    <script>
+        function MouseWait() {
+            document.getElementById('<%= btnGerarComissao.ClientID %>').style.display = 'none';
+            console.log("wait");
+            document.body.style.cursor = "wait";
+        };
+        function MouseDefault() {
+           document.getElementById('<%= btnGerarComissao.ClientID %>').style.display = 'block';
+           console.log("default");
+           document.body.style.cursor = "default";
+        };
+         
+    </script>
 </asp:Content>
