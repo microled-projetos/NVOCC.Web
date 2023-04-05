@@ -148,6 +148,7 @@
         If txtNovaCompetencia.Text = "" Or txtLiquidacaoInicial.Text = "" Or txtLiquidacaoFinal.Text = "" Or txtNovaQuinzena.Text = "" Then
             lblErroGerarComissao.Text = "Preencha os campos obrigatórios."
             divErroGerarComissao.Visible = True
+            ModalPopupExtender3.Show()
 
         Else
             'VerificaCompetencia()
@@ -155,11 +156,15 @@
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                 lblErroGerarComissao.Text = "Usuário não tem permissão!"
                 divErroGerarComissao.Visible = True
+                ModalPopupExtender3.Show()
+
             Else
                 Dim dsQtd As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM FN_INDICADOR_NACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE DT_PAGAMENTO_EXP IS NULL ")
                 If dsQtd.Tables(0).Rows(0).Item("QTD") = 0 Then
                     lblErroGerarComissao.Text = "Não há processos em aberto para comissão nesse período!"
                     divErroGerarComissao.Visible = True
+                    ModalPopupExtender3.Show()
+
                 Else
 
                     If txtObs.Text = "" Then
@@ -182,8 +187,8 @@ IN (SELECT ID_CABECALHO_COMISSAO_NACIONAL FROM TB_CABECALHO_COMISSAO_NACIONAL WH
                         Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
                         Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
 
-                        divInfoGerarComissao.Visible = True
-                        lblInfoGerarComissao.Text = "Necessário exportar competência para a conta corrente do processo!"
+                        'divInfoGerarComissao.Visible = True
+                        'lblInfoGerarComissao.Text = "Necessário exportar competência para a conta corrente do processo!"
                     End If
 
 
@@ -195,11 +200,20 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
 
 
 
-                    divSuccessGerarComissao.Visible = True
-                    lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
-                    txtObs.Text = txtObs.Text.Replace("NULL", "")
-                    txtObs.Text = txtObs.Text.Replace("'", "")
                     CarregaGrid()
+                    lblmsgSuccess.Text = "Comissão gerada com sucesso!"
+                    divSuccess.Visible = True
+                    divInfoCCProcesso.Visible = False
+                    divAtencaoGerarComissao.Visible = False
+                    divSuccessGerarComissao.Visible = False
+                    divErroGerarComissao.Visible = False
+                    divInfoGerarComissao.Visible = False
+                    txtLiquidacaoInicial.Text = ""
+                    txtLiquidacaoFinal.Text = ""
+                    txtNovaCompetencia.Text = ""
+                    txtNovaQuinzena.Text = ""
+                    txtObs.Text = ""
+                    ModalPopupExtender3.Hide()
                     divErro.Visible = False
                 End If
             End If
@@ -207,7 +221,8 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
         End If
         divInfoCCProcesso.Visible = False
         btnGerarComissao.Visible = True
-        ModalPopupExtender3.Show()
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
+
     End Sub
 
     Private Sub txtNovaQuinzena_TextChanged(sender As Object, e As EventArgs) Handles txtNovaQuinzena.TextChanged

@@ -392,7 +392,7 @@ input[type='checkbox'][disabled][checked]:after {
                                                 <div class="col-sm-1">
                                                     <div class="form-group">
                                                         <label class="control-label">Tipo de Pagamento:</label>
-                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" AutoPostBack="true">
+                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" enabled="false">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -582,7 +582,7 @@ input[type='checkbox'][disabled][checked]:after {
                                             </div>
                                         </ContentTemplate>
                                         <Triggers>
-                                            <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoMaritimo" />
+<%--                                            <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoMaritimo" />--%>
                                             <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoMaritimo" />
@@ -1658,7 +1658,7 @@ input[type='checkbox'][disabled][checked]:after {
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Tipo de Pagamento:</label>
-                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" AutoPostBack="true">
+                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" enabled="false">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -2070,7 +2070,7 @@ input[type='checkbox'][disabled][checked]:after {
 
                                         </ContentTemplate>
                                         <Triggers>
-                                            <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoAereo" />
+<%--                                            <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoAereo" />--%>
                                             <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoAereo" />
