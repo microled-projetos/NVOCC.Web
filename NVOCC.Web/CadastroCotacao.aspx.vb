@@ -331,6 +331,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             DivFreetime.Attributes.CssStyle.Add("display", "none")
             RedM3.Visible = False
             divMinimosFCL.Visible = False
+            divTarifaSpot.Visible = False
             ddlEstufagem.SelectedValue = 2
             ddlTipoBL.SelectedValue = 2
             lblM3.Text = "Peso Cubado"
@@ -386,7 +387,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
                 RedQTDMercadoria.Visible = False
                 RedPesoBruto.Visible = False
                 RedM3.Visible = False
-
+                divTarifaSpot.Visible = True
                 divMinimosFCL.Visible = True
                 divCompraMinimaLCL.Visible = False
                 divVendaMinimaLCL.Visible = False
@@ -405,7 +406,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
                 RedQTDContainer.Visible = False
                 RedContainer.Visible = False
                 RedFree.Visible = False
-
+                divTarifaSpot.Visible = False
                 divMinimosFCL.Visible = False
                 divCompraMinimaLCL.Visible = True
                 divVendaMinimaLCL.Visible = True
@@ -1065,11 +1066,15 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
 
             ds = Con.ExecutarQuery("SELECT 
 A.ID_COTACAO_MERCADORIA,A.ID_COTACAO,A.ID_MERCADORIA,A.ID_TIPO_CONTAINER,A.QT_CONTAINER,A.VL_FRETE_COMPRA,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,
-A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.OUTRAS_OBS,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,A.QT_MERCADORIA,A.VL_FRETE_COMPRA_MIN,A.VL_FRETE_VENDA_MIN,OBS_ENDERECO, ISNULL(ID_MOEDA_CARGA,0)ID_MOEDA_CARGA, B.VL_PESO_TAXADO,B.ID_MOEDA_FRETE,B.ID_TIPO_DIVISAO_FRETE, B.VL_DIVISAO_FRETE, B.FL_FRETE_DECLARADO ,B.FL_FRETE_PROFIT,VL_CBM 
+A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.OUTRAS_OBS,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,A.QT_MERCADORIA,A.VL_FRETE_COMPRA_MIN,A.VL_FRETE_VENDA_MIN,OBS_ENDERECO, ISNULL(ID_MOEDA_CARGA,0)ID_MOEDA_CARGA, B.VL_PESO_TAXADO,B.ID_MOEDA_FRETE,B.ID_TIPO_DIVISAO_FRETE, B.VL_DIVISAO_FRETE, B.FL_FRETE_DECLARADO ,B.FL_FRETE_PROFIT,VL_CBM , ISNULL(B.FL_TARIFA_SPOT,0)FL_TARIFA_SPOT 
 FROM TB_COTACAO_MERCADORIA A
 INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO
 WHERE A.ID_COTACAO_MERCADORIA = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_TARIFA_SPOT")) Then
+                    ckTarifaSpot.Checked = ds.Tables(0).Rows(0).Item("FL_TARIFA_SPOT")
+                End If
 
                 If Session("servico") = 2 Or Session("servico") = 5 Then
                     btnAdicionarMedidasAereo.Visible = True
@@ -2269,6 +2274,10 @@ AND A.ID_TIPO_CONTAINER IN (SELECT ID_TIPO_CONTAINER FROM TB_TARIFARIO_FRETE_TRA
                     'INSERE MERCADORIA
                     Dim dsMercadoria As DataSet = Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO,
 ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_PESO_BRUTO,VL_M3,DS_MERCADORIA,VL_COMPRIMENTO,VL_LARGURA,VL_ALTURA,VL_CARGA,QT_DIAS_FREETIME,QT_MERCADORIA,VL_FRETE_COMPRA_MIN,VL_FRETE_VENDA_MIN,OBS_ENDERECO,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,OUTRAS_OBS,ID_MOEDA_CARGA,VL_CBM) VALUES (" & txtID.Text & "," & ddlMercadoria.SelectedValue & " ," & ddlTipoContainerMercadoria.SelectedValue & "," & txtQtdContainerMercadoria.Text & "," & txtFreteCompraMercadoriaCalc.Text & "," & txtFreteVendaMercadoriaCalc.Text & "," & txtPesoBrutoMercadoria.Text & "," & txtM3Mercadoria.Text & ", " & DescMercadoria & " ," & txtComprimentoMercadoria.Text & ", " & txtLarguraMercadoria.Text & "," & txtAlturaMercadoria.Text & ", " & txtValorCargaMercadoria.Text & "," & txtFreeTimeMercadoria.Text & "," & txtQtdMercadoria.Text & "," & txtFreteCompraMinima.Text & "," & txtFreteVendaMinima.Text & ", " & OBSEndereco & "," & txtFreteCompraMercadoriaUnitario.Text & "," & txtFreteVendaMercadoriaUnitario.Text & "," & OutrasOBS & "," & ddlMoedaCarga.SelectedValue & "," & txtCBMAereo.Text & ")   Select SCOPE_IDENTITY() as ID_COTACAO_MERCADORIA ")
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET FL_TARIFA_SPOT = '" & ckTarifaSpot.Checked & "' WHERE ID_COTACAO = " & txtID.Text)
+
+
                     If ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
                         txtIDMercadoria.Text = dsMercadoria.Tables(0).Rows(0).Item("ID_COTACAO_MERCADORIA").ToString()
                         btnAdicionarMedidasAereo.Visible = True
@@ -2367,6 +2376,9 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                     'ALTERA MERCADORIA
                     Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET 
 ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddlTipoContainerMercadoria.SelectedValue & ",QT_CONTAINER = " & txtQtdContainerMercadoria.Text & ",VL_FRETE_COMPRA =  " & txtFreteCompraMercadoriaCalc.Text & ",VL_FRETE_VENDA = " & txtFreteVendaMercadoriaCalc.Text & ",VL_PESO_BRUTO = " & txtPesoBrutoMercadoria.Text & ",VL_M3 = " & txtM3Mercadoria.Text & ",DS_MERCADORIA = " & DescMercadoria & ",VL_COMPRIMENTO = " & txtComprimentoMercadoria.Text & ",VL_LARGURA = " & txtLarguraMercadoria.Text & ",VL_ALTURA = " & txtAlturaMercadoria.Text & ",VL_CARGA = " & txtValorCargaMercadoria.Text & " ,QT_DIAS_FREETIME = " & txtFreeTimeMercadoria.Text & " ,VL_FRETE_COMPRA_MIN = " & txtFreteCompraMinima.Text & ",VL_FRETE_VENDA_MIN = " & txtFreteVendaMinima.Text & ",OBS_ENDERECO = " & OBSEndereco & ",OUTRAS_OBS = " & OutrasOBS & ",VL_FRETE_COMPRA_UNITARIO = " & txtFreteCompraMercadoriaUnitario.Text & ",VL_FRETE_VENDA_UNITARIO = " & txtFreteVendaMercadoriaUnitario.Text & ", QT_MERCADORIA = " & txtQtdMercadoria.Text & ", ID_MOEDA_CARGA =" & ddlMoedaCarga.SelectedValue & ",VL_CBM = " & txtCBMAereo.Text & " WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET FL_TARIFA_SPOT = '" & ckTarifaSpot.Checked & "' WHERE ID_COTACAO = " & txtID.Text)
+
 
                     If ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
                         AdicionarMedidasAereo()
