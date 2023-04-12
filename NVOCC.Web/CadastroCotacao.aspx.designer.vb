@@ -1715,6 +1715,24 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtFreteCompraMinima As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle divTarifaSpot.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divTarifaSpot As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle ckTarifaSpot.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckTarifaSpot As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle txtFreteVendaMercadoriaUnitario.
     '''</summary>
     '''<remarks>

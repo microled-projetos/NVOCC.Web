@@ -1120,6 +1120,13 @@
                                                                         <asp:TextBox ID="txtFreteCompraMinima" runat="server" CssClass="form-control valores" MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
+
+                                                                <div class="col-sm-2" id="divTarifaSpot" runat="server">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label"></label>
+                                                                        <asp:CheckBox ID="ckTarifaSpot" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Tarifa Spot"></asp:CheckBox>
+                                                                    </div>
+                                                                </div>
                                                             </div>
 
                                                             <div class="row">
@@ -1323,6 +1330,7 @@
                                                     <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto" SortExpression="VL_PESO_BRUTO" />
                                                     <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />
                                                     <asp:BoundField DataField="ESTUFAGEM" HeaderText="Estufagem" SortExpression="ESTUFAGEM" />
+                                                    <asp:BoundField DataField="TARIFA_SPOT" HeaderText="Acordo Comercial" SortExpression="TARIFA_SPOT" Visible="false" />
                                                     <asp:TemplateField HeaderText="">
                                                         <ItemTemplate>
                                                             <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO_MERCADORIA") %>'
@@ -2111,11 +2119,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_BL"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsMercadorias" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT 
-A.ID_COTACAO_MERCADORIA,A.ID_COTACAO,A.ID_MERCADORIA,A.ID_TIPO_CONTAINER,B.NM_TIPO_CONTAINER,A.QT_CONTAINER,A.VL_FRETE_COMPRA,A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,(SELECT NM_TIPO_ESTUFAGEM FROM TB_TIPO_ESTUFAGEM WHERE  C.ID_TIPO_ESTUFAGEM = ID_TIPO_ESTUFAGEM)ESTUFAGEM
+A.ID_COTACAO_MERCADORIA,A.ID_COTACAO,A.ID_MERCADORIA,A.ID_TIPO_CONTAINER,B.NM_TIPO_CONTAINER,A.QT_CONTAINER,A.VL_FRETE_COMPRA,A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,(SELECT NM_TIPO_ESTUFAGEM FROM TB_TIPO_ESTUFAGEM WHERE  C.ID_TIPO_ESTUFAGEM = ID_TIPO_ESTUFAGEM)ESTUFAGEM,
+ CASE WHEN ISNULL(C.FL_TARIFA_SPOT,0) > 0 THEN 'FRETE SPOT' ELSE '' END TARIFA_SPOT 
 FROM TB_COTACAO_MERCADORIA A
 LEFT JOIN TB_TIPO_CONTAINER B ON B.ID_TIPO_CONTAINER = A.ID_TIPO_CONTAINER
-LEFT JOIN TB_COTACAO C ON C.ID_COTACAO = A.ID_COTACAO
-WHERE A.ID_COTACAO = @ID_COTACAO
+LEFT JOIN TB_COTACAO C ON C.ID_COTACAO = A.ID_COTACAO WHERE A.ID_COTACAO = @ID_COTACAO 
 ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" />

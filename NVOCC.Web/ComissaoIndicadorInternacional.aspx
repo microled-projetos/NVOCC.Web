@@ -52,8 +52,8 @@
                                                 <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
                                                 <asp:ListItem Value="1">Indicador</asp:ListItem>
                                                 <asp:ListItem Value="2">Número do processo</asp:ListItem>
-                                                <asp:ListItem Value="2">MBL</asp:ListItem>
-                                                <asp:ListItem Value="2">HBL</asp:ListItem>
+                                                <asp:ListItem Value="3">MBL</asp:ListItem>
+                                                <asp:ListItem Value="4">HBL</asp:ListItem>
                                             </asp:DropDownList>
                                         </div>
 

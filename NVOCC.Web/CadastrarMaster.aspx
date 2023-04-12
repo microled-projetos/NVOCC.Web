@@ -730,6 +730,7 @@
                                                                 <asp:BoundField DataField="NR_CNTR" HeaderText="Número" SortExpression="NR_CNTR" />
                                                                 <asp:BoundField DataField="NR_LACRE" HeaderText="Lacre" SortExpression="NR_LACRE" />
                                                                 <asp:BoundField DataField="VL_PESO_TARA" HeaderText="Tara" SortExpression="VL_PESO_TARA" />
+                                                                <asp:BoundField DataField="TARIFA_SPOT" HeaderText="Acordo Comercial" SortExpression="TARIFA_SPOT" />
                                                                 <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
@@ -2304,8 +2305,12 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_MERCADORIA] ORDER BY ID_TIPO_ESTUFAGE
 union SELECT 0, ' Selecione' FROM [dbo].[TB_TIPO_ITEM_DESPESA] ORDER BY NM_ITEM_DESPESA"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsContainer" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_CNTR_BL,ID_TIPO_CNTR,
-(SELECT NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER = A.ID_TIPO_CNTR)TIPO_CNTR,NR_CNTR,NR_LACRE,VL_PESO_TARA,QT_DIAS_FREETIME FROM TB_CNTR_BL A WHERE ID_BL_MASTER = @ID_BL_MASTER ORDER BY ID_CNTR_BL DESC">
+        SelectCommand="SELECT ID_CNTR_BL,ID_TIPO_CNTR, CASE WHEN ISNULL(C.FL_TARIFA_SPOT,0) > 0 THEN 'FRETE SPOT' ELSE '' END TARIFA_SPOT ,
+(SELECT NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER = A.ID_TIPO_CNTR)TIPO_CNTR,NR_CNTR,NR_LACRE,VL_PESO_TARA,QT_DIAS_FREETIME 
+FROM TB_CNTR_BL A 
+LEFT JOIN TB_BL B ON A.ID_BL_MASTER = B.ID_BL 
+LEFT JOIN TB_COTACAO C ON B.id_cotacao= C.id_cotacao
+WHERE A.ID_BL_MASTER = @ID_BL_MASTER ORDER BY ID_CNTR_BL DESC">
 
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL_MASTER" Type="Int32" ControlID="txtID_BasicoMaritimo" />
