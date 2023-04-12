@@ -162,6 +162,12 @@ ID_PARCEIRO_IMPORTADOR,
             If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_AERONAVE").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_TIPO_AERONAVE").ToString Then
                 Con.ExecutarQuery("UPDATE TB_BL SET ID_TIPO_AERONAVE = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_AERONAVE").ToString & " WHERE ID_BL = " & ID_BL)
             End If
+
+
+            Dim AtualizaStatus As New AtualizaStatusFreteAgente
+            Dim ID_STATUS_FRETE_AGENTE As String = AtualizaStatus.AtualizaStatusFreteAgenteHouse(ID_BL, dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString)
+            Con.ExecutarQuery(" UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE = " & ID_STATUS_FRETE_AGENTE & " WHERE ID_BL = " & ID_BL)
+
         End If
     End Sub
 

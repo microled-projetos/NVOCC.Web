@@ -304,12 +304,12 @@
                             'PAGAMENTO PREPAID
 
                             'TIPO PAGAMENTO HOUSE
-                            If ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO") = 1 Then
+                            If ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO_HOUSE") = 1 Then
                                 'PAGAMENTO COLLECT
 
                                 Return 2 'DEVOLUÇÃO/RECEBIMENTO DO FRETE DE COMPRA
 
-                            ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO") = 2 Then
+                            ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO_HOUSE") = 2 Then
                                 'PAGAMENTO PREPAID
 
                                 Return 4 'DEVOLUÇÃO/RECEBIMENTO DA DIFERENÇA FRETE

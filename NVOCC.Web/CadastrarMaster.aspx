@@ -697,7 +697,8 @@
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="btnDesvincular" />
                                     <asp:AsyncPostBackTrigger ControlID="btnVincular" />
-                                    <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />
+                                    <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoMaritimo" />
+                                    <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />                                    
                                  </Triggers>
                             </asp:UpdatePanel>
                                     </div>
@@ -1146,6 +1147,7 @@
                                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasMaritimo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnFechar_TaxasMaritimo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxasMaritimo" />
+                                                 <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />    
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </div>

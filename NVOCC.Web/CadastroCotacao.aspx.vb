@@ -1866,6 +1866,7 @@ WHERE ID_COTACAO = " & txtID.Text)
                     Dim RotinaUpdate As New RotinaUpdate
                     RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
                     RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
+
                 End If
 
 
