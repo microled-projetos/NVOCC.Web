@@ -230,7 +230,12 @@
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet
-        ds = Con.ExecutarQuery("SELECT ISNULL(NR_PROCESSO,0)NR_PROCESSO, ISNULL(ID_SERVICO,0)ID_SERVICO, ISNULL(ID_TIPO_ESTUFAGEM,0)ID_TIPO_ESTUFAGEM, ISNULL(FL_FREE_HAND,0)FL_FREE_HAND, ISNULL((SELECT TOP 1 ID_TIPO_PAGAMENTO FROM TB_BL A WHERE ID_BL_MASTER =" & ID_BL & " ),0)ID_TIPO_PAGAMENTO_HOUSE, ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO FROM TB_BL A WHERE ID_BL = " & ID_BL)
+        ds = Con.ExecutarQuery("SELECT ISNULL(NR_PROCESSO,0)NR_PROCESSO, ISNULL(ID_SERVICO,0)ID_SERVICO, ISNULL(ID_TIPO_ESTUFAGEM,0)ID_TIPO_ESTUFAGEM, 
+ISNULL(FL_FREE_HAND,0)FL_FREE_HAND,
+ISNULL((SELECT TOP 1 FL_FREE_HAND FROM TB_BL A WHERE ID_BL_MASTER =" & ID_BL & " ),0)FL_FREE_HAND_HOUSE,
+ISNULL((SELECT TOP 1 ID_TIPO_PAGAMENTO FROM TB_BL A WHERE ID_BL_MASTER =" & ID_BL & " ),0)ID_TIPO_PAGAMENTO_HOUSE, 
+ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO 
+FROM TB_BL A WHERE ID_BL = " & ID_BL)
         If ds.Tables(0).Rows.Count > 0 Then
 
             If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
@@ -241,7 +246,7 @@
                     'ESTUFAGEM FCL
 
 
-                    If ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = True Then
+                    If ds.Tables(0).Rows(0).Item("FL_FREE_HAND_HOUSE") = True Then
                         'É FREE HAND
 
                         'TIPO PAGAMENTO MASTER
@@ -280,7 +285,7 @@
 
                         End If
 
-                    ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = False Then
+                    ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND_HOUSE") = False Then
                         'NÃO É FREE HAND
 
                         'TIPO PAGAMENTO MASTER
@@ -344,7 +349,7 @@
                 ' AGENCIAMENTO DE IMPORTACAO AEREO
                 ' AGENCIAMENTO DE EXPORTAÇÃO AEREO
 
-                If ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = True Then
+                If ds.Tables(0).Rows(0).Item("FL_FREE_HAND_HOUSE") = True Then
                     'É FREE HAND
 
                     'TIPO PAGAMENTO MASTER
@@ -382,7 +387,7 @@
 
                     End If
 
-                ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND") = False Then
+                ElseIf ds.Tables(0).Rows(0).Item("FL_FREE_HAND_HOUSE") = False Then
                     'NÃO É FREE HAND
 
                     'TIPO PAGAMENTO MASTER

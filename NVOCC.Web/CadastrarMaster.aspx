@@ -1714,6 +1714,7 @@
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="ddlWeekAereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnVincularAereo" />
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
