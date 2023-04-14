@@ -269,6 +269,8 @@
     <Content Include="CadastrarTipoFaturamento.aspx" />
     <Content Include="Classes\FiltrosTaxasInativas.cs" />
     <Content Include="Classes\TaxaPrestador.cs" />
+    <Content Include="ComissaoInsideSales.aspx" />
+    <Content Include="ComissaoVendedor_old.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -681,6 +683,20 @@
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Class\ResultadoCNPJ.vb" />
+    <Compile Include="ComissaoInsideSales.aspx.designer.vb">
+      <DependentUpon>ComissaoInsideSales.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ComissaoInsideSales.aspx.vb">
+      <DependentUpon>ComissaoInsideSales.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ComissaoVendedor_old.aspx.designer.vb">
+      <DependentUpon>ComissaoVendedor_old.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ComissaoVendedor_old.aspx.vb">
+      <DependentUpon>ComissaoVendedor_old.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Erro.aspx.designer.vb">
       <DependentUpon>Erro.aspx</DependentUpon>
     </Compile>
