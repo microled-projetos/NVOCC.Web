@@ -26,7 +26,7 @@ namespace ABAINFRA.Web
             listarTipoEstufagem();
             listarTipoFrete();
             listarTransportador();
-            listarAgente();
+            listarImportador();
             listarAgenteInternacional();
         }
 
@@ -86,6 +86,9 @@ namespace ABAINFRA.Web
             ddlClienteFilter.DataSource = Session["TaskTableMoedaDemurrage"];
             ddlClienteFilter.DataBind();
             ddlClienteFilter.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlClienteFinal.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlClienteFinal.DataBind();
+            ddlClienteFinal.Items.Insert(0, new ListItem("Selecione", ""));
         }
 
         private void listarPorto()
@@ -127,16 +130,16 @@ namespace ABAINFRA.Web
             ddlTipoEstufagem.Items.Insert(0, new ListItem("Selecione", ""));
         }
 
-        private void listarAgente()
+        private void listarImportador()
         {
             string SQL;
-            SQL = "SELECT NM_RAZAO, ID_PARCEIRO FROM TB_PARCEIRO WHERE FL_AGENTE = 1 ORDER BY NM_RAZAO";
+            SQL = "SELECT NM_RAZAO, ID_PARCEIRO FROM TB_PARCEIRO WHERE FL_IMPORTADOR = 1 ORDER BY NM_RAZAO";
             DataTable agente = new DataTable();
             agente = DBS.List(SQL);
             Session["TaskTableMoedaDemurrage"] = agente;
-            ddlAgenteFilter.DataSource = Session["TaskTableMoedaDemurrage"];
-            ddlAgenteFilter.DataBind();
-            ddlAgenteFilter.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlImportadorFilter.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlImportadorFilter.DataBind();
+            ddlImportadorFilter.Items.Insert(0, new ListItem("Selecione", ""));
         }
 
         private void listarAgenteInternacional()
@@ -173,6 +176,9 @@ namespace ABAINFRA.Web
             ddlNavioFilter.DataSource = Session["TaskTableMoedaDemurrage"];
             ddlNavioFilter.DataBind();
             ddlNavioFilter.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlNavioTransbordoFilter.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlNavioTransbordoFilter.DataBind();
+            ddlNavioTransbordoFilter.Items.Insert(0, new ListItem("Selecione", ""));
         }
 
 		protected void uploadFile(object sender, EventArgs e)

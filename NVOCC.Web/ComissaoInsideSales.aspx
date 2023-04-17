@@ -274,18 +274,18 @@
                                         </div>
                                           </div>  </div>
                                      <div class="row">
-                                       <div class="col-sm-5">
+                                       <div class="col-sm-4">
                                     <div class="form-group">                                          
  <asp:Label ID="Label9" runat="server">Gestor</asp:Label><br />
 
  <asp:DropDownList ID="ddlGestor" runat="server" CssClass="combos form-control" DataTextField="NOME" DataSourceID="dsGestor" DataValueField="ID_USUARIO" style="font-size:15px" AutoPostBack="true" ></asp:DropDownList>                                    
                                         </div>
                                          </div>
-                                       <div class="col-sm-5">
+                                       <div class="col-sm-4">
                                     <div class="form-group">                                          
  <asp:Label ID="Label20" runat="server">Equipes</asp:Label><br />
 
- <asp:DropDownList ID="ddlEquipes" runat="server" CssClass="combos form-control" DataTextField="NM_EQUIPE" DataSourceID="dsEquipes" DataValueField="ID" style="font-size:15px" ></asp:DropDownList>                                    
+ <asp:DropDownList ID="ddlEquipes" runat="server" CssClass="combosMultiplos form-control" DataTextField="NM_EQUIPE" DataSourceID="dsEquipes" DataValueField="ID" style="font-size:15px" ></asp:DropDownList>                                    
                                         </div>
                                          </div>
 
@@ -692,7 +692,7 @@
         
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_INSIDE_TAXA,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL, B.NOME AS NOME_GESTOR, C.NM_EQUIPE FROM TB_INSIDE_TAXA_COMISSAO A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_GESTOR = B.ID_USUARIO INNER JOIN TB_EQUIPE_LIDER C ON A.ID_EQUIPE = C.ID ORDER BY DT_VALIDADE_INICIAL"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_INSIDE_TAXA,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL, B.NOME AS NOME_GESTOR, C.NM_EQUIPE FROM TB_INSIDE_TAXA_COMISSAO A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_GESTOR = B.ID_USUARIO INNER JOIN TB_INSIDE_EQUIPE C ON A.ID_EQUIPE = C.ID ORDER BY DT_VALIDADE_INICIAL"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO = 1 AND FL_ATIVO = 1 ORDER BY NM_RAZAO"></asp:SqlDataSource>
@@ -725,7 +725,7 @@ union SELECT 0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsEquipes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID, NM_EQUIPE FROM TB_EQUIPE_LIDER WHERE ID_USUARIO_LIDER = @ID_USUARIO_LIDER union SELECT 0, '     Selecione' ORDER BY NM_EQUIPE">
+        SelectCommand="SELECT ID, NM_EQUIPE FROM TB_INSIDE_EQUIPE WHERE ID_USUARIO_LIDER = @ID_USUARIO_LIDER ORDER BY NM_EQUIPE">
                 <SelectParameters>
             <asp:ControlParameter Name="ID_USUARIO_LIDER" Type="Int32" ControlID="ddlGestor" DefaultValue="0" />
         </SelectParameters>
@@ -779,6 +779,11 @@ union SELECT 0, '   Selecione' ORDER BY NOME"></asp:SqlDataSource>
 
         function Combos() {
             $(".combos").select2({
+                 dropdownParent: $('#myModal .modal-content')
+            });
+
+            $(".combosMultiplos").select2({
+                multiple: true,
                 dropdownParent: $('#myModal .modal-content')
             });
 

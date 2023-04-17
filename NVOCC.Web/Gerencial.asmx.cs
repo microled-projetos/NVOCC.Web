@@ -1010,105 +1010,109 @@ namespace ABAINFRA.Web
         [WebMethod]
         public string listarProcessosOperacionalFilter(FiltroModuloOperacional dados)
         {
-            string SQL;
-            SQL = "WHERE SUBSTRING(C.NR_PROCESSO,10,2)>= '18' AND C.ID_BL_MASTER IS NOT NULL ";
+            string FILTER;
+            FILTER = "WHERE SUBSTRING(C.NR_PROCESSO,10,2)>= '18' AND C.ID_BL_MASTER IS NOT NULL ";
             if (dados.VIA != "")
             {
-                SQL += "AND V.ID_VIATRANSPORTE = " + dados.VIA + " ";
+                FILTER += "AND V.ID_VIATRANSPORTE = " + dados.VIA + " ";
             }
             switch (dados.ETAPA)
             {
                 case "1":
-                    SQL += "AND C.DT_EMBARQUE IS NULL ";
+                    FILTER += "AND C.DT_EMBARQUE IS NULL ";
                     break;
                 case "2":
-                    SQL += "AND C.DT_EMBARQUE IS NOT NULL AND C.DT_CHEGADA IS NULL ";
+                    FILTER += "AND C.DT_EMBARQUE IS NOT NULL AND C.DT_CHEGADA IS NULL ";
                     break;
                 case "3":
-                    SQL += "AND C.DT_CHEGADA IS NOT NULL ";
+                    FILTER += "AND C.DT_CHEGADA IS NOT NULL ";
                     break;
                 default:
-                    SQL += "";
+                    FILTER += "";
                     break;
             }
 
             switch (dados.SERVICO)
             {
                 case "1":
-                    SQL += "AND SUBSTRING(C.NR_PROCESSO,1,1) IN ('M','A') ";
+                    FILTER += "AND SUBSTRING(C.NR_PROCESSO,1,1) IN ('M','A') ";
                     break;
                 case "2":
-                    SQL += "AND SUBSTRING(C.NR_PROCESSO,1,1) IN ('E') ";
+                    FILTER += "AND SUBSTRING(C.NR_PROCESSO,1,1) IN ('E') ";
                     break;
                 default:
-                    SQL += "";
+                    FILTER += "";
                     break;
             }
 
             switch (dados.STATUS)
             {
                 case "1":
-                    SQL += "AND C.DT_CANCELAMENTO IS NULL AND C.DT_FINALIZACAO_PROCESSO IS NULL ";
+                    FILTER += "AND C.DT_CANCELAMENTO IS NULL AND C.DT_FINALIZACAO_PROCESSO IS NULL ";
                     break;
                 case "2":
-                    SQL += "AND C.DT_CANCELAMENTO IS NOT NULL ";
+                    FILTER += "AND C.DT_CANCELAMENTO IS NOT NULL ";
                     break;
                 case "3":
-                    SQL += "AND C.DT_FINALIZACAO_PROCESSO IS NOT NULL ";
+                    FILTER += "AND C.DT_FINALIZACAO_PROCESSO IS NOT NULL ";
                     break;
                 default:
-                    SQL += "";
+                    FILTER += "";
                     break;
             }
 
             if (dados.PROCESSO != "")
             {
-                SQL += "AND C.NR_PROCESSO LIKE '" + dados.PROCESSO + "%' ";
+                FILTER += "AND C.NR_PROCESSO LIKE '" + dados.PROCESSO + "%' ";
             }
             if (dados.CLIENTE != "")
             {
-                SQL += "AND C.ID_PARCEIRO_CLIENTE = '" + dados.CLIENTE + "' ";
+                FILTER += "AND C.ID_PARCEIRO_CLIENTE = '" + dados.CLIENTE + "' ";
+            }
+            if (dados.CLIENTEFINAL != "")
+            {
+                FILTER += "AND COT.ID_CLIENTE_FINAL = '" + dados.CLIENTEFINAL + "' ";
             }
             if (dados.ORIGEM != "")
             {
-                SQL += "AND C.ID_PORTO_ORIGEM = '" + dados.ORIGEM + "' ";
+                FILTER += "AND C.ID_PORTO_ORIGEM = '" + dados.ORIGEM + "' ";
             }
             if (dados.DESTINO != "")
             {
-                SQL += "AND C.ID_PORTO_DESTINO = '" + dados.DESTINO + "' ";
+                FILTER += "AND C.ID_PORTO_DESTINO = '" + dados.DESTINO + "' ";
             }
             if (dados.FRETE != "")
             {
-                SQL += "AND C.ID_TIPO_PAGAMENTO = '" + dados.FRETE + "' ";
+                FILTER += "AND C.ID_TIPO_PAGAMENTO = '" + dados.FRETE + "' ";
             }
             if (dados.ESTUFAGEM != "")
             {
-                SQL += "AND C.ID_TIPO_ESTUFAGEM = '" + dados.ESTUFAGEM + "' ";
+                FILTER += "AND C.ID_TIPO_ESTUFAGEM = '" + dados.ESTUFAGEM + "' ";
             }
-            if (dados.AGENTE != "")
+            if (dados.IMPORTADOR != "")
             {
-                SQL += "AND C.ID_PARCEIRO_AGENTE = '" + dados.AGENTE + "' ";
+                FILTER += "AND C.ID_PARCEIRO_IMPORTADOR = '" + dados.IMPORTADOR + "' ";
             }
             if (dados.AGENTEINTERNACIONAL != "")
             {
-                SQL += "AND C.ID_PARCEIRO_AGENTE_INTERNACIONAL = '" + dados.AGENTEINTERNACIONAL + "' ";
+                FILTER += "AND C.ID_PARCEIRO_AGENTE_INTERNACIONAL = '" + dados.AGENTEINTERNACIONAL + "' ";
             }
             if (dados.PEMBARQUEINICIO != "")
             {
                 if (dados.PEMBARQUEFIM != "")
                 {
-                    SQL += "AND C.DT_PREVISAO_EMBARQUE >= '" + dados.PEMBARQUEINICIO + "' AND C.DT_PREVISAO_EMBARQUE <= '" + dados.PEMBARQUEFIM + "' ";
+                    FILTER += "AND C.DT_PREVISAO_EMBARQUE >= '" + dados.PEMBARQUEINICIO + "' AND C.DT_PREVISAO_EMBARQUE <= '" + dados.PEMBARQUEFIM + "' ";
                 }
                 else
                 {
-                    SQL += "AND C.DT_PREVISAO_EMBARQUE >= '" + dados.PEMBARQUEINICIO + "' ";
+                    FILTER += "AND C.DT_PREVISAO_EMBARQUE >= '" + dados.PEMBARQUEINICIO + "' ";
                 }
             }
             else
             {
                 if (dados.PEMBARQUEFIM != "")
                 {
-                    SQL += "AND C.DT_PREVISAO_EMBARQUE <= '" + dados.PEMBARQUEFIM + "' ";
+                    FILTER += "AND C.DT_PREVISAO_EMBARQUE <= '" + dados.PEMBARQUEFIM + "' ";
                 }
             }
 
@@ -1116,18 +1120,18 @@ namespace ABAINFRA.Web
             {
                 if (dados.DTEMBARQUEFIM != "")
                 {
-                    SQL += "AND C.DT_EMBARQUE >= '" + dados.DTEMBARQUEINICIO + "' AND C.DT_EMBARQUE <= '" + dados.DTEMBARQUEFIM + "' ";
+                    FILTER += "AND C.DT_EMBARQUE >= '" + dados.DTEMBARQUEINICIO + "' AND C.DT_EMBARQUE <= '" + dados.DTEMBARQUEFIM + "' ";
                 }
                 else
                 {
-                    SQL += "AND C.DT_EMBARQUE >= '" + dados.DTEMBARQUEINICIO + "' ";
+                    FILTER += "AND C.DT_EMBARQUE >= '" + dados.DTEMBARQUEINICIO + "' ";
                 }
             }
             else
             {
                 if (dados.DTEMBARQUEFIM != "")
                 {
-                    SQL += "AND C.DT_EMBARQUE <= '" + dados.DTEMBARQUEFIM + "' ";
+                    FILTER += "AND C.DT_EMBARQUE <= '" + dados.DTEMBARQUEFIM + "' ";
                 }
             }
 
@@ -1135,18 +1139,18 @@ namespace ABAINFRA.Web
             {
                 if (dados.PCHEGADAFIM != "")
                 {
-                    SQL += "AND C.DT_PREVISAO_CHEGADA >= '" + dados.PCHEGADAINICIO + "' AND C.DT_PREVISAO_CHEGADA <= '" + dados.PCHEGADAFIM + "' ";
+                    FILTER += "AND C.DT_PREVISAO_CHEGADA >= '" + dados.PCHEGADAINICIO + "' AND C.DT_PREVISAO_CHEGADA <= '" + dados.PCHEGADAFIM + "' ";
                 }
                 else
                 {
-                    SQL += "AND C.DT_PREVISAO_CHEGADA >= '" + dados.PCHEGADAINICIO + "' ";
+                    FILTER += "AND C.DT_PREVISAO_CHEGADA >= '" + dados.PCHEGADAINICIO + "' ";
                 }
             }
             else
             {
                 if (dados.PCHEGADAFIM != "")
                 {
-                    SQL += "AND C.DT_PREVISAO_CHEGADA <= '" + dados.PCHEGADAFIM + "' ";
+                    FILTER += "AND C.DT_PREVISAO_CHEGADA <= '" + dados.PCHEGADAFIM + "' ";
                 }
             }
 
@@ -1154,57 +1158,57 @@ namespace ABAINFRA.Web
             {
                 if (dados.DTCHEGADAFIM != "")
                 {
-                    SQL += "AND C.DT_CHEGADA >= '" + dados.DTCHEGADAINICIO + "' AND C.DT_CHEGADA <= '" + dados.DTCHEGADAFIM + "' ";
+                    FILTER += "AND C.DT_CHEGADA >= '" + dados.DTCHEGADAINICIO + "' AND C.DT_CHEGADA <= '" + dados.DTCHEGADAFIM + "' ";
                 }
                 else
                 {
-                    SQL += "AND C.DT_CHEGADA >= '" + dados.DTCHEGADAINICIO + "' ";
+                    FILTER += "AND C.DT_CHEGADA >= '" + dados.DTCHEGADAINICIO + "' ";
                 }
             }
             else
             {
                 if (dados.DTCHEGADAFIM != "")
                 {
-                    SQL += "AND C.DT_CHEGADA <= '" + dados.DTCHEGADAFIM + "' ";
+                    FILTER += "AND C.DT_CHEGADA <= '" + dados.DTCHEGADAFIM + "' ";
                 }
             }
 
             if (dados.TRANSPORTADOR != "")
             {
-                SQL += "AND C.ID_PARCEIRO_TRANSPORTADOR = '" + dados.TRANSPORTADOR + "' ";
+                FILTER += "AND C.ID_PARCEIRO_TRANSPORTADOR = '" + dados.TRANSPORTADOR + "' ";
             }
             if (dados.BLMASTER != "")
             {
-                SQL += "AND M.NR_BL LIKE '" + dados.BLMASTER + "%' ";
+                FILTER += "AND M.NR_BL LIKE '" + dados.BLMASTER + "%' ";
             }
             if (dados.BLHOUSE != "")
             {
-                SQL += "AND C.NR_BL LIKE '" + dados.BLHOUSE + "%' ";
+                FILTER += "AND C.NR_BL LIKE '" + dados.BLHOUSE + "%' ";
             }
             if (dados.CEMASTER != "")
             {
-                SQL += "AND M.NR_CE LIKE '" + dados.CEMASTER + "%' ";
+                FILTER += "AND M.NR_CE LIKE '" + dados.CEMASTER + "%' ";
             }
             if (dados.CEHOUSE != "")
             {
-                SQL += "AND C.NR_CE LIKE '" + dados.CEHOUSE + "%' ";
+                FILTER += "AND C.NR_CE LIKE '" + dados.CEHOUSE + "%' ";
             }
             if (dados.DTREDESTINACAOINICIO != "")
             {
                 if (dados.DTREDESTINACAOFIM != "")
                 {
-                    SQL += "AND M.DT_REDESTINACAO >= '" + dados.DTREDESTINACAOINICIO + "' AND M.DT_REDESTINACAO <= '" + dados.DTREDESTINACAOFIM + "' ";
+                    FILTER += "AND M.DT_REDESTINACAO >= '" + dados.DTREDESTINACAOINICIO + "' AND M.DT_REDESTINACAO <= '" + dados.DTREDESTINACAOFIM + "' ";
                 }
                 else
                 {
-                    SQL += "AND M.DT_REDESTINACAO >= '" + dados.DTREDESTINACAOINICIO + "' ";
+                    FILTER += "AND M.DT_REDESTINACAO >= '" + dados.DTREDESTINACAOINICIO + "' ";
                 }
             }
             else
             {
                 if (dados.DTREDESTINACAOFIM != "")
                 {
-                    SQL += "AND M.DT_REDESTINACAO <= '" + dados.DTREDESTINACAOFIM + "' ";
+                    FILTER += "AND M.DT_REDESTINACAO <= '" + dados.DTREDESTINACAOFIM + "' ";
                 }
             }
 
@@ -1212,32 +1216,39 @@ namespace ABAINFRA.Web
             {
                 if (dados.DTDESCONSOLIDACAOFIM != "")
                 {
-                    SQL += "AND M.DT_DESCONSOLIDACAO >= '" + dados.DTDESCONSOLIDACAOINICIO + "' AND M.DT_DESCONSOLIDACAO <= '" + dados.DTDESCONSOLIDACAOFIM + "' ";
+                    FILTER += "AND M.DT_DESCONSOLIDACAO >= '" + dados.DTDESCONSOLIDACAOINICIO + "' AND M.DT_DESCONSOLIDACAO <= '" + dados.DTDESCONSOLIDACAOFIM + "' ";
                 }
                 else
                 {
-                    SQL += "AND M.DT_DESCONSOLIDACAO >= '" + dados.DTDESCONSOLIDACAOINICIO + "' ";
+                    FILTER += "AND M.DT_DESCONSOLIDACAO >= '" + dados.DTDESCONSOLIDACAOINICIO + "' ";
                 }
             }
             else
             {
                 if (dados.DTDESCONSOLIDACAOFIM != "")
                 {
-                    SQL += "AND M.DT_DESCONSOLIDACAO <= '" + dados.DTDESCONSOLIDACAOFIM + "' ";
+                    FILTER += "AND M.DT_DESCONSOLIDACAO <= '" + dados.DTDESCONSOLIDACAOFIM + "' ";
                 }
             }
             if (dados.WEEK != "")
             {
-                SQL += "AND C.ID_WEEK = '" + dados.WEEK + "' ";
+                FILTER += "AND C.ID_WEEK = '" + dados.WEEK + "' ";
             }
             if (dados.NAVIO != "")
             {
-                SQL += "AND C.ID_NAVIO = '" + dados.NAVIO + "' ";
+                FILTER += "AND C.ID_NAVIO = '" + dados.NAVIO + "' ";
+            }
+            if (dados.NAVIOTRANSBORDO != "")
+            {
+                FILTER += "AND CASE WHEN C.ID_NAVIO_3T IS NOT NULL AND C.ID_NAVIO_3T <> 0 THEN C.ID_NAVIO_3T ";
+                FILTER += "WHEN C.ID_NAVIO_2T IS NOT NULL AND C.ID_NAVIO_2T <> 0 THEN C.ID_NAVIO_2T ";
+                FILTER += "WHEN C.ID_NAVIO_1T IS NOT NULL AND C.ID_NAVIO_1T <> 0 THEN C.ID_NAVIO_1T ";
+                FILTER += "ELSE '' END = '" + dados.NAVIOTRANSBORDO + "' ";
             }
 
 
 
-            return SQL;
+            return FILTER;
         }
 
         [WebMethod]
@@ -1245,21 +1256,33 @@ namespace ABAINFRA.Web
         {
             string SQL;
             SQL = "SELECT M.ID_BL AS MASTER, C.ID_BL AS HOUSE, ISNULL(C.NR_PROCESSO,'') AS PROCESSO, ISNULL(CLT.NM_RAZAO,'') AS CLIENTE, ISNULL(PORT1.NM_PORTO,'') AS ORIGEM, ISNULL(PORT2.NM_PORTO,'') AS DESTINO ";
-            SQL += ", ISNULL(TPAG.NM_TIPO_PAGAMENTO,'') AS TPAGAMENTO, ISNULL(TESTUF.NM_TIPO_ESTUFAGEM,'') AS TESTUFAGEM, ISNULL(AGT.NM_RAZAO,'') AS AGENTE, ISNULL(AGTI.NM_RAZAO,'') AS AGENTE_INTERNACIONAL ";
+            SQL += ", ISNULL(TPAG.NM_TIPO_PAGAMENTO,'') AS TPAGAMENTO, ISNULL(TESTUF.NM_TIPO_ESTUFAGEM,'') AS TESTUFAGEM, ISNULL(IMP.NM_RAZAO,'') AS IMPORTADOR, ISNULL(AGTI.NM_RAZAO,'') AS AGENTE_INTERNACIONAL ";
             SQL += ", ISNULL(FORMAT(C.DT_PREVISAO_EMBARQUE,'dd/MM/yyyy'),'') AS PEMBARQUE, ISNULL(FORMAT(C.DT_EMBARQUE,'dd/MM/yyyy'),'') AS EMBARQUE, ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS PCHEGADA, ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS CHEGADA ";
             SQL += ", ISNULL(TRANSP.NM_RAZAO,'') AS TRANSPORTADOR, ISNULL(M.NR_BL,'') as BLMASTER, ISNULL(C.NR_BL,'') as BLHOUSE, ISNULL(FORMAT(M.DT_REDESTINACAO,'dd/MM/yyyy'),'') AS REDESTINACAO, ISNULL(FORMAT(M.DT_DESCONSOLIDACAO,'dd/MM/yyyy'),'') AS DESCONSOLIDACAO ";
-            SQL += ", ISNULL(W.NM_WEEK,'') AS WEEK, ISNULL(NAV.NM_NAVIO,'') AS NAVIO, ISNULL(M.NR_CE,'') as CEMASTER, ISNULL(C.NR_CE,'') AS CEHOUSE, ISNULL(C.DS_TERMO,'') AS TERMO ";
+            SQL += ", ISNULL(W.NM_WEEK,'') AS WEEK, ISNULL(NAV.NM_NAVIO,'') AS NAVIO, ";
+            SQL += "CASE WHEN C.ID_NAVIO_3T IS NOT NULL AND C.ID_NAVIO_3T <> 0 THEN ISNULL(NAV3.NM_NAVIO,'') ";
+            SQL += "WHEN C.ID_NAVIO_2T IS NOT NULL AND C.ID_NAVIO_2T <> 0 THEN ISNULL(NAV2.NM_NAVIO,'') ";
+            SQL += "WHEN C.ID_NAVIO_1T IS NOT NULL AND C.ID_NAVIO_1T <> 0 THEN ISNULL(NAV1.NM_NAVIO,'') ";
+            SQL += "ELSE '' ";
+            SQL += "END AS NAVIO_TRANSBORDO, ";
+            SQL += "ISNULL(M.NR_CE,'') as CEMASTER, ISNULL(C.NR_CE,'') AS CEHOUSE, ISNULL(C.DS_TERMO,'') AS TERMO,  ";
+            SQL += "ISNULL(CLF.NM_RAZAO,'') AS CLIENTE_FINAL, ISNULL(CONVERT(VARCHAR,C.VL_PESO_BRUTO,103),'') AS VL_PESO_BRUTO, ISNULL(CONVERT(VARCHAR,C.VL_M3,103),'') AS VL_M3 ";
             SQL += "FROM TB_BL C ";
             SQL += "LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO CLT ON C.ID_PARCEIRO_CLIENTE = CLT.ID_PARCEIRO ";
-            SQL += "LEFT JOIN TB_PARCEIRO AGT ON C.ID_PARCEIRO_AGENTE = AGT.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO IMP ON C.ID_PARCEIRO_IMPORTADOR = IMP.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO AGTI ON C.ID_PARCEIRO_AGENTE_INTERNACIONAL = AGTI.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_COTACAO COT ON C.ID_COTACAO = COT.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_PARCEIRO CLF ON COT.ID_CLIENTE_FINAL = CLF.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO TRANSP ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSP.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PORTO PORT1 ON C.ID_PORTO_ORIGEM = PORT1.ID_PORTO ";
             SQL += "LEFT JOIN TB_PORTO PORT2 ON C.ID_PORTO_DESTINO = PORT2.ID_PORTO ";
             SQL += "LEFT JOIN TB_TIPO_PAGAMENTO TPAG ON C.ID_TIPO_PAGAMENTO = TPAG.ID_TIPO_PAGAMENTO ";
             SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TESTUF ON C.ID_TIPO_ESTUFAGEM = TESTUF.ID_TIPO_ESTUFAGEM ";
             SQL += "LEFT JOIN TB_NAVIO NAV ON C.ID_NAVIO = NAV.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_NAVIO NAV1 ON C.ID_NAVIO_1T = NAV1.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_NAVIO NAV2 ON C.ID_NAVIO_2T = NAV2.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_NAVIO NAV3 ON C.ID_NAVIO_3T = NAV3.ID_NAVIO ";
             SQL += "LEFT JOIN TB_WEEK W ON C.ID_WEEK = W.ID_WEEK ";
             SQL += "LEFT JOIN TB_SERVICO S ON C.ID_SERVICO = S.ID_SERVICO ";
             SQL += "LEFT JOIN TB_VIATRANSPORTE V ON S.ID_VIATRANSPORTE = V.ID_VIATRANSPORTE ";
