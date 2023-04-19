@@ -346,7 +346,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label class="control-label">Importador:</label></label><label runat="server" style="color: red">*</label>
+                                                <label class="control-label">Importador:</label>
                                                 <asp:DropDownList ID="ddlImportador" runat="server" CssClass="form-control" AutoPostBack="true" Font-Size="11px" DataValueField="ID_PARCEIRO" DataTextField="Descricao" DataSourceID="dsImportador">
                                                 </asp:DropDownList>
                                             </div>

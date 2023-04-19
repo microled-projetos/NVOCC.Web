@@ -320,33 +320,6 @@ Partial Public Class ComissaoInsideSales
     Protected WithEvents pnlRelatorios As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle lkRelPorVendedor.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkRelPorVendedor As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle lkRelTodosVendedores.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkRelTodosVendedores As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle lkComDisparoEmail.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkComDisparoEmail As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle lkRelEquipe.
     '''</summary>
     '''<remarks>

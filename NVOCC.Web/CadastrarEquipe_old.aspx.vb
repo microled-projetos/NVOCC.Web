@@ -1,4 +1,4 @@
-﻿Public Class CadastrarEquipe
+﻿Public Class CadastrarEquipe_old
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -38,13 +38,13 @@
                     ddlLider.Enabled = False
                     btnCadastrarLider.Visible = False
                     btnSalvarEdicao.Visible = True
-                    mpeMontarEquipe.Show()
+                    ModalPopupExtender1.Show()
                 Else
                     divErroMontarEquipe.Visible = True
                     lblErroMontarEquipe.Text = "Este lider já faz possui equipe!"
                     gdvEquipeLider.DataBind()
                     divEquipe.Visible = False
-                    mpeMontarEquipe.Show()
+                    ModalPopupExtender1.Show()
                 End If
             End If
 
@@ -77,11 +77,11 @@
     End Sub
 
     Private Sub txtNomeLider_TextChanged(sender As Object, e As EventArgs) Handles txtNomeLider.TextChanged
-        mpeMontarEquipe.Show()
+        ModalPopupExtender1.Show()
     End Sub
 
     Private Sub txtNomeMembro_TextChanged(sender As Object, e As EventArgs) Handles txtNomeMembro.TextChanged
-        mpeMontarEquipe.Show()
+        ModalPopupExtender1.Show()
     End Sub
 
     Private Sub gdvLideres_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles gdvLideres.RowCommand
@@ -104,7 +104,7 @@
 
             Dim ID As String = e.CommandArgument
             txtIDEdicao.Text = ID
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_USUARIO_LIDER,NM_EQUIPE,TAXA_LIDER,TAXA_EQUIPE FROM TB_INSIDE_EQUIPE WHERE ID_EQUIPE = " & ID)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_USUARIO_LIDER,NM_EQUIPE,TAXA_LIDER,TAXA_EQUIPE FROM TB_EQUIPE_LIDER WHERE ID = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
 
@@ -119,7 +119,7 @@
                     txtTaxaEquipe.Text = ds.Tables(0).Rows(0).Item("TAXA_EQUIPE")
                     dsEquipeLider.DataBind()
                     gdvEquipeLider.DataBind()
-                    mpeMontarEquipe.Show()
+                    ModalPopupExtender1.Show()
                     divEquipe.Visible = True
                     btnCadastrarLider.Visible = False
                     btnSalvarEdicao.Visible = True
@@ -143,7 +143,7 @@
             Con.ExecutarQuery("DELETE FROM [dbo].[TB_EQUIPE_MEMBROS] WHERE ID =" & ID)
             Con.Fechar()
             gdvEquipeLider.DataBind()
-            mpeMontarEquipe.Show()
+            ModalPopupExtender1.Show()
             lblSuccessMontarEquipe.Text = "Registro deletado!"
             divSuccessMontarEquipe.Visible = True
         End If
@@ -174,13 +174,13 @@
                 lblSuccessMontarEquipe.Text = "Membro da equipe cadastrado com sucesso!"
                 gdvEquipeLider.DataBind()
                 divEquipe.Visible = True
-                mpeMontarEquipe.Show()
+                ModalPopupExtender1.Show()
             Else
                 divErroMontarEquipe.Visible = True
                 lblErroMontarEquipe.Text = "Este usuario já faz parte desta equipe!"
                 gdvEquipeLider.DataBind()
                 divEquipe.Visible = True
-                mpeMontarEquipe.Show()
+                ModalPopupExtender1.Show()
             End If
 
         End If
@@ -217,13 +217,8 @@
             ddlLider.Enabled = False
             btnCadastrarLider.Visible = False
             btnSalvarEdicao.Visible = True
-            mpeMontarEquipe.Show()
+            ModalPopupExtender1.Show()
         End If
         Con.Fechar()
-    End Sub
-
-    Private Sub btnAdicionarTime_Click(sender As Object, e As EventArgs) Handles btnAdicionarTime.Click
-        mpeMontarEquipe.Show()
-        mpeMontarTime.Show()
     End Sub
 End Class

@@ -265,6 +265,7 @@
     <Content Include="AtendimentoNegado.aspx" />
     <Content Include="AtendimentoNegado.aspx.cs" />
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
+    <Content Include="CadastrarEquipe_old.aspx" />
     <Content Include="CadastrarEquipe.aspx" />
     <Content Include="CadastrarTipoFaturamento.aspx" />
     <Content Include="Classes\FiltrosTaxasInativas.cs" />
@@ -668,6 +669,13 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="CadastrarEquipe_old.aspx.designer.vb">
+      <DependentUpon>CadastrarEquipe_old.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarEquipe_old.aspx.vb">
+      <DependentUpon>CadastrarEquipe_old.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="CadastrarEquipe.aspx.designer.vb">
       <DependentUpon>CadastrarEquipe.aspx</DependentUpon>
     </Compile>

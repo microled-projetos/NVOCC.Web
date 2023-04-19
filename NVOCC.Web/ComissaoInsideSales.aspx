@@ -50,11 +50,9 @@
 
                                             <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
                                                 <asp:ListItem Value="0" Selected="True">Todos os registros</asp:ListItem>
-                                                <asp:ListItem Value="3">Vendedores</asp:ListItem>
-                                                <asp:ListItem Value="4">Sub Vendedores</asp:ListItem>
-                                                <asp:ListItem Value="5">Equipe</asp:ListItem>
-                                                <asp:ListItem Value="1">Nome</asp:ListItem>
-                                                <asp:ListItem Value="2">Número do processo</asp:ListItem>
+                                                <asp:ListItem Value="1">Equipe</asp:ListItem>
+                                                <asp:ListItem Value="2">Nome</asp:ListItem>
+                                                <asp:ListItem Value="3">Número do processo</asp:ListItem>
                                             </asp:DropDownList>
                                         </div>
                                     </div>
@@ -188,30 +186,9 @@
                                                             <h5 class="modal-title">RELATORIOS</h5>
                                                         </div>
                                                         <div class="modal-body" style="padding-left: 50px;">                                       
-                            <div class="row">
-                                   <div class="row">
-                                     <div class="col-sm-10">
-                                    <div class="form-group">
-                                           
-<asp:LinkButton ID="lkRelPorVendedor" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" >Vendedor Selecionado</asp:LinkButton>
-                                    </div>
-                                        </div>
-                                         </div>
-                                      <div class="row">
-                                     <div class="col-sm-10">
-                                    <div class="form-group">
-                                           
-<asp:LinkButton ID="lkRelTodosVendedores" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" OnClientClick="RelTodosVendedores()">Todos os Vendedores</asp:LinkButton>
-                                    </div>
-                                        </div>
-                                         </div>
-                                    <div class="row">
-                                     <div class="col-sm-10">
-                                    <div class="form-group">                                             
-                                        <asp:LinkButton ID="lkComDisparoEmail" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" OnClientClick="RelPorEmail()">Com Disparo de Email</asp:LinkButton>
-                                        </div>
-                                         </div>
-                                   </div> 
+                          
+                                    
+                                    
                                  <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                             
@@ -219,7 +196,7 @@
                                         </div>
                                          </div>
                                    </div>    
-                                </div>  
+                                 
                              </div>
                                <div class="modal-footer">
                                          <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharRelatorios" text="Close" />
@@ -285,7 +262,7 @@
                                     <div class="form-group">                                          
  <asp:Label ID="Label20" runat="server">Equipes</asp:Label><br />
 
- <asp:DropDownList ID="ddlEquipes" runat="server" CssClass="combosMultiplos form-control" DataTextField="NM_EQUIPE" DataSourceID="dsEquipes" DataValueField="ID" style="font-size:15px" ></asp:DropDownList>                                    
+ <asp:DropDownList ID="ddlEquipes" runat="server" CssClass="combosMultiplos form-control" DataTextField="NM_EQUIPE" DataSourceID="dsEquipes" DataValueField="ID_EQUIPE" style="font-size:15px" ></asp:DropDownList>                                    
                                         </div>
                                          </div>
 
@@ -692,7 +669,7 @@
         
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_INSIDE_TAXA,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL, B.NOME AS NOME_GESTOR, C.NM_EQUIPE FROM TB_INSIDE_TAXA_COMISSAO A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_GESTOR = B.ID_USUARIO INNER JOIN TB_INSIDE_EQUIPE C ON A.ID_EQUIPE = C.ID ORDER BY DT_VALIDADE_INICIAL"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_INSIDE_TAXA,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL, B.NOME AS NOME_GESTOR, C.NM_EQUIPE FROM TB_INSIDE_TAXA_COMISSAO A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_GESTOR = B.ID_USUARIO INNER JOIN TB_INSIDE_EQUIPE C ON A.ID_EQUIPE = C.ID_EQUIPE ORDER BY DT_VALIDADE_INICIAL"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO = 1 AND FL_ATIVO = 1 ORDER BY NM_RAZAO"></asp:SqlDataSource>
@@ -701,7 +678,7 @@
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_EQUIPE_INSIDE_SALES = 1 AND FL_ATIVO = 1 ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Comissao_Vendedor] WHERE COMPETENCIA = '@COMPETENCIA' ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO">
+        SelectCommand="SELECT * FROM [dbo].[View_Comissao_Inside] WHERE COMPETENCIA = '@COMPETENCIA' ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO">
         <SelectParameters>
             <asp:ControlParameter Name="COMPETENCIA" Type="string" ControlID="txtCompetencia" />
         </SelectParameters>
@@ -725,7 +702,7 @@ union SELECT 0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsEquipes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID, NM_EQUIPE FROM TB_INSIDE_EQUIPE WHERE ID_USUARIO_LIDER = @ID_USUARIO_LIDER ORDER BY NM_EQUIPE">
+        SelectCommand="SELECT ID_EQUIPE, NM_EQUIPE FROM TB_INSIDE_EQUIPE WHERE ID_USUARIO_LIDER = @ID_USUARIO_LIDER ORDER BY NM_EQUIPE">
                 <SelectParameters>
             <asp:ControlParameter Name="ID_USUARIO_LIDER" Type="Int32" ControlID="ddlGestor" DefaultValue="0" />
         </SelectParameters>
@@ -746,27 +723,6 @@ union SELECT 0, '   Selecione' ORDER BY NOME"></asp:SqlDataSource>
             Combos();
         });
 
-        function RelPorVendedor() {
-            var ID = document.getElementById('<%= txtID.ClientID %>').value;
-            var COMPETENCIA = document.getElementById('<%= txtCompetencia.ClientID %>').value;
-
-
-            window.open('RelatorioVendedor.aspx?tipo=1&id=' + ID + '&c=' + COMPETENCIA, '_blank');
-        }
-
-        function RelTodosVendedores() {
-            var ID = document.getElementById('<%= txtID.ClientID %>').value;
-            var COMPETENCIA = document.getElementById('<%= txtCompetencia.ClientID %>').value;
-
-            window.open('RelatorioVendedor.aspx?tipo=2&c=' + COMPETENCIA, '_blank');
-        }
-
-        function RelPorEmail() {
-            var ID = document.getElementById('<%= txtID.ClientID %>').value;
-            var COMPETENCIA = document.getElementById('<%= txtCompetencia.ClientID %>').value;
-
-            window.open('RelatorioVendedor.aspx?tipo=3&c=' + COMPETENCIA, '_blank');
-        }
 
         function MouseWait() {
             console.log("wait");
