@@ -382,7 +382,7 @@
                                                 <div class="form-group">
                                                     <asp:DropDownList ID="ddlFiltroMaster" AutoPostBack="true" Width="230px" runat="server" CssClass="form-control" Font-Size="15px">
                                                         <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
-                                                        <asp:ListItem Value="1">Número do Master</asp:ListItem>
+                                                        <asp:ListItem Value="1" Selected="True">Número do Master</asp:ListItem>
                                                         <asp:ListItem Value="2">Tipo de Estufagem</asp:ListItem>
                                                         <asp:ListItem Value="3">Origem</asp:ListItem>
                                                         <asp:ListItem Value="4">Destino</asp:ListItem>
