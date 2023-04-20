@@ -53,7 +53,7 @@
     End Sub
 
     Private Sub btnFecharMontarEquipe_Click(sender As Object, e As EventArgs) Handles btnFecharMontarEquipe.Click
-        txtIDEdicao.Text = ""
+        txtIDEquipe.Text = ""
         txtIDLider.Text = ""
         ddlLider.SelectedValue = 0
         ddlLider.Enabled = True
@@ -103,7 +103,7 @@
 
 
             Dim ID As String = e.CommandArgument
-            txtIDEdicao.Text = ID
+            txtIDEquipe.Text = ID
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_USUARIO_LIDER,NM_EQUIPE,TAXA_LIDER,TAXA_EQUIPE FROM TB_INSIDE_EQUIPE WHERE ID_EQUIPE = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
@@ -200,14 +200,14 @@
         divSuccess.Visible = False
         divErro.Visible = False
         Dim Con As New Conexao_sql
-        If txtIDEdicao.Text <> "" Then
+        If txtIDEquipe.Text <> "" Then
             Dim TaxaEquipe_final As String = txtTaxaEquipe.Text.ToString.Replace(".", "")
             TaxaEquipe_final = TaxaEquipe_final.ToString.Replace(",", ".")
 
             Dim TaxaLider_final As String = txtTaxaLider.Text.ToString.Replace(".", "")
             TaxaLider_final = TaxaLider_final.ToString.Replace(",", ".")
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("UPDATE TB_EQUIPE_LIDER SET NM_EQUIPE = '" & txtNomeEquipe.Text & "',TAXA_LIDER = " & TaxaLider_final & ",TAXA_EQUIPE =" & TaxaEquipe_final & " WHERE ID = " & txtIDEdicao.Text)
+            Dim ds As DataSet = Con.ExecutarQuery("UPDATE TB_EQUIPE_LIDER SET NM_EQUIPE = '" & txtNomeEquipe.Text & "',TAXA_LIDER = " & TaxaLider_final & ",TAXA_EQUIPE =" & TaxaEquipe_final & " WHERE ID = " & txtIDEquipe.Text)
             divSuccessMontarEquipe.Visible = True
             lblSuccessMontarEquipe.Text = "Atualizado com sucesso!"
             gdvEquipeLider.DataBind()
@@ -223,6 +223,90 @@
     End Sub
 
     Private Sub btnAdicionarTime_Click(sender As Object, e As EventArgs) Handles btnAdicionarTime.Click
+        mpeMontarEquipe.Show()
+        mpeMontarTime.Show()
+    End Sub
+
+    Private Sub btnSalvarTime_Click(sender As Object, e As EventArgs) Handles btnSalvarTime.Click
+        divTimeErro.Visible = False
+        divTimeSuccess.Visible = False
+        Dim ds As DataSet
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        If ddlLider.SelectedValue = 0 Then
+            divTimeErro.Visible = True
+            lblErroTime.Text = "Selecione um usuário para lider para equipe!"
+
+        ElseIf txtNomeTime.Text = "" Then
+            divTimeErro.Visible = True
+            lblErroTime.Text = "Informe o nome do time!"
+
+        ElseIf txtQtdMembrosTime.Text = "" Or txtQtdMembrosTime.Text = 0 Then
+            divTimeErro.Visible = True
+            lblErroTime.Text = "A quantidade de membros deve ser maior que zero"
+
+        ElseIf txtIDEquipe.Text = "" Then
+
+            divTimeErro.Visible = True
+            lblErroTime.Text = "Necessário cadastrar equipe antes do time!"
+
+        Else
+
+            'INSERT
+            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_INSIDE_TIME WHERE NOME_TIME = '" & txtNomeTime.Text & "' AND QTD_MEMBROS = " & txtQtdMembrosTime.Text)
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+
+                Con.ExecutarQuery("INSERT INTO TB_INSIDE_TIME (NM_TIME,QTD_MEMBROS) VALUES ( '" & txtNomeTime.Text & "' , " & txtQtdMembrosTime.Text & " )")
+                divTimeSuccess.Visible = True
+                lblSuccessTime.Text = "Lider cadastrado com sucesso!"
+                divMembroTime.Visible = True
+            Else
+                divTimeErro.Visible = True
+                lblErroTime.Text = "Este time já existe!"
+                divMembroTime.Visible = False
+            End If
+
+
+        End If
+        mpeMontarEquipe.Show()
+        mpeMontarTime.Show()
+    End Sub
+
+    Private Sub btnAdicionarMembroTime_Click(sender As Object, e As EventArgs) Handles btnAdicionarMembroTime.Click
+        divTimeErro.Visible = False
+        divTimeSuccess.Visible = False
+        Dim ds As DataSet
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        If txtIDLider.Text = "" Then
+            divMembroTime.Visible = True
+            lblErroTime.Text = "Selecione um usuário para lider!"
+
+        ElseIf txtIDTime.Text = "" Then
+            divMembroTime.Visible = True
+            lblErroTime.Text = "Necessario informar dados basicos do time antes de adicionar membros!"
+
+        ElseIf ddlMembroTime.SelectedValue = 0 Then
+            divMembroTime.Visible = True
+            lblErroTime.Text = "Selecione um usuário para adicionar à equipe!"
+        Else
+
+            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_INSIDE_TIME_MEMBROS WHERE ID_TIME = " & txtIDTime.Text & " AND ID_USUARIO_MEMBRO_TIME = " & ddlMembroTime.SelectedValue)
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                'INSERT
+                Con.ExecutarQuery("INSERT INTO TB_INSIDE_TIME_MEMBROS (ID_TIME,ID_USUARIO_MEMBRO_TIME) VALUES (" & txtIDTime.Text & "," & ddlMembroTime.SelectedValue & ")")
+                divTimeSuccess.Visible = True
+                lblSuccessTime.Text = "Membro do time cadastrado com sucesso!"
+                dgvMembrosTime.DataBind()
+            Else
+                divErroMontarEquipe.Visible = True
+                lblErroMontarEquipe.Text = "Este usuario já faz parte desta time!"
+                dgvMembrosTime.DataBind()
+            End If
+
+        End If
         mpeMontarEquipe.Show()
         mpeMontarTime.Show()
     End Sub

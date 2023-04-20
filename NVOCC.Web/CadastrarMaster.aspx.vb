@@ -3851,6 +3851,7 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
             Dim AtualizaStatus As New AtualizaStatusFreteAgente
             ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteMaster(txtID_BasicoAereo.Text, ddlTipoPagamento_BasicoAereo.SelectedValue)
         End If
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
     End Sub
 
     Private Sub ddlTipoPagamento_BasicoMaritimo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoPagamento_BasicoMaritimo.SelectedIndexChanged
@@ -3858,6 +3859,7 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
             Dim AtualizaStatus As New AtualizaStatusFreteAgente
             ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteMaster(txtID_BasicoMaritimo.Text, ddlTipoPagamento_BasicoMaritimo.SelectedIndex)
         End If
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
     End Sub
 
     Private Sub imgChegada_BasicoMaritimo_Click(sender As Object, e As ImageClickEventArgs) Handles imgChegada_BasicoMaritimo.Click

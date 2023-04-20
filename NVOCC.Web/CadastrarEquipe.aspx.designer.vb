@@ -230,13 +230,13 @@ Partial Public Class CadastrarEquipe
     Protected WithEvents lblErroMontarEquipe As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtIDEdicao.
+    '''Controle txtIDEquipe.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtIDEdicao As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtIDEquipe As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtNomeLider.
@@ -410,22 +410,22 @@ Partial Public Class CadastrarEquipe
     Protected WithEvents pnlMontarTime As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle divTimeSucesso.
+    '''Controle divTimeSuccess.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents divTimeSucesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents divTimeSuccess As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle lblSucessoTime.
+    '''Controle lblSuccessTime.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblSucessoTime As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblSuccessTime As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle divTimeErro.
@@ -444,6 +444,15 @@ Partial Public Class CadastrarEquipe
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblErroTime As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtIDTime.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDTime As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtNomeTime.
@@ -473,13 +482,13 @@ Partial Public Class CadastrarEquipe
     Protected WithEvents btnSalvarTime As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle div3.
+    '''Controle divMembroTime.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents div3 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents divMembroTime As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle txtCodMembrosTime.
@@ -500,13 +509,13 @@ Partial Public Class CadastrarEquipe
     Protected WithEvents txtBuscaMembrosTime As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlMembrosTime.
+    '''Controle ddlMembroTime.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlMembrosTime As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlMembroTime As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle btnAdicionarMembroTime.
@@ -518,13 +527,13 @@ Partial Public Class CadastrarEquipe
     Protected WithEvents btnAdicionarMembroTime As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle GridView1.
+    '''Controle dgvMembrosTime.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents GridView1 As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvMembrosTime As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle Button5.

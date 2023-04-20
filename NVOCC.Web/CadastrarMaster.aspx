@@ -179,7 +179,7 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">Tipo de Pagamento:</label>
-                                                    <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" AutoPostBack="true">
+                                                    <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" AutoPostBack="true"  >
                                                     </asp:DropDownList>
                                                 </div>
                                             </div>
@@ -306,7 +306,7 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">Status Frete Agente:</label>
-                                                    <asp:DropDownList ID="ddlStatusFreteAgente_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsStatusFreteAgente" DataValueField="ID_STATUS_FRETE_AGENTE" Enabled="false">
+                                                    <asp:DropDownList ID="ddlStatusFreteAgente_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsStatusFreteAgente" DataValueField="ID_STATUS_FRETE_AGENTE" enabled="false">
                                                     </asp:DropDownList>
                                                 </div>
                                             </div>
@@ -2682,6 +2682,35 @@ C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACA
             }
 
         }
+
+        function MouseWait() {
+            document.body.style.cursor = "wait";
+        };
+        function MouseDefault() {
+            document.body.style.cursor = "default";
+        };
+
+        $(document).ready(function () {
+            Cursor();
+        });
+
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(Cursor);
+
+        function Cursor() {
+            $('#<%= ddlTipoPagamento_BasicoMaritimo.ClientID %>').change(function () {
+                MouseWait();
+            });
+
+            $('#<%= ddlTipoPagamento_BasicoAereo.ClientID %>').change(function () {
+                MouseWait();
+            });
+           
+        }
+
+        function InIEvent() {
+            Cursor();
+        }
+
     </script>
 
 </asp:Content>

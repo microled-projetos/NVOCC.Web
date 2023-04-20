@@ -128,7 +128,7 @@
                                 <div class="alert alert-danger" id="divErroMontarEquipe" runat="server" visible="false">
                                     <asp:Label ID="lblErroMontarEquipe" runat="server"></asp:Label>
                                 </div>
-<asp:TextBox ID="txtIDEdicao" runat="server" CssClass="form-control" style="display:none" ></asp:TextBox>
+<asp:TextBox ID="txtIDEquipe" runat="server" CssClass="form-control" style="display:none" ></asp:TextBox>
                            <div class="row" runat="server">
                                 <br />
                                <div class="col-sm-6">
@@ -266,20 +266,21 @@
                                                             <h5 class="modal-title">MONTAR TIME</h5>
                                                         </div>
                                                         <div class="modal-body">                                       
-                                 <div class="alert alert-success" id="divTimeSucesso" runat="server" visible="false">
-                                    <asp:Label ID="lblSucessoTime" runat="server"></asp:Label>
+                                 <div class="alert alert-success" id="divTimeSuccess" runat="server" visible="false">
+                                    <asp:Label ID="lblSuccessTime" runat="server"></asp:Label>
                                 </div>
                                 <div class="alert alert-danger" id="divTimeErro" runat="server" visible="false">
                                     <asp:Label ID="lblErroTime" runat="server"></asp:Label>
                                 </div>
                             <div class="row" runat="server">
-                                <div class="col-sm-6">
+                                <div class="col-sm-8">
                                             <div class="form-group">
                                                 <label class="control-label">Nome Time:</label>
+                                                <asp:TextBox ID="txtIDTime" runat="server" CssClass="form-control" style="display:none" ></asp:TextBox>
                                                 <asp:TextBox ID="txtNomeTime" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
                                             </div>
                                         </div>
-                                         <div class="col-sm-6">
+                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Qtd. Membros:</label>
                                                 <asp:TextBox ID="txtQtdMembrosTime" runat="server" CssClass="form-control"></asp:TextBox>
@@ -289,13 +290,13 @@
                                <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label" style="color:white">:</label><br />
-                                <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarTime" text="Salvar" visible="false" />
+                                <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarTime" text="Salvar" />
                            </div>
 
                                </div>
 
                            </div>
-                                <div class="row" id="div3" runat="server" visible="false" >
+                                <div class="row" id="divMembroTime" runat="server" visible="false" >
                                  <div class="col-sm-1" style="display:none" >
                                             <div class="form-group">
                                                 <label class="control-label">Cód Membro:</label>
@@ -311,7 +312,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="control-label">Membro:</label></label><label runat="server" style="color:red" >*</label>
-                                       <asp:DropDownList ID="ddlMembrosTime" runat="server" CssClass="form-control" Font-Size="11px"  DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsMembros" >
+                                       <asp:DropDownList ID="ddlMembroTime" runat="server" CssClass="form-control" Font-Size="11px"  DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsMembros" >
                                         </asp:DropDownList>
                                     </div>
                                 </div>                             
@@ -327,7 +328,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                       <div class="table-responsive tableFixHead" style="margin:10px;max-height: 300px;">
-                                        <asp:GridView ID="GridView1" DataKeyNames="ID_EQUIPE" DataSourceID="dsEquipeLider" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" Style="max-height: 300px; overflow: auto;"
+                                        <asp:GridView ID="dgvMembrosTime" DataKeyNames="ID_EQUIPE" DataSourceID="dsEquipeLider" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" Style="max-height: 300px; overflow: auto;"
                                             AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                 <asp:BoundField DataField="ID_USUARIO" Visible="False" HeaderText="ID_USUARIO" SortExpression="ID_USUARIO" />
