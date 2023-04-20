@@ -86,7 +86,6 @@
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">DATA EMBARQUE</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">PREVISÃO CHEGADA</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">DATA CHEGADA</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">FREE TIME</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">TRANSPORTADOR</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">BL MASTER</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">BL HOUSE</th>
@@ -96,7 +95,7 @@
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">DATA DESCONSOLIDAÇÃO</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">WEEK</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">NAVIO ORIGEM</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">NAVIO TRANSBORDO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">NAVIO ULTIMO TRANSBORDO</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">TERMO</th>
                                         </tr>
                                     </thead>
@@ -921,7 +920,6 @@
                 "pchegadafim": document.getElementById("dtPrevisaoChegadaFimFilter").value,
                 "dtchegadainicio": document.getElementById("dtChegadaInicioFilter").value,
                 "dtchegadafim": document.getElementById("dtChegadaFimFilter").value,
-                "freetime": document.getElementById("dtFreetimeFilter").value,
                 "transportador": document.getElementById("MainContent_ddlTransportadorFilter").value,
                 "blmaster": document.getElementById("nrMasterFilter").value,
                 "blhouse": document.getElementById("nrHouseFilter").value,
@@ -969,7 +967,6 @@
                             result += "<td class='text-center'><div>" + dado[i]["EMBARQUE"] + "</div></td>";
                             result += "<td class='text-center'><div>" + dado[i]["PCHEGADA"] + "</div></td>";
                             result += "<td class='text-center'><div>" + dado[i]["CHEGADA"] + "</div></td>";
-                            result += "<td class='text-center'><div></div></td>";
                             result += "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 8ch;'><div>" + dado[i]["TRANSPORTADOR"] + "</div></td>";
                             result += "<td class='text-center'><div>" + dado[i]["BLMASTER"] + "</div></td>";
                             result += "<td class='text-center'><div>" + dado[i]["BLHOUSE"] + "</div></td>";
