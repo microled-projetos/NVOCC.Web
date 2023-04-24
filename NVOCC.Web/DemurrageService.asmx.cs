@@ -10119,24 +10119,118 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarRelatorioConsolidada(string dataI, string dataF)
+        public string listarRelatorioConsolidada(string dataI, string dataF, string dataC, string dataE)
         {
-            string sqlFormattedDate;
-            string sqlFormattedDate2;
+            string sqlFormattedDate = "";
+            string sqlFormattedDate2 = "";
+            string sqlFormattedDate3 = "";
+            string sqlFormattedDate4 = "";
             string SQL;
+            string filter = "";
 
-            string diaI = dataI.Substring(8, 2);
-            string mesI = dataI.Substring(5, 2);
-            string anoI = dataI.Substring(0, 4);
-            sqlFormattedDate = diaI + "/" + mesI + "/" + anoI;
+            if (dataI != "")
+            {
+                string diaI = dataI.Substring(8, 2);
+                string mesI = dataI.Substring(5, 2);
+                string anoI = dataI.Substring(0, 4);
+                sqlFormattedDate = diaI + "/" + mesI + "/" + anoI;
+            }
 
-            string diaF = dataF.Substring(8, 2);
-            string mesF = dataF.Substring(5, 2);
-            string anoF = dataF.Substring(0, 4);
-            sqlFormattedDate2 = diaF + "/" + mesF + "/" + anoF;
+            if (dataF != "")
+            {
+                string diaF = dataF.Substring(8, 2);
+                string mesF = dataF.Substring(5, 2);
+                string anoF = dataF.Substring(0, 4);
+                sqlFormattedDate2 = diaF + "/" + mesF + "/" + anoF;
+            }
+
+            if (dataC != "")
+            {
+                string diaC = dataC.Substring(8, 2);
+                string mesC = dataC.Substring(5, 2);
+                string anoC = dataC.Substring(0, 4);
+                sqlFormattedDate3 = diaC + "/" + mesC + "/" + anoC;
+			}
+			
+            if (dataE != "")
+            {
+                string diaE = dataE.Substring(8, 2);
+                string mesE = dataE.Substring(5, 2);
+                string anoE = dataE.Substring(0, 4);
+                sqlFormattedDate4 = diaE + "/" + mesE + "/" + anoE;
+			}
 
 
-            SQL = "SELECT X.NM_NAVIO, FORMAT(MAX(X.DT_PREVISAO_CHEGADA),'dd/MM/yyyy') AS PREVISAO_CHEGADA, ";
+            if (sqlFormattedDate != "")
+            {
+                filter += "AND CONVERT(DATE, X.DT_PREVISAO_CHEGADA, 103) >= CONVERT(DATE,'" + sqlFormattedDate + "',103) ";
+            }
+
+            if (sqlFormattedDate2 != "")
+            {
+                filter += "AND CONVERT(DATE, X.DT_PREVISAO_CHEGADA, 103) <= CONVERT(DATE, '" + sqlFormattedDate2 + "',103) ";
+            }
+
+            if (sqlFormattedDate3 != "")
+			{
+                filter += "AND X.DT_CHEGADA = CONVERT(DATE,'" + sqlFormattedDate3 + "',103) ";
+			}
+
+            if(sqlFormattedDate4 != "")
+			{
+                filter += "AND X.DT_EMBARQUE = CONVERT(DATE, '" + sqlFormattedDate4 + "',103) ";
+			}
+
+
+            SQL = "SELECT X.NM_NAVIO, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,FORMAT(MAX(X.DT_CHEGADA), 'dd/MM/yyyy'),103),'') AS CHEGADA, ";
+            SQL += "TC.NM_TIPO_CONTAINER as TIPO_CNTR, ";
+            SQL += "FORMAT(MAX(X.DT_PREVISAO_CHEGADA), 'dd/MM/yyyy') AS PREVISAO_CHEGADA, ";
+            SQL += "FORMAT(MAX(X.DT_EMBARQUE), 'dd/MM/yyyy') AS EMBARQUE, ";
+            SQL += "X.NR_CNTR, ";
+            SQL += "X.NM_TIPO_CARGA, ";
+            SQL += "X.NM_TIPO_ESTUFAGEM, ";
+            SQL += "COUNT(X.NR_BL) AS BL, ";
+            SQL += "X.NM_PORTO AS PORTO_ORIGEM, ";
+            SQL += "convert(decimal(13, 3), SUM(X.VL_M3)) AS METRAGEM, ";
+            SQL += "convert(decimal(13, 3), SUM(X.VL_PESO_BRUTO)) AS PESO, ";
+            SQL += "(SELECT COUNT(A.ID_BL) FROM TB_BL A ";
+            SQL += "JOIN TB_AMR_CNTR_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "JOIN TB_CNTR_BL C ON B.ID_CNTR_BL = C.ID_CNTR_BL ";
+            SQL += "WHERE A.ID_TIPO_CARGA = 9 AND C.NR_CNTR = X.NR_CNTR) AS IMO, ";
+            SQL += "(SELECT COUNT(A.ID_COTACAO) FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "JOIN TB_AMR_CNTR_BL C ON B.ID_BL = C.ID_BL ";
+            SQL += "JOIN TB_CNTR_BL D ON C.ID_CNTR_BL = D.ID_CNTR_BL ";
+            SQL += "WHERE A.FL_LTL = 1 AND D.NR_CNTR = X.NR_CNTR) AS LTL, ";
+            SQL += "(SELECT COUNT(A.ID_COTACAO) FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "JOIN TB_AMR_CNTR_BL C ON B.ID_BL = C.ID_BL ";
+            SQL += "JOIN TB_CNTR_BL D ON C.ID_CNTR_BL = D.ID_CNTR_BL ";
+            SQL += "WHERE A.FL_DTA_HUB = 1 AND D.NR_CNTR = X.NR_CNTR) AS DTA_HUB, ";
+            SQL += "(SELECT COUNT(A.ID_COTACAO) FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "JOIN TB_AMR_CNTR_BL C ON B.ID_BL = C.ID_BL ";
+            SQL += "JOIN TB_CNTR_BL D ON C.ID_CNTR_BL = D.ID_CNTR_BL ";
+            SQL += "WHERE A.FL_FREE_HAND = 1 AND D.NR_CNTR = X.NR_CNTR) AS FREEHAND ";
+            SQL += "FROM(SELECT A.NR_PROCESSO, TPC.ID_TIPO_CONTAINER, C.NR_CNTR, A.NR_BL, CONVERT(DATE, M.DT_PREVISAO_CHEGADA, 103) AS DT_PREVISAO_CHEGADA, ";
+            SQL += "CONVERT(DATE, M.DT_CHEGADA, 103) AS DT_CHEGADA, ";
+            SQL += "CONVERT(DATE, M.DT_EMBARQUE, 103) AS DT_EMBARQUE, D.NM_NAVIO, E.NM_TIPO_CARGA, F.NM_TIPO_ESTUFAGEM, G.NM_PORTO, A.VL_M3, A.VL_PESO_BRUTO ";
+            SQL += "FROM TB_BL A JOIN TB_AMR_CNTR_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "JOIN TB_CNTR_BL C ON B.ID_CNTR_BL = C.ID_CNTR_BL ";
+            SQL += "JOIN TB_TIPO_CONTAINER TPC ON C.ID_TIPO_CNTR = TPC.ID_TIPO_CONTAINER ";
+            SQL += "JOIN TB_BL M ON A.ID_BL_MASTER = M.ID_BL ";
+            SQL += "JOIN TB_NAVIO D ON A.ID_NAVIO = D.ID_NAVIO ";
+            SQL += "JOIN TB_TIPO_CARGA E ON A.ID_TIPO_CARGA = E.ID_TIPO_CARGA ";
+            SQL += "JOIN TB_TIPO_ESTUFAGEM F ON A.ID_TIPO_ESTUFAGEM = F.ID_TIPO_ESTUFAGEM ";
+            SQL += "JOIN TB_PORTO G ON M.ID_PORTO_ORIGEM = G.ID_PORTO ";
+            SQL += "WHERE A.ID_TIPO_ESTUFAGEM = 2) X ";
+            SQL += "JOIN TB_TIPO_CONTAINER TC ON X.ID_TIPO_CONTAINER = TC.ID_TIPO_CONTAINER ";
+            SQL += "WHERE X.NM_NAVIO <> '' ";
+            SQL += " " + filter + " ";
+            SQL += "GROUP BY X.NR_CNTR, X.NM_NAVIO, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM, X.NM_PORTO, TC.NM_TIPO_CONTAINER ";
+
+            /*SQL = "SELECT X.NM_NAVIO, FORMAT(MAX(X.DT_PREVISAO_CHEGADA),'dd/MM/yyyy') AS PREVISAO_CHEGADA, ";
             SQL += "FORMAT(MAX(X.DT_EMBARQUE),'dd/MM/yyyy') AS EMBARQUE, ";
             SQL += "X.NR_CNTR, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM,COUNT(X.NR_BL) AS BL, ";
             SQL += "X.NM_PORTO AS PORTO_ORIGEM, convert(decimal(13,3),SUM(X.VL_M3)) AS METRAGEM, ";
@@ -10161,7 +10255,7 @@ namespace ABAINFRA.Web
             SQL += "WHERE A.ID_TIPO_ESTUFAGEM = 2 ";
             SQL += "AND CONVERT(DATE, A.DT_PREVISAO_CHEGADA, 103) ";
             SQL += "BETWEEN CONVERT(DATE,'" + sqlFormattedDate + "',103) AND  CONVERT(DATE,'" + sqlFormattedDate2 + "',103)) X ";
-            SQL += "GROUP BY X.NR_CNTR, X.NM_NAVIO, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM, X.NM_PORTO ";
+            SQL += "GROUP BY X.NR_CNTR, X.NM_NAVIO, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM, X.NM_PORTO ";*/
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -10171,6 +10265,142 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string listarRelatorioConsolidadaAnalitico(string dataI, string dataF, string dataC, string dataE, int ltl, int dtahub, int transp)
+        {
+            string sqlFormattedDate = "";
+            string sqlFormattedDate2 = "";
+            string sqlFormattedDate3 = "";
+            string sqlFormattedDate4 = "";
+            string SQL;
+            string filter = "";
+
+            if (dataI != "")
+            {
+                string diaI = dataI.Substring(8, 2);
+                string mesI = dataI.Substring(5, 2);
+                string anoI = dataI.Substring(0, 4);
+                sqlFormattedDate = diaI + "/" + mesI + "/" + anoI;
+            }
+
+            if (dataF != "")
+            {
+                string diaF = dataF.Substring(8, 2);
+                string mesF = dataF.Substring(5, 2);
+                string anoF = dataF.Substring(0, 4);
+                sqlFormattedDate2 = diaF + "/" + mesF + "/" + anoF;
+            }
+
+            if (dataC != "")
+            {
+                string diaC = dataC.Substring(8, 2);
+                string mesC = dataC.Substring(5, 2);
+                string anoC = dataC.Substring(0, 4);
+                sqlFormattedDate3 = diaC + "/" + mesC + "/" + anoC;
+            }
+
+            if (dataE != "")
+            {
+                string diaE = dataE.Substring(8, 2);
+                string mesE = dataE.Substring(5, 2);
+                string anoE = dataE.Substring(0, 4);
+                sqlFormattedDate4 = diaE + "/" + mesE + "/" + anoE;
+            }
+
+
+            if (sqlFormattedDate != "")
+            {
+                filter += "AND CONVERT(DATE, X.DT_PREVISAO_CHEGADA, 103) >= CONVERT(DATE,'" + sqlFormattedDate + "',103) ";
+            }
+
+            if (sqlFormattedDate2 != "")
+            {
+                filter += "AND CONVERT(DATE, X.DT_PREVISAO_CHEGADA, 103) <= CONVERT(DATE, '" + sqlFormattedDate2 + "',103) ";
+            }
+
+            if (sqlFormattedDate3 != "")
+            {
+                filter += "AND X.DT_CHEGADA = CONVERT(DATE,'" + sqlFormattedDate3 + "',103) ";
+            }
+
+            if (sqlFormattedDate4 != "")
+            {
+                filter += "AND X.DT_EMBARQUE = CONVERT(DATE, '" + sqlFormattedDate4 + "',103) ";
+            }
+
+            if(ltl == 1){
+                filter += "AND (SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE A.FL_LTL = 1 AND B.ID_BL = X.ID_BL) = 'SIM' ";
+            }
+			else{
+                filter += "AND (SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE A.FL_LTL = 1 AND B.ID_BL = X.ID_BL) = 'NAO' ";
+            }
+
+            if (dtahub == 1){
+                filter += "AND (SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE A.FL_DTA_HUB = 1 AND B.ID_BL = X.ID_BL) = 'SIM' ";
+            }
+            else
+            {
+                filter += "AND (SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE A.FL_DTA_HUB = 1 AND B.ID_BL = X.ID_BL) = 'NAO' ";
+            }
+
+            if (transp == 1){
+                filter += "AND (SELECT CASE WHEN A.FL_TRANSP_DEDICADO = 1 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_BL = X.ID_BL) = 'SIM' ";
+            }
+            else
+            {
+                filter += "AND (SELECT CASE WHEN A.FL_TRANSP_DEDICADO = 1 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_BL = X.ID_BL) = 'NAO' ";
+            }
+
+            SQL = "SELECT X.NM_NAVIO, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,FORMAT(MAX(X.DT_CHEGADA), 'dd/MM/yyyy'),103),'') AS CHEGADA, ";
+            SQL += "FORMAT(MAX(X.DT_PREVISAO_CHEGADA), 'dd/MM/yyyy') AS PREVISAO_CHEGADA, ";
+            SQL += "FORMAT(MAX(X.DT_EMBARQUE), 'dd/MM/yyyy') AS EMBARQUE,  ";
+            SQL += "X.NM_TIPO_CARGA, ";
+            SQL += "X.NM_TIPO_ESTUFAGEM, ";
+            SQL += "X.NM_PORTO AS PORTO_ORIGEM, ";
+            SQL += "X.NR_PROCESSO,";
+            SQL += "X.TRANSPORTADORA,";
+            SQL += "convert(decimal(13, 3), SUM(X.VL_M3)) AS METRAGEM, ";
+            SQL += "convert(decimal(13, 3), SUM(X.VL_PESO_BRUTO)) AS PESO, ";
+            SQL += "(SELECT CASE WHEN A.FL_TRANSP_DEDICADO = 1 THEN 'SIM' ELSE 'NAO' END ";
+            SQL += "FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "WHERE B.ID_BL = X.ID_BL) AS TRANSP, ";
+            SQL += "(SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END ";
+            SQL += "FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "WHERE A.FL_LTL = 1 AND B.ID_BL = X.ID_BL) AS LTL, ";
+            SQL += "(SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END ";
+            SQL += "FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "WHERE A.FL_DTA_HUB = 1 AND B.ID_BL = X.ID_BL) AS DTA_HUB, ";
+            SQL += "(SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END ";
+            SQL += "FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "WHERE A.FL_FREE_HAND = 1 AND B.ID_BL = X.ID_BL) AS FREEHAND ";
+            SQL += "FROM(SELECT A.ID_BL, A.NR_PROCESSO, TPC.ID_TIPO_CONTAINER, C.NR_CNTR, A.NR_BL, CONVERT(DATE, M.DT_PREVISAO_CHEGADA, 103) AS DT_PREVISAO_CHEGADA, ";
+            SQL += "CONVERT(DATE, M.DT_CHEGADA, 103) AS DT_CHEGADA, ISNULL(H.NM_RAZAO,'') AS TRANSPORTADORA, ";
+            SQL += "CONVERT(DATE, M.DT_EMBARQUE, 103) AS DT_EMBARQUE, D.NM_NAVIO, E.NM_TIPO_CARGA, F.NM_TIPO_ESTUFAGEM, G.NM_PORTO, A.VL_M3, A.VL_PESO_BRUTO ";
+            SQL += "FROM TB_BL A JOIN TB_AMR_CNTR_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "JOIN TB_CNTR_BL C ON B.ID_CNTR_BL = C.ID_CNTR_BL ";
+            SQL += "JOIN TB_TIPO_CONTAINER TPC ON C.ID_TIPO_CNTR = TPC.ID_TIPO_CONTAINER ";
+            SQL += "JOIN TB_BL M ON A.ID_BL_MASTER = M.ID_BL ";
+            SQL += "JOIN TB_NAVIO D ON A.ID_NAVIO = D.ID_NAVIO ";
+            SQL += "JOIN TB_TIPO_CARGA E ON A.ID_TIPO_CARGA = E.ID_TIPO_CARGA ";
+            SQL += "JOIN TB_TIPO_ESTUFAGEM F ON A.ID_TIPO_ESTUFAGEM = F.ID_TIPO_ESTUFAGEM ";
+            SQL += "JOIN TB_PORTO G ON M.ID_PORTO_ORIGEM = G.ID_PORTO ";
+            SQL += "JOIN TB_PARCEIRO H ON A.ID_PARCEIRO_TRANSPORTADOR=H.ID_PARCEIRO ";
+            SQL += "WHERE A.ID_TIPO_ESTUFAGEM = 2 AND A.DT_CANCELAMENTO IS NULL) X ";
+            SQL += "WHERE X.NM_NAVIO <> '' ";
+            SQL += "" + filter + " ";
+            SQL += "GROUP BY X.NR_PROCESSO, X.NR_CNTR, X.ID_BL, X.NM_NAVIO, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM, X.NM_PORTO, X.TRANSPORTADORA ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+            [WebMethod]
         public string listarReportOCR()
         {
             string SQL;

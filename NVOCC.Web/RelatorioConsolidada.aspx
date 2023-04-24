@@ -15,6 +15,11 @@
                                 <i class="fa fa-edit" style="padding-right: 8px;"></i>Relatório Consolidada
                             </a>
                         </li>
+                        <li id="tabprocessoAnaliticoGrid">
+                            <a href="#processoAnaliticoGrid" id="linkprocessoAnaliticoGrid" role="tab" data-toggle="tab">
+                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Relatório Analítico
+                            </a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="processoExpectGrid">
@@ -30,49 +35,146 @@
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
                                     <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label class="control-label">Data Previsão de Chegada Inicial:</label>
-                                                <input id="txtDtInicialConferenciaProcesso" class="form-control" type="date" required="required"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label class="control-label">Data Previsão de Chegada Final:</label>
-                                                <input id="txtDtFinalConferenciaProcesso" class="form-control" type="date" required="required"/>
-                                            </div>
-                                        </div>
                                         <div class="form-group">
-                                            <button type="button" id="btnConsultarConferenciaProcesso" onclick="listarRelatorioConsolidada()" class="btn btn-primary">Consultar</button>
+                                            <label class="control-label">Data Previsão de Chegada Inicial:</label>
+                                            <input id="txtDtInicialConferenciaProcesso" class="form-control" type="date" required="required"/>
                                         </div>
                                     </div>
-                                </div> 
-                                <div id="tableConferenciaProcesso" class="table-responsive fixedDoubleHead topMarg">
-                                    <table id="grdConferenciaProcesso" class="table tablecont">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center" scope="col">NAVIO</th>
-                                                <th class="text-center" scope="col">DATA EMBARQUE</th>
-                                                <th class="text-center" scope="col">PREVISAO CHEGADA</th>
-                                                <th class="text-center" scope="col">Nº CONTAINER</th>
-                                                <th class="text-center" scope="col">TIPO CARGA</th>
-                                                <th class="text-center" scope="col">TIPO ESTUFAGEM</th>
-                                                <th class="text-center" scope="col">QUANTIDADE BL</th>
-                                                <th class="text-center" scope="col">PORTO DE ORIGEM</th>
-                                                <th class="text-center" scope="col">METRAGEM</th>
-                                                <th class="text-center" scope="col">PESO</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="grdConferenciaProcessoBody">
-
-                                        </tbody>
-                                    </table>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Data Previsão de Chegada Final:</label>
+                                            <input id="txtDtFinalConferenciaProcesso" class="form-control" type="date" required="required"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Data Embarque</label>
+                                            <input id="txtDtEmbarqueConferenciaProcesso" class="form-control" type="date" required="required"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Data Chegada</label>
+                                            <input id="txtDtChegadaConferenciaProcesso" class="form-control" type="date" required="required"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" id="btnConsultarConferenciaProcesso" onclick="listarRelatorioConsolidada()" class="btn btn-primary">Consultar</button>
+                                    </div>
                                 </div>
+                            </div> 
+                            <div id="tableConferenciaProcesso" class="table-responsive fixedDoubleHead topMarg">
+                                <table id="grdConferenciaProcesso" class="table tablecont">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" scope="col">NAVIO</th>
+                                            <th class="text-center" scope="col">PORTO DE ORIGEM</th>
+                                            <th class="text-center" scope="col">DATA EMBARQUE</th>
+                                            <th class="text-center" scope="col">PREVISAO CHEGADA</th>
+                                            <th class="text-center" scope="col">CHEGADA</th>
+                                            <th class="text-center" scope="col">Nº CONTAINER</th>
+                                            <th class="text-center" scope="col">TIPO CONTAINER</th>
+                                            <th class="text-center" scope="col">TIPO ESTUFAGEM</th>
+                                            <th class="text-center" scope="col">TIPO CARGA</th>
+                                            <th class="text-center" scope="col">QUANTIDADE BL</th>
+                                            <th class="text-center" scope="col">PESO</th>
+                                            <th class="text-center" scope="col">METRAGEM</th>
+                                            <th class="text-center" scope="col">CARGA IMO</th>
+                                            <th class="text-center" scope="col">LTL</th>
+                                            <th class="text-center" scope="col">DTA HUB</th>
+                                            <th class="text-center" scope="col">FREE HAND</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="grdConferenciaProcessoBody">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="processoAnaliticoGrid">
+                            <div class="row topMarg">
+                                <div class="row">
+                                    
+                                </div>
+                                <div class="row" style="display: flex; margin:auto; margin-top:10px;">
+                                    <div style="margin: auto">
+                                        <button type="button" id="btnExportConferenciaProcessoAnalitco" class="btn btn-primary" onclick="exportConferenciaProcessoCSV('Conferencia_Conta_Corrente.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnPrintRelacaoCotacaoAnalitco" class="btn btn-primary" onclick="createPDF()">Imprimir</button>
+                                    </div>
+                                </div>
+                                <div class="row flexdiv topMarg" style="padding: 0 15px">
+                                    <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Data Previsão de Chegada Inicial:</label>
+                                                <input id="txtDtInicialConferenciaProcessoAnalitico" class="form-control" type="date" required="required"/>
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Data Previsão de Chegada Final:</label>
+                                            <input id="txtDtFinalConferenciaProcessoAnalitico" class="form-control" type="date" required="required"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Data Embarque</label>
+                                            <input id="txtDtEmbarqueAnaliticoConferenciaProcesso" class="form-control" type="date" required="required"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Data Chegada</label>
+                                            <input id="txtDtChegadaAnaliticoConferenciaProcesso" class="form-control" type="date" required="required"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display:flex;align-items:center; margin-bottom: 0px; margin-left: 10px;">
+                                        <div>
+                                            <asp:CheckBox ID="chkLTL" runat="server" CssClass="form-control noborder" Text="&nbsp;LTL"></asp:CheckBox>
+                                        </div>
+                                        <div>
+                                            <asp:CheckBox ID="chkDTAHUB" runat="server" CssClass="form-control noborder" Text="&nbsp;DTA HUB"></asp:CheckBox>
+                                        </div>
+                                        <div>
+                                            <asp:CheckBox ID="chkTranspDedic" runat="server" CssClass="form-control noborder" Text="&nbsp;TRANSP. DEDICADO"></asp:CheckBox>
+                                        </div>
+                                    </div>                                   
+                                    <div class="form-group">
+                                        <button type="button" id="btnConsultarConferenciaProcessoAnalitico" onclick="listarRelatorioConsolidadaAnalitico()" class="btn btn-primary">Consultar</button>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div id="tableConferenciaProcessoAnalitico" class="table-responsive fixedDoubleHead topMarg">
+                                <table id="grdConferenciaProcessoAnalitico" class="table tablecont">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" scope="col">NAVIO</th>
+                                            <th class="text-center" scope="col">PORTO DE ORIGEM</th>
+                                            <th class="text-center" scope="col">DATA EMBARQUE</th>
+                                            <th class="text-center" scope="col">PREVISAO CHEGADA</th>
+                                            <th class="text-center" scope="col">CHEGADA</th>
+                                            <th class="text-center" scope="col">Nº PROCESSO</th>
+                                            <th class="text-center" scope="col">TIPO CARGA</th>
+                                            <th class="text-center" scope="col">TIPO ESTUFAGEM</th>
+                                            <th class="text-center" scope="col">METRAGEM</th>
+                                            <th class="text-center" scope="col">PESO</th>
+                                            <th class="text-center" scope="col">FREE HAND</th>
+                                            <th class="text-center" scope="col">LTL</th>
+                                            <th class="text-center" scope="col">DTA HUB</th>
+                                            <th class="text-center" scope="col">TRANSP. DEDICADO</th>
+                                            <th class="text-center" scope="col">TRANSPORTADORA</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="grdConferenciaProcessoAnaliticoBody">
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
@@ -83,17 +185,20 @@
 
     <script>
         function listarRelatorioConsolidada() {
+            var result = "";
             var dtInicial = document.getElementById("txtDtInicialConferenciaProcesso").value;
             var dtFinal = document.getElementById("txtDtFinalConferenciaProcesso").value;
+            var dtChegada = document.getElementById("txtDtChegadaConferenciaProcesso").value;
+            var dtEmbarque = document.getElementById("txtDtEmbarqueConferenciaProcesso").value;
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/listarRelatorioConsolidada",
-                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '"}',
+                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", dataC: "' + dtChegada + '", dataE: "' + dtEmbarque+'"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     beforeSend: function () {
                         $("#grdConferenciaProcessoBody").empty();
-                        $("#grdConferenciaProcessoBody").append("<tr><td colspan='6'><div class='loader'></div></td></tr>");
+                        $("#grdConferenciaProcessoBody").append("<tr><td colspan='16'><div class='loader'></div></td></tr>");
                     },
                     success: function (dado) {
                         var dado = dado.d;
@@ -101,24 +206,84 @@
                         $("#grdConferenciaProcessoBody").empty();
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
-                                $("#grdConferenciaProcessoBody").append("<tr style='word-break: break-word'>" +
-                                    "<td class='text-center'> " + dado[i]["NM_NAVIO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["EMBARQUE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["PREVISAO_CHEGADA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CARGA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>" +
-                                    "<td class='text-center'> " + dado[i]["BL"] + "</td>" +
-                                    "<td class='text-center'> " + dado[i]["PORTO_ORIGEM"] + "</td>" +
-                                    "<td class='text-center'> " + dado[i]["METRAGEM"] + "</td>" +
-                                    "<td class='text-center'> " + dado[i]["PESO"] + "</td></tr > ");
+                                result += "<tr style='word-break: break-word'>";
+                                result += "<td class='text-center'> " + dado[i]["NM_NAVIO"] + "</td>";
+                                result += "<td class='text-center'> " + dado[i]["PORTO_ORIGEM"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["EMBARQUE"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["PREVISAO_CHEGADA"] + "</td>";
+                                result += "<td class='text-center'> " + dado[i]["CHEGADA"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["TIPO_CNTR"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["NM_TIPO_CARGA"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["BL"] + "</td>";
+                                result += "<td class='text-center'> " + dado[i]["PESO"].toFixed(3) + "</td>";
+                                result += "<td class='text-center'> " + dado[i]["METRAGEM"].toFixed(3) + "</td>";
+                                result += "<td class='text-center'> " + dado[i]["IMO"] + "</td>";
+                                result += "<td class='text-center'> " + dado[i]["LTL"] + "</td>";
+                                result += "<td class='text-center'> " + dado[i]["DTA_HUB"] + "</td>";
+                                result += "<td class='text-center'> " + dado[i]["FREEHAND"] + "</td>";
+                                result += "</tr>";
                             }
+                            $("#grdConferenciaProcessoBody").append(result);
                         }
                         else {
-                            $("#grdConferenciaProcessoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='6' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                            $("#grdConferenciaProcessoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='16' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
                         }
                     }
                 })
+        }
+
+        function listarRelatorioConsolidadaAnalitico() {
+            var result = "";
+            var dtInicial = document.getElementById("txtDtInicialConferenciaProcessoAnalitico").value;
+            var dtFinal = document.getElementById("txtDtFinalConferenciaProcessoAnalitico").value;
+            var dtChegada = document.getElementById("txtDtChegadaAnaliticoConferenciaProcesso").value;
+            var dtEmbarque = document.getElementById("txtDtEmbarqueAnaliticoConferenciaProcesso").value;
+            var checkLTL = document.getElementById("MainContent_chkLTL").checked ? 1 : 0;
+            var checkDTAHUB = document.getElementById("MainContent_chkDTAHUB").checked ? 1 : 0;
+            var checkTranspDedic = document.getElementById("MainContent_chkTranspDedic").checked ? 1 : 0;
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/listarRelatorioConsolidadaAnalitico",
+                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", dataC: "' + dtChegada + '", dataE: "' + dtEmbarque + '", ltl: ' + checkLTL + ', dtahub: ' + checkDTAHUB + ', transp: ' + checkTranspDedic + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#grdConferenciaProcessoAnaliticoBody").empty();
+                    $("#grdConferenciaProcessoAnaliticoBody").append("<tr><td colspan='16'><div class='loader'></div></td></tr>");
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    $("#grdConferenciaProcessoAnaliticoBody").empty();
+                    if (dado != null) {
+                        for (let i = 0; i < dado.length; i++) {
+                            result += "<tr style='word-break: break-word'>";
+                            result += "<td class='text-center'> " + dado[i]["NM_NAVIO"] + "</td>";
+                            result += "<td class='text-center'> " + dado[i]["PORTO_ORIGEM"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["EMBARQUE"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["PREVISAO_CHEGADA"] + "</td>";
+                            result += "<td class='text-center'> " + dado[i]["CHEGADA"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["NM_TIPO_CARGA"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>";
+                            result += "<td class='text-center'> " + dado[i]["METRAGEM"].toFixed(3) + "</td>";
+                            result += "<td class='text-center'> " + dado[i]["PESO"].toFixed(3) + "</td>";
+                            result += "<td class='text-center'> " + dado[i]["FREEHAND"] + "</td>";
+                            result += "<td class='text-center'> " + dado[i]["LTL"] + "</td>";
+                            result += "<td class='text-center'> " + dado[i]["DTA_HUB"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["TRANSP"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["TRANSPORTADORA"] + "</td>";
+                            result += "</tr>";
+                        }
+                        $("#grdConferenciaProcessoAnaliticoBody").append(result);
+                    }
+                    else {
+                        $("#grdConferenciaProcessoAnaliticoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='16' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                    }
+                }
+            })
         }
 
         function exportConferenciaProcessoCSV(filename) {
