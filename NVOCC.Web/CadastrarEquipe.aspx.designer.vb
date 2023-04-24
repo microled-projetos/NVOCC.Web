@@ -536,13 +536,13 @@ Partial Public Class CadastrarEquipe
     Protected WithEvents dgvMembrosTime As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle Button5.
+    '''Controle btnFecharMontaTime.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button5 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnFecharMontaTime As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle TextBox2.
@@ -597,4 +597,22 @@ Partial Public Class CadastrarEquipe
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsLideres As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsUsuariosTime.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsUsuariosTime As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsMembrosTime.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsMembrosTime As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

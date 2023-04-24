@@ -254,12 +254,14 @@
         Else
 
             'INSERT
-            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_INSIDE_TIME WHERE NOME_TIME = '" & txtNomeTime.Text & "' AND QTD_MEMBROS = " & txtQtdMembrosTime.Text)
+            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_INSIDE_TIME WHERE NM_TIME = '" & txtNomeTime.Text & "' AND QTD_MEMBROS = " & txtQtdMembrosTime.Text)
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-                Con.ExecutarQuery("INSERT INTO TB_INSIDE_TIME (NM_TIME,QTD_MEMBROS) VALUES ( '" & txtNomeTime.Text & "' , " & txtQtdMembrosTime.Text & " )")
+                ds = Con.ExecutarQuery("INSERT INTO TB_INSIDE_TIME (NM_TIME,QTD_MEMBROS) VALUES ( '" & txtNomeTime.Text & "' , " & txtQtdMembrosTime.Text & " ) Select SCOPE_IDENTITY() as ID_TIME ")
+                txtIDTime.Text = ds.Tables(0).Rows(0).Item("ID_TIME")
+                Con.ExecutarQuery("INSERT INTO TB_INSIDE_EQUIPE_MEMBROS (ID_EQUIPE,ID_TIME) VALUES (" & txtIDEquipe.Text & " , " & txtIDTime.Text & " ) ")
                 divTimeSuccess.Visible = True
-                lblSuccessTime.Text = "Lider cadastrado com sucesso!"
+                lblSuccessTime.Text = "Time cadastrado com sucesso!"
                 divMembroTime.Visible = True
             Else
                 divTimeErro.Visible = True
@@ -309,5 +311,23 @@
         End If
         mpeMontarEquipe.Show()
         mpeMontarTime.Show()
+    End Sub
+
+    Private Sub txtBuscaMembrosTime_TextChanged(sender As Object, e As EventArgs) Handles txtBuscaMembrosTime.TextChanged
+        mpeMontarEquipe.Show()
+        mpeMontarTime.Show()
+    End Sub
+
+    Private Sub btnFecharMontaTime_Click(sender As Object, e As EventArgs) Handles btnFecharMontaTime.Click
+        txtIDTime.Text = ""
+        txtNomeTime.Text = ""
+        txtQtdMembrosTime.Text = ""
+        txtCodMembrosTime.Text = ""
+        txtBuscaMembrosTime.Text = ""
+        ddlMembroTime.SelectedValue = 0
+        divTimeErro.Visible = False
+        divTimeSuccess.Visible = False
+        dgvMembrosTime.DataBind()
+        gdvLideres.DataBind()
     End Sub
 End Class
