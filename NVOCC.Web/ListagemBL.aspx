@@ -135,7 +135,7 @@
                                     <div class="table-responsive tableFixHead DivGridEmbarque" id="DivGridEmbarque">
                                         <asp:TextBox ID="txtPosicaoEmbarque" Style="display: none" runat="server"></asp:TextBox>
 
-                                        <asp:GridView ID="dgvEmbarque" DataKeyNames="ID_BL" DataSourceID="dsEmbarque" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvEmbarque_Sorting">
+                                        <asp:GridView ID="dgvEmbarque" DataKeyNames="ID_BL" DataSourceID="dsEmbarque" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvEmbarque_Sorting">  <%--PageSize="300" AllowPaging="true"--%>
                                             <Columns>
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
@@ -442,7 +442,7 @@
 
                                     <div runat="server" class="table-responsive tableFixHead DivGridMaster" id="DivGridMaster">
                                         <asp:TextBox ID="txtPosicaoMaster" Style="display: none" runat="server"></asp:TextBox>
-                                        <asp:GridView ID="dgvMaster" DataKeyNames="ID_BL" DataSourceID="dsMaster" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvMaster_Sorting">
+                                        <asp:GridView ID="dgvMaster" DataKeyNames="ID_BL" DataSourceID="dsMaster" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvMaster_Sorting" ><%--PageSize="300" AllowPaging="true"--%>
                                             <Columns>
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
@@ -624,7 +624,7 @@
 
                                     <div class="table-responsive tableFixHead DivGridHouse" id="DivGridHouse">
                                         <asp:TextBox ID="txtPosicaoHouse" Style="display: none" runat="server"></asp:TextBox>
-                                        <asp:GridView ID="dgvHouse" DataKeyNames="ID_BL" DataSourceID="dsHouse" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvHouse_Sorting">
+                                        <asp:GridView ID="dgvHouse" DataKeyNames="ID_BL" DataSourceID="dsHouse" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvHouse_Sorting" ><%--PageSize="300" AllowPaging="true"--%>
                                             <Columns>
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
@@ -893,16 +893,16 @@
 
 
     <asp:SqlDataSource ID="dsHouse" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT TOP 500  * FROM View_House
-WHERE  ID_BL_MASTER IS NOT NULL AND ID_SERVICO = 1 AND GRAU = 'C' ORDER BY ID_BL DESC "></asp:SqlDataSource>
+        SelectCommand="SELECT TOP 300  * FROM View_House
+WHERE ID_SERVICO = 1 AND GRAU = 'C' ORDER BY ID_BL DESC "></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsMaster" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT TOP 500  * FROM View_Master
-WHERE GRAU = 'M' and ID_SERVICO = 1 ORDER BY ID_BL DESC "></asp:SqlDataSource>
+        SelectCommand="SELECT TOP 300  * FROM View_Master
+WHERE ID_SERVICO = 1 ORDER BY ID_BL DESC "></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsEmbarque" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT TOP 500  * FROM View_Embarque
-WHERE GRAU = 'C' and ID_BL_MASTER is null and ID_SERVICO = 1 ORDER BY ID_BL DESC "></asp:SqlDataSource>
+        SelectCommand="SELECT TOP 300  * FROM View_Embarque
+WHERE ID_SERVICO = 1 ORDER BY ID_BL DESC "></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsDocConferidoMaster" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT  ID_BL_HIST_DOC, CASE WHEN FL_DOC_CONFERIDO = 1 THEN 'Sim' else 'Não' end DOCCONFERIDO, NOME,DATA	 FROM TB_BL_HIST_DOC A

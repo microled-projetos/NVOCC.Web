@@ -445,13 +445,13 @@ WHERE ID_PARCEIRO =" & ID)
                     msgErro.Visible = True
                     msgErro.Text = "Usuário não possui permissão para cadastrar."
                 Else
-                    ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "'")
+                    ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "' AND FL_ATIVO = 1")
                     If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
                         msgErro.Text = "Já existe Parceiro com este CNPJ"
                         divmsg1.Visible = True
                         msgErro.Visible = True
                     Else
-                        ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "'")
+                        ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "' AND FL_ATIVO = 1")
                         If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
                             msgErro.Text = "Já existe Parceiro com este CPF"
                             divmsg1.Visible = True
@@ -879,13 +879,13 @@ WHERE ID_PARCEIRO =" & ID)
                     msgErro.Visible = True
                     msgErro.Text = "Usuário não possui permissão para alterar."
                 Else
-                    ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "' AND ID_PARCEIRO <> " & txtID.Text)
+                    ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "' AND FL_ATIVO = 1 AND ID_PARCEIRO <> " & txtID.Text)
                     If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue = 1 Then
                         msgErro.Text = "Já existe Parceiro com este CNPJ"
                         divmsg1.Visible = True
                         msgErro.Visible = True
                     Else
-                        ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "' AND ID_PARCEIRO <> " & txtID.Text)
+                        ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "' AND FL_ATIVO = 1 AND ID_PARCEIRO <> " & txtID.Text)
                         If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue = 2 Then
                             msgErro.Text = "Já existe Parceiro com este CPF"
                             divmsg1.Visible = True
@@ -1605,7 +1605,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
         Else
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "' and TP_PESSOA <> 3")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "' AND FL_ATIVO = 1 AND TP_PESSOA <> 3")
             If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
                 msgErro.Text = "Já existe Parceiro com este CNPJ"
                 divmsg1.Visible = True
@@ -1625,7 +1625,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
         Else
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "'")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "' AND FL_ATIVO = 1")
             If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
                 msgErro.Text = "Já existe Parceiro com este CPF"
                 divmsg1.Visible = True
