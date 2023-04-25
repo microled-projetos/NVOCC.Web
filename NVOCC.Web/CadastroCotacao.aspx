@@ -1330,7 +1330,6 @@
                                                     <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto" SortExpression="VL_PESO_BRUTO" />
                                                     <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />
                                                     <asp:BoundField DataField="ESTUFAGEM" HeaderText="Estufagem" SortExpression="ESTUFAGEM" />
-                                                    <asp:BoundField DataField="TARIFA_SPOT" HeaderText="Acordo Comercial" SortExpression="TARIFA_SPOT" Visible="false" />
                                                     <asp:TemplateField HeaderText="">
                                                         <ItemTemplate>
                                                             <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO_MERCADORIA") %>'
