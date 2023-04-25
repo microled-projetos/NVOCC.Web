@@ -73,17 +73,19 @@
                                         <tr>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">PROCESSO</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">CLIENTE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">IMPORTADOR</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CLIENTE FINAL</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">ORIGEM</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">DESTINO</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">TIPO FRETE</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">TIPO ESTUFAGEM</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">AGENTE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">PESO BRUTO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">PESO VOLUMÉTRICO</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">AGENTE INTERNACIONAL</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">PREVISÃO EMBARQUE</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">DATA EMBARQUE</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">PREVISÃO CHEGADA</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">DATA CHEGADA</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">FREE TIME</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">TRANSPORTADOR</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">BL MASTER</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">BL HOUSE</th>
@@ -92,7 +94,8 @@
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">DATA REDESTINAÇÃO</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">DATA DESCONSOLIDAÇÃO</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">WEEK</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">NAVIO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">NAVIO ORIGEM</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">NAVIO ULTIMO TRANSBORDO</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">TERMO</th>
                                         </tr>
                                     </thead>
@@ -140,13 +143,13 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-2">
                                                 <div class="form-group">
                                                     <label class="control-label">Tipo Frete</label>
                                                     <asp:DropDownList ID="ddlTipoFrete" runat="server" CssClass="form-control" DataTextField="NM_TIPO_PAGAMENTO" DataValueField="ID_TIPO_PAGAMENTO"></asp:DropDownList>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-2">
                                                 <div class="form-group">
                                                     <label class="control-label">Tipo Estufagem</label>
                                                     <asp:DropDownList ID="ddlTipoEstufagem" runat="server" CssClass="form-control" DataTextField="NM_TIPO_ESTUFAGEM" DataValueField="ID_TIPO_ESTUFAGEM"></asp:DropDownList>
@@ -154,8 +157,14 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <label class="control-label">Agente</label>
-                                                    <asp:DropDownList ID="ddlAgenteFilter" runat="server" CssClass="form-control" DataTextField="NM_RAZAO" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                                    <label class="control-label">Cliente Final</label>
+                                                    <asp:DropDownList ID="ddlClienteFinal" runat="server" CssClass="form-control" DataTextField="NM_RAZAO" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Importador</label>
+                                                    <asp:DropDownList ID="ddlImportadorFilter" runat="server" CssClass="form-control" DataTextField="NM_RAZAO" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                                 </div>
                                             </div>
                                         </div>
@@ -284,11 +293,17 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="form-group">
-                                                    <label class="control-label">Navio</label>
+                                                    <label class="control-label">Navio Origem</label>
                                                     <asp:DropDownList ID="ddlNavioFilter" runat="server" CssClass="form-control" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO"></asp:DropDownList>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Navio Transbordo</label>
+                                                    <asp:DropDownList ID="ddlNavioTransbordoFilter" runat="server" CssClass="form-control" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO"></asp:DropDownList>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">Agente Internacional</label>
                                                     <asp:DropDownList ID="ddlAgenteInternacional" runat="server" CssClass="form-control" DataTextField="NM_RAZAO" DataValueField="ID_PARCEIRO"></asp:DropDownList>
@@ -821,7 +836,6 @@
     <script>
 
         $(document).ready(function () {
-            listarProcessosOperacional();
             $("#tblModuloOperacional").tablesorter({
                 dateFormat: "ddmmyyyy",
                 headers: {
@@ -852,7 +866,7 @@
                 document.getElementById("MainContent_ddlPortoDestinoFilter"),
                 document.getElementById("MainContent_ddlTipoFrete"),
                 document.getElementById("MainContent_ddlTipoEstufagem"),
-                document.getElementById("MainContent_ddlAgenteFilter"),
+                document.getElementById("MainContent_ddlImportadorFilter"),
                 document.getElementById("dtPrevisaoEmbarqueInicioFilter"),
                 document.getElementById("dtPrevisaoEmbarqueFimFilter"),
                 document.getElementById("dtEmbarqueInicioFilter"),
@@ -873,7 +887,9 @@
                 document.getElementById("dtDesconsolidacaoFimFilter"),
                 document.getElementById("MainContent_ddlWeekFilter"),
                 document.getElementById("MainContent_ddlNavioFilter"),
-                document.getElementById("MainContent_ddlAgenteInternacional")
+                document.getElementById("MainContent_ddlNavioTransbordoFilter"),
+                document.getElementById("MainContent_ddlAgenteInternacional"),
+                document.getElementById("MainContent_ddlClienteFinal")
             ]
 
             for (let i = 0; i < dadosFiltro.length; i++) {
@@ -883,6 +899,7 @@
         }
 
         function listarProcessosOperacional() {
+            var result = "";
             var dadosFiltro = {
                 "via": document.getElementById("MainContent_ddlVia").value,
                 "etapa": document.getElementById("MainContent_ddlEtapa").value,
@@ -894,7 +911,7 @@
                 "destino": document.getElementById("MainContent_ddlPortoDestinoFilter").value,
                 "frete": document.getElementById("MainContent_ddlTipoFrete").value,
                 "estufagem": document.getElementById("MainContent_ddlTipoEstufagem").value,
-                "agente": document.getElementById("MainContent_ddlAgenteFilter").value,
+                "importador": document.getElementById("MainContent_ddlImportadorFilter").value,
                 "pembarqueinicio": document.getElementById("dtPrevisaoEmbarqueInicioFilter").value,
                 "pembarquefim": document.getElementById("dtPrevisaoEmbarqueFimFilter").value,
                 "dtembarqueinicio": document.getElementById("dtEmbarqueInicioFilter").value,
@@ -903,7 +920,6 @@
                 "pchegadafim": document.getElementById("dtPrevisaoChegadaFimFilter").value,
                 "dtchegadainicio": document.getElementById("dtChegadaInicioFilter").value,
                 "dtchegadafim": document.getElementById("dtChegadaFimFilter").value,
-                "freetime": document.getElementById("dtFreetimeFilter").value,
                 "transportador": document.getElementById("MainContent_ddlTransportadorFilter").value,
                 "blmaster": document.getElementById("nrMasterFilter").value,
                 "blhouse": document.getElementById("nrHouseFilter").value,
@@ -915,7 +931,9 @@
                 "dtdesconsolidacaofim": document.getElementById("dtDesconsolidacaoFimFilter").value,
                 "week": document.getElementById("MainContent_ddlWeekFilter").value,
                 "navio": document.getElementById("MainContent_ddlNavioFilter").value,
-                "agenteinternacional": document.getElementById("MainContent_ddlAgenteInternacional").value
+                "naviotransbordo": document.getElementById("MainContent_ddlNavioTransbordoFilter").value,
+                "agenteinternacional": document.getElementById("MainContent_ddlAgenteInternacional").value,
+                "clientefinal": document.getElementById("MainContent_ddlClienteFinal").value
             }
             $.ajax({
                 type: "POST",
@@ -933,16 +951,39 @@
                     if (dado != null) {
                         $("#tblModuloOperacionalBody").empty();
                         for (let i = 0; i < dado.length; i++) {
-                            $("#tblModuloOperacionalBody").append("<tr data-id='" + dado[i]["HOUSE"] + "'><td class='text-center' style='display: flex; align-items: center'><span class='btn btn-primary select' onclick='setId(" + dado[i]["HOUSE"] + ")' style='margin-right: 10px'>Selecionar</span><div>" + dado[i]["PROCESSO"] + "</div></td>" +
-                                "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'><div>" + dado[i]["CLIENTE"] + "</div></td><td class='text-center'><div>" + dado[i]["ORIGEM"] + "</div></td><td class='text-center'><div>" + dado[i]["DESTINO"] + "</div></td>" +
-                                "<td class='text-center'><div>" + dado[i]["TPAGAMENTO"] + "</div></td><td class='text-center'><div>" + dado[i]["TESTUFAGEM"] + "</div></td><td class='text-center' title='" + dado[i]["AGENTE"] + "' style='max-width: 14ch;'><div>" + dado[i]["AGENTE"] + "</div></td>" +
-                                "<td class='text-center' title='" + dado[i]["AGENTE_INTERNACIONAL"] + "' style='max-width: 14ch;'><div>" + dado[i]["AGENTE_INTERNACIONAL"] + "</div></td><td class='text-center'><div>" + dado[i]["PEMBARQUE"] + "</div></td><td class='text-center'><div>" + dado[i]["EMBARQUE"] + "</div></td><td class='text-center'><div>" + dado[i]["PCHEGADA"] + "</div></td>" +
-                                "<td class='text-center'><div>" + dado[i]["CHEGADA"] + "</div></td><td class='text-center'><div></div></td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 8ch;'><div>" + dado[i]["TRANSPORTADOR"] + "</div></td>" +
-                                "<td class='text-center'><div>" + dado[i]["BLMASTER"] + "</div></td><td class='text-center'><div>" + dado[i]["BLHOUSE"] + "</div></td><td class='text-center'><div>" + dado[i]["CEMASTER"] + "</div></td><td class='text-center'><div>" + dado[i]["CEHOUSE"] + "</div></td>" +
-                                "<td class='text-center'><div>" + dado[i]["REDESTINACAO"] + "</div></td><td class='text-center'><div>" + dado[i]["DESCONSOLIDACAO"] + "</div></td><td class='text-center'><div>" + dado[i]["WEEK"] + "</div></td>" +
-                                "<td class='text-center' title='" + dado[i]["NAVIO"] + "' style='max-width: 10ch;'><div>" + dado[i]["NAVIO"] + "</div></td><td class='text-center' title='" + dado[i]["TERMO"] + "' style='max-width: 25ch;'><div>" + dado[i]["TERMO"] + "</div></td></tr> ");
+                            result += "<tr data-id='" + dado[i]["HOUSE"] + "'>";
+                            result += "<td class='text-center' style='display: flex; align-items: center'><span class='btn btn-primary select' onclick='setId(" + dado[i]["HOUSE"] + ")' style='margin-right: 10px'>Selecionar</span><div>" + dado[i]["PROCESSO"] + "</div></td>";
+                            result += "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'><div>" + dado[i]["CLIENTE"] + "</div></td>";
+                            result += "<td class='text-center' title='" + dado[i]["IMPORTADOR"] + "' style='max-width: 14ch;'><div>" + dado[i]["IMPORTADOR"] + "</div></td>";
+                            result += "<td class='text-center' title='" + dado[i]["CLIENTE_FINAL"] + "' style='max-width: 14ch;'><div>" + dado[i]["CLIENTE_FINAL"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["ORIGEM"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["DESTINO"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["TPAGAMENTO"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["TESTUFAGEM"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["VL_PESO_BRUTO"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["VL_M3"] + "</div></td>";
+                            result += "<td class='text-center' title='" + dado[i]["AGENTE_INTERNACIONAL"] + "' style='max-width: 14ch;'><div>" + dado[i]["AGENTE_INTERNACIONAL"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["PEMBARQUE"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["EMBARQUE"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["PCHEGADA"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["CHEGADA"] + "</div></td>";
+                            result += "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 8ch;'><div>" + dado[i]["TRANSPORTADOR"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["BLMASTER"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["BLHOUSE"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["CEMASTER"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["CEHOUSE"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["REDESTINACAO"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["DESCONSOLIDACAO"] + "</div></td>";
+                            result += "<td class='text-center'><div>" + dado[i]["WEEK"] + "</div></td>";
+                            result += "<td class='text-center' title='" + dado[i]["NAVIO"] + "' style='max-width: 10ch;'><div>" + dado[i]["NAVIO"] + "</div></td>";
+                            result += "<td class='text-center' title='" + dado[i]["NAVIO_TRANSBORDO"] + "' style='max-width: 10ch;'><div>" + dado[i]["NAVIO_TRANSBORDO"] + "</div></td>";
+                            result += "<td class='text-center' title='" + dado[i]["TERMO"] + "' style='max-width: 25ch;'><div>" + dado[i]["TERMO"] + "</div></td>";
+                            result += "</tr>";
+
+                            
 
                         }
+                        $("#tblModuloOperacionalBody").append(result)
                         $("#tblModuloOperacional").trigger("update"); 
                     }
 
