@@ -24,6 +24,7 @@ namespace ABAINFRA.Web
                 CarregarStatus();
                 CarregarContaBancaria();
                 CarregarFiltroFatura();
+                CarregarTamanhoContainer();
                 /*                CarregarArmador();
                 */
             }
@@ -67,6 +68,19 @@ namespace ABAINFRA.Web
             ddlTipoContainer.DataBind();
             ddlTipoContainer.Items.Insert(0, new ListItem("Selecione", ""));
         }
+
+        protected void CarregarTamanhoContainer()
+        {
+            SQL = "SELECT * FROM TB_TAMANHO_CONTAINER ";
+            DataTable tamanhoContainerDemurrage = new DataTable();
+            tamanhoContainerDemurrage = DBS.List(SQL);
+            Session["TaskTableTamanhoContainerDemurrage"] = tamanhoContainerDemurrage;
+            ddlTamanhoContainer.DataSource = Session["TaskTableTamanhoContainerDemurrage"];
+            ddlTamanhoContainer.DataBind();
+            ddlTamanhoContainer.Items.Insert(0, new ListItem("Selecione", ""));
+        }
+
+        
 
         /*protected void CarregarArmador()
         {

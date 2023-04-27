@@ -457,6 +457,7 @@
                                                 <tr>
                                                     <th class="text-center" scope="col">Tipo Container</th>
                                                     <th class="text-center" scope="col">Data de Validade Inicial</th>
+                                                    <th class="text-center" scope="col">Carga IMO</th>
                                                     <th class="text-center" scope="col"></th>
                                                 </tr>
                                             </thead>
@@ -522,6 +523,12 @@
                                                 <label class="control-label">Moeda<span class="required">*</span></label>
                                                 <asp:DropDownList ID="ddlMoeda" runat="server" CssClass="form-control" DataValueField="ID_MOEDA" DataTextField="NM_MOEDA">
                                                 </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Tamanho Container <span class="required">*</span></label>
+                                                <asp:DropDownList ID="ddlTamanhoContainer" runat="server" CssClass="form-control" DataTextField="CD_TAMANHO_CONTAINER" DataValueField="ID_TAMANHO_CONTAINER" Enabled="false"></asp:DropDownList>
                                             </div>
                                         </div>
                                     </div>
@@ -1657,6 +1664,21 @@
             insertListaArmador()
         });
 
+        $("#MainContent_checkIMO").change(function () {
+            var checkboxIMO = document.getElementById("MainContent_checkIMO");
+            var listTamanhoContainer = document.getElementById("MainContent_ddlTamanhoContainer");
+            var listTipoContainer = document.getElementById("MainContent_ddlTipoContainer");
+            if (checkboxIMO.checked) {
+                listTamanhoContainer.removeAttribute("Disabled");
+                $(listTipoContainer).attr("disabled", "true");
+                listTipoContainer.value = "";
+            } else {
+                $(listTamanhoContainer).attr("disabled", "true");
+                listTipoContainer.removeAttribute("Disabled");
+                listTamanhoContainer.value = "";
+            }
+        })
+
         $("#ddlfiltroTabelaDemu").change(function () {
             armadorT = document.getElementById("ddlfiltroTabelaDemu").value;
             listarTabelaDemurrage();
@@ -1712,7 +1734,7 @@
                     if (dado != null) {
                         $("#grdDemurrageContainer").empty();
                         for (let i = 0; i < dado.length; i++) {
-                            $("#grdDemurrageContainer").append("<tr><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td><td class='text-center'>" + dado[i]["DT_VALIDADE_INICIAL_FORMAT"] + "</td>" +
+                            $("#grdDemurrageContainer").append("<tr><td class='text-center'>" + dado[i]["TIPO_CONTAINER"] + "</td><td class='text-center'>" + dado[i]["DT_VALIDADE_INICIAL_FORMAT"] + "</td><td class='text-center'>" + dado[i]["CARGA_IMO"] + "</td>" +
                                 "<td class='text-center'> <div class='btn btn-primary pad' data-toggle='modal' data-target='#modalDemurrage' onclick='BuscarDemurrage(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-eye'></i></div>" +
                                 "<div class='deleteDemurrage btn btn-primary pad' data-id='" + dado[i]["ID_TABELA_DEMURRAGE"] + "' onclick='SetIdDelete(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-trash'></i></div></td></tr>");
                         }
@@ -1798,6 +1820,7 @@
                     document.getElementById("vlDemurrage7").value = data.VL_VENDA_07;
                     document.getElementById("dtDemurrage8").value = data.QT_DIAS_08;
                     document.getElementById("vlDemurrage8").value = data.VL_VENDA_08;
+                    document.getElementById("MainContent_ddlTamanhoContainer").value = data.ID_TAMANHO_CONTAINER;
 
 
                     var forms = ['MainContent_ddlParceiroTransportador',
@@ -1808,6 +1831,7 @@
                         'MainContent_checkEsc',
                         'MainContent_checkIMO',
                         'MainContent_checkInicioFreetime',
+                        'MainContent_ddlTamanhoContainer',
                         'dtDemurrage1',
                         'vlDemurrage1',
                         'dtDemurrage2',
@@ -1869,6 +1893,7 @@
             }
             var formsempty = ['MainContent_ddlParceiroTransportador',
                 'MainContent_ddlTipoContainer',
+                'MainContent_ddlTamanhoContainer',
                 'dtValidade',
                 'qtFreetime',
                 'MainContent_ddlMoeda',
@@ -1911,6 +1936,7 @@
                 'MainContent_checkEsc',
                 'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
+                'MainContent_ddlTamanhoContainer',
                 'dtDemurrage1',
                 'vlDemurrage1',
                 'dtDemurrage2',
@@ -1944,6 +1970,7 @@
                 'MainContent_checkEsc',
                 'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
+                'MainContent_ddlTamanhoContainer',
                 'dtDemurrage1',
                 'vlDemurrage1',
                 'dtDemurrage2',
@@ -2016,7 +2043,8 @@
                 "QT_DIAS_07": document.getElementById("dtDemurrage7").value,
                 "VL_VENDA_07": document.getElementById("vlDemurrage7").value,
                 "QT_DIAS_08": document.getElementById("dtDemurrage8").value,
-                "VL_VENDA_08": document.getElementById("vlDemurrage8").value
+                "VL_VENDA_08": document.getElementById("vlDemurrage8").value,
+                "ID_TAMANHO_CONTAINER": document.getElementById("MainContent_ddlTamanhoContainer").value
             }
             $.ajax({
                 type: "POST",
@@ -4935,7 +4963,8 @@
                 "QT_DIAS_07": document.getElementById("dtDemurrage7").value,
                 "VL_VENDA_07": document.getElementById("vlDemurrage7").value,
                 "QT_DIAS_08": document.getElementById("dtDemurrage8").value,
-                "VL_VENDA_08": document.getElementById("vlDemurrage8").value
+                "VL_VENDA_08": document.getElementById("vlDemurrage8").value,
+                "ID_TAMANHO_CONTAINER": document.getElementById("MainContent_ddlTamanhoContainer").value
             }
             $.ajax({
                 type: "POST",

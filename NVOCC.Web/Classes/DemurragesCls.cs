@@ -14,7 +14,7 @@ namespace ABAINFRA.Web.Classes
     {
         private int id_tabela_demurrage;
         private int id_parceiro_transportador;
-        private int id_tipo_container;
+        private string id_tipo_container;
         private string dt_validade_final;
         private string dt_validade_inicial;
         private string qt_dias_freetime;
@@ -38,10 +38,11 @@ namespace ABAINFRA.Web.Classes
         private string qt_dias_08;
         private string vl_venda_08;
         private string fl_carga_imo;
+        private string id_tamanho_container;
 
         public int ID_TABELA_DEMURRAGE { get => id_tabela_demurrage; set => id_tabela_demurrage = value; }
         public int ID_PARCEIRO_TRANSPORTADOR { get => id_parceiro_transportador; set => id_parceiro_transportador = value; }
-        public int ID_TIPO_CONTAINER { get => id_tipo_container; set => id_tipo_container = value; }
+        public string ID_TIPO_CONTAINER { get => id_tipo_container; set => id_tipo_container = value; }
         public string DT_VALIDADE_FINAL { get => dt_validade_final; set => dt_validade_final = value; }
         public string DT_VALIDADE_INICIAL { get => dt_validade_inicial; set => dt_validade_inicial = value; }
         public string QT_DIAS_FREETIME { get => qt_dias_freetime; set => qt_dias_freetime = value; }
@@ -65,5 +66,6 @@ namespace ABAINFRA.Web.Classes
         public string QT_DIAS_08 { get => qt_dias_08; set => qt_dias_08 = value; }
         public string VL_VENDA_08 { get => vl_venda_08; set => vl_venda_08 = value; }
         public string FL_CARGA_IMO { get => fl_carga_imo; set => fl_carga_imo = value; }
+        public string ID_TAMANHO_CONTAINER { get => id_tamanho_container; set => id_tamanho_container = value; }
     }
 }
