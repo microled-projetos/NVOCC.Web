@@ -743,15 +743,6 @@ Partial Public Class ComissaoInsideSales
     Protected WithEvents lblFCL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle dgvVendedor.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dgvVendedor As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
     '''Controle dgvEquipe.
     '''</summary>
     '''<remarks>
@@ -1274,15 +1265,6 @@ Partial Public Class ComissaoInsideSales
     Protected WithEvents dsTabelaComissao As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsVendedor.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsVendedor As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
     '''Controle dsEquipe.
     '''</summary>
     '''<remarks>
@@ -1328,15 +1310,6 @@ Partial Public Class ComissaoInsideSales
     Protected WithEvents dsCliente As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsVendedores.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsVendedores As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
     '''Controle dsEquipes.
     '''</summary>
     '''<remarks>
@@ -1353,4 +1326,13 @@ Partial Public Class ComissaoInsideSales
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsGestor As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsVendedores.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsVendedores As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

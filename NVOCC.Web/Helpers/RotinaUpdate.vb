@@ -258,9 +258,9 @@ end ID_ORIGEM_PAGAMENTO,ISNULL(FL_FRETE_DECLARADO,0)FL_FRETE_DECLARADO, ISNULL(F
                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_DESTINATARIO_COBRANCA = " & dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
                         End If
 
-                        If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString Then
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
-                        End If
+                        'If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString Then
+                        '    Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
+                        'End If
 
                         If dsCotacao.Tables(0).Rows(0).Item("FL_PROFIT_FRETE").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString Then
                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DIVISAO_PROFIT = '" & dsCotacao.Tables(0).Rows(0).Item("FL_PROFIT_FRETE").ToString & "' WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
@@ -384,9 +384,9 @@ end ID_ORIGEM_PAGAMENTO,ISNULL(FL_FRETE_DECLARADO,0)FL_FRETE_DECLARADO, ISNULL(F
                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_DESTINATARIO_COBRANCA = " & dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
                         End If
 
-                        If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString Then
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
-                        End If
+                        'If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString Then
+                        '    Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
+                        'End If
 
                         If dsCotacao.Tables(0).Rows(0).Item("FL_FRETE_PROFIT").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString Then
                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DIVISAO_PROFIT = '" & dsCotacao.Tables(0).Rows(0).Item("FL_FRETE_PROFIT").ToString & "' WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)

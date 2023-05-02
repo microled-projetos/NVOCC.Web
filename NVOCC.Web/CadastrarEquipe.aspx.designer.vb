@@ -158,13 +158,13 @@ Partial Public Class CadastrarEquipe
     Protected WithEvents txtlinha As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle gdvLideres.
+    '''Controle gdvEquipesCadastradas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents gdvLideres As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents gdvEquipesCadastradas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle mpeMontarEquipe.
@@ -329,13 +329,13 @@ Partial Public Class CadastrarEquipe
     Protected WithEvents txtCodMembro As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtNomeMembro.
+    '''Controle txtBuscaMembros.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtNomeMembro As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtBuscaMembros As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlMembro.
@@ -365,13 +365,13 @@ Partial Public Class CadastrarEquipe
     Protected WithEvents btnAdicionarTime As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle gdvEquipeLider.
+    '''Controle gdvMembrosEquipesCadastradas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents gdvEquipeLider As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents gdvMembrosEquipesCadastradas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle btnFecharMontarEquipe.
@@ -563,49 +563,40 @@ Partial Public Class CadastrarEquipe
     Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle dsMembros.
+    '''Controle dsBuscaLider.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsMembros As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsBuscaLider As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsLider.
+    '''Controle dsBuscaMembrosEquipes.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsLider As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsBuscaMembrosEquipes As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsEquipeLider.
+    '''Controle dsMembrosEquipesCadastradas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsEquipeLider As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsMembrosEquipesCadastradas As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsLideres.
+    '''Controle dsBuscaMembrosTime.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsLideres As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsUsuariosTime.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsUsuariosTime As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsBuscaMembrosTime As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsMembrosTime.
@@ -615,4 +606,13 @@ Partial Public Class CadastrarEquipe
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsMembrosTime As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsEquipesCadastradas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsEquipesCadastradas As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

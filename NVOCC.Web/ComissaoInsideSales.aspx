@@ -208,7 +208,7 @@
                                 <ajaxToolkit:ModalPopupExtender ID="mpeGestao" runat="server" PopupControlID="pnlTabela" TargetControlID="lkTabelaComissoes" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
-                                        <asp:Panel ID="pnlTabela" runat="server" CssClass="modalPopup" Style="display: none">
+                                        <asp:Panel ID="pnlTabela" runat="server" CssClass="modalPopup">
                                             <center>     <div class=" modal-dialog modal-dialog-centered modal-xl" role="document" id="myModal">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -288,11 +288,11 @@
                                    <div id="divInfo" runat="server" visible="false" class="alert alert-success">
                                         <asp:label ID="lblInfo" Text="" runat="server" />
                                    </div>  
-                                                                <asp:GridView ID="dgvTabelaComissao" DataKeyNames="ID_TAXA_COMISSAO_VENDEDORES" DataSourceID="dsTabelaComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                                                <asp:GridView ID="dgvTabelaComissao" DataKeyNames="ID_INSIDE_TAXA_COMISSAO" DataSourceID="dsTabelaComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                         <Columns>
                                             <asp:TemplateField HeaderText="ID" Visible="False">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' />
+                                                    <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_INSIDE_TAXA_COMISSAO") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="VALIDADE INICIAL" SortExpression="DT_VALIDADE_INICIAL" />
@@ -302,14 +302,14 @@
                                              <asp:BoundField DataField="NM_EQUIPE" HeaderText="EQUIPE" SortExpression="NM_EQUIPE" />   
                                      <asp:TemplateField HeaderText="">
                                             <ItemTemplate> 
-                                                <asp:linkButton CommandName="Editar"  CommandArgument='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' runat="server"  CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:linkButton>
+                                                <asp:linkButton CommandName="Editar"  CommandArgument='<%# Eval("ID_INSIDE_TAXA_COMISSAO") %>' runat="server"  CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:linkButton>
                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
                                             <asp:TemplateField HeaderText=""  >
                                             <ItemTemplate>
                                                 <asp:linkButton ID="btnExcluir" title="Excluir" runat="server"  CssClass="btn btn-danger btn-sm" CommandName="Excluir"
-                                OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');"  CommandArgument='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' Autopostback="true" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:linkButton>
+                                OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');"  CommandArgument='<%# Eval("ID_INSIDE_TAXA_COMISSAO") %>' Autopostback="true" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:linkButton>
                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
@@ -405,21 +405,7 @@
                                 </div>
                                 <br />
                                  <div class="row">
-                                                                <div class="col-sm-12">
-                                    <div class="form-group">VENDEDORES DIRETOS:                                          
-                                                                <asp:GridView ID="dgvVendedor" DataKeyNames="ID_PARCEIRO" DataSourceID="dsVendedor" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
-                                        <Columns>
-                                            <asp:TemplateField HeaderText="ID" Visible="False">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_PARCEIRO") %>' />
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:BoundField DataField="NM_RAZAO" HeaderText="NOME" SortExpression="NM_RAZAO" />                                     
-                                        </Columns>
-                                        <HeaderStyle CssClass="headerStyle" />
-                                    </asp:GridView>
-                                        </div>
-                                                                    </div>
+
                                       <div class="col-sm-6" Style="display:none">
                                     <div class="form-group">EQUIPE INSIDE SALES                                         
                                           
@@ -669,10 +655,7 @@
         
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_INSIDE_TAXA,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL, B.NOME AS NOME_GESTOR, C.NM_EQUIPE FROM TB_INSIDE_TAXA_COMISSAO A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_GESTOR = B.ID_USUARIO INNER JOIN TB_INSIDE_EQUIPE C ON A.ID_EQUIPE = C.ID_EQUIPE ORDER BY DT_VALIDADE_INICIAL"></asp:SqlDataSource>
-
-    <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO = 1 AND FL_ATIVO = 1 ORDER BY NM_RAZAO"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_INSIDE_TAXA_COMISSAO,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL, B.NOME AS NOME_GESTOR, C.NM_EQUIPE FROM TB_INSIDE_TAXA_COMISSAO A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_GESTOR = B.ID_USUARIO INNER JOIN TB_INSIDE_EQUIPE C ON A.ID_EQUIPE = C.ID_EQUIPE ORDER BY DT_VALIDADE_INICIAL"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsEquipe" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_EQUIPE_INSIDE_SALES = 1 AND FL_ATIVO = 1 ORDER BY NM_RAZAO"></asp:SqlDataSource>
@@ -697,10 +680,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO IN (SELECT DISTINCT ID_PARCEIRO_CLIENTE FROM TB_BL)
 union SELECT 0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
-            <asp:SqlDataSource ID="dsVendedores" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE (FL_VENDEDOR_DIRETO = 1 OR FL_VENDEDOR = 1 OR ID_PARCEIRO = (SELECT ID_PARCEIRO_EQUIPE_INSIDE FROM TB_PARAMETROS)) AND FL_ATIVO = 1 
-union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
-
+          
      <asp:SqlDataSource ID="dsEquipes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_EQUIPE, NM_EQUIPE FROM TB_INSIDE_EQUIPE WHERE ID_USUARIO_LIDER = @ID_USUARIO_LIDER ORDER BY NM_EQUIPE">
                 <SelectParameters>
@@ -711,6 +691,10 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
      <asp:SqlDataSource ID="dsGestor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_USUARIO, NOME FROM TB_USUARIO WHERE FL_ATIVO = 1 
 union SELECT 0, '   Selecione' ORDER BY NOME"></asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsVendedores" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE (FL_VENDEDOR_DIRETO = 1 OR FL_VENDEDOR = 1 OR ID_PARCEIRO = (SELECT ID_PARCEIRO_EQUIPE_INSIDE FROM TB_PARAMETROS)) AND FL_ATIVO = 1 
+union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
 

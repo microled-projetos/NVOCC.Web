@@ -81,7 +81,7 @@
 
                                 </div>
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
-                                    <asp:GridView ID="gdvLideres" DataKeyNames="ID_EQUIPE" DataSourceID="dsLideres" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                    <asp:GridView ID="gdvEquipesCadastradas" DataKeyNames="ID_EQUIPE" DataSourceID="dsEquipesCadastradas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                         <Columns>
                                             <asp:TemplateField HeaderText="ID" Visible="False">
                                                 <ItemTemplate>
@@ -140,7 +140,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                          <label class="control-label">Lider:</label> 
-                                         <asp:DropDownList ID="ddlLider" runat="server" CssClass="form-control" Font-Size="11px"  DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsLider" >
+                                         <asp:DropDownList ID="ddlLider" runat="server" CssClass="form-control" Font-Size="11px"  DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsBuscaLider" >
                                         </asp:DropDownList>
                                         <asp:TextBox ID="txtIDLider" runat="server" CssClass="form-control" style="display:none" ></asp:TextBox>
                                     </div>
@@ -186,13 +186,13 @@
                                 <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Busca Membro:</label>
-                                                <asp:TextBox ID="txtNomeMembro" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                                <asp:TextBox ID="txtBuscaMembros" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
                                             </div>
                                         </div>
                                 <div class="col-sm-5">
                                     <div class="form-group">
                                         <label class="control-label">Membro:</label></label><label runat="server" style="color:red" >*</label>
-                                       <asp:DropDownList ID="ddlMembro" runat="server" CssClass="form-control" Font-Size="11px"  DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsMembros" >
+                                       <asp:DropDownList ID="ddlMembro" runat="server" CssClass="form-control" Font-Size="11px"  DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsBuscaMembrosEquipes" >
                                         </asp:DropDownList>
                                     </div>
                                 </div>                             
@@ -214,7 +214,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                       <div class="table-responsive tableFixHead" style="margin:10px;max-height: 300px;">
-                                        <asp:GridView ID="gdvEquipeLider" DataKeyNames="ID_EQUIPE" DataSourceID="dsEquipeLider" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" Style="max-height: 300px; overflow: auto;"
+                                        <asp:GridView ID="gdvMembrosEquipesCadastradas" DataKeyNames="ID_EQUIPE_MEMBROS" DataSourceID="dsMembrosEquipesCadastradas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" Style="max-height: 300px; overflow: auto;"
                                             AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                 <asp:BoundField DataField="ID_USUARIO" Visible="False" HeaderText="ID_USUARIO" SortExpression="ID_USUARIO" />
@@ -222,7 +222,7 @@
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
                                                                  <asp:linkButton ID="btnExcluir" title="Excluir" runat="server"  CssClass="btn btn-danger btn-sm" CommandName="Excluir"
-                                OnClientClick="javascript:return confirm('Deseja realmente excluir este usuario da equipe?');"  CommandArgument='<%# Eval("ID_EQUIPE") %>' Autopostback="true" ><span class="glyphicon glyphicon-trash" style="font-size:medium"></span></asp:linkButton>
+                                OnClientClick="javascript:return confirm('Deseja realmente excluir este usuario da equipe?');"  CommandArgument='<%# Eval("ID_EQUIPE_MEMBROS") %>' Autopostback="true" ><span class="glyphicon glyphicon-trash" style="font-size:medium"></span></asp:linkButton>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -248,9 +248,9 @@
                                     </ContentTemplate>
                                     <Triggers>
                                         <asp:AsyncPostBackTrigger ControlID="btnCadastrarLider" />
-                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="gdvEquipeLider" />
+                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="gdvMembrosEquipesCadastradas" />
                                         <asp:AsyncPostBackTrigger ControlID="txtNomeLider" />
-                                        <asp:AsyncPostBackTrigger ControlID="txtNomeMembro" />
+                                        <asp:AsyncPostBackTrigger ControlID="txtBuscaMembros" />
                                     </Triggers>
                                 </asp:UpdatePanel>
 
@@ -312,7 +312,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="control-label">Membro:</label></label><label runat="server" style="color:red" >*</label>
-                                       <asp:DropDownList ID="ddlMembroTime" runat="server" CssClass="form-control" Font-Size="11px"  DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsUsuariosTime" >
+                                       <asp:DropDownList ID="ddlMembroTime" runat="server" CssClass="form-control" Font-Size="11px"  DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsBuscaMembrosTime" >
                                         </asp:DropDownList>
                                     </div>
                                 </div>                             
@@ -380,7 +380,7 @@
                             <Triggers>
 
                                 <asp:AsyncPostBackTrigger ControlID="btnPesquisar" />
-                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="gdvEquipeLider" />
+                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="gdvMembrosEquipesCadastradas" />
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>
@@ -391,26 +391,24 @@
             </div>
         </div>
 
-    </div>
-    <asp:SqlDataSource ID="dsMembros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_USUARIO,NOME from TB_USUARIO WHERE (NOME  like '%' + @NOME + '%' or ID_USUARIO =  @ID_USUARIO) UNION SELECT 0, '   Selecione' ORDER BY NOME">
-        <SelectParameters>
-            <asp:ControlParameter Name="NOME" Type="String" ControlID="txtNomeMembro" DefaultValue="NULL" />
-            <asp:ControlParameter Name="ID_USUARIO" Type="Int32" ControlID="txtCodMembro" DefaultValue="0" />
-        </SelectParameters>
-    </asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsLider" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    </div><asp:SqlDataSource ID="dsBuscaLider" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_USUARIO,NOME from TB_USUARIO WHERE (NOME  like '%' + @NOME + '%' or ID_USUARIO =  @ID_USUARIO) UNION SELECT 0, '   Selecione' ORDER BY NOME">
         <SelectParameters>
             <asp:ControlParameter Name="NOME" Type="String" ControlID="txtNomeLider" DefaultValue="NULL" />
             <asp:ControlParameter Name="ID_USUARIO" Type="Int32" ControlID="txtIDLider" DefaultValue="0" />
         </SelectParameters>
     </asp:SqlDataSource>
+    <asp:SqlDataSource ID="dsBuscaMembrosEquipes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="select ID_USUARIO,NOME from TB_USUARIO WHERE (NOME  like '%' + @NOME + '%' or ID_USUARIO =  @ID_USUARIO) UNION SELECT 0, '   Selecione' ORDER BY NOME">
+        <SelectParameters>
+            <asp:ControlParameter Name="NOME" Type="String" ControlID="txtBuscaMembros" DefaultValue="NULL" />
+            <asp:ControlParameter Name="ID_USUARIO" Type="Int32" ControlID="txtCodMembro" DefaultValue="0" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 
-
-    <asp:SqlDataSource ID="dsEquipeLider" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT M.ID_EQUIPE,U.ID_USUARIO, CASE WHEN M.ID_TIME IS NULL THEN U.NOME ELSE T.NM_TIME END NOME
+    <asp:SqlDataSource ID="dsMembrosEquipesCadastradas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT M.ID_EQUIPE_MEMBROS,M.ID_EQUIPE,U.ID_USUARIO, CASE WHEN M.ID_TIME IS NULL THEN U.NOME ELSE T.NM_TIME END NOME
 FROM TB_INSIDE_EQUIPE E
 INNER JOIN TB_INSIDE_EQUIPE_MEMBROS M ON E.ID_EQUIPE = M.ID_EQUIPE  
 LEFT JOIN TB_USUARIO U ON U.ID_USUARIO = M.ID_USUARIO_MEMBRO_EQUIPE 
@@ -421,16 +419,7 @@ WHERE E.ID_USUARIO_LIDER = @ID_USUARIO_LIDER ORDER BY NOME">
         </SelectParameters>
     </asp:SqlDataSource>
 
-
-
-
-    <asp:SqlDataSource ID="dsLideres" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_EQUIPE,ID_USUARIO,NOME,NM_EQUIPE,TAXA_LIDER,TAXA_EQUIPE from TB_USUARIO A
-INNER JOIN TB_INSIDE_EQUIPE B ON A.ID_USUARIO = B.ID_USUARIO_LIDER
-ORDER BY NOME"></asp:SqlDataSource>
-
-
-      <asp:SqlDataSource ID="dsUsuariosTime" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+      <asp:SqlDataSource ID="dsBuscaMembrosTime" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_USUARIO,NOME from TB_USUARIO WHERE (NOME  like '%' + @NOME + '%' or ID_USUARIO =  @ID_USUARIO) UNION SELECT 0, '   Selecione' ORDER BY NOME">
         <SelectParameters>
             <asp:ControlParameter Name="NOME" Type="String" ControlID="txtBuscaMembrosTime" DefaultValue="NULL" />
@@ -448,6 +437,11 @@ WHERE T.ID_TIME = @ID_TIME ORDER BY NOME">
             <asp:ControlParameter Name="ID_TIME" Type="Int32" ControlID="txtIDTime" />
         </SelectParameters>
     </asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsEquipesCadastradas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="select ID_EQUIPE,ID_USUARIO,NOME,NM_EQUIPE,TAXA_LIDER,TAXA_EQUIPE from TB_USUARIO A
+INNER JOIN TB_INSIDE_EQUIPE B ON A.ID_USUARIO = B.ID_USUARIO_LIDER
+ORDER BY NOME"></asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

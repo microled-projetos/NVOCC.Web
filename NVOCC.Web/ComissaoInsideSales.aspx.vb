@@ -202,8 +202,8 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INSIDE AS A LEFT OUTER JOIN
 
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_INSIDE_TAXA_COMISSAO,DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL, ID_USUARIO_GESTOR, ID_EQUIPE FROM TB_INSIDE_TAXA_COMISSAO WHERE ID_INSIDE_TAXA_COMISSAO = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TAXA_COMISSAO_VENDEDORES")) Then
-                    txtIDTabelaTaxa.Text = ds.Tables(0).Rows(0).Item("ID_TAXA_COMISSAO_VENDEDORES").ToString()
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_INSIDE_TAXA_COMISSAO")) Then
+                    txtIDTabelaTaxa.Text = ds.Tables(0).Rows(0).Item("ID_INSIDE_TAXA_COMISSAO").ToString()
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL")) Then
                     txtValidade.Text = ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL").ToString()
@@ -214,7 +214,12 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INSIDE AS A LEFT OUTER JOIN
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_FCL")) Then
                     txtFCL.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_FCL").ToString()
                 End If
-
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_USUARIO_GESTOR")) Then
+                    ddlGestor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_USUARIO_GESTOR").ToString()
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_EQUIPE")) Then
+                    ddlEquipes.SelectedValue = ds.Tables(0).Rows(0).Item("ID_EQUIPE").ToString()
+                End If
 
             End If
 
@@ -241,9 +246,13 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INSIDE AS A LEFT OUTER JOIN
             lblInfo.Text = "Taxa inserida com sucesso"
             dgvTabelaComissao.DataBind()
             mpeGestao.Show()
+            ddlGestor.SelectedValue = 0
+            txtValidade.Text = ""
+            txtLCL.Text = ""
+            txtFCL.Text = ""
 
         Else
-            Con.ExecutarQuery("UPDATE TB_INSIDE_TAXA_COMISSAO SET DT_VALIDADE_INICIAL = CONVERT(DATE,'" & txtValidade.Text & "',103),VL_TAXA_LCL = " & txtLCL.Text & ",VL_TAXA_FCL = " & txtFCL.Text & ", ID_USUARIO_GESTOR = " & ddlGestor.SelectedValue & " , ID_EQUIPE = " & ddlEquipes.SelectedValue & " WHERE ID_INSIDE_TAXA = " & txtIDTabelaTaxa.Text)
+            Con.ExecutarQuery("UPDATE TB_INSIDE_TAXA_COMISSAO SET DT_VALIDADE_INICIAL = CONVERT(DATE,'" & txtValidade.Text & "',103),VL_TAXA_LCL = " & txtLCL.Text & ",VL_TAXA_FCL = " & txtFCL.Text & ", ID_USUARIO_GESTOR = " & ddlGestor.SelectedValue & " , ID_EQUIPE = " & ddlEquipes.SelectedValue & " WHERE ID_INSIDE_TAXA_COMISSAO = " & txtIDTabelaTaxa.Text)
             divInfo.Visible = True
             lblInfo.Text = "Taxa alterada com sucesso"
             dgvTabelaComissao.DataBind()
@@ -297,7 +306,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INSIDE AS A LEFT OUTER JOIN
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT TOP 1 ID_TAXA_COMISSAO_INSIDE,VL_TAXA_FCL,VL_TAXA_LCL FROM TB_INSIDE_TAXA_COMISSAO WHERE CONVERT(DATETIME,DT_VALIDADE_INICIAL,103) <= CONVERT(DATETIME,'" & txtLiquidacaoInicial.Text & "',103)")
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT TOP 1 ID_INSIDE_TAXA_COMISSAO ,VL_TAXA_FCL,VL_TAXA_LCL FROM TB_INSIDE_TAXA_COMISSAO WHERE CONVERT(DATETIME,DT_VALIDADE_INICIAL,103) <= CONVERT(DATETIME,'" & txtLiquidacaoInicial.Text & "',103)")
         If ds.Tables(0).Rows.Count > 0 Then
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_FCL")) Then
                 lblFCL.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_FCL")
@@ -651,6 +660,7 @@ WHERE A.ID_USUARIO_MEMBRO_EQUIPE = " & linha.Item("ID_ANALISTA_COTACAO"))
         txtValidade.Text = ""
         txtLCL.Text = ""
         txtFCL.Text = ""
+        ddlGestor.SelectedValue = 0
         DivExcluir.Visible = False
         divInfo.Visible = False
         mpeGestao.Show()
