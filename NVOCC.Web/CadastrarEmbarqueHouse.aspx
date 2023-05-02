@@ -29,18 +29,20 @@
             color: gray;
             text-decoration: line-through;
         }
-       input[type='checkbox'][disabled][checked] {
- height:0px;
-}
-input[type='checkbox'][disabled][checked]:after {
- content:'\e013'; 
- position:absolute; 
- margin-top:-10px;
- opacity: 1 !important;
-  font-family: 'Glyphicons Halflings';
- background-color: #428bff;
- color:white;
-}
+
+        input[type='checkbox'][disabled][checked] {
+            height: 0px;
+        }
+
+            input[type='checkbox'][disabled][checked]:after {
+                content: '\e013';
+                position: absolute;
+                margin-top: -10px;
+                opacity: 1 !important;
+                font-family: 'Glyphicons Halflings';
+                background-color: #428bff;
+                color: white;
+            }
     </style>
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="row principal">
@@ -392,7 +394,7 @@ input[type='checkbox'][disabled][checked]:after {
                                                 <div class="col-sm-1">
                                                     <div class="form-group">
                                                         <label class="control-label">Tipo de Pagamento:</label>
-                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" enabled="false">
+                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" Enabled="false">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -582,7 +584,7 @@ input[type='checkbox'][disabled][checked]:after {
                                             </div>
                                         </ContentTemplate>
                                         <Triggers>
-<%--                                            <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoMaritimo" />--%>
+                                            <%--                                            <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoMaritimo" />--%>
                                             <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoMaritimo" />
@@ -1620,7 +1622,7 @@ input[type='checkbox'][disabled][checked]:after {
                                                         <asp:Button ID="btnVisualizarMBL_Aereo" runat="server" CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
                                                     </div>
                                                 </div>
-                                          
+
                                                 <div class="col-sm-2" style="display: none">
                                                     <div class="form-group">
                                                         <label class="control-label"></label>
@@ -1658,7 +1660,7 @@ input[type='checkbox'][disabled][checked]:after {
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Tipo de Pagamento:</label>
-                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" enabled="false">
+                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" Enabled="false">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -1668,7 +1670,7 @@ input[type='checkbox'][disabled][checked]:after {
                                                         <asp:DropDownList ID="ddlTipoAeronave_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_AERONAVE" DataSourceID="dsTipoAeronave" DataValueField="ID_TIPO_AERONAVE"></asp:DropDownList>
                                                     </div>
                                                 </div>
-                                    </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
@@ -1678,8 +1680,8 @@ input[type='checkbox'][disabled][checked]:after {
                                                     </div>
                                                 </div>
 
-        
-  <div class="col-sm-3">
+
+                                                <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Incoterm:</label>
                                                         <asp:DropDownList ID="ddlIncoterm_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_INCOTERM" DataSourceID="dsIncoterm" DataValueField="ID_INCOTERM">
@@ -1687,7 +1689,7 @@ input[type='checkbox'][disabled][checked]:after {
                                                     </div>
                                                 </div>
 
-                                                    <div id="divFlagAereo" runat="server">
+                                                <div id="divFlagAereo" runat="server">
                                                     <div class="col-sm-1">
                                                         <div class="form-group">
                                                             <label class="control-label" style="color: white">X</label>
@@ -1710,7 +1712,7 @@ input[type='checkbox'][disabled][checked]:after {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                      <div class="col-sm-1">
+                                                <div class="col-sm-1">
                                                     <div class="form-group">
                                                         <label class="control-label"></label>
                                                         <asp:CheckBox ID="ckbFreeHand_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;Free Hand"></asp:CheckBox>
@@ -1730,12 +1732,12 @@ input[type='checkbox'][disabled][checked]:after {
                                                     </div>
                                                 </div>
 
-                                               
-                                              
 
-</div>
 
-                                                <div class="row">
+
+                                            </div>
+
+                                            <div class="row">
 
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
@@ -1777,8 +1779,8 @@ input[type='checkbox'][disabled][checked]:after {
                                                     </div>
                                                 </div>
                                             </div>
-                                            </div> <div class="row">
-                                                 <div class="col-sm-2">
+                                            <div class="row">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Status Frete Agente:</label>
                                                         <asp:DropDownList ID="ddlStatusFreteAgente_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsStatusFreteAgente" DataValueField="ID_STATUS_FRETE_AGENTE" Enabled="false">
@@ -2070,7 +2072,7 @@ input[type='checkbox'][disabled][checked]:after {
 
                                         </ContentTemplate>
                                         <Triggers>
-<%--                                            <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoAereo" />--%>
+                                            <%--                                            <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoAereo" />--%>
                                             <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoAereo" />
@@ -2381,72 +2383,73 @@ input[type='checkbox'][disabled][checked]:after {
                                             <div class="table-responsive tableFixHead" id="div12" runat="server">
                                                 <br />
                                                 COMPRAS:
-                                                                                                <asp:GridView ID="dgvTaxaAereoCompras" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasAereoCompras" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
-                                                                                                    <Columns>
-                                                                                                        <asp:TemplateField HeaderText="ID_BL_TAXA" SortExpression="ID_BL_TAXA" Visible="false">
-                                                                                                            <ItemTemplate>
-                                                                                                                <asp:Label ID="lblID_BL_TAXA" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />
-                                                                                                            </ItemTemplate>
-                                                                                                        </asp:TemplateField>
+                                                <asp:GridView ID="dgvTaxaAereoCompras" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasAereoCompras" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                                    <Columns>
+                                                        <asp:TemplateField HeaderText="ID_BL_TAXA" SortExpression="ID_BL_TAXA" Visible="false">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblID_BL_TAXA" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
 
-                                                                                                        <asp:BoundField DataField="ITEM_DESPESA" HeaderText="DESPESA" SortExpression="ITEM_DESPESA" />
-                                                                                                        <asp:BoundField DataField="PARCEIRO_EMPRESA" HeaderText="PARCEIRO" SortExpression="PARCEIRO_EMPRESA" />
-                                                                                                        <asp:BoundField DataField="MOEDA" HeaderText="MOEDA" SortExpression="MOEDA" />
-                                                                                                        <asp:BoundField DataField="VL_TAXA" HeaderText="VALOR" SortExpression="VL_TAXA" />
-                                                                                                        <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="VALOR CALCULADO" SortExpression="VL_TAXA_CALCULADO" />
-                                                                                                        <asp:BoundField DataField="BASE_CALCULO" HeaderText="BASE DE CALCULO" SortExpression="BASE_CALCULO" />
-                                                                                                        <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
-                                                                                                        <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
-                                                                                                        <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
-                                                                                                        <asp:BoundField DataField="PROFIT" HeaderText="PROFIT" SortExpression="PROFIT" />
-                                                                                                        <asp:TemplateField HeaderText="ORIGEM" SortExpression="ORIGEM">
-                                                                                                            <ItemTemplate>
-                                                                                                                <asp:Label ID="lblORIGEM" runat="server" Text='<%# Eval("ORIGEM") %>' />
-                                                                                                            </ItemTemplate>
-                                                                                                        </asp:TemplateField>
-                                                                                                        <asp:TemplateField HeaderText="ATIVA?" SortExpression="ATIVA">
-                                                                                                            <ItemTemplate>
-                                                                                                                <asp:Label ID="lblAtiva" runat="server" Text='<%# Eval("ATIVA") %>' />
-                                                                                                            </ItemTemplate>
-                                                                                                        </asp:TemplateField>
+                                                        <asp:BoundField DataField="ITEM_DESPESA" HeaderText="DESPESA" SortExpression="ITEM_DESPESA" />
+                                                        <asp:BoundField DataField="PARCEIRO_EMPRESA" HeaderText="PARCEIRO" SortExpression="PARCEIRO_EMPRESA" />
+                                                        <asp:BoundField DataField="MOEDA" HeaderText="MOEDA" SortExpression="MOEDA" />
+                                                        <asp:BoundField DataField="VL_TAXA" HeaderText="VALOR" SortExpression="VL_TAXA" />
+                                                        <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="VALOR CALCULADO" SortExpression="VL_TAXA_CALCULADO" />
+                                                        <asp:BoundField DataField="BASE_CALCULO" HeaderText="BASE DE CALCULO" SortExpression="BASE_CALCULO" />
+                                                        <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
+                                                        <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
+                                                        <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
+                                                        <asp:BoundField DataField="PROFIT" HeaderText="PROFIT" SortExpression="PROFIT" />
+                                                        <asp:TemplateField HeaderText="ORIGEM" SortExpression="ORIGEM">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblORIGEM" runat="server" Text='<%# Eval("ORIGEM") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="ATIVA?" SortExpression="ATIVA">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblAtiva" runat="server" Text='<%# Eval("ATIVA") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
 
-                                                                                                        <asp:TemplateField HeaderText="HISTÓRICO" SortExpression="HISTORICO">
-                                                                                                            <ItemTemplate>
-                                                                                                                <asp:Label ID="lblTemHistorico" runat="server" Text='<%# Eval("HISTORICO") %>' Visible="false"></asp:Label>
-                                                                                                                <asp:ImageButton ID="ImageButton1" src="Content/imagens/hist.png" runat="server" CommandArgument='<%# Eval("ID_BL_TAXA") %>' ToolTip="Histórico" CommandName="Historico" />
-                                                                                                                <asp:Label ID="lblTaxa" Visible="False" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />
-                                                                                                            </ItemTemplate>
-                                                                                                        </asp:TemplateField>
-                                                                                                        <asp:TemplateField HeaderText="">
-                                                                                                            <ItemTemplate>
-                                                                                                                <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
-                                                                                                                    Text="Visualizar" CssClass="btn btn-info btn-sm"><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></div></asp:LinkButton>
-                                                                                                            </ItemTemplate>
-                                                                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                                                        </asp:TemplateField>
-                                                                                                        <asp:TemplateField HeaderText="">
-                                                                                                            <ItemTemplate>
-                                                                                                                <asp:LinkButton ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
-                                                                                                                    Text="Visualizar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i></div></asp:LinkButton>
-                                                                                                            </ItemTemplate>
-                                                                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                                                        </asp:TemplateField>
-                                                                                                        <asp:TemplateField HeaderText="">
-                                                                                                            <ItemTemplate>
-                                                                                                                <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
-                                                                                                                    OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_BL_TAXA") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                                                                                            </ItemTemplate>
-                                                                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                                                        </asp:TemplateField>
-                                                                                                    </Columns>
-                                                                                                    <HeaderStyle CssClass="headerStyle" />
-                                                                                                </asp:GridView>
+                                                        <asp:TemplateField HeaderText="HISTÓRICO" SortExpression="HISTORICO">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblTemHistorico" runat="server" Text='<%# Eval("HISTORICO") %>' Visible="false"></asp:Label>
+                                                                <asp:ImageButton ID="ImageButton1" src="Content/imagens/hist.png" runat="server" CommandArgument='<%# Eval("ID_BL_TAXA") %>' ToolTip="Histórico" CommandName="Historico" />
+                                                                <asp:Label ID="lblTaxa" Visible="False" runat="server" Text='<%# Eval("ID_BL_TAXA") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
+                                                                    Text="Visualizar" CssClass="btn btn-info btn-sm"><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></div></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
+                                                                    Text="Visualizar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i></div></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
+                                                                    OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_BL_TAXA") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                    <HeaderStyle CssClass="headerStyle" />
+                                                </asp:GridView>
 
 
                                                 <asp:Button runat="server" ID="Button2" CssClass="btn btn-block btn-primary" Style="display: none" />
                                                 <ajaxToolkit:ModalPopupExtender ID="mpeHistoricoAereo" runat="server" PopupControlID="pnHistoricoAereo" TargetControlID="Button2" CancelControlID="btnFecharHistoricoAereo"></ajaxToolkit:ModalPopupExtender>
                                                 <asp:Panel ID="pnHistoricoAereo" runat="server" CssClass="modalPopup" Style="display: none;">
-                                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <center>   
+                                                        <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Historico de Status</h5>
@@ -2467,8 +2470,14 @@ input[type='checkbox'][disabled][checked]:after {
                                                                             <HeaderStyle HorizontalAlign="Center" CssClass="Historico" />
                                                                         </asp:GridView>
 
-                             </div> </div>         </div>     </div>          
-                               <div class="modal-footer">
+                             </div> 
+
+                                                                   </div>       
+
+                                                               </div>     
+
+                                                        </div>          
+                                                        <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharHistoricoAereo" text="Close" />                                                                
                                                         </div>
                                                     
@@ -2699,9 +2708,6 @@ input[type='checkbox'][disabled][checked]:after {
                                                             <asp:Button runat="server" Text="Salvar Taxa" ID="btnSalvar_TaxaAereo" CssClass="btn btn-success" />
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar_TaxaAereo" Text="Close" />
                                                         </div>
-
-
-
                                                     </div>
                                                 </div>
                                             </ContentTemplate>
@@ -3551,14 +3557,14 @@ union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE
 
             var IDMaster_BasicoMaritimo = document.getElementById('<%= txtIDMaster_BasicoMaritimo.ClientID %>').value;
 
-            window.open('CadastrarMaster.aspx?id=' + IDMaster_BasicoMaritimo, '_blank');
+            window.open('CadastrarMaster.aspx?id=' + IDMaster_BasicoMaritimo + "&s=M", '_blank');
         }
 
         function MBLAereo() {
 
             var IDMaster_BasicoAereo = document.getElementById('<%= txtIDMaster_BasicoAereo.ClientID %>').value;
 
-            window.open('CadastrarMaster.aspx?id=' + IDMaster_BasicoAereo, '_blank');
+            window.open('CadastrarMaster.aspx?id=' + IDMaster_BasicoAereo + "&s=A", '_blank');
         }
 
 
@@ -3567,9 +3573,9 @@ union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE
             var ID_BasicoMaritimo = document.getElementById('<%= txtID_BasicoMaritimo.ClientID %>').value;
             console.log(ID_BasicoMaritimo);
 
-            window.open('CapaProcesso.aspx?id=' + ID_BasicoMaritimo, '_blank');
+            window.open('CapaProcesso.aspx?id=' + ID_BasicoMaritimo , '_blank');
         }
-
+        
 
         function CapaAereo() {
 
