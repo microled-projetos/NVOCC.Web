@@ -3571,14 +3571,14 @@ C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACA
 
             var IDMaster_BasicoMaritimo = document.getElementById('<%= txtIDMaster_BasicoMaritimo.ClientID %>').value;
 
-            window.open('CadastrarMaster.aspx?id=' + IDMaster_BasicoMaritimo, '_blank');
+            window.open('CadastrarMaster.aspx?id=' + IDMaster_BasicoMaritimo + "&s=M", '_blank');
         }
 
         function MBLAereo() {
 
             var IDMaster_BasicoAereo = document.getElementById('<%= txtIDMaster_BasicoAereo.ClientID %>').value;
 
-            window.open('CadastrarMaster.aspx?id=' + IDMaster_BasicoAereo, '_blank');
+            window.open('CadastrarMaster.aspx?id=' + IDMaster_BasicoAereo + "&s=A", '_blank');
         }
 
 
