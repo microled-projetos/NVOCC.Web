@@ -214,7 +214,7 @@
             Dim TaxaLider_final As String = txtTaxaLider.Text.ToString.Replace(".", "")
             TaxaLider_final = TaxaLider_final.ToString.Replace(",", ".")
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("UPDATE TB_EQUIPE_LIDER SET NM_EQUIPE = '" & txtNomeEquipe.Text & "',TAXA_LIDER = " & TaxaLider_final & ",TAXA_EQUIPE =" & TaxaEquipe_final & " WHERE ID = " & txtIDEquipe.Text)
+            Dim ds As DataSet = Con.ExecutarQuery("UPDATE TB_INSIDE_EQUIPE SET NM_EQUIPE = '" & txtNomeEquipe.Text & "',TAXA_LIDER = " & TaxaLider_final & ",TAXA_EQUIPE =" & TaxaEquipe_final & " WHERE ID_EQUIPE = " & txtIDEquipe.Text)
             divSuccessMontarEquipe.Visible = True
             lblSuccessMontarEquipe.Text = "Atualizado com sucesso!"
             gdvMembrosEquipesCadastradas.DataBind()

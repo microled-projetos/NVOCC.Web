@@ -1871,4 +1871,56 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "RelatorioFaturamento()", True)
         End If
     End Sub
+
+    Private Sub lkTesteCancelamentoNF_Click(sender As Object, e As EventArgs) Handles lkTesteCancelamentoNF.Click
+
+        divErro.Visible = False
+        divSuccess.Visible = False
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro"
+        Else
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_NOTA_FISCAL,NR_RPS FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
+                    If PrazoCancelamento() = False Then
+                        divErro.Visible = True
+                        lblmsgErro.Text = "Prazo para cancelamento expirado!"
+                        Exit Sub
+
+                    Else
+
+                        Try
+
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_CANCELAMENTO = getdate(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = 'TESTE CANCELAMENTO NF TOTVS' , STATUS_NFE = 3, CANCELA_NFE  = 1 WHERE ID_FATURAMENTO =" & txtID.Text)
+
+                            divSuccess.Visible = True
+                            lblmsgSuccess.Text = "Cancelamento realizado com sucesso!"
+
+                        Catch ex As Exception
+
+                            divErro.Visible = True
+                            lblmsgErro.Text = "Não foi possivel completar a ação: " & ex.Message
+
+                        End Try
+
+
+                    End If
+                Else
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Não foi possivel completar a ação: fatura sem nota fiscal!"
+                End If
+
+            Else
+                divErro.Visible = True
+                lblmsgErro.Text = "Não foi possivel completar a ação: fatura sem nota fiscal!"
+            End If
+            Con.Fechar()
+        End If
+
+    End Sub
 End Class

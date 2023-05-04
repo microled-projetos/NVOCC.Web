@@ -230,6 +230,15 @@ Partial Public Class Faturamento
     Protected WithEvents lkRelatorioFaturamento As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''Controle lkTesteCancelamentoNF.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkTesteCancelamentoNF As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''Controle divAuxiliar.
     '''</summary>
     '''<remarks>

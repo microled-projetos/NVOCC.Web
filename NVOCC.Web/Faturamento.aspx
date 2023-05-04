@@ -120,6 +120,7 @@
                                         <asp:LinkButton ID="lkNotasFiscais" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Notas Ficais</asp:LinkButton>
                                         <asp:LinkButton ID="lkBoletoRemessa" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gerar Remessa</asp:LinkButton>
                                         <asp:LinkButton ID="lkRelatorioFaturamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px" Text="Relatório de Faturamento" />
+                                        <asp:LinkButton ID="lkTesteCancelamentoNF" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px" Text="Teste Cancelamento NF TOTVS" />
                                     </div>
                                 </div>
                                 <div runat="server" id="divAuxiliar" style="display: none">
