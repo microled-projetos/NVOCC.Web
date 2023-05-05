@@ -128,14 +128,26 @@
                                         </div>
                                     </div>
                                     <div class="form-group" style="display:flex;align-items:center; margin-bottom: 0px; margin-left: 10px;">
-                                        <div>
-                                            <asp:CheckBox ID="chkLTL" runat="server" CssClass="form-control noborder" Text="&nbsp;LTL"></asp:CheckBox>
+                                        <div style="padding: 0 10px">
+                                            <label class="control-label text-center">LTL</label>
+                                            <div style="display: flex">
+                                                <asp:CheckBox ID="chkLTLS" runat="server" CssClass="form-control noborder" Text="&nbsp;Sim"></asp:CheckBox>
+                                                <asp:CheckBox ID="chkLTLN" runat="server" CssClass="form-control noborder functionFaturaBar" Text="&nbsp;Não"></asp:CheckBox>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <asp:CheckBox ID="chkDTAHUB" runat="server" CssClass="form-control noborder" Text="&nbsp;DTA HUB"></asp:CheckBox>
+                                        <div style="padding: 0 10px">
+                                            <label class="control-label text-center">DTA HUB</label>
+                                            <div style="display: flex">
+                                                <asp:CheckBox ID="chkDTAHUBS" runat="server" CssClass="form-control noborder" Text="&nbsp;Sim"></asp:CheckBox>
+                                                <asp:CheckBox ID="chkDTAHUBN" runat="server" CssClass="form-control noborder functionFaturaBar" Text="&nbsp;Não"></asp:CheckBox>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <asp:CheckBox ID="chkTranspDedic" runat="server" CssClass="form-control noborder" Text="&nbsp;TRANSP. DEDICADO"></asp:CheckBox>
+                                        <div style="padding: 0 10px">
+                                            <label class="control-label text-center">TRANSP. DEDICADO</label>
+                                            <div style="display: flex">
+                                                <asp:CheckBox ID="chkTranspDedicS" runat="server" CssClass="form-control noborder" Text="&nbsp;Sim"></asp:CheckBox>
+                                                <asp:CheckBox ID="chkTranspDedicN" runat="server" CssClass="form-control noborder" Text="&nbsp;Não"></asp:CheckBox>
+                                            </div>
                                         </div>
                                     </div>                                   
                                     <div class="form-group">
@@ -240,13 +252,16 @@
             var dtFinal = document.getElementById("txtDtFinalConferenciaProcessoAnalitico").value;
             var dtChegada = document.getElementById("txtDtChegadaAnaliticoConferenciaProcesso").value;
             var dtEmbarque = document.getElementById("txtDtEmbarqueAnaliticoConferenciaProcesso").value;
-            var checkLTL = document.getElementById("MainContent_chkLTL").checked ? 1 : 0;
-            var checkDTAHUB = document.getElementById("MainContent_chkDTAHUB").checked ? 1 : 0;
-            var checkTranspDedic = document.getElementById("MainContent_chkTranspDedic").checked ? 1 : 0;
+            var checkLTL = document.getElementById("MainContent_chkLTLS").checked ? 1 : 0;
+            var checkDTAHUB = document.getElementById("MainContent_chkDTAHUBS").checked ? 1 : 0;
+            var checkTranspDedic = document.getElementById("MainContent_chkTranspDedicS").checked ? 1 : 0;
+            var checkLTLN = document.getElementById("MainContent_chkLTLN").checked ? 1 : 0;
+            var checkDTAHUBN = document.getElementById("MainContent_chkDTAHUBN").checked ? 1 : 0;
+            var checkTranspDedicN = document.getElementById("MainContent_chkTranspDedicN").checked ? 1 : 0;
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarRelatorioConsolidadaAnalitico",
-                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", dataC: "' + dtChegada + '", dataE: "' + dtEmbarque + '", ltl: ' + checkLTL + ', dtahub: ' + checkDTAHUB + ', transp: ' + checkTranspDedic + '}',
+                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", dataC: "' + dtChegada + '", dataE: "' + dtEmbarque + '", ltl: ' + checkLTL + ', dtahub: ' + checkDTAHUB + ', transp: ' + checkTranspDedic + ', ltln: ' + checkLTLN + ', dtahubn: ' + checkDTAHUBN + ', transpn: ' + checkTranspDedicN +'}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {

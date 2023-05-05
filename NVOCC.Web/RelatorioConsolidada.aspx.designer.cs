@@ -15,30 +15,57 @@ namespace ABAINFRA.Web
 	{
 
 		/// <summary>
-		/// Controle chkLTL.
+		/// Controle chkLTLS.
 		/// </summary>
 		/// <remarks>
 		/// Campo gerado automaticamente.
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.CheckBox chkLTL;
+		protected global::System.Web.UI.WebControls.CheckBox chkLTLS;
 
 		/// <summary>
-		/// Controle chkDTAHUB.
+		/// Controle chkLTLN.
 		/// </summary>
 		/// <remarks>
 		/// Campo gerado automaticamente.
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.CheckBox chkDTAHUB;
+		protected global::System.Web.UI.WebControls.CheckBox chkLTLN;
 
 		/// <summary>
-		/// Controle chkTranspDedic.
+		/// Controle chkDTAHUBS.
 		/// </summary>
 		/// <remarks>
 		/// Campo gerado automaticamente.
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.CheckBox chkTranspDedic;
+		protected global::System.Web.UI.WebControls.CheckBox chkDTAHUBS;
+
+		/// <summary>
+		/// Controle chkDTAHUBN.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.CheckBox chkDTAHUBN;
+
+		/// <summary>
+		/// Controle chkTranspDedicS.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.CheckBox chkTranspDedicS;
+
+		/// <summary>
+		/// Controle chkTranspDedicN.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.CheckBox chkTranspDedicN;
 	}
 }

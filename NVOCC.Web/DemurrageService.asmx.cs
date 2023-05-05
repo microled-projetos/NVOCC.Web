@@ -10288,7 +10288,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarRelatorioConsolidadaAnalitico(string dataI, string dataF, string dataC, string dataE, int ltl, int dtahub, int transp)
+        public string listarRelatorioConsolidadaAnalitico(string dataI, string dataF, string dataC, string dataE, int ltl, int dtahub, int transp, int ltln, int dtahubn, int transpn)
         {
             string sqlFormattedDate = "";
             string sqlFormattedDate2 = "";
@@ -10350,28 +10350,59 @@ namespace ABAINFRA.Web
                 filter += "AND X.DT_EMBARQUE = CONVERT(DATE, '" + sqlFormattedDate4 + "',103) ";
             }
 
-            if(ltl == 1){
+            if ((ltl == 1 && ltln == 1) || (ltl == 0 && ltln == 0))
+            {
+                filter += "";
+            }
+            else if (ltl == 1)
+            {
                 filter += "AND (SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE A.FL_LTL = 1 AND B.ID_BL = X.ID_BL) = 'SIM' ";
             }
-			else{
+            else if (ltln == 1)
+            {
                 filter += "AND (SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE A.FL_LTL = 1 AND B.ID_BL = X.ID_BL) = 'NAO' ";
             }
+            else
+            {
+                filter += "";
+            }
 
-            if (dtahub == 1){
+
+            if ((dtahub == 1 && dtahubn == 1) || (dtahub == 0 && dtahubn == 0))
+            {
+                filter += "";
+            }
+            else if (dtahub == 1)
+            {
                 filter += "AND (SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE A.FL_DTA_HUB = 1 AND B.ID_BL = X.ID_BL) = 'SIM' ";
             }
-            else
+            else if (dtahubn == 1)
             {
                 filter += "AND (SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE A.FL_DTA_HUB = 1 AND B.ID_BL = X.ID_BL) = 'NAO' ";
             }
+            else
+            {
+                filter += "";
+            }
 
-            if (transp == 1){
+
+            if ((transp == 1 && transpn == 1) || (transp == 0 && transpn == 0))
+            {
+                filter += "";
+            }
+            else if (transp == 1)
+            {
                 filter += "AND (SELECT CASE WHEN A.FL_TRANSP_DEDICADO = 1 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_BL = X.ID_BL) = 'SIM' ";
             }
-            else
+            else if (transp == 1)
             {
                 filter += "AND (SELECT CASE WHEN A.FL_TRANSP_DEDICADO = 1 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_BL = X.ID_BL) = 'NAO' ";
             }
+            else
+            {
+                filter += "";
+            }
+
 
             SQL = "SELECT X.NM_NAVIO, ";
             SQL += "ISNULL(CONVERT(VARCHAR,FORMAT(MAX(X.DT_CHEGADA), 'dd/MM/yyyy'),103),'') AS CHEGADA, ";
