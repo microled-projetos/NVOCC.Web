@@ -153,7 +153,7 @@
                                 <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
-<asp:LinkButton ID="lkEquipe" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" href="CadastrarEquipe.aspx" target="_blank" >Equipes</asp:LinkButton>
+<asp:LinkButton ID="lkEquipe" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" href="CadastrarEquipe.aspx" target="_blank" Visible="false">Equipes</asp:LinkButton>
                                     </div>
                                         </div>
                                          </div>
@@ -223,7 +223,7 @@
                                  <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                             
-                                        <asp:LinkButton ID="lkRelEquipe" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" >Equipes por Competência</asp:LinkButton>
+                                        <asp:LinkButton ID="lkRelEquipe" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" Visible="false" >Equipes por Competência</asp:LinkButton>
                                         </div>
                                          </div>
                                    </div>    

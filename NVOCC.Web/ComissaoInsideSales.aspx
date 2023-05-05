@@ -82,8 +82,8 @@
                                         <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
 
                                         <asp:LinkButton ID="lkComissoes" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Comissões</asp:LinkButton>
-                                        <asp:LinkButton ID="lkRelatorios" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Relatorios</asp:LinkButton>
-                                        <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>
+                                        <asp:LinkButton ID="lkRelatorios" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px" >Relatorios</asp:LinkButton>
+<%--                                        <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>--%>
                                         <asp:LinkButton ID="lkCCProcesso" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gravar no CC do Processo</asp:LinkButton>
 
 
@@ -197,7 +197,21 @@
                                         <asp:LinkButton ID="lkRelEquipe" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" >Equipes por Competência</asp:LinkButton>
                                         </div>
                                          </div>
-                                   </div>    
+                                   </div>  
+                                                            <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                             
+                                           <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>
+                                        </div>
+                                         </div>
+                                   </div> 
+                                                            <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                             
+                                        <asp:LinkButton ID="lkResumoRelatório" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" >Resumo Relatório</asp:LinkButton>
+                                        </div>
+                                         </div>
+                                   </div> 
                                  
                              </div>
                                <div class="modal-footer">

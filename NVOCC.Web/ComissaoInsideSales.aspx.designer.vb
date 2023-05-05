@@ -158,15 +158,6 @@ Partial Public Class ComissaoInsideSales
     Protected WithEvents lkRelatorios As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkCSV.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkCSV As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle lkCCProcesso.
     '''</summary>
     '''<remarks>
@@ -327,6 +318,24 @@ Partial Public Class ComissaoInsideSales
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lkRelEquipe As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkCSV.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkCSV As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkResumoRelatório.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkResumoRelatório As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle btnFecharRelatorios.
