@@ -64,10 +64,11 @@ namespace ABAINFRA.Web
             string SQL;
 
 
-            SQL = "SELECT ID_TABELA_DEMURRAGE, NM_TIPO_CONTAINER, FORMAT(DT_VALIDADE_INICIAL,'dd/MM/yyyy') AS DT_VALIDADE_INICIAL_FORMAT ";
-            SQL += "FROM TB_TABELA_DEMURRAGE ";
-            SQL += "JOIN TB_TIPO_CONTAINER ";
-            SQL += "ON dbo.TB_TABELA_DEMURRAGE.ID_TIPO_CONTAINER = dbo.TB_TIPO_CONTAINER.ID_TIPO_CONTAINER ";
+            SQL = "SELECT A.ID_TABELA_DEMURRAGE, CASE WHEN A.FL_CARGA_IMO = 1 THEN C.CD_TAMANHO_CONTAINER ELSE B.NM_TIPO_CONTAINER END AS TIPO_CONTAINER, FORMAT(DT_VALIDADE_INICIAL,'dd/MM/yyyy') AS DT_VALIDADE_INICIAL_FORMAT, ";
+            SQL += "CASE WHEN A.FL_CARGA_IMO = 1 THEN 'SIM' ELSE 'NAO' END AS CARGA_IMO ";
+            SQL += "FROM TB_TABELA_DEMURRAGE A ";
+            SQL += "LEFT JOIN TB_TIPO_CONTAINER B ON A.ID_TIPO_CONTAINER = B.ID_TIPO_CONTAINER ";
+            SQL += "LEFT JOIN TB_TAMANHO_CONTAINER C ON A.ID_TAMANHO_CONTAINER = C.ID_TAMANHO_CONTAINER ";
             if (armador != "")
             {
                 SQL += "WHERE ID_PARCEIRO_TRANSPORTADOR = '" + armador + "' ";
@@ -103,8 +104,13 @@ namespace ABAINFRA.Web
                 return "0";
             }
 
-            if (dados.ID_TIPO_CONTAINER.ToString() == "")
+            if (dados.ID_TIPO_CONTAINER.ToString() == "" && dados.FL_CARGA_IMO == "0")
             {
+                return "0";
+            }
+
+            if (dados.ID_TAMANHO_CONTAINER.ToString() == "" && dados.FL_CARGA_IMO == "1")
+			{
                 return "0";
             }
 
@@ -323,10 +329,10 @@ namespace ABAINFRA.Web
             if (consulta == null)
             {
                 SQL = "insert into TB_TABELA_DEMURRAGE (ID_PARCEIRO_TRANSPORTADOR,ID_TIPO_CONTAINER,DT_VALIDADE_INICIAL,QT_DIAS_FREETIME, ";
-                SQL += "ID_MOEDA, FL_ESCALONADA, FL_INICIO_CHEGADA, FL_CARGA_IMO, QT_DIAS_01 ,VL_VENDA_01 ,QT_DIAS_02 ,VL_VENDA_02 ,QT_DIAS_03 ,VL_VENDA_03 ,QT_DIAS_04, ";
+                SQL += "ID_MOEDA, FL_ESCALONADA, FL_INICIO_CHEGADA, FL_CARGA_IMO, ID_TAMANHO_CONTAINER, QT_DIAS_01 ,VL_VENDA_01 ,QT_DIAS_02 ,VL_VENDA_02 ,QT_DIAS_03 ,VL_VENDA_03 ,QT_DIAS_04, ";
                 SQL += "VL_VENDA_04 ,QT_DIAS_05 ,VL_VENDA_05 ,QT_DIAS_06 ,VL_VENDA_06 ,QT_DIAS_07 ,VL_VENDA_07 ,QT_DIAS_08 ,VL_VENDA_08) ";
-                SQL += "VALUES( '" + dados.ID_PARCEIRO_TRANSPORTADOR + "','" + dados.ID_TIPO_CONTAINER + "', ";
-                SQL += "'" + dados.DT_VALIDADE_INICIAL + "','" + dados.QT_DIAS_FREETIME + "','" + dados.ID_MOEDA + "','" + dados.FL_ESCALONADA + "', '" + dados.FL_INICIO_CHEGADA + "', '"+dados.FL_CARGA_IMO+"', ";
+                SQL += "VALUES( '" + dados.ID_PARCEIRO_TRANSPORTADOR + "'," + (dados.ID_TIPO_CONTAINER == "" ? "NULL": dados.ID_TIPO_CONTAINER) + ", ";
+                SQL += "'" + dados.DT_VALIDADE_INICIAL + "','" + dados.QT_DIAS_FREETIME + "','" + dados.ID_MOEDA + "','" + dados.FL_ESCALONADA + "', '" + dados.FL_INICIO_CHEGADA + "', '"+dados.FL_CARGA_IMO+"', "+(dados.ID_TAMANHO_CONTAINER == "" ? "NULL":dados.ID_TAMANHO_CONTAINER)+", ";
                 SQL += "'" + qtdias01 + "','" + vlVenda01.ToString().Replace(',', '.') + "', '" + qtdias02 + "','" + vlVenda02.ToString().Replace(',', '.') + "', ";
                 SQL += "'" + qtdias03 + "','" + vlVenda03.ToString().Replace(',', '.') + "', '" + qtdias04 + "','" + vlVenda04.ToString().Replace(',', '.') + "', ";
                 SQL += "'" + qtdias05 + "','" + vlVenda05.ToString().Replace(',', '.') + "', '" + qtdias06 + "','" + vlVenda06.ToString().Replace(',', '.') + "', ";
@@ -346,7 +352,7 @@ namespace ABAINFRA.Web
         {
 
             string SQL;
-            SQL = "SELECT ID_TABELA_DEMURRAGE, ID_PARCEIRO_TRANSPORTADOR, ID_TIPO_CONTAINER, FORMAT(DT_VALIDADE_INICIAL,'yyyy-MM-dd') AS DT_VALIDADE_INICIAL_FORMAT, ";
+            SQL = "SELECT ID_TABELA_DEMURRAGE, ID_PARCEIRO_TRANSPORTADOR, ID_TIPO_CONTAINER, ID_TAMANHO_CONTAINER, FORMAT(DT_VALIDADE_INICIAL,'yyyy-MM-dd') AS DT_VALIDADE_INICIAL_FORMAT, ";
             SQL += "QT_DIAS_FREETIME, ID_MOEDA, FL_ESCALONADA, FL_INICIO_CHEGADA, FL_CARGA_IMO, QT_DIAS_01, VL_VENDA_01, QT_DIAS_02, VL_VENDA_02, QT_DIAS_03, VL_VENDA_03, ";
             SQL += "QT_DIAS_04, VL_VENDA_04, QT_DIAS_05, VL_VENDA_05, QT_DIAS_06, VL_VENDA_06, QT_DIAS_07, VL_VENDA_07, QT_DIAS_08, VL_VENDA_08 ";
             SQL += "FROM TB_TABELA_DEMURRAGE ";
@@ -357,7 +363,7 @@ namespace ABAINFRA.Web
             DemurragesCls resultado = new DemurragesCls();
             resultado.ID_TABELA_DEMURRAGE = (int)carregarDados.Rows[0]["ID_TABELA_DEMURRAGE"];
             resultado.ID_PARCEIRO_TRANSPORTADOR = (int)carregarDados.Rows[0]["ID_PARCEIRO_TRANSPORTADOR"];
-            resultado.ID_TIPO_CONTAINER = (int)carregarDados.Rows[0]["ID_TIPO_CONTAINER"];
+            resultado.ID_TIPO_CONTAINER = carregarDados.Rows[0]["ID_TIPO_CONTAINER"].ToString();
             resultado.DT_VALIDADE_INICIAL = carregarDados.Rows[0]["DT_VALIDADE_INICIAL_FORMAT"].ToString();
             resultado.QT_DIAS_FREETIME = carregarDados.Rows[0]["QT_DIAS_FREETIME"].ToString();
             resultado.ID_MOEDA = (int)carregarDados.Rows[0]["ID_MOEDA"];
@@ -380,6 +386,7 @@ namespace ABAINFRA.Web
             resultado.VL_VENDA_07 = carregarDados.Rows[0]["VL_VENDA_07"].ToString();
             resultado.QT_DIAS_08 = carregarDados.Rows[0]["QT_DIAS_08"].ToString();
             resultado.VL_VENDA_08 = carregarDados.Rows[0]["VL_VENDA_08"].ToString();
+            resultado.ID_TAMANHO_CONTAINER = carregarDados.Rows[0]["ID_TAMANHO_CONTAINER"].ToString();
 
             return JsonConvert.SerializeObject(resultado);
 
@@ -408,7 +415,12 @@ namespace ABAINFRA.Web
                 return "0";
             }
 
-            if (dadosEdit.ID_TIPO_CONTAINER.ToString() == "")
+            if (dadosEdit.ID_TIPO_CONTAINER.ToString() == "" && dadosEdit.FL_CARGA_IMO == "0")
+            {
+                return "0";
+            }
+
+            if (dadosEdit.ID_TAMANHO_CONTAINER.ToString() == "" && dadosEdit.FL_CARGA_IMO == "1")
             {
                 return "0";
             }
@@ -447,9 +459,10 @@ namespace ABAINFRA.Web
             string vlvenda06 = dadosEdit.VL_VENDA_06.ToString().Replace(',', '.');
             string vlvenda07 = dadosEdit.VL_VENDA_07.ToString().Replace(',', '.');
             string vlvenda08 = dadosEdit.VL_VENDA_08.ToString().Replace(',', '.');
-            SQL = "UPDATE TB_TABELA_DEMURRAGE SET ID_PARCEIRO_TRANSPORTADOR = '" + dadosEdit.ID_PARCEIRO_TRANSPORTADOR + "' , ID_TIPO_CONTAINER = '" + dadosEdit.ID_TIPO_CONTAINER + "', ";
+            SQL = "UPDATE TB_TABELA_DEMURRAGE SET ID_PARCEIRO_TRANSPORTADOR = '" + dadosEdit.ID_PARCEIRO_TRANSPORTADOR + "' , ID_TIPO_CONTAINER = " + dadosEdit.ID_TIPO_CONTAINER == "" ? "NULL":dadosEdit.ID_TIPO_CONTAINER+ ", ";
             SQL += "DT_VALIDADE_INICIAL = '" + dadosEdit.DT_VALIDADE_INICIAL + "', QT_DIAS_FREETIME = '" + dadosEdit.QT_DIAS_FREETIME + "', ";
-            SQL += "ID_MOEDA = '" + dadosEdit.ID_MOEDA + "', FL_ESCALONADA ='" + dadosEdit.FL_ESCALONADA + "', FL_CARGA_IMO = '" + dadosEdit.FL_CARGA_IMO + "', QT_DIAS_01 ='" + qtdias01 + "' , VL_VENDA_01 = '" + vlvenda01 + "', ";
+            SQL += "ID_MOEDA = '" + dadosEdit.ID_MOEDA + "', FL_ESCALONADA ='" + dadosEdit.FL_ESCALONADA + "', FL_CARGA_IMO = '" + dadosEdit.FL_CARGA_IMO + "', ID_TAMANHO_CONTAINER = "+ dadosEdit.ID_TAMANHO_CONTAINER == "" ? "NULL":dadosEdit.ID_TAMANHO_CONTAINER+ ", ";
+            SQL += "QT_DIAS_01 ='" + qtdias01 + "' , VL_VENDA_01 = '" + vlvenda01 + "', ";
             SQL += "QT_DIAS_02 = '" + dadosEdit.QT_DIAS_02 + "', VL_VENDA_02 = '" + vlvenda02 + "', ";
             SQL += "QT_DIAS_03 = '" + dadosEdit.QT_DIAS_03 + "', VL_VENDA_03 = '" + vlvenda03 + "', ";
             SQL += "QT_DIAS_04 = '" + dadosEdit.QT_DIAS_04 + "', VL_VENDA_04 = '" + vlvenda04 + "', QT_DIAS_05 = '" + dadosEdit.QT_DIAS_05 + "', ";
@@ -998,12 +1011,9 @@ namespace ABAINFRA.Web
             int somaDias;
             decimal vlTaxa = 0;
 
-            SQL = "SELECT ISNULL(C.ID_TIPO_CARGA,0) AS ID_TIPO_CARGA FROM TB_CNTR_BL A ";
-            SQL += "JOIN TB_AMR_CNTR_BL B ON A.ID_CNTR_BL = B.ID_CNTR_BL ";
-            SQL += "JOIN TB_BL C ON B.ID_BL = C.ID_BL ";
-            SQL += "LEFT JOIN TB_TIPO_CARGA D ON C.ID_TIPO_CARGA = D.ID_TIPO_CARGA ";
+            SQL = "SELECT ISNULL(B.ID_TIPO_CARGA,0) AS ID_TIPO_CARGA FROM TB_CNTR_BL A ";
+            SQL += "LEFT JOIN TB_CARGA_BL B ON A.ID_CNTR_BL=B.ID_CNTR_BL ";
             SQL += "WHERE A.ID_CNTR_BL = "+idCont+" ";
-            SQL += "AND GRAU IN('C') ";
             string tipoCarga = DBS.ExecuteScalar(SQL);
 
             SQL = "SELECT PFCL.NR_CNTR, PFCL.NM_TIPO_CONTAINER, TBD.QT_DIAS_FREETIME as FreeTimeTab, PFCL.QT_DIAS_FREETIME, ";
@@ -1014,7 +1024,15 @@ namespace ABAINFRA.Web
             SQL += "TBD.VL_VENDA_05, TBD.VL_VENDA_06, TBD.VL_VENDA_07, TBD.VL_VENDA_08 ";
             SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
-            SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON PFCL.ID_TIPO_CNTR = TBD.ID_TIPO_CONTAINER ";
+            if(tipoCarga == "9")
+			{
+                SQL += "LEFT JOIN TB_TIPO_CONTAINER TPC ON PFCL.NM_TIPO_CONTAINER = TPC.NM_TIPO_CONTAINER ";
+                SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON TPC.ID_TAMANHO_CONTAINER = TBD.ID_TAMANHO_CONTAINER ";
+			}
+			else
+			{
+                SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON PFCL.ID_TIPO_CNTR = TBD.ID_TIPO_CONTAINER ";
+			}
             SQL += "LEFT JOIN TB_PARCEIRO P ON TBD.ID_PARCEIRO_TRANSPORTADOR = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_MOEDA M ON TBD.ID_MOEDA = M.ID_MOEDA ";
             SQL += "LEFT JOIN TB_CNTR_DEMURRAGE CD ON PFCL.ID_CNTR_BL = CD.ID_CNTR_BL ";
@@ -1139,12 +1157,9 @@ namespace ABAINFRA.Web
             int somaDias;
             decimal vlTaxa = 0;
 
-            SQL = "SELECT ISNULL(C.ID_TIPO_CARGA,0) AS ID_TIPO_CARGA FROM TB_CNTR_BL A ";
-            SQL += "JOIN TB_AMR_CNTR_BL B ON A.ID_CNTR_BL = B.ID_CNTR_BL ";
-            SQL += "JOIN TB_BL C ON B.ID_BL = C.ID_BL ";
-            SQL += "LEFT JOIN TB_TIPO_CARGA D ON C.ID_TIPO_CARGA = D.ID_TIPO_CARGA ";
+            SQL = "SELECT ISNULL(B.ID_TIPO_CARGA,0) AS ID_TIPO_CARGA FROM TB_CNTR_BL A ";
+            SQL += "LEFT JOIN TB_CARGA_BL B ON A.ID_CNTR_BL=B.ID_CNTR_BL ";
             SQL += "WHERE A.ID_CNTR_BL = " + idCont + " ";
-            SQL += "AND GRAU IN('C') ";
             string tipoCarga = DBS.ExecuteScalar(SQL);
 
             SQL = "SELECT PFCL.NR_CNTR, PFCL.NM_TIPO_CONTAINER, TBD.QT_DIAS_FREETIME as FreeTimeTab, PFCL.QT_DIAS_FREETIME, ";
@@ -1155,7 +1170,15 @@ namespace ABAINFRA.Web
             SQL += "TBD.VL_VENDA_05, TBD.VL_VENDA_06, TBD.VL_VENDA_07, TBD.VL_VENDA_08 ";
             SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
-            SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON PFCL.ID_TIPO_CNTR = TBD.ID_TIPO_CONTAINER ";
+            if (tipoCarga == "9")
+            {
+                SQL += "LEFT JOIN TB_TIPO_CONTAINER TPC ON PFCL.NM_TIPO_CONTAINER = TPC.NM_TIPO_CONTAINER ";
+                SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON TPC.ID_TAMANHO_CONTAINER = TBD.ID_TAMANHO_CONTAINER ";
+            }
+            else
+            {
+                SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON PFCL.ID_TIPO_CNTR = TBD.ID_TIPO_CONTAINER ";
+            }
             SQL += "LEFT JOIN TB_PARCEIRO P ON TBD.ID_PARCEIRO_TRANSPORTADOR = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_MOEDA M ON TBD.ID_MOEDA = M.ID_MOEDA ";
             SQL += "LEFT JOIN TB_CNTR_DEMURRAGE CD ON PFCL.ID_CNTR_BL = CD.ID_CNTR_BL ";
