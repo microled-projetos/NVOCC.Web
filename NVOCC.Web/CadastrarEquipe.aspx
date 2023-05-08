@@ -157,13 +157,13 @@
                                                                  <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Taxa Lider:</label>
-                                                <asp:TextBox ID="txtTaxaLider" runat="server" CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtTaxaLider" runat="server" CssClass="form-control valores"></asp:TextBox>
                                             </div>
                                         </div>
                                                                  <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Taxa Equipe:</label>
-                                                <asp:TextBox ID="txtTaxaEquipe" runat="server" CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtTaxaEquipe" runat="server" CssClass="form-control valores"></asp:TextBox>
                                             </div>
                                         </div>
                                <div class="col-sm-2">
@@ -445,4 +445,26 @@ ORDER BY NOME"></asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+    <script>
+        $(document).ready(function () {
+            Mascara();
+        });
+
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+        function EndRequestHandler(sender, args) {
+            Mascara();
+        };
+
+        function Mascara() {
+            $(".valores").on("keypress keyup blur", function (e) {
+                console.log("entrou")
+                var chr = String.fromCharCode(e.which);
+                if ("1234567890,".indexOf(chr) < 0)
+                    return false;
+
+            });
+        };
+
+    </script>
 </asp:Content>

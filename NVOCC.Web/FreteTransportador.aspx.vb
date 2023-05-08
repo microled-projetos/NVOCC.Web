@@ -335,7 +335,7 @@ Public Class FreteTransportador
     Private Sub lkExportaTarifario_Click(sender As Object, e As EventArgs) Handles lkExportaTarifario.Click
         Dim SQL As String = "SELECT * FROM View_Frete_Tarifario_CSV"
 
-        Classes.Excel.exportaExcel(SQL, "NVOCC", "Tarifario Importacao")
+        Classes.Excel.exportaExcel(SQL, "Tarifario Importacao")
     End Sub
     Sub BUSCA()
         Dim v As New VerificaData

@@ -22,7 +22,7 @@
         }
     </style>
 
-    
+
     <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="panel panel-primary">
@@ -56,7 +56,7 @@
                                             </asp:DropDownList>
                                         </div>
                                     </div>
-                                   
+
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <asp:Label ID="Label4" Style="padding-left: 35px" runat="server"></asp:Label>
@@ -67,7 +67,7 @@
                                         <div class="form-group">
                                             <asp:Label ID="Label1" runat="server">Competência</asp:Label><br />
 
-                                            <asp:TextBox ID="txtCompetencia" placeholder="MM/AAAA"  runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                                            <asp:TextBox ID="txtCompetencia" placeholder="MM/AAAA" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
@@ -82,8 +82,8 @@
                                         <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
 
                                         <asp:LinkButton ID="lkComissoes" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Comissões</asp:LinkButton>
-                                        <asp:LinkButton ID="lkRelatorios" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px" >Relatorios</asp:LinkButton>
-<%--                                        <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>--%>
+                                        <asp:LinkButton ID="lkRelatorios" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Relatorios</asp:LinkButton>
+                                        <%--                                        <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>--%>
                                         <asp:LinkButton ID="lkCCProcesso" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gravar no CC do Processo</asp:LinkButton>
 
 
@@ -107,7 +107,7 @@
                                                 <asp:BoundField DataField="COMPETENCIA" HeaderText="COMPETENCIA" SortExpression="COMPETENCIA" />
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
                                                 <asp:BoundField DataField="NR_NOTAS_FISCAL" HeaderText="NOTA FISCAL" SortExpression="NR_NOTAS_FISCAL" />
-                                                <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="DATA NOTA" SortExpression="DT_NOTA_FISCAL" DataFormatString="{0:dd/MM/yyyy}"/>
+                                                <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="DATA NOTA" SortExpression="DT_NOTA_FISCAL" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="PARCEIRO_VENDEDOR" HeaderText="VENDEDOR" SortExpression="PARCEIRO_VENDEDOR" />
                                                 <asp:BoundField DataField="ANALISTA_COTACAO" HeaderText="ANALISTA COTAÇÃO" SortExpression="ANALISTA_COTACAO" />
                                                 <asp:BoundField DataField="USUARIO_LIDER" HeaderText="USUARIO LÍDER" SortExpression="USUARIO_LIDER" />
@@ -191,17 +191,11 @@
                           
                                     
                                     
-                                 <div class="row">
-                                     <div class="col-sm-10">
-                                    <div class="form-group">                                             
-                                        <asp:LinkButton ID="lkRelEquipe" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" >Equipes por Competência</asp:LinkButton>
-                                        </div>
-                                         </div>
-                                   </div>  
+                                 
                                                             <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                             
-                                           <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>
+                                           <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Exportar CSV</asp:LinkButton>
                                         </div>
                                          </div>
                                    </div> 
@@ -212,7 +206,13 @@
                                         </div>
                                          </div>
                                    </div> 
-                                 
+                                <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                             
+                                        <asp:LinkButton ID="lkRelEquipe" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" Visible="false" >Equipes por Competência</asp:LinkButton>
+                                        </div>
+                                         </div>
+                                   </div>   
                              </div>
                                <div class="modal-footer">
                                          <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharRelatorios" text="Close" />
@@ -225,7 +225,8 @@
                                 <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlTabela" runat="server" CssClass="modalPopup">
-                                            <center>     <div class=" modal-dialog modal-dialog-centered modal-xl" role="document" id="myModal">
+                                            <center>    
+                                                <div class=" modal-dialog modal-dialog-centered modal-lg" role="document" id="myModal">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">TABELA DE COMISSÕES - GESTÃO</h5>
@@ -233,7 +234,7 @@
                                                         <div class="modal-body">                                       
                     
                                  <div class="row">
-                                  <div class="col-sm-3">
+                                     <div class="col-sm-3">
                                     <div class="form-group">                                          
 
                                                <asp:Label ID="Label27" runat="server">ID</asp:Label><br />
@@ -254,36 +255,35 @@
                                
                                                <asp:Label ID="Label7" runat="server">Taxa LCL</asp:Label><br />
 
-                               <asp:TextBox ID="txtLCL"  runat="server" CssClass="form-control"></asp:TextBox>
+                               <asp:TextBox ID="txtLCL"  runat="server" CssClass="form-control valores"></asp:TextBox>
                                         </div>
                                          </div>
-
                                      <div class="col-sm-3">
                                     <div class="form-group">                                          
  <asp:Label ID="Label8" runat="server">Taxa FCL</asp:Label><br />
 
-                               <asp:TextBox ID="txtFCL"  runat="server" CssClass="form-control"></asp:TextBox>
+                               <asp:TextBox ID="txtFCL"  runat="server" CssClass="form-control valores"></asp:TextBox>
                                     
                                         </div>
-                                          </div>  </div>
+                                          </div>  
+
+                                 </div>
                                      <div class="row">
-                                       <div class="col-sm-4">
+                                       <div class="col-sm-5">
                                     <div class="form-group">                                          
  <asp:Label ID="Label9" runat="server">Gestor</asp:Label><br />
 
- <asp:DropDownList ID="ddlGestor" runat="server" CssClass="combos form-control" DataTextField="NOME" DataSourceID="dsGestor" DataValueField="ID_USUARIO" style="font-size:15px" AutoPostBack="true" ></asp:DropDownList>                                    
+ <asp:DropDownList ID="ddlGestor" runat="server" CssClass="combos form-control" DataTextField="NOME" DataSourceID="dsGestor" DataValueField="ID_USUARIO" style="font-size:15px; width: 300px !important" AutoPostBack="true" ></asp:DropDownList>                                    
                                         </div>
                                          </div>
-                                       <div class="col-sm-4">
+                                       <div class="col-sm-5">
                                     <div class="form-group">                                          
  <asp:Label ID="Label20" runat="server">Equipes</asp:Label><br />
 
- <asp:DropDownList ID="ddlEquipes" runat="server" CssClass="combosMultiplos form-control" DataTextField="NM_EQUIPE" DataSourceID="dsEquipes" DataValueField="ID_EQUIPE" style="font-size:15px" ></asp:DropDownList>                                    
+ <asp:DropDownList ID="ddlEquipes" runat="server" CssClass="combosMultiplos form-control" DataTextField="NM_EQUIPE" DataSourceID="dsEquipes" DataValueField="ID_EQUIPE" style="font-size:15px; width: 300px !important" ></asp:DropDownList>                                    
                                         </div>
                                          </div>
-
-                                  
-                                                                          <div class="col-sm-2">
+                                       <div class="col-sm-2">
                                     <div class="form-group">                                             
                                 <div class="form-group"><asp:Label ID="Label10" runat="server"></asp:Label><br />
                                <asp:Button runat="server" Text="Gravar" ID="btnGravaTaxaTabela" CssClass="btn btn-success" /> 
@@ -294,7 +294,8 @@
                                    </div>          
                                 </div>  
 
-                             </div>    </div>
+                             </div>  
+                                     </div>
                                                             <div class="row">
                                                                 <div class="col-sm-12">
                                     <div class="form-group">                                          
@@ -339,7 +340,12 @@
                                          <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharTabela" text="Close" />
                                                         </div>                                                    
                                             
-                                       </div>     </center>
+                                       </div>  
+                                                        
+                                                        </div>
+                                                </div>
+                                                
+                                                        </center>
                                         </asp:Panel>
                                     </ContentTemplate>
 
@@ -605,9 +611,9 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                                                               <asp:TextBox ID="TextBox2" runat="server" Style="display: none;"></asp:TextBox>
+                                <asp:TextBox ID="TextBox2" runat="server" Style="display: none;"></asp:TextBox>
 
-                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkCCProcesso" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkCCProcesso" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
@@ -657,7 +663,7 @@
                                 <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoCCProcesso" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlFiltro" />
                                 <asp:PostBackTrigger ControlID="lkCSV" />
-                                <asp:PostBackTrigger ControlID="lkRelEquipe" />
+                                <asp:PostBackTrigger ControlID="lkResumoRelatório" />
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>
@@ -668,7 +674,7 @@
             </div>
         </div>
     </div>
-        
+
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_INSIDE_TAXA_COMISSAO,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL, B.NOME AS NOME_GESTOR, C.NM_EQUIPE FROM TB_INSIDE_TAXA_COMISSAO A INNER JOIN TB_USUARIO B ON A.ID_USUARIO_GESTOR = B.ID_USUARIO INNER JOIN TB_INSIDE_EQUIPE C ON A.ID_EQUIPE = C.ID_EQUIPE ORDER BY DT_VALIDADE_INICIAL"></asp:SqlDataSource>
@@ -683,32 +689,32 @@
         </SelectParameters>
     </asp:SqlDataSource>
 
-        <asp:SqlDataSource ID="dsEstufagem" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsEstufagem" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_ESTUFAGEM, NM_TIPO_ESTUFAGEM FROM [dbo].[TB_TIPO_ESTUFAGEM]
 union SELECT 0, 'Selecione' FROM [dbo].[TB_TIPO_ESTUFAGEM] ORDER BY ID_TIPO_ESTUFAGEM"></asp:SqlDataSource>
 
 
-            <asp:SqlDataSource ID="dsServico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsServico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO 
 union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
 
-        <asp:SqlDataSource ID="dsCliente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsCliente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO IN (SELECT DISTINCT ID_PARCEIRO_CLIENTE FROM TB_BL)
 union SELECT 0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
-          
-     <asp:SqlDataSource ID="dsEquipes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+
+    <asp:SqlDataSource ID="dsEquipes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_EQUIPE, NM_EQUIPE FROM TB_INSIDE_EQUIPE WHERE ID_USUARIO_LIDER = @ID_USUARIO_LIDER ORDER BY NM_EQUIPE">
-                <SelectParameters>
+        <SelectParameters>
             <asp:ControlParameter Name="ID_USUARIO_LIDER" Type="Int32" ControlID="ddlGestor" DefaultValue="0" />
         </SelectParameters>
-            </asp:SqlDataSource>
+    </asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsGestor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsGestor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_USUARIO, NOME FROM TB_USUARIO WHERE FL_ATIVO = 1 
 union SELECT 0, '   Selecione' ORDER BY NOME"></asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsVendedores" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsVendedores" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE (FL_VENDEDOR_DIRETO = 1 OR FL_VENDEDOR = 1 OR ID_PARCEIRO = (SELECT ID_PARCEIRO_EQUIPE_INSIDE FROM TB_PARAMETROS)) AND FL_ATIVO = 1 
 union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 </asp:Content>
@@ -721,6 +727,7 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
         $(document).ready(function () {
             Combos();
+            Mascara();
         });
 
 
@@ -735,7 +742,7 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
         function Combos() {
             $(".combos").select2({
-                 dropdownParent: $('#myModal .modal-content')
+                dropdownParent: $('#myModal .modal-content')
             });
 
             $(".combosMultiplos").select2({
@@ -748,7 +755,19 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
         Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
 
         function EndRequestHandler(sender, args) {
-            Combos();   
+            Combos();
+            Mascara();
+        };
+
+
+        function Mascara() {
+            $(".valores").on("keypress keyup blur", function (e) {
+                console.log("entrou")
+                var chr = String.fromCharCode(e.which);
+                if ("1234567890,".indexOf(chr) < 0)
+                    return false;
+
+            });
         };
 
     </script>

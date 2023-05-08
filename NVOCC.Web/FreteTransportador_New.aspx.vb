@@ -382,7 +382,7 @@ Public Class FreteTransportador_New
     Left Join TB_VIA_ROTA ROTA ON ROTA.ID_VIA_ROTA = A.ID_VIA_ROTA
     Left Join TB_PARCEIRO TRANSPORTADOR ON TRANSPORTADOR.ID_PARCEIRO = A.ID_TRANSPORTADOR"
 
-        Classes.Excel.exportaExcel(SQL, "NVOCC", "Tarifario Importacao")
+        Classes.Excel.exportaExcel(SQL, "Tarifario Importacao")
     End Sub
     Sub BUSCA()
         Dim v As New VerificaData

@@ -311,15 +311,6 @@ Partial Public Class ComissaoInsideSales
     Protected WithEvents pnlRelatorios As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle lkRelEquipe.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkRelEquipe As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle lkCSV.
     '''</summary>
     '''<remarks>
@@ -336,6 +327,15 @@ Partial Public Class ComissaoInsideSales
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lkResumoRelatório As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkRelEquipe.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkRelEquipe As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle btnFecharRelatorios.

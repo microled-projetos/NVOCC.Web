@@ -911,7 +911,7 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
 CASE WHEN FL_CONFERIDO = 1 THEN 'SIM' ELSE 'NÃO' END CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE TIPO_INVOICE,CONVERT(VARCHAR,A.DT_VENCIMENTO,103) VENCIMENTO,CONVERT(VARCHAR,A.DT_FECHAMENTO,103) FECHAMENTO,A.DS_OBSERVACAO OBS,A.SIGLA_MOEDA MOEDA,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
 INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACCOUNT_INVOICE,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO"
 
-            Classes.Excel.exportaExcel(SQL, "NVOCC", "Invoices")
+            Classes.Excel.exportaExcel(SQL, "Invoices")
         End If
 
 
@@ -954,14 +954,14 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
 " & filtro & "
 ORDER BY NR_PROCESSO"
 
-            Classes.Excel.exportaExcel(SQL, "NVOCC", "ProcessosPeriodo")
+            Classes.Excel.exportaExcel(SQL, "ProcessosPeriodo")
         End If
 
     End Sub
 
     Private Sub btnRelacaoAgentes_Click(sender As Object, e As EventArgs) Handles btnRelacaoAgentes.Click
         Dim sql As String = "SELECT DISTINCT PARCEIRO_AGENTE_INTERNACIONAL FROM [View_House] WHERE CONVERT(DATE, DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103)"
-        Classes.Excel.exportaExcel(sql, "NVOCC", "RelacaoAgentes")
+        Classes.Excel.exportaExcel(sql, "RelacaoAgentes")
 
     End Sub
 

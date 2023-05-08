@@ -266,6 +266,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INSIDE AS A LEFT OUTER JOIN
         txtValidade.Text = ""
         txtLCL.Text = ""
         txtFCL.Text = ""
+        ddlGestor.SelectedValue = 0
         divInfo.Visible = False
         DivExcluir.Visible = False
     End Sub
@@ -293,17 +294,16 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INSIDE AS A LEFT OUTER JOIN
                 filtro = ""
             End If
 
-            ' Dim SQL As String = "SELECT COMPETENCIA,NR_PROCESSO,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,PARCEIRO_VENDEDOR,ANALISTA_COTACAO,USUARIO_LIDER,PARCEIRO_CLIENTE,TP_SERVICO,TP_VIA,TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_PERCENTUAL,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,DS_OBSERVACAO FROM [dbo].[View_Comissao_Inside] WHERE COMPETENCIA ='" & txtCompetencia.Text & "' " & filtro & " union  SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL union SELECT NULL,NULL,NULL,NULL,PARCEIRO_VENDEDOR,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,sum (VL_COMISSAO_TOTAL)VL_COMISSAO_TOTAL,NULL,NULL FROM [dbo].[View_Comissao_Inside] WHERE COMPETENCIA ='" & txtCompetencia.Text & "' " & filtro & " group BY PARCEIRO_VENDEDOR UNION  SELECT NULL,NULL,NULL,NULL,ANALISTA_COTACAO,NULL,NULL,NULL,NULL,NULL,NULL,QT_BL,QT_CNTR,NULL,NULL, VL_COMISSAO_TOTAL as 'VALOR', NULL,NULL FROM [dbo].[FN_EQUIPES]('" & txtCompetencia.Text & "')  ORDER BY COMPETENCIA DESC, PARCEIRO_VENDEDOR,NR_PROCESSO ASC"
 
-
-            Dim SQL As String = "SELECT COMPETENCIA,NR_PROCESSO,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,PARCEIRO_VENDEDOR,ANALISTA_COTACAO,USUARIO_LIDER, NM_EQUIPE, NM_TIME,PARCEIRO_CLIENTE,TP_SERVICO,TP_VIA,TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,DS_OBSERVACAO, NULL,NULL,NULL,NULL FROM [dbo].[View_Comissao_Inside] WHERE COMPETENCIA ='" & txtCompetencia.Text & "'
+            Dim SQL1 As String = "SELECT COMPETENCIA,NR_PROCESSO,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,PARCEIRO_VENDEDOR,ANALISTA_COTACAO,USUARIO_LIDER, NM_EQUIPE, NM_TIME,PARCEIRO_CLIENTE,TP_SERVICO,TP_VIA,TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,DS_OBSERVACAO FROM [dbo].[View_Comissao_Inside] WHERE COMPETENCIA ='" & txtCompetencia.Text & "'
 UNION 
-SELECT NULL,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, NULL,NULL,NULL,NULL,NULL,NULL
-UNION 
-SELECT NULL, NULL, NULL, NULL,NOMENCLATURA,BENEFICIADO,NULL,  NULL,NULL,  NULL, NULL, NULL, NULL,TOTAL_PROCESSOS, NULL, COMISSAO_PROCESSO, COMISSAO_TOTAL, NULL, NULL, FL_CALC_TIME ,FL_CALC_EQUIPE ,FL_CALC_LIDER ,FL_CALC_GESTOR FROM [FN_RELATORIO_COMISSAO_INSIDE]('" & txtCompetencia.Text & "')
-ORDER BY COMPETENCIA DESC,NR_PROCESSO DESC, USUARIO_LIDER DESC, 20 DESC ,21 DESC,22 DESC,23 DESC "
+SELECT NULL,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, NULL,NULL 
+ORDER BY COMPETENCIA DESC,NR_PROCESSO DESC, USUARIO_LIDER DESC "
+            Dim SQL2 As String = " SELECT NULL, NULL, NULL, NULL,NOMENCLATURA,BENEFICIADO,NULL,  NULL,NULL,  NULL, NULL, NULL, NULL,TOTAL_PROCESSOS, NULL, COMISSAO_PROCESSO, COMISSAO_TOTAL  FROM [FN_RELATORIO_COMISSAO_INSIDE]('" & txtCompetencia.Text & "')
+ORDER BY  FL_CALC_TIME DESC ,FL_CALC_EQUIPE DESC,FL_CALC_LIDER DESC,FL_CALC_GESTOR DESC "
 
-            Classes.Excel.exportaExcel(SQL, "NVOCC", "Comissao")
+
+            Classes.Excel.exportaExcelDuplo(SQL1, SQL2, "Comissao")
         End If
 
     End Sub
@@ -834,7 +834,6 @@ ID_USUARIO_LANCAMENTO ,ID_USUARIO_LIQUIDACAO,TP_EXPORTACAO) VALUES('P','" & txtC
 
     End Sub
 
-
     Private Sub txtCompetencia_TextChanged(sender As Object, e As EventArgs) Handles txtCompetencia.TextChanged
         lblCompetenciaCCProcesso.Text = txtCompetencia.Text
     End Sub
@@ -850,51 +849,6 @@ ID_USUARIO_LANCAMENTO ,ID_USUARIO_LIQUIDACAO,TP_EXPORTACAO) VALUES('P','" & txtC
 
     End Sub
 
-
-    Sub TabelaEquipe(cabecalho As Integer)
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_ANALISTA_COTACAO,SUM (VL_COMISSAO_TOTAL)VL_COMISSAO_TOTAL FROM TB_DETALHE_COMISSAO_INSIDE
-WHERE ID_CABECALHO_COMISSAO_INSIDE = " & cabecalho & " AND FL_CALC_EQUIPE = 1 GROUP BY ID_ANALISTA_COTACAO ")
-        If ds.Tables(0).Rows.Count > 0 Then
-
-            For Each linha As DataRow In ds.Tables(0).Rows
-
-                Con.ExecutarQuery("INSERT INTO TB_EQUIPE_COMISSAO (ID_CABECALHO_COMISSAO_INSIDE,ID_USUARIO,VL_COMISSAO,FL_LIDER ) VALUES(" & cabecalho & "," & linha.Item("ID_ANALISTA_COTACAO") & ", " & linha.Item("VL_COMISSAO_TOTAL").ToString.Replace(".", "").Replace(",", ".") & ",0)")
-
-            Next
-
-        End If
-
-
-        ds = Con.ExecutarQuery("SELECT B.ID_USUARIO_LIDER, COUNT(ID_ANALISTA_COTACAO) * TAXA_LIDER as VALOR, TAXA_LIDER 
-FROM TB_DETALHE_COMISSAO_INSIDE A
-INNER JOIN TB_EQUIPE_MEMBROS B ON A.ID_ANALISTA_COTACAO = B.ID_USUARIO_MEMBRO_EQUIPE
-INNER JOIN TB_EQUIPE_LIDER C ON B.ID_USUARIO_LIDER = C.ID_USUARIO_LIDER
-WHERE ID_CABECALHO_COMISSAO_INSIDE = " & cabecalho & " AND FL_CALC_EQUIPE = 1
-GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
-
-        If ds.Tables(0).Rows.Count > 0 Then
-
-            For Each linha As DataRow In ds.Tables(0).Rows
-
-                Dim TaxaLider As String = linha.Item("TAXA_LIDER")
-                Dim TaxaLider_final As String = TaxaLider.ToString.Replace(".", "")
-                TaxaLider_final = TaxaLider_final.ToString.Replace(",", ".")
-
-
-                Con.ExecutarQuery("INSERT INTO TB_EQUIPE_COMISSAO (ID_CABECALHO_COMISSAO_INSIDE,ID_USUARIO,VL_COMISSAO,FL_LIDER ) VALUES(" & cabecalho & "," & linha.Item("ID_USUARIO_LIDER") & ", " & linha.Item("VALOR").ToString.Replace(",", ".") & ",1)")
-
-                Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INSIDE (ID_CABECALHO_COMISSAO_INSIDE,ID_USUARIO_LIDER,ID_PARCEIRO_VENDEDOR,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,FL_CALC_EQUIPE ) VALUES(" & cabecalho & "," & linha.Item("ID_USUARIO_LIDER") & ",(SELECT ID_PARCEIRO_EQUIPE_INSIDE FROM TB_PARAMETROS)," & TaxaLider_final & ", " & linha.Item("VALOR").ToString.Replace(",", ".") & ",1)")
-
-
-
-            Next
-
-        End If
-    End Sub
-
     Private Sub lkRelEquipe_Click(sender As Object, e As EventArgs) Handles lkRelEquipe.Click
         divErro.Visible = False
 
@@ -903,9 +857,9 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
             divErro.Visible = True
         Else
 
-            Dim SQL As String = "SELECT COMPETENCIA,USUARIO, VL_COMISSAO as 'VALOR',LIDER,NM_EQUIPE AS EQUIPE FROM [dbo].[View_Equipes] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' ORDER BY NM_EQUIPE,LIDER,USUARIO"
+            Dim SQL As String = "SELECT COMPETENCIA,USUARIO, VL_COMISSAO_TOTAL as 'VALOR',LIDER,NM_EQUIPE AS EQUIPE FROM [dbo].[View_Equipes] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' ORDER BY NM_EQUIPE,LIDER,USUARIO"
 
-            Classes.Excel.exportaExcel(SQL, "NVOCC", "Equipes")
+            Classes.Excel.exportaExcel(SQL, "Equipes")
         End If
 
     End Sub
@@ -917,6 +871,6 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
     Private Sub lkResumoRelatório_Click(sender As Object, e As EventArgs) Handles lkResumoRelatório.Click
         Dim SQL As String = "SELECT NOMENCLATURA,BENEFICIADO, TOTAL_PROCESSOS, COMISSAO_PROCESSO, COMISSAO_TOTAL FROM [FN_RELATORIO_COMISSAO_INSIDE]('" & txtCompetencia.Text & "') ORDER BY FL_CALC_TIME DESC,FL_CALC_EQUIPE DESC, FL_CALC_LIDER DESC, FL_CALC_GESTOR DESC  "
 
-        Classes.Excel.exportaExcel(SQL, "NVOCC", "ResumoComissao")
+        Classes.Excel.exportaExcel(SQL, "ResumoComissao")
     End Sub
 End Class
