@@ -367,10 +367,12 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
     End Sub
 
     Private Sub ddlEmissor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlEmissor.SelectedIndexChanged
-        If ddlEmissor.SelectedValue = 1 Then
+        If ddlEmissor.SelectedValue = 1 Then 'AGENTE
             txtNumeroInvoice.Enabled = True
-        ElseIf ddlEmissor.SelectedValue = 2 Then
+        ElseIf ddlEmissor.SelectedValue = 2 Then 'FCA
             txtNumeroInvoice.Enabled = False
+            txtDataInvoice.Enabled = False
+            txtDataInvoice.Text = Now.Date.ToString("dd/MM/yyyy")
         End If
         ModalPopupExtender2.Show()
     End Sub

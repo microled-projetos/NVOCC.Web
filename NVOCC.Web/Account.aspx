@@ -377,11 +377,9 @@
                                     </div>
                                         </div>
                                         <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label">Data Vencimento:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtVencimento" runat="server"  CssClass="form-control data"></asp:TextBox>
-
-
+                                    <div class="form-group">                                        
+                                         <label class="control-label">Data Invoice:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="txtDataInvoice" runat="server"  CssClass="form-control data"></asp:TextBox>
                                     </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -411,40 +409,29 @@
                                     </div>
                                         </div>
                                         <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label">Data Invoice:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtDataInvoice" runat="server"  CssClass="form-control data"></asp:TextBox>
-
-
+                                    <div class="form-group">                                         
+                                         <label class="control-label">Data Vencimento:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="txtVencimento" runat="server"  CssClass="form-control data"></asp:TextBox>
                                     </div>
                                         </div>
                                         <div class="col-sm-2">
                                     <div class="form-group">
                                             <label class="control-label"></label>
-
-                                                                        <asp:CheckBox ID="ckbConferido" runat="server" Checked="true" CssClass="form-control" Text="&nbsp;&nbsp;Conferido"></asp:CheckBox>
-
+                                            <asp:CheckBox ID="ckbConferido" runat="server" Checked="true" CssClass="form-control" Text="&nbsp;&nbsp;Conferido"></asp:CheckBox>
                                     </div>
                                         </div>
                                          </div>   
-                                                                                                                                    
-                                                            <div class="row">
-                                     
-                                      
+                                          <div class="row">
                                         <div class="col-sm-10">
                                     <div class="form-group">
                                           <label class="control-label">Observações:</label>
                                                 <asp:TextBox ID="txtObsInvoice" runat="server"  CssClass="form-control"></asp:TextBox>
-
-
                                     </div>
                                         </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label"></label>
                                <asp:Button runat="server" Text="Gravar" ID="btnGravarCabecalho" CssClass="btn btn-success btn-block" />
-
-
                                     </div>
                                         </div>
                                          </div>   
@@ -1434,14 +1421,14 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
                     //DEVOLUÇÃO DO FRETE DE COMPRA
                     document.getElementById('<%= lblValorFreteDevolucao.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
                     document.getElementById('<%= lblValorDifFrete.ClientID %>').innerHTML = Number(diferenca).toFixed(2);
-                     document.getElementById('<%= lblValorFreteCompra.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
-                     document.getElementById('<%= lblValorFreteVenda.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
-                 }
-                 else {
-                     if (tipodevolucao == 3) {
-                         console.log('DEVOLUÇÃO DO FRETE DE VENDA:');
-                         //DEVOLUÇÃO DO FRETE DE VENDA
-                         document.getElementById('<%= lblValorFreteDevolucao.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
+                    document.getElementById('<%= lblValorFreteCompra.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
+                    document.getElementById('<%= lblValorFreteVenda.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
+                }
+                else {
+                    if (tipodevolucao == 3) {
+                        console.log('DEVOLUÇÃO DO FRETE DE VENDA:');
+                        //DEVOLUÇÃO DO FRETE DE VENDA
+                        document.getElementById('<%= lblValorFreteDevolucao.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
                          document.getElementById('<%= lblValorDifFrete.ClientID %>').innerHTML = Number(diferenca).toFixed(2);
                          document.getElementById('<%= lblValorFreteCompra.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
                          document.getElementById('<%= lblValorFreteVenda.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
