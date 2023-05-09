@@ -68,13 +68,13 @@ Partial Public Class CotacaoComercial
     Protected WithEvents lblmsgErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtData.
+    '''Controle ddlDataAbertura.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtData As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents ddlDataAbertura As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlServico.
@@ -678,4 +678,13 @@ Partial Public Class CotacaoComercial
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsServico As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsDataAbertura.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsDataAbertura As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

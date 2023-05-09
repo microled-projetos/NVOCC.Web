@@ -53,7 +53,8 @@
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Data:</label><br />
-                                            <asp:TextBox ID="txtData" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                              <asp:DropDownList ID="ddlDataAbertura" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="DT_FORMATADA" DataSourceID="dsDataAbertura" DataValueField="DT_ABERTURA">
+                                            </asp:DropDownList>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
@@ -420,6 +421,9 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsServico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO WHERE ISNULL(TP_VIA,'') <> '' AND ID_SERVICO in (1,4) 
 union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsDataAbertura" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT DT_ABERTURA, DT_FORMATADA FROM [dbo].[View_Data_Cotacao_Repetidas] ORDER BY DT_ABERTURA DESC"></asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
