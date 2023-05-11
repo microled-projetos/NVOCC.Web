@@ -32,9 +32,7 @@ WHERE A.ID_STATUS_COTACAO = 8")
 
         End If
 
-        If Not Page.IsPostBack Then
-            ddlDataAbertura.SelectedIndex = 0
-        End If
+        txtData.Text = Now.Date.ToString("dd/MM/yyyy")
 
         Con.Fechar()
     End Sub
@@ -1938,7 +1936,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
     Sub GRID()
 
-        If ddlEstufagem.SelectedValue <> 0 And ddlIncoterm.SelectedValue <> 0 And ddlOrigem.SelectedValue <> 0 And ddlDestino.SelectedValue <> 0 And txtPeso.Text <> "" And txtCBM.Text <> "" And ddlServico.SelectedValue <> 0 Then
+        If txtData.Text <> "" And ddlEstufagem.SelectedValue <> 0 And ddlIncoterm.SelectedValue <> 0 And ddlOrigem.SelectedValue <> 0 And ddlDestino.SelectedValue <> 0 And txtPeso.Text <> "" And txtCBM.Text <> "" And ddlServico.SelectedValue <> 0 Then
             PesquisaRepetidas()
         Else
 
@@ -2589,7 +2587,7 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
 
     Sub PesquisaRepetidas()
 
-        If ddlEstufagem.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlOrigem.SelectedValue = 0 Or ddlDestino.SelectedValue = 0 Or txtPeso.Text = "" Or txtCBM.Text = "" Or ddlServico.SelectedValue = 0 Then
+        If txtData.Text = "" Or ddlEstufagem.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlOrigem.SelectedValue = 0 Or ddlDestino.SelectedValue = 0 Or txtPeso.Text = "" Or txtCBM.Text = "" Or ddlServico.SelectedValue = 0 Then
             lblmsgErro.Text = "Para verificação é necessario preencher todos os campos"
             divErro.Visible = True
         Else
@@ -2602,13 +2600,13 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
             If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 4 Then
                 'AGENCIAMENTO DE IMPORTACAO MARITIMA (1)
                 'AGENCIAMENTO DE EXPORTACAO MARITIMA (4)
-                sql = " SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IN ( SELECT ID_COTACAO FROM [dbo].[View_Cotacao_Repetidas] WHERE CONVERT(DATE,DT_ABERTURA,103) = CONVERT(DATE,'" & ddlDataAbertura.SelectedValue & "',103) AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & peso.Replace(",", ".") & " AND VL_M3 = " & cbm.Replace(",", ".") & " ) ORDER BY DT_ABERTURA DESC"
+                sql = " SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IN ( SELECT ID_COTACAO FROM [dbo].[View_Cotacao_Repetidas] WHERE CONVERT(DATE,DT_ABERTURA,103) BETWEEN CONVERT(DATE,GETDATE()-6,103) AND CONVERT(DATE,GETDATE(),103) AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & peso.Replace(",", ".") & " AND VL_M3 = " & cbm.Replace(",", ".") & " ) ORDER BY DT_ABERTURA DESC"
 
             ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
 
                 'AGENCIAMENTO DE IMPORTACAO AEREO (2)
                 'AGENCIAMENTO DE EXPORTAÇÃO AEREO (5)
-                sql = " SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IN ( SELECT ID_COTACAO FROM [dbo].[View_Cotacao_Repetidas] WHERE CONVERT(DATE,DT_ABERTURA,103) = CONVERT(DATE,'" & ddlDataAbertura.SelectedValue & "',103) AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & peso.Replace(",", ".") & " AND VL_CBM= " & cbm.Replace(",", ".") & " ) ORDER BY DT_ABERTURA DESC"
+                sql = " SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IN ( SELECT ID_COTACAO FROM [dbo].[View_Cotacao_Repetidas] WHERE CONVERT(DATE,DT_ABERTURA,103) BETWEEN CONVERT(DATE,GETDATE()-6,103) AND CONVERT(DATE,GETDATE(),103) AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & peso.Replace(",", ".") & " AND VL_CBM= " & cbm.Replace(",", ".") & " ) ORDER BY DT_ABERTURA DESC"
 
             End If
 
