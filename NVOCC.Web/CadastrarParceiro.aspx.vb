@@ -1544,8 +1544,13 @@ WHERE ID_PARCEIRO =" & ID)
     Private Sub btnSim_Click(sender As Object, e As EventArgs) Handles btnSim.Click
         If ckbTransportador.Checked = True Or ckbCiaAerea.Checked = True Then
             Response.Redirect("TaxasLocaisArmador.aspx?id=" & Session("ID_Parceiro"))
+
+        ElseIf ckbPrestador.Checked = True Then
+
+            Response.Redirect("TaxaPrestador.aspx?id=" & Session("ID_Parceiro"))
+
         Else
-            Response.Redirect("TaxaParceiro.aspx?id=" & Session("ID_Parceiro"))
+            Response.Redirect("TaxaParceiroAgenteInternacional.aspx?id=" & Session("ID_Parceiro"))
 
         End If
 
