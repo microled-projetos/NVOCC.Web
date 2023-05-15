@@ -40,17 +40,11 @@
                 </div>
 
                 <div class="panel-body">
-                    <br />
-
                     <div class="tab-pane fade active in" id="consulta">
-                        <br />
                        <%-- <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
                             <ContentTemplate>--%>
                                
-                               
-
-                                <br />
-                                <div class="row" runat="server">
+                                 <div class="row" runat="server">
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">ID:</label>

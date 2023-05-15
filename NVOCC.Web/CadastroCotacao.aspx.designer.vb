@@ -275,6 +275,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlIncoterm As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ddlDestinatarioCobranca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlDestinatarioCobranca As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ddlAnalista.
     '''</summary>
     '''<remarks>

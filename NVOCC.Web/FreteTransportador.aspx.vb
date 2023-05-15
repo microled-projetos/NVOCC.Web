@@ -666,6 +666,14 @@ Public Class FreteTransportador
             Dim VL_COMPRA As TextBox = TryCast(row.FindControl("txtCompra"), TextBox)
 
 
+            If VL_COMPRA.Text = "" Then
+                VL_COMPRA.Text = "0"
+            End If
+
+            If QT_DIAS_FREETIME.Text = "" Then
+                QT_DIAS_FREETIME.Text = "0"
+            End If
+
             Dim Con As New Conexao_sql
             Con.Conectar()
             Con.ExecutarQuery("INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR, ID_TIPO_CONTAINER, VL_COMPRA, QT_DIAS_FREETIME, ID_MOEDA ) VALUES (" & txtID.Text & "," & ID_TIPO_CONTAINER.SelectedValue & "," & VL_COMPRA.Text.Replace(".", "").Replace(",", ".") & " ,'" & QT_DIAS_FREETIME.Text & "', " & ID_MOEDA.SelectedValue & " ) ")
@@ -690,6 +698,14 @@ Public Class FreteTransportador
             Dim ID_TIPO_CONTAINER As DropDownList = dgvCntrEdicao.FooterRow.FindControl("ddlCntr")
             Dim QT_DIAS_FREETIME As TextBox = dgvCntrEdicao.FooterRow.FindControl("txtFreeTime")
             Dim VL_COMPRA As TextBox = dgvCntrEdicao.FooterRow.FindControl("txtCompra")
+
+            If VL_COMPRA.Text = "" Then
+                VL_COMPRA.Text = "0"
+            End If
+
+            If QT_DIAS_FREETIME.Text = "" Then
+                QT_DIAS_FREETIME.Text = "0"
+            End If
 
             Dim Con As New Conexao_sql
             Con.Conectar()

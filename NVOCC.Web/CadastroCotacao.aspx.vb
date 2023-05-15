@@ -55,7 +55,7 @@ Public Class CadastroCotacao
         Dim ds As DataSet
 
         ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,ISNULL(ID_FRETE_TRANSPORTADOR,0)ID_FRETE_TRANSPORTADOR,A.NR_COTACAO,ISNULL(ID_PORTO_DESTINO,0)ID_PORTO_DESTINO,ISNULL(ID_PORTO_ORIGEM,0)ID_PORTO_ORIGEM,ISNULL(ID_TRANSPORTADOR,0)ID_TRANSPORTADOR,ISNULL(A.ID_PARCEIRO_INDICADOR,0)ID_PARCEIRO_INDICADOR,DT_FOLLOWUP,
-CONVERT(varchar,A.DT_ABERTURA,103)DT_ABERTURA,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_EXPORTADOR,ISNULL(A.ID_PARCEIRO_IMPORTADOR,0)ID_PARCEIRO_IMPORTADOR,
+CONVERT(varchar,A.DT_ABERTURA,103)DT_ABERTURA,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_EXPORTADOR,ISNULL(A.ID_PARCEIRO_IMPORTADOR,0)ID_PARCEIRO_IMPORTADOR,ISNULL(ID_DESTINATARIO_COBRANCA,0)ID_DESTINATARIO_COBRANCA,
 A.ID_STATUS_COTACAO,
 CONVERT(varchar,A.DT_STATUS_COTACAO,103)DT_STATUS_COTACAO,
 CONVERT(varchar,A.DT_VALIDADE_COTACAO,103)DT_VALIDADE_COTACAO,
@@ -121,7 +121,10 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 dgvReferencia.Columns(3).Visible = True
                 dgvReferencia.Columns(4).Visible = True
             End If
+
             ddlStatusCotacao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO").ToString()
+            ddlDestinatarioCobranca.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString()
+            ddlDestinatarioCobrancaTaxa.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString()
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_STATUS_COTACAO")) Then
                 txtDataStatus.Text = ds.Tables(0).Rows(0).Item("DT_STATUS_COTACAO").ToString()
@@ -147,21 +150,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
             ddlTransportadorFrete.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             ddlFornecedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             ddlDestinatarioComercial.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString()
-
-
-            If ds.Tables(0).Rows(0).Item("ID_SERVICO").ToString() > 2 Then
-                'EXPO
-                ddlDestinatarioCobrancaTaxa.SelectedValue = 0
-            Else
-                'IMPO
-                If ds.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR").ToString() <> 0 Then
-                    ddlDestinatarioCobrancaTaxa.SelectedValue = 4
-
-                Else
-                    ddlDestinatarioCobrancaTaxa.SelectedValue = 1
-
-                End If
-            End If
 
             ckbEmailCotacao.Checked = ds.Tables(0).Rows(0).Item("FL_EMAIL_COTACAO")
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMAIL_COTACAO")) Then
@@ -544,17 +532,19 @@ union SELECT  0, 'Selecione'  ORDER BY ID_DESTINATARIO_COBRANCA"
         txtValorTaxaVendaMin.Enabled = True
         ddlMoedaVendaTaxa.Enabled = True
         ddlDestinatarioCobrancaTaxa.Enabled = True
-        If ddlServico.SelectedValue > 2 Then
-            'EXPO
-            ddlDestinatarioCobrancaTaxa.SelectedValue = 0
-        Else
-            'IMPO
-            If ddlImportador.SelectedValue <> 0 Then
-                ddlDestinatarioCobrancaTaxa.SelectedValue = 4
-            Else
-                ddlDestinatarioCobrancaTaxa.SelectedValue = 1
-            End If
-        End If
+        ddlDestinatarioCobrancaTaxa.SelectedValue = ddlDestinatarioCobranca.SelectedValue
+
+        'If ddlServico.SelectedValue > 2 Then
+        '    'EXPO
+        '    ddlDestinatarioCobrancaTaxa.SelectedValue = 0
+        'Else
+        '    'IMPO
+        '    If ddlImportador.SelectedValue <> 0 Then
+        '        ddlDestinatarioCobrancaTaxa.SelectedValue = 4
+        '    Else
+        '        ddlDestinatarioCobrancaTaxa.SelectedValue = 1
+        '    End If
+        'End If
 
         dsFornecedor.DataBind()
         ddlFornecedor.DataBind()
@@ -1278,7 +1268,7 @@ WHERE A.ID_COTACAO_MERCADORIA = " & ID)
 
         ' txtAbertura.Text = txtAbertura.Text.Replace("-", "/")
 
-        If txtAbertura.Text = "" Or ddlStatusCotacao.SelectedValue = 0 Or ddlUsuarioStatus.SelectedValue = 0 Or txtValidade.Text = "" Or ddlDestinatarioComercial.SelectedValue = 0 Or ddlAnalista.SelectedValue = 0 Or ddlCliente.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlEstufagem.SelectedValue = 0 Or ddlTipoBL.SelectedValue = 0 Or ddlServico.SelectedValue = 0 Or ddlVendedor.SelectedValue = 0 Then
+        If txtAbertura.Text = "" Or ddlDestinatarioCobranca.SelectedValue = 0 Or ddlStatusCotacao.SelectedValue = 0 Or ddlUsuarioStatus.SelectedValue = 0 Or txtValidade.Text = "" Or ddlDestinatarioComercial.SelectedValue = 0 Or ddlAnalista.SelectedValue = 0 Or ddlCliente.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlEstufagem.SelectedValue = 0 Or ddlTipoBL.SelectedValue = 0 Or ddlServico.SelectedValue = 0 Or ddlVendedor.SelectedValue = 0 Then
             ddlStatusCotacao.SelectedValue = Session("ID_STATUS")
             lblmsgErro.Text = "Preencha todos os campos obrigatórios na Aba de Informações Básicas."
             diverro.Visible = True
@@ -1419,10 +1409,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     End If
 
 
-                    ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO,ID_TIPO_BL, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, ID_USUARIO_STATUS, DT_VALIDADE_COTACAO,FL_FREE_HAND,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO,DT_FOLLOWUP,ID_PARCEIRO_RODOVIARIO,FL_EMAIL_COTACAO,EMAIL_COTACAO,FL_TC4,FL_TC6) VALUES ('" & txtNumeroCotacao.Text & "'," & ddlTipoBL.SelectedValue & ", getdate(), " & ddlStatusCotacao.SelectedValue & ", Convert(datetime, '" & txtDataStatus.Text & "', 103)," & ddlAnalista.SelectedValue & ", " & ddlAgente.SelectedValue & "," & ddlIncoterm.SelectedValue & "," & ddlEstufagem.SelectedValue & ", " & ddlDestinatarioComercial.SelectedValue & "," & ddlCliente.SelectedValue & "," & ddlClienteFinal.SelectedValue & ", " & ddlContato.SelectedValue & " , " & ddlServico.SelectedValue & " , " & ddlVendedor.SelectedValue & "," & ObsCliente & "," & ObsCancelamento & "," & ObsOperacional & "," & ddlMotivoCancelamento.SelectedValue & "," & ddlUsuarioStatus.SelectedValue & ",Convert(datetime, '" & txtValidade.Text & "', 103),'" & ckbFreeHand.Checked & "', " & ddlIndicador.SelectedValue & "," & ddlExportador.SelectedValue & "," & ddlImportador.SelectedValue & ",'" & ckbLTL.Checked & "','" & ckbDtaHub.Checked & "','" & ckbTranspDedicado.Checked & "'," & txtDataFollowUp.Text & "," & ddlTranspRodoviario.SelectedValue & ",'" & ckbEmailCotacao.Checked & "'," & EmailCotacao & ",'" & ckbTC4.Checked & "','" & ckbTC6.Checked & "') Select SCOPE_IDENTITY() as ID_COTACAO ")
+                    ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO,ID_TIPO_BL, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, ID_USUARIO_STATUS, DT_VALIDADE_COTACAO,FL_FREE_HAND,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO,DT_FOLLOWUP,ID_PARCEIRO_RODOVIARIO,FL_EMAIL_COTACAO,EMAIL_COTACAO,FL_TC4,FL_TC6,ID_DESTINATARIO_COBRANCA) VALUES ('" & txtNumeroCotacao.Text & "'," & ddlTipoBL.SelectedValue & ", getdate(), " & ddlStatusCotacao.SelectedValue & ", Convert(datetime, '" & txtDataStatus.Text & "', 103)," & ddlAnalista.SelectedValue & ", " & ddlAgente.SelectedValue & "," & ddlIncoterm.SelectedValue & "," & ddlEstufagem.SelectedValue & ", " & ddlDestinatarioComercial.SelectedValue & "," & ddlCliente.SelectedValue & "," & ddlClienteFinal.SelectedValue & ", " & ddlContato.SelectedValue & " , " & ddlServico.SelectedValue & " , " & ddlVendedor.SelectedValue & "," & ObsCliente & "," & ObsCancelamento & "," & ObsOperacional & "," & ddlMotivoCancelamento.SelectedValue & "," & ddlUsuarioStatus.SelectedValue & ",Convert(datetime, '" & txtValidade.Text & "', 103),'" & ckbFreeHand.Checked & "', " & ddlIndicador.SelectedValue & "," & ddlExportador.SelectedValue & "," & ddlImportador.SelectedValue & ",'" & ckbLTL.Checked & "','" & ckbDtaHub.Checked & "','" & ckbTranspDedicado.Checked & "'," & txtDataFollowUp.Text & "," & ddlTranspRodoviario.SelectedValue & ",'" & ckbEmailCotacao.Checked & "'," & EmailCotacao & ",'" & ckbTC4.Checked & "','" & ckbTC6.Checked & "'," & ddlDestinatarioCobranca.SelectedValue & ") Select SCOPE_IDENTITY() as ID_COTACAO ")
 
                     Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALCOTACAO =  " & Session("NR_COTACAO") & ", ANOSEQUENCIALCOTACAO = YEAR(GETDATE())")
 
+                    ddlDestinatarioCobrancaTaxa.SelectedValue = ddlDestinatarioCobranca.SelectedValue
 
                     'PREENCHE SESSÃO E CAMPO DE ID
                     Session("ID_COTACAO") = ds.Tables(0).Rows(0).Item("ID_COTACAO").ToString()
@@ -1500,7 +1491,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
 
                     'REALIZA UPDATE  
-                    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = " & ddlStatusCotacao.SelectedValue & ", DT_VALIDADE_COTACAO = Convert(datetime, '" & txtValidade.Text & "', 103), ID_AGENTE_INTERNACIONAL = " & ddlAgente.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm.SelectedValue & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & ", ID_DESTINATARIO_COMERCIAL = " & ddlDestinatarioComercial.SelectedValue & ", ID_CLIENTE = " & ddlCliente.SelectedValue & ", ID_CLIENTE_FINAL = " & ddlClienteFinal.SelectedValue & ", ID_CONTATO = " & ddlContato.SelectedValue & ", ID_SERVICO = " & ddlServico.SelectedValue & ", ID_VENDEDOR = " & ddlVendedor.SelectedValue & ", OB_CLIENTE = " & ObsCliente & ", OB_MOTIVO_CANCELAMENTO = " & ObsCancelamento & ", OB_OPERACIONAL = " & ObsOperacional & ", ID_MOTIVO_CANCELAMENTO = " & ddlMotivoCancelamento.SelectedValue & ", ID_TIPO_BL = " & ddlTipoBL.SelectedValue & ", FL_FREE_HAND = '" & ckbFreeHand.Checked & "',ID_PARCEIRO_INDICADOR = " & ddlIndicador.SelectedValue & ", ID_PARCEIRO_EXPORTADOR  = " & ddlExportador.SelectedValue & ", ID_PARCEIRO_IMPORTADOR = " & ddlImportador.SelectedValue & ",FL_LTL = '" & ckbLTL.Checked & "',FL_DTA_HUB = '" & ckbDtaHub.Checked & "',FL_TRANSP_DEDICADO  = '" & ckbTranspDedicado.Checked & "', DT_FOLLOWUP = " & txtDataFollowUp.Text & ", ID_PARCEIRO_RODOVIARIO = " & ddlTranspRodoviario.SelectedValue & ",FL_EMAIL_COTACAO = '" & ckbEmailCotacao.Checked & "', EMAIL_COTACAO = " & EmailCotacao & ", FL_TC4 = '" & ckbTC4.Checked & "',FL_TC6 = '" & ckbTC6.Checked & "'  WHERE ID_COTACAO = " & txtID.Text)
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = " & ddlStatusCotacao.SelectedValue & ", DT_VALIDADE_COTACAO = Convert(datetime, '" & txtValidade.Text & "', 103), ID_AGENTE_INTERNACIONAL = " & ddlAgente.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm.SelectedValue & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & ", ID_DESTINATARIO_COMERCIAL = " & ddlDestinatarioComercial.SelectedValue & ", ID_CLIENTE = " & ddlCliente.SelectedValue & ", ID_CLIENTE_FINAL = " & ddlClienteFinal.SelectedValue & ", ID_CONTATO = " & ddlContato.SelectedValue & ", ID_SERVICO = " & ddlServico.SelectedValue & ", ID_VENDEDOR = " & ddlVendedor.SelectedValue & ", OB_CLIENTE = " & ObsCliente & ", OB_MOTIVO_CANCELAMENTO = " & ObsCancelamento & ", OB_OPERACIONAL = " & ObsOperacional & ", ID_MOTIVO_CANCELAMENTO = " & ddlMotivoCancelamento.SelectedValue & ", ID_TIPO_BL = " & ddlTipoBL.SelectedValue & ", FL_FREE_HAND = '" & ckbFreeHand.Checked & "',ID_PARCEIRO_INDICADOR = " & ddlIndicador.SelectedValue & ", ID_PARCEIRO_EXPORTADOR  = " & ddlExportador.SelectedValue & ", ID_PARCEIRO_IMPORTADOR = " & ddlImportador.SelectedValue & ",FL_LTL = '" & ckbLTL.Checked & "',FL_DTA_HUB = '" & ckbDtaHub.Checked & "',FL_TRANSP_DEDICADO  = '" & ckbTranspDedicado.Checked & "', DT_FOLLOWUP = " & txtDataFollowUp.Text & ", ID_PARCEIRO_RODOVIARIO = " & ddlTranspRodoviario.SelectedValue & ",FL_EMAIL_COTACAO = '" & ckbEmailCotacao.Checked & "', EMAIL_COTACAO = " & EmailCotacao & ", FL_TC4 = '" & ckbTC4.Checked & "',FL_TC6 = '" & ckbTC6.Checked & "', ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & "  WHERE ID_COTACAO = " & txtID.Text)
 
 
                     If ddlStatusCotacao.SelectedValue <> Session("ID_STATUS") Then
@@ -1546,16 +1537,18 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
 
 
-                    If ddlServico.SelectedValue < 3 Then
-                        Dim ID_DESTINATARIO_COBRANCA As Integer = 1
+                    ' If ddlServico.SelectedValue < 3 Then
+                    ' Dim ID_DESTINATARIO_COBRANCA As Integer = 1
 
-                        If ddlImportador.SelectedValue <> 0 Then
-                            ID_DESTINATARIO_COBRANCA = 4
-                            ddlDestinatarioCobrancaTaxa.SelectedValue = 4
-                        End If
+                    'If ddlImportador.SelectedValue <> 0 Then
+                    '    ID_DESTINATARIO_COBRANCA = 4
+                    '    ddlDestinatarioCobrancaTaxa.SelectedValue = 4
+                    'End If
 
-                        Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET ID_DESTINATARIO_COBRANCA = " & ID_DESTINATARIO_COBRANCA & " WHERE ISNULL(VL_TAXA_VENDA,0) <> 0 AND ID_COTACAO = " & txtID.Text & " AND ID_COTACAO_TAXA NOT IN (SELECT ID_COTACAO_TAXA FROM View_Taxa_Bloqueada WHERE CD_PR= 'R')")
-                    End If
+                    Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & " WHERE ISNULL(VL_TAXA_VENDA,0) <> 0 AND ID_COTACAO = " & txtID.Text & " AND ID_COTACAO_TAXA NOT IN (SELECT ISNULL(ID_COTACAO_TAXA,0) FROM View_Taxa_Bloqueada WHERE CD_PR= 'R')")
+                    ' End If
+                    dgvTaxas.DataBind()
+                    ddlDestinatarioCobrancaTaxa.SelectedValue = ddlDestinatarioCobranca.SelectedValue
 
                     Session("estufagem") = ddlEstufagem.SelectedValue
                     Session("transporte") = ddlServico.SelectedValue

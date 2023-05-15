@@ -194,10 +194,7 @@ CASE WHEN ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
  ELSE ID_CLIENTE
  END ID_PARCEIRO_EMPRESA, 
  
- CASE WHEN ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
- THEN 4
- ELSE 1
- END ID_DESTINATARIO_COBRANCA, 
+ ISNULL(ID_DESTINATARIO_COBRANCA,0)ID_DESTINATARIO_COBRANCA, 
 
 ISNULL((SELECT isnull(FL_PROFIT_FRETE,0) FROM [dbo].TB_TIPO_DIVISAO_PROFIT WHERE ID_TIPO_DIVISAO_PROFIT = A.ID_TIPO_DIVISAO_FRETE),0)FL_PROFIT_FRETE,
 CASE 
@@ -229,76 +226,6 @@ end ID_ORIGEM_PAGAMENTO,ISNULL(FL_FRETE_DECLARADO,0)FL_FRETE_DECLARADO, ISNULL(F
             Dim dsFreteTaxa As DataSet
 
 
-            'FRETE COMPRA MARITIMO
-            If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM").ToString = 1 Then
-
-                dsFreteTaxa = Con.ExecutarQuery("SELECT ID_BL_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA, ID_ORIGEM_PAGAMENTO, isnull(ID_BL_MASTER,0)ID_BL_MASTER FROM TB_BL_TAXA WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL =" & ID_BL & " AND ID_BL_TAXA NOT IN (SELECT ISNULL(ID_BL_TAXA,0) FROM TB_CONTA_PAGAR_RECEBER_ITENS B INNER JOIN TB_CONTA_PAGAR_RECEBER A ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER WHERE A.DT_CANCELAMENTO IS NULL)")
-
-                If dsFreteTaxa.Tables(0).Rows.Count > 0 Then
-
-                    If finaliza.TaxaBloqueada(dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString, "BL") = False Then
-
-                        If dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_FRETE").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_MOEDA").ToString Then
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_MOEDA = " & dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_FRETE").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & " AND ID_BL = " & ID_BL)
-                        End If
-
-                        If dsCotacao.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_COMPRA").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("VL_TAXA").ToString Then
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA = " & dsCotacao.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_COMPRA").ToString.Replace(",", ".") & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & " AND ID_BL = " & ID_BL)
-                        End If
-
-                        If dsCotacao.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_COMPRA_MIN").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("VL_TAXA_MIN").ToString Then
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA_MIN = " & dsCotacao.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_COMPRA_MIN").ToString.Replace(",", ".") & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
-                        End If
-
-                        If dsCotacao.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA").ToString Then
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_PARCEIRO_EMPRESA = " & dsCotacao.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
-                        End If
-
-                        If dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString Then
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_DESTINATARIO_COBRANCA = " & dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
-                        End If
-
-                        'If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString Then
-                        '    Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
-                        'End If
-
-                        If dsCotacao.Tables(0).Rows(0).Item("FL_PROFIT_FRETE").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString Then
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DIVISAO_PROFIT = '" & dsCotacao.Tables(0).Rows(0).Item("FL_PROFIT_FRETE").ToString & "' WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
-                        End If
-
-
-                        If dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString Then
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_ORIGEM_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & " AND ID_BL = " & ID_BL)
-                        End If
-
-                        Dim calculaBL As New CalculaBL
-                        calculaBL.Calcular(dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString)
-                    End If
-
-                    '               Else
-                    '                   If ID_TIPO_ESTUFAGEM = 1 Then
-
-                    '                       ID_BASE_CALCULO = 5 'VALOR FIXO
-
-                    '                       'FRETE COMPRA
-                    '                       Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,FL_TAXA_TRANSPORTADOR,CD_ORIGEM_INF)
-                    'SELECT (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)," & ID_BASE_CALCULO & ",ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA_MIN," & ID_BL & ",'P', " & FL_PROFIT_FRETE & ",
-
-                    'ID_TRANSPORTADOR AS ID_PARCEIRO_EMPRESA, 
-
-                    'CASE WHEN ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6
-                    'THEN 4
-                    'ELSE 1
-                    'END ID_DESTINATARIO_COBRANCA,
-                    '1,'COTA'
-
-                    'FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO)
-
-
-                End If
-
-
-            End If
 
             If ID_SERVICO = 2 Or ID_SERVICO = 5 Then
                 'FRETE VENDA AEREO
@@ -455,6 +382,80 @@ end ID_ORIGEM_PAGAMENTO,ISNULL(FL_FRETE_DECLARADO,0)FL_FRETE_DECLARADO, ISNULL(F
 
 
             Else
+
+
+                'FRETE COMPRA MARITIMO
+                If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM").ToString = 1 Then
+
+                    dsFreteTaxa = Con.ExecutarQuery("SELECT ID_BL_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA, ID_ORIGEM_PAGAMENTO, isnull(ID_BL_MASTER,0)ID_BL_MASTER FROM TB_BL_TAXA WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL =" & ID_BL & " AND ID_BL_TAXA NOT IN (SELECT ISNULL(ID_BL_TAXA,0) FROM TB_CONTA_PAGAR_RECEBER_ITENS B INNER JOIN TB_CONTA_PAGAR_RECEBER A ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER WHERE A.DT_CANCELAMENTO IS NULL)")
+
+                    If dsFreteTaxa.Tables(0).Rows.Count > 0 Then
+
+                        If finaliza.TaxaBloqueada(dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString, "BL") = False Then
+
+                            If dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_FRETE").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_MOEDA").ToString Then
+                                Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_MOEDA = " & dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_FRETE").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & " AND ID_BL = " & ID_BL)
+                            End If
+
+                            If dsCotacao.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_COMPRA").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("VL_TAXA").ToString Then
+                                Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA = " & dsCotacao.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_COMPRA").ToString.Replace(",", ".") & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & " AND ID_BL = " & ID_BL)
+                            End If
+
+                            If dsCotacao.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_COMPRA_MIN").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("VL_TAXA_MIN").ToString Then
+                                Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA_MIN = " & dsCotacao.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_COMPRA_MIN").ToString.Replace(",", ".") & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
+                            End If
+
+                            If dsCotacao.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA").ToString Then
+                                Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_PARCEIRO_EMPRESA = " & dsCotacao.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
+                            End If
+
+                            If dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString Then
+                                Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_DESTINATARIO_COBRANCA = " & dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
+                            End If
+
+                            'If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString Then
+                            '    Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
+                            'End If
+
+                            If dsCotacao.Tables(0).Rows(0).Item("FL_PROFIT_FRETE").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString Then
+                                Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DIVISAO_PROFIT = '" & dsCotacao.Tables(0).Rows(0).Item("FL_PROFIT_FRETE").ToString & "' WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & "  AND ID_BL = " & ID_BL)
+                            End If
+
+
+                            If dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString <> dsFreteTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString Then
+                                Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_ORIGEM_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString & " WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='P' AND ID_BL_TAXA = " & dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString & " AND ID_BL = " & ID_BL)
+                            End If
+
+                            Dim calculaBL As New CalculaBL
+                            calculaBL.Calcular(dsFreteTaxa.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        '               Else
+                        '                   If ID_TIPO_ESTUFAGEM = 1 Then
+
+                        '                       ID_BASE_CALCULO = 5 'VALOR FIXO
+
+                        '                       'FRETE COMPRA
+                        '                       Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,FL_TAXA_TRANSPORTADOR,CD_ORIGEM_INF)
+                        'SELECT (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)," & ID_BASE_CALCULO & ",ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA_MIN," & ID_BL & ",'P', " & FL_PROFIT_FRETE & ",
+
+                        'ID_TRANSPORTADOR AS ID_PARCEIRO_EMPRESA, 
+
+                        'CASE WHEN ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6
+                        'THEN 4
+                        'ELSE 1
+                        'END ID_DESTINATARIO_COBRANCA,
+                        '1,'COTA'
+
+                        'FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO)
+
+
+                    End If
+
+
+                End If
+
+
                 'FRETE VENDA MARITIMO
                 dsFreteTaxa = Con.ExecutarQuery("SELECT ID_BL_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_ORIGEM_PAGAMENTO FROM TB_BL_TAXA WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS) AND CD_PR='R' AND ID_BL =" & ID_BL & " AND ID_BL_TAXA NOT IN (SELECT ISNULL(ID_BL_TAXA,0) FROM TB_CONTA_PAGAR_RECEBER_ITENS B INNER JOIN TB_CONTA_PAGAR_RECEBER A ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER WHERE A.DT_CANCELAMENTO IS NULL)")
                 If dsFreteTaxa.Tables(0).Rows.Count > 0 Then
@@ -549,6 +550,7 @@ end ID_ORIGEM_PAGAMENTO,ISNULL(FL_FRETE_DECLARADO,0)FL_FRETE_DECLARADO, ISNULL(F
 
 
                 End If
+
             End If
         End If
     End Sub
