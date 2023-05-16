@@ -120,7 +120,6 @@ Public Class FreteTransportador
             End If
         Next
     End Sub
-
     Private Sub dgvFreteTranportador_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvFreteTranportador.RowCommand
         divSuccess.Visible = False
         divErro.Visible = False
@@ -781,5 +780,21 @@ Public Class FreteTransportador
 
     Private Sub btnLimparFiltros_Click(sender As Object, e As EventArgs) Handles btnLimparFiltros.Click
         Response.Redirect("FreteTransportador.aspx")
+    End Sub
+
+    Protected Sub ckbSelecionar_CheckedChanged(sender As Object, e As EventArgs)
+        For i As Integer = 0 To dgvFreteTranportador.Rows.Count - 1
+            dgvFreteTranportador.Rows(i).CssClass = "Normal"
+            Dim check As CheckBox = dgvFreteTranportador.Rows(i).FindControl("ckbSelecionar")
+
+            If check.Checked Then
+                dgvFreteTranportador.Rows(i).CssClass = "testefixado"
+            End If
+
+
+        Next
+
+
+
     End Sub
 End Class

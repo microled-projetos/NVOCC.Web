@@ -12,13 +12,13 @@
              
         }
 
-       #DivGrid table tr {
+      /* #DivGrid table tr {
           
             white-space: nowrap;
            overflow: scroll !important;
-           color:red;
+           
            max-width:10px;
-      } 
+      } */
 
         .portos {
             z-index: 100;
@@ -34,6 +34,19 @@
            padding: 1em;
            white-space: nowrap;
         }*/
+
+       .testefixado {
+    overflow-y: auto;
+    max-height: 650px;
+    overflow-x: auto;
+    max-width: 100%;
+    color:red;
+
+        position: sticky !important;
+        top: 0;
+        background-color: beige;
+    }
+
     </style>
     <div class="row principal" >
         <div class="col-lg-12 table-responsive">
@@ -206,7 +219,7 @@
                                                     <asp:Button ID="btnExpandirRecolher" runat="server" CssClass="btn-default" Text="Expandir/Recolher" CommandName="ExpandirRecolher" OnClientClick="Expandir()"></asp:Button>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <asp:CheckBox ID="ckbSelecionar" runat="server" />
+                                                    <asp:CheckBox ID="ckbSelecionar" runat="server" OnCheckedChanged="ckbSelecionar_CheckedChanged" AutoPostBack="true"/>
                                                     <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="Edit" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>' Text="Editar"><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
 
                                                     <asp:LinkButton ID="btnDuplicar" runat="server" CssClass="btnGrid" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'
