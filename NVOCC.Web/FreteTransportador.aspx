@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="FreteTransportador.aspx.vb" Inherits="NVOCC.Web.FreteTransportador" MaintainScrollPositionOnPostback="true" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server" Style="max-width: 500px; overflow: auto;">
     <style>
         .btnGrid {
             color: black;
@@ -9,13 +9,16 @@
 
         th {
             z-index: 90; 
+             
         }
 
-       .table > tbody > tr  {
+       #DivGrid table tr {
           
-/*            max-width: 1px;
-*/            overflow: scroll !important;
-        }
+            white-space: nowrap;
+           overflow: scroll !important;
+           color:red;
+           max-width:10px;
+      } 
 
         .portos {
             z-index: 100;
@@ -32,7 +35,7 @@
            white-space: nowrap;
         }*/
     </style>
-    <div class="row principal">
+    <div class="row principal" >
         <div class="col-lg-12 table-responsive">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -451,10 +454,10 @@
                                                         <td colspan="8">
 
                                                             <div class="col-md-12">
-                                                                <div id="div<%# Eval("ID_FRETE_TRANSPORTADOR") %>" style="display: none; position: relative; left: 15px; top: 10px; white-space: nowrap;" class="teste_div">
+                                                                <div id="div<%# Eval("ID_FRETE_TRANSPORTADOR") %>" style="display: none; position: relative; left: 15px; top: 10px; white-space: nowrap; overflow:scroll; max-width:100px" >
 
                                                                     <div class="table-responsive">
-                                                                        <asp:GridView ID="dgvCntr" DataKeyNames="ID_TARIFARIO_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." ShowHeaderWhenEmpty="true" ShowFooterWhenEmpty="true" ShowFooter="true">
+                                                                        <asp:GridView ID="dgvCntr" DataKeyNames="ID_TARIFARIO_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="width: 4px;max-height: 400px; overflow: scroll;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." ShowHeaderWhenEmpty="true" ShowFooterWhenEmpty="true" ShowFooter="true">
                                                                             <Columns>
                                                                                 <asp:TemplateField HeaderText="ID" SortExpression="ID_TARIFARIO_FRETE_TRANSPORTADOR">
                                                                                     <ItemTemplate>
@@ -520,7 +523,7 @@
                                                             </div>
 
                                                         </td>
-                                                        <td colspan="10"></td>
+                                                        <td colspan="12"></td>
                                                     </tr>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
