@@ -8,30 +8,31 @@
         }
 
         th {
-            z-index: 90;
+            z-index: 90; 
+        }
+
+       .table > tbody > tr  {
+          
+/*            max-width: 1px;
+*/            overflow: scroll !important;
         }
 
         .portos {
             z-index: 100;
         }
-        
-         /*  .bootstrap-select {
-             min-width: 230px !important;
-      width:auto !important; 
-          max-width: 430px !important;
-          min-width: 150px !important;  
-        }      
-    */
 
-      /* .select2-container .select2-selection--single {
- 
-     height: 33px !important; 
-    
-}*/
-   
-        </style>
+       /* #doublescroll {
+            overflow: auto;
+            overflow-y: hidden;
+        }
+
+        #doublescroll p {
+           margin: 0;
+           padding: 1em;
+           white-space: nowrap;
+        }*/
+    </style>
     <div class="row principal">
-
         <div class="col-lg-12 table-responsive">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -41,98 +42,95 @@
 
                 <div class="panel-body">
                     <div class="tab-pane fade active in" id="consulta">
-                       <%-- <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
-                            <ContentTemplate>--%>
-                               
-                                 <div class="row" runat="server">
-                                    <div class="col-sm-1">
-                                        <div class="form-group">
-                                            <label class="control-label">ID:</label>
-                                            <asp:TextBox ID="txtFiltroID" runat="server" CssClass="form-control ApenasNumeros"></asp:TextBox>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label class="control-label">Via Transporte:</label>
-                                            <asp:TextBox ID="txtViaTransporte" runat="server" Style="display: none" CssClass="form-control" />
-                                            <asp:DropDownList ID="ddlViaTransporte" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" AutoPostBack="TRUE">
-                                            </asp:DropDownList>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 portos" id="divOrigem" runat="server">
-                                    </div>
-                                    <div class="col-sm-3 portos" id="divDestino" runat="server">
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <div class="form-group">
-                                            <asp:CheckBox ID="ckAtivo" runat="server" Text="&nbsp;&nbsp;Ativo" Checked="true"/><br />
-                                            <asp:CheckBox ID="ckInativo" runat="server" Text="&nbsp;&nbsp;Inativo" />
-
-                                        </div>
-                                    </div>
-                                     <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <asp:CheckBox ID="ckConsolidada" runat="server" Text="&nbsp;&nbsp;Consolidada" Checked="true"/><br />
-                                            <asp:CheckBox ID="ckNaoConsolidada" runat="server" Text="&nbsp;&nbsp;Não Consolidada" Checked="true"/>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    <div class="row" runat="server">
-                                    <div class="col-sm-1">
-                                        <div class="form-group">
-                                            <label class="control-label">Validade Inicial:</label>
-                                            <asp:TextBox ID="txtValidadeInicial" runat="server" CssClass="form-control data"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <div class="form-group">
-                                            <label class="control-label">Validade Final:</label>
-                                            <asp:TextBox ID="txtValidadeFinal" runat="server" CssClass="form-control data"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <label class="control-label">Transportador:</label><br />
-                                            <asp:DropDownList ID="ddlTransportador" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO" style="font-size:15px" ></asp:DropDownList>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <label class="control-label">Agente:</label><br />
-                                            <asp:DropDownList ID="ddlAgente" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>
-                                        </div>
-                                    </div>
-
-
-                                    
-                                   
-                                    <div class="col-sm-1">
-                                        <div class="form-group">
-                                          <label class="control-label" style="color: white">x:</label><br />
-                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnBusca" Text="Pesquisar" /><br />
-                                            <br />
-                                                 </div>
-                                    </div>
-                                        <div class="col-sm-1">
-                                        <div class="form-group">
-                                          <label class="control-label" style="color: white">x:</label><br />
-                                            <asp:Button runat="server" CssClass="btn btn-alert" ID="btnLimparFiltros" Text="Limpar Filtros" /><br />
-                                            <br />
-                                                 </div>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <div class="form-group">
-                                            <label class="control-label" style="color: white">x:</label><br />
-                                            <asp:LinkButton ID="lkExportar" runat="server" CssClass="btn btn-default" Style="font-size: 15px; background-color: lightgray"><i class="fa fa-file-excel"></i>&nbsp;Exportar</asp:LinkButton>
-                                        </div>
-                                    </div>
+                        <div class="row" runat="server">
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <label class="control-label">ID:</label>
+                                    <asp:TextBox ID="txtFiltroID" runat="server" CssClass="form-control ApenasNumeros"></asp:TextBox>
                                 </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label">Via Transporte:</label>
+                                    <asp:TextBox ID="txtViaTransporte" runat="server" Style="display: none" CssClass="form-control" />
+                                    <asp:DropDownList ID="ddlViaTransporte" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" AutoPostBack="TRUE">
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 portos" id="divOrigem" runat="server">
+                            </div>
+                            <div class="col-sm-3 portos" id="divDestino" runat="server">
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <asp:CheckBox ID="ckAtivo" runat="server" Text="&nbsp;&nbsp;Ativo" Checked="true" /><br />
+                                    <asp:CheckBox ID="ckInativo" runat="server" Text="&nbsp;&nbsp;Inativo" />
+
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <asp:CheckBox ID="ckConsolidada" runat="server" Text="&nbsp;&nbsp;Consolidada" Checked="true" /><br />
+                                    <asp:CheckBox ID="ckNaoConsolidada" runat="server" Text="&nbsp;&nbsp;Não Consolidada" Checked="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" runat="server">
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <label class="control-label">Validade Inicial:</label>
+                                    <asp:TextBox ID="txtValidadeInicial" runat="server" CssClass="form-control data"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <label class="control-label">Validade Final:</label>
+                                    <asp:TextBox ID="txtValidadeFinal" runat="server" CssClass="form-control data"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">Transportador:</label><br />
+                                    <asp:DropDownList ID="ddlTransportador" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO" Style="font-size: 15px"></asp:DropDownList>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">Agente:</label><br />
+                                    <asp:DropDownList ID="ddlAgente" runat="server" CssClass="combos form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                </div>
+                            </div>
 
 
-                                <ajaxToolkit:ModalPopupExtender ID="mpeImprimir" runat="server" PopupControlID="Panel1" TargetControlID="lkExportar" CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+
+
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <label class="control-label" style="color: white">x:</label><br />
+                                    <asp:Button runat="server" CssClass="btn btn-success" ID="btnBusca" Text="Pesquisar" /><br />
+                                    <br />
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <label class="control-label" style="color: white">x:</label><br />
+                                    <asp:Button runat="server" CssClass="btn btn-alert" ID="btnLimparFiltros" Text="Limpar Filtros" /><br />
+                                    <br />
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <label class="control-label" style="color: white">x:</label><br />
+                                    <asp:LinkButton ID="lkExportar" runat="server" CssClass="btn btn-default" Style="font-size: 15px; background-color: lightgray"><i class="fa fa-file-excel"></i>&nbsp;Exportar</asp:LinkButton>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <ajaxToolkit:ModalPopupExtender ID="mpeImprimir" runat="server" PopupControlID="Panel1" TargetControlID="lkExportar" CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
+                        <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" Style="display: none;">
+                            <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Exportar</h5>
@@ -165,16 +163,9 @@
                                                 </div>
       
                                        </div>     </center>
-                                </asp:Panel>
+                        </asp:Panel>
 
 
-                            <%--</ContentTemplate>
-                            <Triggers>
-                                <asp:PostBackTrigger ControlID="lkExportar" />
-                                <asp:PostBackTrigger ControlID="ddlViaTransporte" />
-                                <asp:PostBackTrigger ControlID="lkExportaTarifario" />
-                            </Triggers>
-                        </asp:UpdatePanel>--%>
                         <br />
 
                         <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
@@ -189,10 +180,10 @@
                                 <br />
 
 
-                                <asp:TextBox ID="TextBox2"  runat="server"  style="display: none"></asp:TextBox>
+                                <asp:TextBox ID="TextBox2" runat="server" Style="display: none"></asp:TextBox>
 
-                                 <div runat="server" id="divAuxiliar" style="display: none">
-                                    
+                                <div runat="server" id="divAuxiliar" style="display: none">
+
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                     <asp:TextBox ID="txtIDTafifario" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
@@ -202,11 +193,13 @@
                                 </div>
 
                                 <div id="DivGrid" class="table-responsive tableFixHead DivGrid">
-                                    <asp:GridView ID="dgvFreteTranportador" DataKeyNames="ID_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable dgvFreteTranportador" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFreteTranportador" AutoGenerateColumns="false" Style="max-height: 600px; overflow: auto;" AllowSorting="true" OnSorting="dgvFreteTranportador_Sorting" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="50" ShowFooter="True">
+<%--                                    <div id="doublescroll">--%>
+
+                                    <asp:GridView ID="dgvFreteTranportador" DataKeyNames="ID_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable dgvFreteTranportador" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFreteTranportador" AutoGenerateColumns="false" Style="max-height: 500px;max-width: 100px; overflow: auto;" AllowSorting="true" OnSorting="dgvFreteTranportador_Sorting" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="50" ShowFooter="True">
                                         <Columns>
                                             <asp:TemplateField HeaderStyle-ForeColor="#337ab7">
                                                 <HeaderTemplate>
-                                                    <asp:CheckBox ID="ckbSelecionarTodos" runat="server" Font-Size="Small" Text="Selecionar Todos" AutoPostBack="true" OnCheckedChanged="CheckUncheckAll" /><%-- OnCheckedChanged="CheckUncheckAll"--%>
+                                                    <asp:CheckBox ID="ckbSelecionarTodos" runat="server" Font-Size="Small" Text="Selecionar Todos" AutoPostBack="true" OnCheckedChanged="CheckUncheckAll" />
                                                     <asp:Button ID="btnExpandirRecolher" runat="server" CssClass="btn-default" Text="Expandir/Recolher" CommandName="ExpandirRecolher" OnClientClick="Expandir()"></asp:Button>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
@@ -499,7 +492,7 @@
 
                                                                                 </asp:TemplateField>
 
-                                                                                 <asp:TemplateField HeaderText="MOEDA ORIGIN CHARGES" HeaderStyle-ForeColor="#337ab7" SortExpression="MOEDA_ORIGIN_CHARGES">
+                                                                                <asp:TemplateField HeaderText="MOEDA ORIGIN CHARGES" HeaderStyle-ForeColor="#337ab7" SortExpression="MOEDA_ORIGIN_CHARGES">
                                                                                     <ItemTemplate>
                                                                                         <asp:Label ID="lblMOEDAORIGIN_CHARGES" runat="server" Text='<%# Eval("MOEDA_ORIGIN_CHARGES") %>' />
                                                                                     </ItemTemplate>
@@ -513,7 +506,7 @@
 
                                                                                 </asp:TemplateField>
 
-                                                                               
+
 
                                                                             </Columns>
 
@@ -707,7 +700,6 @@
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
                                <div class="modal-footer">                   
-<%--                                   <asp:Button runat="server" CssClass="btn btn-success" ID="btnGravarCntr" text="Gravar" /> --%>
                                    <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharCntr" text="Close" />
                               </div>
                                                     </div>    
@@ -716,7 +708,6 @@
                                         </asp:Panel>
                                     </ContentTemplate>
                                     <Triggers>
-                                        <%--                                        <asp:AsyncPostBackTrigger ControlID="btnGravarCntr" />--%>
                                         <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCntrEdicao" />
                                     </Triggers>
                                 </asp:UpdatePanel>
@@ -767,12 +758,8 @@
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCntrEdicao" />
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvFreteTranportador" />
                                 <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvFreteTranportador" />
-                                <%-- <asp:PostBackTrigger ControlID="dgvFreteTranportador" />
-                                <asp:PostBackTrigger ControlID="dgvFreteTranportador" />--%>
                                 <asp:AsyncPostBackTrigger ControlID="btnBusca" />
-                                                                <asp:AsyncPostBackTrigger ControlID="btnFecharCntr" />
-
-                                
+                                <asp:AsyncPostBackTrigger ControlID="btnFecharCntr" />
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>
@@ -874,7 +861,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
 
         function Combos() {
             $(".combos").select2({ placeholder: "  Selecione", allowClear: true });
-         
+
             $('.selectpicker').selectpicker();
         };
 
@@ -959,76 +946,50 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
 
             var txtAuxiliarExpandir = document.getElementById('<%= txtAuxiliarExpandir.ClientID %>').value;
 
-             for (var i = 0; txtAuxiliarExpandir.length > 0; i++) {
+            for (var i = 0; txtAuxiliarExpandir.length > 0; i++) {
 
-                 var resultado = txtAuxiliarExpandir.substring(0, txtAuxiliarExpandir.indexOf(","));
-                 console.log('teste2 =' + resultado);
+                var resultado = txtAuxiliarExpandir.substring(0, txtAuxiliarExpandir.indexOf(","));
+                console.log('teste2 =' + resultado);
 
-                 if (resultado == "" && txtAuxiliarExpandir.length > 0) {
-                     resultado = txtAuxiliarExpandir.substring(0);
-                 }
-                 console.log('teste3 =' + resultado);
+                if (resultado == "" && txtAuxiliarExpandir.length > 0) {
+                    resultado = txtAuxiliarExpandir.substring(0);
+                }
+                console.log('teste3 =' + resultado);
 
-                 divexpandcollapse("div" + resultado);
+                divexpandcollapse("div" + resultado);
 
-                 console.log(txtAuxiliarExpandir.indexOf(","));
+                console.log(txtAuxiliarExpandir.indexOf(","));
 
-                 if (txtAuxiliarExpandir.indexOf(",") == -1) {
-                     txtAuxiliarExpandir = txtAuxiliarExpandir.replace(resultado, "");
-                 } else {
-                     txtAuxiliarExpandir = txtAuxiliarExpandir.replace(resultado + ",", "");
-                 }
+                if (txtAuxiliarExpandir.indexOf(",") == -1) {
+                    txtAuxiliarExpandir = txtAuxiliarExpandir.replace(resultado, "");
+                } else {
+                    txtAuxiliarExpandir = txtAuxiliarExpandir.replace(resultado + ",", "");
+                }
 
-                 console.log('AuxiliarExpandir atualizado =' + txtAuxiliarExpandir);
-                 console.log('AuxiliarExpandir length =' + txtAuxiliarExpandir.length);
-             }
+                console.log('AuxiliarExpandir atualizado =' + txtAuxiliarExpandir);
+                console.log('AuxiliarExpandir length =' + txtAuxiliarExpandir.length);
+            }
 
         }
 
+        //function DoubleScroll(element) {
+        //    var scrollbar = document.createElement('div');
+        //    scrollbar.appendChild(document.createElement('div'));
+        //    scrollbar.style.overflow = 'auto';
+        //    scrollbar.style.overflowY = 'hidden';
+        //    scrollbar.firstChild.style.width = element.scrollWidth + 'px';
+        //    scrollbar.firstChild.style.paddingTop = '1px';
+        //    scrollbar.firstChild.appendChild(document.createTextNode('\xA0'));
+        //    scrollbar.onscroll = function () {
+        //        element.scrollLeft = scrollbar.scrollLeft;
+        //    };
+        //    element.onscroll = function () {
+        //        scrollbar.scrollLeft = element.scrollLeft;
+        //    };
+        //    element.parentNode.insertBefore(scrollbar, element);
+        //}
 
-       <%-- function SelecionarTudo() {
-            var gridView = document.getElementById('<%= dgvFreteTranportador.ClientID %>');
-            console.log('Inicio:');
-            for (var i = 0; i < gridView.rows.length; i++) {
-                var inputs = gridView.rows[i].getElementsByTagName('input');
-                if (inputs[0] != undefined) {
-                    if (inputs[0].type == "checkbox") {
-                        inputs[0].checked = true;
-                        console.log('checked = true');
-                    }
-                }
-            }
-        };--%>
+        //DoubleScroll(document.getElementById('doublescroll'));
 
-
-
-       
-
-
-       <%-- function Expandir2() {
-            var gridView = document.getElementById('<%= dgvFreteTranportador.ClientID %>');
-            console.log('Inicio:');
-            for (var i = 1; i < gridView.rows.length; i++) {
-                var inputs = gridView.rows[i].getElementsByTagName('input');
-                if (inputs[0] != undefined) {
-                    if (inputs[0].type == "checkbox") {
-                        if (inputs[0].checked) {
-                            var auxiliar = i;
-                            console.log('auxiliar:' + auxiliar);
-                            var label = 'MainContent_dgvFreteTranportador_lblID_' + auxiliar;
-
-                            if (document.getElementById(label).innerHTML != undefined) {
-                                console.log('label:' + document.getElementById(label).innerHTML);
-                            }
-
-                            divexpandcollapse('div' + document.getElementById(label).innerHTML);
-
-
-                        }
-                    }
-
-                }
-            }
-        };--%>
     </script>
 </asp:Content>
