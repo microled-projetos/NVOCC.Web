@@ -162,7 +162,7 @@
                                             <asp:BoundField DataField="NR_RECIBO" HeaderText="Recibo" SortExpression="NR_RECIBO" />
                                             <asp:BoundField DataField="DT_RECIBO" HeaderText="Data Recibo" SortExpression="DT_RECIBO" />
                                             <asp:BoundField DataField="NR_NOTA_FISCAL" HeaderText="Nota Fiscal" SortExpression="NR_NOTA_FISCAL" />
-                                            <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="Data Nota Fiscal" SortExpression="DT_NOTA_FISCAL" />
+                                            <asp:BoundField DataField="DT_NF_COMPETENCIA" HeaderText="Competência Nota Fiscal" SortExpression="DT_NF_COMPETENCIA" />
                                             <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="Data de Liquidação" SortExpression="DT_LIQUIDACAO" />
                                             <asp:BoundField DataField="DT_CANCELAMENTO" HeaderText="Data de Cancelamento" SortExpression="DT_CANCELAMENTO" />
                                             <asp:BoundField DataField="NOSSONUMERO" HeaderText="Nosso Número" SortExpression="NOSSONUMERO" />
@@ -799,7 +799,7 @@
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_FATURAMENTO,DT_VENCIMENTO,NR_PROCESSO,NM_CLIENTE_REDUZIDO,REFERENCIA_CLIENTE,REFERENCIA_AUXILIAR,REFERENCIA_SHIPPER,VL_NOTA_DEBITO,NR_NOTA_DEBITO,DT_NOTA_DEBITO,NR_RPS,DT_RPS,
-NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_LIQUIDACAO,DT_CANCELAMENTO,NOSSONUMERO,ARQ_REM,NM_TIPO_FATURAMENTO,DT_ENVIO_FATURAMENTO,FL_FREE_HAND FROM [dbo].[View_Faturamento]"></asp:SqlDataSource>
+NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_NF_COMPETENCIA,,DT_LIQUIDACAO,DT_CANCELAMENTO,NOSSONUMERO,ARQ_REM,NM_TIPO_FATURAMENTO,DT_ENVIO_FATURAMENTO,FL_FREE_HAND FROM [dbo].[View_Faturamento]"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>

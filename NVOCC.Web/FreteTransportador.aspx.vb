@@ -336,7 +336,7 @@ Public Class FreteTransportador
 
         Classes.Excel.exportaExcel(SQL, "Tarifario Importacao")
     End Sub
-    Sub BUSCA()
+    Sub BUSCA(Optional Ordem As String = "")
         Dim v As New VerificaData
         Dim filtro As String = ""
 
@@ -448,7 +448,13 @@ Public Class FreteTransportador
 
         End If
 
-        Dim sql As String = "SELECT * FROM [View_FreteTransportador]  " & filtro & " order by ID_FRETE_TRANSPORTADOR DESC"
+        Dim sql As String = ""
+        If Ordem = "" Then
+            sql = "  Select * From [View_FreteTransportador]  " & filtro & " Order By ID_FRETE_TRANSPORTADOR DESC"
+        Else
+            sql = "  Select * From [View_FreteTransportador]  " & filtro & Ordem
+        End If
+
         dsFreteTranportador.SelectCommand = sql
 
         dgvFreteTranportador.DataBind()
@@ -517,7 +523,7 @@ Public Class FreteTransportador
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_VINCULO_USUARIO WHERE ID_TIPO_USUARIO in (1,11) AND ID_USUARIO = " & Session("ID_USUARIO"))
+            Dim ds As DataSet = Con.ExecutarQuery("Select COUNT(*)QTD FROM TB_VINCULO_USUARIO WHERE ID_TIPO_USUARIO In (1,11) And ID_USUARIO = " & Session("ID_USUARIO"))
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                 dgvFreteTranportador.Columns(17).Visible = False
 
@@ -528,7 +534,7 @@ Public Class FreteTransportador
 
 
             If e.Row.RowState = DataControlRowState.Edit Or e.Row.RowState = 5 Then
-                ds = Con.ExecutarQuery("SELECT ID_TRANSPORTADOR,ID_AGENTE,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_VIA_ROTA,ID_TIPO_FREQUENCIA,ID_TIPO_CARGA FROM View_FreteTransportador WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
+                ds = Con.ExecutarQuery("Select ID_TRANSPORTADOR,ID_AGENTE,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_VIA_ROTA,ID_TIPO_FREQUENCIA,ID_TIPO_CARGA FROM View_FreteTransportador WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
 
                     Dim ID_FRETE_TRANSPORTADOR As String = CType(e.Row.FindControl("lblID"), Label).Text
@@ -559,7 +565,7 @@ Public Class FreteTransportador
                 Dim dgvCntr As GridView = CType(e.Row.FindControl("dgvCntr"), GridView)
 
                 If dgvCntr IsNot Nothing Then
-                    Dim dt1 As DataSet = Con.ExecutarQuery("SELECT * FROM [View_Frete_Tarifario_Cntr] WHERE ID_FRETE_TRANSPORTADOR = " & ID.Text)
+                    Dim dt1 As DataSet = Con.ExecutarQuery("Select * FROM [View_Frete_Tarifario_Cntr] WHERE ID_FRETE_TRANSPORTADOR = " & ID.Text)
                     dgvCntr.DataSource = dt1
                     dgvCntr.DataBind()
 
@@ -581,7 +587,7 @@ Public Class FreteTransportador
             Con.Conectar()
             Dim ds As DataSet
 
-            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            ds = Con.ExecutarQuery("Select COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 And FL_EXCLUIR = 1 And ID_TIPO_USUARIO In(" & Session("ID_TIPO_USUARIO") & " )")
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                 lblErroCntr.Text = "Usuário não tem permissão para realizar exclusões"
                 divErroCntr.Visible = True
@@ -602,7 +608,7 @@ Public Class FreteTransportador
             Dim ID As String = e.CommandArgument
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR,ID_TIPO_CONTAINER,VL_COMPRA,QT_DIAS_FREETIME,ID_MOEDA)   SELECT ID_FRETE_TRANSPORTADOR,ID_TIPO_CONTAINER,VL_COMPRA,QT_DIAS_FREETIME,ID_MOEDA FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & ID)
+            Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR,ID_TIPO_CONTAINER,VL_COMPRA,QT_DIAS_FREETIME,ID_MOEDA)   Select ID_FRETE_TRANSPORTADOR,ID_TIPO_CONTAINER,VL_COMPRA,QT_DIAS_FREETIME,ID_MOEDA FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & ID)
             Con.Fechar()
 
             dsCntr.SelectParameters("ID_FRETE_TRANSPORTADOR").DefaultValue = txtID.Text
@@ -635,16 +641,16 @@ Public Class FreteTransportador
 
                     Con.ExecutarQuery("UPDATE TB_TARIFARIO_FRETE_TRANSPORTADOR  SET  ID_TIPO_CONTAINER = " & ID_TIPO_CONTAINER.SelectedValue & ", VL_COMPRA = " & VL_COMPRA.Text.Replace(".", "").Replace(",", ".") & ", QT_DIAS_FREETIME = " & QT_DIAS_FREETIME.Text & ", ID_MOEDA = " & ID_MOEDA.SelectedValue & "  WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & ID_TARIFARIO_FRETE_TRANSPORTADOR)
 
-                    txtID.Text = ID_FRETE_TRANSPORTADOR
+                txtID.Text = ID_FRETE_TRANSPORTADOR
 
-                    Con.Fechar()
+                Con.Fechar()
 
 
-                    Exit For
+                Exit For
 
                 End If
 
-            Next
+        Next
 
             divSuccessCntr.Visible = True
             lblmsgSuccessCntr.Text = "Registro atualizado com sucesso!"
@@ -783,18 +789,26 @@ Public Class FreteTransportador
     End Sub
 
     Protected Sub ckbSelecionar_CheckedChanged(sender As Object, e As EventArgs)
+        Dim IDs As String = ""
         For i As Integer = 0 To dgvFreteTranportador.Rows.Count - 1
             dgvFreteTranportador.Rows(i).CssClass = "Normal"
             Dim check As CheckBox = dgvFreteTranportador.Rows(i).FindControl("ckbSelecionar")
+            Dim IdSelecionado As Label = dgvFreteTranportador.Rows(i).FindControl("lblID")
 
             If check.Checked Then
                 dgvFreteTranportador.Rows(i).CssClass = "testefixado"
-            End If
+                dgvFreteTranportador.Rows(i).Focus()
 
+                If IDs <> "" Then
+                    IDs = IDs & " , " & IdSelecionado.Text
+                Else
+                    IDs = IdSelecionado.Text
+                End If
+            End If
 
         Next
 
-
+        ' BUSCA(" ORDER BY " & IDs)
 
     End Sub
 End Class

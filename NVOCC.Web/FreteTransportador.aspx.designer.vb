@@ -158,42 +158,6 @@ Partial Public Class FreteTransportador
     Protected WithEvents lkExportar As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle mpeImprimir.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents mpeImprimir As Global.AjaxControlToolkit.ModalPopupExtender
-
-    '''<summary>
-    '''Controle Panel1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Panel1 As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''Controle lkExportaTarifario.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkExportaTarifario As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle btnFechar.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnFechar As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle updPainel1.
     '''</summary>
     '''<remarks>
@@ -489,6 +453,42 @@ Partial Public Class FreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnFecharHistorico As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeImprimir.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeImprimir As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle Panel1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Panel1 As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle lkExportaTarifario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkExportaTarifario As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle btnFechar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFechar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle dsFreteTranportador.

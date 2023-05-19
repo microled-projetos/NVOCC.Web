@@ -1864,6 +1864,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
         Dim retData As String
         Dim retRps As String
         Dim retCompetencia As String
+        Dim retDtCompetencia As String
         Dim codVerificacao As String
         Dim retCodErro As String
         Dim ConteudoArquixoXML As String
@@ -1984,6 +1985,8 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     retNFSE = uri(0)("ns4:Numero").InnerText
                     retData = uri(0)("ns4:DataEmissao").InnerText
                     retCompetencia = Format(CDate(uri(0)("ns4:Competencia").InnerText), "yyyyMM")
+                    retDtCompetencia = Format(CDate(uri(0)("ns4:Competencia").InnerText), "dd/MM/yyyy")
+
                     codVerificacao = uri(0)("ns4:CodigoVerificacao").InnerText
 
                     uri = docRetorno.GetElementsByTagName("ns4:IdentificacaoRps")
@@ -1994,6 +1997,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
                     sSql = sSql & " , DT_NOTA_FISCAL =CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103) "
                     sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
+                    sSql = sSql & " , DT_COMPETENCIA ='" & retDtCompetencia & "' "
                     sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
                     sSql = sSql & " WHERE ID_FATURAMENTO = (SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                     Con.ExecutarQuery(sSql)
@@ -2064,6 +2068,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     retNFSE = uri(0)("ns4:Numero").InnerText
                     retData = uri(0)("ns4:DataEmissao").InnerText
                     retCompetencia = Format(CDate(uri(0)("ns4:Competencia").InnerText), "yyyyMM")
+                    retDtCompetencia = Format(CDate(uri(0)("ns4:Competencia").InnerText), "dd/MM/yyyy")
                     codVerificacao = uri(0)("ns4:CodigoVerificacao").InnerText
 
                     uri = docRetorno.GetElementsByTagName("ns4:IdentificacaoRps")
@@ -2074,6 +2079,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
                     sSql = sSql & " , DT_NOTA_FISCAL = CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103) "
                     sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
+                    sSql = sSql & " , DT_COMPETENCIA ='" & retDtCompetencia & "' "
                     sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
                     sSql = sSql & " WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                     Con.ExecutarQuery(sSql)
