@@ -1752,19 +1752,19 @@
 
                                                 </div>
                                             <div class="row">
-                                                  <div class="col-sm-3">
+                                                  <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label">Aeroporto de Origem:</label>
                                                         <asp:DropDownList ID="ddlOrigem_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label">Aeroporto de Destino:</label>
                                                         <asp:DropDownList ID="ddlDestino_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                 <div class="col-sm-3">
+                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label">Final Destination:</label>
                                                         <asp:DropDownList ID="ddlFinalDestination_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CIDADE" DataSourceID="dsFinalDestination" DataValueField="ID_CIDADE">
@@ -1777,8 +1777,8 @@
                                                         <asp:TextBox ID="txtValorCarga_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
-
-
+</div>
+                                             <div class="row">
                                                  <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Status Frete Agente:</label>
@@ -1787,7 +1787,7 @@
                                             </div>
                                         </div>
 
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label">Armazém de Desembaraço:</label>
                                                         <asp:DropDownList ID="ddlArmazem_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsArmazemDesembaraco" DataValueField="ID_PARCEIRO"></asp:DropDownList>
