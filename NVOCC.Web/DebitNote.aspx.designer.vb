@@ -302,6 +302,15 @@ Partial Public Class DebitNote
     Protected WithEvents lblBanco As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblEnderecoBanco.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblEnderecoBanco As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblAccount.
     '''</summary>
     '''<remarks>

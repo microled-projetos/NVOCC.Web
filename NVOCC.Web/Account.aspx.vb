@@ -253,6 +253,7 @@
         txtDataInvoice.Text = ""
         txtObsInvoice.Text = ""
         lblTotalInvoice.Text = 0
+        txtDataInvoice.Enabled = True
         ddlEmissor.Enabled = True
         ddlTipoInvoice.Enabled = True
         ddlTipoFatura.Enabled = True

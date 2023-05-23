@@ -704,7 +704,7 @@ union SELECT 0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
 
     <asp:SqlDataSource ID="dsEquipes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_EQUIPE, NM_EQUIPE FROM TB_INSIDE_EQUIPE WHERE ID_USUARIO_LIDER = @ID_USUARIO_LIDER ORDER BY NM_EQUIPE">
+        SelectCommand="SELECT ID_EQUIPE, NM_EQUIPE FROM TB_INSIDE_EQUIPE union SELECT 0, '   Selecione' ORDER BY NM_EQUIPE">
         <SelectParameters>
             <asp:ControlParameter Name="ID_USUARIO_LIDER" Type="Int32" ControlID="ddlGestor" DefaultValue="0" />
         </SelectParameters>
