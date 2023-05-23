@@ -1073,13 +1073,13 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
             If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 4 Then
                 'AGENCIAMENTO DE IMPORTACAO MARITIMA (1)
                 'AGENCIAMENTO DE EXPORTACAO MARITIMA (4)
-                sql = " SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IN ( SELECT ID_COTACAO FROM [dbo].[View_Cotacao_Repetidas] WHERE CONVERT(DATE,DT_ABERTURA,103) = CONVERT(DATE,'" & txtData.Text & "',103) AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & peso.Replace(",", ".") & " AND VL_M3 = " & cbm.Replace(",", ".") & " ) ORDER BY DT_ABERTURA DESC"
+                sql = " SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IN ( SELECT ID_COTACAO FROM [dbo].[View_Cotacao_Repetidas] WHERE CONVERT(DATE,DT_ABERTURA,103) BETWEEN CONVERT(DATE,GETDATE()-6,103) AND CONVERT(DATE,GETDATE(),103) AND  ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & peso.Replace(",", ".") & " AND VL_M3 = " & cbm.Replace(",", ".") & " ) ORDER BY DT_ABERTURA DESC"
 
             ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
 
                 'AGENCIAMENTO DE IMPORTACAO AEREO (2)
                 'AGENCIAMENTO DE EXPORTAÇÃO AEREO (5)
-                sql = " SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IN ( SELECT ID_COTACAO FROM [dbo].[View_Cotacao_Repetidas] WHERE CONVERT(DATE,DT_ABERTURA,103) = CONVERT(DATE,'" & txtData.Text & "',103) AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & peso.Replace(",", ".") & " AND VL_CBM= " & cbm.Replace(",", ".") & " ) ORDER BY DT_ABERTURA DESC"
+                sql = " SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IN ( SELECT ID_COTACAO FROM [dbo].[View_Cotacao_Repetidas] WHERE CONVERT(DATE,DT_ABERTURA,103) BETWEEN CONVERT(DATE,GETDATE()-6,103) AND CONVERT(DATE,GETDATE(),103) AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & peso.Replace(",", ".") & " AND VL_CBM= " & cbm.Replace(",", ".") & " ) ORDER BY DT_ABERTURA DESC"
 
             End If
 

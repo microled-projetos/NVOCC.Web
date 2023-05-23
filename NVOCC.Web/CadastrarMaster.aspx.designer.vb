@@ -23,6 +23,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents lblMaster_Titulo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle UpdatePanel19.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel19 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
     '''Controle divSuccess_BasicoMaritimo.
     '''</summary>
     '''<remarks>

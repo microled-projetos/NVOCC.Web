@@ -266,7 +266,14 @@
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
+                                                <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Status Frete Agente:</label>
+                                                <asp:DropDownList ID="ddlStatusFreteAgente_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsStatusFreteAgente" DataValueField="ID_STATUS_FRETE_AGENTE" Enabled="false">
+                                                </asp:DropDownList>
                                             </div>
+                                            </div>
+                                                </div>
                                             <div class="row">
                                                 <div class="col-sm-1" style="display: none">
                                                     <div class="form-group">
@@ -393,7 +400,7 @@
                                                 <div class="col-sm-1">
                                                     <div class="form-group">
                                                         <label class="control-label">Tipo de Pagamento:</label>
-                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO">
+                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" Enabled="false">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -433,7 +440,7 @@
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label"></label>
-                                                        <asp:CheckBox ID="ckbFreeHand_BasicoMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Free Hand"></asp:CheckBox>
+                                                        <asp:CheckBox ID="ckbFreeHand_BasicoMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Free Hand" AutoPostBack="true"></asp:CheckBox>
 
                                                     </div>
                                                 </div>
@@ -585,6 +592,8 @@
                                             <asp:AsyncPostBackTrigger ControlID="btnVisualizarMBL_Maritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeComissaria_Maritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeTranspRodoviario_BasicoMaritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="ddlStatusFreteAgente_BasicoMaritimo" /> 
+                                            <asp:AsyncPostBackTrigger ControlID="ckbFreeHand_BasicoMaritimo" />  
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
@@ -1583,7 +1592,7 @@
                                                 </div>
                                                 <div class="col-sm-3" style="display: none">
                                                     <div class="form-group">
-                                                        <label class="control-label">Master:</label>
+                                                        <label class="control-label">Master:</label>Armazém de Desembaraço:
                                                         <asp:TextBox ID="txtIDMaster_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
@@ -1652,7 +1661,7 @@
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Tipo de Pagamento:</label>
-                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO">
+                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" Enabled="false">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -1694,7 +1703,7 @@
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-
+                                               
                                                 
                                                     <div id="divFlagAereo" runat="server">
                                                     <div class="col-sm-1">
@@ -1724,7 +1733,7 @@
                                                                                                 <div class="col-sm-1">
                                                     <div class="form-group">
                                                         <label class="control-label"></label>
-                                                        <asp:CheckBox ID="ckbFreeHand_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;Free Hand"></asp:CheckBox>
+                                                        <asp:CheckBox ID="ckbFreeHand_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;Free Hand" AutoPostBack="true"></asp:CheckBox>
 
                                                     </div>
                                                 </div>
@@ -1770,7 +1779,13 @@
                                                 </div>
 
 
-
+                                                 <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Status Frete Agente:</label>
+                                                <asp:DropDownList ID="ddlStatusFreteAgente_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsStatusFreteAgente" DataValueField="ID_STATUS_FRETE_AGENTE" Enabled="false">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
 
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
@@ -2053,6 +2068,7 @@
                                             <asp:AsyncPostBackTrigger ControlID="btnVisualizarMBL_Aereo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeComissaria_Aereo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeTranspRodoviario_BasicoAereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="ckbFreeHand_BasicoAereo" />                                            
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
@@ -3523,6 +3539,11 @@ C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACA
             <asp:Parameter Name="ID_BL_TAXA" Type="Int32" DefaultValue="0" />
         </SelectParameters>
     </asp:SqlDataSource>
+
+        <asp:SqlDataSource ID="dsStatusFreteAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_STATUS_FRETE_AGENTE, NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENTE 
+union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE_AGENTE"></asp:SqlDataSource>
+
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

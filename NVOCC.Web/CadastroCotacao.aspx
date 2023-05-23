@@ -226,13 +226,13 @@
 
 
 
-                                        <div class="col-sm-2">
+                                        <%--<div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Status Frete Agente:</label>
                                                 <asp:DropDownList ID="ddlStatusFreteAgente" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsStatusFreteAgente" DataValueField="ID_STATUS_FRETE_AGENTE">
                                                 </asp:DropDownList>
                                             </div>
-                                        </div>
+                                        </div>--%>
 
                                         <div class="col-sm-2">
                                             <div class="form-group">

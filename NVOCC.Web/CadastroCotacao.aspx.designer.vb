@@ -329,15 +329,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtEnvio As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlStatusFreteAgente.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlStatusFreteAgente As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle lblTipoBL.
     '''</summary>
     '''<remarks>

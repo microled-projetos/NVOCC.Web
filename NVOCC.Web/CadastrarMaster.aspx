@@ -90,8 +90,8 @@
 
                             <div class="tab-content">
                                 <div class="tab-pane fade active in" id="BasicoMaritimo">
-                                 <%--    <asp:UpdatePanel ID="UpdatePanel19" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
-                            <ContentTemplate>--%>
+                                     <asp:UpdatePanel ID="UpdatePanel19" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                            <ContentTemplate>
                                     <div class="alert alert-success" id="divSuccess_BasicoMaritimo" runat="server" visible="false">
                                         <asp:Label ID="lblSuccess_BasicoMaritimo" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
                                     </div>
@@ -177,7 +177,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Tipo de Pagamento:</label>
-                                                <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" >
+                                                <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" AutoPostBack="true">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -304,7 +304,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Status Frete Agente:</label>
-                                                <asp:DropDownList ID="ddlStatusFreteAgente_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsStatusFreteAgente" DataValueField="ID_STATUS_FRETE_AGENTE">
+                                                <asp:DropDownList ID="ddlStatusFreteAgente_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsStatusFreteAgente" DataValueField="ID_STATUS_FRETE_AGENTE" enabled="false">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -692,14 +692,14 @@
                                        </div>     </center>
                                     </asp:Panel>
 
-                              <%--  </ContentTemplate>
-                            <Triggers>
-                                <asp:AsyncPostBackTrigger ControlID="imgChegada_BasicoMaritimo" />
-                                <asp:AsyncPostBackTrigger ControlID="imgEmbarque_BasicoMaritimo" />
-                                <asp:AsyncPostBackTrigger ControlID="imgPrevisaoChegada_BasicoMaritimo" />
-                                <asp:AsyncPostBackTrigger ControlID="imgPrevisaoEmbarque_BasicoMaritimo" />
+                                </ContentTemplate>
+                            <Triggers>  
+                                <asp:AsyncPostBackTrigger ControlID="btnDesvincular" />
+                                <asp:AsyncPostBackTrigger ControlID="btnVincular" />
+                                <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoMaritimo" />
+                               <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />   
                             </Triggers>
-                        </asp:UpdatePanel>--%>
+                        </asp:UpdatePanel>
                                 </div>
                                 <div class="tab-pane fade" id="ContainerMaritimo">
                                     <asp:UpdatePanel ID="UpdatePanel13" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
@@ -989,6 +989,7 @@
                                                     <asp:AsyncPostBackTrigger ControlID="btnImportarTaxasMaritimo" />
                                                     <asp:AsyncPostBackTrigger ControlID="btnSelecionarTudoMaritimo" />
                                                     <asp:AsyncPostBackTrigger ControlID="btnDeletarTaxasMaritimo" />
+                                                    <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />    
                                                 </Triggers>
                                             </asp:UpdatePanel>
 
@@ -1353,6 +1354,7 @@
                                         <Triggers>
                                             <asp:AsyncPostBackTrigger ControlID="btnVincular" />
                                             <asp:AsyncPostBackTrigger ControlID="btnDesvincular" />
+    
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
@@ -1519,7 +1521,7 @@
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Tipo de Pagamento:</label>
-                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" >
+                                                        <asp:DropDownList ID="ddlTipoPagamento_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO"  AutoPostBack="true" >
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -1707,6 +1709,8 @@
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoAereo" />
                                              <asp:AsyncPostBackTrigger ControlID="ddlWeekAereo" />
+                                             <asp:AsyncPostBackTrigger ControlID="btnVincularAereo" />
+                                             <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoAereo" />
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
@@ -2525,8 +2529,6 @@ C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACA
 
         });
 
-
-
         $('#ajuda').on("click", function () {
             $('#modal-ajuda').modal('show');
         });
@@ -2685,8 +2687,34 @@ C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACA
         }
 
 
-  
-        
+        function MouseWait() {
+            document.body.style.cursor = "wait";
+        };
+
+        function MouseDefault() {
+            document.body.style.cursor = "default";
+        };
+
+        $(document).ready(function () {
+            Cursor();
+        });
+
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(Cursor);
+
+        function Cursor() {
+            $('#<%= ddlTipoPagamento_BasicoMaritimo.ClientID %>').change(function () {
+                MouseWait();
+            });
+            $('#<%= ddlTipoPagamento_BasicoAereo.ClientID %>').change(function () {
+                MouseWait();
+            });
+
+        }
+
+        function InIEvent() {
+            Cursor();
+        }
+
     </script>
  
 </asp:Content>

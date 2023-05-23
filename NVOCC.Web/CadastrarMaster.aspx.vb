@@ -1586,6 +1586,9 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     'REALIZA UPDATE 
                     Con.ExecutarQuery("UPDATE TB_BL SET GRAU = 'M',NR_BL = " & txtNumeroBL_BasicoAereo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddltransportador_BasicoAereo.SelectedValue & ",ID_PORTO_ORIGEM = " & ddlOrigem_BasicoAereo.SelectedValue & ",ID_PORTO_DESTINO = " & ddlDestino_BasicoAereo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",NR_VIAGEM = " & txtNumeroVoo_BasicoAereo.Text & ",NR_VIAGEM_1T = " & txtVoo1_BasicoAereo.Text & ",NR_VIAGEM_2T = " & txtVoo2_BasicoAereo.Text & ",NR_VIAGEM_3T = " & txtVoo3_BasicoAereo.Text & ", DT_1T = " & txtDataPrevista1_BasicoAereo.Text & ", DT_2T = " & txtDataPrevista2_BasicoAereo.Text & ", DT_3T = " & txtDataPrevista3_BasicoAereo.Text & ", ID_PORTO_1T =" & ddlAeroporto1_BasicoAereo.SelectedValue & ",ID_PORTO_3T =" & ddlAeroporto3_BasicoAereo.SelectedValue & ",ID_PORTO_2T =" & ddlAeroporto2_BasicoAereo.SelectedValue & ",ID_MOEDA_FRETE = " & ddlMoedaFrete_BasicoAereo.SelectedValue & ", DT_PREVISAO_EMBARQUE =  " & txtPrevisaoEmbarque_BasicoAereo.Text & ",DT_PREVISAO_CHEGADA =" & txtPrevisaoChegada_BasicoAereo.Text & ",DT_CHEGADA =  " & txtChegada_BasicoAereo.Text & ",DT_EMBARQUE =  " & txtEmbarque_BasicoAereo.Text & ",DT_EMISSAO_CONHECIMENTO = " & txtDataConhecimento_BasicoAereo.Text & ",VL_TARIFA_MASTER =  " & txtTarifaMaster_BasicoAereo.Text & ",ID_SERVICO = " & ddlServico_BasicoAereo.SelectedValue & ",ID_STATUS_FRETE_AGENTE =  " & ddlStatusFreteAgente_BasicoAereo.SelectedValue & ",VL_M3 =  " & txtM3_BasicoAereo.Text & ", FL_TRAKING_AUTOMATICO = '" & ckTrakingAutomaticoAereo.Checked & "', ID_USUARIO_ULTIMA_ALTERACAO = " & Session("ID_USUARIO") & "  WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
 
+                    Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & " WHERE ID_ITEM_DESPESA = 14 AND CD_PR='P' AND ID_BL_TAXA NOT IN (SELECT ISNULL(ID_BL_TAXA,0)ID_BL_TAXA FROM VIEW_TAXA_BLOQUEADA ) AND ID_BL = " & txtID_BasicoAereo.Text)
+                    Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & " WHERE ID_ITEM_DESPESA = 14 AND CD_PR='P' AND ID_BL_TAXA NOT IN (SELECT ISNULL(ID_BL_TAXA,0)ID_BL_TAXA FROM VIEW_TAXA_BLOQUEADA ) AND ID_BL IN (SELECT ID_BL FROM TB_BL WHERE ID_BL_MASTER = " & txtID_BasicoAereo.Text & " )")
+                    dgvTaxasAereo.DataBind()
 
                     'ds = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA,ISNULL(NR_BL,0)NR_BL FROM [TB_BL] WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
                     'If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
@@ -1979,7 +1982,9 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     'REALIZA UPDATE 
                     Con.ExecutarQuery("UPDATE TB_BL SET GRAU = 'M',NR_BL = " & txtNumeroBL_BasicoMaritimo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddlTransportador_BasicoMaritimo.SelectedValue & ",ID_PORTO_ORIGEM = " & ddlOrigem_BasicoMaritimo.SelectedValue & ",ID_PORTO_DESTINO = " & ddlDestino_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoMaritimo.SelectedValue & ",NR_VIAGEM = " & txtNumeroViagem_BasicoMaritimo.Text & ",NR_VIAGEM_1T = " & txtViagem1_BasicoMaritimo.Text & ",NR_VIAGEM_2T = " & txtViagem2_BasicoMaritimo.Text & ",NR_VIAGEM_3T = " & txtViagem3_BasicoMaritimo.Text & ", DT_1T = " & txtData1_BasicoMaritimo.Text & ", DT_2T = " & txtData2_BasicoMaritimo.Text & ", DT_3T = " & txtData3_BasicoMaritimo.Text & ", ID_PORTO_1T =" & ddlPorto1_BasicoMaritimo.SelectedValue & ",ID_PORTO_3T =" & ddlPorto3_BasicoMaritimo.SelectedValue & ",ID_PORTO_2T =" & ddlPorto2_BasicoMaritimo.SelectedValue & ", DT_PREVISAO_EMBARQUE =  " & txtPrevisaoEmbarque_BasicoMaritimo.Text & ",DT_PREVISAO_CHEGADA =" & txtPrevisaoChegada_BasicoMaritimo.Text & ",DT_CHEGADA =  " & txtChegada_BasicoMaritimo.Text & ",DT_EMBARQUE =  " & txtEmbarque_BasicoMaritimo.Text & ",DT_EMISSAO_BL = " & txtEmissaoBL_BasicoMaritimo.Text & ",VL_TARIFA_MASTER_MINIMA =  " & txtTarifaMasterMin_BasicoMaritimo.Text & ",ID_SERVICO = " & ddlServico_BasicoMaritimo.SelectedValue & ",ID_PARCEIRO_AGENCIA = " & ddlAgenciaMaritima_BasicoMaritimo.SelectedValue & " , ID_TIPO_ESTUFAGEM = " & ddlEstufagem_BasicoMaritimo.SelectedValue & ", ID_NAVIO = " & ID_NAVIO & " ,ID_NAVIO_1T = " & ID_NAVIO1 & " , ID_NAVIO_2T = " & ID_NAVIO2 & " ,ID_NAVIO_3T =  " & ID_NAVIO3 & ",ID_PARCEIRO_ARMAZEM_ATRACACAO = " & ddlArmazemAtracacao_BasicoMaritimo.Text & ",ID_PARCEIRO_ARMAZEM_DESCARGA = " & ddlArmazemDescarga_BasicoMaritimo.Text & "  , ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente_BasicoMaritimo.SelectedValue & ", FL_TRAKING_AUTOMATICO = '" & ckTrakingAutomaticoMaritimo.Checked & "' , ID_USUARIO_ULTIMA_ALTERACAO = " & Session("ID_USUARIO") & " WHERE ID_BL = " & txtID_BasicoMaritimo.Text & "")
 
-
+                    Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoMaritimo.SelectedValue & " WHERE ID_ITEM_DESPESA = 14 AND CD_PR='P' AND ID_BL_TAXA NOT IN (SELECT ISNULL(ID_BL_TAXA,0)ID_BL_TAXA FROM VIEW_TAXA_BLOQUEADA ) AND ID_BL = " & txtID_BasicoMaritimo.Text)
+                    Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoMaritimo.SelectedValue & " WHERE ID_ITEM_DESPESA = 14 AND CD_PR='P' AND ID_BL_TAXA NOT IN (SELECT ISNULL(ID_BL_TAXA,0)ID_BL_TAXA FROM VIEW_TAXA_BLOQUEADA ) AND ID_BL IN (SELECT ID_BL FROM TB_BL WHERE ID_BL_MASTER = " & txtID_BasicoMaritimo.Text & " )")
+                    dgvTaxasMaritimo.DataBind()
 
                     If txtCE_BasicoMaritimo.Text <> "" Then
                         ds = Con.ExecutarQuery("SELECT ISNULL(NR_CE,'')NR_CE, DT_CE FROM TB_BL WHERE ID_BL = " & txtID_BasicoMaritimo.Text & "")
@@ -2524,6 +2529,11 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
                     txtCotacao_BasicoMaritimo.Text = Session("ID_COTACAO")
 
                 End If
+
+                Dim AtualizaStatus As New AtualizaStatusFreteAgente
+                ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteMaster(txtID_BasicoMaritimo.Text, ddlTipoPagamento_BasicoMaritimo.SelectedValue)
+                Con.ExecutarQuery(" UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente_BasicoMaritimo.SelectedValue & " WHERE ID_BL = " & txtID_BasicoMaritimo.Text)
+
                 AtualizaHouse(1)
 
             End If
@@ -2684,11 +2694,12 @@ ID_NAVIO_2T = (SELECT ID_NAVIO_2T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMari
 ID_NAVIO_3T =  (SELECT ID_NAVIO_3T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
 ID_PARCEIRO_ARMAZEM_ATRACACAO =(SELECT ID_PARCEIRO_ARMAZEM_ATRACACAO FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
 ID_PARCEIRO_ARMAZEM_DESCARGA = (SELECT ID_PARCEIRO_ARMAZEM_DESCARGA FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "), 
-ID_STATUS_FRETE_AGENTE =(SELECT ID_STATUS_FRETE_AGENTE FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
 ID_PARCEIRO_TRANSPORTADOR =(SELECT ID_PARCEIRO_TRANSPORTADOR FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") 
 WHERE GRAU = 'C' AND ID_BL_MASTER = " & txtID_BasicoMaritimo.Text)
 
-
+            Con.ExecutarQuery("UPDATE TB_BL SET
+ID_STATUS_FRETE_AGENTE = (SELECT ID_STATUS_FRETE_AGENTE FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") 
+ WHERE GRAU = 'C' AND ID_TIPO_ESTUFAGEM = 1 AND ID_BL_MASTER = " & txtID_BasicoMaritimo.Text)
 
             ds = Con.ExecutarQuery("SELECT 
  CASE 
@@ -3042,6 +3053,11 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
                     txtCotacao_BasicoAereo.Text = Session("ID_COTACAO")
 
                 End If
+
+                Dim AtualizaStatus As New AtualizaStatusFreteAgente
+                ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteMaster(txtID_BasicoAereo.Text, ddlTipoPagamento_BasicoAereo.SelectedValue)
+                Con.ExecutarQuery(" UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente_BasicoAereo.SelectedValue & " WHERE ID_BL = " & txtID_BasicoAereo.Text)
+
                 AtualizaHouse(2)
 
             End If
@@ -3940,5 +3956,21 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
             End If
 
         End If
+    End Sub
+
+    Private Sub ddlTipoPagamento_BasicoMaritimo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoPagamento_BasicoMaritimo.SelectedIndexChanged
+        If txtID_BasicoMaritimo.Text <> "" Then
+            Dim AtualizaStatus As New AtualizaStatusFreteAgente
+            ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteMaster(txtID_BasicoMaritimo.Text, ddlTipoPagamento_BasicoMaritimo.SelectedIndex)
+        End If
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
+    End Sub
+
+    Private Sub ddlTipoPagamento_BasicoAereo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoPagamento_BasicoAereo.SelectedIndexChanged
+        If txtID_BasicoAereo.Text <> "" Then
+            Dim AtualizaStatus As New AtualizaStatusFreteAgente
+            ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteMaster(txtID_BasicoAereo.Text, ddlTipoPagamento_BasicoAereo.SelectedValue)
+        End If
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
     End Sub
 End Class
