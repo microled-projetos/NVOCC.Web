@@ -3904,7 +3904,7 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
     End Sub
 
     Private Sub imgChegada_BasicoAereo_Click(sender As Object, e As ImageClickEventArgs) Handles imgChegada_BasicoAereo.Click
-        dsHistoricoDatas.SelectParameters("ID_BL").DefaultValue = txtID_BasicoMaritimo.Text
+        dsHistoricoDatas.SelectParameters("ID_BL").DefaultValue = txtID_BasicoAereo.Text
         dsHistoricoDatas.SelectParameters("CD_TIPO_DATA").DefaultValue = 3
         txtTipoDataAereo.Text = 3
         lblTipoHistoricoAereo.Text = "Data de Chegada"
@@ -3913,7 +3913,7 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
     End Sub
 
     Private Sub imgEmbarque_BasicoAereo_Click(sender As Object, e As ImageClickEventArgs) Handles imgEmbarque_BasicoAereo.Click
-        dsHistoricoDatas.SelectParameters("ID_BL").DefaultValue = txtID_BasicoMaritimo.Text
+        dsHistoricoDatas.SelectParameters("ID_BL").DefaultValue = txtID_BasicoAereo.Text
         dsHistoricoDatas.SelectParameters("CD_TIPO_DATA").DefaultValue = 1
         txtTipoDataAereo.Text = 1
         lblTipoHistoricoAereo.Text = "Data de Embaque"
@@ -3922,7 +3922,7 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
     End Sub
 
     Private Sub imgPrevisaoChegada_BasicoAereo_Click(sender As Object, e As ImageClickEventArgs) Handles imgPrevisaoChegada_BasicoAereo.Click
-        dsHistoricoDatas.SelectParameters("ID_BL").DefaultValue = txtID_BasicoMaritimo.Text
+        dsHistoricoDatas.SelectParameters("ID_BL").DefaultValue = txtID_BasicoAereo.Text
         dsHistoricoDatas.SelectParameters("CD_TIPO_DATA").DefaultValue = 4
         txtTipoDataAereo.Text = 4
         lblTipoHistoricoAereo.Text = "Previsão de Chegada"
@@ -3931,7 +3931,7 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID_BL_TAXA & 
     End Sub
 
     Private Sub imgPrevisaoEmbarque_BasicoAereo_Click(sender As Object, e As ImageClickEventArgs) Handles imgPrevisaoEmbarque_BasicoAereo.Click
-        dsHistoricoDatas.SelectParameters("ID_BL").DefaultValue = txtID_BasicoMaritimo.Text
+        dsHistoricoDatas.SelectParameters("ID_BL").DefaultValue = txtID_BasicoAereo.Text
         dsHistoricoDatas.SelectParameters("CD_TIPO_DATA").DefaultValue = 2
         txtTipoDataAereo.Text = 2
         lblTipoHistoricoAereo.Text = "Previsão de Embaque"

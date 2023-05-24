@@ -1717,7 +1717,10 @@
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="ddlWeekAereo" />
-                                            <asp:AsyncPostBackTrigger ControlID="btnVincularAereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnVincularAereo" />                                                                                                  <asp:AsyncPostBackTrigger ControlID="imgChegada_BasicoAereo" />
+                                <asp:AsyncPostBackTrigger ControlID="imgEmbarque_BasicoAereo" />
+                                <asp:AsyncPostBackTrigger ControlID="imgPrevisaoChegada_BasicoAereo" />
+                                <asp:AsyncPostBackTrigger ControlID="imgPrevisaoEmbarque_BasicoAereo" />   
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
