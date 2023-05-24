@@ -2988,26 +2988,26 @@ union SELECT  0, '    Selecione' ORDER BY NM_CLIENTE_FINAL"
             FILTROVIA2 = " AND (( ID_VIATRANSPORTE = " & via & " ) Or (ID_VIATRANSPORTE Is NULL)) "
         End If
 
-        Dim ID_DESTINATARIO_COBRANCA As Integer = 1
+        Dim ID_DESTINATARIO_COBRANCA As Integer = ddlDestinatarioCobranca.SelectedValue
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet
 
-        If ddlServico.SelectedValue > 2 Then
-            'EXPO
-            ID_DESTINATARIO_COBRANCA = 0
+        '       If ddlServico.SelectedValue > 2 Then
+        '           'EXPO
+        '           ID_DESTINATARIO_COBRANCA = 0
 
-        Else
-            'IMPO
-            ds = Con.ExecutarQuery("SELECT CASE WHEN ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
- THEN 4
- ELSE 1
- END ID_DESTINATARIO_COBRANCA FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+        '       Else
+        '           'IMPO
+        '           ds = Con.ExecutarQuery("SELECT CASE WHEN ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
+        'THEN 4
+        'ELSE 1
+        'END ID_DESTINATARIO_COBRANCA FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
-            If ds.Tables(0).Rows.Count > 0 Then
-                ID_DESTINATARIO_COBRANCA = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")
-            End If
-        End If
+        '           If ds.Tables(0).Rows.Count > 0 Then
+        '               ID_DESTINATARIO_COBRANCA = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")
+        '           End If
+        '       End If
 
 
         Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)

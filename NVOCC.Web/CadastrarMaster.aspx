@@ -698,7 +698,10 @@
                                     <asp:AsyncPostBackTrigger ControlID="btnDesvincular" />
                                     <asp:AsyncPostBackTrigger ControlID="btnVincular" />
                                     <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoMaritimo" />
-                                    <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />                                    
+                                    <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />                                                                                               <asp:AsyncPostBackTrigger ControlID="imgChegada_BasicoMaritimo" />
+                                <asp:AsyncPostBackTrigger ControlID="imgEmbarque_BasicoMaritimo" />
+                                <asp:AsyncPostBackTrigger ControlID="imgPrevisaoChegada_BasicoMaritimo" />
+                                <asp:AsyncPostBackTrigger ControlID="imgPrevisaoEmbarque_BasicoMaritimo" />                                  
                                  </Triggers>
                             </asp:UpdatePanel>
                                     </div>
