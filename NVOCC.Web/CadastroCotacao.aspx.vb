@@ -212,6 +212,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             txtObsCliente.Text = txtObsCliente.Text.Replace("<br/>", vbNewLine)
 
             txtObsOperacional.Text = ds.Tables(0).Rows(0).Item("OB_OPERACIONAL").ToString()
+            txtObsOperacional.Text = txtObsOperacional.Text.Replace("<br/>", vbNewLine)
             ddlEstufagem.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM").ToString()
 
             If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
@@ -1885,6 +1886,7 @@ WHERE ID_COTACAO = " & txtID.Text)
                     Else
                         ObsOperacional = txtObsOperacional.Text
                         ObsOperacional = ObsOperacional.Replace("'", "''")
+                        ObsOperacional = ObsOperacional.Replace(vbNewLine, "<br/>")
                         ObsOperacional = "'" & ObsOperacional & "'"
                     End If
 
@@ -1893,7 +1895,7 @@ WHERE ID_COTACAO = " & txtID.Text)
 
                 End If
 
-                If Session("ID_FRETE_TRANSPORTADOR") <> ddlFreteTransportador_Frete.SelectedValue Then
+                If Session("ID_FRETE_TRANSPORTADOR") <> 0 And Session("ID_FRETE_TRANSPORTADOR") <> ddlFreteTransportador_Frete.SelectedValue Then
                     RetiraObsTarifario()
                 End If
 
@@ -1952,8 +1954,11 @@ WHERE ID_COTACAO = " & txtID.Text)
         Dim Con As New Conexao_sql
         Con.Conectar()
 
-        Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_OPERACIONAL = REPLACE(OB_OPERACIONAL,(SELECT OBS_INTERNA FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & Session("ID_FRETE_TRANSPORTADOR") & "),'') WHERE ID_COTACAO = " & txtID.Text)
-        Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_CLIENTE = REPLACE(OB_CLIENTE,(SELECT OBS_CLIENTE FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & Session("ID_FRETE_TRANSPORTADOR") & "),'') WHERE ID_COTACAO = " & txtID.Text)
+        'Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_OPERACIONAL = REPLACE(OB_OPERACIONAL,(SELECT OBS_INTERNA FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & Session("ID_FRETE_TRANSPORTADOR") & "),'') WHERE ID_COTACAO = " & txtID.Text)
+        'Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_CLIENTE = REPLACE(OB_CLIENTE,(SELECT OBS_CLIENTE FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & Session("ID_FRETE_TRANSPORTADOR") & "),'') WHERE ID_COTACAO = " & txtID.Text)
+
+        Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_OPERACIONAL = REPLACE(OB_OPERACIONAL, '<br/>Informação tabela frete: ' +(SELECT OBS_INTERNA FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & Session("ID_FRETE_TRANSPORTADOR") & "),'') WHERE ID_COTACAO = " & txtID.Text)
+        Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_CLIENTE = REPLACE(OB_CLIENTE, '<br/>Informação tabela frete: ' + (SELECT OBS_CLIENTE FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & Session("ID_FRETE_TRANSPORTADOR") & "),'') WHERE ID_COTACAO = " & txtID.Text)
 
         Dim ds As DataSet = Con.ExecutarQuery("SELECT OB_CLIENTE,OB_OPERACIONAL FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
         If ds.Tables(0).Rows.Count > 0 Then
@@ -2793,11 +2798,11 @@ QTD_BASE_CALCULO = " & txtQtdBaseCalculo.Text & "
         If ds.Tables(0).Rows.Count > 0 Then
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("OBS_INTERNA")) Then
-                txtObsOperacional.Text = txtObsOperacional.Text & " " & ds.Tables(0).Rows(0).Item("OBS_INTERNA")
+                txtObsOperacional.Text = txtObsOperacional.Text & vbNewLine & "Informação tabela frete: " & ds.Tables(0).Rows(0).Item("OBS_INTERNA")
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("OBS_CLIENTE")) Then
-                txtObsCliente.Text = txtObsCliente.Text & " " & ds.Tables(0).Rows(0).Item("OBS_CLIENTE")
+                txtObsCliente.Text = txtObsCliente.Text & vbNewLine & "Informação tabela frete: " & ds.Tables(0).Rows(0).Item("OBS_CLIENTE")
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_CARGA")) Then
