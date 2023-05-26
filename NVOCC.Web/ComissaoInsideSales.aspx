@@ -279,8 +279,10 @@
                                        <div class="col-sm-5">
                                     <div class="form-group">                                          
  <asp:Label ID="Label20" runat="server">Equipes</asp:Label><br />
-
- <asp:DropDownList ID="ddlEquipes" runat="server" CssClass="combosMultiplos form-control" DataTextField="NM_EQUIPE" DataSourceID="dsEquipes" DataValueField="ID_EQUIPE" style="font-size:15px; width: 300px !important" ></asp:DropDownList>                                    
+                                         <asp:TextBox ID="txtEquipeSelecionadas"  runat="server" CssClass="form-control" Style="display:none"></asp:TextBox>
+ <asp:DropDownList ID="ddlEquipes" runat="server" CssClass="form-control" DataTextField="NM_EQUIPE" DataSourceID="dsEquipes" DataValueField="ID_EQUIPE" style="font-size:15px; width: 300px !important;display:none"></asp:DropDownList> 
+                                         <div id="divEquipes" runat="server">
+                                    </div>
                                         </div>
                                          </div>
                                        <div class="col-sm-2">
@@ -720,8 +722,11 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
 
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
 
     <script>
 
@@ -750,6 +755,8 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
                 dropdownParent: $('#myModal .modal-content')
             });
 
+            $('.selectpicker').selectpicker();
+
         };
 
         Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
@@ -770,5 +777,16 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
             });
         };
 
+        function IDEquipe() {
+
+            var selected = [];
+            for (var option of document.getElementById('ddlEquipes').options) {
+                if (option.selected) {
+                    selected.push(option.value);
+                }
+            }
+            console.log("IDEquipe selected : " + selected);
+            document.getElementById('<%= txtEquipeSelecionadas.ClientID %>').value = selected;
+         }
     </script>
 </asp:Content>

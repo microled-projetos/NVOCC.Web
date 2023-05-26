@@ -473,6 +473,15 @@ Partial Public Class ComissaoInsideSales
     Protected WithEvents Label20 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle txtEquipeSelecionadas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtEquipeSelecionadas As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlEquipes.
     '''</summary>
     '''<remarks>
@@ -480,6 +489,15 @@ Partial Public Class ComissaoInsideSales
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlEquipes As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle divEquipes.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divEquipes As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle Label10.

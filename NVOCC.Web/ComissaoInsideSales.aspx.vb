@@ -20,7 +20,35 @@ Public Class ComissaoInsideSales
             Response.Redirect("Default.aspx")
 
         End If
+
         Con.Fechar()
+
+        If Not Page.IsPostBack Then
+            CarregaEquipes()
+        End If
+
+    End Sub
+
+    Sub CarregaEquipes()
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        Dim tabela As String = "<select data-live-search='True' ID='ddlEquipes' data-live-search-style='startsWith' class='form-group selectpicker' multiple='multiple' onchange='IDEquipe()'  title='Selecione'>"
+        Dim dsdados As DataSet
+        Dim sql As String = "SELECT ID_EQUIPE, NM_EQUIPE FROM TB_INSIDE_EQUIPE ORDER BY NM_EQUIPE "
+
+        'ORIGEM
+        dsdados = Con.ExecutarQuery(sql)
+        If dsdados.Tables(0).Rows.Count > 0 Then
+
+            For Each linhadados As DataRow In dsdados.Tables(0).Rows
+                tabela &= "<option value='" & linhadados("ID_EQUIPE") & "'>" & linhadados("NM_EQUIPE") & "</option>"
+            Next
+
+        End If
+        tabela &= "</select>"
+        divEquipes.InnerHtml = tabela
+
     End Sub
 
     Protected Sub dgvComissoes_Sorting(ByVal sender As Object, ByVal e As GridViewSortEventArgs)
@@ -220,7 +248,8 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INSIDE AS A LEFT OUTER JOIN
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_EQUIPE")) Then
                     ddlEquipes.SelectedValue = ds.Tables(0).Rows(0).Item("ID_EQUIPE").ToString()
                 End If
-
+                ddlEquipes.Attributes.CssStyle.Add("display", "block")
+                divEquipes.Attributes.CssStyle.Add("display", "none")
             End If
 
             mpeGestao.Show()
@@ -241,7 +270,8 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INSIDE AS A LEFT OUTER JOIN
         Dim Con As New Conexao_sql
         Con.Conectar()
         If txtIDTabelaTaxa.Text = "" Then
-            Con.ExecutarQuery("INSERT INTO TB_INSIDE_TAXA_COMISSAO (DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL,ID_USUARIO_GESTOR,ID_EQUIPE) VALUES (CONVERT(DATE,'" & txtValidade.Text & "',103)," & txtLCL.Text & ", " & txtFCL.Text & "," & ddlGestor.SelectedValue & "," & ddlEquipes.SelectedValue & " ) ")
+            SeparaEquipes(txtEquipeSelecionadas.Text)
+            'Con.ExecutarQuery("INSERT INTO TB_INSIDE_TAXA_COMISSAO (DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL,ID_USUARIO_GESTOR,ID_EQUIPE) VALUES (CONVERT(DATE,'" & txtValidade.Text & "',103)," & txtLCL.Text & ", " & txtFCL.Text & "," & ddlGestor.SelectedValue & "," & txtEquipeSelecionadas.Text & " ) ")
             divInfo.Visible = True
             lblInfo.Text = "Taxa inserida com sucesso"
             dgvTabelaComissao.DataBind()
@@ -261,6 +291,20 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INSIDE AS A LEFT OUTER JOIN
         End If
     End Sub
 
+    Sub SeparaEquipes(ByVal Equipes As String)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        'quebrar a string
+        Dim palavras As String() = Equipes.Split(New String() _
+          {","}, StringSplitOptions.RemoveEmptyEntries)
+
+        'exibe o resultado
+        For i As Integer = 0 To palavras.GetUpperBound(0) Step 1
+
+            Con.ExecutarQuery("INSERT INTO TB_INSIDE_TAXA_COMISSAO (DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL,ID_USUARIO_GESTOR,ID_EQUIPE) VALUES (CONVERT(DATE,'" & txtValidade.Text & "',103)," & txtLCL.Text & ", " & txtFCL.Text & "," & ddlGestor.SelectedValue & "," & palavras(i) & " ) ")
+
+        Next
+    End Sub
     Private Sub btnFecharTabela_Click(sender As Object, e As EventArgs) Handles btnFecharTabela.Click
         txtIDTabelaTaxa.Text = ""
         txtValidade.Text = ""
@@ -269,6 +313,8 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INSIDE AS A LEFT OUTER JOIN
         ddlGestor.SelectedValue = 0
         divInfo.Visible = False
         DivExcluir.Visible = False
+        ddlEquipes.Attributes.CssStyle.Add("display", "none")
+        divEquipes.Attributes.CssStyle.Add("display", "block")
     End Sub
 
     Private Sub lkCSV_Click(sender As Object, e As EventArgs) Handles lkCSV.Click
@@ -782,6 +828,8 @@ WHERE ISNULL(B.ID_TIME,0) <> 0")
         ddlGestor.SelectedValue = 0
         DivExcluir.Visible = False
         divInfo.Visible = False
+        ddlEquipes.Attributes.CssStyle.Add("display", "none")
+        divEquipes.Attributes.CssStyle.Add("display", "block")
         mpeGestao.Show()
     End Sub
 
