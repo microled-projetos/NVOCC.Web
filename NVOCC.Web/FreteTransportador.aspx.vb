@@ -533,7 +533,7 @@ Public Class FreteTransportador
             End If
 
 
-            If e.Row.RowState = DataControlRowState.Edit Or e.Row.RowState = 5 Then
+            If (e.Row.RowState = DataControlRowState.Edit Or e.Row.RowState = 5) And txtID.Text <> "" Then
                 ds = Con.ExecutarQuery("Select ID_TRANSPORTADOR,ID_AGENTE,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_VIA_ROTA,ID_TIPO_FREQUENCIA,ID_TIPO_CARGA FROM View_FreteTransportador WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
 
@@ -740,7 +740,7 @@ Public Class FreteTransportador
     Private Sub btnFecharCntr_Click(sender As Object, e As EventArgs) Handles btnFecharCntr.Click
         CarregaPortos()
         mpeCntr.Hide()
-        txtID.Text = ""
+        'txtID.Text = ""
         txtIDTafifario.Text = ""
         divSuccessCntr.Visible = False
         divErroCntr.Visible = False
