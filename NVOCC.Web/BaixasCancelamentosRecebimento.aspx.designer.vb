@@ -293,22 +293,22 @@ Partial Public Class BaixasCancelamentosRecebimento
     Protected WithEvents lblClienteBaixa As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblProcessoBaixa.
+    '''Controle txtProcessoBaixa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblProcessoBaixa As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents txtProcessoBaixa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle lblValorBaixa.
+    '''Controle txtValorBaixa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblValorBaixa As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents txtValorBaixa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtValorLiquidadoBaixa.
@@ -320,13 +320,13 @@ Partial Public Class BaixasCancelamentosRecebimento
     Protected WithEvents txtValorLiquidadoBaixa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle lblDiferencaBaixa.
+    '''Controle txtDiferencaBaixa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblDiferencaBaixa As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents txtDiferencaBaixa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtDataBaixa.
@@ -338,13 +338,13 @@ Partial Public Class BaixasCancelamentosRecebimento
     Protected WithEvents txtDataBaixa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle TextBox2.
+    '''Controle txtMotivoBaixa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtMotivoBaixa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnFecharBaixa.

@@ -225,30 +225,29 @@
                                                 <asp:label runat="server" ID="lblFaturaBaixa"  />
                                              <asp:label runat="server" ID="lblClienteBaixa" /></h5>
                         
-                                           <h5>CONFIRMAÇÃO DA LIQUIDAÇÃO</h5>
-                                       <div class="row">
+                                        <div class="row">
                                          <div class="col-sm-2">
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">Nº Processo:</label>
-                                            <asp:label runat="server" ID="lblProcessoBaixa" CssClass="form-control" /> 
+                                            <asp:TextBox ID="txtProcessoBaixa" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                         </div>
                                     </div>
                                      <div class="col-sm-2">
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">Valor:</label>
-                                            <asp:label runat="server" ID="lblValorBaixa" CssClass="form-control"/>
+                                            <asp:TextBox ID="txtValorBaixa" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">Valor Liquidado:</label>
-                                            <asp:TextBox ID="txtValorLiquidadoBaixa" runat="server" CssClass="form-control"></asp:TextBox>
+                                            <asp:TextBox ID="txtValorLiquidadoBaixa" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
                                         </div>
                                     </div>
                                             <div class="col-sm-2">
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">Acréscimo/Decréscimo:</label>
-                                            <asp:label runat="server" ID="lblDiferencaBaixa" CssClass="form-control"/>
+                                            <asp:TextBox ID="txtDiferencaBaixa" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                         </div>
                                     </div>
                                             <div class="col-sm-3">
@@ -262,7 +261,7 @@
                                          <div class="col-sm-12">
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">Motivo:</label>
-                                            <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                            <asp:TextBox ID="txtMotivoBaixa" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                         </div>
                                     </div>
                                                 </div>         </div>
@@ -335,9 +334,10 @@
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger ControlID="btnCancelar" />
+                                <asp:AsyncPostBackTrigger ControlID="txtValorLiquidadoBaixa" />
                                 <asp:PostBackTrigger ControlID="btnCSV" />
                                 <asp:PostBackTrigger ControlID="btnpesquisar" />
-                            </Triggers>
+                             </Triggers>
                         </asp:UpdatePanel>
 
                     </div>

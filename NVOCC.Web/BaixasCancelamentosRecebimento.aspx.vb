@@ -131,9 +131,8 @@
         lblClienteCancelamento.Text = ""
 
         lblFaturaBaixa.Text = ""
-        lblProcessoBaixa.Text = ""
         lblClienteBaixa.Text = ""
-
+        txtProcessoBaixa.Text = ""
 
         For Each linha As GridViewRow In dgvTaxasReceber.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
@@ -160,8 +159,9 @@
                 lblClienteCancelamento.Text &= "Fornecedor: " & Parceiro & "<br/>"
 
                 lblClienteBaixa.Text = Parceiro
-                lblProcessoBaixa.Text = Processo
-                lblValorBaixa.Text = ValorLancamento
+                txtProcessoBaixa.Text = Processo
+                txtValorBaixa.Text = ValorLancamento
+                txtValorLiquidadoBaixa.Text = ValorLancamento
                 txtDataBaixa.Text = Liquidacao
 
                 lblProcessoCambio.Text &= "Nº Processo: " & Processo & "<br/>"
@@ -685,5 +685,17 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
         txtDataBaixa.Text = ""
         txtObs.Text = ""
 
+    End Sub
+
+    Private Sub txtValorLiquidadoBaixa_TextChanged(sender As Object, e As EventArgs) Handles txtValorLiquidadoBaixa.TextChanged
+        If txtValorLiquidadoBaixa.Text <> "" Then
+            txtDiferencaBaixa.Text = txtValorBaixa.Text - txtValorLiquidadoBaixa.Text
+            If txtDiferencaBaixa.Text > 2 Then
+                btnBaixar.Enabled = False
+                ScriptManager.RegisterClientScriptBlock(Me, [GetType](), "script", "<script>alert('Você ultrapassou os limites de valores para esse campo. Favor inserir valores em até R$ 2,00 do valor original!');</script>", False)
+            Else
+                btnBaixar.Enabled = True
+            End If
+        End If
     End Sub
 End Class

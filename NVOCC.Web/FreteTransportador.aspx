@@ -26,6 +26,17 @@
            padding: 1em;
            white-space: nowrap;
         }
+         .select2-container .select2-selection--single {
+            height: 35px !important; 
+ 
+        }
+        
+        .select2-container--default .select2-selection--single {
+            border: 1px solid #cfcfcf !important; 
+        }
+        .select2-selection__rendered {
+            font-size: 14px !important;
+        }
 
         </style>
     <div class="row principal">
