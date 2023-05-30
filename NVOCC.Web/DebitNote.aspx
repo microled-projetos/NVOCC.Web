@@ -151,7 +151,7 @@
                     <br/>
                                         <strong>BENEFICIARY NAME:</strong>&nbsp;<asp:Label ID="lblName" runat="server" /><br/>
                                         <strong>BANK NAME:</strong>&nbsp;<asp:Label ID="lblBanco" runat="server" /><br/>
-                                        <strong>BANK ADRESS:</strong>&nbsp;<asp:Label ID="lblEnderecoBanco" runat="server" /><br/>
+                                        <strong>BANK ADDRESS:</strong>&nbsp;<asp:Label ID="lblEnderecoBanco" runat="server" /><br/>
                                         <strong>ACCOUNT:</strong>&nbsp;<asp:Label ID="lblAccount" runat="server" /><br/>                                       
                                         <strong>SWIFT CODE:</strong>&nbsp;<asp:Label ID="lblSwift" runat="server" /><br/>
                                         <strong>IBAN-BR:</strong>&nbsp;<asp:Label ID="lblIban" runat="server" /><br/>

@@ -105,6 +105,13 @@
                 ddlTipoInvoice.Enabled = False
                 ddlTipoFatura.Enabled = False
 
+                If ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_EMISSOR").ToString() = 1 Then 'AGENTE
+                    txtNumeroInvoice.Enabled = True
+                ElseIf ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_EMISSOR").ToString() = 2 Then 'FCA
+                    txtNumeroInvoice.Enabled = False
+                    txtDataInvoice.Enabled = False
+                End If
+
                 Con.Fechar()
                 atualizaTotalInvoice()
             End If
