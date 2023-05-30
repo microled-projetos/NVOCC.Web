@@ -50,6 +50,24 @@ Partial Public Class BaixasCancelamentosRecebimento
     Protected WithEvents txtLinhaBL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtItemDespesa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtItemDespesa As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtLimiteBaixa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtLimiteBaixa As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle divSuccess.
     '''</summary>
     '''<remarks>
@@ -257,13 +275,13 @@ Partial Public Class BaixasCancelamentosRecebimento
     Protected WithEvents btnSalvarCancelamento As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle ModalPopupExtender1.
+    '''Controle mpeBaixa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ModalPopupExtender1 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents mpeBaixa As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
     '''Controle Panel2.
@@ -329,6 +347,15 @@ Partial Public Class BaixasCancelamentosRecebimento
     Protected WithEvents txtDiferencaBaixa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle lblDescontoAcrescimoBaixa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblDescontoAcrescimoBaixa As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle txtDataBaixa.
     '''</summary>
     '''<remarks>
@@ -374,13 +401,13 @@ Partial Public Class BaixasCancelamentosRecebimento
     Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle ModalPopupExtender2.
+    '''Controle mpeCambio.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ModalPopupExtender2 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents mpeCambio As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
     '''Controle PanelCambio.

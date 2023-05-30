@@ -14,15 +14,6 @@ Option Explicit On
 Partial Public Class BaixasCancelamentos
 
     '''<summary>
-    '''Controle lblTipo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblTipo As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Controle UpdatePanel5.
     '''</summary>
     '''<remarks>
@@ -140,15 +131,6 @@ Partial Public Class BaixasCancelamentos
     Protected WithEvents btnCSV As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnCambio.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnCambio As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle btnBaixar.
     '''</summary>
     '''<remarks>
@@ -192,24 +174,6 @@ Partial Public Class BaixasCancelamentos
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvTaxasPagar As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
-    '''Controle gridReceber.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents gridReceber As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle dgvTaxasReceber.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dgvTaxasReceber As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle mpeObs.
@@ -471,15 +435,6 @@ Partial Public Class BaixasCancelamentos
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsPagar As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsReceber.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsReceber As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsMoeda.

@@ -37,7 +37,9 @@
                                 <asp:TextBox ID="txtID" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtID_BL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtLinhaBL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
-
+                                 <asp:TextBox ID="txtItemDespesa" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox> 
+                                <asp:TextBox ID="txtLimiteBaixa" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
+                                 
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblSuccess" runat="server"></asp:Label>
                                 </div>
@@ -83,7 +85,7 @@
                                         <div class="form-group">
                                             <br />
                                             <asp:Button runat="server" Text="Gerar CSV" ID="btnCSV" CssClass="btn btn-info" />
-                                            <asp:Button runat="server" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-success" Visible="true" />
+                                            <asp:Button runat="server" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-success"/>
                                             <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-primary" />
                                             <asp:Button runat="server" Text="Cancelar Baixa" ID="btnCancelarBaixa" CssClass="btn btn-warning" OnClientClick="javascript:return confirm('Deseja realmente cancelar a baixa deste registro?');" />
                                             <asp:Button runat="server" Text="Cancelar Conta Corrente" ID="btnCancelar" CssClass="btn btn-danger" />
@@ -139,8 +141,9 @@
                                                             <asp:Label ID="lblValorLancamento" runat="server" Text='<%# Eval("VL_LANCAMENTO") %>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-<%--                                                    <asp:BoundField DataField="VL_LANCAMENTO" HeaderText="Valor lançamento(R$)" SortExpression="VL_LANCAMENTO" />--%>
-                                                    <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
+                                                     <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
+                                                     <asp:BoundField DataField="VL_ACRESCIMO" HeaderText="Acréscimo" SortExpression="VL_ACRESCIMO" />
+                                                     <asp:BoundField DataField="VL_DECRESCIMO" HeaderText="Decréscimo" SortExpression="VL_DECRESCIMO" />
                                                     <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário lançamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
 
                                                     <asp:TemplateField HeaderText="Bloqueio Financeiro">
@@ -213,7 +216,7 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="Panel2" TargetControlID="btnBaixar" CancelControlID="btnFecharBaixa"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeBaixa" runat="server" PopupControlID="Panel2" TargetControlID="btnBaixar" CancelControlID="btnFecharBaixa"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" >
@@ -248,6 +251,7 @@
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">Acréscimo/Decréscimo:</label>
                                             <asp:TextBox ID="txtDiferencaBaixa" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                              <asp:label runat="server" ID="lblDescontoAcrescimoBaixa" />
                                         </div>
                                     </div>
                                             <div class="col-sm-3">
@@ -279,7 +283,7 @@
                                 </asp:Panel>
 
                                 <asp:Button runat="server" CssClass="btn btn-success" ID="Button1" Style="display: none;" />
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="PanelCambio" TargetControlID="Button1" CancelControlID="btnFecharCambio"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeCambio" runat="server" PopupControlID="PanelCambio" TargetControlID="Button1" CancelControlID="btnFecharCambio"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="PanelCambio" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" >
@@ -348,28 +352,16 @@
     <asp:TextBox ID="TextBox1" Style="display: none" Text="0" runat="server"></asp:TextBox>
 
     <asp:SqlDataSource ID="dsReceber" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos] WHERE CD_PR =  'R' AND DT_LIQUIDACAO IS NULL ORDER BY DT_VENCIMENTO DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos_R] WHERE CD_PR =  'R' AND DT_LIQUIDACAO IS NULL ORDER BY DT_VENCIMENTO DESC"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript">
-        function SalvaPosicaoPagamento() {
-            var posicao = document.getElementById('DivGridPagar').scrollTop;
-            if (posicao) {
-                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
-                 console.log('if:' + posicao);
-
-             }
-             else {
-                 document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
-                console.log('else:' + posicao);
-
-            }
-        };
-
+       
         function SalvaPosicaoRecebimento() {
+            MouseWait();
             var posicao = document.getElementById('DivGridReceber').scrollTop;
 
             if (posicao) {
@@ -393,11 +385,15 @@
                 if (document.getElementById('DivGridReceber')) {
                     document.getElementById('DivGridReceber').scrollTop = valor;
                 }
-                if (document.getElementById('DivGridPagar')) {
-                    document.getElementById('DivGridPagar').scrollTop = valor;
-                }
             }
 
+        };
+
+        function MouseWait() {
+            document.body.style.cursor = "wait";
+        };
+        function MouseDefault() {
+            document.body.style.cursor = "default";
         };
     </script>
 </asp:Content>
