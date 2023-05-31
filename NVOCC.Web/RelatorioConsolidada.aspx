@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportConferenciaProcesso" class="btn btn-primary" onclick="exportConferenciaProcessoCSV('Conferencia_Conta_Corrente.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnExportConferenciaProcesso" class="btn btn-primary" onclick="exportRelatorioConsolidadaCSV('Relatorio_Consolidada.csv')">Exportar Grid - CSV</button>
                                         <button type="button" id="btnPrintRelacaoCotacao" class="btn btn-primary" onclick="createPDF()">Imprimir</button>
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportConferenciaProcessoAnalitco" class="btn btn-primary" onclick="exportConferenciaProcessoCSV('Conferencia_Conta_Corrente.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnExportConferenciaProcessoAnalitco" class="btn btn-primary" onclick="exportRelatorioAnaliticoCSV('Relatorio_Analitico.csv')">Exportar Grid - CSV</button>
                                         <button type="button" id="btnPrintRelacaoCotacaoAnalitco" class="btn btn-primary" onclick="createPDF()">Imprimir</button>
                                     </div>
                                 </div>
@@ -301,12 +301,50 @@
             })
         }
 
-        function exportConferenciaProcessoCSV(filename) {
+        function exportRelatorioConsolidadaCSV(filename) {
             var csv = [];
             var rows = document.querySelectorAll("#grdConferenciaProcesso tr");
 
             for (var i = 0; i < rows.length; i++) {
                 var row = [], cols = rows[i].querySelectorAll("#grdConferenciaProcesso td, #grdConferenciaProcesso th");
+
+                for (var j = 0; j < cols.length; j++)
+                    row.push(cols[j].innerText);
+
+                csv.push(row.join(";"));
+            }
+
+            // Download CSV file
+            exportTableToCSVConferenciaProcesso(csv.join("\n"), filename);
+        }
+
+        function exportTableToCSVConferenciaProcesso(csv, filename) {
+            var csvFile;
+
+            var downloadLink;
+
+            // CSV file
+            csvFile = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+            // Download link
+            downloadLink = document.createElement("a");
+            // File name
+            downloadLink.download = filename;
+            // Create a link to the file
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            // Hide download link
+            downloadLink.style.display = "none";
+            // Add the link to DOM
+            document.body.appendChild(downloadLink);
+            // Click download link
+            downloadLink.click();
+        }
+
+        function exportRelatorioAnaliticoCSV(filename) {
+            var csv = [];
+            var rows = document.querySelectorAll("#grdConferenciaProcessoAnalitico tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("#grdConferenciaProcessoAnalitico td, #grdConferenciaProcessoAnalitico th");
 
                 for (var j = 0; j < cols.length; j++)
                     row.push(cols[j].innerText);

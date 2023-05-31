@@ -127,7 +127,7 @@
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER_ITENS FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & ID & " AND ID_ITEM_DESPESA = " & txtItemDespesa.Text)
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_CONTA_PAGAR_RECEBER_ITENS,0)ID_CONTA_PAGAR_RECEBER_ITENS FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & ID & " AND ID_ITEM_DESPESA = " & txtItemDespesa.Text)
         If ds.Tables.Count > 0 Then
 
             Dim ID_CONTA_PAGAR_RECEBER_ITENS As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER_ITENS")
@@ -194,10 +194,13 @@
 
                 lblClienteBaixa.Text = Parceiro
                 txtProcessoBaixa.Text = Processo
-                txtDataBaixa.Text = Liquidacao
-                txtValorBaixa.Text = ValorLancamento
+                If txtDataBaixa.Text = "" Then
+                    txtDataBaixa.Text = Liquidacao
+                End If
+
+                txtValorBaixa.Text = Format(ValorLancamento, "Currency")
                 If txtValorLiquidadoBaixa.Text = "" Then
-                    txtValorLiquidadoBaixa.Text = ValorLancamento
+                    txtValorLiquidadoBaixa.Text = Format(ValorLancamento, "Currency")
                 End If
 
                 lblProcessoCambio.Text &= "Nº Processo: " & Processo & "<br/>"
@@ -728,9 +731,10 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
         If txtValorLiquidadoBaixa.Text <> "" Then
             lblDescontoAcrescimoBaixa.Text = FormatNumber(txtValorLiquidadoBaixa.Text - txtValorBaixa.Text)
             txtDiferencaBaixa.Text = lblDescontoAcrescimoBaixa.Text
-            txtDiferencaBaixa.Text = FormatNumber(txtDiferencaBaixa.Text, 2).Replace("-", "")
-
-            If txtDiferencaBaixa.Text > txtLimiteBaixa.Text Then
+            txtDiferencaBaixa.Text = txtDiferencaBaixa.Text.Replace("-", "")
+            Dim diferenca = txtDiferencaBaixa.Text
+            txtDiferencaBaixa.Text = Format(txtDiferencaBaixa.Text, "Currency")
+            If diferenca > txtLimiteBaixa.Text Then
                 btnSalvarBaixa.Enabled = False
                 ScriptManager.RegisterClientScriptBlock(Me, [GetType](), "script", "<script>alert('Você ultrapassou os limites de valores para esse campo. Favor inserir valores em até R$ 2,00 do valor original!');</script>", False)
             Else

@@ -251,7 +251,7 @@
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">Acréscimo/Decréscimo:</label>
                                             <asp:TextBox ID="txtDiferencaBaixa" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
-                                              <asp:label runat="server" ID="lblDescontoAcrescimoBaixa" />
+                                              <asp:label runat="server" ID="lblDescontoAcrescimoBaixa" Style="display: none" />
                                         </div>
                                     </div>
                                             <div class="col-sm-3">
