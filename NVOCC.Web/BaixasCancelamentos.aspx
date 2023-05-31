@@ -254,9 +254,7 @@
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasPagar" />
-                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxasPagar" />
-                                <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger ControlID="btnCancelar" />
                                 <asp:PostBackTrigger ControlID="btnCSV" /> 
                                 <asp:PostBackTrigger ControlID="btnpesquisar" /> 
