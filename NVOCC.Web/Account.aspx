@@ -377,11 +377,9 @@
                                     </div>
                                         </div>
                                         <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label">Data Vencimento:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtVencimento" runat="server"  CssClass="form-control data"></asp:TextBox>
-
-
+                                    <div class="form-group">                                        
+                                         <label class="control-label">Data Invoice:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="txtDataInvoice" runat="server"  CssClass="form-control data"></asp:TextBox>
                                     </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -411,40 +409,29 @@
                                     </div>
                                         </div>
                                         <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label">Data Invoice:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtDataInvoice" runat="server"  CssClass="form-control data"></asp:TextBox>
-
-
+                                    <div class="form-group">                                         
+                                         <label class="control-label">Data Vencimento:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="txtVencimento" runat="server"  CssClass="form-control data"></asp:TextBox>
                                     </div>
                                         </div>
                                         <div class="col-sm-2">
                                     <div class="form-group">
                                             <label class="control-label"></label>
-
-                                                                        <asp:CheckBox ID="ckbConferido" runat="server" Checked="true" CssClass="form-control" Text="&nbsp;&nbsp;Conferido"></asp:CheckBox>
-
+                                            <asp:CheckBox ID="ckbConferido" runat="server" Checked="true" CssClass="form-control" Text="&nbsp;&nbsp;Conferido"></asp:CheckBox>
                                     </div>
                                         </div>
                                          </div>   
-                                                                                                                                    
-                                                            <div class="row">
-                                     
-                                      
+                                          <div class="row">
                                         <div class="col-sm-10">
                                     <div class="form-group">
                                           <label class="control-label">Observações:</label>
                                                 <asp:TextBox ID="txtObsInvoice" runat="server"  CssClass="form-control"></asp:TextBox>
-
-
                                     </div>
                                         </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label"></label>
                                <asp:Button runat="server" Text="Gravar" ID="btnGravarCabecalho" CssClass="btn btn-success btn-block" />
-
-
                                     </div>
                                         </div>
                                          </div>   
@@ -560,7 +547,7 @@
                                      <div class="col-sm-12">
                                     <div class="form-group">
                                            <label class="control-label">TIPO DE DEVOLUÇÃO:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="ddlTipoDevolucao" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsDevolucaoFrete" DataValueField="ID_STATUS_FRETE_AGENTE" AutoPostBack="True" ></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlTipoDevolucao" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsDevolucaoFrete" DataValueField="ID_STATUS_FRETE_AGENTE" AutoPostBack="True" enabled="false"></asp:DropDownList>
 
                                     </div>
                                         </div>
@@ -599,9 +586,13 @@
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblValorVenda" runat="server" Text='<%# Eval("VL_VENDA") %>'  />
                                                     </ItemTemplate>
-                                                </asp:TemplateField>    
-                                                                                               <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />
-                                       
+                                                </asp:TemplateField>   
+                                                 <asp:TemplateField HeaderText="DIFERENCA DE FRETE" SortExpression="DIFERENCA">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblValorDiferenca" runat="server" Text='<%# Eval("DIFERENCA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>  
+                                                <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />                                      
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
@@ -613,16 +604,21 @@
                                                             <div class="row">
                                      
                                       
-                                       <div class="col-sm-4">
+                                       <div class="col-sm-3">
                                                              Compra: <asp:label ID="lblValorFreteCompra" runat="server"/>
 
                                            </div>
-                                                                <div class="col-sm-4">
+                                                                <div class="col-sm-3">
                                                              Venda: <asp:label ID="lblValorFreteVenda" runat="server"/>
 
 
                                            </div>
-                                                                <div class="col-sm-4">
+                                                                <div class="col-sm-3">
+                                                            Dif. Frete: <asp:label ID="lblValorDifFrete" runat="server"/>
+
+
+                                           </div>
+                                                                <div class="col-sm-3">
                                                             Total: <asp:label ID="lblValorFreteDevolucao" runat="server"/>
 
 
@@ -1211,7 +1207,7 @@ END ORIGEM,CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORT
 (SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO)
 END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
 (SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,
-(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER , B.VL_CAMBIO_FRETE,B.DT_LIQUIDACAO
+(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER , B.VL_CAMBIO_FRETE,B.DT_LIQUIDACAO 
 FROM [dbo].[View_House] A
 LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
   WHERE CONVERT(VARCHAR,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(VARCHAR,'@EmbarqueInicial',103) AND CONVERT(VARCHAR,'@EmbarqueFinal',103)">
@@ -1424,14 +1420,16 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
                     console.log('DEVOLUÇÃO DO FRETE DE COMPRA:');
                     //DEVOLUÇÃO DO FRETE DE COMPRA
                     document.getElementById('<%= lblValorFreteDevolucao.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
-                     document.getElementById('<%= lblValorFreteCompra.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
-                     document.getElementById('<%= lblValorFreteVenda.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
-                 }
-                 else {
-                     if (tipodevolucao == 3) {
-                         console.log('DEVOLUÇÃO DO FRETE DE VENDA:');
-                         //DEVOLUÇÃO DO FRETE DE VENDA
-                         document.getElementById('<%= lblValorFreteDevolucao.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
+                    document.getElementById('<%= lblValorDifFrete.ClientID %>').innerHTML = Number(diferenca).toFixed(2);
+                    document.getElementById('<%= lblValorFreteCompra.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
+                    document.getElementById('<%= lblValorFreteVenda.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
+                }
+                else {
+                    if (tipodevolucao == 3) {
+                        console.log('DEVOLUÇÃO DO FRETE DE VENDA:');
+                        //DEVOLUÇÃO DO FRETE DE VENDA
+                        document.getElementById('<%= lblValorFreteDevolucao.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
+                         document.getElementById('<%= lblValorDifFrete.ClientID %>').innerHTML = Number(diferenca).toFixed(2);
                          document.getElementById('<%= lblValorFreteCompra.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
                          document.getElementById('<%= lblValorFreteVenda.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
 
@@ -1441,6 +1439,7 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
                              console.log('DEVOLUÇÃO DA DIFERENÇA DE FRETE:');
                              //DEVOLUÇÃO DA DIFERENÇA DE FRETE
                              document.getElementById('<%= lblValorFreteDevolucao.ClientID %>').innerHTML = Number(diferenca).toFixed(2);
+                             document.getElementById('<%= lblValorDifFrete.ClientID %>').innerHTML = Number(diferenca).toFixed(2);
                              document.getElementById('<%= lblValorFreteCompra.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
                              document.getElementById('<%= lblValorFreteVenda.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
                         }

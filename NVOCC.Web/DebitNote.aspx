@@ -8,9 +8,9 @@
     <title>DebitNote</title>
     <script src="Content/js/jquery.min.js"></script>
     <script>             
-    $(window).load(function () {
-        window.print();
-    });
+        $(window).load(function () {
+            window.print();
+        });
     </script>
     <style>
         table{
@@ -60,6 +60,10 @@
                     <center>
     <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br /></center>
                     <div style="text-align: center;">
+                        <%--R QUINZE DE NOVEMBRO, 46/48 - CENTRO<br />
+                        SANTOS - SÃO PAULO - BRASIL - CEP:11010150<br />
+                        FONE:+55 13 3797-7850 - FAX:<br />
+                        CNPJ:00.639.367/0003-11  &nbsp;&nbsp;&nbsp;I.E: 633.672.235.110--%>
                         <asp:Label ID="lblEnderecoFCA" runat="server" /><br />
                         <asp:Label ID="lblEnderecoFCA2" runat="server" /><br />
                         <asp:Label ID="lblContatoFCA" runat="server" /><br />
@@ -78,7 +82,7 @@
 
             <tr>
                 <td>
-                    <div style="text-align: center;">DÉBIT NOTE</div>
+                    <div style="text-align: center;">DEBIT NOTE</div>
                 </td>
             </tr>
         </table>
@@ -87,12 +91,14 @@
                 <td>
                     <strong>For Account of</strong>&nbsp;<asp:Label ID="lblEmpresa" runat="server" />
                     <br />
+                    <br />
                     <br /><strong>PHONE:</strong>&nbsp;<asp:Label ID="lblTelefone" runat="server" />
                     <br />
                 </td>
                 <td>
                     <strong>INVOICE No:</strong>&nbsp;<asp:Label ID="lblNumeroInvoice" runat="server" />
                     <br /><strong>INVOICE DATE:</strong>&nbsp;<asp:Label ID="lblDataInvoice" runat="server" />
+                    <br /><strong>DUE DATE:</strong>&nbsp;<asp:Label ID="lblDataVencimento" runat="server" />
                     <br /><strong>FILE No:</strong>&nbsp;<asp:Label ID="lblProcesso" runat="server" />
                     <br />
                 </td>
@@ -129,32 +135,22 @@
                                     <table >
             <tr>
                 <td>
-                                       <%-- <strong>CORRESPONDENT BANK:</strong>&nbsp;<asp:Label ID="lblCorrespondenteBank" runat="server" /><br/>
-                                        <strong>STANDART:</strong>&nbsp;<asp:Label ID="Label2" runat="server" /><br/>
-                                        <strong>SWIFT:</strong>&nbsp;<asp:Label ID="Label4" runat="server" /><br/>
-                                        <strong>ACCOUNT:</strong>&nbsp;<asp:Label ID="Label3" runat="server" /><br/>--%>
-
                 </td>
                 <td>
-<%--<strong>BANCO:</strong> SANTANDER<br/>
-<strong>SWIFT:</strong> BSCHBRSPXXX<br/>
-<strong>AGENCY:</strong> 3297<br/>
-<strong>ACCOUNT:</strong> 130010712<br/>
-<strong>NAME:</strong> FCA COMERCIO EXTERIOR E LOGISTICA LTDA<br/>
-<strong>IBAN-BR:</strong> BR7890400888032970130010712C1<br/>--%>
                     <br/>
-                                        <strong>BENEFICIARY BANK:</strong>&nbsp;<asp:Label ID="lblBanco" text="BANCO SANTANDER" runat="server" /><br/>
-                                        <strong>AGENCY:</strong>&nbsp;<asp:Label ID="lblAgency" runat="server" /><br/>
-                                        <strong>SWIFT:</strong>&nbsp;<asp:Label ID="lblSwift" runat="server" /><br/>
-                                        <strong>ACCOUNT:</strong>&nbsp;<asp:Label ID="lblAccount" runat="server" /><br/>
-                                        <strong>NAME:</strong>&nbsp;<asp:Label ID="lblName" runat="server" /><br/>
+                                        <strong>BENEFICIARY NAME:</strong>&nbsp;<asp:Label ID="lblName" runat="server" /><br/>
+                                        <strong>BANK NAME:</strong>&nbsp;<asp:Label ID="lblBanco" runat="server" /><br/>
+                                        <strong>BANK ADDRESS:</strong>&nbsp;<asp:Label ID="lblEnderecoBanco" runat="server" /><br/>
+                                        <strong>ACCOUNT:</strong>&nbsp;<asp:Label ID="lblAccount" runat="server" /><br/>                                       
+                                        <strong>SWIFT CODE:</strong>&nbsp;<asp:Label ID="lblSwift" runat="server" /><br/>
                                         <strong>IBAN-BR:</strong>&nbsp;<asp:Label ID="lblIban" runat="server" /><br/>
                 </td>
             </tr>
-        </table>
-
-           <br />
+        </table> <br />
             <br />
+            <div style="float:right;font-size:10px"><strong><asp:Label ID="lblUsuario" runat="server" /></strong></div><br />
+
+          
 
 
     </div>

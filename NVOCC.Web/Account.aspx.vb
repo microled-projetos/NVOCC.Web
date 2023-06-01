@@ -105,6 +105,13 @@
                 ddlTipoInvoice.Enabled = False
                 ddlTipoFatura.Enabled = False
 
+                If ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_EMISSOR").ToString() = 1 Then 'AGENTE
+                    txtNumeroInvoice.Enabled = True
+                ElseIf ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_EMISSOR").ToString() = 2 Then 'FCA
+                    txtNumeroInvoice.Enabled = False
+                    txtDataInvoice.Enabled = False
+                End If
+
                 Con.Fechar()
                 atualizaTotalInvoice()
             End If
@@ -253,6 +260,7 @@
         txtDataInvoice.Text = ""
         txtObsInvoice.Text = ""
         lblTotalInvoice.Text = 0
+        txtDataInvoice.Enabled = True
         ddlEmissor.Enabled = True
         ddlTipoInvoice.Enabled = True
         ddlTipoFatura.Enabled = True
@@ -367,10 +375,13 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
     End Sub
 
     Private Sub ddlEmissor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlEmissor.SelectedIndexChanged
-        If ddlEmissor.SelectedValue = 1 Then
+        If ddlEmissor.SelectedValue = 1 Then 'AGENTE
             txtNumeroInvoice.Enabled = True
-        ElseIf ddlEmissor.SelectedValue = 2 Then
+            txtDataInvoice.Enabled = True
+        ElseIf ddlEmissor.SelectedValue = 2 Then 'FCA
             txtNumeroInvoice.Enabled = False
+            txtDataInvoice.Enabled = False
+            txtDataInvoice.Text = Now.Date.ToString("dd/MM/yyyy")
         End If
         ModalPopupExtender2.Show()
     End Sub
@@ -385,7 +396,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         divSuccessInvoice.Visible = False
         divErroInvoice.Visible = False
 
-        dsDevolucao.SelectCommand = "SELECT ID_MOEDA,ID_BL_TAXA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_COMPRA,0)VL_COMPRA,ISNULL(VL_VENDA,0)VL_VENDA,DT_RECEBIMENTO FROM FN_ACCOUNT_DEVOLUCAO_FRETE (" & txtID_BL.Text & ", '" & txtGrau.Text & "') A WHERE ID_MOEDA =" & ddlMoeda.SelectedValue & " AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS D
+        dsDevolucao.SelectCommand = "SELECT ID_MOEDA,ID_BL_TAXA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_COMPRA,0)VL_COMPRA,ISNULL(VL_VENDA,0)VL_VENDA,ISNULL(DIFERENCA,0)DIFERENCA,DT_RECEBIMENTO FROM FN_ACCOUNT_DEVOLUCAO_FRETE (" & txtID_BL.Text & ", '" & txtGrau.Text & "') A WHERE ID_MOEDA =" & ddlMoeda.SelectedValue & " AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS D
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGAR_RECEBER 
 WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_EXPORTACAO,'') = 'ACC')"
 
@@ -398,11 +409,11 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         Next
 
 
-        If ddlTipoInvoice.SelectedValue = 2 And ddlTipoFatura.SelectedValue = 1 And ddlEmissor.SelectedValue = 2 Then
-            ddlTipoDevolucao.Enabled = False
-        Else
-            ddlTipoDevolucao.Enabled = True
-        End If
+        'If ddlTipoInvoice.SelectedValue = 2 And ddlTipoFatura.SelectedValue = 1 And ddlEmissor.SelectedValue = 2 Then
+        '    ddlTipoDevolucao.Enabled = False
+        'Else
+        '    ddlTipoDevolucao.Enabled = True
+        'End If
 
         atualizaTotalFrete()
         ModalPopupExtender3.Show()
@@ -675,6 +686,7 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         lblValorFreteDevolucao.Text = 0
         lblValorFreteCompra.Text = 0
         lblValorFreteVenda.Text = 0
+        lblValorDifFrete.Text = 0
 
         If ddlTipoDevolucao.SelectedValue = 2 Then
             'DEVOLUÇÃO DO FRETE DE COMPRA
@@ -683,13 +695,16 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
                 Dim check As CheckBox = linha.FindControl("ckbSelecionar")
                 Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
                 Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+                ' Dim ValorDiferenca As Decimal = CType(linha.FindControl("lblValorDiferenca"), Label).Text
 
                 Dim ValorCompra2 As Decimal = lblValorFreteCompra.Text
                 Dim ValorVenda2 As Decimal = lblValorFreteVenda.Text
+                '  Dim ValorDiferenca2 As Decimal = lblValorDifFrete.Text
 
                 If check.Checked Then
                     lblValorFreteCompra.Text = ValorCompra + ValorCompra2
                     lblValorFreteVenda.Text = ValorVenda + ValorVenda2
+                    lblValorDifFrete.Text = lblValorFreteVenda.Text - lblValorFreteCompra.Text
 
                     lblValorFreteDevolucao.Text = lblValorFreteCompra.Text
                 End If
@@ -702,13 +717,16 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
                 Dim check As CheckBox = linha.FindControl("ckbSelecionar")
                 Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
                 Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+                ' Dim ValorDiferenca As Decimal = CType(linha.FindControl("lblValorDiferenca"), Label).Text
 
                 Dim ValorCompra2 As Decimal = lblValorFreteCompra.Text
                 Dim ValorVenda2 As Decimal = lblValorFreteVenda.Text
+                '  Dim ValorDiferenca2 As Decimal = lblValorDifFrete.Text
 
                 If check.Checked Then
                     lblValorFreteCompra.Text = ValorCompra + ValorCompra2
                     lblValorFreteVenda.Text = ValorVenda + ValorVenda2
+                    lblValorDifFrete.Text = lblValorFreteVenda.Text - lblValorFreteCompra.Text
 
                     lblValorFreteDevolucao.Text = lblValorFreteVenda.Text
                 End If
@@ -722,13 +740,16 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
                 Dim check As CheckBox = linha.FindControl("ckbSelecionar")
                 Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
                 Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+                '   Dim ValorDiferenca As Decimal = CType(linha.FindControl("lblValorDiferenca"), Label).Text
 
                 Dim ValorCompra2 As Decimal = lblValorFreteCompra.Text
                 Dim ValorVenda2 As Decimal = lblValorFreteVenda.Text
+                ' Dim ValorDiferenca2 As Decimal = lblValorDifFrete.Text
 
                 If check.Checked Then
                     lblValorFreteCompra.Text = ValorCompra + ValorCompra2
                     lblValorFreteVenda.Text = ValorVenda + ValorVenda2
+                    lblValorDifFrete.Text = lblValorFreteVenda.Text - lblValorFreteCompra.Text
 
                     lblValorFreteDevolucao.Text = lblValorFreteVenda.Text - lblValorFreteCompra.Text
                 End If
@@ -937,7 +958,7 @@ END ORIGEM,CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORT
 (SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO)
 END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
 (SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,
-(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER ,B.VL_CAMBIO_FRETE,B.DT_LIQUIDACAO
+(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER ,B.VL_CAMBIO,B.DT_LIQUIDACAO
             FROM [dbo].[View_House] A
 LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL  
  WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103) 
@@ -1124,7 +1145,7 @@ END ORIGEM,CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORT
 (SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO)
 END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
 (SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,
-(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER , B.VL_CAMBIO,B.DT_LIQUIDACAO
+(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER , B.VL_CAMBIO_FRETE, B.DT_LIQUIDACAO
 FROM [dbo].[View_House] A
 LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103) " & filtro
             dsProcessoPeriodo.SelectCommand = sql

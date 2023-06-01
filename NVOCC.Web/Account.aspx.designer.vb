@@ -545,13 +545,13 @@ Partial Public Class Account
     Protected WithEvents txtProc_ou_BL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtVencimento.
+    '''Controle txtDataInvoice.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtVencimento As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtDataInvoice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlMoeda.
@@ -581,13 +581,13 @@ Partial Public Class Account
     Protected WithEvents txtNumeroInvoice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtDataInvoice.
+    '''Controle txtVencimento.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtDataInvoice As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtVencimento As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ckbConferido.
@@ -777,6 +777,15 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblValorFreteVenda As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblValorDifFrete.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblValorDifFrete As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblValorFreteDevolucao.
