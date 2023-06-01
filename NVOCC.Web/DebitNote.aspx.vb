@@ -187,7 +187,7 @@ WHERE ID_BL_MASTER = " & lblID_BL_MASTER.Text & " AND ID_ACCOUNT_INVOICE  =" & l
 
 
 
-            Dim dsBanco As DataSet = Con.ExecutarQuery("SELECT NAME,SWIFT,ACCOUNT,AGENCY,IBAN_BR, BANK_ADRESS, BANK_NAME FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = 1")
+            Dim dsBanco As DataSet = Con.ExecutarQuery("SELECT NAME,SWIFT,ACCOUNT,AGENCY,IBAN_BR, BANK_ADDRESS, BANK_NAME FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = 1")
             If dsBanco.Tables(0).Rows.Count > 0 Then
                 lblName.Text = dsBanco.Tables(0).Rows(0).Item("NAME")
                 lblSwift.Text = dsBanco.Tables(0).Rows(0).Item("SWIFT")
@@ -195,7 +195,7 @@ WHERE ID_BL_MASTER = " & lblID_BL_MASTER.Text & " AND ID_ACCOUNT_INVOICE  =" & l
                 'lblAgency.Text = dsBanco.Tables(0).Rows(0).Item("AGENCY")
                 lblAccount.Text = "AGENCY:" & dsBanco.Tables(0).Rows(0).Item("AGENCY") & " / ACCOUNT NUMBER:" & dsBanco.Tables(0).Rows(0).Item("ACCOUNT")
                 lblIban.Text = dsBanco.Tables(0).Rows(0).Item("IBAN_BR")
-                lblEnderecoBanco.Text = dsBanco.Tables(0).Rows(0).Item("BANK_ADRESS")
+                lblEnderecoBanco.Text = dsBanco.Tables(0).Rows(0).Item("BANK_ADDRESS")
                 lblBanco.Text = dsBanco.Tables(0).Rows(0).Item("BANK_NAME")
 
             End If

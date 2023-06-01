@@ -377,6 +377,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
     Private Sub ddlEmissor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlEmissor.SelectedIndexChanged
         If ddlEmissor.SelectedValue = 1 Then 'AGENTE
             txtNumeroInvoice.Enabled = True
+            txtDataInvoice.Enabled = True
         ElseIf ddlEmissor.SelectedValue = 2 Then 'FCA
             txtNumeroInvoice.Enabled = False
             txtDataInvoice.Enabled = False
