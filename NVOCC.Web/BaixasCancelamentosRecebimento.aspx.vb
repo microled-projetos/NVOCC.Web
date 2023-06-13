@@ -125,27 +125,33 @@
 
     Sub DescontoAcrescimo(ID As Integer)
 
+        Dim ID_CONTA_PAGAR_RECEBER_ITENS As String
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_CONTA_PAGAR_RECEBER_ITENS,0)ID_CONTA_PAGAR_RECEBER_ITENS FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & ID & " AND ID_ITEM_DESPESA = " & txtItemDespesa.Text)
         If ds.Tables(0).Rows.Count > 0 Then
-
-            Dim ID_CONTA_PAGAR_RECEBER_ITENS As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER_ITENS").ToString()
-
-            Dim liquido_final As String = txtValorLiquidadoBaixa.Text
-            liquido_final = liquido_final.Replace(".", "")
-            liquido_final = liquido_final.Replace(",", ".")
-
-            Dim desconto_final As String = lblDescontoAcrescimoBaixa.Text
-            desconto_final = desconto_final.Replace(".", "")
-            desconto_final = desconto_final.Replace(",", ".")
-
-            Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] SET VL_LIQUIDO = VL_LIQUIDO + " & desconto_final & ", VL_DIFERENCA = " & desconto_final.Replace("-", "") & ", MOTIVO_DIFERENCA = '" & txtMotivoBaixa.Text & "' WHERE ID_CONTA_PAGAR_RECEBER_ITENS =" & ID_CONTA_PAGAR_RECEBER_ITENS)
+            ID_CONTA_PAGAR_RECEBER_ITENS = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER_ITENS").ToString()
         Else
-            lblErro.Text = "Não localizada taxa para desconto na fatura!"
-            divErro.Visible = True
-            Exit Sub
+            ds = Con.ExecutarQuery(" SELECT ISNULL(ID_CONTA_PAGAR_RECEBER_ITENS,0)ID_CONTA_PAGAR_RECEBER_ITENS FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & ID & " AND VL_LANCAMENTO = (SELECT max(VL_LANCAMENTO) FROM TB_CONTA_PAGAR_RECEBER_ITENS  WHERE ID_CONTA_PAGAR_RECEBER = " & ID & " ) ")
+            If ds.Tables(0).Rows.Count > 0 Then
+                ID_CONTA_PAGAR_RECEBER_ITENS = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER_ITENS").ToString()
+            Else
+                lblErro.Text = "Não localizada taxa para desconto na fatura!"
+                divErro.Visible = True
+                Exit Sub
+            End If
         End If
+
+        Dim liquido_final As String = txtValorLiquidadoBaixa.Text
+        liquido_final = liquido_final.Replace(".", "")
+        liquido_final = liquido_final.Replace(",", ".")
+
+        Dim desconto_final As String = lblDescontoAcrescimoBaixa.Text
+        desconto_final = desconto_final.Replace(".", "")
+        desconto_final = desconto_final.Replace(",", ".")
+
+        Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] SET VL_LIQUIDO = VL_LIQUIDO + " & desconto_final & ", VL_DIFERENCA = " & desconto_final.Replace("-", "") & ", MOTIVO_DIFERENCA = '" & txtMotivoBaixa.Text & "' WHERE ID_CONTA_PAGAR_RECEBER_ITENS =" & ID_CONTA_PAGAR_RECEBER_ITENS)
+
     End Sub
     Private Sub dgvTaxasReceber_Load(sender As Object, e As EventArgs) Handles dgvTaxasReceber.Load
         Using Status = New WsNVOCC.WsNvocc

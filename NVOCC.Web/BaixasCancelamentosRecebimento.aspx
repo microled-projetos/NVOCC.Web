@@ -145,7 +145,6 @@
                                                      <asp:BoundField DataField="VL_ACRESCIMO" HeaderText="Acréscimo" SortExpression="VL_ACRESCIMO" />
                                                      <asp:BoundField DataField="VL_DECRESCIMO" HeaderText="Decréscimo" SortExpression="VL_DECRESCIMO" />
                                                     <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário lançamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
-
                                                     <asp:TemplateField HeaderText="Bloqueio Financeiro">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblFL_BLOQUEIO_FINANCEIRO" runat="server" Text='<%# Eval("FL_BLOQUEIO_FINANCEIRO") %>' />

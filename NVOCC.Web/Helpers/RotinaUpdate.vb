@@ -880,7 +880,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString <> linha.Item("OB_TAXAS").ToString Then
-                                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET OB_TAXAS = '" & dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString & "' WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+                                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET OB_TAXAS = '" & dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString.Replace("'", "''") & "' WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_FORNECEDOR").ToString <> linha.Item("ID_PARCEIRO_EMPRESA").ToString Then
@@ -1133,7 +1133,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString <> linha.Item("OB_TAXAS").ToString Then
-                                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET OB_TAXAS = '" & dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString & "' WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+                                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET OB_TAXAS = '" & dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString.Replace("'", "''") & "' WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA").ToString <> linha.Item("ID_PARCEIRO_EMPRESA").ToString Then
