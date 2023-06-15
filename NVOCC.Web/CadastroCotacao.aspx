@@ -176,7 +176,7 @@
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label class="control-label">Destinatário de Cobrança:</label></label><label runat="server" style="color: red">*</label>
+                                                <label class="control-label">Destinatário de Cobrança (Frete e/ou taxas):</label></label><label runat="server" style="color: red">*</label>
                                                 <asp:DropDownList ID="ddlDestinatarioCobranca" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_DESTINATARIO_COBRANCA" DataSourceID="dsDestinatarioCobranca" DataValueField="ID_DESTINATARIO_COBRANCA"></asp:DropDownList>
                                             </div>
                                         </div>
@@ -2169,12 +2169,17 @@ FROM TB_COTACAO_TAXA A
             <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" />
         </SelectParameters>
     </asp:SqlDataSource>
+  
     <asp:SqlDataSource ID="dsOrigemPagamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_ORIGEM_PAGAMENTO,NM_ORIGEM_PAGAMENTO FROM  [dbo].[TB_ORIGEM_PAGAMENTO]
 union SELECT  0, 'Selecione'  ORDER BY ID_ORIGEM_PAGAMENTO"></asp:SqlDataSource>
-    <asp:SqlDataSource ID="dsDestinatarioCobranca" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+   
+    <%--<asp:SqlDataSource ID="dsDestinatarioCobranca" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_DESTINATARIO_COBRANCA,NM_DESTINATARIO_COBRANCA from TB_DESTINATARIO_COBRANCA
-union SELECT  0, 'Selecione'  ORDER BY ID_DESTINATARIO_COBRANCA"></asp:SqlDataSource>
+union SELECT  0, 'Selecione'  ORDER BY ID_DESTINATARIO_COBRANCA"></asp:SqlDataSource>--%>
+    <asp:SqlDataSource ID="dsDestinatarioCobranca" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_DESTINATARIO_COBRANCA,NM_DESTINATARIO_COBRANCA FROM View_Destinatario_Cobranca ORDER BY ORDEM"></asp:SqlDataSource>
+   
     <asp:SqlDataSource ID="dsHistoricoCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT top 10
 ID_COTACAO, 

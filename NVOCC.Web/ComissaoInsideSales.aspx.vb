@@ -341,12 +341,11 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INSIDE AS A LEFT OUTER JOIN
             End If
 
 
-            Dim SQL1 As String = "SELECT COMPETENCIA,NR_PROCESSO,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,PARCEIRO_VENDEDOR,ANALISTA_COTACAO,USUARIO_LIDER, NM_EQUIPE, NM_TIME,PARCEIRO_CLIENTE,TP_SERVICO,TP_VIA,TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,DS_OBSERVACAO FROM [dbo].[View_Comissao_Inside] WHERE COMPETENCIA ='" & txtCompetencia.Text & "'
+            Dim SQL1 As String = "SELECT COMPETENCIA,NR_PROCESSO,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,PARCEIRO_VENDEDOR,ANALISTA_COTACAO,USUARIO_LIDER, NM_EQUIPE, NM_TIME,BENEFICIADO,PARCEIRO_CLIENTE,TP_SERVICO,TP_VIA,TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,DS_OBSERVACAO FROM [dbo].[View_Comissao_Inside] WHERE COMPETENCIA ='" & txtCompetencia.Text & "'
 UNION 
-SELECT NULL,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, NULL,NULL 
+SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, NULL,NULL 
 ORDER BY COMPETENCIA DESC,NR_PROCESSO DESC, USUARIO_LIDER DESC "
-            Dim SQL2 As String = " SELECT NULL, NULL, NULL, NULL,NOMENCLATURA,BENEFICIADO,NULL,  NULL,NULL,  NULL, NULL, NULL, NULL,TOTAL_PROCESSOS, NULL, COMISSAO_PROCESSO, COMISSAO_TOTAL  FROM [FN_RELATORIO_COMISSAO_INSIDE]('" & txtCompetencia.Text & "')
-ORDER BY  FL_CALC_TIME DESC ,FL_CALC_EQUIPE DESC,FL_CALC_LIDER DESC,FL_CALC_GESTOR DESC "
+            Dim SQL2 As String = "SELECT NULL, NULL,NULL,NULL, NULL, NULL, NULL,NULL,NOMENCLATURA,BENEFICIADO,NULL,  NULL,NULL,  NULL,  TOTAL_PROCESSOS, NULL, COMISSAO_PROCESSO, COMISSAO_TOTAL,NULL,NULL FROM [FN_RELATORIO_COMISSAO_INSIDE]('" & txtCompetencia.Text & "') ORDER BY  ORDEM, BENEFICIADO"
 
 
             Classes.Excel.exportaExcelDuplo(SQL1, SQL2, "Comissao")
@@ -361,16 +360,7 @@ ORDER BY  FL_CALC_TIME DESC ,FL_CALC_EQUIPE DESC,FL_CALC_LIDER DESC,FL_CALC_GEST
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet = Con.ExecutarQuery("SELECT TOP 1 ID_INSIDE_TAXA_COMISSAO ,VL_TAXA_FCL,VL_TAXA_LCL FROM TB_INSIDE_TAXA_COMISSAO WHERE CONVERT(DATETIME,DT_VALIDADE_INICIAL,103) <= CONVERT(DATETIME,'" & txtLiquidacaoInicial.Text & "',103)")
-        If ds.Tables(0).Rows.Count > 0 Then
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_FCL")) Then
-                lblFCL.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_FCL")
-            End If
-
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_LCL")) Then
-                lblLCL.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_LCL")
-            End If
-
-        Else
+        If ds.Tables(0).Rows.Count = 0 Then
             lblErroGerarComissao.Text = "Não há tabela de taxa cadastrada!"
             divErroGerarComissao.Visible = True
         End If
@@ -442,22 +432,7 @@ IN (SELECT ID_CABECALHO_COMISSAO_INSIDE FROM TB_CABECALHO_COMISSAO_INSIDE WHERE 
                     dsInsert = Con.ExecutarQuery("INSERT INTO TB_CABECALHO_COMISSAO_INSIDE (DT_COMPETENCIA,ID_USUARIO_GERACAO,DT_GERACAO,DT_LIQUIDACAO_INICIAL ,DT_LIQUIDACAO_FINAL ) VALUES('" & NOVA_COMPETECIA & "'," & Session("ID_USUARIO") & ", getdate(),CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103),CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103)) Select SCOPE_IDENTITY() as ID_CABECALHO_COMISSAO_INSIDE  ")
                     cabecalho = dsInsert.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_INSIDE")
 
-                    '                    Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INSIDE (ID_CABECALHO_COMISSAO_INSIDE,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,NR_PROCESSO,ID_SERVICO,ID_BL,ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,ID_TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,ID_ANALISTA_COTACAO )
-                    'SELECT " & cabecalho & ", NR_NOTA_FISCAL, DT_NOTA_FISCAL,NR_PROCESSO,ID_SERVICO,ID_BL,ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,ID_TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,
-                    '                                Case 
-                    '                WHEN ID_TIPO_ESTUFAGEM  = 1 THEN
-                    '                VL_COMISSAO_BASE * QT_CNTR
-
-                    '                WHEN ID_TIPO_ESTUFAGEM  = 2 THEN
-                    '                VL_COMISSAO_BASE * 1
-                    '                End COMISSAO_TOTAL,
-
-                    '				DT_LIQUIDACAO,isnull(ID_ANALISTA_COTACAO,0)ID_ANALISTA_COTACAO
-
-                    'FROM FN_COMISSAO_INSIDE_SALES('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE DT_PAGAMENTO_EXP IS NULL AND FL_VENDEDOR_DIRETO = 1 ")
-
                     Equipe(cabecalho)
-                    Time(cabecalho)
                     CarregaGrid()
 
                     divErro.Visible = False
@@ -479,21 +454,19 @@ IN (SELECT ID_CABECALHO_COMISSAO_INSIDE FROM TB_CABECALHO_COMISSAO_INSIDE WHERE 
         VerificaCompetencia()
     End Sub
 
-
     Sub Equipe(cabecalho As Integer)
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet
+        Dim ContadorHBL As Integer = 0
+        Dim ContadorMembros As Integer = 0
+        Dim TaxaBase_final As String = "0"
+        Dim TaxaCalculada_final As String = "0"
 
-        'gravar premiacao
+        'ANALISTA
         ds = Con.ExecutarQuery("SELECT ID_BL,(SELECT ID_PARCEIRO_EQUIPE_INSIDE FROM TB_PARAMETROS)ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,NR_PROCESSO,ID_SERVICO,ID_TIPO_ESTUFAGEM,isnull(ID_ANALISTA_COTACAO,0)ID_ANALISTA_COTACAO,ISNULL(QT_BL,0)QT_BL,ISNULL(QT_CNTR,0)QT_CNTR  FROM FN_COMISSAO_INSIDE_SALES('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE DT_PAGAMENTO_EXP IS NULL AND ID_PARCEIRO_VENDEDOR IN (SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO =1 AND FL_ATIVO = 1) AND ID_ANALISTA_COTACAO IN (SELECT ID_USUARIO_MEMBRO_EQUIPE FROM TB_INSIDE_EQUIPE_MEMBROS where ISNULL(ID_TIME,0) = 0)")
 
         If ds.Tables(0).Rows.Count > 0 Then
-
-            Dim TaxaEquipe_final As String = "0"
-            Dim TaxaLider_final As String = "0"
-            Dim TaxaLCL_final As String = "0"
-            Dim TaxaFCL_final As String = "0"
 
             For Each linha As DataRow In ds.Tables(0).Rows
 
@@ -503,28 +476,12 @@ INNER JOIN TB_INSIDE_TAXA_COMISSAO C  ON C.ID_EQUIPE = B.ID_EQUIPE
 WHERE A.ID_USUARIO_MEMBRO_EQUIPE = " & linha.Item("ID_ANALISTA_COTACAO"))
 
                 If dsTaxa.Tables(0).Rows.Count > 0 Then
-                    TaxaEquipe_final = dsTaxa.Tables(0).Rows(0).Item("TAXA_EQUIPE")
-                    TaxaEquipe_final = TaxaEquipe_final.ToString.Replace(".", "")
-                    TaxaEquipe_final = TaxaEquipe_final.ToString.Replace(",", ".")
-
-                    TaxaLider_final = dsTaxa.Tables(0).Rows(0).Item("TAXA_LIDER")
-                    TaxaLider_final = TaxaLider_final.ToString.Replace(".", "")
-                    TaxaLider_final = TaxaLider_final.ToString.Replace(",", ".")
-
-
-                    TaxaLCL_final = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LCL")
-                    TaxaLCL_final = TaxaLCL_final.ToString.Replace(".", "")
-                    TaxaLCL_final = TaxaLCL_final.ToString.Replace(",", ".")
-
-                    TaxaFCL_final = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_FCL")
-                    TaxaFCL_final = TaxaFCL_final.ToString.Replace(".", "")
-                    TaxaFCL_final = TaxaFCL_final.ToString.Replace(",", ".")
-
-
-
+                    TaxaCalculada_final = dsTaxa.Tables(0).Rows(0).Item("TAXA_EQUIPE")
+                    TaxaCalculada_final = TaxaCalculada_final.ToString.Replace(".", "")
+                    TaxaCalculada_final = TaxaCalculada_final.ToString.Replace(",", ".")
 
                     ''ANALISTA
-                    Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INSIDE (ID_CABECALHO_COMISSAO_INSIDE,ID_EQUIPE,ID_USUARIO_GESTOR,NR_PROCESSO,ID_BL,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,FL_CALC_EQUIPE,ID_ANALISTA_COTACAO,ID_USUARIO_LIDER,QT_BL,QT_CNTR) VALUES(" & cabecalho & ",
+                    Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INSIDE (ID_CABECALHO_COMISSAO_INSIDE,ID_EQUIPE,ID_USUARIO_GESTOR,NR_PROCESSO,ID_BL,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,FL_CALC_EQUIPE,ID_ANALISTA_COTACAO,ID_USUARIO_LIDER,QT_BL,QT_CNTR,ID_USUARIO_BENEFICIADO) VALUES(" & cabecalho & ",
 " & dsTaxa.Tables(0).Rows(0).Item("ID_EQUIPE") & ",
 " & dsTaxa.Tables(0).Rows(0).Item("ID_USUARIO_GESTOR") & ",
 '" & linha.Item("NR_PROCESSO") & "',
@@ -533,45 +490,11 @@ WHERE A.ID_USUARIO_MEMBRO_EQUIPE = " & linha.Item("ID_ANALISTA_COTACAO"))
 " & linha.Item("ID_PARCEIRO_CLIENTE") & ",
 " & linha.Item("ID_PARCEIRO_VENDEDOR") & ",
 " & linha.Item("ID_TIPO_ESTUFAGEM") & ",
-" & TaxaEquipe_final & ",
-" & TaxaEquipe_final & ",
+" & TaxaCalculada_final & ",
+" & TaxaCalculada_final & ",
  1,
 " & linha.Item("ID_ANALISTA_COTACAO") & ",
-" & dsTaxa.Tables(0).Rows(0).Item("ID_USUARIO_LIDER") & "," & linha.Item("QT_BL") & "," & linha.Item("QT_CNTR") & ")")
-
-                    ''LIDER
-                    Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INSIDE (ID_CABECALHO_COMISSAO_INSIDE,ID_EQUIPE,ID_USUARIO_GESTOR,NR_PROCESSO,ID_BL,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,FL_CALC_LIDER,ID_ANALISTA_COTACAO,ID_USUARIO_LIDER,QT_BL,QT_CNTR) VALUES(" & cabecalho & ",
-" & dsTaxa.Tables(0).Rows(0).Item("ID_EQUIPE") & ",
-" & dsTaxa.Tables(0).Rows(0).Item("ID_USUARIO_GESTOR") & ",
-'" & linha.Item("NR_PROCESSO") & "',
-" & linha.Item("ID_BL") & ",
-" & linha.Item("ID_SERVICO") & ",
-" & linha.Item("ID_PARCEIRO_CLIENTE") & ",
-" & linha.Item("ID_PARCEIRO_VENDEDOR") & ",
-" & linha.Item("ID_TIPO_ESTUFAGEM") & ",
-" & TaxaLider_final & ",
-" & TaxaLider_final & ",
- 1,
-" & linha.Item("ID_ANALISTA_COTACAO") & ",
-" & dsTaxa.Tables(0).Rows(0).Item("ID_USUARIO_LIDER") & "," & linha.Item("QT_BL") & "," & linha.Item("QT_CNTR") & ")")
-
-
-
-                    ''GESTOR
-                    Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INSIDE (ID_CABECALHO_COMISSAO_INSIDE,ID_EQUIPE,ID_USUARIO_GESTOR,NR_PROCESSO,ID_BL,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,FL_CALC_GESTOR,ID_ANALISTA_COTACAO,ID_USUARIO_LIDER,QT_BL,QT_CNTR) VALUES(" & cabecalho & ",
-" & dsTaxa.Tables(0).Rows(0).Item("ID_EQUIPE") & ",
-" & dsTaxa.Tables(0).Rows(0).Item("ID_USUARIO_GESTOR") & ",
-'" & linha.Item("NR_PROCESSO") & "',
-" & linha.Item("ID_BL") & ",
-" & linha.Item("ID_SERVICO") & ",
-" & linha.Item("ID_PARCEIRO_CLIENTE") & ",
-" & linha.Item("ID_PARCEIRO_VENDEDOR") & ",
-" & linha.Item("ID_TIPO_ESTUFAGEM") & ",
-CASE WHEN " & linha.Item("ID_TIPO_ESTUFAGEM") & " =  1 THEN " & TaxaFCL_final & " ELSE " & TaxaLCL_final & " END ,
-CASE WHEN " & linha.Item("ID_TIPO_ESTUFAGEM") & " =  1 THEN " & TaxaFCL_final & " ELSE " & TaxaLCL_final & " END ,
- 1,
-" & linha.Item("ID_ANALISTA_COTACAO") & ",
-" & dsTaxa.Tables(0).Rows(0).Item("ID_USUARIO_LIDER") & "," & linha.Item("QT_BL") & "," & linha.Item("QT_CNTR") & ")")
+" & dsTaxa.Tables(0).Rows(0).Item("ID_USUARIO_LIDER") & "," & linha.Item("QT_BL") & "," & linha.Item("QT_CNTR") & "," & linha.Item("ID_ANALISTA_COTACAO") & ")")
 
                 End If
 
@@ -579,54 +502,164 @@ CASE WHEN " & linha.Item("ID_TIPO_ESTUFAGEM") & " =  1 THEN " & TaxaFCL_final & 
 
         End If
 
-    End Sub
 
-    Sub Time(cabecalho As Integer)
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim ds As DataSet
+        'TIME
+        ds = Con.ExecutarQuery("SELECT COUNT(distinct ID_BL)BL, COUNT(distinct ID_ANALISTA_COTACAO)ANALISTA FROM FN_COMISSAO_INSIDE_SALES('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE DT_PAGAMENTO_EXP IS NULL AND ID_PARCEIRO_VENDEDOR IN (SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO =1 AND FL_ATIVO = 1)  AND ID_ANALISTA_COTACAO IN (SELECT ID_USUARIO_MEMBRO_TIME FROM TB_INSIDE_TIME_MEMBROS )")
+        ContadorHBL = ds.Tables(0).Rows(0).Item("BL")
+        ContadorMembros = ds.Tables(0).Rows(0).Item("ANALISTA")
 
-        'gravar premiacao
-        ds = Con.ExecutarQuery("SELECT B.ID_TIME,A.ID_EQUIPE,A.TAXA_EQUIPE,C.ID_USUARIO_MEMBRO_TIME,A.ID_USUARIO_LIDER FROM TB_INSIDE_EQUIPE A
-INNER JOIN  TB_INSIDE_EQUIPE_MEMBROS B ON A.ID_EQUIPE = B.ID_EQUIPE
-INNER JOIN TB_INSIDE_TIME_MEMBROS C ON C.ID_TIME = B.ID_TIME
-WHERE ISNULL(B.ID_TIME,0) <> 0")
-
+        ds = Con.ExecutarQuery("SELECT ID_BL,(SELECT ID_PARCEIRO_EQUIPE_INSIDE FROM TB_PARAMETROS)ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,NR_PROCESSO,ID_SERVICO,ID_TIPO_ESTUFAGEM,isnull(ID_ANALISTA_COTACAO,0)ID_ANALISTA_COTACAO,ISNULL(QT_BL,0)QT_BL,ISNULL(QT_CNTR,0)QT_CNTR  FROM FN_COMISSAO_INSIDE_SALES('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE DT_PAGAMENTO_EXP IS NULL AND ID_PARCEIRO_VENDEDOR IN (SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO =1 AND FL_ATIVO = 1)  AND ID_ANALISTA_COTACAO IN (SELECT ID_USUARIO_MEMBRO_TIME FROM TB_INSIDE_TIME_MEMBROS )")
         If ds.Tables(0).Rows.Count > 0 Then
-
-            Dim TaxaEquipe_final As String = "0"
 
             For Each linha As DataRow In ds.Tables(0).Rows
 
-                Dim dsDados As DataSet = Con.ExecutarQuery("SELECT ID_BL,(SELECT ID_PARCEIRO_EQUIPE_INSIDE FROM TB_PARAMETROS)ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,NR_PROCESSO,ID_SERVICO,ID_TIPO_ESTUFAGEM,isnull(ID_ANALISTA_COTACAO,0)ID_ANALISTA_COTACAO,ISNULL(QT_BL,0)QT_BL,ISNULL(QT_CNTR,0)QT_CNTR FROM FN_COMISSAO_INSIDE_SALES('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE DT_PAGAMENTO_EXP IS NULL AND ID_PARCEIRO_VENDEDOR IN (SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO =1 AND FL_ATIVO = 1) AND ID_ANALISTA_COTACAO = " & linha.Item("ID_USUARIO_MEMBRO_TIME"))
+                Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT A.ID_TIME, A.ID_EQUIPE, B.TAXA_EQUIPE,B.ID_USUARIO_LIDER, C.ID_USUARIO_GESTOR FROM TB_INSIDE_EQUIPE_MEMBROS A 
+INNER JOIN TB_INSIDE_EQUIPE  B ON A.ID_EQUIPE = B.ID_EQUIPE
+INNER JOIN TB_INSIDE_TAXA_COMISSAO C  ON C.ID_EQUIPE = B.ID_EQUIPE 
+WHERE A.ID_TIME IN (SELECT ID_TIME FROM TB_INSIDE_TIME_MEMBROS WHERE ID_USUARIO_MEMBRO_TIME = " & linha.Item("ID_ANALISTA_COTACAO") & ")")
 
-                If dsDados.Tables(0).Rows.Count > 0 Then
+                If dsTaxa.Tables(0).Rows.Count > 0 Then
 
-                    TaxaEquipe_final = linha.Item("TAXA_EQUIPE")
-                    TaxaEquipe_final = TaxaEquipe_final.ToString.Replace(".", "")
-                    TaxaEquipe_final = TaxaEquipe_final.ToString.Replace(",", ".")
+                    TaxaBase_final = dsTaxa.Tables(0).Rows(0).Item("TAXA_EQUIPE")
+                    TaxaBase_final = TaxaBase_final.ToString.Replace(".", "")
+                    TaxaBase_final = TaxaBase_final.ToString.Replace(",", ".")
 
-                    For Each linhaDados As DataRow In dsDados.Tables(0).Rows
-                        Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INSIDE (ID_CABECALHO_COMISSAO_INSIDE,ID_EQUIPE,ID_TIME,NR_PROCESSO,ID_BL,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,FL_CALC_TIME,ID_ANALISTA_COTACAO,ID_USUARIO_LIDER,QT_BL,QT_CNTR) VALUES(" & cabecalho & ",
-" & linha.Item("ID_EQUIPE") & ",
-" & linha.Item("ID_TIME") & ",
-'" & linhaDados.Item("NR_PROCESSO") & "',
-" & linhaDados.Item("ID_BL") & ",
-" & linhaDados.Item("ID_SERVICO") & ",
-" & linhaDados.Item("ID_PARCEIRO_CLIENTE") & ",
-" & linhaDados.Item("ID_PARCEIRO_VENDEDOR") & ",
-" & linhaDados.Item("ID_TIPO_ESTUFAGEM") & ",
-" & TaxaEquipe_final & ",
-" & TaxaEquipe_final & ",
+
+                    TaxaCalculada_final = dsTaxa.Tables(0).Rows(0).Item("TAXA_EQUIPE")
+                    ' TaxaCalculada_final = TaxaCalculada_final * ContadorHBL
+                    TaxaCalculada_final = TaxaCalculada_final / ContadorMembros
+                    TaxaCalculada_final = TaxaCalculada_final.ToString.Replace(".", "")
+                    TaxaCalculada_final = TaxaCalculada_final.ToString.Replace(",", ".")
+
+
+
+                    ''MEMBRO TIME
+                    Dim dsDetalhe As DataSet = Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INSIDE (ID_CABECALHO_COMISSAO_INSIDE,ID_EQUIPE,ID_TIME,ID_USUARIO_GESTOR,NR_PROCESSO,ID_BL,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,FL_CALC_TIME,ID_ANALISTA_COTACAO,ID_USUARIO_LIDER,QT_BL,QT_CNTR, ID_USUARIO_BENEFICIADO) VALUES(" & cabecalho & ",
+" & dsTaxa.Tables(0).Rows(0).Item("ID_EQUIPE") & ",
+" & dsTaxa.Tables(0).Rows(0).Item("ID_TIME") & ",
+" & dsTaxa.Tables(0).Rows(0).Item("ID_USUARIO_GESTOR") & ",
+'" & linha.Item("NR_PROCESSO") & "',
+" & linha.Item("ID_BL") & ",
+" & linha.Item("ID_SERVICO") & ",
+" & linha.Item("ID_PARCEIRO_CLIENTE") & ",
+" & linha.Item("ID_PARCEIRO_VENDEDOR") & ",
+" & linha.Item("ID_TIPO_ESTUFAGEM") & ",
+" & TaxaBase_final & ",
+" & TaxaCalculada_final & ",
  1,
-" & linhaDados.Item("ID_ANALISTA_COTACAO") & ",
-" & linha.Item("ID_USUARIO_LIDER") & "," & linhaDados.Item("QT_BL") & "," & linhaDados.Item("QT_CNTR") & ")")
+" & linha.Item("ID_ANALISTA_COTACAO") & ",
+" & dsTaxa.Tables(0).Rows(0).Item("ID_USUARIO_LIDER") & "," & linha.Item("QT_BL") & "," & linha.Item("QT_CNTR") & "," & linha.Item("ID_ANALISTA_COTACAO") & ") Select SCOPE_IDENTITY() as ID_DETALHE_COMISSAO_INSIDE")
 
-                    Next
+                    Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INSIDE (ID_CABECALHO_COMISSAO_INSIDE,ID_EQUIPE,ID_TIME,ID_USUARIO_GESTOR,NR_PROCESSO,ID_BL,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,FL_CALC_TIME,ID_ANALISTA_COTACAO,ID_USUARIO_LIDER,QT_BL,QT_CNTR,ID_USUARIO_BENEFICIADO) SELECT A.ID_CABECALHO_COMISSAO_INSIDE,A.ID_EQUIPE,A.ID_TIME,A.ID_USUARIO_GESTOR,A.NR_PROCESSO,A.ID_BL,A.ID_SERVICO,A.ID_PARCEIRO_CLIENTE,A.ID_PARCEIRO_VENDEDOR,A.ID_TIPO_ESTUFAGEM,A.VL_COMISSAO_BASE,A.VL_COMISSAO_TOTAL,A.FL_CALC_TIME,A.ID_ANALISTA_COTACAO,ID_USUARIO_LIDER,A.QT_BL,A.QT_CNTR,B.ID_USUARIO_MEMBRO_TIME FROM TB_DETALHE_COMISSAO_INSIDE A INNER JOIN TB_INSIDE_TIME_MEMBROS B ON A.ID_TIME = B.ID_TIME WHERE ID_USUARIO_MEMBRO_TIME <> " & linha.Item("ID_ANALISTA_COTACAO") & " AND ID_DETALHE_COMISSAO_INSIDE = " & dsDetalhe.Tables(0).Rows(0).Item("ID_DETALHE_COMISSAO_INSIDE"))
+
                 End If
+
             Next
 
         End If
+
+
+
+        'LIDER/GESTOR
+
+        ds = Con.ExecutarQuery(" SELECT DISTINCT D.NR_PROCESSO, D.ID_BL, D.ID_SERVICO,D.ID_ANALISTA_COTACAO, D.QT_BL, D.QT_CNTR, D.ID_PARCEIRO_CLIENTE, D.ID_PARCEIRO_VENDEDOR,D.ID_TIPO_ESTUFAGEM, A.ID_EQUIPE, B.TAXA_LIDER, B.ID_USUARIO_LIDER,  C.VL_TAXA_FCL, C.VL_TAXA_LCL, C.ID_USUARIO_GESTOR FROM TB_INSIDE_EQUIPE_MEMBROS A 
+INNER JOIN TB_INSIDE_EQUIPE  B ON A.ID_EQUIPE = B.ID_EQUIPE
+INNER JOIN TB_INSIDE_TAXA_COMISSAO C  ON B.ID_EQUIPE = C.ID_EQUIPE 
+INNER JOIN TB_DETALHE_COMISSAO_INSIDE D ON C.ID_EQUIPE = D.ID_EQUIPE 
+WHERE D.ID_CABECALHO_COMISSAO_INSIDE =" & cabecalho)
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            For Each linha As DataRow In ds.Tables(0).Rows
+
+                'LIDER
+                If linha.Item("ID_USUARIO_LIDER").ToString() <> "" Then
+
+                    TaxaBase_final = linha.Item("TAXA_LIDER")
+                    TaxaBase_final = TaxaBase_final.ToString.Replace(".", "")
+                    TaxaBase_final = TaxaBase_final.ToString.Replace(",", ".")
+
+                    TaxaCalculada_final = linha.Item("TAXA_LIDER")
+                    TaxaCalculada_final = TaxaCalculada_final.ToString.Replace(".", "")
+                    TaxaCalculada_final = TaxaCalculada_final.ToString.Replace(",", ".")
+
+
+                    Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INSIDE (ID_CABECALHO_COMISSAO_INSIDE,ID_EQUIPE,ID_USUARIO_GESTOR,NR_PROCESSO,ID_BL,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,FL_CALC_LIDER,ID_ANALISTA_COTACAO,ID_USUARIO_LIDER,QT_BL,QT_CNTR,ID_USUARIO_BENEFICIADO) VALUES(" & cabecalho & ",
+" & linha.Item("ID_EQUIPE") & ",
+" & linha.Item("ID_USUARIO_GESTOR") & ",
+'" & linha.Item("NR_PROCESSO") & "',
+" & linha.Item("ID_BL") & ",
+" & linha.Item("ID_SERVICO") & ",
+" & linha.Item("ID_PARCEIRO_CLIENTE") & ",
+" & linha.Item("ID_PARCEIRO_VENDEDOR") & ",
+" & linha.Item("ID_TIPO_ESTUFAGEM") & ",
+" & TaxaBase_final & ",
+" & TaxaCalculada_final & ",
+ 1,
+" & linha.Item("ID_ANALISTA_COTACAO") & ",
+" & linha.Item("ID_USUARIO_LIDER") & "," & linha.Item("QT_BL") & "," & linha.Item("QT_CNTR") & "," & linha.Item("ID_USUARIO_LIDER") & ")")
+
+                End If
+
+                'GESTOR
+                If linha.Item("ID_USUARIO_GESTOR").ToString() <> "" Then
+
+                    If linha.Item("ID_TIPO_ESTUFAGEM").ToString() = "1" Then
+
+                        TaxaBase_final = linha.Item("VL_TAXA_FCL")
+                        TaxaBase_final = TaxaBase_final.ToString.Replace(".", "")
+                        TaxaBase_final = TaxaBase_final.ToString.Replace(",", ".")
+
+                        TaxaCalculada_final = linha.Item("VL_TAXA_FCL")
+                        TaxaCalculada_final = TaxaCalculada_final.ToString.Replace(".", "")
+                        TaxaCalculada_final = TaxaCalculada_final.ToString.Replace(",", ".")
+
+                        Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INSIDE (ID_CABECALHO_COMISSAO_INSIDE,ID_EQUIPE,ID_USUARIO_GESTOR,NR_PROCESSO,ID_BL,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,FL_CALC_GESTOR,ID_ANALISTA_COTACAO,ID_USUARIO_LIDER,QT_BL,QT_CNTR, ID_USUARIO_BENEFICIADO) VALUES(" & cabecalho & ",
+" & linha.Item("ID_EQUIPE") & ",
+" & linha.Item("ID_USUARIO_GESTOR") & ",
+'" & linha.Item("NR_PROCESSO") & "',
+" & linha.Item("ID_BL") & ",
+" & linha.Item("ID_SERVICO") & ",
+" & linha.Item("ID_PARCEIRO_CLIENTE") & ",
+" & linha.Item("ID_PARCEIRO_VENDEDOR") & ",
+" & linha.Item("ID_TIPO_ESTUFAGEM") & ",
+" & TaxaBase_final & ",
+" & TaxaCalculada_final & ",
+ 1,
+" & linha.Item("ID_ANALISTA_COTACAO") & ",
+" & linha.Item("ID_USUARIO_LIDER") & "," & linha.Item("QT_BL") & "," & linha.Item("QT_CNTR") & "," & linha.Item("ID_USUARIO_GESTOR") & ")")
+
+                    ElseIf linha.Item("ID_TIPO_ESTUFAGEM").ToString() = "2" Then
+
+                        TaxaBase_final = linha.Item("VL_TAXA_LCL")
+                        TaxaBase_final = TaxaBase_final.ToString.Replace(".", "")
+                        TaxaBase_final = TaxaBase_final.ToString.Replace(",", ".")
+
+                        TaxaCalculada_final = linha.Item("VL_TAXA_LCL")
+                        TaxaCalculada_final = TaxaCalculada_final.ToString.Replace(".", "")
+                        TaxaCalculada_final = TaxaCalculada_final.ToString.Replace(",", ".")
+
+                        Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INSIDE (ID_CABECALHO_COMISSAO_INSIDE,ID_EQUIPE,ID_USUARIO_GESTOR,NR_PROCESSO,ID_BL,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,FL_CALC_GESTOR,ID_ANALISTA_COTACAO,ID_USUARIO_LIDER,QT_BL,QT_CNTR, ID_USUARIO_BENEFICIADO) VALUES(" & cabecalho & ",
+" & linha.Item("ID_EQUIPE") & ",
+" & linha.Item("ID_USUARIO_GESTOR") & ",
+'" & linha.Item("NR_PROCESSO") & "',
+" & linha.Item("ID_BL") & ",
+" & linha.Item("ID_SERVICO") & ",
+" & linha.Item("ID_PARCEIRO_CLIENTE") & ",
+" & linha.Item("ID_PARCEIRO_VENDEDOR") & ",
+" & linha.Item("ID_TIPO_ESTUFAGEM") & ",
+" & TaxaBase_final & ",
+" & TaxaCalculada_final & ",
+ 1,
+" & linha.Item("ID_ANALISTA_COTACAO") & ",
+" & linha.Item("ID_USUARIO_LIDER") & "," & linha.Item("QT_BL") & "," & linha.Item("QT_CNTR") & "," & linha.Item("ID_USUARIO_GESTOR") & ")")
+                    End If
+
+                End If
+
+            Next
+
+        End If
+
 
     End Sub
 
@@ -917,7 +950,7 @@ ID_USUARIO_LANCAMENTO ,ID_USUARIO_LIQUIDACAO,TP_EXPORTACAO) VALUES('P','" & txtC
     End Sub
 
     Private Sub lkResumoRelatório_Click(sender As Object, e As EventArgs) Handles lkResumoRelatório.Click
-        Dim SQL As String = "SELECT NOMENCLATURA,BENEFICIADO, TOTAL_PROCESSOS, COMISSAO_PROCESSO, COMISSAO_TOTAL FROM [FN_RELATORIO_COMISSAO_INSIDE]('" & txtCompetencia.Text & "') ORDER BY FL_CALC_TIME DESC,FL_CALC_EQUIPE DESC, FL_CALC_LIDER DESC, FL_CALC_GESTOR DESC  "
+        Dim SQL As String = "SELECT NOMENCLATURA,BENEFICIADO,TOTAL_PROCESSOS,COMISSAO_PROCESSO,COMISSAO_TOTAL FROM [FN_RELATORIO_COMISSAO_INSIDE]('" & txtCompetencia.Text & "') ORDER BY ORDEM, BENEFICIADO "
 
         Classes.Excel.exportaExcel(SQL, "ResumoComissao")
     End Sub

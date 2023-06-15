@@ -95,7 +95,7 @@
 
                                         <asp:LinkButton ID="lkComissoes" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Comissões</asp:LinkButton>
                                         <asp:LinkButton ID="lkRelatorios" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Relatorios</asp:LinkButton>
-                                        <%--                                        <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>--%>
+                                        <%-- <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton> --%>
                                         <asp:LinkButton ID="lkCCProcesso" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gravar no CC do Processo</asp:LinkButton>
 
 
@@ -420,25 +420,7 @@
                                    </div>          
                                 </div>  
       </div>
-                                 <div class="row">
-                                     <div class="col-sm-6" style="border: ridge 1px;">
-                                    <div class="form-group">                                          
-                               
-                                               <asp:Label ID="Label18" runat="server"><strong>Taxa LCL</strong></asp:Label><br />
-
-<asp:Label ID="lblLCL" runat="server"/>                                         
-                                        </div>
-                                         </div>
-                                     <div class="col-sm-6" style="border: ridge 1px;">
-                                    <div class="form-group">                                          
- <asp:Label ID="Label19" runat="server"><strong>Taxa FCL</strong></asp:Label><br />
-
-<asp:Label ID="lblFCL" runat="server"/>                                         
-                                    
-                                        </div>
-                                         </div>
-                              
-                                </div>
+                                 
                                 <br />
                                  <div class="row">
 

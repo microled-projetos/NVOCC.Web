@@ -734,42 +734,6 @@ Partial Public Class ComissaoInsideSales
     Protected WithEvents txtLiquidacaoFinal As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle Label18.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label18 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblLCL.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblLCL As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle Label19.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label19 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblFCL.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblFCL As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Controle dgvEquipe.
     '''</summary>
     '''<remarks>
