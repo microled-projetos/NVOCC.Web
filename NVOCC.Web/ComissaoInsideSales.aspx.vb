@@ -946,6 +946,7 @@ ID_USUARIO_LANCAMENTO ,ID_USUARIO_LIQUIDACAO,TP_EXPORTACAO) VALUES('P','" & txtC
     End Sub
 
     Private Sub ddlGestor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlGestor.SelectedIndexChanged
+        CarregaEquipes()
         mpeGestao.Show()
     End Sub
 

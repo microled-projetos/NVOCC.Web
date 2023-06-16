@@ -221,6 +221,12 @@
                                                 <asp:BoundField DataField="NOME" HeaderText="NOME" SortExpression="NOME" />                                                
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
+                                                                 <asp:linkButton CommandName="Editar" Visible='<%#Eval("ID_TIME") <> 0 %>'  CommandArgument='<%# Eval("ID_TIME") %>' runat="server"  CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:linkButton>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="">
+                                                    <ItemTemplate>
                                                                  <asp:linkButton ID="btnExcluir" title="Excluir" runat="server"  CssClass="btn btn-danger btn-sm" CommandName="Excluir"
                                 OnClientClick="javascript:return confirm('Deseja realmente excluir este usuario da equipe?');"  CommandArgument='<%# Eval("ID_EQUIPE_MEMBROS") %>' Autopostback="true" ><span class="glyphicon glyphicon-trash" style="font-size:medium"></span></asp:linkButton>
                                                     </ItemTemplate>
@@ -408,7 +414,7 @@
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsMembrosEquipesCadastradas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT M.ID_EQUIPE_MEMBROS,M.ID_EQUIPE,U.ID_USUARIO, CASE WHEN M.ID_TIME IS NULL THEN U.NOME ELSE T.NM_TIME END NOME
+        SelectCommand="SELECT M.ID_EQUIPE_MEMBROS,M.ID_EQUIPE,U.ID_USUARIO,ISNULL(M.ID_TIME,0)ID_TIME, CASE WHEN M.ID_TIME IS NULL THEN U.NOME ELSE T.NM_TIME END NOME
 FROM TB_INSIDE_EQUIPE E
 INNER JOIN TB_INSIDE_EQUIPE_MEMBROS M ON E.ID_EQUIPE = M.ID_EQUIPE  
 LEFT JOIN TB_USUARIO U ON U.ID_USUARIO = M.ID_USUARIO_MEMBRO_EQUIPE 

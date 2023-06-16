@@ -150,6 +150,23 @@
             mpeMontarEquipe.Show()
             lblSuccessMontarEquipe.Text = "Registro deletado!"
             divSuccessMontarEquipe.Visible = True
+
+        ElseIf e.CommandName = "Editar" Then
+            txtIDTime.Text = e.CommandArgument
+            dgvMembrosTime.DataBind()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_EQUIPE, NM_TIME,QTD_MEMBROS FROM TB_INSIDE_EQUIPE_MEMBROS A
+INNER JOIN TB_INSIDE_TIME B ON A.ID_TIME = B.ID_TIME
+WHERE A.ID_TIME = " & txtIDTime.Text)
+            If ds.Tables(0).Rows.Count > 0 Then
+                txtIDEquipe.Text = ds.Tables(0).Rows(0).Item("ID_EQUIPE")
+                txtNomeTime.Text = ds.Tables(0).Rows(0).Item("NM_TIME")
+                txtQtdMembrosTime.Text = ds.Tables(0).Rows(0).Item("QTD_MEMBROS")
+                txtCodMembrosTime.Text = ""
+                txtBuscaMembrosTime.Text = ""
+                divMembroTime.Visible = True
+            End If
+            mpeMontarEquipe.Show()
+            mpeMontarTime.Show()
         End If
         Con.Fechar()
     End Sub
@@ -260,22 +277,37 @@
 
         Else
 
-            'INSERT
-            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_INSIDE_TIME WHERE NM_TIME = '" & txtNomeTime.Text & "' AND QTD_MEMBROS = " & txtQtdMembrosTime.Text)
-            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-                ds = Con.ExecutarQuery("INSERT INTO TB_INSIDE_TIME (NM_TIME,QTD_MEMBROS) VALUES ( '" & txtNomeTime.Text & "' , " & txtQtdMembrosTime.Text & " ) Select SCOPE_IDENTITY() as ID_TIME ")
-                txtIDTime.Text = ds.Tables(0).Rows(0).Item("ID_TIME")
-                Con.ExecutarQuery("INSERT INTO TB_INSIDE_EQUIPE_MEMBROS (ID_EQUIPE,ID_TIME) VALUES (" & txtIDEquipe.Text & " , " & txtIDTime.Text & " ) ")
-                divTimeSuccess.Visible = True
-                lblSuccessTime.Text = "Time cadastrado com sucesso!"
-                divMembroTime.Visible = True
+            If txtIDTime.Text <> "" Then
+                'UPDATE
+                ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_INSIDE_TIME WHERE NM_TIME = '" & txtNomeTime.Text & "' AND QTD_MEMBROS = " & txtQtdMembrosTime.Text & " AND ID_TIME <> " & txtIDTime.Text)
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    Con.ExecutarQuery("UPDATE TB_INSIDE_TIME SET NM_TIME = '" & txtNomeTime.Text & "' , QTD_MEMBROS = " & txtQtdMembrosTime.Text & " WHERE ID_TIME = " & txtIDTime.Text)
+                    divTimeSuccess.Visible = True
+                    lblSuccessTime.Text = "Time atualizado com sucesso!"
+                    divMembroTime.Visible = True
+                Else
+                    divTimeErro.Visible = True
+                    lblErroTime.Text = "Este time já existe!"
+                    divMembroTime.Visible = False
+                End If
+
             Else
-                divTimeErro.Visible = True
-                lblErroTime.Text = "Este time já existe!"
-                divMembroTime.Visible = False
+                'INSERT
+                ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_INSIDE_TIME WHERE NM_TIME = '" & txtNomeTime.Text & "' AND QTD_MEMBROS = " & txtQtdMembrosTime.Text)
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    ds = Con.ExecutarQuery("INSERT INTO TB_INSIDE_TIME (NM_TIME,QTD_MEMBROS) VALUES ( '" & txtNomeTime.Text & "' , " & txtQtdMembrosTime.Text & " ) Select SCOPE_IDENTITY() as ID_TIME ")
+                    txtIDTime.Text = ds.Tables(0).Rows(0).Item("ID_TIME")
+                    Con.ExecutarQuery("INSERT INTO TB_INSIDE_EQUIPE_MEMBROS (ID_EQUIPE,ID_TIME) VALUES (" & txtIDEquipe.Text & " , " & txtIDTime.Text & " ) ")
+                    divTimeSuccess.Visible = True
+                    lblSuccessTime.Text = "Time cadastrado com sucesso!"
+                    divMembroTime.Visible = True
+                Else
+                    divTimeErro.Visible = True
+                    lblErroTime.Text = "Este time já existe!"
+                    divMembroTime.Visible = False
+                End If
             End If
-
 
         End If
         mpeMontarEquipe.Show()
