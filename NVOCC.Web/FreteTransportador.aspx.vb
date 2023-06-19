@@ -222,14 +222,36 @@ Public Class FreteTransportador
                     Dim Con As New Conexao_sql
                     Con.Conectar()
 
-                    'REALIZA UPDATE DO FRETE TRANSPORTADOR
-                    Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID.Text & ",'EDIÇÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+                    Dim ds As DataSet = Con.ExecutarQuery("SELECT OBS_INTERNA,OBS_CLIENTE FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
+                    If ds.Tables(0).Rows.Count > 0 Then
 
-                    Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR  SET  ID_TRANSPORTADOR = " & ID_TRANSPORTADOR.SelectedValue & ", ID_AGENTE = " & ID_AGENTE.SelectedValue & ", ID_PORTO_ORIGEM = " & ID_PORTO_ORIGEM.SelectedValue & " , ID_PORTO_DESTINO = " & ID_PORTO_DESTINO.SelectedValue & ", ID_TIPO_CARGA = " & ID_TIPO_CARGA.SelectedValue & ", ID_VIA_ROTA =  " & ID_VIA_ROTA.SelectedValue & " , QT_DIAS_TRANSITTIME_INICIAL =  " & QT_DIAS_TRANSITTIME_INICIAL.Text & ", QT_DIAS_TRANSITTIME_FINAL = " & QT_DIAS_TRANSITTIME_FINAL.Text & ", ID_TIPO_FREQUENCIA = " & ID_TIPO_FREQUENCIA.SelectedValue & ",  FL_ATIVO = '" & FL_ATIVO.Checked & "', OBS_INTERNA =  '" & OBS_INTERNA.Text & "', OBS_CLIENTE =  '" & OBS_CLIENTE.Text & "', DT_VALIDADE_FINAL =  CONVERT(DATETIME,'" & DT_VALIDADE_FINAL.Text & "',103),DT_VALIDADE_INICIAL =  CONVERT(DATETIME,'" & DT_VALIDADE_INICIAL.Text & "',103), FL_CONSOLIDADA = '" & FL_CONSOLIDADA.Checked & "'  WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
+                        'RETIRA OBS ANTIGA
+                        If ds.Tables(0).Rows(0).Item("OBS_CLIENTE").ToString() <> OBS_CLIENTE.Text Then
+                            Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_CLIENTE = REPLACE(OB_CLIENTE, '<br/>Informação tabela frete: ' + (SELECT OBS_CLIENTE FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text & "),'') WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
+                        End If
+                        If ds.Tables(0).Rows(0).Item("OBS_INTERNA").ToString() <> OBS_INTERNA.Text Then
+                            Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_OPERACIONAL = REPLACE(OB_OPERACIONAL, '<br/>Informação tabela frete: ' + (SELECT OBS_INTERNA FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text & "),'') WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
+                        End If
+
+                        'HISTORICO UPDATE DO FRETE TRANSPORTADOR
+                        Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID.Text & ",'EDIÇÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+
+
+                        'REALIZA UPDATE DO FRETE TRANSPORTADOR
+                        Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR  SET  ID_TRANSPORTADOR = " & ID_TRANSPORTADOR.SelectedValue & ", ID_AGENTE = " & ID_AGENTE.SelectedValue & ", ID_PORTO_ORIGEM = " & ID_PORTO_ORIGEM.SelectedValue & " , ID_PORTO_DESTINO = " & ID_PORTO_DESTINO.SelectedValue & ", ID_TIPO_CARGA = " & ID_TIPO_CARGA.SelectedValue & ", ID_VIA_ROTA =  " & ID_VIA_ROTA.SelectedValue & " , QT_DIAS_TRANSITTIME_INICIAL =  " & QT_DIAS_TRANSITTIME_INICIAL.Text & ", QT_DIAS_TRANSITTIME_FINAL = " & QT_DIAS_TRANSITTIME_FINAL.Text & ", ID_TIPO_FREQUENCIA = " & ID_TIPO_FREQUENCIA.SelectedValue & ",  FL_ATIVO = '" & FL_ATIVO.Checked & "', OBS_INTERNA =  '" & OBS_INTERNA.Text & "', OBS_CLIENTE =  '" & OBS_CLIENTE.Text & "', DT_VALIDADE_FINAL =  CONVERT(DATETIME,'" & DT_VALIDADE_FINAL.Text & "',103),DT_VALIDADE_INICIAL =  CONVERT(DATETIME,'" & DT_VALIDADE_INICIAL.Text & "',103), FL_CONSOLIDADA = '" & FL_CONSOLIDADA.Checked & "'  WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
+
+                        'INCLUI NOVA OBS
+                        If ds.Tables(0).Rows(0).Item("OBS_CLIENTE").ToString() <> OBS_CLIENTE.Text Then
+                            Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_CLIENTE = OB_CLIENTE + '<br/>Informação tabela frete: ' + (SELECT OBS_CLIENTE FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text & ") WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
+                        End If
+                        If ds.Tables(0).Rows(0).Item("OBS_INTERNA").ToString() <> OBS_INTERNA.Text Then
+                            Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_OPERACIONAL = OB_OPERACIONAL + '<br/>Informação tabela frete: ' + (SELECT OBS_INTERNA FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text & ")  WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
+                        End If
+
+                    End If
+
                     txtID.Text = ""
                     Con.Fechar()
-
-
                     Exit For
 
                 End If

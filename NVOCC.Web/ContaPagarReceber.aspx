@@ -81,6 +81,8 @@
                                                 <th class="text-center" scope="col">PARCEIRO</th>
                                                 <th class="text-center" scope="col">TIPO</th>
                                                 <th class="text-center" scope="col">VALOR</th>
+                                                <th class="text-center" scope="col">ACRESCIMO</th>
+                                                <th class="text-center" scope="col">DECRESCIMO</th>
                                                 <th class="text-center" scope="col">MOEDA</th>
                                                 <th class="text-center" scope="col">DATA CAMBIO</th>
                                                 <th class="text-center" scope="col">CAMBIO</th>
@@ -287,6 +289,7 @@
         //PagamentosRecebimentos
 
         function PagamentosRecebimentos() {
+            var result = "";
             var dtInicial = document.getElementById("txtDtInicialPagamentoRecebimento").value;
             var dtFinal = document.getElementById("txtDtFinalPagamentoRecebimento").value;
             var nota = document.getElementById("txtPagamentoRecebimento").value;
@@ -315,22 +318,33 @@
                     $("#grdPagamentoRecebimentoFooter").empty();
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
-                            $("#grdPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'> " + dado[i]["MBL"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_PARCEIRO"] + "'>" + dado[i]["NM_PARCEIRO"] + "</td><td class='text-center'>" + dado[i]["TIPO"] + "</td><td class='text-center'>" + dado[i]["VALOR"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["MOEDA"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO"] + "</td><td class='text-center'>" + dado[i]["CAMBIO"] + "</td><td class='text-center'>" + dado[i]["VALOR_BR"].toString().replace(".", ",") + "</td></td></tr>");
+                            result += "<tr>";
+                            result += "<td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td>";
+                            result += "<td class='text-center'> " + dado[i]["MBL"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td>";
+                            result += "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_PARCEIRO"] + "'>" + dado[i]["NM_PARCEIRO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["TIPO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["VALOR"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["ACRESCIMO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DECRESCIMO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["MOEDA"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DT_CAMBIO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["CAMBIO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["VALOR_BR"].toString().replace(".", ",") + "</td>";
+                            result += "</tr>";
                             if (dado[i]["TIPO"].toString() == "PAGO") {
-                                if (dado[i]["VALOR_BR"] != "") {
-                                    liqpag = parseFloat(liqpag) + parseFloat(dado[i]["VALOR_BR"]);
+                                if (dado[i]["TOTAL"] != "") {
+                                    liqpag = parseFloat(liqpag) + parseFloat(dado[i]["TOTAL"]);
                                 }
                             } else {
                                 if (dado[i]["VALOR_BR"] != "") {
-                                    liqrec = parseFloat(liqrec) + parseFloat(dado[i]["VALOR_BR"]);
+                                    liqrec = parseFloat(liqrec) + parseFloat(dado[i]["TOTAL"]);
                                 }
                             }
-
-
                         }
-                        $("#grdPagamentoRecebimentoFooter").append("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th class='text-center'> Recebido: " + liqrec.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th class='text-center'> Pago: " + liqpag.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th><th></th><th></th></tr>")
+                        $("#grdPagamentoRecebimentoBody").append(result)
+                        $("#grdPagamentoRecebimentoFooter").append("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th class='text-center'> Recebido: " + liqrec.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th class='text-center'> Pago: " + liqpag.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th><th></th><th></th><th></th><th></th></tr>")
                     }
                     else {
                         $("#grdPagamentoRecebimentoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='14' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
