@@ -1309,7 +1309,7 @@
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Enviar na S.I?" HeaderStyle-ForeColor="#337ab7">
                                                                 <ItemTemplate>
-                                                                    <asp:CheckBox ID="ckEnvioSI" Checked='<%# Eval("FL_ENVIO_SI") %>' runat="server" AutoPostBack="true" OnCheckedChanged="ckEnvioSI_CheckedChanged" />
+                                                                    <asp:CheckBox ID="ckEnvioSI" Checked='<%# Eval("FL_ENVIA_SI") %>' runat="server" AutoPostBack="true" OnCheckedChanged="ckEnvioSI_CheckedChanged" />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField>
@@ -2782,7 +2782,7 @@
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Enviar na S.I?" HeaderStyle-ForeColor="#337ab7">
                                                                 <ItemTemplate>
-                                                                    <asp:CheckBox ID="ckEnvioSI" Checked='<%# Eval("FL_ENVIO_SI") %>' runat="server" AutoPostBack="true" OnCheckedChanged="ckEnvioSI_CheckedChanged" />
+                                                                    <asp:CheckBox ID="ckEnvioSI" Checked='<%# Eval("FL_ENVIA_SI") %>' runat="server" AutoPostBack="true" OnCheckedChanged="ckEnvioSI_CheckedChanged" />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField>
@@ -3474,7 +3474,7 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
 
 
     <asp:SqlDataSource ID="dsUploadsMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO, A.FL_ENVIO_SI FROM TB_UPLOADS  A
+        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO, ISNULL(A.FL_ENVIA_SI,0)FL_ENVIA_SI FROM TB_UPLOADS  A
  INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
 INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
     WHERE A.ID_BL = @ID_BL ">
@@ -3484,7 +3484,7 @@ INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsUploadsAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO, A.FL_ENVIO_SI FROM TB_UPLOADS  A
+        SelectCommand=" SELECT A.ID_ARQUIVO,A.NM_ARQUIVO,C.NOME,B.NM_TIPO_ARQUIVO,A.DT_UPLOAD,A.FL_ATIVO_CLIENTES,A.ID_BL,A.ID_COTACAO,A.CAMINHO_ARQUIVO,  ISNULL(A.FL_ENVIA_SI,0)FL_ENVIA_SI FROM TB_UPLOADS  A
  INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
 INNER JOIN TB_USUARIO C ON A.ID_USUARIO = C.ID_USUARIO
     WHERE A.ID_BL = @ID_BL ">
