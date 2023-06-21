@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="CadastrarParceiro.aspx.vb" Inherits="NVOCC.Web.CadastrarParceiro" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="CadastrarParceiroOld.aspx.vb" Inherits="NVOCC.Web.CadastrarParceiroOld" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -623,23 +623,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                     <div class="row" style="border-top: ridge 1px;">
 
-                                        <div class="col-sm-3 col-sm-offset-6">
-                                            <div class="form-group">
-                                                <label>&nbsp;</label>
-                                                <asp:Button ID="btnLimpar" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                                <label>&nbsp;</label>
-                                                <asp:Button ID="btnGravar" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
-                                            </div>
-                                        </div>
-                                    </div>
-                       
 
                                 </ContentTemplate>
                                 <Triggers>
@@ -715,7 +699,7 @@
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
-                                                        <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarContato" Visible="true" Text="Salvar Contato" />
+                                                        <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarContato" Visible="false" Text="Salvar Contato" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -768,17 +752,16 @@
                                 </li>
                             </ul>
                             <br />
-                            
-                             <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="TRUE">
-                                        <ContentTemplate>  
-                                     <div class="tab-content">  
-                                         <div class="alert alert-success" id="divSuccessEvento" runat="server" visible="false">
+                            <div class="tab-content">
+                                <div class="alert alert-success" id="divSuccessEvento" runat="server" visible="false">
                                             <asp:Label runat="server" ID="lblSuccessEvento" />
                                         </div>
                                         <div class="alert alert-danger" id="divErroEvento" runat="server" visible="false">
                                             <asp:Label runat="server" ID="lblErroEvento" />
                                         </div>
                                 
+                                    <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="TRUE">
+                                        <ContentTemplate>
                                             <div class="tab-pane fade active in" id="detalhesEvento">
                                             <div class="row">
                                                 <div class="col-sm-6">
@@ -819,7 +802,13 @@
                                                     </div>
                                                 </div>
                                             </div>
- 
+                                        <%--</ContentTemplate>
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="ddlEvento" />
+                                            <asp:AsyncPostBackTrigger ControlID="ddlEvento" />
+                                        </Triggers>
+                                    </asp:UpdatePanel>
+                                    <br /> <br />--%>
 
                                    
 
@@ -827,8 +816,9 @@
                                 </div>
                                 <div class="tab-pane fade" id="listaEvento">
                                     <br />
-                                   
-                                         <div class="table-responsive tableFixHead">
+                                    <div class="table-responsive tableFixHead">
+<%--                                          <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                                          <ContentTemplate>--%>
                                                 <asp:GridView ID="dgvEmailEvento" DataKeyNames="Id" DataSourceID="dsEmailvento" EmptyDataText="Esse parceiro não possui email cadastrado." CssClass="table table-hover table-sm grdViewTable" GridLines="None" Style="max-height: 600px; overflow: auto;" AllowSorting="true" OnSorting="dgvEmailEvento_Sorting" CellSpacing="-1" runat="server" AutoGenerateColumns="false">
                                                     <Columns>
                                                         <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" />
@@ -853,23 +843,39 @@
                                                     </Columns>
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>
-                                       </div>    
-                                   </div>  
-
-                              </div> 
-                                        </ContentTemplate>
+                                            </ContentTemplate>
                                             <Triggers>
                                                 <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvEmailEvento" />
                                                 <asp:AsyncPostBackTrigger EventName="Rowcommand" ControlID="dgvEmailEvento" />
 
                                             </Triggers>
-                                        </asp:UpdatePanel>                                          
+                                        </asp:UpdatePanel>
+                                    </div>
+                             </div>
+
+                         <div class="row" style="border-top: ridge 1px;">
+
+                                        <div class="col-sm-3 col-sm-offset-6">
+                                            <div class="form-group">
+                                                <label>&nbsp;</label>
+                                                <asp:Button ID="btnLimpar" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>&nbsp;</label>
+                                                <asp:Button ID="btnGravar" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-     </div>
-        </div>
+
         <asp:SqlDataSource ID="dsCidades" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
             SelectCommand="SELECT ID_CIDADE,upper( NM_CIDADE) + ' - ' + (SELECT SIGLA_ESTADO FROM TB_ESTADO B WHERE B.ID_ESTADO = A.ID_ESTADO) AS NM_CIDADE FROM [dbo].[TB_CIDADE] A  union SELECT  0 as Id, '  Selecione' as Descricao FROM [dbo].[TB_CIDADE] A Order by NM_CIDADE"></asp:SqlDataSource>
 

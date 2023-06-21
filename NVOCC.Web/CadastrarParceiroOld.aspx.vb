@@ -1,5 +1,5 @@
 ﻿Imports Newtonsoft.Json
-Public Class CadastrarParceiro
+Public Class CadastrarParceiroOld
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -279,12 +279,12 @@ WHERE ID_PARCEIRO =" & ID)
             'End If
 
             'PREENCHE CAMPOS DE EMAIL
-            'ds = Con.ExecutarQuery("SELECT ID, ENDERECOS,ID_EVENTO, ID_TERMINAL FROM [TB_AMR_PESSOA_EVENTO] WHERE ID_PESSOA =" & ID)
-            'If ds.Tables(0).Rows.Count > 0 Then
-            '    txtEmail.Text = ds.Tables(0).Rows(0).Item("ENDERECOS").ToString()
-            '    ddlPorto.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TERMINAL")
-            '    ddlEvento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_EVENTO")
-            'End If
+            ds = Con.ExecutarQuery("SELECT ID, ENDERECOS,ID_EVENTO, ID_TERMINAL FROM [TB_AMR_PESSOA_EVENTO] WHERE ID_PESSOA =" & ID)
+            If ds.Tables(0).Rows.Count > 0 Then
+                txtEmail.Text = ds.Tables(0).Rows(0).Item("ENDERECOS").ToString()
+                ddlPorto.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TERMINAL")
+                ddlEvento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_EVENTO")
+            End If
 
             Con.Fechar()
         Else
@@ -303,8 +303,8 @@ WHERE ID_PARCEIRO =" & ID)
         divInformativa.Visible = False
         divSuccessContato.Visible = False
         divErroContato.Visible = False
-        ' btnSalvarContato.Visible = False
-        ' btnSalvarEvento.Visible = False
+        btnSalvarContato.Visible = False
+        btnSalvarEvento.Visible = False
 
         Dim ds As DataSet
 
@@ -808,109 +808,107 @@ WHERE ID_PARCEIRO =" & ID)
                             Dim ID_Parceiro As String = ds.Tables(0).Rows(0).Item("ID_PARCEIRO").ToString()
                             Session("ID_Parceiro") = ID_Parceiro
 
-                            txtID.Text = ID_Parceiro
+                            If txtNomeContato.Text = "" And txtTelContato.Text = "" And txtEmailContato.Text = "" And txtDepartamento.Text = "" Then
+                                divInformativa.Visible = True
+                                lblInformacao.Text = "Parceiro cadastrado sem informações de contato"
 
-                            'If txtNomeContato.Text = "" And txtTelContato.Text = "" And txtEmailContato.Text = "" And txtDepartamento.Text = "" Then
-                            '    divInformativa.Visible = True
-                            '    lblInformacao.Text = "Parceiro cadastrado sem informações de contato"
+                            ElseIf txtIDContato.Text = "" Then
+                                If txtNomeContato.Text = "" Then
+                                    msgErro.Text = "Preencha o campo de nome na aba contatos."
+                                    divmsg1.Visible = True
+                                    msgErro.Visible = True
+                                Else
 
-                            'ElseIf txtIDContato.Text = "" Then
-                            '    If txtNomeContato.Text = "" Then
-                            '        msgErro.Text = "Preencha o campo de nome na aba contatos."
-                            '        divmsg1.Visible = True
-                            '        msgErro.Visible = True
-                            '    Else
+                                    If txtTelContato.Text = "" Then
+                                        txtTelContato.Text = "NULL "
+                                    Else
+                                        txtTelContato.Text = "'" & txtTelContato.Text & "'"
+                                    End If
 
-                            '        If txtTelContato.Text = "" Then
-                            '            txtTelContato.Text = "NULL "
-                            '        Else
-                            '            txtTelContato.Text = "'" & txtTelContato.Text & "'"
-                            '        End If
+                                    If txtEmailContato.Text = "" Then
+                                        txtEmailContato.Text = "NULL "
+                                    Else
+                                        txtEmailContato.Text = "'" & txtEmailContato.Text & "'"
+                                    End If
 
-                            '        If txtEmailContato.Text = "" Then
-                            '            txtEmailContato.Text = "NULL "
-                            '        Else
-                            '            txtEmailContato.Text = "'" & txtEmailContato.Text & "'"
-                            '        End If
+                                    If txtDepartamento.Text = "" Then
+                                        txtDepartamento.Text = "NULL "
+                                    Else
+                                        txtDepartamento.Text = "'" & txtDepartamento.Text & "'"
+                                    End If
 
-                            '        If txtDepartamento.Text = "" Then
-                            '            txtDepartamento.Text = "NULL "
-                            '        Else
-                            '            txtDepartamento.Text = "'" & txtDepartamento.Text & "'"
-                            '        End If
+                                    If txtCelularContato.Text = "" Then
+                                        txtCelularContato.Text = "NULL "
+                                    Else
+                                        txtCelularContato.Text = "'" & txtCelularContato.Text & "'"
+                                    End If
 
-                            '        If txtCelularContato.Text = "" Then
-                            '            txtCelularContato.Text = "NULL "
-                            '        Else
-                            '            txtCelularContato.Text = "'" & txtCelularContato.Text & "'"
-                            '        End If
-
-                            '        'insere contatos
-                            '        Dim sqlContatos As String = "INSERT INTO TB_CONTATO ([ID_PARCEIRO],[NM_CONTATO],[TELEFONE_CONTATO],[EMAIL_CONTATO],[NM_DEPARTAMENTO],[CELULAR_CONTATO]) VALUES (" & ID_Parceiro & ",'" & txtNomeContato.Text & "'," & txtTelContato.Text & "," & txtEmailContato.Text & "," & txtDepartamento.Text & ", " & txtCelularContato.Text & ")"
-                            '        Con.ExecutarQuery(sqlContatos)
-                            '    End If
-                            'End If
+                                    'insere contatos
+                                    Dim sqlContatos As String = "INSERT INTO TB_CONTATO ([ID_PARCEIRO],[NM_CONTATO],[TELEFONE_CONTATO],[EMAIL_CONTATO],[NM_DEPARTAMENTO],[CELULAR_CONTATO]) VALUES (" & ID_Parceiro & ",'" & txtNomeContato.Text & "'," & txtTelContato.Text & "," & txtEmailContato.Text & "," & txtDepartamento.Text & ", " & txtCelularContato.Text & ")"
+                                    Con.ExecutarQuery(sqlContatos)
+                                End If
+                            End If
 
 
-                            'If txtEmail.Text = "" And ddlEvento.SelectedValue = 0 Then
-                            '    divInformativa.Visible = True
-                            '    lblInformacao.Text &= " <br/> Parceiro cadastrado sem informações de email e evento"
-                            'Else
-                            '    If txtEmail.Text = "" Then
-                            '        msgErro.Text = "Preencha o campo de Endereços de Email na aba Email x Eventos."
-                            '        divmsg1.Visible = True
-                            '        msgErro.Visible = True
-                            '    Else
+                            If txtEmail.Text = "" And ddlEvento.SelectedValue = 0 Then
+                                divInformativa.Visible = True
+                                lblInformacao.Text &= " <br/> Parceiro cadastrado sem informações de email e evento"
+                            Else
+                                If txtEmail.Text = "" Then
+                                    msgErro.Text = "Preencha o campo de Endereços de Email na aba Email x Eventos."
+                                    divmsg1.Visible = True
+                                    msgErro.Visible = True
+                                Else
 
-                            '        Dim TIPO As String = "E"
-                            '        Dim TIPO_PESSOA As String = ""
+                                    Dim TIPO As String = "E"
+                                    Dim TIPO_PESSOA As String = ""
 
-                            '        'Verifica qual o tipo de pessoa
-                            '        If ckbArmazemAtracacao.Checked = True Then
-                            '            TIPO_PESSOA = "T"
-                            '        ElseIf ckbArmazemDesembaraco.Checked = True Then
-                            '            TIPO_PESSOA = "T"
-                            '        ElseIf ckbArmazemDescarga.Checked = True Then
-                            '            TIPO_PESSOA = "T"
-                            '        ElseIf ckbPrestador.Checked = True Then
-                            '            TIPO_PESSOA = "P"
-                            '        ElseIf ckbAgenteInternacional.Checked = True Then
-                            '            TIPO_PESSOA = "P"
-                            '        Else
-                            '            TIPO_PESSOA = "C"
-                            '        End If
+                                    'Verifica qual o tipo de pessoa
+                                    If ckbArmazemAtracacao.Checked = True Then
+                                        TIPO_PESSOA = "T"
+                                    ElseIf ckbArmazemDesembaraco.Checked = True Then
+                                        TIPO_PESSOA = "T"
+                                    ElseIf ckbArmazemDescarga.Checked = True Then
+                                        TIPO_PESSOA = "T"
+                                    ElseIf ckbPrestador.Checked = True Then
+                                        TIPO_PESSOA = "P"
+                                    ElseIf ckbAgenteInternacional.Checked = True Then
+                                        TIPO_PESSOA = "P"
+                                    Else
+                                        TIPO_PESSOA = "C"
+                                    End If
 
 
-                            '        'insere emails
-                            '        Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ddlEvento.SelectedValue & "," & ddlPorto.SelectedValue & "," & ID_Parceiro & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
+                                    'insere emails
+                                    Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ddlEvento.SelectedValue & "," & ddlPorto.SelectedValue & "," & ID_Parceiro & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
 
 
 
-                            '        'REPLICA EMAILS
-                            '        If ckbReplica.Checked = True Then
+                                    'REPLICA EMAILS
+                                    If ckbReplica.Checked = True Then
 
-                            '            ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
-
-
-                            '            If ds.Tables(0).Rows.Count > 0 Then
-
-                            '                For Each linha As DataRow In ds.Tables(0).Rows
-                            '                    Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
-                            '                    Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & ID_Parceiro & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
-                            '                Next
-
-                            '            End If
-                            '        End If
+                                        ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
 
 
+                                        If ds.Tables(0).Rows.Count > 0 Then
 
-                            '    End If
+                                            For Each linha As DataRow In ds.Tables(0).Rows
+                                                Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
+                                                Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & ID_Parceiro & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
+                                            Next
 
-                            'End If
+                                        End If
+                                    End If
 
 
-                            'Con.Fechar()
-                            'Call Limpar(Me)
+
+                                End If
+
+                            End If
+
+
+                            Con.Fechar()
+                            Call Limpar(Me)
                             divmsg.Visible = True
 
                             If ckbAgenteInternacional.Checked = True Then
@@ -1198,125 +1196,125 @@ WHERE ID_PARCEIRO =" & ID)
                             INNER JOIN TB_PARCEIRO P on P.ID_PARCEIRO = F.ID_PARCEIRO_CLIENTE
                             WHERE F.NR_RPS IS NULL AND F.NR_NOTA_FISCAL IS NULL AND P.ID_PARCEIRO = " & ID)
 
-                            'If txtNomeContato.Text <> "" And txtIDContato.Text = "" Then
+                            If txtNomeContato.Text <> "" And txtIDContato.Text = "" Then
 
-                            '    If txtNomeContato.Text = "" Then
-                            '        txtNomeContato.Text = "NULL"
-                            '    Else
-                            '        txtNomeContato.Text = "'" & txtNomeContato.Text & "'"
-                            '    End If
+                                If txtNomeContato.Text = "" Then
+                                    txtNomeContato.Text = "NULL"
+                                Else
+                                    txtNomeContato.Text = "'" & txtNomeContato.Text & "'"
+                                End If
 
-                            '    If txtTelContato.Text = "" Then
-                            '        txtTelContato.Text = "NULL"
-                            '    Else
-                            '        txtTelContato.Text = "'" & txtTelContato.Text & "'"
-                            '    End If
+                                If txtTelContato.Text = "" Then
+                                    txtTelContato.Text = "NULL"
+                                Else
+                                    txtTelContato.Text = "'" & txtTelContato.Text & "'"
+                                End If
 
-                            '    If txtEmailContato.Text = "" Then
-                            '        txtEmailContato.Text = "NULL"
-                            '    Else
-                            '        txtEmailContato.Text = "'" & txtEmailContato.Text & "'"
-                            '    End If
+                                If txtEmailContato.Text = "" Then
+                                    txtEmailContato.Text = "NULL"
+                                Else
+                                    txtEmailContato.Text = "'" & txtEmailContato.Text & "'"
+                                End If
 
-                            '    If txtDepartamento.Text = "" Then
-                            '        txtDepartamento.Text = "NULL"
-                            '    Else
-                            '        txtDepartamento.Text = "'" & txtDepartamento.Text & "'"
-                            '    End If
+                                If txtDepartamento.Text = "" Then
+                                    txtDepartamento.Text = "NULL"
+                                Else
+                                    txtDepartamento.Text = "'" & txtDepartamento.Text & "'"
+                                End If
 
-                            '    If txtCelularContato.Text = "" Then
-                            '        txtCelularContato.Text = "NULL"
-                            '    Else
-                            '        txtCelularContato.Text = "'" & txtCelularContato.Text & "'"
-                            '    End If
+                                If txtCelularContato.Text = "" Then
+                                    txtCelularContato.Text = "NULL"
+                                Else
+                                    txtCelularContato.Text = "'" & txtCelularContato.Text & "'"
+                                End If
 
-                            '    '   Dim dsContatos As DataSet = Con.ExecutarQuery("SELECT count(ID_CONTATO)ID_CONTATO FROM TB_CONTATO WHERE ID_PARCEIRO = " & ID)
-
-
-                            '    'If dsContatos.Tables(0).Rows(0).Item("ID_CONTATO") > 0 Then
-                            '    '    'update contatos
-                            '    '    Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_CONTATO] = " & txtNomeContato.Text & " ,[TELEFONE_CONTATO] =" & txtTelContato.Text & ",[EMAIL_CONTATO] =  " & txtEmailContato.Text & ",[NM_DEPARTAMENTO] =" & txtDepartamento.Text & ", [CELULAR_CONTATO] =" & txtCelularContato.Text & " where ID_Parceiro = " & ID)
-                            '    'Else
-                            '    'insere contatos
-                            '    Con.ExecutarQuery("INSERT INTO TB_CONTATO ([ID_PARCEIRO],[NM_CONTATO],[TELEFONE_CONTATO],[EMAIL_CONTATO],[NM_DEPARTAMENTO],[CELULAR_CONTATO]) VALUES (" & ID & "," & txtNomeContato.Text & "," & txtTelContato.Text & "," & txtEmailContato.Text & "," & txtDepartamento.Text & ", " & txtCelularContato.Text & ")")
-                            '    ' End If
-
-                            'End If
-
-                            'If txtEmail.Text <> "" And ddlEvento.SelectedValue <> 0 Then
-
-                            '    If txtEmail.Text = "" Then
-                            '        msgErro.Text = "Preencha o campo de Endereços de Email na aba Email x Eventos."
-                            '        divmsg1.Visible = True
-                            '        msgErro.Visible = True
-                            '    Else
-                            '        Dim TIPO As String = "E"
-                            '        Dim TIPO_PESSOA As String = ""
-
-                            '        'Verifica qual o tipo de pessoa
-                            '        If ckbArmazemAtracacao.Checked = True Then
-                            '            TIPO_PESSOA = "T"
-                            '        ElseIf ckbArmazemDesembaraco.Checked = True Then
-                            '            TIPO_PESSOA = "T"
-                            '        ElseIf ckbArmazemDescarga.Checked = True Then
-                            '            TIPO_PESSOA = "T"
-                            '        ElseIf ckbPrestador.Checked = True Then
-                            '            TIPO_PESSOA = "P"
-                            '        ElseIf ckbAgenteInternacional.Checked = True Then
-                            '            TIPO_PESSOA = "P"
-                            '        Else
-                            '            TIPO_PESSOA = "C"
-                            '        End If
-
-                            '        Dim dsEmail As DataSet = Con.ExecutarQuery("SELECT ID FROM TB_AMR_PESSOA_EVENTO WHERE ID_PESSOA  = " & ID & " AND ID_EVENTO = " & ddlEvento.SelectedValue)
-                            '        If dsEmail.Tables(0).Rows.Count = 0 Then
-                            '            'insere emails
-                            '            Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ddlEvento.SelectedValue & "," & ddlPorto.SelectedValue & "," & ID & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
-
-                            '        Else
-
-                            '            For Each linha As DataRow In dsEmail.Tables(0).Rows
-                            '                'update emails
-                            '                Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ID_EVENTO = " & ddlEvento.SelectedValue & ", ID_TERMINAL =" & ddlPorto.SelectedValue & ", TIPO = '" & TIPO & "', TIPO_PESSOA ='" & TIPO_PESSOA & "', ENDERECOS= '" & txtEmail.Text & "' where ID = " & linha.Item("ID").ToString())
-                            '            Next
-
-                            '        End If
+                                '   Dim dsContatos As DataSet = Con.ExecutarQuery("SELECT count(ID_CONTATO)ID_CONTATO FROM TB_CONTATO WHERE ID_PARCEIRO = " & ID)
 
 
-                            '        'REPLICA EMAILS
-                            '        If ckbReplica.Checked = True Then
+                                'If dsContatos.Tables(0).Rows(0).Item("ID_CONTATO") > 0 Then
+                                '    'update contatos
+                                '    Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_CONTATO] = " & txtNomeContato.Text & " ,[TELEFONE_CONTATO] =" & txtTelContato.Text & ",[EMAIL_CONTATO] =  " & txtEmailContato.Text & ",[NM_DEPARTAMENTO] =" & txtDepartamento.Text & ", [CELULAR_CONTATO] =" & txtCelularContato.Text & " where ID_Parceiro = " & ID)
+                                'Else
+                                'insere contatos
+                                Con.ExecutarQuery("INSERT INTO TB_CONTATO ([ID_PARCEIRO],[NM_CONTATO],[TELEFONE_CONTATO],[EMAIL_CONTATO],[NM_DEPARTAMENTO],[CELULAR_CONTATO]) VALUES (" & ID & "," & txtNomeContato.Text & "," & txtTelContato.Text & "," & txtEmailContato.Text & "," & txtDepartamento.Text & ", " & txtCelularContato.Text & ")")
+                                ' End If
 
-                            '            ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
+                            End If
+
+                            If txtEmail.Text <> "" And ddlEvento.SelectedValue <> 0 Then
+
+                                If txtEmail.Text = "" Then
+                                    msgErro.Text = "Preencha o campo de Endereços de Email na aba Email x Eventos."
+                                    divmsg1.Visible = True
+                                    msgErro.Visible = True
+                                Else
+                                    Dim TIPO As String = "E"
+                                    Dim TIPO_PESSOA As String = ""
+
+                                    'Verifica qual o tipo de pessoa
+                                    If ckbArmazemAtracacao.Checked = True Then
+                                        TIPO_PESSOA = "T"
+                                    ElseIf ckbArmazemDesembaraco.Checked = True Then
+                                        TIPO_PESSOA = "T"
+                                    ElseIf ckbArmazemDescarga.Checked = True Then
+                                        TIPO_PESSOA = "T"
+                                    ElseIf ckbPrestador.Checked = True Then
+                                        TIPO_PESSOA = "P"
+                                    ElseIf ckbAgenteInternacional.Checked = True Then
+                                        TIPO_PESSOA = "P"
+                                    Else
+                                        TIPO_PESSOA = "C"
+                                    End If
+
+                                    Dim dsEmail As DataSet = Con.ExecutarQuery("SELECT ID FROM TB_AMR_PESSOA_EVENTO WHERE ID_PESSOA  = " & ID & " AND ID_EVENTO = " & ddlEvento.SelectedValue)
+                                    If dsEmail.Tables(0).Rows.Count = 0 Then
+                                        'insere emails
+                                        Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ddlEvento.SelectedValue & "," & ddlPorto.SelectedValue & "," & ID & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
+
+                                    Else
+
+                                        For Each linha As DataRow In dsEmail.Tables(0).Rows
+                                            'update emails
+                                            Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ID_EVENTO = " & ddlEvento.SelectedValue & ", ID_TERMINAL =" & ddlPorto.SelectedValue & ", TIPO = '" & TIPO & "', TIPO_PESSOA ='" & TIPO_PESSOA & "', ENDERECOS= '" & txtEmail.Text & "' where ID = " & linha.Item("ID").ToString())
+                                        Next
+
+                                    End If
 
 
-                            '            If ds.Tables(0).Rows.Count > 0 Then
+                                    'REPLICA EMAILS
+                                    If ckbReplica.Checked = True Then
 
-                            '                For Each linha As DataRow In ds.Tables(0).Rows
-                            '                    Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
+                                        ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
 
 
-                            '                    dsEmail = Con.ExecutarQuery("SELECT ID FROM TB_AMR_PESSOA_EVENTO WHERE ID_PESSOA  = " & ID & " AND ID_EVENTO = " & ID_AVISO)
-                            '                    If dsEmail.Tables(0).Rows.Count = 0 Then
-                            '                        'insere emails
-                            '                        Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & ID & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
+                                        If ds.Tables(0).Rows.Count > 0 Then
 
-                            '                    Else
+                                            For Each linha As DataRow In ds.Tables(0).Rows
+                                                Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
 
-                            '                        For Each linhaEmail As DataRow In dsEmail.Tables(0).Rows
-                            '                            'update emails
-                            '                            Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ENDERECOS= '" & txtEmail.Text & "' where ID = " & linhaEmail.Item("ID").ToString())
-                            '                        Next
 
-                            '                    End If
-                            '                Next
+                                                dsEmail = Con.ExecutarQuery("SELECT ID FROM TB_AMR_PESSOA_EVENTO WHERE ID_PESSOA  = " & ID & " AND ID_EVENTO = " & ID_AVISO)
+                                                If dsEmail.Tables(0).Rows.Count = 0 Then
+                                                    'insere emails
+                                                    Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & ID & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
 
-                            '            End If
-                            '        End If
+                                                Else
 
-                            '    End If
+                                                    For Each linhaEmail As DataRow In dsEmail.Tables(0).Rows
+                                                        'update emails
+                                                        Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ENDERECOS= '" & txtEmail.Text & "' where ID = " & linhaEmail.Item("ID").ToString())
+                                                    Next
 
-                            'End If
-                            'Call Limpar(Me)
+                                                End If
+                                            Next
+
+                                        End If
+                                    End If
+
+                                End If
+
+                            End If
+                            Call Limpar(Me)
                             dgvContato.DataBind()
                             dgvEmailEvento.DataBind()
                             Con.Fechar()
@@ -1614,7 +1612,7 @@ WHERE ID_PARCEIRO =" & ID)
                     txtDepartamento.Text = ds.Tables(0).Rows(0).Item("NM_DEPARTAMENTO").ToString()
                 End If
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "EditaContato()", True)
-                ' btnSalvarContato.Visible = True
+                btnSalvarContato.Visible = True
             End If
         End If
 
@@ -1625,69 +1623,48 @@ WHERE ID_PARCEIRO =" & ID)
         divErroContato.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        If txtID.Text = "" Then
-            'ERRO
-            divErroContato.Visible = True
-            lblErroContato.Text = "Necessário cadastrar dados basicos e informações adicionais antes de inserir um contato!"
-
-        ElseIf txtNomeContato.Text = "" Then
+        If txtNomeContato.Text = "" Then
             'ERRO
             divErroContato.Visible = True
             lblErroContato.Text = "Obrigatorio o preenchimento de nome do contato!"
-
         Else
 
-            If txtIDContato.Text = "" Then
-                Dim sqlContatos As String = "INSERT INTO TB_CONTATO ([ID_PARCEIRO],[NM_CONTATO],[TELEFONE_CONTATO],[EMAIL_CONTATO],[NM_DEPARTAMENTO],[CELULAR_CONTATO]) VALUES (" & txtID.Text & ",'" & txtNomeContato.Text & "'," & txtTelContato.Text & "," & txtEmailContato.Text & "," & txtDepartamento.Text & ", " & txtCelularContato.Text & ")"
-                Con.ExecutarQuery(sqlContatos)
-                divSuccessContato.Visible = True
-                lblSuccessContato.Text = "Contato cadastrado com sucesso!"
-                txtIDContato.Text = ""
-                txtNomeContato.Text = ""
-                txtTelContato.Text = ""
-                txtCelularContato.Text = ""
-                txtEmailContato.Text = ""
-                txtDepartamento.Text = ""
-                dgvContato.DataBind()
+            Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_CONTATO] = '" & txtNomeContato.Text & "' WHERE ID_CONTATO = " & txtIDContato.Text)
+
+
+            If txtTelContato.Text <> "" Then
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [TELEFONE_CONTATO] = '" & txtTelContato.Text & "'  WHERE ID_CONTATO = " & txtIDContato.Text)
             Else
-
-                Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_CONTATO] = '" & txtNomeContato.Text & "' WHERE ID_CONTATO = " & txtIDContato.Text)
-
-                If txtTelContato.Text <> "" Then
-                    Con.ExecutarQuery("UPDATE TB_CONTATO SET [TELEFONE_CONTATO] = '" & txtTelContato.Text & "'  WHERE ID_CONTATO = " & txtIDContato.Text)
-                Else
-                    Con.ExecutarQuery("UPDATE TB_CONTATO SET [TELEFONE_CONTATO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
-                End If
-
-                If txtEmailContato.Text <> "" Then
-                    Con.ExecutarQuery("UPDATE TB_CONTATO SET [EMAIL_CONTATO] = '" & txtEmailContato.Text & "'  where ID_CONTATO = " & txtIDContato.Text)
-                Else
-                    Con.ExecutarQuery("UPDATE TB_CONTATO SET [EMAIL_CONTATO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
-                End If
-
-                If txtCelularContato.Text <> "" Then
-                    Con.ExecutarQuery("UPDATE TB_CONTATO SET [CELULAR_CONTATO] = '" & txtCelularContato.Text & "'  where ID_CONTATO = " & txtIDContato.Text)
-                Else
-                    Con.ExecutarQuery("UPDATE TB_CONTATO SET [CELULAR_CONTATO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
-                End If
-
-                If txtDepartamento.Text <> "" Then
-                    Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_DEPARTAMENTO] = '" & txtDepartamento.Text & "'  where ID_CONTATO = " & txtIDContato.Text)
-                Else
-                    Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_DEPARTAMENTO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
-                End If
-                divSuccessContato.Visible = True
-                lblSuccessContato.Text = "Contato alterado com sucesso!"
-                'btnSalvarContato.Visible = False
-                txtIDContato.Text = ""
-                txtNomeContato.Text = ""
-                txtTelContato.Text = ""
-                txtCelularContato.Text = ""
-                txtEmailContato.Text = ""
-                txtDepartamento.Text = ""
-                dgvContato.DataBind()
-
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [TELEFONE_CONTATO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
             End If
+
+            If txtEmailContato.Text <> "" Then
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [EMAIL_CONTATO] = '" & txtEmailContato.Text & "'  where ID_CONTATO = " & txtIDContato.Text)
+            Else
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [EMAIL_CONTATO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
+            End If
+
+            If txtCelularContato.Text <> "" Then
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [CELULAR_CONTATO] = '" & txtCelularContato.Text & "'  where ID_CONTATO = " & txtIDContato.Text)
+            Else
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [CELULAR_CONTATO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
+            End If
+
+            If txtDepartamento.Text <> "" Then
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_DEPARTAMENTO] = '" & txtDepartamento.Text & "'  where ID_CONTATO = " & txtIDContato.Text)
+            Else
+                Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_DEPARTAMENTO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
+            End If
+            divSuccessContato.Visible = True
+            lblSuccessContato.Text = "Contato alterado com sucesso!"
+            btnSalvarContato.Visible = False
+            txtIDContato.Text = ""
+            txtNomeContato.Text = ""
+            txtTelContato.Text = ""
+            txtCelularContato.Text = ""
+            txtEmailContato.Text = ""
+            txtDepartamento.Text = ""
+            dgvContato.DataBind()
         End If
     End Sub
 
@@ -1929,84 +1906,116 @@ WHERE B.ID = " & ID)
             lblErroEvento.Text = "Campos obrigatórios!!"
         Else
 
-            If txtIdEvento.Text = "" Then
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblErroEvento.Text = "Usuário não tem permissão para realizar alterações"
+                divErroEvento.Visible = True
 
             Else
 
-                Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-
-                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                    lblErroEvento.Text = "Usuário não tem permissão para realizar alterações"
-                    divErroEvento.Visible = True
-
-                Else
-
-                    Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ENDERECOS = LOWER('" & txtEmail.Text & "') WHERE ID = " & txtIdEvento.Text)
-                    lblErroEvento.Text = "Email atualizado com sucesso!"
-                    divErroEvento.Visible = True
-                End If
-
-                If ckbReplica.Checked = True Then
-                    Dim TIPO As String = "E"
-                    Dim TIPO_PESSOA As String = ""
-
-                    'Verifica qual o tipo de pessoa
-                    ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco, fl_agente_internacional FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & txtID.Text)
-                    If ds.Tables(0).Rows.Count > 0 Then
-                        If ds.Tables(0).Rows(0).Item("fl_armazem_atracacao").ToString = True Then
-                            TIPO_PESSOA = "T"
-                        ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_descarga").ToString = True Then
-                            TIPO_PESSOA = "T"
-                        ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_desembaraco").ToString = True Then
-                            TIPO_PESSOA = "T"
-                        ElseIf ds.Tables(0).Rows(0).Item("fl_prestador").ToString = True Then
-                            TIPO_PESSOA = "P"
-                        ElseIf ds.Tables(0).Rows(0).Item("fl_agente_internacional").ToString = True Then
-                            TIPO_PESSOA = "P"
-                        Else
-                            TIPO_PESSOA = "C"
-                        End If
-                    End If
-
-
-                    'REPLICA EMAILS
-                    ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
-                    If ds.Tables(0).Rows.Count > 0 Then
-
-                        For Each linha As DataRow In ds.Tables(0).Rows
-                            Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
-
-
-                            Dim dsEmail As DataSet = Con.ExecutarQuery("SELECT ID FROM TB_AMR_PESSOA_EVENTO WHERE ID_PESSOA  = " & txtID.Text & " AND ID_EVENTO = " & ID_AVISO)
-                            If dsEmail.Tables(0).Rows.Count = 0 Then
-
-                                'insere emails
-                                Con.ExecutarQuery("INSERT INTO [dbo].[TB_AMR_PESSOA_EVENTO] (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & txtID.Text & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
-
-                            Else
-
-                                For Each linhaEmail As DataRow In dsEmail.Tables(0).Rows
-                                    'update emails
-                                    Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ENDERECOS= '" & txtEmail.Text & "' where ID = " & linhaEmail.Item("ID").ToString())
-                                Next
-
-                            End If
-                        Next
-
-                    End If
-                End If
-
-                dgvEmailEvento.DataBind()
-                txtEmail.Text = ""
-                txtIdEvento.Text = ""
-                ddlPorto.SelectedValue = 0
-                ddlEvento.SelectedValue = 0
-                divSuccessEvento.Visible = True
-                lblSuccessEvento.Text = "Registro atualizado!"
-                btnSalvarEvento.Visible = False
-
+                Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ENDERECOS = LOWER('" & txtEmail.Text & "') WHERE ID = " & txtIdEvento.Text)
+                lblErroEvento.Text = "Email atualizado com sucesso!"
+                divErroEvento.Visible = True
             End If
 
+            Dim TIPO As String = "E"
+            Dim TIPO_PESSOA As String = ""
+
+            'Verifica qual o tipo de pessoa
+            ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco, fl_agente_internacional FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & txtID.Text)
+            If ds.Tables(0).Rows.Count > 0 Then
+                If ds.Tables(0).Rows(0).Item("fl_armazem_atracacao").ToString = True Then
+                    TIPO_PESSOA = "T"
+                ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_descarga").ToString = True Then
+                    TIPO_PESSOA = "T"
+                ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_desembaraco").ToString = True Then
+                    TIPO_PESSOA = "T"
+                ElseIf ds.Tables(0).Rows(0).Item("fl_prestador").ToString = True Then
+                    TIPO_PESSOA = "P"
+                ElseIf ds.Tables(0).Rows(0).Item("fl_agente_internacional").ToString = True Then
+                    TIPO_PESSOA = "P"
+                Else
+                    TIPO_PESSOA = "C"
+                End If
+            End If
+
+            'REPLICA EMAILS
+            If ckbReplica.Checked = True Then
+
+                ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
+
+
+                If ds.Tables(0).Rows.Count > 0 Then
+
+                    For Each linha As DataRow In ds.Tables(0).Rows
+                        Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
+
+
+                        Dim dsEmail As DataSet = Con.ExecutarQuery("SELECT ID FROM TB_AMR_PESSOA_EVENTO WHERE ID_PESSOA  = " & txtID.Text & " AND ID_EVENTO = " & ID_AVISO)
+                        If dsEmail.Tables(0).Rows.Count = 0 Then
+
+                            'insere emails
+                            Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & txtID.Text & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
+
+                        Else
+
+                            For Each linhaEmail As DataRow In dsEmail.Tables(0).Rows
+                                'update emails
+                                Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ENDERECOS= '" & txtEmail.Text & "' where ID = " & linhaEmail.Item("ID").ToString())
+                            Next
+
+                        End If
+                    Next
+
+                End If
+            End If
+
+            dgvEmailEvento.DataBind()
+            txtEmail.Text = ""
+            txtIdEvento.Text = ""
+            ddlPorto.SelectedValue = 0
+            ddlEvento.SelectedValue = 0
+            divSuccessEvento.Visible = True
+            lblSuccessEvento.Text = "Registro atualizado!"
+            btnSalvarEvento.Visible = False
+
+            'Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_CONTATO] = '" & txtNomeContato.Text & "' WHERE ID_CONTATO = " & txtIDContato.Text)
+
+
+            'If txtTelContato.Text <> "" Then
+            '    Con.ExecutarQuery("UPDATE TB_CONTATO SET [TELEFONE_CONTATO] = '" & txtTelContato.Text & "'  WHERE ID_CONTATO = " & txtIDContato.Text)
+            'Else
+            '    Con.ExecutarQuery("UPDATE TB_CONTATO SET [TELEFONE_CONTATO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
+            'End If
+
+            'If txtEmailContato.Text <> "" Then
+            '    Con.ExecutarQuery("UPDATE TB_CONTATO SET [EMAIL_CONTATO] = '" & txtEmailContato.Text & "'  where ID_CONTATO = " & txtIDContato.Text)
+            'Else
+            '    Con.ExecutarQuery("UPDATE TB_CONTATO SET [EMAIL_CONTATO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
+            'End If
+
+            'If txtCelularContato.Text <> "" Then
+            '    Con.ExecutarQuery("UPDATE TB_CONTATO SET [CELULAR_CONTATO] = '" & txtCelularContato.Text & "'  where ID_CONTATO = " & txtIDContato.Text)
+            'Else
+            '    Con.ExecutarQuery("UPDATE TB_CONTATO SET [CELULAR_CONTATO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
+            'End If
+
+            'If txtDepartamento.Text <> "" Then
+            '    Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_DEPARTAMENTO] = '" & txtDepartamento.Text & "'  where ID_CONTATO = " & txtIDContato.Text)
+            'Else
+            '    Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_DEPARTAMENTO] = NULL WHERE ID_CONTATO = " & txtIDContato.Text)
+            'End If
+            'divSuccessContato.Visible = True
+            'lblSuccessContato.Text = "Contato alterado com sucesso!"
+            'btnSalvarContato.Visible = False
+            'txtIDContato.Text = ""
+            'txtNomeContato.Text = ""
+            'txtTelContato.Text = ""
+            'txtCelularContato.Text = ""
+            'txtEmailContato.Text = ""
+            'txtDepartamento.Text = ""
+            '  dgvContato.DataBind()
         End If
 
     End Sub

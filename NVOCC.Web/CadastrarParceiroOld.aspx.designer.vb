@@ -11,7 +11,7 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class CadastrarParceiro
+Partial Public Class CadastrarParceiroOld
 
     '''<summary>
     '''Controle UpdatePanel2.
@@ -923,24 +923,6 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlVendedor As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle btnLimpar.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnLimpar As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle btnGravar.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnGravar As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle UpdatePanel5.
     '''</summary>
     '''<remarks>
@@ -1058,15 +1040,6 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents dgvContato As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle updPainel1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents updPainel1 As Global.System.Web.UI.UpdatePanel
-
-    '''<summary>
     '''Controle divSuccessEvento.
     '''</summary>
     '''<remarks>
@@ -1101,6 +1074,15 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblErroEvento As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle updPainel1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents updPainel1 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
     '''Controle txtIdEvento.
@@ -1164,6 +1146,24 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvEmailEvento As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnLimpar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnLimpar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnGravar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnGravar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle dsCidades.

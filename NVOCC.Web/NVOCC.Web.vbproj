@@ -268,6 +268,7 @@
     <Content Include="BaixasCancelamentosRecebimento.aspx" />
     <Content Include="CadastrarEquipe_old.aspx" />
     <Content Include="CadastrarEquipe.aspx" />
+    <Content Include="CadastrarParceiroOld.aspx" />
     <Content Include="CadastrarTipoFaturamento.aspx" />
     <Content Include="Classes\FiltrosTaxasInativas.cs" />
     <Content Include="Classes\TaxaPrestador.cs" />
@@ -690,6 +691,13 @@
     <Compile Include="CadastrarEquipe.aspx.vb">
       <DependentUpon>CadastrarEquipe.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarParceiroOld.aspx.designer.vb">
+      <DependentUpon>CadastrarParceiroOld.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarParceiroOld.aspx.vb">
+      <DependentUpon>CadastrarParceiroOld.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CadastrarTipoFaturamento.aspx.designer.vb">
       <DependentUpon>CadastrarTipoFaturamento.aspx</DependentUpon>

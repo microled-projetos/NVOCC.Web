@@ -406,8 +406,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
 
         If (Session("servico") <> 4) And (Session("servico") <> 5) Then
             'SE NAO FOR EXP
-            dsDestinatarioCobranca.SelectCommand = "select ID_DESTINATARIO_COBRANCA,NM_DESTINATARIO_COBRANCA from TB_DESTINATARIO_COBRANCA WHERE ISNULL(TP_SERVICO,'') <> 'EXP' 
-union SELECT  0, 'Selecione'  ORDER BY ID_DESTINATARIO_COBRANCA"
+            dsDestinatarioCobranca.SelectCommand = "select ID_DESTINATARIO_COBRANCA,NM_DESTINATARIO_COBRANCA from View_Destinatario_Cobranca WHERE ISNULL(TP_SERVICO,'') <> 'EXP' ORDER BY ORDEM"
             ddlDestinatarioCobrancaTaxa.DataBind()
         Else
             'SE FOR EXP PODE EXIBIR TODOS OS TIPOS

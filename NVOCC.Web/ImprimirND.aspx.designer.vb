@@ -23,6 +23,15 @@ Partial Public Class ImprimirND
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
+    '''Controle DivImpressao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents DivImpressao As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
     '''Controle lblEnderecoFCA.
     '''</summary>
     '''<remarks>
