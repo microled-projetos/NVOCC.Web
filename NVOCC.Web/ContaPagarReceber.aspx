@@ -326,8 +326,8 @@
                             result += "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_PARCEIRO"] + "'>" + dado[i]["NM_PARCEIRO"] + "</td>";
                             result += "<td class='text-center'>" + dado[i]["TIPO"] + "</td>";
                             result += "<td class='text-center'>" + dado[i]["VALOR"] + "</td>";
-                            result += "<td class='text-center'>" + dado[i]["ACRESCIMO"] + "</td>";
-                            result += "<td class='text-center'>" + dado[i]["DECRESCIMO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["ACRESCIMO"].toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DECRESCIMO"].toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) + "</td>";
                             result += "<td class='text-center'>" + dado[i]["MOEDA"] + "</td>";
                             result += "<td class='text-center'>" + dado[i]["DT_CAMBIO"] + "</td>";
                             result += "<td class='text-center'>" + dado[i]["CAMBIO"] + "</td>";

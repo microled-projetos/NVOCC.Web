@@ -304,38 +304,43 @@
                             <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
                                 <ContentTemplate>
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Valor Alíquota ISS:</label>
                                                 <asp:TextBox ID="txtAliquotaISS" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <br />
+                                                <asp:CheckBox ID="ckbISS" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Isenção ISS"></asp:CheckBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Valor Alíquota PIS:</label>
                                                 <asp:TextBox ID="txtAliquotaPIS" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                               <br />
+                                                <asp:CheckBox ID="ckbPIS" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Isenção PIS"></asp:CheckBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Valor Alíquota COFINS:</label>
                                                 <asp:TextBox ID="txtAliquotaCOFINS" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
+<%--                                    </div>
+                                    <div class="row">--%>
+                                        
+                                        
+                                        <div class="col-sm-2">
                                             <div class="form-group">
-                                                <asp:CheckBox ID="ckbISS" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Isenção ISS"></asp:CheckBox>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <asp:CheckBox ID="ckbPIS" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Isenção PIS"></asp:CheckBox>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
+                                                  <br />
                                                 <asp:CheckBox ID="ckbCOFINS" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Isenção COFINS"></asp:CheckBox>
                                             </div>
                                         </div>
@@ -432,7 +437,7 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label class="control-label">eMail NF Eletrônica:</label><label id="lblRed" runat="server" visible="false" style="color: red">*</label>
+                                                <label class="control-label">E-mail NF Eletrônica:</label><label id="lblRed" runat="server" visible="false" style="color: red">*</label>
                                                 <asp:TextBox ID="txtEmailNF" runat="server" CssClass="form-control" MaxLength="200"></asp:TextBox>
                                             </div>
                                         </div>
@@ -489,74 +494,76 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <br />
-                                    <div class="row">
-                                        <div class="col-sm-4">
+                                     <div class="row">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbImportador" runat="server" AutoPostBack="true" CssClass="form-control" Text="&nbsp;&nbsp;Importador"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbExportador" runat="server" AutoPostBack="true" CssClass="form-control" Text="&nbsp;&nbsp;Exportador"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbComissaria" runat="server" AutoPostBack="true" CssClass="form-control" Text="&nbsp;&nbsp;Comissária"></asp:CheckBox>
                                             </div>
                                         </div>
 
 
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
+                                   
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbAgente" runat="server" AutoPostBack="true" CssClass="form-control" Text="&nbsp;&nbsp;NVOCC"></asp:CheckBox>
 
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbAgenteInternacional" runat="server" CssClass="form-control" Text="&nbsp;Agente Internacional"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbIndicador" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Indicador"></asp:CheckBox>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
+                                   
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbArmazemAtracacao" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Armazém de Atracação"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbArmazemDesembaraco" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Armazém de Desembaraço"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbArmazemDescarga" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Armazém de Descarga"></asp:CheckBox>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
+                       
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbTransportador" runat="server" CssClass="form-control" Text="&nbsp;Transportador"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbPrestador" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Prestador" autopostback="true"></asp:CheckBox>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbEquipeInsideSales" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Equipe Inside Sales"></asp:CheckBox>
                                             </div>
@@ -565,43 +572,41 @@
 
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbVendedor" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Vendedor"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbVendedorDireto" runat="server" CssClass="form-control" Text="&nbsp;Vendedor Direto"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbShipper" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Shipper"></asp:CheckBox>
                                             </div>
                                         </div>
-
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbCNEE" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;CNEE"></asp:CheckBox>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-4">
+                                        </div> 
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbTranspRodoviario" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Transp. Rodoviário"></asp:CheckBox>
                                             </div>
                                         </div>
-                                         <div class="col-sm-4">
+                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbCiaAerea" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Cia Aérea"></asp:CheckBox>
                                             </div>
                                         </div>
                                         <div id="divDadosBancarios" class="divDadosBancarios" style="display: none" runat="server">
 
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <div class="form-group">
                                                         <asp:Button ID="btnDadodBancariosAgente" runat="server" CssClass="btn btn-primary btn-block" Text="Cadastrar Dados Bancarios do Agente" OnClientClick="DadoBancarios()" />
@@ -610,10 +615,11 @@
                                             </div>
 
                                         </div>
-                                    </div>
+                                     </div>
+                                     <div class="row">
                                     <div id="divVendedor" class="divVendedor" style="display: none" runat="server">
-                                        <div class="row">
-                                            <div class="col-sm-4">
+                                       
+                                            <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">Vendedor:</label><label id="lblRed2" runat="server" visible="false" style="color: red">*</label>
                                                     <asp:DropDownList ID="ddlVendedor" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsVendedor" DataValueField="ID_PARCEIRO">
@@ -621,9 +627,11 @@
 
                                                 </div>
                                             </div>
-                                        </div>
+                                       
                                     </div>
-                                     <div class="row" style="border-top: ridge 1px;">
+
+                                    </div>
+                                     <div class="row">
 
                                         <div class="col-sm-3 col-sm-offset-6">
                                             <div class="form-group">
@@ -645,6 +653,8 @@
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="ckbAgenteInternacional" />
                                     <asp:PostBackTrigger ControlID="btnConsultaCNPJ" />
+                                                                        <asp:PostBackTrigger ControlID="btnGravar" />
+
                                 </Triggers>
                             </asp:UpdatePanel>
 
@@ -800,7 +810,7 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label class="control-label">Endereços de eMail:</label>
+                                                        <label class="control-label">Endereços de E-mail:</label>
                                                         <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" onkeyUp="return CheckMaxCount(this,event,250);"></asp:TextBox>
                                                     </div>
                                                 </div>

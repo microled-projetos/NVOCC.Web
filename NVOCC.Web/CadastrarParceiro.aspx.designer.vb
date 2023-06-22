@@ -482,24 +482,6 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtAliquotaISS As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtAliquotaPIS.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtAliquotaPIS As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtAliquotaCOFINS.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtAliquotaCOFINS As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle ckbISS.
     '''</summary>
     '''<remarks>
@@ -509,6 +491,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ckbISS As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''Controle txtAliquotaPIS.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtAliquotaPIS As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ckbPIS.
     '''</summary>
     '''<remarks>
@@ -516,6 +507,15 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ckbPIS As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle txtAliquotaCOFINS.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtAliquotaCOFINS As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ckbCOFINS.
