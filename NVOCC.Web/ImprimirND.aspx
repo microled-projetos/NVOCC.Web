@@ -45,7 +45,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-       <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;margin-top: 30px;max-width:770px">
+       <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;margin-top: 30px;max-width:770px" runat="server">
                
         <table border="1">
             <tr>

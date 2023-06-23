@@ -693,11 +693,12 @@
                                     </asp:Panel>
 
                                 </ContentTemplate>
-                            <Triggers>  
+                            <Triggers>
+								<asp:PostBackTrigger ControlID="btnCSVHistoricoDatasMaritimo" />							
                                 <asp:AsyncPostBackTrigger ControlID="btnDesvincular" />
                                 <asp:AsyncPostBackTrigger ControlID="btnVincular" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoMaritimo" />
-                               <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" /> 
+                                <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" /> 
                                 <asp:AsyncPostBackTrigger ControlID="imgChegada_BasicoMaritimo" />
                                 <asp:AsyncPostBackTrigger ControlID="imgEmbarque_BasicoMaritimo" />
                                 <asp:AsyncPostBackTrigger ControlID="imgPrevisaoChegada_BasicoMaritimo" />
@@ -1710,15 +1711,16 @@
 
                                         </ContentTemplate>
                                         <Triggers>
+										    <asp:PostBackTrigger ControlID="btnCSVHistoricoDatasAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoAereo" />
-                                             <asp:AsyncPostBackTrigger ControlID="ddlWeekAereo" />
-                                             <asp:AsyncPostBackTrigger ControlID="btnVincularAereo" />
-                                             <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoAereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="ddlWeekAereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnVincularAereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="ddlTipoPagamento_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="imgChegada_BasicoAereo" />
-                                <asp:AsyncPostBackTrigger ControlID="imgEmbarque_BasicoAereo" />
-                                <asp:AsyncPostBackTrigger ControlID="imgPrevisaoChegada_BasicoAereo" />
-                                <asp:AsyncPostBackTrigger ControlID="imgPrevisaoEmbarque_BasicoAereo" />   
+											<asp:AsyncPostBackTrigger ControlID="imgEmbarque_BasicoAereo" />
+											<asp:AsyncPostBackTrigger ControlID="imgPrevisaoChegada_BasicoAereo" />
+											<asp:AsyncPostBackTrigger ControlID="imgPrevisaoEmbarque_BasicoAereo" />   
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
