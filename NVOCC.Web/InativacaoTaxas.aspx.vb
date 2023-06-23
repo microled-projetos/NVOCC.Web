@@ -234,7 +234,7 @@ MOTIVO,
 COMPLEMENTO_MOTIVO
 FROM [View_CSV_Inativacao_Taxas] WHERE ISNULL( ID_BL_TAXA,0) <> 0 " & Session("ExportarCSV") & " 
 ORDER BY ID_BL_TAXA DESC"
-        Classes.Excel.exportaExcel(SQL, "NVOCC", "InativacaoTaxas")
+        Classes.Excel.exportaExcel(SQL, "InativacaoTaxas")
     End Sub
 
     Private Sub dgvTaxas_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvTaxas.RowDataBound

@@ -255,7 +255,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
     Private Sub lkCSV_Click(sender As Object, e As EventArgs) Handles lkCSV.Click
         Dim SQL As String = "SELECT COMPETENCIA,NR_QUINZENA,NR_PROCESSO,PARCEIRO_VENDEDOR AS PARCEIRO_INDICADOR  ,PARCEIRO_CLIENTE,MBL,HBL,TIPO_ESTUFAGEM,QT_CNTR,MOEDA,VL_TAXA,VL_COMISSAO,PARCEIRO_AGENTE_INTERNACIONAL,[DT_EMBARQUE(ETD)],[DT_CHEGADA(ETA)],DT_LIQUIDACAO,DT_EXPORTACAO FROM [dbo].[View_Comissao_Internacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA ='" & txtQuinzena.Text & "'  " & filtro & " ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
 
-        Classes.Excel.exportaExcel(SQL, "NVOCC", "ComissaoInternacional")
+        Classes.Excel.exportaExcel(SQL, "ComissaoInternacional")
     End Sub
 
     Private Sub btnGerarComissao_Click(sender As Object, e As EventArgs) Handles btnGerarComissao.Click

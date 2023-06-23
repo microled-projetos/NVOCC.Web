@@ -743,7 +743,7 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
         End If
 
         If sql <> "" Then
-            Classes.Excel.exportaExcel(sql, "NVOCC", "BaixasCancelamentos")
+            Classes.Excel.exportaExcel(sql, "BaixasCancelamentos")
         End If
     End Sub
 

@@ -97,6 +97,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                     ElseIf linha.Item("ID").ToString() = 2029 And linha.Item("Acessar").ToString() = 0 Then
                         mnComissaoVendedor.Visible = False
                         mnRelComissaoVendedor.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2068 And linha.Item("Acessar").ToString() = 0 Then
+                        mnComissaoInside.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2030 And linha.Item("Acessar").ToString() = 0 Then
                         mnComissaoIndicadorNacional.Visible = False
                         mnRelComissaoIndicadorNacional.Visible = False
@@ -196,7 +198,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
             End If
 
 
-            If mnComissaoVendedor.Visible = False Then
+            If mnComissaoVendedor.Visible = False And mnComissaoInside.Visible = False And mnRelComissaoVendedor.Visible = False Then
                 MenuComissoes2.Visible = False
             End If
 
@@ -204,7 +206,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuRelatoriosComercial.Visible = False
             End If
 
-            If mnFreteTransportador.Visible = False And mnCotacaoComercial.Visible = False And mnComissaoVendedor.Visible = False And MenuRelatoriosComercial.Visible = False And mnAtendimentoNegado.Visible = False And MenuComissoes2.Visible = False Then
+            If mnFreteTransportador.Visible = False And mnCotacaoComercial.Visible = False And MenuRelatoriosComercial.Visible = False And mnAtendimentoNegado.Visible = False And MenuComissoes2.Visible = False Then
                 MenuComercial.Visible = False
             End If
 

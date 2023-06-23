@@ -125,8 +125,9 @@
                             </li>
                             <li>
                                 <a href="#" id="MenuComissoes2" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub">
+                                 <ul class="dropdown-sub">
                                     <li><a style="font-size: 13px;" href="ComissaoVendedor.aspx" runat="server" id="mnComissaoVendedor">Vendedor</a></li>
+                                    <li><a style="font-size: 13px;" href="ComissaoInsideSales.aspx" runat="server" id="mnComissaoInside">Inside Sales</a></li>
                                     <li><a style="font-size: 13px;" href="RelatorioComissaoVendedores.aspx" runat="server" id="mnRelComissaoVendedor">Vendedores Total CC</a></li>
                                 </ul>
                             </li>
