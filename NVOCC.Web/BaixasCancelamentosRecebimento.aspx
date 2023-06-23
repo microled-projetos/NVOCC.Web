@@ -243,7 +243,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">Valor Liquidado:</label>
-                                            <asp:TextBox ID="txtValorLiquidadoBaixa" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                            <asp:TextBox ID="txtValorLiquidadoBaixa" runat="server" CssClass="form-control" AutoPostBack="true" ></asp:TextBox>
                                         </div>
                                     </div>
                                             <div class="col-sm-2">
@@ -389,10 +389,12 @@
         };
 
         function MouseWait() {
-            document.body.style.cursor = "wait";
+            document.body.style.cursor = "wait ";
         };
+
         function MouseDefault() {
-            document.body.style.cursor = "default";
+            document.body.style.cursor = "default ";
         };
+
     </script>
 </asp:Content>

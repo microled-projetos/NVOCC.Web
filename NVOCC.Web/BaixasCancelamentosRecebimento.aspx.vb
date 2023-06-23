@@ -741,7 +741,6 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
         If txtValorLiquidadoBaixa.Text <> "" Then
             lblDescontoAcrescimoBaixa.Text = FormatNumber(txtValorLiquidadoBaixa.Text - txtValorBaixa.Text)
             txtDiferencaBaixa.Text = lblDescontoAcrescimoBaixa.Text
-            txtDiferencaBaixa.Text = txtDiferencaBaixa.Text.Replace("-", "")
             Dim diferenca = txtDiferencaBaixa.Text
             txtDiferencaBaixa.Text = Format(txtDiferencaBaixa.Text, "Currency")
             If diferenca > txtLimiteBaixa.Text Then
@@ -750,7 +749,11 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
             Else
                 btnSalvarBaixa.Enabled = True
             End If
+
+            txtValorLiquidadoBaixa.Text = Format(txtValorLiquidadoBaixa.Text, "Currency")
         End If
         mpeBaixa.Show()
+
+
     End Sub
 End Class

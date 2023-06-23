@@ -1720,4 +1720,25 @@ WHERE B.ID = " & ID)
         End If
 
     End Sub
+
+    Private Sub dgvEmailEvento_RowDeleted(sender As Object, e As GridViewDeletedEventArgs) Handles dgvEmailEvento.RowDeleted
+        If e.Exception IsNot Nothing Then
+            lblErroEvento.Text = "Erro ao realizar exclusão!"
+            divErroEvento.Visible = True
+        Else
+            divSuccessEvento.Visible = True
+            lblSuccessEvento.Text = "Evento deletado com sucesso!"
+        End If
+
+    End Sub
+
+    Private Sub dgvContato_RowDeleted(sender As Object, e As GridViewDeletedEventArgs) Handles dgvContato.RowDeleted
+        If e.Exception IsNot Nothing Then
+            lblErroContato.Text = "Erro ao realizar exclusão!"
+            divErroContato.Visible = True
+        Else
+            divSuccessContato.Visible = True
+            lblSuccessContato.Text = "Contato deletado com sucesso!"
+        End If
+    End Sub
 End Class

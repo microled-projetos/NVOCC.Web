@@ -794,7 +794,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Evento:</label>
-                                                        <asp:TextBox ID="txtIdEvento" runat="server" CssClass="form-control" style="display:block"></asp:TextBox>
+                                                        <asp:TextBox ID="txtIdEvento" runat="server" CssClass="form-control" style="display:none"></asp:TextBox>
                                                         <asp:DropDownList ID="ddlEvento" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="True" DataTextField="NMTIPOAVISO" DataSourceID="dsEventos" DataValueField="IDTIPOAVISO">
                                                         </asp:DropDownList>
                                                     </div>
@@ -907,7 +907,11 @@ union SELECT  0, '  Selecione' ORDER BY NM_RAZAO">
 [TB_AMR_PESSOA_EVENTO] A
 LEFT JOIN TB_PORTO B ON A.ID_TERMINAL = B.ID_PORTO
 LEFT  JOIN TB_TIPOAVISO C ON C.IDTIPOAVISO = ID_EVENTO
-LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
+LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID" 
+             DeleteCommand="DELETE FROM [dbo].[TB_AMR_PESSOA_EVENTO] WHERE ID = @ID">
+            <DeleteParameters>
+                <asp:Parameter Name="ID" Type="Int32" />
+            </DeleteParameters>
             <SelectParameters>
                 <asp:ControlParameter Name="ID" Type="Int32" ControlID="txtID" DefaultValue="0" />
             </SelectParameters>
