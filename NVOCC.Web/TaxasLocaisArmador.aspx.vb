@@ -172,7 +172,7 @@ Public Class TaxasLocaisArmador
                     Exit Sub
 
                 Else
-                    Con.ExecutarQuery("UPDATE TB_TAXA_LOCAL_TRANSPORTADOR SET ID_TRANSPORTADOR = " & ddlTransportadorTaxa.SelectedValue & ",ID_MOEDA =  " & ddlMoeda.SelectedValue & ",ID_BASE_CALCULO =  " & ddlBaseCalculo.SelectedValue & ",ID_PORTO =  " & ddlPortoTaxa.SelectedValue & ",ID_TIPO_COMEX = " & ddlComexTaxa.SelectedValue & ",ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & ",ID_ITEM_DESPESA = " & ddlDespesaTaxa.SelectedValue & ", VL_TAXA_LOCAL_COMPRA = " & txtValorTaxaLocal.Text & ", DT_VALIDADE_INICIAL = convert(date,'" & txtValidadeInicialTaxa.Text & "',103), ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento.SelectedValue & ", QTD_BASE_CALCULO = " & txtQtdBaseCalculo.Text & ", ID_TIPO_PAGAMENTO = " & ddlTipoPagamento.SelectedValue & " FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & txtIDTaxa.Text)
+                    Con.ExecutarQuery("UPDATE TB_TAXA_LOCAL_TRANSPORTADOR SET ID_TRANSPORTADOR = " & ddlTransportadorTaxa.SelectedValue & ",ID_MOEDA_COMPRA =  " & ddlMoeda.SelectedValue & ",ID_BASE_CALCULO =  " & ddlBaseCalculo.SelectedValue & ",ID_PORTO =  " & ddlPortoTaxa.SelectedValue & ",ID_TIPO_COMEX = " & ddlComexTaxa.SelectedValue & ",ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & ",ID_ITEM_DESPESA = " & ddlDespesaTaxa.SelectedValue & ", VL_TAXA_LOCAL_COMPRA = " & txtValorTaxaLocal.Text & ", DT_VALIDADE_INICIAL = convert(date,'" & txtValidadeInicialTaxa.Text & "',103), ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento.SelectedValue & ", QTD_BASE_CALCULO = " & txtQtdBaseCalculo.Text & ", ID_TIPO_PAGAMENTO = " & ddlTipoPagamento.SelectedValue & " FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & txtIDTaxa.Text)
 
                     If txtModalParceiro.Text = "A" Then
                         txtCompraMinAerea.Text = txtCompraMinAerea.Text.Replace(".", "")
@@ -322,7 +322,7 @@ LEFT JOIN TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
 LEFT JOIN TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX
 LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
 LEFT JOIN TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO
-LEFT JOIN TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA     
+LEFT JOIN TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA_COMPRA     
         WHERE a.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue & " AND ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO & " ORDER BY B.NM_PORTO"
             dgvTaxas.DataBind()
         End If
@@ -395,7 +395,7 @@ WHERE ID_PORTO = " & ddlPortoTaxaNovo.SelectedValue & " AND ID_TRANSPORTADOR = "
                     End If
 
 
-                    ds = Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO,QTD_BASE_CALCULO,ID_TIPO_PAGAMENTO ) VALUES (" & ddlTransportadorTaxaNovo.SelectedValue & " , " & ddlPortoTaxaNovo.SelectedValue & "," & ddlComexTaxaNovo.SelectedValue & " , " & ddlViaTransporteNovo.SelectedValue & " , " & ddlDespesaTaxaNovo.SelectedValue & ", '" & txtValorTaxaLocalNovo.Text & "', convert(date,'" & txtValidadeInicialTaxaNovo.Text & "',103)," & ddlMoedaNovo.SelectedValue & "," & ddlBaseCalculoNovo.SelectedValue & ", " & ddlOrigemPagamentoNovo.SelectedValue & "," & txtQtdBaseCalculoNovo.Text & ", " & ddlTipoPagamentoNovo.SelectedValue & ") Select SCOPE_IDENTITY() as ID ")
+                    ds = Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA_COMPRA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO,QTD_BASE_CALCULO,ID_TIPO_PAGAMENTO ) VALUES (" & ddlTransportadorTaxaNovo.SelectedValue & " , " & ddlPortoTaxaNovo.SelectedValue & "," & ddlComexTaxaNovo.SelectedValue & " , " & ddlViaTransporteNovo.SelectedValue & " , " & ddlDespesaTaxaNovo.SelectedValue & ", '" & txtValorTaxaLocalNovo.Text & "', convert(date,'" & txtValidadeInicialTaxaNovo.Text & "',103)," & ddlMoedaNovo.SelectedValue & "," & ddlBaseCalculoNovo.SelectedValue & ", " & ddlOrigemPagamentoNovo.SelectedValue & "," & txtQtdBaseCalculoNovo.Text & ", " & ddlTipoPagamentoNovo.SelectedValue & ") Select SCOPE_IDENTITY() as ID ")
                     lblmsgSuccessNovo.Text = "Registro cadastrado/atualizado com sucesso!"
                     divSuccessNovo.Visible = True
 
@@ -537,7 +537,7 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
 
             Dim id As String = e.CommandArgument
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_ORIGEM_PAGAMENTO,ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,QTD_BASE_CALCULO,ID_TIPO_PAGAMENTO, VL_TAXA_LOCAL_COMPRA_MIN , VL_TAXA_LOCAL_COMPRA_CAL , VL_TAXA_LOCAL_VENDA , VL_TAXA_LOCAL_VENDA_MIN , VL_TAXA_LOCAL_VENDA_CALC , OBS_TAXA , ID_MOEDA_VENDA  FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & id)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_ORIGEM_PAGAMENTO,ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,DT_VALIDADE_INICIAL,ID_BASE_CALCULO,QTD_BASE_CALCULO,ID_TIPO_PAGAMENTO,ID_MOEDA_COMPRA,VL_TAXA_LOCAL_COMPRA, VL_TAXA_LOCAL_COMPRA_MIN , VL_TAXA_LOCAL_COMPRA_CALC ,ID_MOEDA_VENDA, VL_TAXA_LOCAL_VENDA , VL_TAXA_LOCAL_VENDA_MIN , VL_TAXA_LOCAL_VENDA_CALC , OBS_TAXA   FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & id)
             If ds.Tables(0).Rows.Count > 0 Then
 
                 txtIDTaxa.Text = ds.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR").ToString()
@@ -550,7 +550,7 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
                 data = data.ToString("dd-MM-yyyy")
                 txtValidadeInicialTaxa.Text = data
                 txtValorTaxaLocal.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA").ToString()
-                ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
+                ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA_COMPRA")
                 ddlBaseCalculo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                 ddlOrigemPagamento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
                 txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
@@ -565,7 +565,7 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
                 If txtModalParceiro.Text = "A" Then
                     ddlMoedaVendaAerea.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA_VENDA")
                     txtCompraMinAerea.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_MIN").ToString()
-                    txtCompraCalcAerea.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_CAL").ToString()
+                    txtCompraCalcAerea.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_CALC").ToString()
                     txtVendaAerea.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA").ToString()
                     txtVendaMinAerea.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA_MIN").ToString()
                     txtVendaCalcAerea.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA_CALC").ToString()
@@ -608,7 +608,7 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
 
             Dim id As String = e.CommandArgument
 
-            Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO,QTD_BASE_CALCULO, ID_TIPO_PAGAMENTO, VL_TAXA_LOCAL_COMPRA_MIN, VL_TAXA_LOCAL_COMPRA_CAL, VL_TAXA_LOCAL_VENDA, VL_TAXA_LOCAL_VENDA_MIN, VL_TAXA_LOCAL_VENDA_CALC, OBS_TAXA, ID_MOEDA_VENDA ) SELECT ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO,QTD_BASE_CALCULO, ID_TIPO_PAGAMENTO, VL_TAXA_LOCAL_COMPRA_MIN, VL_TAXA_LOCAL_COMPRA_CAL, VL_TAXA_LOCAL_VENDA, VL_TAXA_LOCAL_VENDA_MIN, VL_TAXA_LOCAL_VENDA_CALC, OBS_TAXA, ID_MOEDA_VENDA  FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & id)
+            Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA_COMPRA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO,QTD_BASE_CALCULO, ID_TIPO_PAGAMENTO, VL_TAXA_LOCAL_COMPRA_MIN, VL_TAXA_LOCAL_COMPRA_CALC, VL_TAXA_LOCAL_VENDA, VL_TAXA_LOCAL_VENDA_MIN, VL_TAXA_LOCAL_VENDA_CALC, OBS_TAXA, ID_MOEDA_VENDA ) SELECT ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA_COMPRA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO,QTD_BASE_CALCULO, ID_TIPO_PAGAMENTO, VL_TAXA_LOCAL_COMPRA_MIN, VL_TAXA_LOCAL_COMPRA_CALC, VL_TAXA_LOCAL_VENDA, VL_TAXA_LOCAL_VENDA_MIN, VL_TAXA_LOCAL_VENDA_CALC, OBS_TAXA, ID_MOEDA_VENDA  FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & id)
             lblmsgSuccess.Text = "Registro duplicado com sucesso!"
             divSuccess.Visible = True
             Pesquisa()
@@ -722,7 +722,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_C
 
                 If ProximaLinha = linha.Item("num") Then
 
-                    Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_ORIGEM_PAGAMENTO,ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,QTD_BASE_CALCULO, ID_TIPO_PAGAMENTO, VL_TAXA_LOCAL_COMPRA_MIN, VL_TAXA_LOCAL_COMPRA_CAL, VL_TAXA_LOCAL_VENDA, VL_TAXA_LOCAL_VENDA_MIN, VL_TAXA_LOCAL_VENDA_CALC, OBS_TAXA, ID_MOEDA_VENDA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & linha.Item("ID_TAXA_LOCAL_TRANSPORTADOR"))
+                    Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_ORIGEM_PAGAMENTO,ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA_COMPRA,ID_BASE_CALCULO,QTD_BASE_CALCULO, ID_TIPO_PAGAMENTO, VL_TAXA_LOCAL_COMPRA_MIN, VL_TAXA_LOCAL_COMPRA_CALC, VL_TAXA_LOCAL_VENDA, VL_TAXA_LOCAL_VENDA_MIN, VL_TAXA_LOCAL_VENDA_CALC, OBS_TAXA, ID_MOEDA_VENDA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & linha.Item("ID_TAXA_LOCAL_TRANSPORTADOR"))
                     If dsTaxa.Tables(0).Rows.Count > 0 Then
 
                         txtIDTaxa.Text = dsTaxa.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR").ToString()
@@ -735,7 +735,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_C
                         data = data.ToString("dd-MM-yyyy")
                         txtValidadeInicialTaxa.Text = data
                         txtValorTaxaLocal.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA").ToString()
-                        ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
+                        ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA_COMPRA")
                         ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                         ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
                         txtQtdBaseCalculo.Text = dsTaxa.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
@@ -744,7 +744,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_C
                         If txtModalParceiro.Text = "A" Then
                             ddlMoedaVendaAerea.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA_VENDA")
                             txtCompraMinAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_MIN").ToString()
-                            txtCompraCalcAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_CAL").ToString()
+                            txtCompraCalcAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_CALC").ToString()
                             txtVendaAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA").ToString()
                             txtVendaMinAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA_MIN").ToString()
                             txtVendaCalcAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA_CALC").ToString()
@@ -764,7 +764,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_C
 
                 ElseIf ProximaLinha > ds.Tables(0).Rows.Count Then
 
-                    Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_ORIGEM_PAGAMENTO,ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,QTD_BASE_CALCULO, ID_TIPO_PAGAMENTO, VL_TAXA_LOCAL_COMPRA_MIN, VL_TAXA_LOCAL_COMPRA_CAL, VL_TAXA_LOCAL_VENDA, VL_TAXA_LOCAL_VENDA_MIN, VL_TAXA_LOCAL_VENDA_CALC, OBS_TAXA, ID_MOEDA_VENDA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & PrimeiraTaxa)
+                    Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_ORIGEM_PAGAMENTO,ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA_COMPRA,ID_BASE_CALCULO,QTD_BASE_CALCULO, ID_TIPO_PAGAMENTO, VL_TAXA_LOCAL_COMPRA_MIN, VL_TAXA_LOCAL_COMPRA_CALC, VL_TAXA_LOCAL_VENDA, VL_TAXA_LOCAL_VENDA_MIN, VL_TAXA_LOCAL_VENDA_CALC, OBS_TAXA, ID_MOEDA_VENDA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & PrimeiraTaxa)
                     If dsTaxa.Tables(0).Rows.Count > 0 Then
 
                         txtIDTaxa.Text = dsTaxa.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR").ToString()
@@ -777,7 +777,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_C
                         data = data.ToString("dd-MM-yyyy")
                         txtValidadeInicialTaxa.Text = data
                         txtValorTaxaLocal.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA").ToString()
-                        ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
+                        ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA_COMPRA")
                         ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                         ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
                         txtQtdBaseCalculo.Text = dsTaxa.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
@@ -786,7 +786,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_C
                         If txtModalParceiro.Text = "A" Then
                             ddlMoedaVendaAerea.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA_VENDA")
                             txtCompraMinAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_MIN").ToString()
-                            txtCompraCalcAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_CAL").ToString()
+                            txtCompraCalcAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_CALC").ToString()
                             txtVendaAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA").ToString()
                             txtVendaMinAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA_MIN").ToString()
                             txtVendaCalcAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA_CALC").ToString()
@@ -841,7 +841,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_C
 
                 If ProximaLinha = linha.Item("num") Then
 
-                    Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_ORIGEM_PAGAMENTO,ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,QTD_BASE_CALCULO, ID_TIPO_PAGAMENTO, VL_TAXA_LOCAL_COMPRA_MIN, VL_TAXA_LOCAL_COMPRA_CAL, VL_TAXA_LOCAL_VENDA, VL_TAXA_LOCAL_VENDA_MIN, VL_TAXA_LOCAL_VENDA_CALC, OBS_TAXA, ID_MOEDA_VENDA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & linha.Item("ID_TAXA_LOCAL_TRANSPORTADOR"))
+                    Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_ORIGEM_PAGAMENTO,ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA_COMPRA,ID_BASE_CALCULO,QTD_BASE_CALCULO, ID_TIPO_PAGAMENTO, VL_TAXA_LOCAL_COMPRA_MIN, VL_TAXA_LOCAL_COMPRA_CALC, VL_TAXA_LOCAL_VENDA, VL_TAXA_LOCAL_VENDA_MIN, VL_TAXA_LOCAL_VENDA_CALC, OBS_TAXA, ID_MOEDA_VENDA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & linha.Item("ID_TAXA_LOCAL_TRANSPORTADOR"))
                     If dsTaxa.Tables(0).Rows.Count > 0 Then
 
                         txtIDTaxa.Text = dsTaxa.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR").ToString()
@@ -854,7 +854,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_C
                         data = data.ToString("dd-MM-yyyy")
                         txtValidadeInicialTaxa.Text = data
                         txtValorTaxaLocal.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA").ToString()
-                        ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
+                        ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA_COMPRA")
                         ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                         ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
                         txtQtdBaseCalculo.Text = dsTaxa.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
@@ -863,7 +863,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_C
                         If txtModalParceiro.Text = "A" Then
                             ddlMoedaVendaAerea.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA_VENDA")
                             txtCompraMinAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_MIN").ToString()
-                            txtCompraCalcAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_CAL").ToString()
+                            txtCompraCalcAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_CALC").ToString()
                             txtVendaAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA").ToString()
                             txtVendaMinAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA_MIN").ToString()
                             txtVendaCalcAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA_CALC").ToString()
@@ -881,7 +881,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_C
 
                 ElseIf ProximaLinha > ds.Tables(0).Rows.Count Then
 
-                    Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_ORIGEM_PAGAMENTO,ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,QTD_BASE_CALCULO, ID_TIPO_PAGAMENTO, VL_TAXA_LOCAL_COMPRA_MIN, VL_TAXA_LOCAL_COMPRA_CAL, VL_TAXA_LOCAL_VENDA, VL_TAXA_LOCAL_VENDA_MIN, VL_TAXA_LOCAL_VENDA_CALC, OBS_TAXA, ID_MOEDA_VENDA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & PrimeiraTaxa)
+                    Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_ORIGEM_PAGAMENTO,ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA_COMPRA,ID_BASE_CALCULO,QTD_BASE_CALCULO, ID_TIPO_PAGAMENTO, VL_TAXA_LOCAL_COMPRA_MIN, VL_TAXA_LOCAL_COMPRA_CALC, VL_TAXA_LOCAL_VENDA, VL_TAXA_LOCAL_VENDA_MIN, VL_TAXA_LOCAL_VENDA_CALC, OBS_TAXA, ID_MOEDA_VENDA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & PrimeiraTaxa)
                     If dsTaxa.Tables(0).Rows.Count > 0 Then
 
                         txtIDTaxa.Text = dsTaxa.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR").ToString()
@@ -894,7 +894,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_C
                         data = data.ToString("dd-MM-yyyy")
                         txtValidadeInicialTaxa.Text = data
                         txtValorTaxaLocal.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA").ToString()
-                        ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
+                        ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA_COMPRA")
                         ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                         ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
                         txtQtdBaseCalculo.Text = dsTaxa.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
@@ -903,7 +903,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_C
                         If txtModalParceiro.Text = "A" Then
                             ddlMoedaVendaAerea.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA_VENDA")
                             txtCompraMinAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_MIN").ToString()
-                            txtCompraCalcAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_CAL").ToString()
+                            txtCompraCalcAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA_CALC").ToString()
                             txtVendaAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA").ToString()
                             txtVendaMinAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA_MIN").ToString()
                             txtVendaCalcAerea.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_VENDA_CALC").ToString()

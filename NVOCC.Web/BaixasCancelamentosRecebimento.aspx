@@ -37,9 +37,9 @@
                                 <asp:TextBox ID="txtID" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtID_BL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtLinhaBL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
-                                 <asp:TextBox ID="txtItemDespesa" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox> 
+                                <asp:TextBox ID="txtItemDespesa" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtLimiteBaixa" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
-                                 
+
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblSuccess" runat="server"></asp:Label>
                                 </div>
@@ -85,7 +85,7 @@
                                         <div class="form-group">
                                             <br />
                                             <asp:Button runat="server" Text="Gerar CSV" ID="btnCSV" CssClass="btn btn-info" />
-                                            <asp:Button runat="server" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-success"/>
+                                            <asp:Button runat="server" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-success" />
                                             <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-primary" />
                                             <asp:Button runat="server" Text="Cancelar Baixa" ID="btnCancelarBaixa" CssClass="btn btn-warning" OnClientClick="javascript:return confirm('Deseja realmente cancelar a baixa deste registro?');" />
                                             <asp:Button runat="server" Text="Cancelar Conta Corrente" ID="btnCancelar" CssClass="btn btn-danger" />
@@ -136,14 +136,14 @@
                                                             <asp:Label ID="lblID_PARCEIRO_EMPRESA" runat="server" Text='<%# Eval("ID_PARCEIRO_EMPRESA") %>' Visible="false" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                     <asp:TemplateField HeaderText="Valor lançamento(R$)" SortExpression="VL_LANCAMENTO">
+                                                    <asp:TemplateField HeaderText="Valor lançamento(R$)" SortExpression="VL_LANCAMENTO">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblValorLancamento" runat="server" Text='<%# Eval("VL_LANCAMENTO") %>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                     <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
-                                                     <asp:BoundField DataField="VL_ACRESCIMO" HeaderText="Acréscimo" SortExpression="VL_ACRESCIMO" />
-                                                     <asp:BoundField DataField="VL_DECRESCIMO" HeaderText="Decréscimo" SortExpression="VL_DECRESCIMO" />
+                                                    <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
+                                                    <asp:BoundField DataField="VL_ACRESCIMO" HeaderText="Acréscimo" SortExpression="VL_ACRESCIMO" />
+                                                    <asp:BoundField DataField="VL_DECRESCIMO" HeaderText="Decréscimo" SortExpression="VL_DECRESCIMO" />
                                                     <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário lançamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
                                                     <asp:TemplateField HeaderText="Bloqueio Financeiro">
                                                         <ItemTemplate>
@@ -243,14 +243,14 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">Valor Liquidado:</label>
-                                            <asp:TextBox ID="txtValorLiquidadoBaixa" runat="server" CssClass="form-control" AutoPostBack="true" ></asp:TextBox>
+                                            <asp:TextBox ID="txtValorLiquidadoBaixa" runat="server" CssClass="form-control teste" ></asp:TextBox>
                                         </div>
                                     </div>
                                             <div class="col-sm-2">
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">Acréscimo/Decréscimo:</label>
                                             <asp:TextBox ID="txtDiferencaBaixa" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
-                                              <asp:label runat="server" ID="lblDescontoAcrescimoBaixa" Style="display: none" />
+<%--                                              <asp:label runat="server" ID="lblDescontoAcrescimoBaixa" Style="display: none" />--%>
                                         </div>
                                     </div>
                                             <div class="col-sm-3">
@@ -337,10 +337,10 @@
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger ControlID="btnCancelar" />
-                                <asp:AsyncPostBackTrigger ControlID="txtValorLiquidadoBaixa" />
+                                <%--                                <asp:AsyncPostBackTrigger ControlID="txtValorLiquidadoBaixa" />--%>
                                 <asp:PostBackTrigger ControlID="btnCSV" />
                                 <asp:PostBackTrigger ControlID="btnpesquisar" />
-                             </Triggers>
+                            </Triggers>
                         </asp:UpdatePanel>
 
                     </div>
@@ -358,10 +358,19 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript">
-       
+
+        function MouseWait() {
+            document.body.style.cursor = "wait";
+        };
+
+        function MouseDefault() {
+            console.log("default");
+            document.body.style.cursor = "default";
+        };
+
         function SalvaPosicaoRecebimento() {
             MouseWait();
-            var posicao = document.getElementById('DivGridReceber').scrollTop;
+            <%--var posicao = document.getElementById('DivGridReceber').scrollTop;
 
             if (posicao) {
                 document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
@@ -372,7 +381,7 @@
                  document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
                 console.log('else:' + posicao);
 
-            }
+            }--%>
         };
 
         Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
@@ -386,15 +395,60 @@
                 }
             }
 
+            CalculaDiferenca();
+            TextChange();
         };
 
-        function MouseWait() {
-            document.body.style.cursor = "wait ";
+        function CalculaDiferenca() {
+            var btn = document.getElementById('<%= btnSalvarBaixa.ClientID %>');
+            var LimiteBaixa = document.getElementById('<%= txtLimiteBaixa.ClientID %>').value;
+            var Valor = document.getElementById('<%= txtValorLiquidadoBaixa.ClientID %>').value.replace('R$', "");
+            if (Valor != null) {
+
+                var ValorFormatado = Valor;
+                ValorFormatado = ValorFormatado.replace('.', "").replace(',', ".");
+                ValorFormatado = Number(ValorFormatado).toFixed(2);
+                ValorFormatado = parseFloat(ValorFormatado);
+                ValorFormatado = ValorFormatado.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+ 
+
+                var Liquidado = document.getElementById('<%= txtValorBaixa.ClientID %>').value.replace('R$', "");
+
+                var Diferenca = parseFloat(Valor.replace('.', "").replace(',', ".")) - parseFloat(Liquidado.replace('.', "").replace(',', "."))
+
+
+                if (Math.abs(parseFloat(Diferenca)) > Math.abs(parseFloat(LimiteBaixa))) {
+                    alert('Você ultrapassou os limites de valores para esse campo. Favor inserir valores em até R$ ' + LimiteBaixa + ' do valor original!');
+                    btn.disabled = true;
+                }
+                else {
+                    btn.disabled = false;
+                }
+
+<%--                var DiferencaAbs = Diferenca;
+                 DiferencaAbs = Number(parseFloat(DiferencaAbs)).toFixed(2);
+                console.log("DiferencaAbs: " + DiferencaAbs );
+
+                document.getElementById('<%= lblDescontoAcrescimoBaixa.ClientID %>').innerHTML = DiferencaAbs;
+                console.log("lblDescontoAcrescimoBaixa: " + document.getElementById('<%= lblDescontoAcrescimoBaixa.ClientID %>').innerHTML);--%>
+                document.getElementById('<%= txtDiferencaBaixa.ClientID %>').value = Diferenca.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+                document.getElementById('<%= txtValorLiquidadoBaixa.ClientID %>').value = ValorFormatado.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+            }
         };
 
-        function MouseDefault() {
-            document.body.style.cursor = "default ";
-        };
+        
+        function TextChange() {
+            var Valor = document.getElementById('<%= txtValorLiquidadoBaixa.ClientID %>').value;
+            if (Valor != null) {
+                 $(".teste").blur(function () {
+                    console.log("Change detected!");
+                  
+                    CalculaDiferenca();
+                });
+                
+            }
+        }
+
 
     </script>
 </asp:Content>

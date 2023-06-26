@@ -347,15 +347,6 @@ Partial Public Class BaixasCancelamentosRecebimento
     Protected WithEvents txtDiferencaBaixa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle lblDescontoAcrescimoBaixa.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblDescontoAcrescimoBaixa As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Controle txtDataBaixa.
     '''</summary>
     '''<remarks>

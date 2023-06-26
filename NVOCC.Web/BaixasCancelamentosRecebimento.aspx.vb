@@ -74,6 +74,8 @@
     End Sub
 
     Private Sub btnSalvarBaixa_Click(sender As Object, e As EventArgs) Handles btnSalvarBaixa.Click
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseWait()", True)
+
         divErro.Visible = False
         divSuccess.Visible = False
 
@@ -116,7 +118,8 @@
             txtValorLiquidadoBaixa.Text = ""
             txtDiferencaBaixa.Text = ""
             txtMotivoBaixa.Text = ""
-            lblDescontoAcrescimoBaixa.Text = ""
+            ' lblDescontoAcrescimoBaixa.Text = ""
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
 
             mpeObs.Hide()
 
@@ -142,13 +145,16 @@
             End If
         End If
 
-        Dim liquido_final As String = txtValorLiquidadoBaixa.Text
-        liquido_final = liquido_final.Replace(".", "")
-        liquido_final = liquido_final.Replace(",", ".")
+        'Dim liquido_final As String = txtValorLiquidadoBaixa.Text
+        'liquido_final = liquido_final.Replace(".", "")
+        'liquido_final = liquido_final.Replace(",", ".")
+        'liquido_final = liquido_final.Replace("R$", "")
 
-        Dim desconto_final As String = lblDescontoAcrescimoBaixa.Text
+
+        Dim desconto_final As String = txtDiferencaBaixa.Text
         desconto_final = desconto_final.Replace(".", "")
         desconto_final = desconto_final.Replace(",", ".")
+        desconto_final = desconto_final.Replace("R$", "")
 
         Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] SET VL_LIQUIDO = VL_LIQUIDO + " & desconto_final & ", VL_DIFERENCA = " & desconto_final.Replace("-", "") & ", MOTIVO_DIFERENCA = '" & txtMotivoBaixa.Text & "' WHERE ID_CONTA_PAGAR_RECEBER_ITENS =" & ID_CONTA_PAGAR_RECEBER_ITENS)
 
@@ -737,23 +743,23 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
 
     End Sub
 
-    Private Sub txtValorLiquidadoBaixa_TextChanged(sender As Object, e As EventArgs) Handles txtValorLiquidadoBaixa.TextChanged
-        If txtValorLiquidadoBaixa.Text <> "" Then
-            lblDescontoAcrescimoBaixa.Text = FormatNumber(txtValorLiquidadoBaixa.Text - txtValorBaixa.Text)
-            txtDiferencaBaixa.Text = lblDescontoAcrescimoBaixa.Text
-            Dim diferenca = txtDiferencaBaixa.Text
-            txtDiferencaBaixa.Text = Format(txtDiferencaBaixa.Text, "Currency")
-            If diferenca > txtLimiteBaixa.Text Then
-                btnSalvarBaixa.Enabled = False
-                ScriptManager.RegisterClientScriptBlock(Me, [GetType](), "script", "<script>alert('Você ultrapassou os limites de valores para esse campo. Favor inserir valores em até R$ 2,00 do valor original!');</script>", False)
-            Else
-                btnSalvarBaixa.Enabled = True
-            End If
+    'Private Sub txtValorLiquidadoBaixa_TextChanged(sender As Object, e As EventArgs) Handles txtValorLiquidadoBaixa.TextChanged
+    '    'If txtValorLiquidadoBaixa.Text <> "" Then
+    '    '    lblDescontoAcrescimoBaixa.Text = FormatNumber(txtValorLiquidadoBaixa.Text - txtValorBaixa.Text)
+    '    '    txtDiferencaBaixa.Text = lblDescontoAcrescimoBaixa.Text
+    '    '    Dim diferenca = txtDiferencaBaixa.Text
+    '    '    txtDiferencaBaixa.Text = Format(txtDiferencaBaixa.Text, "Currency")
+    '    '    If diferenca > txtLimiteBaixa.Text Then
+    '    '        btnSalvarBaixa.Enabled = False
+    '    '        ScriptManager.RegisterClientScriptBlock(Me, [GetType](), "script", "<script>alert('Você ultrapassou os limites de valores para esse campo. Favor inserir valores em até R$ 2,00 do valor original!');</script>", False)
+    '    '    Else
+    '    '        btnSalvarBaixa.Enabled = True
+    '    '    End If
 
-            txtValorLiquidadoBaixa.Text = Format(txtValorLiquidadoBaixa.Text, "Currency")
-        End If
-        mpeBaixa.Show()
+    '    '    txtValorLiquidadoBaixa.Text = Format(txtValorLiquidadoBaixa.Text, "Currency")
+    '    'End If
+    '    mpeBaixa.Show()
 
 
-    End Sub
+    'End Sub
 End Class
