@@ -215,7 +215,8 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="mpeBaixa" runat="server" PopupControlID="Panel2" TargetControlID="btnBaixar" CancelControlID="btnFecharBaixa"></ajaxToolkit:ModalPopupExtender>
+                                 <asp:Button runat="server" CssClass="btn btn-success" ID="Button2" text="" Style="display:none" />
+                                <ajaxToolkit:ModalPopupExtender ID="mpeBaixa" runat="server" PopupControlID="Panel2" TargetControlID="btnBaixar" CancelControlID="Button2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" >
@@ -273,7 +274,7 @@
                                                                         
                                                         <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharBaixa" text="Fechar" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarBaixa" text="Baixar Fatura" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarBaixa" text="Baixar Fatura"  OnClientClick="MouseWait();"/>
                                                         </div>
                                                   </div>    
                                                 </div>
@@ -337,7 +338,7 @@
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger ControlID="btnCancelar" />
-                                <%--                                <asp:AsyncPostBackTrigger ControlID="txtValorLiquidadoBaixa" />--%>
+                                <asp:AsyncPostBackTrigger ControlID="btnFecharBaixa" />
                                 <asp:PostBackTrigger ControlID="btnCSV" />
                                 <asp:PostBackTrigger ControlID="btnpesquisar" />
                             </Triggers>
@@ -349,7 +350,7 @@
         </div>
     </div>
     <asp:TextBox ID="TextBox1" Style="display: none" Text="0" runat="server"></asp:TextBox>
-
+   
     <asp:SqlDataSource ID="dsReceber" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos_R] WHERE CD_PR =  'R' AND DT_LIQUIDACAO IS NULL ORDER BY DT_VENCIMENTO DESC"></asp:SqlDataSource>
 
@@ -442,8 +443,10 @@
             if (Valor != null) {
                  $(".teste").blur(function () {
                     console.log("Change detected!");
-                  
-                    CalculaDiferenca();
+                     var id = document.getElementById('<%= txtID.ClientID %>').value;
+                     if (id != "") {
+                         CalculaDiferenca();
+                     }
                 });
                 
             }

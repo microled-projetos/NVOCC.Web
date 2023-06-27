@@ -74,7 +74,6 @@
     End Sub
 
     Private Sub btnSalvarBaixa_Click(sender As Object, e As EventArgs) Handles btnSalvarBaixa.Click
-        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseWait()", True)
 
         divErro.Visible = False
         divSuccess.Visible = False
@@ -119,11 +118,13 @@
             txtDiferencaBaixa.Text = ""
             txtMotivoBaixa.Text = ""
             ' lblDescontoAcrescimoBaixa.Text = ""
-            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
 
             mpeObs.Hide()
 
         End If
+
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
+
     End Sub
 
     Sub DescontoAcrescimo(ID As Integer)
@@ -156,7 +157,7 @@
         desconto_final = desconto_final.Replace(",", ".")
         desconto_final = desconto_final.Replace("R$", "")
 
-        Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] SET VL_LIQUIDO = VL_LIQUIDO + " & desconto_final & ", VL_DIFERENCA = " & desconto_final.Replace("-", "") & ", MOTIVO_DIFERENCA = '" & txtMotivoBaixa.Text & "' WHERE ID_CONTA_PAGAR_RECEBER_ITENS =" & ID_CONTA_PAGAR_RECEBER_ITENS)
+        Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] SET VL_LIQUIDO = VL_LANCAMENTO + " & desconto_final & ", VL_DIFERENCA = " & desconto_final.Replace("-", "") & ", MOTIVO_DIFERENCA = '" & txtMotivoBaixa.Text & "' WHERE ID_CONTA_PAGAR_RECEBER_ITENS =" & ID_CONTA_PAGAR_RECEBER_ITENS)
 
     End Sub
     Private Sub dgvTaxasReceber_Load(sender As Object, e As EventArgs) Handles dgvTaxasReceber.Load
@@ -215,7 +216,7 @@
                 End If
 
                 txtValorBaixa.Text = Format(ValorLancamento, "Currency")
-                If txtValorLiquidadoBaixa.Text = "" Then
+                If txtValorLiquidadoBaixa.Text = "" Or txtValorLiquidadoBaixa.Text = "R$ 0,00" Then
                     txtValorLiquidadoBaixa.Text = Format(ValorLancamento, "Currency")
                 End If
 
@@ -741,6 +742,25 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
         txtDataBaixa.Text = ""
         txtObs.Text = ""
 
+    End Sub
+
+    Private Sub btnFecharBaixa_Click(sender As Object, e As EventArgs) Handles btnFecharBaixa.Click
+        txtID.Text = ""
+        lblFaturaCambio.Text = ""
+        lblProcessoCambio.Text = ""
+        lblClienteCambio.Text = ""
+        lblFaturaCancelamento.Text = ""
+        lblProcessoCancelamento.Text = ""
+        lblClienteCancelamento.Text = ""
+        lblFaturaBaixa.Text = ""
+        lblClienteBaixa.Text = ""
+        txtProcessoBaixa.Text = ""
+        txtDataBaixa.Text = ""
+        txtValorBaixa.Text = ""
+        txtValorLiquidadoBaixa.Text = ""
+        txtDiferencaBaixa.Text = ""
+        txtMotivoBaixa.Text = ""
+        mpeBaixa.Hide()
     End Sub
 
     'Private Sub txtValorLiquidadoBaixa_TextChanged(sender As Object, e As EventArgs) Handles txtValorLiquidadoBaixa.TextChanged

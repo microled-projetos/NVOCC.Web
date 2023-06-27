@@ -275,6 +275,15 @@ Partial Public Class BaixasCancelamentosRecebimento
     Protected WithEvents btnSalvarCancelamento As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle Button2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button2 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle mpeBaixa.
     '''</summary>
     '''<remarks>
