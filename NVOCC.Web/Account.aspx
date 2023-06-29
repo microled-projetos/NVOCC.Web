@@ -575,6 +575,7 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
+
                                                  <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="TAXA" SortExpression="NM_ITEM_DESPESA" />
                                                 <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                        
                                                 <asp:TemplateField HeaderText="VALOR COMPRA" SortExpression="VL_COMPRA">
@@ -592,7 +593,12 @@
                                                         <asp:Label ID="lblValorDiferenca" runat="server" Text='<%# Eval("DIFERENCA") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>  
-                                                <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />                                      
+                                                <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />           
+                                                <asp:TemplateField HeaderText="ID_ITEM_DESPESA" SortExpression="ID_ITEM_DESPESA" Visible="false">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblItemDespesa" runat="server" Text='<%# Eval("ID_ITEM_DESPESA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
@@ -1109,7 +1115,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsDevolucao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BL_TAXA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_COMPRA,VL_VENDA,DT_RECEBIMENTO FROM FN_ACCOUNT_DEVOLUCAO_FRETE (@ID_BL , '@GRAU') A WHERE ID_MOEDA = @MOEDA AND A.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)">
+        SelectCommand="SELECT ID_BL_TAXA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_COMPRA,VL_VENDA,DT_RECEBIMENTO,A.ID_ITEM_DESPESA FROM FN_ACCOUNT_DEVOLUCAO_FRETE (@ID_BL , '@GRAU') A WHERE ID_MOEDA = @MOEDA AND A.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="txtID_BL" />
             <asp:ControlParameter Name="GRAU" Type="string" ControlID="txtGrau" />
