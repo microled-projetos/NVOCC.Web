@@ -267,25 +267,6 @@ WHERE ID_PARCEIRO =" & ID)
 
             End If
 
-            'PREENCHE CAMPOS DE CONTATO
-            'ds = Con.ExecutarQuery("SELECT [ID_CONTATO],[ID_PARCEIRO],[NM_CONTATO],[TELEFONE_CONTATO],[EMAIL_CONTATO],[NM_DEPARTAMENTO],[CELULAR_CONTATO] FROM [dbo].[TB_CONTATO] WHERE ID_PARCEIRO =" & ID)
-            'If ds.Tables(0).Rows.Count > 0 Then
-            '    txtNomeContato.Text = ds.Tables(0).Rows(0).Item("NM_CONTATO").ToString()
-            '    txtDepartamento.Text = ds.Tables(0).Rows(0).Item("NM_DEPARTAMENTO").ToString()
-            '    txtTelContato.Text = ds.Tables(0).Rows(0).Item("TELEFONE_CONTATO").ToString()
-            '    txtEmailContato.Text = ds.Tables(0).Rows(0).Item("EMAIL_CONTATO").ToString()
-            '    txtCelularContato.Text = ds.Tables(0).Rows(0).Item("CELULAR_CONTATO").ToString()
-
-            'End If
-
-            'PREENCHE CAMPOS DE EMAIL
-            'ds = Con.ExecutarQuery("SELECT ID, ENDERECOS,ID_EVENTO, ID_TERMINAL FROM [TB_AMR_PESSOA_EVENTO] WHERE ID_PESSOA =" & ID)
-            'If ds.Tables(0).Rows.Count > 0 Then
-            '    txtEmail.Text = ds.Tables(0).Rows(0).Item("ENDERECOS").ToString()
-            '    ddlPorto.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TERMINAL")
-            '    ddlEvento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_EVENTO")
-            'End If
-
             Con.Fechar()
         Else
             ckbAtivo.Checked = True
@@ -303,8 +284,8 @@ WHERE ID_PARCEIRO =" & ID)
         divInformativa.Visible = False
         divSuccessContato.Visible = False
         divErroContato.Visible = False
-        ' btnSalvarContato.Visible = False
-        ' btnSalvarEvento.Visible = False
+        divSuccessEvento.Visible = False
+        divErroEvento.Visible = False
 
         Dim ds As DataSet
 
@@ -1071,28 +1052,6 @@ WHERE ID_PARCEIRO =" & ID)
             txtTelefone.CssClass = "form-control telefone"
             txtTelContato.CssClass = "form-control telefone"
             txtCelularContato.CssClass = "form-control celular"
-        End If
-
-    End Sub
-
-    Private Sub ddlEvento_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlEvento.SelectedIndexChanged
-        Dim ID_EVENTO As Integer = ddlEvento.SelectedValue
-        Dim filtro As String
-        If txtID.Text <> "" Then
-            filtro = " and ID_Pessoa = " & Request.QueryString("id")
-            Dim Con As New Conexao_sql
-
-            Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID, ENDERECOS, ID_TERMINAL FROM [TB_AMR_PESSOA_EVENTO] WHERE ID_EVENTO =" & ID_EVENTO & " " & filtro)
-            If ds.Tables(0).Rows.Count > 0 Then
-                txtEmail.Text = ds.Tables(0).Rows(0).Item("ENDERECOS").ToString()
-                ddlPorto.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TERMINAL").ToString()
-            Else
-                txtEmail.Text = ""
-                ddlPorto.SelectedValue = 0
-            End If
-            Con.Fechar()
-
         End If
 
     End Sub

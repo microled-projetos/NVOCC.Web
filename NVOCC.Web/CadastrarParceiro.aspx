@@ -765,6 +765,8 @@
                         </div>
 
                         <div class="tab-pane fade" id="email">
+                            <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="TRUE">
+                                        <ContentTemplate> 
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="active">
                                     <a href="#detalhesEvento" role="tab" data-toggle="tab">
@@ -779,8 +781,7 @@
                             </ul>
                             <br />
                             
-                             <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="TRUE">
-                                        <ContentTemplate>  
+                             
                                      <div class="tab-content">  
                                          <div class="alert alert-success" id="divSuccessEvento" runat="server" visible="false">
                                             <asp:Label runat="server" ID="lblSuccessEvento" />
@@ -795,14 +796,14 @@
                                                     <div class="form-group">
                                                         <label class="control-label">Evento:</label>
                                                         <asp:TextBox ID="txtIdEvento" runat="server" CssClass="form-control" style="display:none"></asp:TextBox>
-                                                        <asp:DropDownList ID="ddlEvento" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="True" DataTextField="NMTIPOAVISO" DataSourceID="dsEventos" DataValueField="IDTIPOAVISO">
+                                                        <asp:DropDownList ID="ddlEvento" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NMTIPOAVISO" DataSourceID="dsEventos" DataValueField="IDTIPOAVISO">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Porto:</label>
-                                                        <asp:DropDownList ID="ddlPorto" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="True" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
+                                                        <asp:DropDownList ID="ddlPorto" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -943,6 +944,7 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID"
 
 
     <script type="text/javascript">
+
         $(document).ready(function () {
             $(".SPREAD").keyup(function () {
                 var valor = $(".SPREAD").val().replace(/[^0-9-,]+/g, '');
