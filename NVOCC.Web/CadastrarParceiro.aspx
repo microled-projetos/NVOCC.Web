@@ -288,38 +288,39 @@
                             <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
                                 <ContentTemplate>
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Valor Alíquota ISS:</label>
                                                 <asp:TextBox ID="txtAliquotaISS" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <br />
+                                                <asp:CheckBox ID="ckbISS" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Isenção ISS"></asp:CheckBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Valor Alíquota PIS:</label>
                                                 <asp:TextBox ID="txtAliquotaPIS" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                               <br />
+                                                <asp:CheckBox ID="ckbPIS" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Isenção PIS"></asp:CheckBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Valor Alíquota COFINS:</label>
                                                 <asp:TextBox ID="txtAliquotaCOFINS" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
-                                                <asp:CheckBox ID="ckbISS" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Isenção ISS"></asp:CheckBox>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <asp:CheckBox ID="ckbPIS" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Isenção PIS"></asp:CheckBox>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
+                                                  <br />
                                                 <asp:CheckBox ID="ckbCOFINS" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Isenção COFINS"></asp:CheckBox>
                                             </div>
                                         </div>
@@ -463,74 +464,73 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <br />
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbImportador" runat="server" AutoPostBack="true" CssClass="form-control" Text="&nbsp;&nbsp;Importador"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbExportador" runat="server" AutoPostBack="true" CssClass="form-control" Text="&nbsp;&nbsp;Exportador"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbComissaria" runat="server" AutoPostBack="true" CssClass="form-control" Text="&nbsp;&nbsp;Comissária"></asp:CheckBox>
                                             </div>
                                         </div>
 
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbAgente" runat="server" AutoPostBack="true" CssClass="form-control" Text="&nbsp;&nbsp;NVOCC"></asp:CheckBox>
 
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                     </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbAgenteInternacional" runat="server" CssClass="form-control" Text="&nbsp;Agente Internacional"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbIndicador" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Indicador"></asp:CheckBox>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
+                                   
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbArmazemAtracacao" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Armazém de Atracação"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbArmazemDesembaraco" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Armazém de Desembaraço"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbArmazemDescarga" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Armazém de Descarga"></asp:CheckBox>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
+                                    
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbTransportador" runat="server" CssClass="form-control" Text="&nbsp;Transportador"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbPrestador" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Prestador"></asp:CheckBox>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbEquipeInsideSales" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Equipe Inside Sales"></asp:CheckBox>
                                             </div>
@@ -539,38 +539,36 @@
 
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbVendedor" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Vendedor"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbVendedorDireto" runat="server" CssClass="form-control" Text="&nbsp;Vendedor Direto"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbShipper" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Shipper"></asp:CheckBox>
                                             </div>
                                         </div>
-
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbCNEE" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;CNEE"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                         </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbTranspRodoviario" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Transp. Rodoviário"></asp:CheckBox>
                                             </div>
                                         </div>
                                         <div id="divDadosBancarios" class="divDadosBancarios" style="display: none" runat="server">
 
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <div class="form-group">
                                                         <asp:Button ID="btnDadodBancariosAgente" runat="server" CssClass="btn btn-primary btn-block" Text="Cadastrar Dados Bancarios do Agente" OnClientClick="DadoBancarios()" />
@@ -582,7 +580,7 @@
                                     </div>
                                     <div id="divVendedor" class="divVendedor" style="display: none" runat="server">
                                         <div class="row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">Vendedor:</label><label id="lblRed2" runat="server" visible="false" style="color: red">*</label>
                                                     <asp:DropDownList ID="ddlVendedor" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsVendedor" DataValueField="ID_PARCEIRO">
@@ -593,11 +591,27 @@
                                         </div>
                                     </div>
 
+                                     <div class="row">
 
+                                        <div class="col-sm-3 col-sm-offset-6">
+                                            <div class="form-group">
+                                                <label>&nbsp;</label>
+                                                <asp:Button ID="btnLimpar" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>&nbsp;</label>
+                                                <asp:Button ID="btnGravar" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="ckbAgenteInternacional" />
                                     <asp:PostBackTrigger ControlID="btnConsultaCNPJ" />
+                                    <asp:PostBackTrigger ControlID="btnGravar" />
                                 </Triggers>
                             </asp:UpdatePanel>
 
@@ -620,11 +634,11 @@
                                     </ul>
                                     <br />
                                     <div class="tab-content">
-                                        <div class="alert alert-success" id="divSuccesgrid" runat="server" visible="false">
-                                            <asp:Label runat="server" ID="lblSuccesgrid" />
+                                         <div class="alert alert-success" id="divSuccessContato" runat="server" visible="false">
+                                            <asp:Label runat="server" ID="lblSuccessContato" />
                                         </div>
-                                        <div class="alert alert-danger" id="divErrogrid" runat="server" visible="false">
-                                            <asp:Label runat="server" ID="lblErrogrid" />
+                                        <div class="alert alert-danger" id="divErroContato" runat="server" visible="false">
+                                            <asp:Label runat="server" ID="lblErroContato" />
                                         </div>
                                         <div class="tab-pane fade active in" id="detalhesContato">
                                             <div class="row">
@@ -668,7 +682,7 @@
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
-                                                        <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarContato" Visible="false" Text="Salvar Contato" />
+                                                        <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarContato" Text="Salvar Contato" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -708,35 +722,45 @@
                         </div>
 
                         <div class="tab-pane fade" id="email">
+
+  <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="TRUE">
+                                        <ContentTemplate> 
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="active">
-                                    <a href="#detalhes" role="tab" data-toggle="tab">
+                                    <a href="#detalhesEvento" role="tab" data-toggle="tab">
                                         <i class="fa fa-edit" style="padding-right: 8px;"></i>Detalhes
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#lista" role="tab" data-toggle="tab">
+                                    <a href="#listaEvento" role="tab" data-toggle="tab">
                                         <i class="fa fa-search" style="padding-right: 8px;"></i>Lista
                                     </a>
                                 </li>
                             </ul>
                             <br />
-                            <div class="tab-content">
-                                <div class="tab-pane fade active in" id="detalhes">
-                                    <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="TRUE">
-                                        <ContentTemplate>
+                         
+                                            <div class="tab-content">
+                                 <div class="alert alert-success" id="divSuccessEvento" runat="server" visible="false">
+                                            <asp:Label runat="server" ID="lblSuccessEvento" />
+                                        </div>
+                                        <div class="alert alert-danger" id="divErroEvento" runat="server" visible="false">
+                                            <asp:Label runat="server" ID="lblErroEvento" />
+                                        </div>
+                                <div class="tab-pane fade active in" id="detalhesEvento">
+                                    
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Evento:</label>
-                                                        <asp:DropDownList ID="ddlEvento" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="True" DataTextField="NMTIPOAVISO" DataSourceID="dsEventos" DataValueField="IDTIPOAVISO">
+                                                        <asp:TextBox ID="txtIdEvento" runat="server" CssClass="form-control" style="display:none"></asp:TextBox>
+                                                        <asp:DropDownList ID="ddlEvento" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NMTIPOAVISO" DataSourceID="dsEventos" DataValueField="IDTIPOAVISO">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Porto:</label>
-                                                        <asp:DropDownList ID="ddlPorto" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="True" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
+                                                        <asp:DropDownList ID="ddlPorto" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -756,50 +780,54 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                        </ContentTemplate>
-                                        <Triggers>
-                                            <asp:AsyncPostBackTrigger ControlID="ddlEvento" />
-                                        </Triggers>
-                                    </asp:UpdatePanel>
-                                    <div class="row">
-
-                                        <div class="col-sm-3 col-sm-offset-6">
-                                            <div class="form-group">
-                                                <label>&nbsp;</label>
-                                                <asp:Button ID="btnLimpar" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
+                                             <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarEvento" Visible="true" Text="Salvar Evento" />
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                                <label>&nbsp;</label>
-                                                <asp:Button ID="btnGravar" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
-                                            </div>
-                                        </div>
-                                    </div>
+                                         
+                                   
 
 
                                 </div>
-                                <div class="tab-pane fade" id="lista">
+                                <div class="tab-pane fade" id="listaEvento">
                                     <br />
                                     <div class="table-responsive tableFixHead">
-                                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                                            <ContentTemplate>
-                                                <asp:GridView ID="dgvEmailvento" DataKeyNames="Id" DataSourceID="dsEmailvento" EmptyDataText="Esse parceiro não possui email cadastrado." CssClass="table table-hover table-sm grdViewTable" GridLines="None" Style="max-height: 600px; overflow: auto;" AllowSorting="true" OnSorting="dgvEmailvento_Sorting" CellSpacing="-1" runat="server" AutoGenerateColumns="false">
+                                 
+                                                <asp:GridView ID="dgvEmailEvento" DataKeyNames="Id" DataSourceID="dsEmailvento" EmptyDataText="Esse parceiro não possui email cadastrado." CssClass="table table-hover table-sm grdViewTable" GridLines="None" Style="max-height: 600px; overflow: auto;" AllowSorting="true" OnSorting="dgvEmailEvento_Sorting" CellSpacing="-1" runat="server" AutoGenerateColumns="false">
                                                     <Columns>
                                                         <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" />
                                                         <asp:BoundField DataField="NMTIPOAVISO" HeaderText="Tipo de Aviso" SortExpression="NMTIPOAVISO" />
                                                         <asp:BoundField DataField="NM_PORTO" HeaderText="Terminal" SortExpression="NM_PORTO" />
                                                         <asp:BoundField DataField="NM_RAZAO" HeaderText="Parceiro" SortExpression="NM_RAZAO" />
                                                         <asp:BoundField DataField="ENDERECOS" HeaderText="Emails" SortExpression="ENDERECOS" />
-
+                                                         <asp:TemplateField HeaderText="">
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CommandName="Editar" CommandArgument='<%# Eval("Id") %>'
+                                                                Text="Editar" CssClass="btn btn-info btn-sm"><span class="glyphicon glyphicon-edit"  style="font-size:medium" ></span></asp:LinkButton>
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="">
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="Delete"
+                                                                Text="Excluir" OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')" CssClass="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
                                                     </Columns>
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>
-                                            </ContentTemplate>
+                                    
+                                        </div>
+                                    </div>
+                               </div>
+                                                </ContentTemplate>
                                             <Triggers>
-                                                <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvEmailvento" />
+                                                <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvEmailEvento" />
+                                                <asp:AsyncPostBackTrigger EventName="Rowcommand" ControlID="dgvEmailEvento" />
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </div>
@@ -810,8 +838,7 @@
 
                     </div>
                 </div>
-            </div>
-        </div>
+ 
 
         <asp:SqlDataSource ID="dsCidades" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
             SelectCommand="SELECT ID_CIDADE,upper( NM_CIDADE) + ' - ' + (SELECT SIGLA_ESTADO FROM TB_ESTADO B WHERE B.ID_ESTADO = A.ID_ESTADO) AS NM_CIDADE FROM [dbo].[TB_CIDADE] A  union SELECT  0 as Id, '  Selecione' as Descricao FROM [dbo].[TB_CIDADE] A Order by NM_CIDADE"></asp:SqlDataSource>
@@ -840,7 +867,11 @@ union SELECT  0, '  Selecione' ORDER BY NM_RAZAO">
 [TB_AMR_PESSOA_EVENTO] A
 LEFT JOIN TB_PORTO B ON A.ID_TERMINAL = B.ID_PORTO
 LEFT  JOIN TB_TIPOAVISO C ON C.IDTIPOAVISO = ID_EVENTO
-LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
+LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID"
+                         DeleteCommand="DELETE FROM [dbo].[TB_AMR_PESSOA_EVENTO] WHERE ID = @ID">
+             <DeleteParameters>
+                <asp:Parameter Name="ID" Type="Int32" />
+            </DeleteParameters>
             <SelectParameters>
                 <asp:ControlParameter Name="ID" Type="Int32" ControlID="txtID" DefaultValue="0" />
             </SelectParameters>
@@ -899,6 +930,11 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
         function EditaContato() {
             console.log("detalhesContato");
             $('.nav-tabs a[href="#detalhesContato"]').tab('show');
+        }
+
+        function EditaEvento() {
+            console.log("detalhesEvento");
+            $('.nav-tabs a[href="#detalhesEvento"]').tab('show');
         }
     </script>
 </asp:Content>

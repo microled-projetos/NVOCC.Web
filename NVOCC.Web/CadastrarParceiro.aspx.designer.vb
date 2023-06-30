@@ -446,24 +446,6 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtAliquotaISS As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtAliquotaPIS.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtAliquotaPIS As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtAliquotaCOFINS.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtAliquotaCOFINS As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle ckbISS.
     '''</summary>
     '''<remarks>
@@ -473,6 +455,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ckbISS As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''Controle txtAliquotaPIS.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtAliquotaPIS As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ckbPIS.
     '''</summary>
     '''<remarks>
@@ -480,6 +471,15 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ckbPIS As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle txtAliquotaCOFINS.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtAliquotaCOFINS As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ckbCOFINS.
@@ -869,6 +869,24 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlVendedor As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle btnLimpar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnLimpar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnGravar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnGravar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle UpdatePanel5.
     '''</summary>
     '''<remarks>
@@ -878,40 +896,40 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents UpdatePanel5 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
-    '''Controle divSuccesgrid.
+    '''Controle divSuccessContato.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents divSuccesgrid As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents divSuccessContato As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle lblSuccesgrid.
+    '''Controle lblSuccessContato.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblSuccesgrid As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblSuccessContato As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle divErrogrid.
+    '''Controle divErroContato.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents divErrogrid As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents divErroContato As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle lblErrogrid.
+    '''Controle lblErroContato.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblErrogrid As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblErroContato As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle txtIDContato.
@@ -995,6 +1013,51 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents updPainel1 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle divSuccessEvento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divSuccessEvento As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblSuccessEvento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblSuccessEvento As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divErroEvento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroEvento As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroEvento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroEvento As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtIdEvento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIdEvento As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlEvento.
     '''</summary>
     '''<remarks>
@@ -1031,40 +1094,22 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ckbReplica As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
-    '''Controle btnLimpar.
+    '''Controle btnSalvarEvento.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnLimpar As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnSalvarEvento As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnGravar.
+    '''Controle dgvEmailEvento.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnGravar As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle UpdatePanel1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents UpdatePanel1 As Global.System.Web.UI.UpdatePanel
-
-    '''<summary>
-    '''Controle dgvEmailvento.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dgvEmailvento As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvEmailEvento As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle dsCidades.
