@@ -59,10 +59,10 @@ ID_PARCEIRO_IMPORTADOR,
             '    Con.ExecutarQuery("UPDATE TB_BL SET ID_PARCEIRO_EXPORTADOR = " & dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR").ToString & " WHERE ID_BL = " & ID_BL)
             'End If
 
-            'CHAMADO 9385
-            'If dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR").ToString Then
-            '    Con.ExecutarQuery("UPDATE TB_BL SET ID_PARCEIRO_IMPORTADOR = " & dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR").ToString & " WHERE ID_BL = " & ID_BL)
-            'End If
+            'CHAMADO 9385/1538
+            If dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR").ToString Then
+                Con.ExecutarQuery("UPDATE TB_BL SET ID_PARCEIRO_IMPORTADOR = " & dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR").ToString & " WHERE ID_BL = " & ID_BL)
+            End If
 
             If dsCotacao.Tables(0).Rows(0).Item("VL_CARGA").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_CARGA").ToString Then
                 Con.ExecutarQuery("UPDATE TB_BL SET VL_CARGA = " & dsCotacao.Tables(0).Rows(0).Item("VL_CARGA").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL)
@@ -71,6 +71,7 @@ ID_PARCEIRO_IMPORTADOR,
             'If dsCotacao.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString Then
             '    Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & dsCotacao.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString.Replace(",", ".") & " WHERE ID_BL = " & ID_BL)
             'End If
+
             If dsCotacao.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString <> dsProcesso.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString Then
                 If RefTaxado <> "" Then
                     If RefTaxado <> dsCotacao.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString Then

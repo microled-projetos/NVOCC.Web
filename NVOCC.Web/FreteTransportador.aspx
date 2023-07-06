@@ -18,7 +18,7 @@
    
           #doublescroll {
             overflow: auto;
-            overflow-y: hidden;
+            /*overflow-y: hidden;*/
         }
 
         #doublescroll p {
@@ -41,14 +41,14 @@
         </style>
     <div class="row principal">
 
-        <div class="col-lg-12 col-md-12 table-responsive">
-            <div class="panel panel-primary">
+        <div class="col-lg-12 col-md-12">
+            <div class="panel panel-primary" style="height:90vh !important;">
                 <div class="panel-heading">
                     <h3 class="panel-title">FRETE TRANSPORTADOR
                     </h3>
                 </div>
 
-                <div class="panel-body">
+                <div class="panel-body" style="height:100% !important">
                               
                                  <div class="row" runat="server">
                                     <div class="col-sm-1">
