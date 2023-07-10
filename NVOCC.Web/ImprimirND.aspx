@@ -225,7 +225,13 @@
             <strong>No aguardo do seu contato,&nbsp;<asp:Label ID="lblUsuario" runat="server" /></strong>
             <div style="float: right;">Impresso &nbsp;<asp:Label ID="lblDataImpressao" runat="server" /></div>
         </div>
-
+    <br /><br /><br /><br /><br /><br /><br /><br />
+    <strong>Dados Bancários: <br/>
+    <asp:Label ID="lblAgenciaBancaria" runat="server" /><asp:Label ID="lblContaBancaria" runat="server" /><br/>                                       
+    <asp:Label ID="lblCnpjContaBancaria" runat="server" /><br/>
+    <asp:Label ID="lblRazaoContaBancaria" runat="server" /><br/><br/>
+    <asp:Label ID="lblPix" runat="server" /><br/>
+  </strong> 
 
     </div>
     </form>

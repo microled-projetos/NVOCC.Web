@@ -327,4 +327,49 @@ Partial Public Class ImprimirND
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblDataImpressao As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblAgenciaBancaria.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblAgenciaBancaria As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblContaBancaria.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblContaBancaria As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblCnpjContaBancaria.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCnpjContaBancaria As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblRazaoContaBancaria.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblRazaoContaBancaria As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblPix.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblPix As Global.System.Web.UI.WebControls.Label
 End Class
