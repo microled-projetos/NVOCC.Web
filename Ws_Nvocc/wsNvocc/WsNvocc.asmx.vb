@@ -1583,6 +1583,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
         Dim retData As String
         Dim retRps As String
         Dim retCompetencia As String
+        Dim retDataCompetencia As String
         Dim codVerificacao As String
         Dim retCodErro As String
         Dim ConteudoArquixoXML As String
@@ -1689,81 +1690,6 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     End Try
                 End Try
 
-            ElseIf tipo = "CONSULTA-RPS-" Then
-                Retorno = client.ConsultarNfsePorRpsV3(docCab.InnerXml, Funcoes.tiraCaracEspXML(objXML.InnerXml))
-
-                nomeArq = Funcoes.diretorioConRPSRet & "NFsE_Consulta_RPS_" & Format(loteNumero, "00000000") & "_ret.xml"
-                docRetorno.LoadXml(Retorno)
-                docRetorno.Save(nomeArq)
-
-                docRetorno.Load(nomeArq)
-                Try
-
-                    uri = docRetorno.GetElementsByTagName("ns4:InfNfse")
-                    retNFSE = uri(0)("ns4:Numero").InnerText
-                    retData = uri(0)("ns4:DataEmissao").InnerText
-                    retCompetencia = Format(CDate(uri(0)("ns4:Competencia").InnerText), "yyyyMM")
-                    codVerificacao = uri(0)("ns4:CodigoVerificacao").InnerText
-
-                    uri = docRetorno.GetElementsByTagName("ns4:IdentificacaoRps")
-                    retRps = uri(0)("ns4:Numero").InnerText
-
-
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 2"
-                    sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " , DT_NOTA_FISCAL =CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103) "
-                    sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
-                    sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
-                    sSql = sSql & " WHERE ID_FATURAMENTO = (SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
-                    Con.ExecutarQuery(sSql)
-
-
-
-
-                    sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_LOTE = GETDATE(), CRITICA = NULL WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
-                    sSql = sSql & " AND DT_RETORNO_LOTE IS NULL "
-                    Con.ExecutarQuery(sSql)
-
-
-                Catch ex As Exception
-                    Err.Clear()
-
-                    Try
-                        uri = docRetorno.GetElementsByTagName("ns4:MensagemRetorno")
-                        retNFSE = uri(0)("ns4:Mensagem").InnerText
-                        retCodErro = uri(0)("ns4:Codigo").InnerText
-
-                        GRAVAERRO(0, loteNumero, retCodErro & " - " & retNFSE)
-
-                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
-                        sSql = sSql & " WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
-                        Con.ExecutarQuery(sSql)
-
-
-                        If retCodErro = "A02" Then
-                            GoTo saida
-                        End If
-
-                        If retCodErro = "E4" Then
-                            sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
-                            Con.ExecutarQuery(sSql)
-                            GoTo saida
-                        End If
-
-
-
-                        sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = NULL"
-                        sSql = sSql & " , CRITICA ='" & retCodErro & " - " & Mid(retNFSE, 1, 1980) & "' "
-                        sSql = sSql & " WHERE ID_FATURAMENTO = (SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
-                        Con.ExecutarQuery(sSql)
-
-
-                    Catch ex1 As Exception
-                        Err.Clear()
-                    End Try
-
-                End Try
-
 
             ElseIf tipo = "CONSULTA-RPS" Then
 
@@ -1783,6 +1709,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     retNFSE = uri(0)("ns4:Numero").InnerText
                     retData = uri(0)("ns4:DataEmissao").InnerText
                     retCompetencia = Format(CDate(uri(0)("ns4:Competencia").InnerText), "yyyyMM")
+                    retDataCompetencia = Format(CDate(uri(0)("ns4:Competencia").InnerText), "dd/MM/yyyy")
                     codVerificacao = uri(0)("ns4:CodigoVerificacao").InnerText
 
                     uri = docRetorno.GetElementsByTagName("ns4:IdentificacaoRps")
@@ -1793,6 +1720,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
                     sSql = sSql & " , DT_NOTA_FISCAL = CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103) "
                     sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
+                    sSql = sSql & " , DT_COMPETENCIA ='" & retDataCompetencia & "' "
                     sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
                     sSql = sSql & " WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                     Con.ExecutarQuery(sSql)
