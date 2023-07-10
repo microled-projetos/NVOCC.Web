@@ -250,16 +250,16 @@ WHERE ID_MOEDA_FRETE = " & Request.QueryString("id"))
 
         Dim sql As String = ""
         If ddlConsultas.SelectedValue = 1 And txtPesquisa.Text <> "" Then
-            sql = "SELECT A.ID_MOEDA_FRETE as Id, A.ID_MOEDA,B.NM_MOEDA, A.DT_CAMBIO, A.VL_TXOFICIAL 
+            sql = "SELECT TOP 300 A.ID_MOEDA_FRETE as Id, A.ID_MOEDA,B.NM_MOEDA, A.DT_CAMBIO, A.VL_TXOFICIAL 
 FROM [dbo].[TB_MOEDA_FRETE] A 
 LEFT JOIN TB_MOEDA B ON B.ID_MOEDA = A.ID_MOEDA WHERE  B.NM_MOEDA LIKE '%" & txtPesquisa.Text & "%'"
 
         ElseIf ddlConsultas.SelectedValue = 2 And txtPesquisa.Text <> "" Then
-            sql = "SELECT A.ID_MOEDA_FRETE as Id, A.ID_MOEDA,B.NM_MOEDA, A.DT_CAMBIO, A.VL_TXOFICIAL 
+            sql = "SELECT TOP 300 A.ID_MOEDA_FRETE as Id, A.ID_MOEDA,B.NM_MOEDA, A.DT_CAMBIO, A.VL_TXOFICIAL 
 FROM [dbo].[TB_MOEDA_FRETE] A 
 LEFT JOIN TB_MOEDA B ON B.ID_MOEDA = A.ID_MOEDA WHERE  Convert(date, DT_CAMBIO,103) = Convert(date, '" & txtPesquisa.Text & "',103)"
         Else
-            sql = "SELECT A.ID_MOEDA_FRETE as Id, A.ID_MOEDA,B.NM_MOEDA, A.DT_CAMBIO, A.VL_TXOFICIAL 
+            sql = "SELECT TOP 300 A.ID_MOEDA_FRETE as Id, A.ID_MOEDA,B.NM_MOEDA, A.DT_CAMBIO, A.VL_TXOFICIAL 
 From [dbo].[TB_MOEDA_FRETE] A 
 Left Join TB_MOEDA B ON B.ID_MOEDA = A.ID_MOEDA"
         End If
