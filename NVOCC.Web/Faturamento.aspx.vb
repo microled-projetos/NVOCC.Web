@@ -1361,7 +1361,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
             If txtConsultaPagamentoFim.Text <> "" Then
                 'filtro
                 ' filtro &= " AND CONVERT(DATE,DT_NOTA_FISCAL,103) BETWEEN CONVERT(DATE,'" & txtConsultaPagamentoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaPagamentoFim.Text & "',103) "
-                filtro &= " AND CONVERT(DATE,DT_COMPETENCIA,103) BETWEEN CONVERT(DATE,'" & txtConsultaPagamentoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaPagamentoFim.Text & "',103) "
+                filtro &= " AND CONVERT(DATE,DT_NF_COMPETENCIA,103) BETWEEN CONVERT(DATE,'" & txtConsultaPagamentoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaPagamentoFim.Text & "',103) "
 
             Else
                 'msg erro

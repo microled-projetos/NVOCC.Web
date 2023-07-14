@@ -335,11 +335,13 @@
                             result += "</tr>";
                             if (dado[i]["TIPO"].toString() == "PAGO") {
                                 if (dado[i]["TOTAL"] != "") {
-                                    liqpag = parseFloat(liqpag) + parseFloat(dado[i]["TOTAL"]);
+                                    // liqpag = parseFloat(liqpag) + parseFloat(dado[i]["TOTAL"]);
+                                    liqpag = parseFloat(liqpag) + parseFloat(dado[i]["VALOR_BR"]);
                                 }
                             } else {
                                 if (dado[i]["VALOR_BR"] != "") {
-                                    liqrec = parseFloat(liqrec) + parseFloat(dado[i]["TOTAL"]);
+                                    // liqrec = parseFloat(liqrec) + parseFloat(dado[i]["TOTAL"]);
+                                    liqrec = parseFloat(liqrec) + parseFloat(dado[i]["VALOR_BR"]);
                                 }
                             }
                         }
