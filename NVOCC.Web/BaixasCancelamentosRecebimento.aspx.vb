@@ -184,7 +184,7 @@
         lblFaturaBaixa.Text = ""
         lblClienteBaixa.Text = ""
         txtProcessoBaixa.Text = ""
-
+        Dim contador = 0
         For Each linha As GridViewRow In dgvTaxasReceber.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
@@ -205,6 +205,13 @@
             Dim btnBloquearDocumental As ImageButton = CType(linha.FindControl("btnBloquearDocumental"), ImageButton)
 
             If check.Checked Then
+                contador = contador + 1
+                If contador > 1 Then
+                    'check.Checked = False
+                    ' txtValorLiquidadoBaixa.Text = txtValorBaixa.Text
+                    ' ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "VariosProcessosSelecionados()", True)
+                    'Exit Sub
+                End If
                 txtID.Text = ID
                 lblProcessoCancelamento.Text &= "Nº Processo: " & Processo & "<br/>"
                 lblClienteCancelamento.Text &= "Fornecedor: " & Parceiro & "<br/>"
@@ -222,7 +229,11 @@
 
                 lblProcessoCambio.Text &= "Nº Processo: " & Processo & "<br/>"
                 lblClienteCambio.Text &= "Fornecedor: " & Parceiro & "<br/>"
+
             End If
+
+
+
 
             If ID_PARCEIRO_ARMAZEM_DESCARGA = 74 Then
 
@@ -258,7 +269,10 @@
 
             End If
         Next
-
+        If contador = 0 Then
+            txtValorLiquidadoBaixa.Text = "R$ 0,00"
+            txtValorBaixa.Text = "R$ 0,00"
+        End If
         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
     End Sub
     Sub Filtro()
@@ -729,6 +743,7 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
                     Exit Sub
                 Else
                     Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = NULL , ID_USUARIO_LIQUIDACAO = NULL WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+                    Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] SET [VL_LIQUIDO] = [VL_LANCAMENTO] , [VL_DIFERENCA] = NULL WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
                 End If
 
             End If

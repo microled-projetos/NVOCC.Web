@@ -5,6 +5,7 @@ Imports System.ComponentModel
 Imports Oracle.ManagedDataAccess.Client
 Imports System.Data.OleDb
 Imports RestSharp
+Imports Newtonsoft.Json
 
 
 ' Para permitir que esse serviço da web seja chamado a partir do script, usando ASP.NET AJAX, remova os comentários da linha a seguir.
@@ -2045,4 +2046,25 @@ saida:
 
     End Function
 
+
+    'INTEGRACAO TESTE
+    <WebMethod()>
+    Public Function ConsultaCotacaoParceiro(ByVal ID As String, ByVal Inicio As String, ByVal Fim As String)
+        Con.Conectar()
+        Dim retorno As String = ""
+        Dim Lista = New List(Of CotacaoParceiro)()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT * FROM [FN_COTACAO_PARCEIRO](" & ID & ",'" & Inicio & "','" & Fim & "')")
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            Dim CotacaoParceiro As New CotacaoParceiro(ds.Tables(0).Rows(0)("ID_PARCEIRO").ToString(), ds.Tables(0).Rows(0)("NM_RAZAO").ToString(), ds.Tables(0).Rows(0)("CPF").ToString(), ds.Tables(0).Rows(0)("CNPJ").ToString(), ds.Tables(0).Rows(0)("STATUS").ToString(), ds.Tables(0).Rows(0)("TOTAL_COTACAO").ToString())
+
+            Lista.Add(CotacaoParceiro)
+            Dim content As New content(Lista)
+            retorno = JsonConvert.SerializeObject(content)
+        End If
+
+
+        Return retorno
+
+    End Function
 End Class

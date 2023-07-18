@@ -369,6 +369,13 @@
             document.body.style.cursor = "default";
         };
 
+        function VariosProcessosSelecionados() {
+            console.log("default");
+            document.body.style.cursor = "default";
+            alert('Não é permitida a seleção de mais de um processo!');
+
+        };
+
         function SalvaPosicaoRecebimento() {
             MouseWait();
             <%--var posicao = document.getElementById('DivGridReceber').scrollTop;
@@ -419,8 +426,10 @@
 
 
                 if (Math.abs(parseFloat(Diferenca)) > Math.abs(parseFloat(LimiteBaixa))) {
+
                     alert('Você ultrapassou os limites de valores para esse campo. Favor inserir valores em até R$ ' + LimiteBaixa + ' do valor original!');
-                    btn.disabled = true;
+                        btn.disabled = true;
+                    
                 }
                 else {
                     btn.disabled = false;
