@@ -1731,7 +1731,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
                     sSql = sSql & " , DT_NOTA_FISCAL = CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103) "
                     sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
-                    sSql = sSql & " , DT_COMPETENCIA ='" & retDataCompetencia & "' "
+                    sSql = sSql & " , DT_COMPETENCIA =CONVERT(DATETIME,'" & retDataCompetencia & "',103)  "
                     sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
                     sSql = sSql & " WHERE ID_FATURAMENTO = (SELECT ID_FATURAMENTO FROM TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                     Con.ExecutarQuery(sSql)

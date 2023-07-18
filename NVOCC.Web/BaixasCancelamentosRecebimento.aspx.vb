@@ -184,7 +184,8 @@
         lblFaturaBaixa.Text = ""
         lblClienteBaixa.Text = ""
         txtProcessoBaixa.Text = ""
-        Dim contador = 0
+        txtContador.Text = 0
+        txtMsgLimite.Text = 0
         For Each linha As GridViewRow In dgvTaxasReceber.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
@@ -205,13 +206,8 @@
             Dim btnBloquearDocumental As ImageButton = CType(linha.FindControl("btnBloquearDocumental"), ImageButton)
 
             If check.Checked Then
-                contador = contador + 1
-                If contador > 1 Then
-                    'check.Checked = False
-                    ' txtValorLiquidadoBaixa.Text = txtValorBaixa.Text
-                    ' ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "VariosProcessosSelecionados()", True)
-                    'Exit Sub
-                End If
+                txtContador.Text = txtContador.Text + 1
+
                 txtID.Text = ID
                 lblProcessoCancelamento.Text &= "Nº Processo: " & Processo & "<br/>"
                 lblClienteCancelamento.Text &= "Fornecedor: " & Parceiro & "<br/>"
@@ -227,8 +223,16 @@
                     txtValorLiquidadoBaixa.Text = Format(ValorLancamento, "Currency")
                 End If
 
+                If txtContador.Text > 1 Then
+                    'check.Checked = False
+                    txtValorLiquidadoBaixa.Text = txtValorBaixa.Text
+                    ' ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "VariosProcessosSelecionados()", True)
+                    'Exit Sub
+                End If
+
                 lblProcessoCambio.Text &= "Nº Processo: " & Processo & "<br/>"
                 lblClienteCambio.Text &= "Fornecedor: " & Parceiro & "<br/>"
+
 
             End If
 
@@ -269,10 +273,11 @@
 
             End If
         Next
-        If contador = 0 Then
-            txtValorLiquidadoBaixa.Text = "R$ 0,00"
-            txtValorBaixa.Text = "R$ 0,00"
-        End If
+
+        'If txtContador.Text = 0 Then
+        '    txtValorLiquidadoBaixa.Text = "R$ 0,00"
+        '    txtValorBaixa.Text = "R$ 0,00"
+        ' End If
         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
     End Sub
     Sub Filtro()
@@ -776,6 +781,12 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
         txtDiferencaBaixa.Text = ""
         txtMotivoBaixa.Text = ""
         mpeBaixa.Hide()
+        txtMsgLimite.Text = 0
+    End Sub
+
+    Private Sub btnBaixar_Click(sender As Object, e As EventArgs) Handles btnBaixar.Click
+        txtMsgLimite.Text = 1
+        mpeBaixa.Show()
     End Sub
 
     'Private Sub txtValorLiquidadoBaixa_TextChanged(sender As Object, e As EventArgs) Handles txtValorLiquidadoBaixa.TextChanged

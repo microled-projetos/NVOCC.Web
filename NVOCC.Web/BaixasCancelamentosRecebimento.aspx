@@ -35,10 +35,11 @@
                         <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                             <ContentTemplate>
                                 <asp:TextBox ID="txtID" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
-                                <asp:TextBox ID="txtID_BL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
-                                <asp:TextBox ID="txtLinhaBL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
+<%--                                <asp:TextBox ID="txtID_BL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>--%>
+                                <asp:TextBox ID="txtMsgLimite" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtItemDespesa" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtLimiteBaixa" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
+                                <asp:TextBox ID="txtContador" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
 
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblSuccess" runat="server"></asp:Label>
@@ -214,9 +215,9 @@
       
                                        </div>     </center>
                                 </asp:Panel>
-
+                                <asp:Button runat="server" CssClass="btn btn-success" ID="Button3" text="" Style="display:none" />
                                  <asp:Button runat="server" CssClass="btn btn-success" ID="Button2" text="" Style="display:none" />
-                                <ajaxToolkit:ModalPopupExtender ID="mpeBaixa" runat="server" PopupControlID="Panel2" TargetControlID="btnBaixar" CancelControlID="Button2"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeBaixa" runat="server" PopupControlID="Panel2" TargetControlID="Button3" CancelControlID="Button2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" >
@@ -410,26 +411,25 @@
         function CalculaDiferenca() {
             var btn = document.getElementById('<%= btnSalvarBaixa.ClientID %>');
             var LimiteBaixa = document.getElementById('<%= txtLimiteBaixa.ClientID %>').value;
+            var MsgLimite = document.getElementById('<%= txtMsgLimite.ClientID %>').value;
             var Valor = document.getElementById('<%= txtValorLiquidadoBaixa.ClientID %>').value.replace('R$', "");
             if (Valor != null) {
-
+ 
                 var ValorFormatado = Valor;
                 ValorFormatado = ValorFormatado.replace('.', "").replace(',', ".");
                 ValorFormatado = Number(ValorFormatado).toFixed(2);
                 ValorFormatado = parseFloat(ValorFormatado);
                 ValorFormatado = ValorFormatado.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
- 
 
                 var Liquidado = document.getElementById('<%= txtValorBaixa.ClientID %>').value.replace('R$', "");
 
                 var Diferenca = parseFloat(Valor.replace('.', "").replace(',', ".")) - parseFloat(Liquidado.replace('.', "").replace(',', "."))
 
-
                 if (Math.abs(parseFloat(Diferenca)) > Math.abs(parseFloat(LimiteBaixa))) {
-
-                    alert('Você ultrapassou os limites de valores para esse campo. Favor inserir valores em até R$ ' + LimiteBaixa + ' do valor original!');
+                     if (MsgLimite == 1) {
+                     alert('Você ultrapassou os limites de valores para esse campo. Favor inserir valores em até R$ ' + LimiteBaixa + ' do valor original!');
                         btn.disabled = true;
-                    
+                     }
                 }
                 else {
                     btn.disabled = false;

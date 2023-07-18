@@ -32,22 +32,13 @@ Partial Public Class BaixasCancelamentosRecebimento
     Protected WithEvents txtID As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtID_BL.
+    '''Controle txtMsgLimite.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtID_BL As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtLinhaBL.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtLinhaBL As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtMsgLimite As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtItemDespesa.
@@ -66,6 +57,15 @@ Partial Public Class BaixasCancelamentosRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtLimiteBaixa As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtContador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtContador As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle divSuccess.
@@ -273,6 +273,15 @@ Partial Public Class BaixasCancelamentosRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnSalvarCancelamento As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle Button3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button3 As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle Button2.
