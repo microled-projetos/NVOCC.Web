@@ -59,15 +59,6 @@ Partial Public Class BaixasCancelamentosRecebimento
     Protected WithEvents txtLimiteBaixa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtContador.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtContador As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle divSuccess.
     '''</summary>
     '''<remarks>
@@ -221,15 +212,6 @@ Partial Public Class BaixasCancelamentosRecebimento
     Protected WithEvents Panel1 As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle lblFaturaCancelamento.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblFaturaCancelamento As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Controle lblProcessoCancelamento.
     '''</summary>
     '''<remarks>
@@ -309,15 +291,6 @@ Partial Public Class BaixasCancelamentosRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents Panel2 As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''Controle lblFaturaBaixa.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblFaturaBaixa As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblClienteBaixa.
@@ -435,15 +408,6 @@ Partial Public Class BaixasCancelamentosRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblProcessoCambio As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblFaturaCambio.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblFaturaCambio As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblClienteCambio.

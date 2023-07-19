@@ -39,7 +39,7 @@
                                 <asp:TextBox ID="txtMsgLimite" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtItemDespesa" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtLimiteBaixa" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
-                                <asp:TextBox ID="txtContador" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
+<%--                                <asp:TextBox ID="txtContador" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>--%>
 
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblSuccess" runat="server"></asp:Label>
@@ -48,7 +48,6 @@
                                     <asp:Label ID="lblErro" runat="server"></asp:Label>
                                 </div>
                                 <br />
-
 
                                 <div class="row linhabotao text-center" style="margin-left: 20px; margin-right: 20px; border: ridge 1px;">
 
@@ -194,7 +193,7 @@
                                                         </div>
                                                         <div class="modal-body">    
                                    
-                                            <h5><asp:label runat="server" ID="lblFaturaCancelamento" />                       
+                                            <h5>              
                                             <asp:label runat="server" ID="lblProcessoCancelamento" />
                                             <asp:label runat="server" ID="lblClienteCancelamento" /></h5>
                         
@@ -226,7 +225,6 @@
                                                         </div>
                                                         <div class="modal-body">                                       
                                             <h5>
-                                                <asp:label runat="server" ID="lblFaturaBaixa"  />
                                              <asp:label runat="server" ID="lblClienteBaixa" /></h5>
                         
                                         <div class="row">
@@ -252,7 +250,6 @@
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">Acréscimo/Decréscimo:</label>
                                             <asp:TextBox ID="txtDiferencaBaixa" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
-<%--                                              <asp:label runat="server" ID="lblDescontoAcrescimoBaixa" Style="display: none" />--%>
                                         </div>
                                     </div>
                                             <div class="col-sm-3">
@@ -294,7 +291,6 @@
                                                         <div class="modal-body">                                       
                                             <h5>
                                                 <asp:label runat="server" ID="lblProcessoCambio"  />
-                                                <asp:label runat="server" ID="lblFaturaCambio"  />                                          
                                             <asp:label runat="server" ID="lblClienteCambio" /></h5>
                         
                                           

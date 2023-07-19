@@ -172,27 +172,12 @@
 
     Sub CarregaGridReceber()
 
-        Dim Con As New Conexao_sql
-        lblFaturaCambio.Text = ""
-        lblProcessoCambio.Text = ""
-        lblClienteCambio.Text = ""
-
-        lblFaturaCancelamento.Text = ""
-        lblProcessoCancelamento.Text = ""
-        lblClienteCancelamento.Text = ""
-
-        lblFaturaBaixa.Text = ""
-        lblClienteBaixa.Text = ""
-        txtProcessoBaixa.Text = ""
-        txtContador.Text = 0
         txtMsgLimite.Text = 0
+
         For Each linha As GridViewRow In dgvTaxasReceber.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-            Dim Processo As String = CType(linha.FindControl("lblProcesso"), Label).Text
-            Dim Parceiro As String = CType(linha.FindControl("lblFornecedor"), Label).Text
-            Dim ValorLancamento As String = CType(linha.FindControl("lblValorLancamento"), Label).Text
-            Dim Liquidacao As String = CType(linha.FindControl("lblLiquidacao"), Label).Text
+
 
             Dim ID_PARCEIRO_ARMAZEM_DESCARGA As String = CType(linha.FindControl("lblID_PARCEIRO_ARMAZEM_DESCARGA"), Label).Text
 
@@ -206,33 +191,8 @@
             Dim btnBloquearDocumental As ImageButton = CType(linha.FindControl("btnBloquearDocumental"), ImageButton)
 
             If check.Checked Then
-                txtContador.Text = txtContador.Text + 1
 
                 txtID.Text = ID
-                lblProcessoCancelamento.Text &= "Nº Processo: " & Processo & "<br/>"
-                lblClienteCancelamento.Text &= "Fornecedor: " & Parceiro & "<br/>"
-
-                lblClienteBaixa.Text = Parceiro
-                txtProcessoBaixa.Text = Processo
-                If txtDataBaixa.Text = "" Then
-                    txtDataBaixa.Text = Liquidacao
-                End If
-
-                txtValorBaixa.Text = Format(ValorLancamento, "Currency")
-                If txtValorLiquidadoBaixa.Text = "" Or txtValorLiquidadoBaixa.Text = "R$ 0,00" Then
-                    txtValorLiquidadoBaixa.Text = Format(ValorLancamento, "Currency")
-                End If
-
-                If txtContador.Text > 1 Then
-                    'check.Checked = False
-                    txtValorLiquidadoBaixa.Text = txtValorBaixa.Text
-                    ' ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "VariosProcessosSelecionados()", True)
-                    'Exit Sub
-                End If
-
-                lblProcessoCambio.Text &= "Nº Processo: " & Processo & "<br/>"
-                lblClienteCambio.Text &= "Fornecedor: " & Parceiro & "<br/>"
-
 
             End If
 
@@ -274,10 +234,6 @@
             End If
         Next
 
-        'If txtContador.Text = 0 Then
-        '    txtValorLiquidadoBaixa.Text = "R$ 0,00"
-        '    txtValorBaixa.Text = "R$ 0,00"
-        ' End If
         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
     End Sub
     Sub Filtro()
@@ -726,6 +682,7 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
             divErro.Visible = True
             Exit Sub
         ElseIf contador = 1 And rdStatus.SelectedValue = 1 Then
+            CarregaDadosPoupUP()
             btnCambio.Visible = True
 
             dsMoeda.SelectCommand = "SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] WHERE ID_MOEDA in (SELECT DISTINCT ID_MOEDA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & txtID.Text & ") union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"
@@ -766,13 +723,10 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
 
     Private Sub btnFecharBaixa_Click(sender As Object, e As EventArgs) Handles btnFecharBaixa.Click
         txtID.Text = ""
-        lblFaturaCambio.Text = ""
         lblProcessoCambio.Text = ""
         lblClienteCambio.Text = ""
-        lblFaturaCancelamento.Text = ""
         lblProcessoCancelamento.Text = ""
         lblClienteCancelamento.Text = ""
-        lblFaturaBaixa.Text = ""
         lblClienteBaixa.Text = ""
         txtProcessoBaixa.Text = ""
         txtDataBaixa.Text = ""
@@ -785,27 +739,41 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
     End Sub
 
     Private Sub btnBaixar_Click(sender As Object, e As EventArgs) Handles btnBaixar.Click
+        CarregaDadosPoupUP()
+
         txtMsgLimite.Text = 1
         mpeBaixa.Show()
     End Sub
 
-    'Private Sub txtValorLiquidadoBaixa_TextChanged(sender As Object, e As EventArgs) Handles txtValorLiquidadoBaixa.TextChanged
-    '    'If txtValorLiquidadoBaixa.Text <> "" Then
-    '    '    lblDescontoAcrescimoBaixa.Text = FormatNumber(txtValorLiquidadoBaixa.Text - txtValorBaixa.Text)
-    '    '    txtDiferencaBaixa.Text = lblDescontoAcrescimoBaixa.Text
-    '    '    Dim diferenca = txtDiferencaBaixa.Text
-    '    '    txtDiferencaBaixa.Text = Format(txtDiferencaBaixa.Text, "Currency")
-    '    '    If diferenca > txtLimiteBaixa.Text Then
-    '    '        btnSalvarBaixa.Enabled = False
-    '    '        ScriptManager.RegisterClientScriptBlock(Me, [GetType](), "script", "<script>alert('Você ultrapassou os limites de valores para esse campo. Favor inserir valores em até R$ 2,00 do valor original!');</script>", False)
-    '    '    Else
-    '    '        btnSalvarBaixa.Enabled = True
-    '    '    End If
 
-    '    '    txtValorLiquidadoBaixa.Text = Format(txtValorLiquidadoBaixa.Text, "Currency")
-    '    'End If
-    '    mpeBaixa.Show()
+    Sub CarregaDadosPoupUP()
+        lblProcessoCambio.Text = ""
+        lblClienteCambio.Text = ""
+
+        lblProcessoCancelamento.Text = ""
+        lblClienteCancelamento.Text = ""
+
+        lblClienteBaixa.Text = ""
+        txtProcessoBaixa.Text = ""
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER, ID_PARCEIRO_ARMAZEM_DESCARGA, VL_LANCAMENTO, DT_LIQUIDACAO, NR_PROCESSO, NM_PARCEIRO_EMPRESA FROM [DBO].[VIEW_BAIXAS_CANCELAMENTOS_R] WHERE ID_CONTA_PAGAR_RECEBER IN(" & txtID.Text & " )")
+        If ds.Tables(0).Rows.Count > 0 Then
+            lblClienteBaixa.Text = ds.Tables(0).Rows(0).Item("NM_PARCEIRO_EMPRESA").ToString()
+            txtProcessoBaixa.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO").ToString()
+            txtDataBaixa.Text = ds.Tables(0).Rows(0).Item("DT_LIQUIDACAO").ToString()
+            txtValorBaixa.Text = Format(ds.Tables(0).Rows(0).Item("VL_LANCAMENTO").ToString(), "Currency")
+            txtValorLiquidadoBaixa.Text = Format(ds.Tables(0).Rows(0).Item("VL_LANCAMENTO").ToString(), "Currency")
+
+            lblProcessoCancelamento.Text &= "Nº Processo: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO").ToString() & "<br/>"
+            lblClienteCancelamento.Text &= "Fornecedor: " & ds.Tables(0).Rows(0).Item("NM_PARCEIRO_EMPRESA").ToString() & "<br/>"
+
+            lblProcessoCambio.Text &= "Nº Processo: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO").ToString() & "<br/>"
+            lblClienteCambio.Text &= "Fornecedor: " & ds.Tables(0).Rows(0).Item("NM_PARCEIRO_EMPRESA").ToString() & "<br/>"
+        End If
+
+    End Sub
 
 
-    'End Sub
 End Class
