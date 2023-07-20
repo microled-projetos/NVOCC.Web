@@ -17,13 +17,13 @@
       
    
           #doublescroll {
-            overflow: auto;
+            overflow: scroll !important; 
             /*overflow-y: hidden;*/
         }
 
         #doublescroll p {
            margin: 0;
-           padding: 1em;
+           padding: 6em;
            white-space: nowrap;
         }
          .select2-container .select2-selection--single {
@@ -38,17 +38,19 @@
             font-size: 14px !important;
         }
 
+        
+
         </style>
     <div class="row principal">
 
         <div class="col-lg-12 col-md-12">
-            <div class="panel panel-primary" style="height:90vh !important;">
+         <%--   <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">FRETE TRANSPORTADOR
                     </h3>
-                </div>
+                </div>--%>
 
-                <div class="panel-body" style="height:100% !important">
+                <div class="panel-body" >
                               
                                  <div class="row" runat="server">
                                     <div class="col-sm-1">
@@ -132,7 +134,50 @@
                                     </div>
                                 </div>
                             
-                        <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
+                    
+                    
+                        <ajaxToolkit:ModalPopupExtender ID="mpeImprimir" runat="server" PopupControlID="Panel1" TargetControlID="lkExportar" CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Exportar</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                   
+                                  
+                            <div class="row"  style="padding-left:18px">
+                                <div>
+                                   <div class="row">
+                             
+                                        <asp:LinkButton ID="lkExportaTarifario" runat="server" style="font-size:15px">Tarifario Importação</asp:LinkButton><br />
+                                            <a href="TaxasLocaisImpo_PDF.aspx" target="_blank" >Taxas Locais FCL - Impo</a>  <br />                    
+                                       <a href="TaxasLocaisExpo_PDF.aspx" target="_blank"  >Taxas Locais FCL - Expo</a> 
+                                        <br />
+                                       
+                                   </div>      
+                                </div>  
+                             </div>
+                           
+                      
+                                                       
+                                                        </div>                     
+                               <div class="modal-footer">
+                                                            
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar" text="Close" />
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
+
+
+                </div>
+            <%--</div>--%>
+        
+                                <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
                             <ContentTemplate>
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
@@ -145,18 +190,10 @@
 
                                 <asp:TextBox ID="TextBox2"  runat="server"  style="display: none"></asp:TextBox>
 
-                                 <div runat="server" id="divAuxiliar" style="display: none">
-                                    
-                                    <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
-                                    <asp:TextBox ID="txtIDTafifario" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
-                                    <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
-                                    <asp:TextBox ID="txtOrigem" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
-                                    <asp:TextBox ID="txtDestino" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
-                                    <asp:TextBox ID="txtAuxiliarExpandir" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
-                                </div>
+                               
 
                               <%--  <div id="DivGrid" class="table-responsive fixedDoubleHead DivGrid" style="max-height: 500px !important;">--%>
-                                                                <div id="doublescroll" class="table-responsive tableFixHead DivGrid" style="max-height: 550px !important;"> 
+                                  <div id="doublescroll" class="table-responsive" style="background-color:white;max-height: 70vh"> 
                                     <asp:GridView ID="dgvFreteTranportador" DataKeyNames="ID_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable dgvFreteTranportador" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFreteTranportador" AutoGenerateColumns="false" AllowSorting="true" OnSorting="dgvFreteTranportador_Sorting" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="50" ShowFooter="True">
                                         <Columns>
                                             <asp:TemplateField HeaderStyle-ForeColor="#337ab7">
@@ -490,6 +527,17 @@
                                         <PagerStyle CssClass="pagination-ys" HorizontalAlign="Right" />
                                     </asp:GridView>
 
+
+                                    <div runat="server" id="divAuxiliar" style="display: none">
+                                    
+                                    <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                    <asp:TextBox ID="txtIDTafifario" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                    <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                    <asp:TextBox ID="txtOrigem" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                    <asp:TextBox ID="txtDestino" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                    <asp:TextBox ID="txtAuxiliarExpandir" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                </div>
+
                                 </div>
 
 
@@ -730,48 +778,7 @@
                                 
                             </Triggers>
                         </asp:UpdatePanel>
-                    
-                    
-                        <ajaxToolkit:ModalPopupExtender ID="mpeImprimir" runat="server" PopupControlID="Panel1" TargetControlID="lkExportar" CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Exportar</h5>
-                                                        </div>
-                                                        <div class="modal-body">    
-                                                             <br/>
-                                   
-                                  
-                            <div class="row"  style="padding-left:18px">
-                                <div>
-                                   <div class="row">
-                             
-                                        <asp:LinkButton ID="lkExportaTarifario" runat="server" style="font-size:15px">Tarifario Importação</asp:LinkButton><br />
-                                            <a href="TaxasLocaisImpo_PDF.aspx" target="_blank" >Taxas Locais FCL - Impo</a>  <br />                    
-                                       <a href="TaxasLocaisExpo_PDF.aspx" target="_blank"  >Taxas Locais FCL - Expo</a> 
-                                        <br />
-                                       
-                                   </div>      
-                                </div>  
-                             </div>
-                           
-                      
-                                                       
-                                                        </div>                     
-                               <div class="modal-footer">
-                                                            
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar" text="Close" />
-                                                        </div>
-                                                    
-                                                </div>
-      
-                                       </div>     </center>
-                                </asp:Panel>
 
-
-                </div>
-            </div>
         </div>
     </div>
     <asp:SqlDataSource ID="dsFreteTranportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -984,7 +991,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
             var scrollbar = document.createElement('div');
             scrollbar.appendChild(document.createElement('div'));
             scrollbar.style.overflow = 'auto';
-            scrollbar.style.overflowY = 'hidden';
+             scrollbar.style.overflowY = 'auto';
             scrollbar.firstChild.style.width = element.scrollWidth + 'px';
             scrollbar.firstChild.style.paddingTop = '1px';
             scrollbar.firstChild.appendChild(document.createTextNode('\xA0'));

@@ -35,11 +35,9 @@
                         <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                             <ContentTemplate>
                                 <asp:TextBox ID="txtID" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
-<%--                                <asp:TextBox ID="txtID_BL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>--%>
                                 <asp:TextBox ID="txtMsgLimite" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtItemDespesa" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtLimiteBaixa" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
-<%--                                <asp:TextBox ID="txtContador" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>--%>
 
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblSuccess" runat="server"></asp:Label>
