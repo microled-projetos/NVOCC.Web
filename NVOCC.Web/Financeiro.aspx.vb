@@ -53,7 +53,7 @@
 
     End Sub
     Private Sub lkBaixaCancel_Receber_Click(sender As Object, e As EventArgs) Handles lkBaixaCancel_Receber.Click
-        Response.Redirect("BaixasCancelamentos.aspx?t=r")
+        Response.Redirect("BaixasCancelamentosRecebimento.aspx")
     End Sub
 
     Private Sub lkFaturar_Click(sender As Object, e As EventArgs) Handles lkFaturar.Click

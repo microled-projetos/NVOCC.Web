@@ -21,8 +21,7 @@
     <div class="row principal">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">BAIXAS E CANCELAMENTOS -
-                    <asp:Label runat="server" ID="lblTipo" /></h3>
+                <h3 class="panel-title">BAIXAS E CANCELAMENTOS - CONTAS A PAGAR</h3>
             </div>
             <div class="panel-body">
 
@@ -79,8 +78,7 @@
 
                                         <div class="form-group"><br />
                                             <asp:Button runat="server" Text="Gerar CSV" ID="btnCSV" CssClass="btn btn-info" />
-                                            <asp:Button runat="server" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-success" Visible="true" />
-                                            <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-primary" />
+                                             <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-primary" />
                                             <asp:Button runat="server" Text="Cancelar Baixa" ID="btnCancelarBaixa" CssClass="btn btn-warning" OnClientClick="javascript:return confirm('Deseja realmente cancelar a baixa deste registro?');"/>
                                             <asp:Button runat="server" Text="Cancelar Conta Corrente" ID="btnCancelar" CssClass="btn btn-danger" />
                                         </div>
@@ -125,92 +123,14 @@
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="VL_LANCAMENTO" HeaderText="Valor lançamento(R$)" SortExpression="VL_LANCAMENTO" />                                    
                                                 <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
-                                                <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário laçamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
+                                                <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário lançamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
                                                  
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
                                             </div>
                                     </div>
-                                    <div runat="server" id="gridReceber">
-                                        <div class="DivGridReceber table-responsive tableFixHead" id="DivGridReceber">
-                                        <asp:GridView ID="dgvTaxasReceber" DataKeyNames="ID_CONTA_PAGAR_RECEBER" DataSourceID="dsReceber" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
-                                            <Columns>
-                                                <asp:TemplateField HeaderText="ID" Visible="False">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_CONTA_PAGAR_RECEBER") %>' />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField>
-                                                    <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true" OnClick="SalvaPosicaoRecebimento()"/>
-                                                    </ItemTemplate>
-                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Nº Processo" SortExpression="NM_PARCEIRO_EMPRESA">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblProcesso" runat="server" Text='<%# Eval("NR_PROCESSO") %>' />
-                                                        <asp:Label ID="lblID_BL" runat="server" Text='<%# Eval("ID_BL") %>' VISIBLE="false" />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                               <asp:BoundField DataField="NM_TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="NM_TIPO_ESTUFAGEM" />
-
-                                                <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
-                                                <asp:TemplateField HeaderText="Liquidação" SortExpression="Liquidação">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblLiquidacao" runat="server" Text='<%# Eval("DT_LIQUIDACAO") %>' />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                               <asp:BoundField DataField="DT_ENVIO_FATURAMENTO" HeaderText="Envio ao Faturamento" SortExpression="DT_ENVIO_FATURAMENTO" DataFormatString="{0:dd/MM/yyyy}"/>
-                                                <asp:BoundField DataField="NM_TIPO_FATURAMENTO" HeaderText="Tipo de Faturamento" SortExpression="NM_TIPO_FATURAMENTO" />
-                                            <asp:BoundField DataField="QT_DIAS_FATURAMENTO" HeaderText="Qtd. Dias" SortExpression="QT_DIAS_FATURAMENTO" />
-                                                <asp:TemplateField HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblFornecedor" runat="server" Text='<%# Eval("NM_PARCEIRO_EMPRESA") %>' />
-                                                        <asp:Label ID="lblID_PARCEIRO_EMPRESA" runat="server" Text='<%# Eval("ID_PARCEIRO_EMPRESA") %>' VISIBLE="false" />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:BoundField DataField="VL_LANCAMENTO" HeaderText="Valor lançamento(R$)" SortExpression="VL_LANCAMENTO" />
-                                                <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
-                                                <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário laçamento" SortExpression="NOME_USUARIO_LANCAMENTO" />                                               
-
-                                                <asp:TemplateField HeaderText="Bloqueio Financeiro">
-                                                    <ItemTemplate>
-                                                       <asp:Label ID="lblFL_BLOQUEIO_FINANCEIRO" runat="server" Text='<%# Eval("FL_BLOQUEIO_FINANCEIRO") %>' />
-                                                 <asp:ImageButton ID="btnBloquearFinanceiro" runat="server" ToolTip="bloquear" CssClass="ImageButton" src="Content/imagens/bloquear.png" CommandName="BloquearFinanceiro" CommandArgument='<%# Eval("ID_BL") %>' />
-                                                 <asp:ImageButton ID="btnDesbloquearFinanceiro" runat="server" ToolTip="desbloquear" CssClass="ImageButton" src="Content/imagens/desbloquear.png" CommandName="DesbloquearFinanceiro" CommandArgument='<%# Eval("ID_BL") %>' />                                                
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-
-
-
-
-
-                                                <asp:TemplateField HeaderText="Bloqueio Documental">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblFL_BLOQUEIO_DOCUMENTAL" runat="server" Text='<%# Eval("FL_BLOQUEIO_DOCUMENTAL") %>'  />
-                                                 <asp:ImageButton ID="btnBloquearDocumental" ToolTip="bloquear" runat="server" CssClass="ImageButton" src="Content/imagens/bloquear.png" CommandName="BloquearDocumental" CommandArgument='<%# Eval("ID_BL") %>' />
-                                                 <asp:ImageButton ID="btnDesbloquearDocumental" runat="server" ToolTip="desbloquear" CssClass="ImageButton" src="Content/imagens/desbloquear.png" CommandName="DesbloquearDocumental" CommandArgument='<%# Eval("ID_BL") %>' />                                              
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-
-
-
-                                                
-                                                <asp:TemplateField Visible="False">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblID_PARCEIRO_ARMAZEM_DESCARGA" runat="server" Text='<%# Eval("ID_PARCEIRO_ARMAZEM_DESCARGA") %>'  />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                              
-                                            </Columns>
-                                            <HeaderStyle CssClass="headerStyle" />
-                                        </asp:GridView>
-                                            </div>
-                                    </div>
-
+ 
                                 </div>
 
                                 <ajaxToolkit:ModalPopupExtender ID="mpeObs" runat="server" PopupControlID="Panel1" TargetControlID="btnCancelar" CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
@@ -334,9 +254,7 @@
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasPagar" />
-                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxasPagar" />
-                                <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger ControlID="btnCancelar" />
                                 <asp:PostBackTrigger ControlID="btnCSV" /> 
                                 <asp:PostBackTrigger ControlID="btnpesquisar" /> 
@@ -350,16 +268,14 @@
     </div>
     <asp:TextBox ID="TextBox1" Style="display:none" Text="0" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsPagar" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos] WHERE CD_PR =  'P' AND DT_LIQUIDACAO IS NULL ORDER BY DT_VENCIMENTO DESC, NR_FATURA_FORNECEDOR"></asp:SqlDataSource>
-
-    <asp:SqlDataSource ID="dsReceber" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos] WHERE CD_PR =  'R' AND DT_LIQUIDACAO IS NULL ORDER BY DT_VENCIMENTO DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos_P] WHERE CD_PR =  'P' AND DT_LIQUIDACAO IS NULL ORDER BY DT_VENCIMENTO DESC, NR_FATURA_FORNECEDOR"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
      <script type="text/javascript">
+
          function SalvaPosicaoPagamento() {
              var posicao = document.getElementById('DivGridPagar').scrollTop;
              if (posicao) {
@@ -372,22 +288,7 @@
                 console.log('else:' + posicao);
 
              }
-         };
-
-         function SalvaPosicaoRecebimento() {
-             var posicao = document.getElementById('DivGridReceber').scrollTop;
-            
-             if (posicao) {
-                 document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
-                console.log('if:' + posicao);
-
-             }
-            else {
-                 document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
-                 console.log('else:' + posicao);
-
-             }
-         };    
+         };         
 
          Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
 
@@ -395,9 +296,7 @@
             var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
             if (valor != null) {
                 console.log('entrou:' + valor);
-                if (document.getElementById('DivGridReceber')) {
-                    document.getElementById('DivGridReceber').scrollTop = valor;
-                }
+                
                 if (document.getElementById('DivGridPagar')) {
                     document.getElementById('DivGridPagar').scrollTop = valor;
                 }                
