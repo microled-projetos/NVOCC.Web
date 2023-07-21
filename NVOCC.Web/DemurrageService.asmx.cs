@@ -459,9 +459,9 @@ namespace ABAINFRA.Web
             string vlvenda06 = dadosEdit.VL_VENDA_06.ToString().Replace(',', '.');
             string vlvenda07 = dadosEdit.VL_VENDA_07.ToString().Replace(',', '.');
             string vlvenda08 = dadosEdit.VL_VENDA_08.ToString().Replace(',', '.');
-            SQL = "UPDATE TB_TABELA_DEMURRAGE SET ID_PARCEIRO_TRANSPORTADOR = '" + dadosEdit.ID_PARCEIRO_TRANSPORTADOR + "' , ID_TIPO_CONTAINER = " + dadosEdit.ID_TIPO_CONTAINER == "" ? "NULL":dadosEdit.ID_TIPO_CONTAINER+ ", ";
+            SQL = "UPDATE TB_TABELA_DEMURRAGE SET ID_PARCEIRO_TRANSPORTADOR = '" + dadosEdit.ID_PARCEIRO_TRANSPORTADOR + "' , ID_TIPO_CONTAINER = " + (dadosEdit.ID_TIPO_CONTAINER == "" ? "NULL":dadosEdit.ID_TIPO_CONTAINER)+ ", ";
             SQL += "DT_VALIDADE_INICIAL = '" + dadosEdit.DT_VALIDADE_INICIAL + "', QT_DIAS_FREETIME = '" + dadosEdit.QT_DIAS_FREETIME + "', ";
-            SQL += "ID_MOEDA = '" + dadosEdit.ID_MOEDA + "', FL_ESCALONADA ='" + dadosEdit.FL_ESCALONADA + "', FL_CARGA_IMO = '" + dadosEdit.FL_CARGA_IMO + "', ID_TAMANHO_CONTAINER = "+ dadosEdit.ID_TAMANHO_CONTAINER == "" ? "NULL":dadosEdit.ID_TAMANHO_CONTAINER+ ", ";
+            SQL += "ID_MOEDA = '" + dadosEdit.ID_MOEDA + "', FL_ESCALONADA ='" + dadosEdit.FL_ESCALONADA + "', FL_CARGA_IMO = '" + dadosEdit.FL_CARGA_IMO + "', ID_TAMANHO_CONTAINER = "+ (dadosEdit.ID_TAMANHO_CONTAINER == "" ? "NULL":dadosEdit.ID_TAMANHO_CONTAINER)+ ", ";
             SQL += "QT_DIAS_01 ='" + qtdias01 + "' , VL_VENDA_01 = '" + vlvenda01 + "', ";
             SQL += "QT_DIAS_02 = '" + dadosEdit.QT_DIAS_02 + "', VL_VENDA_02 = '" + vlvenda02 + "', ";
             SQL += "QT_DIAS_03 = '" + dadosEdit.QT_DIAS_03 + "', VL_VENDA_03 = '" + vlvenda03 + "', ";
@@ -3980,16 +3980,20 @@ namespace ABAINFRA.Web
                     DataTable getId = new DataTable();
                     getId = DBS.List(SQL);
 
-                    for (int i = 0; i < getId.Rows.Count; i++)
+                    if (getId != null)
                     {
-                        SQL = "DELETE FROM TB_FATURAMENTO WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
-                        DBS.ExecuteScalar(SQL);
 
-                        SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
-                        DBS.ExecuteScalar(SQL);
+                        for (int i = 0; i < getId.Rows.Count; i++)
+                        {
+                            SQL = "DELETE FROM TB_FATURAMENTO WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
+                            DBS.ExecuteScalar(SQL);
 
-                        SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
-                        DBS.ExecuteScalar(SQL);
+                            SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
+                            DBS.ExecuteScalar(SQL);
+
+                            SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
+                            DBS.ExecuteScalar(SQL);
+                        }
                     }
 
                     SQL = "DELETE FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA = " + idFatura + " ";
@@ -4044,16 +4048,19 @@ namespace ABAINFRA.Web
                     DataTable getId = new DataTable();
                     getId = DBS.List(SQL);
 
-                    for (int i = 0; i < getId.Rows.Count; i++)
+                    if (getId != null)
                     {
-                        SQL = "DELETE FROM TB_FATURAMENTO WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
-                        DBS.ExecuteScalar(SQL);
+                        for (int i = 0; i < getId.Rows.Count; i++)
+                        {
+                            SQL = "DELETE FROM TB_FATURAMENTO WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
+                            DBS.ExecuteScalar(SQL);
 
-                        SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
-                        DBS.ExecuteScalar(SQL);
+                            SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
+                            DBS.ExecuteScalar(SQL);
 
-                        SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
-                        DBS.ExecuteScalar(SQL);
+                            SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
+                            DBS.ExecuteScalar(SQL);
+                        }
                     }
 
                     SQL = "DELETE FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA = " + idFatura + " ";
@@ -9406,11 +9413,13 @@ namespace ABAINFRA.Web
             }
 
             SQL = "SELECT ISNULL(NR_PROCESSO,'') AS NR_PROCESSO,  ISNULL(NR_BL_MASTER, '') AS MBL, ";
+            SQL += "ISNULL(CASE WHEN VL_DIFERENCA > 0.00 THEN VL_DIFERENCA END,0) AS ACRESCIMO, ";
+            SQL += "ISNULL(CASE WHEN VL_DIFERENCA < 0.00 THEN VL_DIFERENCA END,0) AS DECRESCIMO, VL_ITEM_DESPESA_BR + ISNULL(VL_DIFERENCA,0) AS TOTAL, ";
             SQL += "ISNULL(NM_ITEM_DESPESA, '') AS NM_ITEM_DESPESA, ISNULL(FORMAT(DT_LIQUIDACAO, 'dd/MM/yyyy'), '') AS DT_LIQUIDACAO, ";
             SQL += "ISNULL(NM_PARCEIRO, '') AS NM_PARCEIRO, ISNULL(TP_MOVIMENTO,'') AS TIPO, ISNULL(CONVERT(VARCHAR, VL_ITEM_DESPESA), '') AS VALOR, ";
             SQL += "ISNULL(MOEDA,'') AS MOEDA, ISNULL(VL_CAMBIO,0) AS CAMBIO, ISNULL(CONVERT(VARCHAR, VL_ITEM_DESPESA_BR), '') AS VALOR_BR, ";
             SQL += "ISNULL(FORMAT(DT_CAMBIO, 'dd/MM/yyyy'), '') AS DT_CAMBIO ";
-            SQL += "FROM FN_PREVISIBILIDADE_CONTA_CORRENTE('01/01/1900', '01/01/2900') ";
+            SQL += "FROM FN_PREVISIBILIDADE_CONTA_CORRENTE_TESTE('01/01/1900', '01/01/2900') ";
             SQL += "WHERE CONVERT(DATE, DT_LIQUIDACAO,103) BETWEEN CONVERT(DATE, '" + dataI + "',103) AND CONVERT(DATE, '" + dataF + "',103) ";
             SQL += "" + nota + "";
             SQL += "ORDER BY NR_PROCESSO, NM_ITEM_DESPESA ";
