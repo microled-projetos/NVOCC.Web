@@ -47,7 +47,6 @@
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <asp:Label ID="Label2" runat="server">Filtro</asp:Label><br />
-
                                             <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
                                                 <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
                                                 <asp:ListItem Value="1">Indicador</asp:ListItem>
