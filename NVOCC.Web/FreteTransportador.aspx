@@ -23,7 +23,7 @@
 
         #doublescroll p {
            margin: 0;
-           padding: 6em;
+           padding: 1em;
            white-space: nowrap;
         }
          .select2-container .select2-selection--single {
@@ -193,7 +193,7 @@
                                
 
                               <%--  <div id="DivGrid" class="table-responsive fixedDoubleHead DivGrid" style="max-height: 500px !important;">--%>
-                                  <div id="doublescroll" class="table-responsive" style="background-color:white;max-height: 70vh"> 
+                                  <div id="doublescroll" class="table-responsive" style="background-color:white;max-height: 60vh"> 
                                     <asp:GridView ID="dgvFreteTranportador" DataKeyNames="ID_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable dgvFreteTranportador" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFreteTranportador" AutoGenerateColumns="false" AllowSorting="true" OnSorting="dgvFreteTranportador_Sorting" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="50" ShowFooter="True">
                                         <Columns>
                                             <asp:TemplateField HeaderStyle-ForeColor="#337ab7">
@@ -990,8 +990,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
          function DoubleScroll(element) {
             var scrollbar = document.createElement('div');
             scrollbar.appendChild(document.createElement('div'));
-            scrollbar.style.overflow = 'auto';
-             scrollbar.style.overflowY = 'auto';
+             scrollbar.style.overflow = 'auto';
+             scrollbar.style.overflowY = 'hidden';
             scrollbar.firstChild.style.width = element.scrollWidth + 'px';
             scrollbar.firstChild.style.paddingTop = '1px';
             scrollbar.firstChild.appendChild(document.createTextNode('\xA0'));
