@@ -80,7 +80,7 @@ AND B.ID_BL_TAXA =" & ID_BL_TAXA)
                     'AND A.ID_MOEDA_FRETE = B.ID_MOEDA
                     'AND A.ID_BL =" & ID_BL & " AND CD_PR =  '" & ds.Tables(0).Rows(0).Item("CD_PR") & "' ")
 
-                    Dim ds1 As DataSet = Con.ExecutarQuery(" SELECT ISNULL(( SELECT sum(VL_TAXA_CALCULADO) from TB_BL_TAXA B  where B.ID_BL = A.ID_BL AND B.FL_DECLARADO = 1 AND A.ID_MOEDA_FRETE = B.ID_MOEDA AND CD_PR =  '" & ds.Tables(0).Rows(0).Item("CD_PR") & "' ),0) +  ISNULL(( SELECT sum(VL_TAXA_CALCULADO) from TB_BL_TAXA B  where B.ID_BL = A.ID_BL AND ID_ITEM_DESPESA = 14 AND A.ID_MOEDA_FRETE = B.ID_MOEDA AND CD_PR =  '" & ds.Tables(0).Rows(0).Item("CD_PR") & "' ),0)  as TOTAL FROM TB_BL A WHERE A.ID_BL = " & ID_BL)
+                    Dim ds1 As DataSet = Con.ExecutarQuery(" SELECT ISNULL(( SELECT sum(VL_TAXA_CALCULADO) from TB_BL_TAXA B  where B.ID_BL = A.ID_BL AND B.FL_DECLARADO = 1 AND A.ID_MOEDA_FRETE = B.ID_MOEDA AND CD_PR =  '" & ds.Tables(0).Rows(0).Item("CD_PR") & "' AND ID_ITEM_DESPESA <> 14 ),0) +  ISNULL(( SELECT sum(VL_TAXA_CALCULADO) from TB_BL_TAXA B  where B.ID_BL = A.ID_BL AND ID_ITEM_DESPESA = 14 AND A.ID_MOEDA_FRETE = B.ID_MOEDA AND CD_PR =  '" & ds.Tables(0).Rows(0).Item("CD_PR") & "' ),0)  as TOTAL FROM TB_BL A WHERE A.ID_BL = " & ID_BL)
 
                     If ds1.Tables(0).Rows.Count > 0 Then
                         If Not IsDBNull(ds1.Tables(0).Rows(0).Item("TOTAL")) Then
@@ -1023,7 +1023,7 @@ AND B.ID_BL_TAXA = " & ID_BL_TAXA)
                     'AND B.ID_MOEDA = B.ID_MOEDA
                     'AND A.ID_BL =" & ID_BL & " AND CD_PR =  '" & ds.Tables(0).Rows(0).Item("CD_PR") & "' ")
 
-                    Dim ds1 As DataSet = Con.ExecutarQuery(" SELECT ISNULL(( SELECT sum(VL_TAXA_CALCULADO) from TB_BL_TAXA B  where B.ID_BL = A.ID_BL AND B.FL_DECLARADO = 1 AND A.ID_MOEDA_FRETE = B.ID_MOEDA AND CD_PR =  '" & ds.Tables(0).Rows(0).Item("CD_PR") & "' ),0) +  ISNULL(( SELECT sum(VL_TAXA_CALCULADO) from TB_BL_TAXA B  where B.ID_BL = A.ID_BL AND ID_ITEM_DESPESA = 14 AND A.ID_MOEDA_FRETE = B.ID_MOEDA AND CD_PR =  '" & ds.Tables(0).Rows(0).Item("CD_PR") & "' ),0)  as TOTAL FROM TB_BL A WHERE A.ID_BL = " & ID_BL)
+                    Dim ds1 As DataSet = Con.ExecutarQuery(" SELECT ISNULL(( SELECT sum(VL_TAXA_CALCULADO) from TB_BL_TAXA B  where B.ID_BL = A.ID_BL AND B.FL_DECLARADO = 1 AND A.ID_MOEDA_FRETE = B.ID_MOEDA AND CD_PR =  '" & ds.Tables(0).Rows(0).Item("CD_PR") & "' AND ID_ITEM_DESPESA <> 14 ),0) +  ISNULL(( SELECT sum(VL_TAXA_CALCULADO) from TB_BL_TAXA B  where B.ID_BL = A.ID_BL AND ID_ITEM_DESPESA = 14 AND A.ID_MOEDA_FRETE = B.ID_MOEDA AND CD_PR =  '" & ds.Tables(0).Rows(0).Item("CD_PR") & "' ),0)  as TOTAL FROM TB_BL A WHERE A.ID_BL = " & ID_BL)
 
                     If ds1.Tables(0).Rows.Count > 0 Then
                         If Not IsDBNull(ds1.Tables(0).Rows(0).Item("TOTAL")) Then
