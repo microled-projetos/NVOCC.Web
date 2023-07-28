@@ -50,7 +50,7 @@
                     </h3>
                 </div>--%>
 
-                <div class="panel-body" >
+                <div class="panel-body" style="background-color:white">
                               
                                  <div class="row" runat="server">
                                     <div class="col-sm-1">
