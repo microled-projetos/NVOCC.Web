@@ -39,6 +39,12 @@
         }
 
         
+        .selected1 {
+            color: black;
+            font-family: verdana;
+            font-size: 8pt;
+            background-color: #e6c3a5;
+        }
 
         </style>
     <div class="row principal">
@@ -202,7 +208,7 @@
                                                     <asp:Button ID="btnExpandirRecolher" runat="server" CssClass="btn-default" Text="Expandir/Recolher" CommandName="ExpandirRecolher" OnClientClick="Expandir()"></asp:Button>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <asp:CheckBox ID="ckbSelecionar" runat="server" />                                                    
+                                                    <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true" OnCheckedChanged="ckbSelecionar_CheckedChanged" />                                                    
                                                     <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CssClass="btnGrid" CommandName="Edit" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>' Text="Editar"><i class="glyphicon glyphicon-pencil" style="font-size:small"></i></div></asp:LinkButton>
 
                                                     <asp:LinkButton ID="btnDuplicar" runat="server" CssClass="btnGrid" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_FRETE_TRANSPORTADOR") %>'
@@ -528,7 +534,8 @@
                                     </asp:GridView>
 
 
-                                    <div runat="server" id="divAuxiliar" style="display: none">
+                                   </div> 
+                                <div runat="server" id="divAuxiliar" style="display: none">
                                     
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                     <asp:TextBox ID="txtIDTafifario" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
@@ -538,7 +545,7 @@
                                     <asp:TextBox ID="txtAuxiliarExpandir" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                 </div>
 
-                                </div>
+                                
 
 
                                 <asp:TextBox ID="TextBox4" Style="display: none" runat="server"></asp:TextBox>

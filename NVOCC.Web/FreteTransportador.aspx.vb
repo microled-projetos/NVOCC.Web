@@ -818,19 +818,15 @@ Public Class FreteTransportador
             Dim IdSelecionado As Label = dgvFreteTranportador.Rows(i).FindControl("lblID")
 
             If check.Checked Then
-                dgvFreteTranportador.Rows(i).CssClass = "testefixado"
+                dgvFreteTranportador.Rows(i).CssClass = "selected1"
                 dgvFreteTranportador.Rows(i).Focus()
 
-                If IDs <> "" Then
-                    IDs = IDs & " , " & IdSelecionado.Text
-                Else
-                    IDs = IdSelecionado.Text
-                End If
+
             End If
 
         Next
 
-        ' BUSCA(" ORDER BY " & IDs)
+
 
     End Sub
 End Class
