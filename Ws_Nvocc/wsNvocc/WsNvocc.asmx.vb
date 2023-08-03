@@ -8,7 +8,6 @@ Imports RestSharp
 Imports Newtonsoft.Json
 Imports System.Web.Http
 
-
 ' Para permitir que esse serviço da web seja chamado a partir do script, usando ASP.NET AJAX, remova os comentários da linha a seguir.
 ' <System.Web.Script.Services.ScriptService()> _
 <System.Web.Services.WebService(Namespace:="http://tempuri.org/")>

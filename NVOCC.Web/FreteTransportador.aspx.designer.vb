@@ -320,6 +320,15 @@ Partial Public Class FreteTransportador
     Protected WithEvents txtAuxiliarExpandir As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtStatusExpandir.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtStatusExpandir As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle TextBox4.
     '''</summary>
     '''<remarks>

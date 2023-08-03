@@ -118,7 +118,15 @@ Public Class FreteTransportador
             If chk.Enabled = True Then
                 chk.Checked = chk1.Checked
             End If
+
+            If chk1.Checked Then
+                row.CssClass = "selected1"
+            Else
+                row.CssClass = "Normal"
+            End If
+
         Next
+        txtStatusExpandir.Text = 0
     End Sub
     Private Sub dgvFreteTranportador_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvFreteTranportador.RowCommand
         divSuccess.Visible = False
@@ -816,17 +824,13 @@ Public Class FreteTransportador
             dgvFreteTranportador.Rows(i).CssClass = "Normal"
             Dim check As CheckBox = dgvFreteTranportador.Rows(i).FindControl("ckbSelecionar")
             Dim IdSelecionado As Label = dgvFreteTranportador.Rows(i).FindControl("lblID")
-
             If check.Checked Then
                 dgvFreteTranportador.Rows(i).CssClass = "selected1"
                 dgvFreteTranportador.Rows(i).Focus()
-
-
             End If
-
         Next
 
-
+        txtStatusExpandir.Text = 0
 
     End Sub
 End Class

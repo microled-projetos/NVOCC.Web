@@ -1953,8 +1953,10 @@ WHERE ID_COTACAO = " & txtID.Text)
         Dim Con As New Conexao_sql
         Con.Conectar()
 
-        Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_OPERACIONAL = OB_OPERACIONAL + '<br/>Informação tabela frete: ' + (SELECT OBS_INTERNA FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & ddlFreteTransportador_Frete.SelectedValue & ")  WHERE ID_COTACAO = " & txtID.Text)
-        Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_CLIENTE = OB_CLIENTE + '<br/>Informação tabela frete: ' + (SELECT OBS_CLIENTE FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & ddlFreteTransportador_Frete.SelectedValue & ") WHERE ID_COTACAO = " & txtID.Text)
+        Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_OPERACIONAL = CASE WHEN OB_OPERACIONAL IS NULL THEN 'Informação tabela frete: ' + (SELECT OBS_INTERNA FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & ddlFreteTransportador_Frete.SelectedValue & ") ELSE 
+ OB_OPERACIONAL + '<br/>Informação tabela frete: ' + (SELECT OBS_INTERNA FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & ddlFreteTransportador_Frete.SelectedValue & ") END   WHERE ID_COTACAO = " & txtID.Text)
+        Con.ExecutarQuery("UPDATE TB_COTACAO SET OB_CLIENTE = CASE WHEN OB_CLIENTE IS NULL THEN 'Informação tabela frete: ' + (SELECT OBS_CLIENTE FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & ddlFreteTransportador_Frete.SelectedValue & ")ELSE 
+ OB_CLIENTE + '<br/>Informação tabela frete: ' + (SELECT OBS_CLIENTE FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & ddlFreteTransportador_Frete.SelectedValue & ") END  WHERE ID_COTACAO = " & txtID.Text)
 
         Dim ds As DataSet = Con.ExecutarQuery("SELECT OB_CLIENTE,OB_OPERACIONAL FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
         If ds.Tables(0).Rows.Count > 0 Then
