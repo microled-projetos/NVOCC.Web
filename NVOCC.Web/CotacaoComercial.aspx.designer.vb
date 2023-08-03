@@ -266,6 +266,33 @@ Partial Public Class CotacaoComercial
     Protected WithEvents divPesquisa As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
+    '''Controle rdTRansporte.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents rdTRansporte As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''Controle rdEstufagem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents rdEstufagem As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''Controle rdServico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents rdServico As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
     '''Controle Label1.
     '''</summary>
     '''<remarks>

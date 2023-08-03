@@ -6,6 +6,7 @@ Imports Oracle.ManagedDataAccess.Client
 Imports System.Data.OleDb
 Imports RestSharp
 Imports Newtonsoft.Json
+Imports System.Web.Http
 
 
 ' Para permitir que esse serviço da web seja chamado a partir do script, usando ASP.NET AJAX, remova os comentários da linha a seguir.
@@ -2047,7 +2048,7 @@ saida:
     End Function
 
 
-    'INTEGRACAO TESTE
+    'INTEGRACAO TESTE 
     <WebMethod()>
     Public Function ConsultaCotacaoParceiro(ByVal ID As String, ByVal Inicio As String, ByVal Fim As String)
         Con.Conectar()

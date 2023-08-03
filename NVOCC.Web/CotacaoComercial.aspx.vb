@@ -1940,53 +1940,154 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
             PesquisaRepetidas()
         Else
 
-            If ddlConsultas.SelectedValue = 0 Or txtPesquisa.Text = "" Then
-                dgvCotacao.DataBind()
-            Else
-                Dim FILTRO As String
+
+            Dim FILTRO As String
+
+
+
+            If rdTRansporte.SelectedValue <> 0 Then
+                If FILTRO = "" Then
+                    FILTRO = " WHERE ID_VIATRANSPORTE = " & rdTRansporte.SelectedValue
+                Else
+                    FILTRO = FILTRO & " AND ID_VIATRANSPORTE = " & rdTRansporte.SelectedValue
+                End If
+            End If
+
+            If rdServico.SelectedValue <> 0 Then
+                If FILTRO = "" Then
+                    If rdServico.SelectedValue = 1 Then
+                        FILTRO = " WHERE ID_SERVICO in (1,2) "
+                    ElseIf rdServico.SelectedValue = 2 Then
+                        FILTRO = " WHERE ID_SERVICO in (4,5) "
+                    End If
+                Else
+                    If rdServico.SelectedValue = 1 Then
+                        FILTRO = FILTRO & " AND ID_SERVICO in (1,2) "
+                    ElseIf rdServico.SelectedValue = 2 Then
+                        FILTRO = FILTRO & " AND ID_SERVICO in (4,5) "
+                    End If
+                End If
+            End If
+
+            If rdEstufagem.SelectedValue <> 0 Then
+                If FILTRO = "" Then
+                    FILTRO = " WHERE ID_TIPO_ESTUFAGEM = " & rdEstufagem.SelectedValue
+                Else
+                    FILTRO = FILTRO & " AND ID_TIPO_ESTUFAGEM = " & rdEstufagem.SelectedValue
+                End If
+            End If
+
+            If txtPesquisa.Text <> "" Then
 
                 If ddlConsultas.SelectedValue = 1 Then
-                    FILTRO = " NR_COTACAO LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE NR_COTACAO LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND NR_COTACAO LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 2 Then
-                    FILTRO = " STATUS LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE STATUS LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND STATUS LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 3 Then
-                    FILTRO = " CLIENTE LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE CLIENTE LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND CLIENTE LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 4 Then
-                    FILTRO = " ORIGEM LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE ORIGEM LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND ORIGEM LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 5 Then
-                    FILTRO = " DESTINO LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE DESTINO LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND DESTINO LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 6 Then
-                    FILTRO = " AGENTE LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE AGENTE LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND AGENTE LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 7 Then
-                    FILTRO = " VENDEDOR LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE VENDEDOR LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND VENDEDOR LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 8 Then
-                    FILTRO = " NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 10 Then
-                    FILTRO = " CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 11 Then
-                    FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 12 Then
-                    FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE TIPO_ESTUFAGEM LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND TIPO_ESTUFAGEM LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 13 Then
-                    FILTRO = " INCOTERM LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE INCOTERM LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND INCOTERM LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 14 Then
-                    FILTRO = " ARMADOR LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE ARMADOR LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND ARMADOR LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 15 Then
-                    FILTRO = " ANALISTA_COTACAO_INSIDE LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE ANALISTA_COTACAO_INSIDE LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND ANALISTA_COTACAO_INSIDE LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 16 Then
-                    FILTRO = " ANALISTA_COTACAO_PRICING LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE ANALISTA_COTACAO_PRICING LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND ANALISTA_COTACAO_PRICING LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 17 Then
-                    FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 18 Then
-                    FILTRO = " EXPORTADOR LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE EXPORTADOR LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND EXPORTADOR LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 End If
 
-                Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
-
-                dsCotacao.SelectCommand = sql
-                dgvCotacao.DataBind()
-
             End If
+            Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Cotacao]  " & FILTRO & " ORDER BY DT_ABERTURA DESC"
+
+            dsCotacao.SelectCommand = sql
+            dgvCotacao.DataBind()
 
         End If
     End Sub
@@ -2711,5 +2812,18 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
         Con.ExecutarQuery("UPDATE TB_COTACAO SET FL_ENVIA_SI = 1 WHERE ID_COTACAO = " & txtID.Text)
         Aprovar()
         mpeEnvioSI.Hide()
+    End Sub
+
+    Private Sub rdTRansporte_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdTRansporte.SelectedIndexChanged
+        If rdTRansporte.SelectedValue = 1 Then 'MARITIMO
+            rdEstufagem.SelectedValue = 1
+            rdServico.SelectedValue = 1
+        ElseIf rdTRansporte.SelectedValue = 4 Then 'AEREO
+            rdEstufagem.SelectedValue = 2
+            rdServico.SelectedValue = 1
+        Else
+            rdEstufagem.SelectedValue = 0
+            rdServico.SelectedValue = 0
+        End If
     End Sub
 End Class

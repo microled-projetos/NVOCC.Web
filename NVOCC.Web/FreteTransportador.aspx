@@ -204,8 +204,8 @@
                                         <Columns>
                                             <asp:TemplateField HeaderStyle-ForeColor="#337ab7">
                                                 <HeaderTemplate>
-                                                    <asp:CheckBox ID="ckbSelecionarTodos" runat="server" Font-Size="Small" Text="Selecionar Todos" AutoPostBack="true" OnCheckedChanged="CheckUncheckAll" /><%-- OnCheckedChanged="CheckUncheckAll"--%>
-                                                    <asp:Button ID="btnExpandirRecolher" runat="server" CssClass="btn-default" Text="Expandir/Recolher" CommandName="ExpandirRecolher" OnClientClick="Expandir()"></asp:Button>
+                                                    <asp:CheckBox ID="ckbSelecionarTodos" runat="server" Font-Size="Small" Text="Selecionar Todos" AutoPostBack="true" OnCheckedChanged="CheckUncheckAll" /><%-- OnCheckedChanged="CheckUncheckAll"OnClientClick="Expandir()"--%>
+                                                    <asp:Button ID="btnExpandirRecolher" runat="server" CssClass="btn-default" Text="Expandir/Recolher" CommandName="ExpandirRecolher" ></asp:Button>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true" OnCheckedChanged="ckbSelecionar_CheckedChanged" />                                                    
@@ -953,13 +953,15 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA"></asp:SqlDataSource>
 
             var div = document.getElementById(divname);
             var img = document.getElementById('img' + divname);
-
+            console.log("divexpandcollapse = " + div.style.display)
             if (div.style.display === "none") {
                 div.style.display = "inline";
                 img.src = "Content/imagens/minus.png";
+                console.log("if" )
             } else {
                 div.style.display = "none";
                 img.src = "Content/imagens/plus.png";
+                console.log("else"  )
             }
 
         }
