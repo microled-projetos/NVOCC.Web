@@ -2090,6 +2090,8 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
             dgvCotacao.DataBind()
 
         End If
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
+
     End Sub
 
     Private Sub lkImprimir_Click(sender As Object, e As EventArgs) Handles lkImprimir.Click

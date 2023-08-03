@@ -185,11 +185,11 @@
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group"><br />
-                                                <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control" ></asp:TextBox>
                                             </div>
                                         </div>
                                     <br />
-                                        <asp:Button runat="server" Text="Pesquisar" ID="bntPesquisar" CssClass="btn btn-success" />
+                                        <asp:Button runat="server" Text="Pesquisar" ID="bntPesquisar" CssClass="btn btn-success" OnClientClick="MouseWait(); return true;"/>
                                 </div>
 
 
@@ -521,6 +521,15 @@ union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
         }
 
         $(document).ready(InIEvent);
+
+        function MouseWait() {
+            console.log("wait");
+            document.body.style.cursor = "wait";
+        };
+        function MouseDefault() {
+            console.log("default");
+            document.body.style.cursor = "default";
+        };
 
     </script>
 </asp:Content>
