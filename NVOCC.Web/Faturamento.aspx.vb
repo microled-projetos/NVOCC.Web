@@ -448,10 +448,35 @@ WHERE DT_LIQUIDACAO IS NOT NULL AND ID_FATURAMENTO =" & txtID.Text)
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_NOTA_DEBITO,NR_RPS,DT_RPS FROM [TB_FATURAMENTO]
-WHERE ID_FATURAMENTO =" & txtID.Text)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_FATURAMENTO,A.NR_NOTA_DEBITO,A.NR_RPS,A.DT_RPS,ISNULL(B.DS_MOTIVO_CANCELAMENTO,'') AS MOTIVO_SUBSTITUICAO, B.NR_RPS AS NR_RPS_SUBSITITUIDA  FROM [TB_FATURAMENTO] A LEFT JOIN [TB_FATURAMENTO] B ON B.NR_NOTA_FISCAL  = A.NR_NOTA_ORIGINAL WHERE A.ID_FATURAMENTO =" & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_DEBITO")) Then
+
+                If ds.Tables(0).Rows(0).Item("MOTIVO_SUBSTITUICAO").IndexOf("SUBSTITUI") > -1 Then
+                    Try
+
+                        Using GeraRps = New WsNVOCC.WsNvocc
+
+                            Dim consulta = GeraRps.SubstituiNFePrefeitura(ds.Tables(0).Rows(0).Item("NR_RPS_SUBSITITUIDA").ToString, ds.Tables(0).Rows(0).Item("NR_RPS").ToString, 1, "SQL", "NVOCC", txtID.Text)
+
+                        End Using
+
+                        Con.ExecutarQuery("UPDATE TB_FATURAMENTO SET DT_COMPETENCIA = (SELECT DT_COMPETENCIA FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & " ) WHERE ID_FATURAMENTO = " & txtID.Text)
+
+                        txtID.Text = ""
+                        lblmsgSuccess.Text = "RPS enviada para substituição com sucesso!"
+                        divSuccess.Visible = True
+                        dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & ds.Tables(0).Rows(0).Item("NR_RPS").ToString & "'"
+                        dgvFaturamento.DataBind()
+
+                    Catch ex As Exception
+
+                        divErro.Visible = True
+                        lblmsgErro.Text = "Não foi possivel completar a ação: " & ex.Message
+
+                    End Try
+
+                ElseIf Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_DEBITO")) Then
+
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_RPS")) Then
 
 
@@ -506,7 +531,6 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
 
                     End If
-
 
                 Else
                     lblmsgErro.Text = "Não foi possivel completar a ação: fatura sem nota de débito!"
