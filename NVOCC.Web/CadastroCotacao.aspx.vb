@@ -208,11 +208,13 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
 
             ddlMotivoCancelamento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOTIVO_CANCELAMENTO").ToString()
             txtObsCancelamento.Text = ds.Tables(0).Rows(0).Item("OB_MOTIVO_CANCELAMENTO").ToString()
+
             txtObsCliente.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE").ToString()
             txtObsCliente.Text = txtObsCliente.Text.Replace("<br/>", vbNewLine)
 
             txtObsOperacional.Text = ds.Tables(0).Rows(0).Item("OB_OPERACIONAL").ToString()
             txtObsOperacional.Text = txtObsOperacional.Text.Replace("<br/>", vbNewLine)
+
             ddlEstufagem.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM").ToString()
 
             If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
@@ -1337,6 +1339,14 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
             Dim ObsOperacional As String = ""
             Dim EmailCotacao As String = ""
 
+            If txtObsCancelamento.Text = "" Then
+                ObsCancelamento = "NULL"
+            Else
+                ObsCancelamento = txtObsCancelamento.Text
+                ObsCancelamento = ObsCancelamento.Replace("'", "''")
+                ObsCancelamento = "'" & ObsCancelamento & "'"
+            End If
+
             If txtObsCliente.Text = "" Then
                 ObsCliente = "NULL"
             Else
@@ -1346,19 +1356,12 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                 ObsCliente = "'" & ObsCliente & "'"
             End If
 
-            If txtObsCancelamento.Text = "" Then
-                ObsCancelamento = "NULL"
-            Else
-                ObsCancelamento = txtObsCancelamento.Text
-                ObsCancelamento = ObsCancelamento.Replace("'", "''")
-                ObsCancelamento = "'" & ObsCancelamento & "'"
-            End If
-
             If txtObsOperacional.Text = "" Then
                 ObsOperacional = "NULL"
             Else
                 ObsOperacional = txtObsOperacional.Text
                 ObsOperacional = ObsOperacional.Replace("'", "''")
+                ObsOperacional = ObsOperacional.Replace(vbNewLine, "<br/>")
                 ObsOperacional = "'" & ObsOperacional & "'"
             End If
 
