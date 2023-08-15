@@ -1794,7 +1794,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             lblmsgErro.Text = "Selecione um registro"
         Else
             mpeOpcoesBoletos.Show()
-            mpeDemonstrativos.Hide()
+            ' mpeDemonstrativos.Hide()
 
         End If
     End Sub
@@ -1803,7 +1803,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
         mpeDemonstrativos.Show()
     End Sub
     Private Sub lkRPS_Click(sender As Object, e As EventArgs) Handles lkRPS.Click
-        mpeDemonstrativos.Hide()
+        ' mpeDemonstrativos.Hide()
         mpeRPS.Show()
     End Sub
 
@@ -1837,6 +1837,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             divErro.Visible = True
             lblmsgErro.Text = "Selecione um registro"
         Else
+            mpeDemonstrativos.Show()
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirND()", True)
         End If
     End Sub

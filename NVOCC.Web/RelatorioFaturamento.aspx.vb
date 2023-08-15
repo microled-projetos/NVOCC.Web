@@ -30,6 +30,7 @@ NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_LIQUIDACAO,DT_CANCELAMENTO,
         If ds.Tables(0).Rows.Count > 0 Then
             Dim contador As Integer = 0
             Dim valores As Decimal = 0
+            Dim valoresNF As Decimal = 0
             tabela &= "<table border='1' style='font-size:10px;'>"
             tabela &= "<tr><td><strong>Vencimento</strong></td>"
             tabela &= "<td style='width:100px !important'><strong>Processo</strong></td>"
@@ -81,12 +82,16 @@ NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_LIQUIDACAO,DT_CANCELAMENTO,
 
 
 
-
+            ds = Con.ExecutarQuery("SELECT SUM (VL_NOTA)VL_NOTA FROM View_Faturamento " & FILTRO & " ")
+            If ds.Tables(0).Rows.Count > 0 Then
+                valoresNF = ds.Tables(0).Rows(0).Item("VL_NOTA")
+            End If
 
             Dim Total As String = valores
-            tabela &= "<tr style='border:none;font-weight:bold'><td>Qtd: " & contador & "</td><td></td><td></td><td></td></td><td>" & Total & "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></tr>"
+            tabela &= "<tr style='border:none;font-weight:bold'><td>Qtd: " & contador & "</td><td></td><td></td><td></td></td><td>" & Total & "</td><td></td><td></td><td></td><td></td><td></td><td></td><td>" & valoresNF & "</td><td></td><td></td><td></td><td></td><td></td><td></tr>"
             tabela &= "</table>"
             divConteudoDinamico.InnerHtml &= tabela
+
         End If
 
         ds = Con.ExecutarQuery("SELECT NOME FROM TB_USUARIO WHERE ID_USUARIO = " & Session("ID_USUARIO"))
