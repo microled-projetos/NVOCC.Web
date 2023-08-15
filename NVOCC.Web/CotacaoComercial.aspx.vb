@@ -61,9 +61,6 @@ WHERE A.ID_STATUS_COTACAO = 8")
             End If
             dgvCotacao.Rows(txtlinha.Text).CssClass = "selected1"
 
-
-
-
             Dim Con As New Conexao_sql
             Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO,ID_TIPO_ESTUFAGEM,ID_SERVICO,NR_COTACAO FROM TB_COTACAO WHERE ID_COTACAO =" & txtID.Text)
@@ -102,10 +99,6 @@ WHERE A.ID_STATUS_COTACAO = 8")
         ElseIf e.CommandName = "Status" Then
 
             Dim ID As String = e.CommandArgument.Substring(0, e.CommandArgument.IndexOf("|"))
-
-            'dsHistoricoFrete.SelectCommand = "SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= " & txtQtd.Text & " and cnpj = '" & txtcnpj.Text & "' "
-            'dgvHistoricoFrete.DataBind()
-
 
             dsHistoricoStatus.SelectParameters("ID_COTACAO").DefaultValue = ID
             dgvHistoricoStatus.DataBind()
@@ -172,7 +165,6 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & ID)
         End If
 
 
-
     End Sub
 
     Private Sub dgvCotacao_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dgvCotacao.SelectedIndexChanged
@@ -230,9 +222,9 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & ID)
                 divErro.Visible = True
                 lblmsgErro.Text = "Selecione o registro que deseja editar!"
             Else
-                Dim url As String = "/CadastroCotacao.aspx?id={0}"
-                url = String.Format(url, txtID.Text)
-                Response.Redirect(url)
+
+                Response.Redirect("CadastroCotacao.aspx?id=" & txtID.Text)
+
             End If
         End If
 
@@ -257,6 +249,9 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & ID)
 
         Return NR_COTACAO
     End Function
+
+
+
 
     Private Sub lkDuplicar_Click(sender As Object, e As EventArgs) Handles lkDuplicar.Click
         divSuccess.Visible = False
@@ -293,7 +288,7 @@ SELECT (SELECT MAX(ID_COTACAO) FROM TB_COTACAO ), ID_MERCADORIA, ID_TIPO_CONTAIN
  VL_FRETE_VENDA, VL_PESO_BRUTO, VL_M3, DS_MERCADORIA, VL_COMPRIMENTO, VL_LARGURA, VL_ALTURA, VL_CARGA, QT_DIAS_FREETIME,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,OUTRAS_OBS,VL_FRETE_COMPRA_MIN,VL_FRETE_VENDA_MIN ,ID_MOEDA_CARGA,QT_MERCADORIA 
 FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
                 Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALCOTACAO =  " & Session("NR_COTACAO") & ", ANOSEQUENCIALCOTACAO = YEAR(GETDATE())")
-
+                txtPesquisa.Text = ""
                 dgvCotacao.DataBind()
                 divSuccess.Visible = True
                 lblmsgSuccess.Text = "Item duplicado com sucesso! <br/><br/><strong> Nova cotação:" & numero_cotacao & "</strong>"
@@ -388,7 +383,7 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
 
                         divSuccess.Visible = True
                         lblmsgSuccess.Text = "Calculo realizado com sucesso"
-                        dgvCotacao.DataBind()
+
                     Else
                         divErro.Visible = True
                         lblmsgErro.Text = retorno
@@ -403,6 +398,152 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
 
 
 
+                '                If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
+                '                    divErro.Visible = True
+                '                    lblmsgErro.Text = "Não é possivel calcular pois a cotação já esta aprovada!"
+                '                Else
+
+                '                    Dim VENDA_MIN As Decimal
+                '                    Dim M3 As Decimal
+                '                    Dim PESO_BRUTO As Decimal
+                '                    Dim QT_CONTAINER As Integer
+                '                    Dim LCA As Decimal
+
+                '                    'NUMERO SEQUENCIAL
+
+                '                    ds = Con.ExecutarQuery("Select A.ID_TIPO_ESTUFAGEM,
+                'A.ID_SERVICO,
+                'isnull(A.VL_TOTAL_M3,0)VL_M3, 
+                'isnull(A.VL_TOTAL_PESO_BRUTO,0)VL_PESO_BRUTO,
+                'isnull(A.VL_TOTAL_FRETE_VENDA_MIN,0)VL_TOTAL_FRETE_VENDA_MIN,
+                'isnull(A.VL_TOTAL_FRETE_VENDA,0)VL_TOTAL_FRETE_VENDA,
+                '(select sum(isnull(QT_CONTAINER,0)) FROM TB_COTACAO_MERCADORIA B WHERE B.ID_COTACAO = A.ID_COTACAO )QT_CONTAINER,
+                '(SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO,
+                '(isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/6000 AS LCA
+                'from TB_COTACAO A 
+                'left join TB_COTACAO_MERCADORIA_DIMENSAO D ON D.ID_COTACAO = A.ID_COTACAO
+                'Where A.ID_COTACAO = " & txtID.Text)
+
+                '                    M3 = ds.Tables(0).Rows(0).Item("VL_M3")
+                '                    PESO_BRUTO = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
+                '                    VENDA_MIN = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_MIN")
+                '                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_CONTAINER")) Then
+                '                        QT_CONTAINER = ds.Tables(0).Rows(0).Item("QT_CONTAINER")
+                '                    End If
+
+
+
+                '                    '        CÁLCULO DO PESO TAXADO
+                '                    Dim PESO_TAXADO As Decimal
+
+
+                '                    'ANTIGO
+                '                    ' Dim PV As Decimal = M3
+                '                    'If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                '                    '    'AEREO
+
+                '                    '    PV = M3 * 167
+                '                    '    ' PESO_BRUTO = PESO_BRUTO / 1000
+                '                    '    If PESO_BRUTO >= PV Then
+                '                    '        PESO_TAXADO = PESO_BRUTO
+                '                    '    Else
+                '                    '        PESO_TAXADO = PV
+                '                    '    End If
+                '                    'End If
+
+
+                '                    'NOVO
+                '                    If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                '                        'AEREO
+
+                '                        'AEREO
+                '                        For Each linha As DataRow In ds.Tables(0).Rows
+                '                            LCA = LCA + linha.Item("LCA")
+                '                        Next
+                '                        Dim LCAFinal As String = LCA.ToString
+                '                        LCAFinal = LCAFinal.ToString.Replace(".", "")
+                '                        LCAFinal = LCAFinal.ToString.Replace(",", ".")
+                '                        Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 = " & LCAFinal & " WHERE ID_COTACAO = " & txtID.Text)
+                '                        Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_M3 = " & LCAFinal & " WHERE ID_COTACAO = " & txtID.Text)
+
+                '                        If LCA >= PESO_BRUTO Then
+                '                            PESO_TAXADO = LCA
+                '                        Else
+                '                            PESO_TAXADO = PESO_BRUTO
+                '                        End If
+
+
+
+                '                        'If Not IsDBNull(ds.Tables(0).Rows(0).Item("LCA")) Then
+                '                        '    LCA = ds.Tables(0).Rows(0).Item("LCA")
+                '                        '    Dim LCAFinal As String = LCA.ToString
+                '                        '    LCAFinal = LCAFinal.ToString.Replace(".", "")
+                '                        '    LCAFinal = LCAFinal.ToString.Replace(",", ".")
+                '                        '    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 = " & LCAFinal & " WHERE ID_COTACAO = " & txtID.Text)
+                '                        'End If
+
+                '                        'If LCA >= PESO_BRUTO Then
+                '                        '    PESO_TAXADO = LCA
+                '                        'Else
+                '                        '    PESO_TAXADO = PESO_BRUTO
+                '                        'End If
+                '                    End If
+
+
+                '                    If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
+                '                        'MARITIMO
+                '                        PESO_BRUTO = PESO_BRUTO / 1000
+
+                '                        If PESO_BRUTO >= M3 Then
+                '                            PESO_TAXADO = PESO_BRUTO
+                '                        Else
+                '                            PESO_TAXADO = M3
+                '                        End If
+                '                    End If
+
+
+                '                    Dim FRETE_CALCULADO As Decimal = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA")
+
+
+                '                    If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
+                '                        'ID_BASE_CALCULO 34 - POR CNTR
+                '                        '  FRETE_CALCULADO = (FRETE_CALCULADO * QT_CONTAINER)
+                '                        If FRETE_CALCULADO < VENDA_MIN Then
+                '                            FRETE_CALCULADO = VENDA_MIN
+                '                        End If
+                '                    ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                '                        'ID_BASE_CALCULO 13 - POR TON / M³
+                '                        FRETE_CALCULADO = (FRETE_CALCULADO * PESO_TAXADO)
+                '                        If FRETE_CALCULADO < VENDA_MIN Then
+                '                            FRETE_CALCULADO = VENDA_MIN
+                '                        End If
+
+                '                    End If
+
+
+
+
+                '                    Dim Peso_Final As String = PESO_TAXADO.ToString
+                '                    Peso_Final = Peso_Final.ToString.Replace(".", "")
+                '                    Peso_Final = Peso_Final.ToString.Replace(",", ".")
+
+                '                    Dim frete_Final As String = FRETE_CALCULADO.ToString
+                '                    frete_Final = frete_Final.ToString.Replace(".", "")
+                '                    frete_Final = frete_Final.ToString.Replace(",", ".")
+
+                '                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_PESO_TAXADO = " & Peso_Final & ",VL_TOTAL_FRETE_VENDA_CALCULADO = " & frete_Final & "  WHERE ID_COTACAO = " & txtID.Text)
+
+                '                    divSuccess.Visible = True
+                '                    lblmsgSuccess.Text = "Taxa calculada com sucesso"
+                '                    CalcTaxas()
+                '                    Con.ExecutarQuery("UPDATE TB_COTACAO SET Dt_Calculo_Cotacao = GETDATE() WHERE ID_COTACAO = " & txtID.Text)
+
+
+                '                    dgvCotacao.DataBind()
+                '                End If
+
+
+
                 GRID()
 
             End If
@@ -411,63 +552,1546 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
 
     End Sub
 
+    Sub CalcTaxas()
+        divPesquisa.Visible = False
+        divSuccess.Visible = False
+        divErro.Visible = False
+
+
+        Dim dataatual As Date = Now.Date.ToString("dd/MM/yyyy")
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT a.ID_SERVICO,b.ID_COTACAO_TAXA,isnull(A.VL_PESO_TAXADO,0) VL_PESO_TAXADO,a.ID_MOEDA_FRETE,isnull(A.ID_INCOTERM,0)ID_INCOTERM,
+isnull(B.VL_TAXA_COMPRA,0)VL_TAXA_COMPRA,
+isnull(B.VL_TAXA_VENDA,0)VL_TAXA_VENDA,
+B.ID_BASE_CALCULO_TAXA,isnull(A.VL_TOTAL_M3,0)VL_M3, 
+isnull(A.VL_TOTAL_PESO_BRUTO,0)VL_PESO_BRUTO, 
+(select CASE WHEN A.ID_MOEDA_FRETE = 124 THEN CONVERT(varchar,GETDATE(),103) ELSE (select CONVERT(varchar,MAX(DT_CAMBIO),103) FROM TB_MOEDA_FRETE WHERE ID_MOEDA = A.ID_MOEDA_FRETE) END)DT_CAMBIO,
+isnull(B.VL_TAXA_COMPRA_MIN,0)VL_TAXA_COMPRA_MIN,
+isnull(B.VL_TAXA_VENDA_MIN,0)VL_TAXA_VENDA_MIN,
+isnull(B.ID_MOEDA_COMPRA,0)ID_MOEDA_COMPRA,
+isnull(B.ID_MOEDA_VENDA,0)ID_MOEDA_VENDA,
+isnull(B.QTD_BASE_CALCULO,0)QTD_BASE_CALCULO
+From TB_COTACAO A 
+Left Join TB_COTACAO_TAXA B ON A.ID_COTACAO = B.ID_COTACAO 
+Left Join TB_BASE_CALCULO_TAXA C ON B.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA 
+WHERE A.ID_COTACAO =" & txtID.Text & " ORDER BY NM_BASE_CALCULO_TAXA desc")
+        If ds.Tables(0).Rows.Count > 0 Then
+            For Each linha As DataRow In ds.Tables(0).Rows
+                Dim COMPRA_MIN As Decimal = linha.Item("VL_TAXA_COMPRA_MIN")
+                Dim VENDA_MIN As Decimal = linha.Item("VL_TAXA_VENDA_MIN")
+                Dim QTD_BASE_CALCULO As Integer = linha.Item("QTD_BASE_CALCULO")
+                Dim x As Double
+                Dim y As Double
+                Dim z As Double
+                Dim CompraCalc As String = "0"
+                Dim VendaCalc As String = "0"
+                If IsDBNull(linha.Item("ID_COTACAO_TAXA")) Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Não há taxas vinculadas a essa cotação"
+                    divSuccess.Visible = False
+
+                    Exit Sub
+
+                ElseIf IsDBNull(linha.Item("ID_BASE_CALCULO_TAXA")) Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Base de Calculo não informada."
+                    divSuccess.Visible = False
+                    Exit Sub
+
+                ElseIf linha.Item("ID_MOEDA_FRETE") = 0 Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Moeda de frete não informada."
+                    divSuccess.Visible = False
+                    Exit Sub
+
+                ElseIf linha.Item("ID_MOEDA_COMPRA") = 0 And linha.Item("VL_TAXA_COMPRA") <> 0 Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Moeda não informada."
+                    divSuccess.Visible = False
+                    Exit Sub
+                ElseIf linha.Item("ID_MOEDA_VENDA") = 0 And linha.Item("VL_TAXA_VENDA") <> 0 Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Moeda não informada."
+                    divSuccess.Visible = False
+                    Exit Sub
+                ElseIf IsDBNull(linha.Item("DT_CAMBIO")) Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Não há valor de moeda de câmbio cadastrado com a data atual."
+                    divSuccess.Visible = False
+
+                    Exit Sub
+                ElseIf linha.Item("DT_CAMBIO") < dataatual Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Não há valor de moeda de câmbio cadastrado com a data atual."
+                    divSuccess.Visible = False
+
+                    Exit Sub
+
+                ElseIf linha.Item("DT_CAMBIO") > dataatual Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Não há valor de moeda de câmbio cadastrado com a data atual."
+                    divSuccess.Visible = False
+
+                    Exit Sub
+
+                Else
+                    If linha.Item("ID_BASE_CALCULO_TAXA") = 1 Then
+                        divErro.Visible = True
+                        lblmsgErro.Text = "Base de Calculo não informada."
+                        divSuccess.Visible = False
+                        Exit Sub
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 2 Then
+                        '% VR DO FRETE
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(VL_TOTAL_FRETE_VENDA),0) * 1/100 as QTD
+FROM TB_COTACAO A
+WHERE A.ID_COTACAO =  " & txtID.Text)
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 3 Then
+                        'VR DO FRETE
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(VL_TOTAL_FRETE_VENDA),0) * 1/100 as QTD
+FROM TB_COTACAO A
+WHERE A.ID_COTACAO =   " & txtID.Text)
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 4 Then
+                        '% TOTAL DO HOUSE
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT 
+   sum(VL_TAXA_VENDA_CALCULADO) + VL_TOTAL_FRETE_VENDA_CALCULADO TOTAL_VENDA, 
+   
+   sum(VL_TAXA_COMPRA_CALCULADO) + VL_TOTAL_FRETE_COMPRA TOTAL_COMPRA
+FROM TB_COTACAO A
+INNER JOIN TB_COTACAO_TAXA B ON B.ID_COTACAO = A.ID_COTACAO
+WHERE B.FL_DECLARADO = 1
+AND A.ID_MOEDA_FRETE = B.ID_MOEDA_VENDA 
+AND A.ID_COTACAO = " & txtID.Text & "
+GROUP BY A.ID_COTACAO,VL_TOTAL_FRETE_VENDA_CALCULADO,VL_TOTAL_FRETE_COMPRA")
+
+                        If ds1.Tables(0).Rows.Count > 0 Then
+                            If Not IsDBNull(ds1.Tables(0).Rows(0).Item("TOTAL_COMPRA")) Then
+                                x = ds1.Tables(0).Rows(0).Item("TOTAL_COMPRA") / 100
+                            Else
+                                x = 0 / 100
+                            End If
+                        Else
+                            x = 0 / 100
+                        End If
+
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+
+                        If ds1.Tables(0).Rows.Count > 0 Then
+                            If Not IsDBNull(ds1.Tables(0).Rows(0).Item("TOTAL_VENDA")) Then
+                                x = ds1.Tables(0).Rows(0).Item("TOTAL_VENDA") / 100
+                            Else
+                                x = 0 / 100
+                            End If
+                        Else
+                            x = 0 / 100
+                        End If
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 5 Then
+                        'VALOR FIXO
+
+                        VendaCalc = linha.Item("VL_TAXA_VENDA").ToString()
+                        CompraCalc = linha.Item("VL_TAXA_COMPRA").ToString()
+
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 6 Then
+                        'POR M³
+
+                        x = linha.Item("VL_M3")
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = x * y
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                        x = linha.Item("VL_M3")
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = x * y
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 7 Then
+                        'POR TON
+
+                        x = linha.Item("VL_PESO_BRUTO")
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = x / 1000
+                        z = y * z
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+
+                        x = linha.Item("VL_PESO_BRUTO")
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = x / 1000
+                        z = y * z
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 10 Then
+                        'POR MAFI 20'
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (19)")
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 11 Then
+                        'POR CNTR 20'
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (5,6,2,9,10,12,16,18,19)")
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 12 Then
+                        'POR CNTR 40'
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (17,13,14,15,11,3,4,7,8,1)")
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 13 Then
+                        'POR TON / M³
+                        If linha.Item("ID_SERVICO") = 1 Or linha.Item("ID_SERVICO") = 4 Then
+                            'MARITIMO
+
+
+                            x = linha.Item("VL_M3")
+                            y = linha.Item("VL_PESO_BRUTO") / 1000
+
+
+
+                            If x > y Then
+                                x = x
+                            Else
+                                x = y
+                            End If
+
+
+
+                            y = linha.Item("VL_TAXA_VENDA")
+                            z = x * y
+                            If VENDA_MIN < 0 Then
+                                If z > VENDA_MIN Then
+                                    z = VENDA_MIN
+                                End If
+                            ElseIf VENDA_MIN > 0 Then
+                                If z < VENDA_MIN Then
+                                    z = VENDA_MIN
+                                End If
+                            End If
+                            VendaCalc = z.ToString
+
+                            y = linha.Item("VL_TAXA_COMPRA")
+                            z = x * y
+                            If COMPRA_MIN < 0 Then
+                                If z > COMPRA_MIN Then
+                                    z = COMPRA_MIN
+                                End If
+                            ElseIf COMPRA_MIN > 0 Then
+                                If z < COMPRA_MIN Then
+                                    z = COMPRA_MIN
+                                End If
+                            End If
+                            CompraCalc = z.ToString
+
+
+                        ElseIf linha.Item("ID_SERVICO") = 2 Or linha.Item("ID_SERVICO") = 5 Then
+                            'AEREO
+
+
+                            x = linha.Item("VL_M3")
+
+                            y = linha.Item("VL_TAXA_VENDA")
+                            z = x * y
+                            If VENDA_MIN < 0 Then
+                                If z > VENDA_MIN Then
+                                    z = VENDA_MIN
+                                End If
+                            ElseIf VENDA_MIN > 0 Then
+                                If z < VENDA_MIN Then
+                                    z = VENDA_MIN
+                                End If
+                            End If
+                            VendaCalc = z.ToString
+
+                            y = linha.Item("VL_TAXA_COMPRA")
+                            z = x * y
+                            If COMPRA_MIN < 0 Then
+                                If z > COMPRA_MIN Then
+                                    z = COMPRA_MIN
+                                End If
+                            ElseIf COMPRA_MIN > 0 Then
+                                If z < COMPRA_MIN Then
+                                    z = COMPRA_MIN
+                                End If
+                            End If
+                            CompraCalc = z.ToString
+                        End If
+
+
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 14 Then
+                        'POR KG
+
+                        If linha.Item("ID_SERVICO") = 1 Or linha.Item("ID_SERVICO") = 4 Then
+                            'MARITIMO
+                            x = linha.Item("VL_PESO_BRUTO")
+
+                        ElseIf linha.Item("ID_SERVICO") = 2 Or linha.Item("ID_SERVICO") = 5 Then
+                            'AEREO
+                            x = linha.Item("VL_PESO_TAXADO")
+
+                        End If
+
+
+
+
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = x * y
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z
+
+
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = x * y
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 15 Then
+                        '% VR DA MERCADORIA
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_CARGA),0)) AS VALOR
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text & " ")
+
+                        x = ds1.Tables(0).Rows(0).Item("VALOR") / 100
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("VALOR") / 100
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 16 Then
+                        '% HOUSE COLLECT
+
+                        Dim ds1 As DataSet = Con.ExecutarQuery("   SELECT 
+   sum(VL_TAXA_VENDA_CALCULADO) 
+   + CASE WHEN A.ID_TIPO_PAGAMENTO = 1 THEN VL_TOTAL_FRETE_VENDA_CALCULADO ELSE 0 END  
+   TOTAL_VENDA, 
+   
+   sum(VL_TAXA_COMPRA_CALCULADO) + 
+      + CASE WHEN A.ID_TIPO_PAGAMENTO = 1 THEN VL_TOTAL_FRETE_COMPRA ELSE 0 END 
+	  TOTAL_COMPRA
+FROM TB_COTACAO A
+INNER JOIN TB_COTACAO_TAXA B ON B.ID_COTACAO = A.ID_COTACAO
+WHERE B.FL_DECLARADO = 1
+AND B.ID_MOEDA_VENDA = B.ID_MOEDA_VENDA 
+AND A.ID_COTACAO = " & txtID.Text & "
+AND B.ID_TIPO_PAGAMENTO = 1
+GROUP BY A.ID_COTACAO,VL_TOTAL_FRETE_VENDA_CALCULADO,VL_TOTAL_FRETE_COMPRA,A.ID_TIPO_PAGAMENTO")
+                        If ds1.Tables(0).Rows.Count = 0 Then
+                            CompraCalc = COMPRA_MIN.ToString
+                            VendaCalc = VENDA_MIN.ToString
+                        Else
+                            x = ds1.Tables(0).Rows(0).Item("TOTAL_COMPRA") / 100
+                            y = linha.Item("VL_TAXA_COMPRA")
+                            z = y * x
+                            If COMPRA_MIN < 0 Then
+                                If z > COMPRA_MIN Then
+                                    z = COMPRA_MIN
+                                End If
+                            ElseIf COMPRA_MIN > 0 Then
+                                If z < COMPRA_MIN Then
+                                    z = COMPRA_MIN
+                                End If
+                            End If
+
+                            CompraCalc = z.ToString
+
+                            x = ds1.Tables(0).Rows(0).Item("TOTAL_VENDA") / 100
+                            y = linha.Item("VL_TAXA_VENDA")
+                            z = y * x
+                            If VENDA_MIN < 0 Then
+                                If z > VENDA_MIN Then
+                                    z = VENDA_MIN
+                                End If
+                            ElseIf VENDA_MIN > 0 Then
+                                If z < VENDA_MIN Then
+                                    z = VENDA_MIN
+                                End If
+                            End If
+                            VendaCalc = z.ToString
+                        End If
+
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 20 Then
+                        'POR HC 20'
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER = 10")
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 21 Then
+                        'POR FLAT RACK 40'
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (15)")
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 22 Then
+                        ' POR OPEN TOP 20'
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (9)")
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 23 Then
+                        'POR OPEN TOP 40'
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (8)")
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 24 Then
+                        'POR FLAT RACK 20'
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (16)")
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 25 Then
+                        'POR REEFER 20'
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (5)")
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 26 Then
+                        'POR REEFER 40
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (4)")
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 28 Then
+                        'POR MAFI 40'
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (13)")
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 29 Then
+                        'VALOR POR EMBARQUE- valor fixo digitado
+
+                        z = linha.Item("VL_TAXA_VENDA").ToString()
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+
+
+                        z = linha.Item("VL_TAXA_COMPRA").ToString()
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 30 Then
+                        'POR UNIDADE - quantidade de conteineres do processo
+
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text & "")
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 31 Then
+                        'POR HAWB (AEREO)- na cotação é 1 por 1
+
+                        z = linha.Item("VL_TAXA_VENDA").ToString()
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                        z = linha.Item("VL_TAXA_COMPRA").ToString()
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 32 Then
+                        'POR HBL (MARITIMO) - na cotação é 1 por 1
+
+                        z = linha.Item("VL_TAXA_VENDA").ToString()
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                        z = linha.Item("VL_TAXA_COMPRA").ToString()
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 33 Then
+                        'POR DOCUMENTO
+
+                        z = linha.Item("VL_TAXA_VENDA").ToString()
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                        z = linha.Item("VL_TAXA_COMPRA").ToString()
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                    ElseIf (linha.Item("ID_BASE_CALCULO_TAXA") = 38 Or linha.Item("ID_BASE_CALCULO_TAXA") = 40 Or linha.Item("ID_BASE_CALCULO_TAXA") = 41) Then
+                        'POR DOC/SHIPPER   -   POR ENTRADA    -   POR CARGA
+
+                        z = linha.Item("VL_TAXA_VENDA") * QTD_BASE_CALCULO
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                        z = linha.Item("VL_TAXA_COMPRA") * QTD_BASE_CALCULO
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 34 Then
+                        'POR CNTR 
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO = " & txtID.Text)
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 35 Then
+                        ' POR TEU
+
+                        'Para cada conteiner de 20' corresponde 1 teu
+                        Dim ds1 As DataSet = Con.ExecutarQuery(" Select ISNULL(SUM(QT_CONTAINER), 0)QTD
+From TB_COTACAO_MERCADORIA A
+Where a.ID_COTACAO = " & txtID.Text & " And ID_TIPO_CONTAINER In (5,6,2,9,10,12,16,18)")
+                        y = ds1.Tables(0).Rows(0).Item("QTD")
+
+
+                        'Para cada conteiner de 40' corresponde a 2 teus
+
+                        ds1 = Con.ExecutarQuery("Select ISNULL(SUM(QT_CONTAINER), 0)QTD
+From TB_COTACAO_MERCADORIA A
+Where a.ID_COTACAO = " & txtID.Text & " And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        x = x * 2
+                        Dim total As Integer = x + y
+
+                        z = total * linha.Item("VL_TAXA_VENDA")
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                        z = total * linha.Item("VL_TAXA_COMPRA")
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 36 Then
+                        'POR REEFER
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO =" & txtID.Text & " AND ID_TIPO_CONTAINER IN (4,5)")
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 37 Then
+                        'SEGURO
+
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_CARGA),0)) AS VALOR_CARGA, (ISNULL(SUM(B.VL_TOTAL_FRETE_VENDA_CALCULADO),0)) AS FRETE_VENDA_CALCULADO
+FROM TB_COTACAO_MERCADORIA A
+INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO
+WHERE A.ID_COTACAO = " & txtID.Text & " ")
+                        Dim TAXAS_DECLARADAS As Decimal = 0
+                        Dim FOB As Decimal = ds1.Tables(0).Rows(0).Item("VALOR_CARGA")
+                        Dim FRETE As Decimal = ds1.Tables(0).Rows(0).Item("FRETE_VENDA_CALCULADO")
+
+                        If linha.Item("ID_INCOTERM") = 10 Then
+                            ds1 = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_TAXA_VENDA_CALCULADO),0)) AS VALOR_TAXA
+FROM TB_COTACAO_TAXA A
+WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
+                            TAXAS_DECLARADAS = ds1.Tables(0).Rows(0).Item("VALOR_TAXA")
+                        End If
+
+                        Dim DESPESA As Decimal = FOB + FRETE + TAXAS_DECLARADAS
+                        DESPESA = DESPESA / 100
+                        DESPESA = DESPESA * 10
+
+                        Dim TOTAL As Decimal = DESPESA + FRETE + TAXAS_DECLARADAS + FOB
+
+                        x = TOTAL / 100
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+                        x = TOTAL / 100
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 42 Then
+                        'POR PESO TAXADO
+
+                        x = linha.Item("VL_PESO_TAXADO")
+
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = x * y
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = x * y
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
+
+
+
+                    End If
+
+
+                    CompraCalc = CompraCalc.Replace(".", String.Empty)
+                    CompraCalc = CompraCalc.Replace(",", ".")
+                    VendaCalc = VendaCalc.Replace(".", String.Empty)
+                    VendaCalc = VendaCalc.Replace(",", ".")
+
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET VL_TAXA_COMPRA_CALCULADO = '" & CompraCalc & "', VL_TAXA_VENDA_CALCULADO = '" & VendaCalc & "' WHERE ID_COTACAO_TAXA = " & linha.Item("ID_COTACAO_TAXA"))
+                    divSuccess.Visible = True
+
+                End If
+            Next
+
+        End If
+
+
+        'Recalcula seguro
+
+    End Sub
     Private Sub bntPesquisar_Click(sender As Object, e As EventArgs) Handles bntPesquisar.Click
         GRID()
     End Sub
 
     Sub GRID()
+
         If txtData.Text <> "" And ddlEstufagem.SelectedValue <> 0 And ddlIncoterm.SelectedValue <> 0 And ddlOrigem.SelectedValue <> 0 And ddlDestino.SelectedValue <> 0 And txtPeso.Text <> "" And txtCBM.Text <> "" And ddlServico.SelectedValue <> 0 Then
             PesquisaRepetidas()
         Else
-            If ddlConsultas.SelectedValue = 0 Or txtPesquisa.Text = "" Then
-                dgvCotacao.DataBind()
-            Else
-                Dim FILTRO As String
+
+
+            Dim FILTRO As String
+
+
+
+            If rdTRansporte.SelectedValue <> 0 Then
+                If FILTRO = "" Then
+                    FILTRO = " WHERE ID_VIATRANSPORTE = " & rdTRansporte.SelectedValue
+                Else
+                    FILTRO = FILTRO & " AND ID_VIATRANSPORTE = " & rdTRansporte.SelectedValue
+                End If
+            End If
+
+            If rdServico.SelectedValue <> 0 Then
+                If FILTRO = "" Then
+                    If rdServico.SelectedValue = 1 Then
+                        FILTRO = " WHERE ID_SERVICO in (1,2) "
+                    ElseIf rdServico.SelectedValue = 2 Then
+                        FILTRO = " WHERE ID_SERVICO in (4,5) "
+                    End If
+                Else
+                    If rdServico.SelectedValue = 1 Then
+                        FILTRO = FILTRO & " AND ID_SERVICO in (1,2) "
+                    ElseIf rdServico.SelectedValue = 2 Then
+                        FILTRO = FILTRO & " AND ID_SERVICO in (4,5) "
+                    End If
+                End If
+            End If
+
+            If rdEstufagem.SelectedValue <> 0 Then
+                If FILTRO = "" Then
+                    FILTRO = " WHERE ID_TIPO_ESTUFAGEM = " & rdEstufagem.SelectedValue
+                Else
+                    FILTRO = FILTRO & " AND ID_TIPO_ESTUFAGEM = " & rdEstufagem.SelectedValue
+                End If
+            End If
+
+            If txtPesquisa.Text <> "" Then
 
                 If ddlConsultas.SelectedValue = 1 Then
-                    FILTRO = " NR_COTACAO LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE NR_COTACAO LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND NR_COTACAO LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 2 Then
-                    FILTRO = " STATUS LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE STATUS LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND STATUS LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 3 Then
-                    FILTRO = " CLIENTE LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE CLIENTE LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND CLIENTE LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 4 Then
-                    FILTRO = " ORIGEM LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE ORIGEM LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND ORIGEM LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 5 Then
-                    FILTRO = " DESTINO LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE DESTINO LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND DESTINO LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 6 Then
-                    FILTRO = " AGENTE LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE AGENTE LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND AGENTE LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 7 Then
-                    FILTRO = " VENDEDOR LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE VENDEDOR LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND VENDEDOR LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 8 Then
-                    FILTRO = " NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
-
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 10 Then
-                    FILTRO = " CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 11 Then
-                    FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 12 Then
-                    FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE TIPO_ESTUFAGEM LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND TIPO_ESTUFAGEM LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 13 Then
-                    FILTRO = " INCOTERM LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE INCOTERM LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND INCOTERM LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 14 Then
-                    FILTRO = " ARMADOR LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE ARMADOR LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND ARMADOR LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 15 Then
-                    FILTRO = " ANALISTA_COTACAO_INSIDE LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE ANALISTA_COTACAO_INSIDE LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND ANALISTA_COTACAO_INSIDE LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 16 Then
-                    FILTRO = " ANALISTA_COTACAO_PRICING LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE ANALISTA_COTACAO_PRICING LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND ANALISTA_COTACAO_PRICING LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 17 Then
-                    FILTRO = " SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND SERVICO LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 ElseIf ddlConsultas.SelectedValue = 18 Then
-                    FILTRO = " EXPORTADOR LIKE '%" & txtPesquisa.Text & "%' "
+                    If FILTRO = "" Then
+                        FILTRO = " WHERE EXPORTADOR LIKE '%" & txtPesquisa.Text & "%' "
+                    Else
+                        FILTRO = FILTRO & " AND EXPORTADOR LIKE '%" & txtPesquisa.Text & "%' "
+                    End If
                 End If
 
-                Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
-
-                dsCotacao.SelectCommand = sql
-                dgvCotacao.DataBind()
-
             End If
+            Dim sql As String = "SELECT top 500 *  FROM [dbo].[View_Cotacao]  " & FILTRO & " ORDER BY DT_ABERTURA DESC"
+
+            dsCotacao.SelectCommand = sql
+            dgvCotacao.DataBind()
+
         End If
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
+
     End Sub
 
     Private Sub lkImprimir_Click(sender As Object, e As EventArgs) Handles lkImprimir.Click
@@ -476,7 +2100,7 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
             lblmsgErro.Text = "Selecione o registro que deseja imprimir!"
         Else
             mpeImprimir.Show()
-            Panel1.Attributes.CssStyle.Add("display", "block")
+            PanelImprimir.Attributes.CssStyle.Add("display", "block")
         End If
 
     End Sub
@@ -502,7 +2126,6 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
                 btnDuplicar.Visible = False
             End If
 
-
         End If
     End Sub
 
@@ -521,7 +2144,13 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
                 divErro.Visible = True
                 lblmsgErro.Text = "Cotação necessita de cálculo!"
             Else
+                'Dim url As String = ""
 
+                'url = "GeraPDF.aspx?c=" & txtID.Text & "&l=" & ddlLinguagem.SelectedValue & "&f=i"
+
+                'Response.Write("<script>")
+                'Response.Write("window.open('" & url & "','_blank')")
+                'Response.Write("</script>")
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirCotacao()", True)
 
             End If
@@ -536,7 +2165,9 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
             lblmsgErro.Text = "Selecione o registro que deseja enviar!"
 
         Else
-
+            'Dim url As String = ""
+            'url = "GeraPDF.aspx?c=" & txtID.Text & "&l=" & ddlLinguagem.SelectedValue & "&f=e"
+            'Response.Redirect(url)
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "EnviarCotacao()", True)
 
         End If
@@ -705,7 +2336,6 @@ TB_PARAMETROS WHERE EMAIL_FECHAMENTO_COTACAO IS NOT NULL")
         End If
 
     End Sub
-
 
     Function ValorMinimoPendente(ID_COTACAO As Integer) As Boolean
         Dim Con As New Conexao_sql
@@ -1073,7 +2703,7 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
             If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 4 Then
                 'AGENCIAMENTO DE IMPORTACAO MARITIMA (1)
                 'AGENCIAMENTO DE EXPORTACAO MARITIMA (4)
-                sql = " SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IN ( SELECT ID_COTACAO FROM [dbo].[View_Cotacao_Repetidas] WHERE CONVERT(DATE,DT_ABERTURA,103) BETWEEN CONVERT(DATE,GETDATE()-6,103) AND CONVERT(DATE,GETDATE(),103) AND  ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & peso.Replace(",", ".") & " AND VL_M3 = " & cbm.Replace(",", ".") & " ) ORDER BY DT_ABERTURA DESC"
+                sql = " SELECT top 500 *  FROM [dbo].[View_Cotacao] WHERE ID_COTACAO IN ( SELECT ID_COTACAO FROM [dbo].[View_Cotacao_Repetidas] WHERE CONVERT(DATE,DT_ABERTURA,103) BETWEEN CONVERT(DATE,GETDATE()-6,103) AND CONVERT(DATE,GETDATE(),103) AND ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & " AND ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_INCOTERM = " & ddlIncoterm.SelectedValue & " AND VL_TOTAL_PESO_BRUTO = " & peso.Replace(",", ".") & " AND VL_M3 = " & cbm.Replace(",", ".") & " ) ORDER BY DT_ABERTURA DESC"
 
             ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
 
@@ -1094,7 +2724,6 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
 
         End If
     End Sub
-
     Private Sub btnPesquisaRepetidas_Click(sender As Object, e As EventArgs) Handles btnPesquisaRepetidas.Click
         divSuccess.Visible = False
         divErro.Visible = False
@@ -1152,6 +2781,24 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
         End If
     End Sub
 
+    'Private Sub ddlServico_TextChanged(sender As Object, e As EventArgs) Handles ddlServico.TextChanged
+    'If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 4 Then
+    '    'AGENCIAMENTO DE IMPORTACAO MARITIMA (1)
+    '    'AGENCIAMENTO DE EXPORTACAO MARITIMA (4)
+    '    dsPorto.SelectCommand = " SELECT ID_PORTO, NM_PORTO + ' - ' +  CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
+    '    ddlOrigem.DataBind()
+    '    ddlDestino.DataBind()
+
+    'ElseIf ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
+    '    'AGENCIAMENTO DE IMPORTACAO AEREO (2)
+    '    'AGENCIAMENTO DE EXPORTAÇÃO AEREO (5)
+    '    dsPorto.SelectCommand = " SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE ISNULL(FL_ATIVO,0)=1 AND NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '      Selecione' ORDER BY NM_PORTO "
+    '    ddlOrigem.DataBind()
+    '    ddlDestino.DataBind()
+
+    'End If
+    'End Sub
+
     Private Sub btnCancelaEnvioSI_Click(sender As Object, e As EventArgs) Handles btnCancelaEnvioSI.Click
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -1167,5 +2814,18 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
         Con.ExecutarQuery("UPDATE TB_COTACAO SET FL_ENVIA_SI = 1 WHERE ID_COTACAO = " & txtID.Text)
         Aprovar()
         mpeEnvioSI.Hide()
+    End Sub
+
+    Private Sub rdTRansporte_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdTRansporte.SelectedIndexChanged
+        If rdTRansporte.SelectedValue = 1 Then 'MARITIMO
+            rdEstufagem.SelectedValue = 1
+            rdServico.SelectedValue = 1
+        ElseIf rdTRansporte.SelectedValue = 4 Then 'AEREO
+            rdEstufagem.SelectedValue = 2
+            rdServico.SelectedValue = 1
+        Else
+            rdEstufagem.SelectedValue = 0
+            rdServico.SelectedValue = 0
+        End If
     End Sub
 End Class

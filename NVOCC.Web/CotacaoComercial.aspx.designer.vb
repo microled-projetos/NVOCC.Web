@@ -266,6 +266,33 @@ Partial Public Class CotacaoComercial
     Protected WithEvents divPesquisa As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
+    '''Controle rdTRansporte.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents rdTRansporte As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''Controle rdEstufagem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents rdEstufagem As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''Controle rdServico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents rdServico As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
     '''Controle Label1.
     '''</summary>
     '''<remarks>
@@ -302,15 +329,6 @@ Partial Public Class CotacaoComercial
     Protected WithEvents bntPesquisar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Button1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle mpeImprimir.
     '''</summary>
     '''<remarks>
@@ -320,13 +338,13 @@ Partial Public Class CotacaoComercial
     Protected WithEvents mpeImprimir As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
-    '''Controle Panel1.
+    '''Controle PanelImprimir.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Panel1 As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents PanelImprimir As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
     '''Controle Label2.
@@ -374,6 +392,15 @@ Partial Public Class CotacaoComercial
     Protected WithEvents btnEnviar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle btnAuxiliarStatus.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnAuxiliarStatus As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle mpeStatus.
     '''</summary>
     '''<remarks>
@@ -383,13 +410,13 @@ Partial Public Class CotacaoComercial
     Protected WithEvents mpeStatus As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
-    '''Controle Panel2.
+    '''Controle PanelStatus.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Panel2 As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents PanelStatus As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
     '''Controle dgvHistoricoStatus.

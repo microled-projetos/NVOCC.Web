@@ -41,7 +41,6 @@
                         <br />
                         <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
                             <ContentTemplate>
-
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
                                 </div>
@@ -49,11 +48,12 @@
                                     <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
                                 </div>
                                 <br />
+
                                 <div class="row" id="divCotacoesRepetidas">
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Data:</label><br />
-                                            <asp:TextBox ID="txtData" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                              <asp:TextBox ID="txtData" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
@@ -109,14 +109,14 @@
                                     </div>
                                 </div>
                                 <br />
+
+
                                 <div class="row linhabotao text-center">
                                     <asp:LinkButton ID="lkInserir" runat="server" CssClass="btn  btnn btn-default btn-sm" Style="font-size: 15px"><i  class="glyphicon glyphicon-plus"></i>&nbsp;Inserir</asp:LinkButton>
                                     <asp:LinkButton ID="lkAlterar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i  class="glyphicon glyphicon-pencil"></i>&nbsp;Alterar</asp:LinkButton>
                                     <asp:LinkButton ID="lkDuplicar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px" OnClientClick="javascript:return confirm('Deseja realmente duplicar este registro?');"><i  class="glyphicon glyphicon-duplicate"  ></i>&nbsp;Duplicar</asp:LinkButton>
 
                                     <asp:LinkButton ID="lkImprimir" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-file-alt"></i>&nbsp;Imprimir/Enviar</asp:LinkButton>
-                                    <%--  <asp:LinkButton ID="lkEnviar"  runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="glyphicon glyphicon-envelope"></i>&nbsp;Enviar</asp:LinkButton> --%>
-
                                     <asp:LinkButton ID="lkFiltrar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i  class="glyphicon glyphicon-search"></i>&nbsp;Filtrar</asp:LinkButton>
                                     <asp:LinkButton ID="lkCalcular" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i  class="fa fa-calculator"></i>&nbsp;Calcular</asp:LinkButton>
                                     <asp:LinkButton ID="lkAprovar" runat="server" UseSubmitBehavior="false" OnClientClick="desabilitaButtonOnClick()" CssClass="lkAprovar btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-check-circle"></i>&nbsp;Aprovar</asp:LinkButton>
@@ -128,10 +128,39 @@
                                 </div>
                                 <br />
                                 <div class="row linhabotao" runat="server" id="divPesquisa" visible="false">
-                                    <asp:Label ID="Label1" Style="padding-left: 18px" runat="server">Filtro:</asp:Label>
-                                    <div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
+                                    <div class="col-sm-2" style="border: ridge 1px;margin-left: 10px">
+                                                <div class="form-group">
+                                                    <center><label class="control-label">Via Transporte:</label></center>
+                                                    <asp:RadioButtonList ID="rdTRansporte" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
+                                                        <asp:ListItem Value="1" Selected="True">&nbsp;Marítimo</asp:ListItem>
+                                                        <asp:ListItem Value="4">&nbsp;Aéreo</asp:ListItem>
+                                                        <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
+                                                    </asp:RadioButtonList>
+                                                </div>
+                                            </div>                                       
+                                        <div class="col-sm-2" style="border: ridge 1px; margin-left: 10px">
+                                                <div class="form-group">
+                                                    <center><label class="control-label">Estufagem:</label></center>
+                                                    <asp:RadioButtonList ID="rdEstufagem" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
+                                                        <asp:ListItem Value="1" Selected="True">&nbsp;FCL</asp:ListItem>
+                                                        <asp:ListItem Value="2">&nbsp;LCL</asp:ListItem>
+                                                        <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
+                                                    </asp:RadioButtonList>
+                                                </div>
+                                            </div>
+                                     <div class="col-sm-2" style="border: ridge 1px; margin-left: 10px">
+                                                <div class="form-group">
+                                                    <center><label class="control-label">Serviço:</label></center>
+                                                    <asp:RadioButtonList ID="rdServico" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
+                                                        <asp:ListItem Value="1" Selected="True">&nbsp;Importação</asp:ListItem>
+                                                        <asp:ListItem Value="2">&nbsp;Exportação</asp:ListItem>
+                                                        <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
+                                                    </asp:RadioButtonList>
+                                                </div>
+                                            </div>
+                                        <div class="col-sm-2">                                    
+
+                                            <div class="form-group"><asp:Label ID="Label1" Style="padding-left: 18px" runat="server">Filtro:</asp:Label>
                                                 <asp:DropDownList ID="ddlConsultas" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
                                                     <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
                                                     <asp:ListItem Value="1">Número da cotação</asp:ListItem>
@@ -140,8 +169,8 @@
                                                     <asp:ListItem Value="4">Origem</asp:ListItem>
                                                     <asp:ListItem Value="5">Destino</asp:ListItem>
                                                     <asp:ListItem Value="6">Nome do Agente</asp:ListItem>
-                                                    <asp:ListItem Value="7">Nome do Vendedor</asp:ListItem>
                                                     <asp:ListItem Value="18">Nome do Exportador</asp:ListItem>
+                                                    <asp:ListItem Value="7">Nome do Vendedor</asp:ListItem>
                                                     <asp:ListItem Value="8">Número Processo</asp:ListItem>
                                                     <asp:ListItem Value="10">Cliente Final</asp:ListItem>
                                                     <asp:ListItem Value="11">Via Transporte</asp:ListItem>
@@ -154,22 +183,19 @@
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                                <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control"></asp:TextBox>
+                                        <div class="col-sm-2">
+                                            <div class="form-group"><br />
+                                                <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control" ></asp:TextBox>
                                             </div>
                                         </div>
-
-                                        <asp:Button runat="server" Text="Pesquisar" ID="bntPesquisar" CssClass="btn btn-success" />
-                                    </div>
+                                    <br />
+                                        <asp:Button runat="server" Text="Pesquisar" ID="bntPesquisar" CssClass="btn btn-success" OnClientClick="MouseWait(); return true;"/>
                                 </div>
 
 
-                                <asp:Button runat="server" Style="display: none" ID="Button1" />
 
-
-                                <ajaxToolkit:ModalPopupExtender ID="mpeImprimir" runat="server" PopupControlID="Panel1" TargetControlID="lkImprimir" CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" Style="display: none;">
+                                <ajaxToolkit:ModalPopupExtender ID="mpeImprimir" runat="server" PopupControlID="PanelImprimir" TargetControlID="lkImprimir" CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="PanelImprimir" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -208,8 +234,9 @@
                                 </asp:Panel>
 
 
-                                <ajaxToolkit:ModalPopupExtender ID="mpeStatus" runat="server" PopupControlID="Panel2" TargetControlID="Button1" CancelControlID="btnFecharStatus"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" Style="display: none;">
+                                <asp:Button runat="server" Style="display: none" ID="btnAuxiliarStatus" />
+                                <ajaxToolkit:ModalPopupExtender ID="mpeStatus" runat="server" PopupControlID="PanelStatus" TargetControlID="btnAuxiliarStatus" CancelControlID="btnFecharStatus"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="PanelStatus" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -240,7 +267,6 @@
                                 </asp:Panel>
 
 
-
                                 <asp:Button runat="server" Style="display: none" ID="btnAuxiliarRepetida" />
                                 <ajaxToolkit:ModalPopupExtender ID="mpeRepetida" runat="server" PopupControlID="PanelRepetida" TargetControlID="btnAuxiliarRepetida" CancelControlID="btnFecharRepetida"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="PanelRepetida" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -269,7 +295,8 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                
+
+
                                 <asp:Button runat="server" Style="display: none" ID="btnAuxiliarEnvioSI" />
                                 <ajaxToolkit:ModalPopupExtender ID="mpeEnvioSI" runat="server" PopupControlID="pnlEnvioSI" TargetControlID="btnAuxiliarEnvioSI" CancelControlID="btnAuxiliarEnvioSI"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlEnvioSI" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -324,7 +351,7 @@
                                 </div>
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align: center">
                                     <asp:GridView ID="dgvCotacao" DataKeyNames="ID_COTACAO" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsCotacao" AutoGenerateColumns="False" Style="max-height: 600px; overflow: auto;" AllowSorting="True" OnSorting="dgvCotacao_Sorting" EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" AllowPaging="true" PageSize="100">
-                                       <Columns>
+                                        <Columns>
                                             <asp:TemplateField HeaderText="">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
@@ -376,6 +403,7 @@
                                 <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvCotacao" />
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCotacao" />
                                 <asp:AsyncPostBackTrigger ControlID="lkCalcular" />
+                                <asp:AsyncPostBackTrigger ControlID="ddlServico" />
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>
@@ -388,7 +416,7 @@
 
 
     <asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT top 500 * FROM View_Cotacao ORDER BY DT_ABERTURA DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT top 500 * FROM View_Cotacao WHERE ID_SERVICO = 1  AND ID_TIPO_ESTUFAGEM = 1 AND ID_VIATRANSPORTE = 1 ORDER BY DT_ABERTURA DESC"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
@@ -420,9 +448,15 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsServico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO WHERE ISNULL(TP_VIA,'') <> '' AND ID_SERVICO in (1,4) 
 union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
+ 
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+
     <script type="text/javascript">
         function SalvaPosicao() {
             var posicao = document.getElementById('DivGrid').scrollTop;
@@ -444,6 +478,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
         function EndRequestHandler(sender, args) {
             var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
             document.getElementById('DivGrid').scrollTop = valor;
+            InIEvent();
         };
 
 
@@ -472,5 +507,29 @@ union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
             window.open('GeraPDF.aspx?c=' + ID + '&l=' + Linguagem + '&f=e', '_blank');
 
         }
+
+
+
+        function InIEvent() {
+            $(".valores").on("keypress keyup blur", function (e) {
+                console.log("entrou")
+                var chr = String.fromCharCode(e.which);
+                if ("1234567890,".indexOf(chr) < 0)
+                    return false;
+
+            });
+        }
+
+        $(document).ready(InIEvent);
+
+        function MouseWait() {
+            console.log("wait");
+            document.body.style.cursor = "wait";
+        };
+        function MouseDefault() {
+            console.log("default");
+            document.body.style.cursor = "default";
+        };
+
     </script>
 </asp:Content>
