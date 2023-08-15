@@ -18,6 +18,7 @@ using ABAINFRA.Web.Classes;
 using System.Net;
 using Microsoft.Exchange.WebServices.Data;
 using System.Globalization;
+using Eudmarco;
 
 namespace ABAINFRA.Web
 {
@@ -4970,8 +4971,6 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "WHERE SUBSTRING(BL.NR_PROCESSO,10,2)>= '18' ";
             SQL += "AND LEFT(BL.NR_PROCESSO,1) = 'M' ";
-            SQL += "AND BL.ID_BL_MASTER IS NOT NULL ";
-            SQL += "AND BL.DT_EMBARQUE IS NOT NULL ";
 
             if (dados.BLHOUSE != "")
             {
@@ -4979,9 +4978,9 @@ namespace ABAINFRA.Web
 
             }
 
-            if (dados.DTRECEBIMENTOMBLINICIO != "")
+            if (dados.DTRECEBIMENTOMBLINICIO != "" && dados.DTRECEBIMENTOMBLINICIO != null)
             {
-                if (dados.DTRECEBIMENTOMBLFIM != "")
+                if (dados.DTRECEBIMENTOMBLFIM != "" && dados.DTRECEBIMENTOMBLFIM != null)
                 {
                     SQL += "AND M.DT_RECEBIMENTO_MBL >= '" + dados.DTRECEBIMENTOMBLINICIO + "' AND M.DT_RECEBIMENTO_MBL <= '" + dados.DTRECEBIMENTOMBLFIM + "' ";
                 }
@@ -4992,15 +4991,15 @@ namespace ABAINFRA.Web
             }
             else
             {
-                if (dados.DTRECEBIMENTOMBLFIM != "")
+                if (dados.DTRECEBIMENTOMBLFIM != "" && dados.DTRECEBIMENTOMBLFIM != null)
                 {
                     SQL += "AND M.DT_RECEBIMENTO_MBL >= '" + dados.DTRECEBIMENTOMBLFIM + "' ";
                 }
             }
 
-            if (dados.DTRECEBIMENTOHBLINICIO != "")
+            if (dados.DTRECEBIMENTOHBLINICIO != "" && dados.DTRECEBIMENTOHBLINICIO != null)
             {
-                if (dados.DTRECEBIMENTOHBLFIM != "")
+                if (dados.DTRECEBIMENTOHBLFIM != "" && dados.DTRECEBIMENTOHBLFIM != null)
                 {
                     SQL += "AND BL.DT_RECEBIMENTO_HBL >= '" + dados.DTRECEBIMENTOHBLINICIO + "' AND BL.DT_RECEBIMENTO_HBL <= '" + dados.DTRECEBIMENTOHBLFIM + "' ";
                 }
@@ -5011,34 +5010,15 @@ namespace ABAINFRA.Web
             }
             else
             {
-                if (dados.DTRECEBIMENTOHBLFIM != "")
+                if (dados.DTRECEBIMENTOHBLFIM != "" && dados.DTRECEBIMENTOHBLFIM != null)
                 {
                     SQL += "AND BL.DT_RECEBIMENTO_HBL >= '" + dados.DTRECEBIMENTOHBLFIM + "' ";
                 }
             }
 
-            if (dados.DTRETIRADAINICIO != "")
+            if (dados.PREVISAOCHEGADAINICIO != "" && dados.PREVISAOCHEGADAINICIO != null)
             {
-                if (dados.DTRETIRADAFIM != "")
-                {
-                    SQL += "AND BL.DT_RETIRADA_COURRIER >= '" + dados.DTRETIRADAINICIO + "' AND BL.DT_RETIRADA_COURRIER <= '" + dados.DTRETIRADAFIM + "' ";
-                }
-                else
-                {
-                    SQL += "AND BL.DT_RETIRADA_COURRIER >= '" + dados.DTRETIRADAINICIO + "' ";
-                }
-            }
-            else
-            {
-                if (dados.DTRETIRADAFIM != "")
-                {
-                    SQL += "AND BL.DT_RETIRADA_COURRIER >= '" + dados.DTRETIRADAFIM + "' ";
-                }
-            }
-
-            if (dados.PREVISAOCHEGADAINICIO != "")
-            {
-                if (dados.PREVISAOCHEGADAFIM != "")
+                if (dados.PREVISAOCHEGADAFIM != "" && dados.PREVISAOCHEGADAFIM != null)
                 {
                     SQL += "AND BL.DT_PREVISAO_CHEGADA >= '" + dados.PREVISAOCHEGADAINICIO + "' AND BL.DT_PREVISAO_CHEGADA <= '" + dados.PREVISAOCHEGADAFIM + "' ";
                 }
@@ -5049,17 +5029,17 @@ namespace ABAINFRA.Web
             }
             else
             {
-                if (dados.PREVISAOCHEGADAFIM != "")
+                if (dados.PREVISAOCHEGADAFIM != "" && dados.PREVISAOCHEGADAFIM != null)
                 {
                     SQL += "AND BL.DT_PREVISAO_CHEGADA >= '" + dados.PREVISAOCHEGADAFIM + "' ";
                 }
             }
 
-            if (dados.DTCHEGADAINICIO != "")
+            if (dados.DTCHEGADAINICIO != "" && dados.DTCHEGADAINICIO != null)
             {
-                if (dados.DTCHEGADAFIM != "")
+                if (dados.DTCHEGADAFIM != "" && dados.DTCHEGADAFIM != null)
                 {
-                    SQL += "AND BL.DT_CHEGADA >= '" + dados.DTCHEGADAINICIO + "' AND BL.DT_CHEGADAL <= '" + dados.DTCHEGADAFIM + "' ";
+                    SQL += "AND BL.DT_CHEGADA >= '" + dados.DTCHEGADAINICIO + "' AND BL.DT_CHEGADA <= '" + dados.DTCHEGADAFIM + "' ";
                 }
                 else
                 {
@@ -5068,15 +5048,15 @@ namespace ABAINFRA.Web
             }
             else
             {
-                if (dados.DTCHEGADAFIM != "")
+                if (dados.DTCHEGADAFIM != "" && dados.DTCHEGADAFIM != null)
                 {
                     SQL += "AND BL.DT_CHEGADA >= '" + dados.DTCHEGADAFIM + "' ";
                 }
             }
 
-            if (dados.DTRETIRADAPEROSNALINICIO != "")
+            if (dados.DTRETIRADAPEROSNALINICIO != "" && dados.DTRETIRADAPEROSNALINICIO != null)
             {
-                if (dados.DTRETIRADAPEROSNALFIM != "")
+                if (dados.DTRETIRADAPEROSNALFIM != "" && dados.DTRETIRADAPEROSNALFIM != null)
                 {
                     SQL += "AND M.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALINICIO + "' AND BL.DT_RETIRADA_PERSONAL <= '" + dados.DTRETIRADAPEROSNALFIM + "' ";
                 }
@@ -5087,7 +5067,7 @@ namespace ABAINFRA.Web
             }
             else
             {
-                if (dados.DTRETIRADAPEROSNALFIM != "")
+                if (dados.DTRETIRADAPEROSNALFIM != "" && dados.DTRETIRADAPEROSNALFIM != null)
                 {
                     SQL += "AND M.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALFIM + "' ";
                 }
@@ -5108,11 +5088,6 @@ namespace ABAINFRA.Web
                 SQL += "AND M.CD_RASTREAMENTO_MBL LIKE '" + dados.CDRASTREAMENTOMBL + "%' ";
             }
 
-            if (dados.RETIRADOPOR != "")
-            {
-                SQL += "AND BL.NM_RETIRADO_POR_COURRIER LIKE '" + dados.RETIRADOPOR + "%' ";
-            }
-
             if (dados.FATURA != "")
             {
                 SQL += "AND BL.NR_FATURA_COURRIER LIKE '" + dados.RETIRADOPOR + "%' ";
@@ -5122,8 +5097,9 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarCourrier(string idFilter, string Filter, string tipo, Filtro dados)
+        public string listarCourrier(string idFilter, string Filter, string filter_fcl, string filter_lcl, string filter_dtsaida, string filter_dtsaidan, string filter_branco, string filter_freehand, Filtro dados)
         {
+            string filter = "";
             string SQL;
             switch (idFilter)
             {
@@ -5147,6 +5123,128 @@ namespace ABAINFRA.Web
                     break;
             }
 
+            if ((filter_fcl == "1" && filter_lcl == "1") || (filter_fcl == "0" && filter_lcl == "0"))
+            {
+                filter += "";
+            }
+            else if (filter_fcl == "1")
+            {
+                filter += "AND BL.ID_TIPO_ESTUFAGEM = 1 ";
+            }
+            else if (filter_lcl == "1")
+            {
+                filter += "AND BL.ID_TIPO_ESTUFAGEM = 2 ";
+            }
+            else
+            {
+                filter += "";
+            }
+
+            if ((filter_dtsaida == "1" && filter_dtsaidan == "1") || (filter_dtsaida == "0" && filter_dtsaidan == "0"))
+            {
+                filter += "";
+            }
+            else if (filter_dtsaida == "1")
+            {
+                filter += "AND BL.DT_EMBARQUE IS NOT NULL ";
+            }
+            else if (filter_dtsaidan == "1")
+            {
+                filter += "AND BL.DT_EMBARQUE IS NULL ";
+            }
+            else
+            {
+                filter += "";
+            }
+
+            if(filter_branco == "1")
+			{
+                filter += "AND (BL.CD_RASTREAMENTO_HBL IS NULL OR BL.CD_RASTREAMENTO_HBL = '') ";
+
+            }
+			else
+			{
+                filter += "AND (BL.CD_RASTREAMENTO_HBL IS NOT NULL OR (BL.CD_RASTREAMENTO_HBL <> 'ORIGEM' AND BL.CD_RASTREAMENTO_HBL <> '')) ";
+
+            }
+
+            if (filter_freehand == "1")
+            {
+                filter += "AND BL.FL_FREE_HAND = 1 ";
+
+            }
+            else
+            {
+                filter += "AND BL.FL_FREE_HAND = 0 ";
+
+            }
+
+
+
+            SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(M.NR_BL,'') as MASTER, ";
+            SQL += "ISNULL(BL.NR_BL,'') AS HOUSE, ";
+            SQL += "BL.ID_BL, ";
+            SQL += "ISNULL(P.NM_RAZAO,'') AS CLIENTE, ";
+            SQL += "ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+            SQL += "ISNULL(P3.NM_RAZAO,'') AS CLIENTE_FINAL, ";
+            SQL += "ISNULL(P4.NM_RAZAO, '') AS IMPORTADOR, ";
+            SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ";
+            SQL += "ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+            SQL += "ISNULL(FORMAT(M.DT_RETIRADA_PERSONAL,'dd/MM/yyyy'),'') AS DT_RETIRADA_PERSONAL, ";
+            SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ";
+            SQL += "ISNULL(P2.NM_RAZAO,'') AS AGENTE, ";
+            SQL += "ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ";
+            SQL += "ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ";
+            SQL += "ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+            SQL += "BL.FL_TROCA, ";
+            SQL += "ISNULL(BL.OBS_COURRIER,'') AS OBS_COURRIER, ";
+            SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ";
+            SQL += "ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
+            SQL += "FROM TB_BL BL ";
+            SQL += "LEFT JOIN TB_COTACAO B ON BL.ID_COTACAO=B.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_CLIENTE_FINAL C ON B.ID_CLIENTE_FINAL = C.ID_CLIENTE_FINAL ";
+            SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE_INTERNACIONAL = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P3 ON BL.ID_PARCEIRO_IMPORTADOR = P3.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P4 ON C.ID_PARCEIRO = P4.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
+            SQL += "" + listarCourrierFilter(dados) + " ";
+            SQL += "" + idFilter + "";
+            SQL += "" + filter + "";
+            SQL += "AND BL.GRAU IN ('C') ";
+            SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
+            SQL += "AND ((BL.DT_CHEGADA IS NULL OR M.DT_CHEGADA IS NULL) ";
+            SQL += "OR(M.DT_RETIRADA_PERSONAL IS NULL OR BL.DT_RETIRADA_PERSONAL IS NOT NULL)) ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string listarCourrierRetirada(string idFilter, string Filter, string tipo, Filtro dados)
+        {
+            string SQL;
+            switch (idFilter)
+            {
+                case "1":
+                    idFilter = "AND BL.NR_PROCESSO LIKE '" + Filter + "%' ";
+                    break;
+                case "2":
+                    idFilter = "AND BL.NR_BL LIKE '" + Filter + "%' ";
+                    break;
+                case "3":
+                    idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
+                    break;
+                default:
+                    idFilter = "";
+                    break;
+            }
+
             switch (tipo)
             {
                 case "1":
@@ -5156,23 +5254,172 @@ namespace ABAINFRA.Web
                     tipo = "AND TP.ID_TIPO_ESTUFAGEM = 2 ";
                     break;
             }
-
-            SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(M.NR_BL,'') as MASTER, ISNULL(BL.NR_BL,'') AS HOUSE, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
-            SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ISNULL(FORMAT(M.DT_RETIRADA_PERSONAL,'dd/MM/yyyy'),'') AS DT_RETIRADA_PERSONAL, ";
-            SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P2.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, BL.FL_TROCA, ";
-            SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
+            SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(BL.NR_BL,'') AS HOUSE, ";
+            SQL += "ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ";
+            SQL += "ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+            SQL += "BL.ID_BL, ";
+            SQL += "ISNULL(P.NM_RAZAO,'') AS CLIENTE,";
+            SQL += "ISNULL(P3.NM_RAZAO,'') AS CLIENTE_FINAL, ";
+            SQL += "ISNULL(P4.NM_RAZAO, '') AS IMPORTADOR, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RETIRADA_PERSONAL, 'dd/MM/yyyy'),'') AS DT_RETIRADA_PERSONAL, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+            SQL += "BL.FL_TROCA, ";
+            SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ";
+            SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER,";
+            SQL += "ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
             SQL += "FROM TB_BL BL ";
+            SQL += "LEFT JOIN TB_COTACAO B ON BL.ID_COTACAO=B.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_CLIENTE_FINAL C ON B.ID_CLIENTE_FINAL = C.ID_CLIENTE_FINAL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE_INTERNACIONAL = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P3 ON BL.ID_PARCEIRO_IMPORTADOR = P3.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P4 ON C.ID_PARCEIRO = P4.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
             SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
             SQL += "LEFT JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
             SQL += "" + listarCourrierFilter(dados) + " ";
             SQL += "" + idFilter + "";
             SQL += "" + tipo + "";
+            SQL += "AND BL.CD_RASTREAMENTO_HBL <> 'ORIGEM' AND BL.CD_RASTREAMENTO_HBL <> '' ";
+            SQL += "AND BL.DT_CHEGADA IS NOT NULL AND M.DT_CHEGADA IS NOT NULL ";
+            SQL += "AND (M.DT_RETIRADA_PERSONAL IS NOT NULL AND BL.DT_RETIRADA_PERSONAL IS NOT NULL) ";
+            SQL += "AND BL.GRAU IN ('C') ";
+            SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string listarCourrierLiberacao(string idFilter, string Filter, string tipo, Filtro dados)
+        {
+            string SQL;
+            switch (idFilter)
+            {
+                case "1":
+                    idFilter = "AND BL.NR_PROCESSO LIKE '" + Filter + "%' ";
+                    break;
+                case "2":
+                    idFilter = "AND BL.NR_BL LIKE '" + Filter + "%' ";
+                    break;
+                case "3":
+                    idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
+                    break;
+                default:
+                    idFilter = "";
+                    break;
+            }
+
+            switch (tipo)
+            {
+                case "1":
+                    tipo = "AND TP.ID_TIPO_ESTUFAGEM = 1 ";
+                    break;
+                case "0":
+                    tipo = "AND TP.ID_TIPO_ESTUFAGEM = 2 ";
+                    break;
+            }
+            SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(M.NR_BL,'') AS MASTER, ";
+            SQL += "ISNULL(BL.NR_BL,'') AS HOUSE, ";
+            SQL += "ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+            SQL += "BL.ID_BL, ";
+            SQL += "ISNULL(P.NM_RAZAO,'') AS CLIENTE,";
+            SQL += "ISNULL(P3.NM_RAZAO,'') AS CLIENTE_FINAL, ";
+            SQL += "ISNULL(P4.NM_RAZAO, '') AS IMPORTADOR, ";
+            SQL += "ISNULL(BL.FL_TROCA,0) AS FL_TROCA, ";
+            SQL += "ISNULL(BL.DS_TERMO,'') TERMO, ";
+            SQL += "ISNULL(BL.FL_BLOQUEIO_DOCUMENTAL,0) AS FL_BLOQUEIO_DOCUMENTAL, ";
+            SQL += "ISNULL(BL.OBS_COURRIER,'') OBS_COURRIER, ";
+            SQL += "ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ";
+            SQL += "ISNULL(BL.FL_HBL_DIGITAL,0) AS HBL_DIGITAL ";
+            SQL += "FROM TB_BL BL ";
+            SQL += "LEFT JOIN TB_COTACAO B ON BL.ID_COTACAO=B.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_CLIENTE_FINAL C ON B.ID_CLIENTE_FINAL = C.ID_CLIENTE_FINAL ";
+            SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE_INTERNACIONAL = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P3 ON BL.ID_PARCEIRO_IMPORTADOR = P3.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P4 ON C.ID_PARCEIRO = P4.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
+            SQL += "" + listarCourrierFilter(dados) + " ";
+            SQL += "" + idFilter + "";
+            SQL += "" + tipo + "";
+            SQL += "AND BL.CD_RASTREAMENTO_HBL <> 'ORIGEM' AND BL.CD_RASTREAMENTO_HBL <> '' ";
+            SQL += "AND BL.DT_CHEGADA IS NOT NULL AND M.DT_CHEGADA IS NOT NULL ";
+            SQL += "AND (M.DT_RETIRADA_PERSONAL IS NOT NULL AND BL.DT_RETIRADA_PERSONAL IS NOT NULL) ";
+            SQL += "AND BL.GRAU IN ('C') ";
+            SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
+            SQL += "AND ((BL.DS_TERMO IS NULL OR BL.DS_TERMO = '') ";
+            SQL += "OR BL.FL_BLOQUEIO_DOCUMENTAL = 1) ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            listTable.Columns.Add("LOTE");
+            for(int x = 0; x < listTable.Rows.Count; x++)
+            {
+                SQL = "SELECT AUTONUM FROM TB_BL WHERE NUMERO = '" + listTable.Rows[x]["HOUSE"] + "' ";
+                listTable.Rows[x]["LOTE"] = DBE.ExecuteScalar(SQL);
+            }
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string BloquearDocumento(int lote, int idbl)
+		{
+            string SQL;
+            try
+            {
+                string motivo = "44";
+                string motivoLib = "0";
+                string acao = "B";
+                string usuario = (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : "3").ToString();
+                DBE.ExecuteProcedureWithOutParameter(lote, motivo, motivoLib, acao, usuario);
+
+                SQL = "SELECT STATUS FROM SGIPA.TB_HIST_BLOQUEIO WHERE AUTONUM = (SELECT NVL(MAX(AUTONUM), 0)AUTONUM FROM SGIPA.TB_HIST_BLOQUEIO ";
+                SQL += "WHERE BL = " +lote+ " AND COD_MOTIVO_BLOQUEIO = 44) ";
+                string status = DBE.ExecuteScalar(SQL);
+
+
+                SQL = "EXEC dbo.PR_BLOQUEIO_DOCUMENTAL @IDBL = " + idbl + ", @STATUS = '" + status + "' ";
+                DBS.ExecuteScalar(SQL);
+
+                return "1";
+            }
+			catch(Exception e)
+			{
+                return "2";
+			}
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string DesbloquearDocumento(int lote, int idbl)
+        {
+            string SQL;
+            try
+            {
+                string motivo = "44";
+                string motivoLib = "45";
+                string acao = "L";
+                string usuario = (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : "3").ToString();
+                DBE.ExecuteProcedureWithOutParameter(lote, motivo, motivoLib, acao, usuario);
+
+                SQL = "SELECT STATUS FROM SGIPA.TB_HIST_BLOQUEIO WHERE AUTONUM = (SELECT NVL(MAX(AUTONUM), 0)AUTONUM FROM SGIPA.TB_HIST_BLOQUEIO ";
+                SQL += "WHERE BL = " + lote + " AND COD_MOTIVO_BLOQUEIO = 44) ";
+                string status = DBE.ExecuteScalar(SQL);
+
+
+                SQL = "EXEC dbo.PR_BLOQUEIO_DOCUMENTAL @IDBL = " + idbl + ", @STATUS = '" + status + "' ";
+                DBS.ExecuteScalar(SQL);
+
+                return "1";
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         [WebMethod]
@@ -5385,7 +5632,90 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
+        [WebMethod]
+        public string listarCourrierConcluido(string idFilter, string Filter, string tipo, Filtro dados)
+        {
+            string SQL;
+            switch (idFilter)
+            {
+                case "1":
+                    idFilter = "AND BL.NR_PROCESSO LIKE '" + Filter + "%' ";
+                    break;
+                case "2":
+                    idFilter = "AND BL.NR_BL LIKE '" + Filter + "%' ";
+                    break;
+                case "3":
+                    idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
+                    break;
+                default:
+                    idFilter = "";
+                    break;
+            }
 
+            switch (tipo)
+            {
+                case "1":
+                    tipo = "AND TP.ID_TIPO_ESTUFAGEM = 1 ";
+                    break;
+                case "0":
+                    tipo = "AND TP.ID_TIPO_ESTUFAGEM = 2 ";
+                    break;
+            }
+            SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(M.NR_BL,'') AS MASTER, ";
+            SQL += "ISNULL(BL.NR_BL,'') AS HOUSE, ";
+            SQL += "ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ";
+            SQL += "ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RETIRADA_PERSONAL,'dd/MM/yyyy'),'') AS DT_RETIRADA_PERSONAL, ";
+            SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ";
+            SQL += "BL.ID_BL, ";
+            SQL += "ISNULL(P.NM_RAZAO,'') AS CLIENTE,";
+            SQL += "ISNULL(P3.NM_RAZAO,'') AS CLIENTE_FINAL, ";
+            SQL += "ISNULL(P4.NM_RAZAO, '') AS IMPORTADOR, ";
+            SQL += "ISNULL(P2.NM_RAZAO, '') AS AGENTE, ";
+            SQL += "BL.FL_TROCA, ";
+            SQL += "ISNULL(BL.ID_WEEK,0) AS ID_WEEK, ";
+            SQL += "ISNULL(BL.NR_FATURA_COURRIER, '') AS FATURA, ";
+            SQL += "ISNULL(BL.DS_TERMO,'') TERMO, ";
+            SQL += "ISNULL(BL.FL_BLOQUEIO_DOCUMENTAL,0) AS FL_BLOQUEIO_DOCUMENTAL, ";
+            SQL += "ISNULL(BL.OBS_COURRIER,'') OBS_COURRIER, ";
+            SQL += "ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ";
+            SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL, 'dd/MM;yyyy'),'') AS DT_RECEBIMENTO_HBL, ";
+            SQL += "ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL, 'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL ";
+            SQL += "FROM TB_BL BL ";
+            SQL += "LEFT JOIN TB_COTACAO B ON BL.ID_COTACAO=B.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_CLIENTE_FINAL C ON B.ID_CLIENTE_FINAL = C.ID_CLIENTE_FINAL ";
+            SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE_INTERNACIONAL = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P3 ON BL.ID_PARCEIRO_IMPORTADOR = P3.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P4 ON C.ID_PARCEIRO = P4.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
+            SQL += "" + listarCourrierFilter(dados) + " ";
+            SQL += "" + idFilter + "";
+            SQL += "" + tipo + "";
+            SQL += "AND BL.CD_RASTREAMENTO_HBL <> 'ORIGEM' AND BL.CD_RASTREAMENTO_HBL <> '' ";
+            SQL += "AND BL.DT_CHEGADA IS NOT NULL AND M.DT_CHEGADA IS NOT NULL ";
+            SQL += "AND (M.DT_RETIRADA_PERSONAL IS NOT NULL AND BL.DT_RETIRADA_PERSONAL IS NOT NULL) ";
+            SQL += "AND BL.GRAU IN ('C') ";
+            SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
+            SQL += "AND ((BL.DS_TERMO IS NOT NULL OR BL.DS_TERMO <> '') ";
+            SQL += "AND BL.FL_BLOQUEIO_DOCUMENTAL = 0) ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            if (listTable != null)
+            {
+                listTable.Columns.Add("LOTE");
+                for (int x = 0; x < listTable.Rows.Count; x++)
+                {
+                    SQL = "SELECT AUTONUM FROM TB_BL WHERE NUMERO = '" + listTable.Rows[x]["HOUSE"] + "' ";
+                    listTable.Rows[x]["LOTE"] = DBE.ExecuteScalar(SQL);
+                }
+            }
+            return JsonConvert.SerializeObject(listTable);
+        }
 
         [WebMethod(EnableSession = true)]
         public string BuscarCourrier(int id)
@@ -5394,13 +5724,15 @@ namespace ABAINFRA.Web
             SQL = "SELECT BL.NR_PROCESSO, M.NR_BL AS MASTER, BL.NR_BL AS HOUSE, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'yyyy-MM-dd') AS DT_RECEBIMENTO_MBL, ";
             SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'yyyy-MM-dd') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'yyyy-MM-dd') AS DT_RETIRADA_COURRIER, FORMAT(M.DT_RETIRADA_PERSONAL,'yyyy-MM-dd') AS DT_RETIRADA_PERSONAL, ";
             SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'yyyy-MM-dd') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'yyyy-MM-dd') AS DT_CHEGADA, BL.FL_TROCA, ";
-            SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
+            SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM, BL.OBS_COURRIER ";
             SQL += "FROM TB_BL BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
             SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
             SQL += "JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
             SQL += "WHERE BL.ID_BL = '" + id + "' ";
+            SQL += "AND BL.GRAU IN ('C') ";
+            SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
 
             DataTable carregarDados = new DataTable();
             carregarDados = DBS.List(SQL);
@@ -5421,7 +5753,7 @@ namespace ABAINFRA.Web
                 resultado.NR_FATURA_COURRIER = carregarDados.Rows[0]["NR_FATURA_COURRIER"].ToString();
                 resultado.DT_RETIRADA_PERSONAL = carregarDados.Rows[0]["DT_RETIRADA_PERSONAL"].ToString();
                 resultado.FL_TROCA = carregarDados.Rows[0]["FL_TROCA"].ToString();
-                resultado.ID_USUARIO = "56";
+                resultado.OBS_COURRIER = carregarDados.Rows[0]["OBS_COURRIER"].ToString();
 
                 return JsonConvert.SerializeObject(resultado);
 			}
@@ -5431,42 +5763,120 @@ namespace ABAINFRA.Web
 			}
         }
 
+        [WebMethod(EnableSession = true)]
+        public string TrocaCourrier(int id)
+        { 
+            string SQL;
+            SQL = "SELECT NR_PROCESSO, ID_PARCEIRO_CLIENTE FROM TB_BL WHERE ID_BL = " + id + "";
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+
+            SQL = "SELECT ASSUNTO, CORPO FROM TB_ASSUNTO_CORPO_AVISOS WHERE IDTIPOAVISO = 21";
+            DataTable carregarInformativo = new DataTable();
+            carregarInformativo = DBS.List(SQL);
+
+            if(carregarDados != null) { 
+                SQL += "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),21," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_CLIENTE"] + ",'OP') ";
+
+                bool status = DBS.BeginTransaction(SQL);
+
+    
+
+                return JsonConvert.SerializeObject(status);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject("erro");
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string DisponibilidadeCourrier(int id)
+        {
+            string SQL;
+            SQL = "SELECT NR_PROCESSO, ID_PARCEIRO_CLIENTE FROM TB_BL WHERE ID_BL = " + id + "";
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+
+            SQL = "SELECT ASSUNTO, CORPO FROM TB_ASSUNTO_CORPO_AVISOS WHERE IDTIPOAVISO = 22";
+            DataTable carregarInformativo = new DataTable();
+            carregarInformativo = DBS.List(SQL);
+
+            if (carregarDados != null)
+            {
+                SQL += "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),22," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_CLIENTE"] + ",'OP') ";
+
+                bool status = DBS.BeginTransaction(SQL);
+
+
+
+                return JsonConvert.SerializeObject(status);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject("erro");
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string SolicitarDocumentoAgenteInternacional(int id)
+        {
+            string SQL;
+            bool status = false;
+            SQL = "SELECT NR_PROCESSO, ID_PARCEIRO_AGENTE_INTERNACIONAL, ID_TIPO_ESTUFAGEM, FL_FREE_HAND FROM TB_BL WHERE ID_BL = " + id + "";
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+
+            if(carregarDados.Rows[0]["FL_FREE_HAND"].ToString() != "1")
+			{
+                SQL = "SELECT ASSUNTO, CORPO FROM TB_ASSUNTO_CORPO_AVISOS WHERE IDTIPOAVISO = 23";
+                DataTable carregarInformativo = new DataTable();
+                carregarInformativo = DBS.List(SQL);
+
+                if (carregarDados != null)
+                {
+                    SQL += "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),23," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_AGENTE_INTERNACIONAL"] + ",'OP') ";
+                    status = DBS.BeginTransaction(SQL);
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject("erro");
+                }
+            }
+
+			if(carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"].ToString() == "1") 
+			{
+                SQL = "SELECT ASSUNTO, CORPO FROM TB_ASSUNTO_CORPO_AVISOS WHERE IDTIPOAVISO = 24";
+                DataTable carregarInformativo = new DataTable();
+                carregarInformativo = DBS.List(SQL);
+
+                if (carregarDados != null)
+                {
+                    SQL += "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),24," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_CLIENTE"] + ",'OP') ";
+                    status = DBS.BeginTransaction(SQL);
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject("erro");
+                }
+            }
+            return JsonConvert.SerializeObject(status);
+        }
+
         [WebMethod]
         public string editarCourrier(CourrierInfo dadosEdit)
         {
             string SQL;
             SQL = "UPDATE TB_BL SET ";
-            if (dadosEdit.DT_RECEBIMENTO_HBL == "")
-            {
-                SQL += "DT_RECEBIMENTO_HBL = NULL, ";
-            }
-            else
-            {
-                SQL += "DT_RECEBIMENTO_HBL = '" + dadosEdit.DT_RECEBIMENTO_HBL + "', ";
-            }
-            SQL += "CD_RASTREAMENTO_HBL = '" + dadosEdit.CD_RASTREAMENTO_HBL + "', ";
-            if (dadosEdit.DT_RETIRADA_COURRIER == "")
-            {
-                SQL += "DT_RETIRADA_COURRIER = NULL, ";
-            }
-            else
-            {
-                SQL += "DT_RETIRADA_COURRIER = '" + dadosEdit.DT_RETIRADA_COURRIER + "', ";
-            }
-            if (dadosEdit.DT_RETIRADA_PERSONAL == "")
-            {
-                SQL += "DT_RETIRADA_PERSONAL = NULL, ";
-            }
-            else
-            {
-                SQL += "DT_RETIRADA_PERSONAL = '" + dadosEdit.DT_RETIRADA_PERSONAL + "', ";
-            }
-            SQL += "NM_RETIRADO_POR_COURRIER = '" + dadosEdit.NM_RETIRADO_POR_COURRIER + "', ";
-            SQL += "NR_FATURA_COURRIER = '" + dadosEdit.NR_FATURA_COURRIER + "', ";
-            SQL += "FL_TROCA = '" + dadosEdit.FL_TROCA + "' ";
+            if (dadosEdit.DT_RECEBIMENTO_HBL == "" || dadosEdit.DT_RECEBIMENTO_HBL == null) { SQL += "DT_RECEBIMENTO_HBL = NULL, "; } else { SQL += "DT_RECEBIMENTO_HBL = '" + dadosEdit.DT_RECEBIMENTO_HBL + "', "; }
+            if (dadosEdit.CD_RASTREAMENTO_HBL == "" || dadosEdit.CD_RASTREAMENTO_HBL == null) { SQL += "CD_RASTREAMENTO_HBL = NULL, "; } else { SQL += "CD_RASTREAMENTO_HBL = '" + dadosEdit.CD_RASTREAMENTO_HBL + "', "; }
+            if (dadosEdit.DT_RETIRADA_PERSONAL == "" || dadosEdit.DT_RETIRADA_PERSONAL == null) { SQL += "DT_RETIRADA_PERSONAL = NULL, "; } else { SQL += "DT_RETIRADA_PERSONAL = '" + dadosEdit.DT_RETIRADA_PERSONAL + "', "; }
+            if (dadosEdit.NR_FATURA_COURRIER == "" || dadosEdit.NR_FATURA_COURRIER == null) { SQL += "NR_FATURA_COURRIER = NULL, "; } else { SQL += "NR_FATURA_COURRIER = '" + dadosEdit.NR_FATURA_COURRIER + "', "; }
+            if (dadosEdit.OBS_COURRIER == "" || dadosEdit.OBS_COURRIER == null) { SQL += "OBS_COURRIER = '', "; } else { SQL += "OBS_COURRIER = '" + dadosEdit.OBS_COURRIER + "', "; }
+            SQL += "FL_TROCA = " + dadosEdit.FL_TROCA + " ";
             SQL += "WHERE ID_BL = '" + dadosEdit.ID_BL + "' ";
 
-            string editCourrier = DBS.ExecuteScalar(SQL);
+            DBS.ExecuteScalar(SQL);
 
             SQL = "SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = '" + dadosEdit.ID_BL + "' ";
             DataTable listTable = new DataTable();
@@ -5474,29 +5884,43 @@ namespace ABAINFRA.Web
             string idblmaster = listTable.Rows[0]["ID_BL_MASTER"].ToString();
 
             SQL = "UPDATE TB_BL SET ";
-            if (dadosEdit.DT_RECEBIMENTO_MBL == "")
-            {
-                SQL += "DT_RECEBIMENTO_MBL = NULL, ";
-            }
-            else
-            {
-                SQL += "DT_RECEBIMENTO_MBL = '" + dadosEdit.DT_RECEBIMENTO_MBL + "', ";
-            }
-            if (dadosEdit.DT_RETIRADA_PERSONAL == "")
-            {
-                SQL += "DT_RETIRADA_PERSONAL = NULL, ";
-            }
-            else
-            {
-                SQL += "DT_RETIRADA_PERSONAL = '" + dadosEdit.DT_RETIRADA_PERSONAL + "', ";
-            }
-            SQL += "CD_RASTREAMENTO_MBL = '" + dadosEdit.CD_RASTREAMENTO_MBL + "' ";
+            if (dadosEdit.DT_RECEBIMENTO_MBL == "" || dadosEdit.DT_RECEBIMENTO_MBL == null) { SQL += "DT_RECEBIMENTO_MBL = NULL, "; } else { SQL += "DT_RECEBIMENTO_MBL = '" + dadosEdit.DT_RECEBIMENTO_MBL + "', "; }
+            if (dadosEdit.DT_RETIRADA_PERSONAL == "" || dadosEdit.DT_RETIRADA_PERSONAL == null) { SQL += "DT_RETIRADA_PERSONAL = NULL, "; } else { SQL += "DT_RETIRADA_PERSONAL = '" + dadosEdit.DT_RETIRADA_PERSONAL + "', "; }
+            if (dadosEdit.CD_RASTREAMENTO_MBL == "" || dadosEdit.CD_RASTREAMENTO_MBL == null) { SQL += "CD_RASTREAMENTO_MBL = NULL "; } else { SQL += "CD_RASTREAMENTO_MBL = '" + dadosEdit.CD_RASTREAMENTO_MBL + "' "; }
             SQL += "WHERE ID_BL = '" + idblmaster + "' ";
 
-            string editCourrierMaster = DBS.ExecuteScalar(SQL);
+            DBS.ExecuteScalar(SQL);
 
             return "1";
 
+        }
+
+        [WebMethod]
+        public string editarCourrierRetirada(CourrierInfo dadosEdit)
+        {
+            string SQL;
+            SQL = "UPDATE TB_BL SET ";
+            if (dadosEdit.DT_RETIRADA_COURRIER == "" || dadosEdit.DT_RETIRADA_COURRIER == null) { SQL += "DT_RETIRADA_COURRIER = NULL, "; } else { SQL += "DT_RETIRADA_COURRIER = '" + dadosEdit.DT_RETIRADA_COURRIER + "', "; }
+            if (dadosEdit.NM_RETIRADO_POR_COURRIER == "" || dadosEdit.NM_RETIRADO_POR_COURRIER == null) { SQL += "NM_RETIRADO_POR_COURRIER = NULL, "; } else { SQL += "NM_RETIRADO_POR_COURRIER = '" + dadosEdit.NM_RETIRADO_POR_COURRIER + "', "; }
+            if (dadosEdit.OBS_COURRIER == "" || dadosEdit.OBS_COURRIER == null) { SQL += "OBS_COURRIER = '' "; } else { SQL += "OBS_COURRIER = '" + dadosEdit.OBS_COURRIER + "' "; }
+            //SQL += "FL_TROCA = " + dadosEdit.FL_TROCA + " ";
+            SQL += "WHERE ID_BL = '" + dadosEdit.ID_BL + "' ";
+
+            DBS.ExecuteScalar(SQL);
+            return "1";
+        }
+
+        [WebMethod]
+        public string editarCourrierLiberacao(CourrierInfo dadosEdit)
+        {
+            string SQL;
+            SQL = "UPDATE TB_BL SET ";
+            if (dadosEdit.OBS_COURRIER == "" || dadosEdit.OBS_COURRIER == null) { SQL += "OBS_COURRIER = '' "; } else { SQL += "OBS_COURRIER = '" + dadosEdit.OBS_COURRIER + "' "; }
+            //SQL += "FL_TROCA = " + dadosEdit.FL_TROCA + " ";
+            SQL += "WHERE ID_BL = '" + dadosEdit.ID_BL + "' ";
+
+            DBS.ExecuteScalar(SQL);
+            return "1";
         }
 
         [WebMethod]

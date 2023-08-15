@@ -60,16 +60,16 @@ namespace ABAINFRA.Web
                     Transaction = Con.BeginTransaction();
                     Cmd.Transaction = Transaction;
 
-                    //try
-                    //{
-                    Cmd.ExecuteNonQuery();
-                    Transaction.Commit();
-                    Success = true;
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //Transaction.Rollback();
-                    //}
+                    try
+                    {
+                        Cmd.ExecuteNonQuery();
+                        Transaction.Commit();
+                        Success = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Transaction.Rollback();
+                    }
 
                     return Success;
 

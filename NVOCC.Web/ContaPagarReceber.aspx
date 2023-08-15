@@ -342,6 +342,8 @@
                                 if (dado[i]["VALOR_BR"] != "") {
                                     // liqrec = parseFloat(liqrec) + parseFloat(dado[i]["TOTAL"]);
                                     liqrec = parseFloat(liqrec) + parseFloat(dado[i]["VALOR_BR"]);
+
+                                    liqpag = parseFloat(liqpag) + parseFloat(dado[i]["TOTAL"]);
                                 }
                             }
                         }
@@ -796,6 +798,8 @@
                             if (dado[i]["PAGAR"] != "") {
                                 liqpag = parseFloat(liqpag) + parseFloat(dado[i]["PAGAR"]);
                             }
+
+
                         }
                         $("#grdEstimativaPagamentoRecebimentoFooter").append("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqrec.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqpag.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th></tr>")
                     }

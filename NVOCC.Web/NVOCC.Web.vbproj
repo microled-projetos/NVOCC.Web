@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\GlobalSys-Homolog\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 15082023\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -360,6 +360,7 @@
     <Content Include="Content\js\jquery.tablesorter.min.js" />
     <Content Include="Content\js\moment-with-locales.js" />
     <Content Include="Content\js\origem-foto.js" />
+    <Content Include="Content\js\pagination.js" />
     <Content Include="Content\js\papaparse.min.js" />
     <Content Include="Content\js\pt-br.json" />
     <Content Include="Content\js\select2.min.js" />
@@ -375,6 +376,7 @@
     <Content Include="CourrierPersonal.aspx" />
     <Content Include="CourrierPersonal.aspx.cs" />
     <Content Include="CourrierPersonal.aspx.designer.cs" />
+    <Content Include="DBE.cs" />
     <Content Include="DemurrageService.asmx" />
     <Content Include="DemurrageService.asmx.cs" />
     <Content Include="Erro.aspx" />
@@ -431,7 +433,6 @@
     <Content Include="Courrier.aspx" />
     <Content Include="Courrier.aspx.cs" />
     <Content Include="Courrier.aspx.designer.cs" />
-    <Content Include="CourrierInfo.cs" />
     <Content Include="DashBoard.aspx" />
     <Content Include="DashBoard.aspx.cs" />
     <Content Include="DashBoard.aspx.designer.cs" />
