@@ -40,7 +40,7 @@ WHERE A.ID_STATUS_COTACAO = 8")
         divSuccess.Visible = False
         divErro.Visible = False
         lblmsgErro.Text = ""
-        GRID()
+        ' GRID()
 
         If e.CommandName = "Selecionar" Then
 
