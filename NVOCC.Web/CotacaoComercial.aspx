@@ -403,7 +403,6 @@
                                 <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvCotacao" />
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCotacao" />
                                 <asp:AsyncPostBackTrigger ControlID="lkCalcular" />
-                                <asp:AsyncPostBackTrigger ControlID="ddlServico" />
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>
