@@ -95,7 +95,7 @@
                                                 <asp:ListItem Value="5">&nbsp;Cancelados</asp:ListItem>
                                                 <asp:ListItem Value="3">&nbsp;À Vista</asp:ListItem>
                                                 <asp:ListItem Value="4">&nbsp;A Prazo</asp:ListItem>
-                                            </asp:CheckBoxList>                                           
+                                            </asp:CheckBoxList>
                                         </div>
                                     </div>
 
@@ -109,8 +109,9 @@
                                     </div>
                                     <div class="col-sm-1" style="padding-top: 20px;">
                                         <div class="form-group">
-                                             <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisar" CssClass="btn btn-success" /><br /><br />
-                                             <asp:Button runat="server" Text="Limpar" ID="btnLimpar" CssClass="btn btn-info" />
+                                            <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisar" CssClass="btn btn-success" /><br />
+                                            <br />
+                                            <asp:Button runat="server" Text="Limpar" ID="btnLimpar" CssClass="btn btn-info" />
                                         </div>
                                     </div>
 
@@ -177,14 +178,14 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Free Hand" HeaderStyle-ForeColor="#337ab7">
                                                 <ItemTemplate>
-                                                    <asp:CheckBox ID="ckFreeHand" runat="server" enabled="false" checked='<%# Eval("FL_FREE_HAND") %>'></asp:CheckBox>
+                                                    <asp:CheckBox ID="ckFreeHand" runat="server" Enabled="false" Checked='<%# Eval("FL_FREE_HAND") %>'></asp:CheckBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
                                         <HeaderStyle CssClass="headerStyle" />
                                     </asp:GridView>
                                 </div>
-                                
+
                                 <asp:TextBox ID="TextBox9" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <asp:TextBox ID="TextBox7" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <ajaxToolkit:ModalPopupExtender ID="mpeOpcoesBoletos" runat="server" PopupControlID="pnlOpcoesBoletos" TargetControlID="TextBox7" CancelControlID="TextBox9" OkControlID="lkBoleto"></ajaxToolkit:ModalPopupExtender>
@@ -223,7 +224,7 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnAuxOpcoesFatura" style="display: none;"/>
+                                <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnAuxOpcoesFatura" Style="display: none;" />
                                 <ajaxToolkit:ModalPopupExtender ID="mpeOpcoesFatura" runat="server" PopupControlID="pnlFatura" TargetControlID="btnAuxOpcoesFatura" CancelControlID="btnFecharFatura" OkControlID="lkBaixarFatura"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlFatura" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document" id="modalFatura">
@@ -258,7 +259,7 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                                                <asp:TextBox ID="TextBox6" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+                                <asp:TextBox ID="TextBox6" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <asp:TextBox ID="TextBox8" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <ajaxToolkit:ModalPopupExtender ID="mpeRPS" runat="server" PopupControlID="pnlRPS" TargetControlID="TextBox6" CancelControlID="TextBox8"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlRPS" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -620,7 +621,9 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">CONSULTA DE NOTAS FISCAIS</h5>
                                                         </div>
-                                                        <div class="modal-body">                                       
+                                                        <div class="modal-body">     
+                                                                                            <div id="result">Teclas:</div>
+
        <div class="alert alert-danger" id="divErroConsultasNotas" runat="server" visible="false">
                                     <asp:Label ID="lblErroConsultasNotas" runat="server"></asp:Label>
                                 </div>
@@ -740,11 +743,11 @@
                                 <asp:TextBox ID="txtAuxObsRps" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <asp:Button ID="btnAuxObsRps" runat="server" CssClass="form-control" Style="display: none;"></asp:Button>
                                 <ajaxToolkit:ModalPopupExtender ID="mpeObsRps" runat="server" PopupControlID="pnlOBSRPS" TargetControlID="btnAuxObsRps" CancelControlID="btnAuxObsRps"></ajaxToolkit:ModalPopupExtender>
-                              <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
-                                    <ContentTemplate>  
+                                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>
                                         <asp:Panel ID="pnlOBSRPS" runat="server" CssClass="modalPopup" Style="display: none;">
-                                           
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+
+                                            <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" >
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">OBSERVAÇÃO DE RPS</h5>
@@ -767,14 +770,14 @@
       
                                        </div>     </center>
 
-</asp:Panel>
+                                        </asp:Panel>
 
                                     </ContentTemplate>
-                            <Triggers>
-                                <asp:AsyncPostBackTrigger ControlID="btnProsseguir" />                               
-                            </Triggers>
-                        </asp:UpdatePanel>
-                                
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="btnProsseguir" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
+
 
                             </ContentTemplate>
                             <Triggers>
@@ -784,7 +787,7 @@
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvFaturamento" />
                                 <asp:AsyncPostBackTrigger ControlID="lkOpcoesBoletos" />
                                 <asp:AsyncPostBackTrigger ControlID="lkRPS" />
-                             </Triggers>
+                            </Triggers>
                         </asp:UpdatePanel>
                     </div>
 
@@ -811,7 +814,7 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsClientes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT DISTINCT ID_PARCEIRO_CLIENTE COD, NM_CLIENTE FROM TB_FATURAMENTO WHERE NM_CLIENTE IS NOT NULL union SELECT  0, 'Selecione' ORDER BY COD"></asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsTaxa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsTaxa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1 UNION SELECT  0, '    TODAS AS TAXAS' ORDER BY ID_ITEM_DESPESA"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
@@ -903,7 +906,7 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
         function EndRequestHandler(sender, args) {
             var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
-            document.getElementById('DivGrid').scrollTop = valor;
+            document.getElementById('DivGrid').scrollTop = valor;             
         };
 
 
@@ -915,10 +918,10 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
         }
 
-        function RelatorioFaturamento() { 
+        function RelatorioFaturamento() {
             window.open('RelatorioFaturamento.aspx', '_blank');
-         }
-     
+        }
+
 
         function VerificaSelecao() {
             var ID = document.getElementById('<%= txtID.ClientID %>').value;
@@ -932,5 +935,113 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
                 return ID;
             }
         }
+
+
+
+        var el = document.getElementById("result");
+
+        function minhaFuncao(codigo) {
+            el.innerHTML += ", " + codigo;
+            if (codigo == '13' || codigo == '9') {
+                console.log("enter/tab");
+
+                if (document.getElementById('<%= txtConsultaNotaInicio.ClientID %>') === document.activeElement) {
+                    console.log("if");
+
+                    document.getElementById('<%= txtConsultaNotaFim.ClientID %>').focus();
+
+                }
+                else {
+                    
+                    if (document.getElementById('<%= txtConsultaNotaFim.ClientID %>') === document.activeElement) {
+                        
+
+                        document.getElementById('<%= txtConsultaRPSInicio.ClientID %>').focus();
+
+                    } else {
+                        
+                        if (document.getElementById('<%= txtConsultaRPSInicio.ClientID %>') === document.activeElement) {
+                        
+
+                            document.getElementById('<%= txtConsultaRPSFim.ClientID %>').focus();
+
+                        } else {
+                            
+                            if (document.getElementById('<%= txtConsultaRPSFim.ClientID %>') === document.activeElement) {
+                        
+
+                                document.getElementById('<%= txtConsultaVencimentoInicio.ClientID %>').focus();
+
+                            } else {
+                                
+                                if (document.getElementById('<%= txtConsultaVencimentoInicio.ClientID %>') === document.activeElement) {
+                        
+
+                                    document.getElementById('<%= txtConsultaVencimentoFim.ClientID %>').focus();
+
+                                } else {
+                                    
+                                    if (document.getElementById('<%= txtConsultaVencimentoFim.ClientID %>') === document.activeElement) {
+                        
+
+                                        document.getElementById('<%= txtConsultaPagamentoInicio.ClientID %>').focus();
+
+                                    } else {
+                                        
+                                        if (document.getElementById('<%= txtConsultaPagamentoInicio.ClientID %>') === document.activeElement) {
+                        
+
+                                            document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>').focus();
+
+                                        } else {
+                                            
+                                            if (document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>') === document.activeElement) {
+                        
+
+                                                document.getElementById('<%= ddlStatusConsultaNotas.ClientID %>').focus();
+
+                                            } else {
+                                                
+                                                if (document.getElementById('<%= ddlStatusConsultaNotas.ClientID %>') === document.activeElement) {
+                        
+
+                                                    document.getElementById('<%= ddlCliente.ClientID %>').focus();
+
+                                                } else{
+                                                    
+                                                    if (document.getElementById('<%= ddlCliente.ClientID %>') === document.activeElement) {
+                        
+
+                                                        document.getElementById('<%= ddlTaxa.ClientID %>').focus();
+
+                                                    } else {
+                                                        
+                                                        if (document.getElementById('<%= ddlTaxa.ClientID %>') === document.activeElement) {
+                        
+
+                                                            document.getElementById('<%= txtConsultaNotaInicio.ClientID %>').focus();
+
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        document.addEventListener('keydown', function (e) {
+            e = e || window.event;
+            var code = e.which || e.keyCode;
+
+            minhaFuncao(code);
+        });
+
+
     </script>
 </asp:Content>
