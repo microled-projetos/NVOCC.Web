@@ -485,7 +485,7 @@
                                
                                                                 <div class="col-sm-4">
                                      <div class="form-group">
-                                        <label class="control-label">CNPJ:</label><br />
+                                        <label class="control-label">CNPJ/CPF:</label><br />
                                           <asp:TextBox ID="txtIDParceiro" runat="server" style="display: none" CssClass="form-control"></asp:TextBox>
                                           <asp:TextBox ID="txtCNPJSub" runat="server" AutoPostBack="true" CssClass="form-control cnpj"></asp:TextBox>
                            </div>
@@ -622,7 +622,7 @@
                                                             <h5 class="modal-title">CONSULTA DE NOTAS FISCAIS</h5>
                                                         </div>
                                                         <div class="modal-body">     
-                                                                                            <div id="result">Teclas:</div>
+                                                                                            <div id="result"></div>
 
        <div class="alert alert-danger" id="divErroConsultasNotas" runat="server" visible="false">
                                     <asp:Label ID="lblErroConsultasNotas" runat="server"></asp:Label>
@@ -906,7 +906,7 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
         function EndRequestHandler(sender, args) {
             var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
-            document.getElementById('DivGrid').scrollTop = valor;             
+            document.getElementById('DivGrid').scrollTop = valor;
         };
 
 
@@ -941,86 +941,93 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
         var el = document.getElementById("result");
 
         function minhaFuncao(codigo) {
-            el.innerHTML += ", " + codigo;
-            if (codigo == '13' || codigo == '9') {
-                console.log("enter/tab");
-
+          // el.innerHTML += ", " + codigo;
+            if (codigo === '13' || codigo === '9') {
+                console.log("enter/tab:" + codigo);
                 if (document.getElementById('<%= txtConsultaNotaInicio.ClientID %>') === document.activeElement) {
                     console.log("if");
 
                     document.getElementById('<%= txtConsultaNotaFim.ClientID %>').focus();
 
-                }
-                else {
-                    
-                    if (document.getElementById('<%= txtConsultaNotaFim.ClientID %>') === document.activeElement) {
-                        
+                  }
+                  else {
 
-                        document.getElementById('<%= txtConsultaRPSInicio.ClientID %>').focus();
+                      if (document.getElementById('<%= txtConsultaNotaFim.ClientID %>') === document.activeElement) {
+
+
+                          document.getElementById('<%= txtConsultaRPSInicio.ClientID %>').focus();
 
                     } else {
-                        
+
                         if (document.getElementById('<%= txtConsultaRPSInicio.ClientID %>') === document.activeElement) {
-                        
+
 
                             document.getElementById('<%= txtConsultaRPSFim.ClientID %>').focus();
 
                         } else {
-                            
+
                             if (document.getElementById('<%= txtConsultaRPSFim.ClientID %>') === document.activeElement) {
-                        
+
 
                                 document.getElementById('<%= txtConsultaVencimentoInicio.ClientID %>').focus();
 
                             } else {
-                                
+
                                 if (document.getElementById('<%= txtConsultaVencimentoInicio.ClientID %>') === document.activeElement) {
-                        
+
 
                                     document.getElementById('<%= txtConsultaVencimentoFim.ClientID %>').focus();
 
                                 } else {
-                                    
+
                                     if (document.getElementById('<%= txtConsultaVencimentoFim.ClientID %>') === document.activeElement) {
-                        
+
 
                                         document.getElementById('<%= txtConsultaPagamentoInicio.ClientID %>').focus();
 
                                     } else {
-                                        
+
                                         if (document.getElementById('<%= txtConsultaPagamentoInicio.ClientID %>') === document.activeElement) {
-                        
+
 
                                             document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>').focus();
 
                                         } else {
-                                            
+
                                             if (document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>') === document.activeElement) {
-                        
+
 
                                                 document.getElementById('<%= ddlStatusConsultaNotas.ClientID %>').focus();
 
                                             } else {
-                                                
+
                                                 if (document.getElementById('<%= ddlStatusConsultaNotas.ClientID %>') === document.activeElement) {
-                        
+
 
                                                     document.getElementById('<%= ddlCliente.ClientID %>').focus();
 
-                                                } else{
-                                                    
+                                                } else {
+
                                                     if (document.getElementById('<%= ddlCliente.ClientID %>') === document.activeElement) {
-                        
+
 
                                                         document.getElementById('<%= ddlTaxa.ClientID %>').focus();
 
                                                     } else {
-                                                        
+
                                                         if (document.getElementById('<%= ddlTaxa.ClientID %>') === document.activeElement) {
-                        
 
-                                                            document.getElementById('<%= txtConsultaNotaInicio.ClientID %>').focus();
 
+                                                            document.getElementById('<%= btnConsultaNotas.ClientID %>').focus();
+
+                                                        } else {
+
+                                                            if (document.getElementById('<%= btnConsultaNotas.ClientID %>') === document.activeElement) {
+
+
+                                                                document.getElementById('<%= txtConsultaNotaInicio.ClientID %>').focus();
+
+                                                            }
                                                         }
                                                     }
                                                 }

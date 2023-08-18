@@ -339,10 +339,10 @@
                                         <asp:LinkButton ID="btnCopiarCliente" runat="server" CssClass="btnGrid" CausesValidation="False" CommandName="Cliente" CommandArgument='<%# Eval("OBS_CLIENTE") %>' Text="Copiar" OnClientClick="SalvaPosicao()"><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></i></div></asp:LinkButton>
                                     </ItemTemplate>
                                     <EditItemTemplate>
-                                        <asp:TextBox ID="txtCliente" runat="server" Text='<%# Eval("OBS_CLIENTE") %>'></asp:TextBox>
+                                        <asp:TextBox ID="txtCliente" runat="server" Text='<%# Eval("OBS_CLIENTE") %>' TextMode="MultiLine" Rows="1"></asp:TextBox>
                                     </EditItemTemplate>
                                     <FooterTemplate>
-                                        <asp:TextBox ID="txtCliente" runat="server" Text='<%# Eval("OBS_CLIENTE") %>'></asp:TextBox>
+                                        <asp:TextBox ID="txtCliente" runat="server" Text='<%# Eval("OBS_CLIENTE") %>' TextMode="MultiLine" Rows="1"></asp:TextBox>
                                     </FooterTemplate>
                                 </asp:TemplateField>
 
@@ -352,10 +352,10 @@
                                         <asp:LinkButton ID="btnCopiarInterna" runat="server" CssClass="btnGrid" CausesValidation="False" CommandName="Interna" CommandArgument='<%# Eval("OBS_INTERNA") %>' Text="Copiar" OnClientClick="SalvaPosicao()"><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></i></div></asp:LinkButton>
                                     </ItemTemplate>
                                     <EditItemTemplate>
-                                        <asp:TextBox ID="txtInterna" runat="server" Text='<%# Eval("OBS_INTERNA") %>'></asp:TextBox>
+                                        <asp:TextBox ID="txtInterna" runat="server" Text='<%# Eval("OBS_INTERNA") %>' TextMode="MultiLine" Rows="1"></asp:TextBox>
                                     </EditItemTemplate>
                                     <FooterTemplate>
-                                        <asp:TextBox ID="txtInterna" runat="server" Text='<%# Eval("OBS_INTERNA") %>'></asp:TextBox>
+                                        <asp:TextBox ID="txtInterna" runat="server" Text='<%# Eval("OBS_INTERNA") %>' TextMode="MultiLine" Rows="1"></asp:TextBox>
                                     </FooterTemplate>
                                 </asp:TemplateField>
 

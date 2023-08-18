@@ -244,6 +244,24 @@ Public Class FreteTransportador
                         'HISTORICO UPDATE DO FRETE TRANSPORTADOR
                         Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID.Text & ",'EDIÇÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
 
+                        If OBS_CLIENTE.Text = "" Then
+                            OBS_CLIENTE.Text = "NULL"
+                        Else
+                            OBS_CLIENTE.Text = OBS_CLIENTE.Text
+                            OBS_CLIENTE.Text = OBS_CLIENTE.Text.Replace("'", "''")
+                            OBS_CLIENTE.Text = OBS_CLIENTE.Text.Replace(vbNewLine, "<br/>")
+                            ' OBS_CLIENTE.Text = "'" & OBS_CLIENTE.Text & "'"
+                        End If
+
+                        If OBS_INTERNA.Text = "" Then
+                            OBS_INTERNA.Text = "NULL"
+                        Else
+                            OBS_INTERNA.Text = OBS_INTERNA.Text
+                            OBS_INTERNA.Text = OBS_INTERNA.Text.Replace("'", "''")
+                            OBS_INTERNA.Text = OBS_INTERNA.Text.Replace(vbNewLine, "<br/>")
+                            'OBS_INTERNA.Text = "'" & OBS_INTERNA.Text & "'"
+                        End If
+
 
                         'REALIZA UPDATE DO FRETE TRANSPORTADOR
                         Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR  SET  ID_TRANSPORTADOR = " & ID_TRANSPORTADOR.SelectedValue & ", ID_AGENTE = " & ID_AGENTE.SelectedValue & ", ID_PORTO_ORIGEM = " & ID_PORTO_ORIGEM.SelectedValue & " , ID_PORTO_DESTINO = " & ID_PORTO_DESTINO.SelectedValue & ", ID_TIPO_CARGA = " & ID_TIPO_CARGA.SelectedValue & ", ID_VIA_ROTA =  " & ID_VIA_ROTA.SelectedValue & " , QT_DIAS_TRANSITTIME_INICIAL =  " & QT_DIAS_TRANSITTIME_INICIAL.Text & ", QT_DIAS_TRANSITTIME_FINAL = " & QT_DIAS_TRANSITTIME_FINAL.Text & ", ID_TIPO_FREQUENCIA = " & ID_TIPO_FREQUENCIA.SelectedValue & ",  FL_ATIVO = '" & FL_ATIVO.Checked & "', OBS_INTERNA =  '" & OBS_INTERNA.Text & "', OBS_CLIENTE =  '" & OBS_CLIENTE.Text & "', DT_VALIDADE_FINAL =  CONVERT(DATETIME,'" & DT_VALIDADE_FINAL.Text & "',103),DT_VALIDADE_INICIAL =  CONVERT(DATETIME,'" & DT_VALIDADE_INICIAL.Text & "',103), FL_CONSOLIDADA = '" & FL_CONSOLIDADA.Checked & "'  WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
@@ -302,6 +320,26 @@ Public Class FreteTransportador
                 lblmsgErro.Text = "Validade Inicial é obrigatoria!!"
                 Exit Sub
             End If
+
+
+            If OBS_CLIENTE.Text = "" Then
+                OBS_CLIENTE.Text = "NULL"
+            Else
+                OBS_CLIENTE.Text = OBS_CLIENTE.Text
+                OBS_CLIENTE.Text = OBS_CLIENTE.Text.Replace("'", "''")
+                OBS_CLIENTE.Text = OBS_CLIENTE.Text.Replace(vbNewLine, "<br/>")
+                ' OBS_CLIENTE.Text = "'" & OBS_CLIENTE.Text & "'"
+            End If
+
+            If OBS_INTERNA.Text = "" Then
+                OBS_INTERNA.Text = "NULL"
+            Else
+                OBS_INTERNA.Text = OBS_INTERNA.Text
+                OBS_INTERNA.Text = OBS_INTERNA.Text.Replace("'", "''")
+                OBS_INTERNA.Text = OBS_INTERNA.Text.Replace(vbNewLine, "<br/>")
+                ' OBS_INTERNA.Text = "'" & OBS_INTERNA.Text & "'"
+            End If
+
 
             Dim Con As New Conexao_sql
             Con.Conectar()
@@ -575,6 +613,8 @@ Public Class FreteTransportador
                     Dim ID_AGENTE As DropDownList = CType(e.Row.FindControl("ddlAgente"), DropDownList)
                     Dim ID_TIPO_FREQUENCIA As DropDownList = CType(e.Row.FindControl("ddlFrequencia"), DropDownList)
                     Dim ID_VIA_ROTA As DropDownList = CType(e.Row.FindControl("ddlRota"), DropDownList)
+                    Dim OBS_INTERNA As TextBox = CType(e.Row.FindControl("txtInterna"), TextBox)
+                    Dim OBS_CLIENTE As TextBox = CType(e.Row.FindControl("txtCliente"), TextBox)
 
                     If ID_FRETE_TRANSPORTADOR = txtID.Text Then
                         ID_PORTO_ORIGEM.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString()
@@ -586,6 +626,8 @@ Public Class FreteTransportador
                         ID_VIA_ROTA.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VIA_ROTA").ToString()
                     End If
 
+                    OBS_INTERNA.Text = OBS_INTERNA.Text.Replace("<br/>", vbNewLine)
+                    OBS_CLIENTE.Text = OBS_CLIENTE.Text.Replace("<br/>", vbNewLine)
                 End If
             End If
 
