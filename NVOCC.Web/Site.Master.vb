@@ -177,6 +177,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnRelTaxasInativas.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2068 And linha.Item("Acessar").ToString() = 0 Then
                         mnPowerBIGerencial.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2069 And linha.Item("Acessar").ToString() = 0 Then
+                        mnDetention.Visible = False
                     End If
 
 
@@ -243,7 +245,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuTotvs.Visible = False
             End If
 
-            If mnFinanceiro.Visible = False And mnModuloDemurrage.Visible = False And MenuAccount.Visible = False And MenuComissoes.Visible = False And MenuTotvs.Visible = False And MenuRelatoriosFinanceiros.Visible = False And mnCaixaSaida.Visible = False And mnTaxasAberto.Visible = False And mnPrevisibilidadeContas.Visible = False And mnInativacaoTaxas.Visible = False Then
+            If mnFinanceiro.Visible = False And mnModuloDemurrage.Visible = False And MenuAccount.Visible = False And MenuComissoes.Visible = False And MenuTotvs.Visible = False And MenuRelatoriosFinanceiros.Visible = False And mnCaixaSaida.Visible = False And mnTaxasAberto.Visible = False And mnPrevisibilidadeContas.Visible = False And mnInativacaoTaxas.Visible = False And mnDetention.Visible = False Then
                 MenuFinanceiro.Visible = False
             End If
 

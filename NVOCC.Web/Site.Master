@@ -226,6 +226,9 @@
                             <li>
                                 <a href="CaixaSaida.aspx" runat="server" id="mnCaixaSaida">Caixa de Saida</a>
                             </li>
+                            <li>
+                                <a href="ModuloDetention.aspx" runat="server" id="mnDetention">Detention</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

@@ -939,95 +939,64 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
 
         var el = document.getElementById("result");
-
         function minhaFuncao(codigo) {
-          // el.innerHTML += ", " + codigo;
-            if (codigo === '13' || codigo === '9') {
-                console.log("enter/tab:" + codigo);
+           // el.innerHTML += ", " + codigo;
+            if (codigo == '13' || codigo == '9') {
+                console.log("enter/tab");
                 if (document.getElementById('<%= txtConsultaNotaInicio.ClientID %>') === document.activeElement) {
                     console.log("if");
-
                     document.getElementById('<%= txtConsultaNotaFim.ClientID %>').focus();
+                }
+                else {
 
-                  }
-                  else {
+                    if (document.getElementById('<%= txtConsultaNotaFim.ClientID %>') === document.activeElement) {
 
-                      if (document.getElementById('<%= txtConsultaNotaFim.ClientID %>') === document.activeElement) {
-
-
-                          document.getElementById('<%= txtConsultaRPSInicio.ClientID %>').focus();
-
+                        document.getElementById('<%= txtConsultaRPSInicio.ClientID %>').focus();
                     } else {
 
                         if (document.getElementById('<%= txtConsultaRPSInicio.ClientID %>') === document.activeElement) {
 
-
                             document.getElementById('<%= txtConsultaRPSFim.ClientID %>').focus();
-
                         } else {
 
                             if (document.getElementById('<%= txtConsultaRPSFim.ClientID %>') === document.activeElement) {
 
-
                                 document.getElementById('<%= txtConsultaVencimentoInicio.ClientID %>').focus();
-
                             } else {
 
                                 if (document.getElementById('<%= txtConsultaVencimentoInicio.ClientID %>') === document.activeElement) {
 
-
                                     document.getElementById('<%= txtConsultaVencimentoFim.ClientID %>').focus();
-
                                 } else {
 
                                     if (document.getElementById('<%= txtConsultaVencimentoFim.ClientID %>') === document.activeElement) {
-
-
+                        
                                         document.getElementById('<%= txtConsultaPagamentoInicio.ClientID %>').focus();
-
                                     } else {
-
+                                        
                                         if (document.getElementById('<%= txtConsultaPagamentoInicio.ClientID %>') === document.activeElement) {
-
-
+                        
                                             document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>').focus();
-
                                         } else {
-
+                                            
                                             if (document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>') === document.activeElement) {
-
-
+                        
                                                 document.getElementById('<%= ddlStatusConsultaNotas.ClientID %>').focus();
-
                                             } else {
-
+                                                
                                                 if (document.getElementById('<%= ddlStatusConsultaNotas.ClientID %>') === document.activeElement) {
-
-
+                        
                                                     document.getElementById('<%= ddlCliente.ClientID %>').focus();
-
-                                                } else {
-
+                                                } else{
+                                                    
                                                     if (document.getElementById('<%= ddlCliente.ClientID %>') === document.activeElement) {
-
-
+                        
                                                         document.getElementById('<%= ddlTaxa.ClientID %>').focus();
-
                                                     } else {
-
+                                                        
                                                         if (document.getElementById('<%= ddlTaxa.ClientID %>') === document.activeElement) {
-
-
-                                                            document.getElementById('<%= btnConsultaNotas.ClientID %>').focus();
-
-                                                        } else {
-
-                                                            if (document.getElementById('<%= btnConsultaNotas.ClientID %>') === document.activeElement) {
-
-
-                                                                document.getElementById('<%= txtConsultaNotaInicio.ClientID %>').focus();
-
-                                                            }
+                        
+                                                            document.getElementById('<%= txtConsultaNotaInicio.ClientID %>').focus();
                                                         }
                                                     }
                                                 }
@@ -1041,11 +1010,9 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
                 }
             }
         }
-
         document.addEventListener('keydown', function (e) {
             e = e || window.event;
             var code = e.which || e.keyCode;
-
             minhaFuncao(code);
         });
 
