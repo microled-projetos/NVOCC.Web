@@ -548,10 +548,10 @@ Public Class FreteTransportador
 
             Dim ID As Label = CType(e.Row.FindControl("lblID"), Label)
 
-            Dim Interna As Label = CType(e.Row.FindControl("lblInterna"), Label)
+            Dim Interna As TextBox = CType(e.Row.FindControl("txtInterna_"), TextBox)
             Dim btnCopiarInterna As LinkButton = CType(e.Row.FindControl("btnCopiarInterna"), LinkButton)
 
-            Dim Cliente As Label = CType(e.Row.FindControl("lblCliente"), Label)
+            Dim Cliente As TextBox = CType(e.Row.FindControl("txtCliente_"), TextBox)
             Dim btnCopiarCliente As LinkButton = CType(e.Row.FindControl("btnCopiarCliente"), LinkButton)
 
             Dim QTD_Historico As Label = CType(e.Row.FindControl("lblQTD_HISTORICO"), Label)

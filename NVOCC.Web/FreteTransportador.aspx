@@ -335,7 +335,8 @@
 
                                 <asp:TemplateField HeaderText="Obs. Cliente" HeaderStyle-ForeColor="#337ab7" SortExpression="OBS_CLIENTE">
                                     <ItemTemplate>
-                                        <asp:Label ID="lblCliente" runat="server" Text='<%# Eval("OBS_CLIENTE_REDUZIDO") %>' ToolTip='<%# Eval("OBS_CLIENTE") %>' />
+                                        <asp:TextBox ID="txtCliente_" runat="server" Text='<%# Eval("OBS_CLIENTE") %>' TextMode="MultiLine" Rows="1"></asp:TextBox>
+                                       <%-- <asp:Label ID="lblCliente" runat="server" Text='<%# Eval("OBS_CLIENTE_REDUZIDO") %>' ToolTip='<%# Eval("OBS_CLIENTE") %>' />--%>
                                         <asp:LinkButton ID="btnCopiarCliente" runat="server" CssClass="btnGrid" CausesValidation="False" CommandName="Cliente" CommandArgument='<%# Eval("OBS_CLIENTE") %>' Text="Copiar" OnClientClick="SalvaPosicao()"><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></i></div></asp:LinkButton>
                                     </ItemTemplate>
                                     <EditItemTemplate>
@@ -348,7 +349,8 @@
 
                                 <asp:TemplateField HeaderText="Obs. Interna" HeaderStyle-ForeColor="#337ab7" SortExpression="OBS_INTERNA">
                                     <ItemTemplate>
-                                        <asp:Label ID="lblInterna" runat="server" Text='<%# Eval("OBS_INTERNA_REDUZIDO") %>' ToolTip='<%# Eval("OBS_INTERNA") %>' />
+                                        <asp:TextBox ID="txtInterna_" runat="server" Text='<%# Eval("OBS_INTERNA") %>' TextMode="MultiLine" Rows="1"></asp:TextBox>
+                                       <%-- <asp:Label ID="lblInterna" runat="server" Text='<%# Eval("OBS_INTERNA_REDUZIDO") %>' ToolTip='<%# Eval("OBS_INTERNA") %>' />--%>
                                         <asp:LinkButton ID="btnCopiarInterna" runat="server" CssClass="btnGrid" CausesValidation="False" CommandName="Interna" CommandArgument='<%# Eval("OBS_INTERNA") %>' Text="Copiar" OnClientClick="SalvaPosicao()"><i class="glyphicon glyphicon-duplicate" style="font-size:small"></i></i></div></asp:LinkButton>
                                     </ItemTemplate>
                                     <EditItemTemplate>
