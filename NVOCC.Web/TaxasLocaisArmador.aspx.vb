@@ -722,8 +722,10 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE A.ID_TIPO_C
 
 
 
-                    If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 12 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 15 Then
-                        'FINALIZADA(COM PAGAMENTO), APROVADA, APROVADA COM EDIÇÃO
+                    If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 12 Then ' Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 15 Then
+                        '12 = FINALIZADA(COM PAGAMENTO)
+                        '9 = APROVADA
+                        '15 = APROVADA COM EDIÇÃO
                         divErroAjusta.Visible = True
                         lblErroAjusta.Text &= "O status da cotação " & ds.Tables(0).Rows(0).Item("NR_COTACAO") & " não permite ajustes! <br/>"
 
