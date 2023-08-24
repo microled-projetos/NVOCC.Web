@@ -275,6 +275,7 @@
     <Content Include="Classes\TaxaPrestador.cs" />
     <Content Include="ComissaoInsideSales.aspx" />
     <Content Include="ComissaoVendedor_old.aspx" />
+    <Content Include="ConsultaIntegracaoTOTVS.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -725,6 +726,13 @@
     <Compile Include="ComissaoVendedor_old.aspx.vb">
       <DependentUpon>ComissaoVendedor_old.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ConsultaIntegracaoTOTVS.aspx.designer.vb">
+      <DependentUpon>ConsultaIntegracaoTOTVS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultaIntegracaoTOTVS.aspx.vb">
+      <DependentUpon>ConsultaIntegracaoTOTVS.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Erro.aspx.designer.vb">
       <DependentUpon>Erro.aspx</DependentUpon>
