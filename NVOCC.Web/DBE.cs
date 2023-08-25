@@ -201,7 +201,7 @@ namespace Eudmarco
 
         public static string ConnectionString()
         {
-            return ConfigurationManager.ConnectionStrings["StringConexaoOracle"].ConnectionString;
+            return ConfigurationManager.ConnectionStrings["StringConexaoEud"].ConnectionString;
         }
 
     }

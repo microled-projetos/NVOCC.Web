@@ -12,56 +12,28 @@
 
         Dim FILTRO As String = ""
 
-        If txtDataInicioBusca.Text = "" And txtDataFimBusca.Text = "" And ddlFiltroTipo.SelectedValue = "0" Then
+        If txtDataInicioBusca.Text = "" Or txtDataFimBusca.Text = "" Or ddlFiltroTipo.SelectedValue = "0" Then
 
-            ScriptManager.RegisterClientScriptBlock(Me, [GetType](), "script", "<script>alert('Informe um filtro!');</script>", False)
+            ScriptManager.RegisterClientScriptBlock(Me, [GetType](), "script", "<script>alert('Filtros obrigatórios!');</script>", False)
 
         Else
 
-
-            If ddlFiltroTipo.SelectedValue <> "0" Then
-                If FILTRO = "" Then
-                    FILTRO = " WHERE TIPO = '" & ddlFiltroTipo.SelectedValue & "'"
-                Else
-                    FILTRO = FILTRO & " AND TIPO = '" & ddlFiltroTipo.SelectedValue & "'"
-                End If
-            End If
-
-            If txtDataInicioBusca.Text <> "" Then
-
-                If FILTRO = "" Then
-                    FILTRO = " WHERE CONVERT(DATE,DATA_EMISSAO,103) >= CONVERT(DATE,'" & txtDataInicioBusca.Text & "',103) "
-                Else
-                    FILTRO = FILTRO & " AND CONVERT(DATE,DATA_EMISSAO,103) >= CONVERT(DATE,'" & txtDataInicioBusca.Text & "',103)"
-                End If
-
-
-            End If
-
-            If txtDataFimBusca.Text <> "" Then
-                If FILTRO = "" Then
-                    FILTRO = " WHERE CONVERT(DATE,DATA_EMISSAO,103) <= CONVERT(DATE,'" & txtDataFimBusca.Text & "',103)"
-                Else
-                    FILTRO = FILTRO & " AND CONVERT(DATE,DATA_EMISSAO,103) <= CONVERT(DATE,'" & txtDataFimBusca.Text & "',103)"
-                End If
-
-            End If
-            Dim sql As String = "SELECT * FROM [dbo].[VW_INTEGRACAO_TOTVS]  " & FILTRO & " ORDER BY DATA_EMISSAO DESC"
+            Dim sql As String = "SELECT * FROM [dbo].[FN_INTEGRACAO_TOTVS]('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') ORDER BY DATA_EMISSAO DESC"
 
             dsConsulta.SelectCommand = sql
             dgvConsulta.DataBind()
             divDados.Visible = True
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [VW_INTEGRACAO_TOTVS] " & FILTRO)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [FN_INTEGRACAO_TOTVS] ('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') WHERE NUMERO_DOC <> 'TOTAL' ")
             lblTotalNF.Text = ds.Tables(0).Rows(0).Item("QTD")
 
-            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [VW_INTEGRACAO_TOTVS] " & FILTRO & " AND CANCELADA <> 0 ")
+            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [FN_INTEGRACAO_TOTVS] ('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') WHERE NUMERO_DOC <> 'TOTAL' AND CANCELADA <> 0 ")
             lblNFCanceladas.Text = ds.Tables(0).Rows(0).Item("QTD")
 
-            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [VW_INTEGRACAO_TOTVS] " & FILTRO & " AND DATA_INTEG_REC IS NOT NULL ")
+            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [FN_INTEGRACAO_TOTVS] ('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') WHERE NUMERO_DOC <> 'TOTAL' AND DATA_INTEG_REC IS NOT NULL ")
             lblNFIntegradas.Text = ds.Tables(0).Rows(0).Item("QTD")
 
-            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [VW_INTEGRACAO_TOTVS] " & FILTRO & " AND DATA_INTEG_REC IS NULL ")
+            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [FN_INTEGRACAO_TOTVS] ('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') WHERE NUMERO_DOC <> 'TOTAL' AND DATA_INTEG_REC IS NULL ")
             lblNFNaoIntegradas.Text = ds.Tables(0).Rows(0).Item("QTD")
 
         End If

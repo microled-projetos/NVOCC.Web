@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 21082023\GlobalSys-Homolog\ABAINFRA.Web\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 25082023\GlobalSys-Homolog\ABAINFRA.Web\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -650,6 +650,9 @@
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
     <None Include="Web References\WsNVOCC\WsNvocc.disco" />
+    <Content Include="testeCNPJ.aspx" />
+    <Content Include="testeCNPJ.aspx.cs" />
+    <Content Include="testeCNPJ.aspx.designer.cs" />
     <Content Include="TextoCotacao.aspx" />
     <Content Include="EmissaoNDFaturamento.aspx" />
     <Content Include="VisualizarUpload.aspx" />
@@ -1360,7 +1363,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <Content Include="ViewSwitcher.ascx" />
-    <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -791,6 +791,17 @@
                                 "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td><td class='text-center'>" + dado[i]["CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["RECEBER"] + "</td>" +
                                 "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["FORNECEDOR"] + "'>" + dado[i]["FORNECEDOR"] + "</td><td class='text-center'>" + dado[i]["DEVIDO_PAG"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["MOEDA_PAG"] + "</td><td class='text-center'>" + dado[i]["CAMBIO_PAGAR"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["PAGAR"] + "</td></tr>");
+                            //if (dado[i]["TIPO"].toString() == "PAGO") {
+                            //    if (dado[i]["TOTAL"] != "") {
+                            //        // liqpag = parseFloat(liqpag) + parseFloat(dado[i]["TOTAL"]);
+                            //        liqpag = parseFloat(liqpag) + parseFloat(dado[i]["VALOR_BR"]);
+                            //    }
+                            //} else {
+                            //    if (dado[i]["VALOR_BR"] != "") {
+                            //        // liqrec = parseFloat(liqrec) + parseFloat(dado[i]["TOTAL"]);
+                            //        liqrec = parseFloat(liqrec) + parseFloat(dado[i]["VALOR_BR"]);
+                            //    }
+                            //}
                             if (dado[i]["RECEBER"] != "") {
                                 liqrec = parseFloat(liqrec) + parseFloat(dado[i]["RECEBER"]);
                             }

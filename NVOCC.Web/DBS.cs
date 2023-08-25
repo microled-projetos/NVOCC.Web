@@ -182,7 +182,7 @@ namespace ABAINFRA.Web
         public static string ConnectionString()
         {
 
-            return ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString;
+            return ConfigurationManager.ConnectionStrings["StringConexaoSqlServer"].ConnectionString;
 
         }
     }
