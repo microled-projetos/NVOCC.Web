@@ -743,6 +743,78 @@ Partial Public Class CadastroCotacao
     Protected WithEvents btnEnviar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle btnAuxiliarDestinatarioCob.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnAuxiliarDestinatarioCob As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeDestinatarioCob.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeDestinatarioCob As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnlDestinatarioCob.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlDestinatarioCob As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle Label3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label3 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle dgvTaxasDestinatarioCob.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvTaxasDestinatarioCob As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnTaxasExcessao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnTaxasExcessao As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnTodastaxas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnTodastaxas As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnCancelarDestinatarioCob.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnCancelarDestinatarioCob As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle btnAuxiliarEnvioSI.
     '''</summary>
     '''<remarks>
@@ -2129,6 +2201,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlDestinatarioCobrancaTaxa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtCobrancaTaxaOld.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCobrancaTaxaOld As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlFornecedor.
     '''</summary>
     '''<remarks>
@@ -2930,6 +3011,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents dsTaxas As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
+    '''Controle dsTaxasDestinatarioCob.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTaxasDestinatarioCob As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Controle dsOrigemPagamento.
     '''</summary>
     '''<remarks>
@@ -3036,15 +3126,6 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsRodoviario As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle SqlDataSource1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents SqlDataSource1 As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsMedidasAereo.

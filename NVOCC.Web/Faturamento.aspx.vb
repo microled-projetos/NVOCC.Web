@@ -1324,7 +1324,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
                 'msg erro
                 divErroConsultasNotas.Visible = True
                 lblErroConsultasNotas.Text = "É necessário informar inicio e fim para prosseguir com a consulta!"
-                ModalPopupExtender9.Show()
+                mpeConsultaNotas.Show()
                 Exit Sub
             End If
         End If
@@ -1338,7 +1338,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
                 'msg erro
                 divErroConsultasNotas.Visible = True
                 lblErroConsultasNotas.Text = "É necessário informar inicio e fim para prosseguir com a consulta!"
-                ModalPopupExtender9.Show()
+                mpeConsultaNotas.Show()
                 Exit Sub
             End If
         End If
@@ -1352,7 +1352,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
                 'msg erro
                 divErroConsultasNotas.Visible = True
                 lblErroConsultasNotas.Text = "É necessário informar data de inicio e fim para prosseguir com a consulta!"
-                ModalPopupExtender9.Show()
+                mpeConsultaNotas.Show()
                 Exit Sub
 
             End If
@@ -1368,7 +1368,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
                 'msg erro
                 divErroConsultasNotas.Visible = True
                 lblErroConsultasNotas.Text = "É necessário informar data de inicio e fim para prosseguir com a consulta!"
-                ModalPopupExtender9.Show()
+                mpeConsultaNotas.Show()
                 Exit Sub
             End If
         End If
@@ -1383,7 +1383,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
         Dim sql As String = "SELECT * FROM [dbo].[View_Faturamento] WHERE NR_NOTA_FISCAL IS NOT NULL " & filtro & " ORDER BY DT_VENCIMENTO,NR_PROCESSO"
         dsFaturamento.SelectCommand = sql
         dgvFaturamento.DataBind()
-        ModalPopupExtender9.Hide()
+        mpeConsultaNotas.Hide()
         divErroConsultasNotas.Visible = False
 
         ddlCliente.SelectedValue = 0
@@ -1920,4 +1920,11 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
     End Sub
 
+    Private Sub lkConsultaNotas_Click(sender As Object, e As EventArgs) Handles lkConsultaNotas.Click
+        mpeConsultaNotas.Show()
+    End Sub
+
+    Protected Sub txtCNPJSub_TextChanged1(sender As Object, e As EventArgs)
+
+    End Sub
 End Class

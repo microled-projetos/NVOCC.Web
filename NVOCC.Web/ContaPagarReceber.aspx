@@ -175,10 +175,12 @@
                                                 <th class="text-center" scope="col">DOC CONFERIDO HOUSE</th>
                                                 <th class="text-center" scope="col">DOC CONFERIDO MASTER</th>
                                                 <th class="text-center" scope="col">NR PROCESSO</th>
+                                                <th class="text-center" scope="col">ESTUFAGEM</th>
                                                 <th class="text-center" scope="col">NR BL MASTER</th>
                                                 <th class="text-center" scope="col">IMP / EXP</th>
                                                 <th class="text-center" scope="col">ITEM DESPESA</th>
                                                 <th class="text-center" scope="col">CLIENTE (REC)</th>
+                                                <th class="text-center" scope="col">TIPO FATURAMENTO</th>
                                                 <th class="text-center" scope="col">DEVIDO (REC)</th>
                                                 <th class="text-center" scope="col">MOEDA (REC)</th>
                                                 <th class="text-center" scope="col">CAMBIO (REC)</th>
@@ -190,6 +192,7 @@
                                                 <th class="text-center" scope="col">CAMBIO (PAG)</th>
                                                 <th class="text-center" scope="col">DATA CAMBIO (PAG)</th>
                                                 <th class="text-center" scope="col">PAGAR (R$)</th>
+                                                <th class="text-center" scope="col">PREVISÃO CHEGADA</th>
                                             </tr>
                                         </thead>
                                         <tbody id="grdEstimativaPagamentoRecebimentoBody">
@@ -782,15 +785,35 @@
                     dado = $.parseJSON(dado);
                     var liqrec = 0;
                     var liqpag = 0;
+                    var result = "";
                     $("#grdEstimativaPagamentoRecebimentoBody").empty();
                     $("#grdEstimativaPagamentoRecebimentoFooter").empty();
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
-                            $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td class='text-center'>" + dado[i]["DOC_CONFERIDO_HOUSE"] + "</td><td class='text-center'>" + dado[i]["DOC_CONFERIDO_MASTER"] + "</td><td class='text-center'>" + dado[i]["PROCESSO"] + "</td><td class='text-center'> " + dado[i]["MBL"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["SERVICO"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["CLIENTE"] + "'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["DEVIDO_REC"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td><td class='text-center'>" + dado[i]["CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["RECEBER"] + "</td>" +
-                                "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["FORNECEDOR"] + "'>" + dado[i]["FORNECEDOR"] + "</td><td class='text-center'>" + dado[i]["DEVIDO_PAG"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["MOEDA_PAG"] + "</td><td class='text-center'>" + dado[i]["CAMBIO_PAGAR"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["PAGAR"] + "</td></tr>");
+
+                            result += "<tr>";
+                            result += "<td class='text-center'>" + dado[i]["DOC_CONFERIDO_HOUSE"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DOC_CONFERIDO_MASTER"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["PROCESSO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["ESTUFAGEM"] + "</td>";
+                            result += "<td class='text-center'> " + dado[i]["MBL"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["SERVICO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>";
+                            result += "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["CLIENTE"] + "'>" + dado[i]["CLIENTE"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["FATURAMENTO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DEVIDO_REC"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["CAMBIO_REC"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DT_CAMBIO_REC"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["RECEBER"] + "</td>";
+                            result += "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["FORNECEDOR"] + "'>" + dado[i]["FORNECEDOR"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DEVIDO_PAG"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["MOEDA_PAG"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["CAMBIO_PAGAR"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DT_CAMBIO_PAG"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["PAGAR"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td>";
+                            result += "</tr>";
                             //if (dado[i]["TIPO"].toString() == "PAGO") {
                             //    if (dado[i]["TOTAL"] != "") {
                             //        // liqpag = parseFloat(liqpag) + parseFloat(dado[i]["TOTAL"]);
@@ -812,7 +835,8 @@
 
 
                         }
-                        $("#grdEstimativaPagamentoRecebimentoFooter").append("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqrec.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqpag.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th></tr>")
+                        $("#grdEstimativaPagamentoRecebimentoBody").append(result);
+                        $("#grdEstimativaPagamentoRecebimentoFooter").append("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqrec.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqpag.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th></tr>")
                     }
                     else {
                         $("#grdEstimativaPagamentoRecebimentoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='18' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");

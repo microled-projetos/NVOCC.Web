@@ -38,6 +38,7 @@ Public Class Conexao_sql
     End Sub
 
     Public Function ExecutarQuery(ByVal Command As String) As DataSet
+        Conectar()
         Dim ds As New DataSet
         Dim ObjDataAdapter As New SqlClient.SqlDataAdapter
         Dim ObjCommand As New SqlClient.SqlCommand
@@ -54,7 +55,7 @@ Public Class Conexao_sql
         End Try
 
         Return ds
-
+        Fechar()
     End Function
     Public Shared Function List(ByVal SQL As String) As DataTable
         Dim Ds As DataSet = New DataSet()

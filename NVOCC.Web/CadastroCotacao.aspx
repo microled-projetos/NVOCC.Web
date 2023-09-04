@@ -177,7 +177,7 @@
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Destinatário de Cobrança (Frete e/ou taxas):</label></label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="ddlDestinatarioCobranca" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_DESTINATARIO_COBRANCA" DataSourceID="dsDestinatarioCobranca" DataValueField="ID_DESTINATARIO_COBRANCA"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlDestinatarioCobranca" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_DESTINATARIO_COBRANCA" DataSourceID="dsDestinatarioCobranca" DataValueField="ID_DESTINATARIO_COBRANCA" AutoPostBack="true"></asp:DropDownList>
                                             </div>
                                         </div>
 
@@ -538,6 +538,49 @@
                                        </div>     </center>
                                 </asp:Panel>
 
+                                    <asp:Button ID="btnAuxiliarDestinatarioCob" runat="server" Style="display: none;"/>
+                                     <ajaxToolkit:ModalPopupExtender ID="mpeDestinatarioCob" runat="server" PopupControlID="pnlDestinatarioCob" TargetControlID="btnAuxiliarDestinatarioCob" CancelControlID="btnCancelarDestinatarioCob"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlDestinatarioCob" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">DESTINATÁRIO DE COBRANÇA</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                   
+                                  
+                            <div class="row">
+                               <asp:label ID="Label3" runat="server">NOTAR QUE AS TAXAS RELACIONADAS ABAIXO TIVERAM O DESTINATÁRIO DE COBRANÇA ALTERADO MANUALMENTE. <br/><br/>VOCÊ DESEJA ATRIBUIR A ALTERAÇÃO DE DESTINATÁRIO QUE VOCÊ ACABOU DE REALIZAR NO PROCESSO?</asp:label> 
+                                <div>
+                                   <div class="row">
+                                     <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <asp:GridView ID="dgvTaxasDestinatarioCob" DataKeyNames="ID_COTACAO_TAXA" DataSourceID="dsTaxasDestinatarioCob" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                                <Columns>
+                                                   
+                                                    <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="Item Despesa" SortExpression="NM_ITEM_DESPESA" />
+                                                    <asp:BoundField DataField="NM_DESTINATARIO_COBRANCA" HeaderText="Destinatario Cob." SortExpression="NM_DESTINATARIO_COBRANCA" />
+                                                </Columns>
+                                                <HeaderStyle CssClass="headerStyle" />
+                                            </asp:GridView>
+                                        </div>
+                                         </div>
+                                   </div>      
+                                </div>  
+                             </div>
+                                                                                  </div>                     
+                               <div class="modal-footer">
+                                                            
+                                                            <asp:Button runat="server" CssClass="btn btn-warning" ID="btnTaxasExcessao" text="Todas as taxas exceto as mencionadas acima" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnTodastaxas" text="Para todas as taxas" />
+                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnCancelarDestinatarioCob" text="Cancelar atual alteração" />                                  
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
 
 
                                      <asp:Button runat="server" Style="display: none" ID="btnAuxiliarEnvioSI" />
@@ -582,6 +625,8 @@
                                     <asp:PostBackTrigger ControlID="ddlServico" />
                                     <asp:PostBackTrigger ControlID="ddlEstufagem" />
                                     <asp:PostBackTrigger ControlID="btnGravar" />
+                                    <asp:PostBackTrigger ControlID="btnTaxasExcessao" />
+                                    <asp:PostBackTrigger ControlID="btnTodastaxas" />
                                     <asp:PostBackTrigger ControlID="btnConfirmaEnviarSI" />
                                     <asp:PostBackTrigger ControlID="btnCancelaEnvioSI" />
                                     <asp:AsyncPostBackTrigger ControlID="btnImprimir" />
@@ -594,6 +639,7 @@
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeImportador" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeTranspRodoviario" />
                                     <asp:AsyncPostBackTrigger ControlID="ddlFreteTransportador_Frete" />
+                                    <asp:AsyncPostBackTrigger ControlID="btnSalvarTaxa" />
                                 </Triggers>
                             </asp:UpdatePanel>
 
@@ -1426,8 +1472,8 @@
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Destinatário Cobrança:</label><label runat="server" style="color: red">*</label>
-                                                                        <asp:DropDownList ID="ddlDestinatarioCobrancaTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_DESTINATARIO_COBRANCA" DataSourceID="dsDestinatarioCobranca" DataValueField="ID_DESTINATARIO_COBRANCA">
-                                                                        </asp:DropDownList>
+                                                                        <asp:DropDownList ID="ddlDestinatarioCobrancaTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_DESTINATARIO_COBRANCA" DataSourceID="dsDestinatarioCobranca" DataValueField="ID_DESTINATARIO_COBRANCA"></asp:DropDownList>
+                                                                        <asp:TextBox ID="txtCobrancaTaxaOld" runat="server" style="display:none" />
                                                                     </div>
 
                                                                 </div>
@@ -2170,6 +2216,22 @@ FROM TB_COTACAO_TAXA A
         </SelectParameters>
     </asp:SqlDataSource>
   
+        <asp:SqlDataSource ID="dsTaxasDestinatarioCob" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT 
+ID_COTACAO_TAXA ,
+ NM_ITEM_DESPESA ,
+NM_DESTINATARIO_COBRANCA 
+FROM TB_COTACAO_TAXA A 
+INNER JOIN TB_ITEM_DESPESA B ON B.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
+INNER JOIN TB_DESTINATARIO_COBRANCA D ON D.ID_DESTINATARIO_COBRANCA =A.ID_DESTINATARIO_COBRANCA
+WHERE A.DT_ULTIMA_EDICAO IS NOT NULL AND ISNULL(A.FL_EDICAO_DESTINATARIO,0) = 1  AND A.ID_COTACAO = @ID_COTACAO
+">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
+
     <asp:SqlDataSource ID="dsOrigemPagamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_ORIGEM_PAGAMENTO,NM_ORIGEM_PAGAMENTO FROM  [dbo].[TB_ORIGEM_PAGAMENTO]
 union SELECT  0, 'Selecione'  ORDER BY ID_ORIGEM_PAGAMENTO"></asp:SqlDataSource>
@@ -2201,13 +2263,19 @@ FROM TB_COTACAO A where ID_CLIENTE = @ID_CLIENTE AND ID_TIPO_ESTUFAGEM = @ID_TIP
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsFornecedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN((SELECT ID_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN ((
+
+SELECT ISNULL(ID_CLIENTE,0)ID_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
 UNION 
 SELECT ISNULL(ID_TRANSPORTADOR,0)ID_TRANSPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
 UNION 
 SELECT ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
 UNION 
 SELECT ISNULL(ID_PARCEIRO_INDICADOR,0)ID_PARCEIRO_INDICADOR FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
+UNION 
+SELECT ISNULL(ID_PARCEIRO_EXPORTADOR,0)ID_PARCEIRO_EXPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
+UNION 
+SELECT ISNULL(ID_PARCEIRO_RODOVIARIO,0)ID_PARCEIRO_RODOVIARIO FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
 UNION
 SELECT DISTINCT ISNULL(ID_FORNECEDOR,0)ID_FORNECEDOR FROM TB_COTACAO_TAXA WHERE ID_COTACAO = @ID_COTACAO AND ID_FORNECEDOR IS NOT NULL)) OR FL_PRESTADOR = 1 
 union SELECT 0, ' Selecione'  
@@ -2220,18 +2288,23 @@ ORDER BY NM_RAZAO">
     <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA]
 union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"></asp:SqlDataSource>
+   
     <asp:SqlDataSource ID="dsDivisaoProfit" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_DIVISAO_PROFIT,NM_TIPO_DIVISAO_PROFIT FROM [dbo].TB_TIPO_DIVISAO_PROFIT
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT"></asp:SqlDataSource>
+  
     <asp:SqlDataSource ID="dsItemDespesa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_ITEM_DESPESA,NM_ITEM_DESPESA FROM  [dbo].[TB_ITEM_DESPESA]
 union SELECT  0, '    Selecione' ORDER BY NM_ITEM_DESPESA"></asp:SqlDataSource>
+   
     <asp:SqlDataSource ID="dsTipoPagamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_PAGAMENTO, NM_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_PAGAMENTO"></asp:SqlDataSource>
+  
     <asp:SqlDataSource ID="dsStatusFreteAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_STATUS_FRETE_AGENTE, NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENTE 
 union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE_AGENTE"></asp:SqlDataSource>
+  
     <asp:SqlDataSource ID="dsHistoricoFrete" runat="server" ConnectionString="<%$ ConnectionStrings:StringConexaoOracle %>" ProviderName="<%$ConnectionStrings:StringConexaoOracle.ProviderName %> "
         SelectCommand="SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= 10 and cnpj = '@cnpj'">
         <SelectParameters>
@@ -2251,7 +2324,7 @@ union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE
         </SelectParameters>
     </asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+<%--    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT 
 ID_COTACAO_TAXA,
 ID_COTACAO,
@@ -2291,7 +2364,7 @@ FROM TB_COTACAO_TAXA A
             <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" />
         </SelectParameters>
     </asp:SqlDataSource>
-
+--%>
 
 
     <asp:SqlDataSource ID="dsMedidasAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
