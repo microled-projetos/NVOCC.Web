@@ -5,19 +5,19 @@ Public Class Conexao_sql
     Public Sub Conectar()
         Try
 
-            If System.Web.HttpContext.Current.Session("Logado") = "False" Or System.Web.HttpContext.Current.Session("Logado") = Nothing Then
+            'If System.Web.HttpContext.Current.Session("Logado") = "False" Or System.Web.HttpContext.Current.Session("Logado") = Nothing Then
 
-                ObjCon = New SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString)
+            ObjCon = New SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString)
 
-                'Else
+            ' Else
 
-                '    Dim SQL As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString.Substring(0, ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString.IndexOf("User"))
+            'Dim SQL As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString.Substring(0, ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString.IndexOf("User"))
 
-                '    ' SQL = SQL & "User ID=" & System.Web.HttpContext.Current.Session("USER") & ";Password=Ab@2022#Log;"
-                '    SQL = SQL & "User ID=" & System.Web.HttpContext.Current.Session("USER") & ";Password=gflcoablaolg!@2023;"
-                '    ObjCon = New SqlClient.SqlConnection(SQL)
+            '    ' SQL = SQL & "User ID=" & System.Web.HttpContext.Current.Session("USER") & ";Password=Ab@2022#Log;"
+            '    SQL = SQL & "User ID=" & System.Web.HttpContext.Current.Session("USER") & ";Password=gflcoablaolg!@2023;"
+            ' ObjCon = New SqlClient.SqlConnection(SQL)
 
-            End If
+            ' End If
 
 
 
@@ -38,7 +38,6 @@ Public Class Conexao_sql
     End Sub
 
     Public Function ExecutarQuery(ByVal Command As String) As DataSet
-        Conectar()
         Dim ds As New DataSet
         Dim ObjDataAdapter As New SqlClient.SqlDataAdapter
         Dim ObjCommand As New SqlClient.SqlCommand
@@ -55,7 +54,6 @@ Public Class Conexao_sql
         End Try
 
         Return ds
-        Fechar()
     End Function
     Public Shared Function List(ByVal SQL As String) As DataTable
         Dim Ds As DataSet = New DataSet()
