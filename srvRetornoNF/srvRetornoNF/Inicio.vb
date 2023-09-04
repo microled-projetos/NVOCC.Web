@@ -32,6 +32,7 @@ Module Inicio
 
                     End Using
 
+                    Con.ExecutarQuery("UPDATE TB_FATURAMENTO SET FL_SRV_RETORNO_NF =  1 WHERE ID_FATURAMENTO =  " & linhads.Item("ID_FATURAMENTO").ToString())
                 Next
                 Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 30 ")
 

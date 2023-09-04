@@ -270,6 +270,7 @@
     <Content Include="CadastrarTipoFaturamento.aspx" />
     <Content Include="Classes\FiltrosTaxasInativas.cs" />
     <Content Include="ComissaoInsideSales.aspx" />
+    <Content Include="ConsultaIntegracaoTOTVS.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -680,6 +681,13 @@
     </Compile>
     <Compile Include="ComissaoInsideSales.aspx.vb">
       <DependentUpon>ComissaoInsideSales.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ConsultaIntegracaoTOTVS.aspx.designer.vb">
+      <DependentUpon>ConsultaIntegracaoTOTVS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultaIntegracaoTOTVS.aspx.vb">
+      <DependentUpon>ConsultaIntegracaoTOTVS.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Erro.aspx.designer.vb">

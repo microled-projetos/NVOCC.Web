@@ -177,6 +177,12 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnInativacaoTaxas.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2067 And linha.Item("Acessar").ToString() = 0 Then
                         mnRelTaxasInativas.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2068 And linha.Item("Acessar").ToString() = 0 Then
+                        'mnPowerBIGerencial.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2069 And linha.Item("Acessar").ToString() = 0 Then
+                        ' mnDetention.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2070 And linha.Item("Acessar").ToString() = 0 Then
+                        mnConsultaIntegracaoTOTVS.Visible = False
                     End If
 
 
@@ -239,7 +245,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuComissoes.Visible = False
             End If
 
-            If mnTOTVSCredit.Visible = False And mnTOTVSDebit.Visible = False And mnTOTVSDespesa.Visible = False And mnTOTVSPA.Visible = False And mnTOTVSDemurrageRA.Visible = False And mnTOTVSDemurragePA.Visible = False Then
+            If mnTOTVSCredit.Visible = False And mnTOTVSDebit.Visible = False And mnTOTVSDespesa.Visible = False And mnTOTVSPA.Visible = False And mnTOTVSDemurrageRA.Visible = False And mnTOTVSDemurragePA.Visible = False And mnConsultaIntegracaoTOTVS.Visible = False Then
                 MenuTotvs.Visible = False
             End If
 
