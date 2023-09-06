@@ -207,7 +207,7 @@
                                     <li><a id="mnTOTVSCredit" runat="server" href="integracaoTOTVSCredit.aspx">Invoice Credit</a></li>
                                     <li><a id="mnTOTVSDemurrageRA" runat="server" href="integracaoTOTVSDemurrageRA.aspx">Demurrage RA</a></li>
                                     <li><a id="mnTOTVSDemurragePA" runat="server" href="integracaoTOTVSDemurrage.aspx">Demurrage PA</a></li>
-                                    <li><a id="A3" runat="server" href="ConsultaIntegracaoTOTVS.aspx">Consulta Integração</a></li>
+                                    <li><a id="mnConsultaIntegracaoTOTVS" runat="server" href="ConsultaIntegracaoTOTVS.aspx">Consulta Integração</a></li>
                                 </ul>
                             </li>
                             <li>
