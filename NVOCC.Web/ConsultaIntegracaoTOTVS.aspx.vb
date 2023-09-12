@@ -45,4 +45,37 @@
     Private Sub btnLimpar_Click(sender As Object, e As EventArgs) Handles btnLimpar.Click
         Response.Redirect("ConsultaIntegracaoTOTVS.aspx")
     End Sub
+
+    Private Sub dgvConsulta_Sorting(sender As Object, e As GridViewSortEventArgs) Handles dgvConsulta.Sorting
+        Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
+
+        If dt IsNot Nothing Then
+            dt.DefaultView.Sort = e.SortExpression & " " + GetSortDirection(e.SortExpression)
+            Session("TaskTable") = dt
+            dgvConsulta.DataSource = Session("TaskTable")
+            dgvConsulta.DataBind()
+            dgvConsulta.HeaderRow.TableSection = TableRowSection.TableHeader
+        End If
+        Pesquisa()
+    End Sub
+
+    Private Function GetSortDirection(ByVal column As String) As String
+        Dim sortDirection As String = "ASC"
+        Dim sortExpression As String = TryCast(ViewState("SortExpression"), String)
+
+        If sortExpression IsNot Nothing Then
+
+            If sortExpression = column Then
+                Dim lastDirection As String = TryCast(ViewState("SortDirection"), String)
+
+                If (lastDirection IsNot Nothing) AndAlso (lastDirection = "ASC") Then
+                    sortDirection = "DESC"
+                End If
+            End If
+        End If
+
+        ViewState("SortDirection") = sortDirection
+        ViewState("SortExpression") = column
+        Return sortDirection
+    End Function
 End Class

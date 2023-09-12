@@ -487,7 +487,7 @@
                                      <div class="form-group">
                                         <label class="control-label">CNPJ/CPF:</label><br />
                                           <asp:TextBox ID="txtIDParceiro" runat="server" style="display: none" CssClass="form-control"></asp:TextBox>
-                                          <asp:TextBox ID="txtCNPJSub" runat="server" AutoPostBack="true" CssClass="form-control" ></asp:TextBox>
+                                          <asp:TextBox ID="txtCNPJSub" runat="server" AutoPostBack="true" CssClass="form-control txtCNPJSub" ></asp:TextBox>
                            </div>
                                      </div> <div class="col-sm-8">
                                      <div class="form-group">
@@ -615,7 +615,7 @@
                                 <ajaxToolkit:ModalPopupExtender ID="mpeConsultaNotas" runat="server" PopupControlID="pnlConsultaNota" TargetControlID="TextBox2" CancelControlID="btnFecharConsulta"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
                                     <ContentTemplate>
-                                        <asp:Panel ID="pnlConsultaNota" runat="server" CssClass="modalPopup" Style="display: none;" TabIndex="1">
+                                        <asp:Panel ID="pnlConsultaNota" runat="server" CssClass="modalPopup" Style="display: none;">
                                             <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -633,13 +633,13 @@
                                      <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
-                               <asp:TextBox ID="txtConsultaNotaInicio" runat="server" CssClass="form-control"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaNotaInicio" runat="server" CssClass="form-control" tabindex="1" ></asp:TextBox>
                            </div>
    </div>
                                     <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
-                               <asp:TextBox ID="txtConsultaNotaFim" runat="server" CssClass="form-control"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaNotaFim" runat="server" CssClass="form-control" tabindex="2" ></asp:TextBox>
                            </div>
                                     </div>
                                     </div>
@@ -648,13 +648,13 @@
                                      <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
-                               <asp:TextBox ID="txtConsultaRPSInicio" runat="server" CssClass="form-control"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaRPSInicio" runat="server" CssClass="form-control" tabindex="4"></asp:TextBox>
                            </div>
                                          </div>
                                      <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
-                               <asp:TextBox ID="txtConsultaRPSFim" runat="server" CssClass="form-control"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaRPSFim" runat="server" CssClass="form-control" tabindex="5"></asp:TextBox>
                            </div>
                                      </div>
                                                                 
@@ -666,13 +666,13 @@
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
-                               <asp:TextBox ID="txtConsultaVencimentoInicio" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaVencimentoInicio" runat="server" CssClass="form-control data" tabindex="7"></asp:TextBox>
                            </div>
                                      </div>
                                                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
-                               <asp:TextBox ID="txtConsultaVencimentoFim" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaVencimentoFim" runat="server" CssClass="form-control data" tabindex="8"></asp:TextBox>
                            </div>
                                      </div>
                                                                  </div>
@@ -681,13 +681,13 @@
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
-                               <asp:TextBox ID="txtConsultaPagamentoInicio" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaPagamentoInicio" runat="server" CssClass="form-control data" tabindex="10"></asp:TextBox>
                            </div>
                                      </div>
                               <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
-                               <asp:TextBox ID="txtConsultaPagamentoFim" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaPagamentoFim" runat="server" CssClass="form-control data" tabindex="11"></asp:TextBox>
                            </div>
                                      </div>
                        </div>
@@ -725,7 +725,7 @@
                                                             
                              </div>
                                <div class="modal-footer">
-                                                                  <asp:Button runat="server" Text="Pesquisar" ID="btnConsultaNotas" CssClass="btn btn-success"  />
+                                                                  <asp:Button runat="server" Text="Pesquisar" ID="btnConsultaNotas" tabindex="3" CssClass="btn btn-success"  />
 
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharConsulta" text="Close" />
                                                         </div>
@@ -935,16 +935,16 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
                 console.log("3");
                 return ID;
             }
-        };         
+        };
 
         var el = document.getElementById("result");
 
         function minhaFuncao(codigo) {
             if (codigo == '13') {
-                console.log("enter/tab");
+                console.log("enter");
                 if (document.getElementById('<%= txtConsultaNotaInicio.ClientID %>') === document.activeElement) {
-                      console.log("if");
-                      document.getElementById('<%= txtConsultaNotaFim.ClientID %>').focus();
+                    console.log("if");
+                    document.getElementById('<%= txtConsultaNotaFim.ClientID %>').focus();
                 }
                 else {
 
@@ -972,16 +972,72 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
                                         document.getElementById('<%= btnConsultaNotas.ClientID %>').focus();
                                     } else {
-                                        
+
                                         if (document.getElementById('<%= txtConsultaPagamentoInicio.ClientID %>') === document.activeElement) {
-                        
+
                                             document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>').focus();
                                         } else {
-                                            
+
                                             if (document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>') === document.activeElement) {
-                        
+
                                                 document.getElementById('<%= btnConsultaNotas.ClientID %>').focus();
-                                            }  
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (codigo == '9') {
+                console.log("tab");
+                if (document.getElementById('<%= txtConsultaNotaInicio.ClientID %>') === document.activeElement) {
+                    console.log("if");
+                    document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 3;
+
+                }
+                else {
+
+                    if (document.getElementById('<%= txtConsultaNotaFim.ClientID %>') === document.activeElement) {
+
+                        document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 3;
+                    } else {
+
+                        if (document.getElementById('<%= txtConsultaRPSInicio.ClientID %>') === document.activeElement) {
+
+                            document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 6;
+
+                        } else {
+
+                            if (document.getElementById('<%= txtConsultaRPSFim.ClientID %>') === document.activeElement) {
+
+                                document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 6;
+
+                            } else {
+
+                                if (document.getElementById('<%= txtConsultaVencimentoInicio.ClientID %>') === document.activeElement) {
+
+                                    document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 9;
+
+                                } else {
+
+                                    if (document.getElementById('<%= txtConsultaVencimentoFim.ClientID %>') === document.activeElement) {
+
+                                        document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 9;
+
+                                    } else {
+
+                                        if (document.getElementById('<%= txtConsultaPagamentoInicio.ClientID %>') === document.activeElement) {
+
+                                            document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 12;
+                                        } else {
+
+                                            if (document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>') === document.activeElement) {
+
+                                                document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 12;
+                                            }
                                         }
                                     }
                                 }
@@ -995,114 +1051,20 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
         document.addEventListener('keydown', function (e) {
             e = e || window.event;
             var code = e.which || e.keyCode;
-           minhaFuncao(code);
+            minhaFuncao(code);
         });
 
 
-<%--        function minhaFuncao(codigo) {
-              if (codigo == '13') {
-                console.log("enter/tab");
-                if (document.getElementById('<%= txtConsultaNotaInicio.ClientID %>') === document.activeElement) {
-                    console.log("if");
-                    document.getElementById('<%= txtConsultaNotaFim.ClientID %>').focus();
-                }
-                else {
 
-                    if (document.getElementById('<%= txtConsultaNotaFim.ClientID %>') === document.activeElement) {
-
-                        document.getElementById('<%= txtConsultaRPSInicio.ClientID %>').focus();
-                    } else {
-
-                        if (document.getElementById('<%= txtConsultaRPSInicio.ClientID %>') === document.activeElement) {
-
-                            document.getElementById('<%= txtConsultaRPSFim.ClientID %>').focus();
-                        } else {
-
-                            if (document.getElementById('<%= txtConsultaRPSFim.ClientID %>') === document.activeElement) {
-
-                                document.getElementById('<%= txtConsultaVencimentoInicio.ClientID %>').focus();
-                            } else {
-
-                                if (document.getElementById('<%= txtConsultaVencimentoInicio.ClientID %>') === document.activeElement) {
-
-                                    document.getElementById('<%= txtConsultaVencimentoFim.ClientID %>').focus();
-                                } else {
-
-                                    if (document.getElementById('<%= txtConsultaVencimentoFim.ClientID %>') === document.activeElement) {
-                        
-                                        document.getElementById('<%= txtConsultaPagamentoInicio.ClientID %>').focus();
-                                    } else {
-                                        
-                                        if (document.getElementById('<%= txtConsultaPagamentoInicio.ClientID %>') === document.activeElement) {
-                        
-                                            document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>').focus();
-                                        } else {
-                                            
-                                            if (document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>') === document.activeElement) {
-                        
-                                                document.getElementById('<%= ddlStatusConsultaNotas.ClientID %>').focus();
-                                            } else {
-                                                
-                                                if (document.getElementById('<%= ddlStatusConsultaNotas.ClientID %>') === document.activeElement) {
-                        
-                                                    document.getElementById('<%= ddlCliente.ClientID %>').focus();
-                                                } else{
-                                                    
-                                                    if (document.getElementById('<%= ddlCliente.ClientID %>') === document.activeElement) {
-                        
-                                                        document.getElementById('<%= ddlTaxa.ClientID %>').focus();
-                                                    } else {
-                                                        
-                                                        if (document.getElementById('<%= ddlTaxa.ClientID %>') === document.activeElement) {
-                        
-                                                            document.getElementById('<%= btnConsultaNotas.ClientID %>').focus();
-                                                        } else {
-
-                                                            if (document.getElementById('<%= btnConsultaNotas.ClientID %>') === document.activeElement) {
-                        
-                                                                document.getElementById('<%= txtConsultaNotaInicio.ClientID %>').focus();
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }--%>
-
-         
-        //txtCNPJSub
-        <%--function formatarCPFouCNPJ(document.getElementById('<%= txtCNPJSub.ClientID %>')) {
-            console.log("formatarCPFouCNPJ");
-
-            var cleanValue = input.value.replace(/\D/g, '');
+        function formatarCPFouCNPJ() {
+            var CNPJ_CPF = document.getElementById('<%= txtCNPJSub.ClientID %>').value;
+            var cleanValue = CNPJ_CPF.replace(/\D/g, '');
             if (cleanValue.length <= 11) { // Formatar como CPF
-                input.value = cleanValue.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+                document.getElementById('<%= txtCNPJSub.ClientID %>').value = cleanValue.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
             } else if (cleanValue.length == 14) { // Formatar como CNPJ
-                input.value = cleanValue.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+                document.getElementById('<%= txtCNPJSub.ClientID %>').value = cleanValue.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
             }
-        }--%>
-
-        //$('.txtCNPJSub').keyup(function () {
-        //    var $field = $(this);
-        //    console.log("keyup");
-        //    // this is the value before the keypress
-        //    var beforeVal = $field.val();
-
-        //    setTimeout(function () {
-
-        //        // this is the value after the keypress
-        //        var afterVal = $field.val();
-        //        console.log('value before: ' + beforeVal + '; value now: ' + afterVal);
-        //    }, 0);
-        //});
-
+        };
 
 
 

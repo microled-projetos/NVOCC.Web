@@ -59,6 +59,7 @@
                                 <asp:BoundField DataField="VALOR" HeaderText="VALOR" SortExpression="VALOR" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
                                 <asp:BoundField DataField="DADOS_CLIENTE" HeaderText="CLIENTE" SortExpression="DADOS_CLIENTE" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
                                 <asp:BoundField DataField="TIPO" HeaderText="TIPO" SortExpression="TIPO" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
+                                <asp:BoundField DataField="SERVICO" HeaderText="Serviço" SortExpression="SERVICO" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
                                 <asp:BoundField DataField="DATA_INTEG_REC" HeaderText="Integração" SortExpression="DATA_INTEG_REC" DataFormatString="{0:dd/MM/yyyy hh:mm}" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
                                 <asp:BoundField DataField="RETORNO" HeaderText="Retorno" SortExpression="RETORNO" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
                                 <asp:BoundField DataField="INTEGRACAO_CANCELADA" HeaderText="Integração Cancelada" SortExpression="INTEGRACAO_CANCELADA" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>

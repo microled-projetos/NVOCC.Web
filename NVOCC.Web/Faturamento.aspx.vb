@@ -52,6 +52,10 @@ Public Class Faturamento
             txtData.Text = Now.Date.ToString("dd/MM/yyyy")
             lkNotasFiscais.Visible = True
             lkConsultaNotas.Visible = True
+
+            txtCNPJSub.Attributes.Add("onkeyup", "formatarCPFouCNPJ();")
+
+
         End If
         Con.Fechar()
     End Sub
@@ -1713,7 +1717,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
         If txtCNPJSub.Text <> "" Then
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO, UPPER(P.NM_RAZAO)NM_RAZAO, UPPER(P.ENDERECO)ENDERECO, P.NR_ENDERECO, UPPER(P.COMPL_ENDERECO)COMPL_ENDERECO, UPPER(P.BAIRRO)BAIRRO, P.CEP, P.CNPJ, P.INSCR_ESTADUAL, P.INSCR_MUNICIPAL, UPPER(C.NM_CIDADE)NM_CIDADE, UPPER(E.NM_ESTADO)NM_ESTADO FROM TB_PARCEIRO P LEFT JOIN TB_CIDADE C ON C.ID_CIDADE = P.ID_CIDADE LEFT JOIN TB_ESTADO E ON E.ID_ESTADO = C.ID_ESTADO WHERE ((CNPJ ='" & txtCNPJSub.Text & "') or (CPF ='" & txtCNPJSub.Text & "')")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO, UPPER(P.NM_RAZAO)NM_RAZAO, UPPER(P.ENDERECO)ENDERECO, P.NR_ENDERECO, UPPER(P.COMPL_ENDERECO)COMPL_ENDERECO, UPPER(P.BAIRRO)BAIRRO, P.CEP, P.CNPJ, P.INSCR_ESTADUAL, P.INSCR_MUNICIPAL, UPPER(C.NM_CIDADE)NM_CIDADE, UPPER(E.NM_ESTADO)NM_ESTADO FROM TB_PARCEIRO P LEFT JOIN TB_CIDADE C ON C.ID_CIDADE = P.ID_CIDADE LEFT JOIN TB_ESTADO E ON E.ID_ESTADO = C.ID_ESTADO WHERE ((CNPJ ='" & txtCNPJSub.Text & "') or (CPF ='" & txtCNPJSub.Text & "'))")
             If ds.Tables(0).Rows.Count > 0 Then
                 txtIDParceiro.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO")
 
@@ -1924,7 +1928,5 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
         mpeConsultaNotas.Show()
     End Sub
 
-    Protected Sub txtCNPJSub_TextChanged1(sender As Object, e As EventArgs)
 
-    End Sub
 End Class

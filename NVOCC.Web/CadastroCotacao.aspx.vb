@@ -5300,6 +5300,7 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
 
     Private Sub btnTaxasExcessao_Click(sender As Object, e As EventArgs) Handles btnTaxasExcessao.Click
         Dim Con As New Conexao_sql
+        Con.Conectar()
         Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & " WHERE ID_COTACAO = " & txtID.Text)
         Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & " WHERE ISNULL(FL_EDICAO_DESTINATARIO,0) = 0 AND ISNULL(VL_TAXA_VENDA,0) <> 0 AND ID_COTACAO = " & txtID.Text & " AND ID_COTACAO_TAXA NOT IN (SELECT ISNULL(ID_COTACAO_TAXA,0) FROM View_Taxa_Bloqueada WHERE CD_PR= 'R')")
         dgvTaxas.DataBind()
@@ -5310,6 +5311,7 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
 
     Private Sub btnTodastaxas_Click(sender As Object, e As EventArgs) Handles btnTodastaxas.Click
         Dim Con As New Conexao_sql
+        Con.Conectar()
         Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & " WHERE ID_COTACAO = " & txtID.Text)
         Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & " WHERE ISNULL(VL_TAXA_VENDA,0) <> 0 AND ID_COTACAO = " & txtID.Text & " AND ID_COTACAO_TAXA NOT IN (SELECT ISNULL(ID_COTACAO_TAXA,0) FROM View_Taxa_Bloqueada WHERE CD_PR= 'R')")
         dgvTaxas.DataBind()
