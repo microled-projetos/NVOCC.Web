@@ -19,11 +19,6 @@
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="processoExpectGrid">
                             <div class="row topMarg">
-                                <div class="row">
-                                    <div class="alert alert-danger text-center" id="msgErrExportContaPagaRecebida">
-                                        Não há registros para a data informada.
-                                    </div>
-                                </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
                                         <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="exportContaConferenciaProcesso('Pagamento_Recebimento.csv')">Exportar Grid - CSV</button>
@@ -101,6 +96,7 @@
                                                 <th class="text-center" scope="col">A RECEBER BRL</th>
                                                 <th class="text-center" scope="col">A PAGAR BRL</th>
                                                 <th class="text-center" scope="col">SALDO BRL</th>
+                                                <th class="text-center" scope="col">ITEM DESPESA</th>
                                             </tr>
                                         </thead>
                                         <tbody id="grdPagamentoRecebimentoBody">
@@ -238,6 +234,7 @@
                             result += "<td class='text-center'>" + dado[i]["ARECEBERBR"] + "</td>";
                             result += "<td class='text-center'>" + dado[i]["APAGARBR"] + "</td>";
                             result += "<td class='text-center'>" + dado[i]["SALDOBR"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>";
                             result += "</tr>";
                         }
                         $("#grdPagamentoRecebimentoBody").append(result);
@@ -286,7 +283,7 @@
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado != null) {
-                        var confProcesso = [["DOC CONFERIDO HOUSE;DOC CONFERIDO MASTER;PROCESSO;MASTER;HOUSE;TIPO SERVICO;TIPO ESTUFAGEM;TIPO PAGAMENTO HOUSE;TIPO PAGAMENTO MASTER;CNTR 20;CNTR 40;ORIGEM;DESTINO;DATA EMBARQUE;DATA PREVISAO CHEGADA;PARCEIRO;CNEE;INDICADOR;AGENTE;TIPO FATURAMENTO;DIAS FATURADOS;ORIGEM COMPRA; ORIGEM VENDA;A RECEBER BRL; A PAGAR BRL; SALDO BRL"]];
+                        var confProcesso = [["DOC CONFERIDO HOUSE;DOC CONFERIDO MASTER;PROCESSO;MASTER;HOUSE;TIPO SERVICO;TIPO ESTUFAGEM;TIPO PAGAMENTO HOUSE;TIPO PAGAMENTO MASTER;CNTR 20;CNTR 40;ORIGEM;DESTINO;DATA EMBARQUE;DATA PREVISAO CHEGADA;PARCEIRO;CNEE;INDICADOR;AGENTE;TIPO FATURAMENTO;DIAS FATURADOS;ORIGEM COMPRA; ORIGEM VENDA;A RECEBER BRL; A PAGAR BRL; SALDO BRL; ITEM DESPESA"]];
                         for (let i = 0; i < dado.length; i++) {
                             confProcesso.push([dado[i]]);
                         }

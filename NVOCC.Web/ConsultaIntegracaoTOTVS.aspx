@@ -59,23 +59,11 @@
                                 <asp:BoundField DataField="VALOR" HeaderText="VALOR" SortExpression="VALOR" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
                                 <asp:BoundField DataField="DADOS_CLIENTE" HeaderText="CLIENTE" SortExpression="DADOS_CLIENTE" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
                                 <asp:BoundField DataField="TIPO" HeaderText="TIPO" SortExpression="TIPO" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
+                               <asp:BoundField DataField="SERVICO" HeaderText="Serviço" SortExpression="SERVICO" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores" visible="false"/>
                                 <asp:BoundField DataField="DATA_INTEG_REC" HeaderText="Integração" SortExpression="DATA_INTEG_REC" DataFormatString="{0:dd/MM/yyyy hh:mm}" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
                                 <asp:BoundField DataField="RETORNO" HeaderText="Retorno" SortExpression="RETORNO" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
                                 <asp:BoundField DataField="INTEGRACAO_CANCELADA" HeaderText="Integração Cancelada" SortExpression="INTEGRACAO_CANCELADA" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
                                 <asp:BoundField DataField="CRITICA" HeaderText="Crítica" SortExpression="CRITICA" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
-
-                                <%-- 
-                                         <asp:BoundField DataField="FLAG_API_TOTVS" HeaderText="FLAG_API_TOTVS" SortExpression="FLAG_API_TOTVS" />
-                                            <asp:BoundField DataField="DATA_INTEG_NOTA" HeaderText="DATA_INTEG_NOTA" SortExpression="DATA_INTEG_NOTA" />
-                                            <asp:BoundField DataField="FLAG_API_TOTVS_TITULO" HeaderText="FLAG_API_TOTVS_TITULO" SortExpression="FLAG_API_TOTVS_TITULO" />
-                                            <asp:BoundField DataField="DATA_INTEG_REC" HeaderText="DATA_INTEG_REC" SortExpression="DATA_INTEG_REC" />
-                                            <asp:BoundField DataField="FLAG_API_TOTVS_CANCEL" HeaderText="FLAG_API_TOTVS_CANCEL" SortExpression="FLAG_API_TOTVS_CANCEL" />
-                                            <asp:BoundField DataField="FLAG_API_TOTVS_CANCEL_REC" HeaderText="FLAG_API_TOTVS_CANCEL_REC" SortExpression="FLAG_API_TOTVS_CANCEL_REC" />
-                                            <asp:BoundField DataField="MSG_RETORNO_NFE" HeaderText="MSG_RETORNO_NFE" SortExpression="MSG_RETORNO_NFE" />
-                                            <asp:BoundField DataField="MSG_RETORNO_REC" HeaderText="MSG_RETORNO_REC" SortExpression="MSG_RETORNO_REC" />
-                                            <asp:BoundField DataField="MSG_RETORNO_NFE_C" HeaderText="MSG_RETORNO_NFE_C" SortExpression="MSG_RETORNO_NFE_C" />
-                                            <asp:BoundField DataField="MSG_RETORNO_REC_C" HeaderText="MSG_RETORNO_REC_C" SortExpression="MSG_RETORNO_REC_C" />
-                                            <asp:BoundField DataField="MSG_RETORNO_CLI" HeaderText="MSG_RETORNO_CLI" SortExpression="MSG_RETORNO_CLI" />--%>
                             </Columns>
                             <HeaderStyle CssClass="headerStyle" />
                         </asp:GridView>
@@ -91,7 +79,7 @@
     </div> 
  </div> 
     <asp:SqlDataSource ID="dsConsulta" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM FN_INTEGRACAO_TOTVS('', GETDATE(),GETDATE()) ORDER BY DATA_EMISSAO DESC "></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM FN_INTEGRACAO_TOTVS('', GETDATE(),GETDATE()) ORDER BY NUMERO_DOC DESC "></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsFiltroTipo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT DISTINCT TIPO AS 'COD', TIPO as 'DESCR'  FROM VW_INTEGRACAO_TOTVS UNION SELECT  '0', '     Selecione' ORDER BY TIPO"></asp:SqlDataSource>

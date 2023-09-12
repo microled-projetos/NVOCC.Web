@@ -1469,7 +1469,7 @@ WHERE B.ID = " & ID)
             divErroEvento.Visible = True
             lblErroEvento.Text = "Necessário cadastrar dados basicos e informações adicionais antes de inserir um evento!"
 
-        ElseIf txtIdEvento.Text = "" And txtEmail.Text = "" Or ddlPorto.SelectedValue = 0 Or ddlEvento.SelectedValue = 0 Then
+        ElseIf txtIdEvento.Text = "" And txtEmail.Text = "" Or ddlEvento.SelectedValue = 0 Then
             'ERRO
             divErroEvento.Visible = True
             lblErroEvento.Text = "Campos obrigatórios!!"
