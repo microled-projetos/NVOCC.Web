@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------------------------
 // <gerado automaticamente>
-//     Este código foi gerado por uma ferramenta.
+//     Esse código foi gerado por uma ferramenta.
 //
 //     As alterações ao arquivo poderão causar comportamento incorreto e serão perdidas se
 //     o código for recriado
@@ -11,25 +11,25 @@ namespace ABAINFRA.Web
 {
 
 
-	public partial class PrevisibilidadeContas
-	{
+    public partial class PrevisibilidadeContas
+    {
 
-		/// <summary>
-		/// Controle chkConferidoSim.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.CheckBox chkConferidoSim;
+        /// <summary>
+        /// Controle chkConferidoSim.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkConferidoSim;
 
-		/// <summary>
-		/// Controle chkConferidoNao.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.CheckBox chkConferidoNao;
-	}
+        /// <summary>
+        /// Controle chkConferidoNao.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkConferidoNao;
+    }
 }

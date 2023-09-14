@@ -19,6 +19,11 @@
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="processoExpectGrid">
                             <div class="row topMarg">
+                                <div class="row">
+                                    <div class="alert alert-danger text-center" id="msgErrExportContaPagaRecebida">
+                                        Não há registros para a data informada.
+                                    </div>
+                                </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
                                         <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="exportContaConferenciaProcesso('Pagamento_Recebimento.csv')">Exportar Grid - CSV</button>
