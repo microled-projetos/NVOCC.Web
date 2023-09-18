@@ -181,9 +181,19 @@ namespace ABAINFRA.Web
 
         public static string ConnectionString()
         {
+            if (HttpContext.Current.Session != null)
+            {
+                Console.WriteLine(HttpContext.Current.Session);
+                string SQL = ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString.Substring(0, ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString.IndexOf("User"));
 
-            return ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString;
+                SQL += "User ID=" + System.Web.HttpContext.Current.Session["USER"] + ";Password=gflcoablaolg!@2023;";
 
+                return SQL;
+            }
+            else
+            {
+                return ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString;
+            }
         }
     }
 }
