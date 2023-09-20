@@ -5039,6 +5039,10 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
 
                 FileUpload1.PostedFile.SaveAs(diretorio_arquivos & "\" & nomeArquivo)
 
+                If txtID_BL.Text = "" Then
+                    txtID_BL.Text = "0"
+                End If
+
                 Con.ExecutarQuery("INSERT INTO TB_UPLOADS (NM_ARQUIVO,ID_TIPO_ARQUIVO,ID_USUARIO,DT_UPLOAD,FL_ATIVO_CLIENTES,ID_COTACAO,ID_BL,CAMINHO_ARQUIVO) VALUES ('" & nomeArquivo & "'," & ddlTipoArquivo.SelectedValue & "," & Session("ID_USUARIO") & ", getdate(), '" & ckAtivoClientes.Checked & "'," & txtID.Text & "," & txtID_BL.Text & ",'" & diretorio_arquivos & "/" & nomeArquivo & "' )")
 
                 divSuccessUpload.Visible = True
