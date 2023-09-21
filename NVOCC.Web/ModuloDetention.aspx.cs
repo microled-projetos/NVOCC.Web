@@ -10,11 +10,11 @@ using System.Web.UI.WebControls;
 
 namespace ABAINFRA.Web
 {
-	public partial class ModuloDetention : System.Web.UI.Page
-	{
+    public partial class ModuloDetention : System.Web.UI.Page
+    {
         string SQL;
-		protected void Page_Load(object sender, EventArgs e)
-		{
+        protected void Page_Load(object sender, EventArgs e)
+        {
             if (!IsPostBack)
             {
                 CarregarListaFiltros();

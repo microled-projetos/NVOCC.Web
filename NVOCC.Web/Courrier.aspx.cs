@@ -50,10 +50,5 @@ namespace ABAINFRA.Web
             ddlFiltroConcluido.Items.Insert(2, new ListItem("Bl House", "2"));
             ddlFiltroConcluido.Items.Insert(3, new ListItem("Cliente", "3"));
         }
-
-        private void CarregarTipo()
-		{
-            
-        }
     }
 }

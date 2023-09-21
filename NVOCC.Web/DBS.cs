@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Data;
@@ -60,16 +61,16 @@ namespace ABAINFRA.Web
                     Transaction = Con.BeginTransaction();
                     Cmd.Transaction = Transaction;
 
-                    try
-                    {
-                        Cmd.ExecuteNonQuery();
-                        Transaction.Commit();
-                        Success = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        Transaction.Rollback();
-                    }
+                    //try
+                    //{
+                    Cmd.ExecuteNonQuery();
+                    Transaction.Commit();
+                    Success = true;
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //Transaction.Rollback();
+                    //}
 
                     return Success;
 
@@ -185,14 +186,12 @@ namespace ABAINFRA.Web
             {
                 Console.WriteLine(HttpContext.Current.Session);
                 string SQL = ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString.Substring(0, ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString.IndexOf("User"));
-
                 SQL += "User ID=" + System.Web.HttpContext.Current.Session["USER"] + ";Password=gflcoablaolg!@2023;";
-
                 return SQL;
             }
             else
             {
-                return ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString;
+                      return ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString;
             }
         }
     }

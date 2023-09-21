@@ -47,7 +47,7 @@ namespace ABAINFRA.Web
         public int ID_TAXA_CLIENTE { get => id_taxa_cliente; set => id_taxa_cliente = value; }
         public int ID_ITEM_DESPESA { get => id_item_despesa; set => id_item_despesa = value; }
         public int ID_BASE_CALCULO_TAXA { get => id_base_calculo_taxa; set => id_base_calculo_taxa = value; }
-        public string VL_TARIFA_MINIMA{ get => vl_tarifa_minima; set => vl_tarifa_minima = value; }
+        public string VL_TARIFA_MINIMA { get => vl_tarifa_minima; set => vl_tarifa_minima = value; }
         public string VL_TARIFA_MINIMA_COMPRA { get => vl_tarifa_minima_compra; set => vl_tarifa_minima_compra = value; }
         public string VL_TAXA_COMPRA { get => vl_taxa_compra; set => vl_taxa_compra = value; }
         public string ID_MOEDA_COMPRA { get => id_moeda_compra; set => id_moeda_compra = value; }

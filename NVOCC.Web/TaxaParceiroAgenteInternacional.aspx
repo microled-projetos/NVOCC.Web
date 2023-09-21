@@ -619,7 +619,7 @@
             var obsGeral = document.getElementById("obsGeral");
             $.ajax({
                 type: "POST",
-                url: "DemurrageService.asmx/BuscarObs",
+                url: "DemurrageService.asmx/getObs",
                 data: '{Id:"' + id + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -644,7 +644,7 @@
             var obsGeral = document.getElementById("obsGeral").value;
             $.ajax({
                 type: "POST",
-                url: "DemurrageService.asmx/SalvarObs",
+                url: "DemurrageService.asmx/UpdateObs",
                 data: '{Id:"' + id + '", obsGeral: "' + obsGeral + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -984,7 +984,7 @@
                             result += "<td>" + dado[i]["RECEBIMENTO"] + "</td>";
                             result += "<td>" + dado[i]["CARREGAMENTO"] + "</td>";
                             result += "<td>" + dado[i]["DESCARGA"] + "</td>";
-                            result += dado[i]["INCOTERM"] == "TODOS" ? "<td>" + dado[i]["INCOTERM"] + "</td>" : "<td>" + dado[i]["CD_INCOTERM"] +" - "+ dado[i]["INCOTERM"] + "</td>" ;
+                            result += dado[i]["INCOTERM"] == "TODOS" ? "<td>" + dado[i]["INCOTERM"] + "</td>" : "<td>" + dado[i]["CD_INCOTERM"] + " - " + dado[i]["INCOTERM"] + "</td>";
                             result += "<td>" + dado[i]["NM_BASE_CALCULO_TAXA"] + "</td>";
                             result += "<td>" + dado[i]["NM_MOEDA"] + "</td>";
                             result += "<td>" + dado[i]["VL_TAXA_VENDA"] + "</td>";
@@ -1109,66 +1109,66 @@
                                         }
                                         result += "</select>";
                                         *//*result += "<input type='text' class='form-control' name='moeda' value='" + dado[i]["ID_MOEDA"] + "'/> ";*//*
-                                        result += "</div>";
-                                        result += "<div class='deleteTaxaVariacao btn btn-primary' style='margin-left: 10px;' name='id_variacao' data-toggle='modal' data-target='#modalDeleteTaxaVariacao' data-value='" + data[i]["ID_TAXA_CLIENTE_VARIACAO"] + "'> ";
-                                        result += "<i class='fas fa-trash'></i>";
-                                        result += "</div> ";
-                                        result += "</div> ";
-                                        result += "</div>";
-                                        result += "</div>";
-                                    }
-                                    $("#rows-variacao").append(result);
-                                }
-                                else {
-                                    result += "<div class='row'>";
-                                    result += "<div class='col-sm-3' style='display: none;'> ";
-                                    result += "<div class='form-group'> ";
-                                    result += "<label class='control-label'>Quantidade inicial</label> ";
-                                    result += "<input type='text' class='form-control' name='idVariacao'/> ";
-                                    result += "</div>";
-                                    result += "</div>";
-                                    result += "<div class='col-sm-3'>";
-                                    result += "<div class='form-group'>";
-                                    result += "<label class='control-label'>Quantidade inicial</label>";
-                                    result += "<input type='text' class='form-control' name='qtdinicial'/>";
-                                    result += "</div>";
-                                    result += "</div>";
-                                    result += "<div class='col-sm-3'>";
-                                    result += "<div class='form-group'>";
-                                    result += "<label class='control-label'>Quantidade Final</label>";
-                                    result += "<input type='text' class='form-control' name='qtdfinal'/>";
-                                    result += "</div>";
-                                    result += "</div>";
-                                    result += "<div class='col-sm-3'>";
-                                    result += "<div class='form-group'>";
-                                    result += "<label class='control-label'>Valor</label>";
-                                    result += "<input type='text' class='form-control' name='valor'/>";
-                                    result += "</div>";
-                                    result += "</div>";
-                                    result += "<div class='col-sm-3'>";
-                                    result += "<div class='form-group'>";
-                                    result += "<label class='control-label'>Moeda</label>";
-                                    result += "<select class='form-control' name='moeda'>";
-                                    for (let i = 0; i < moeda.length; i++) {
-                                        result += "<option value='" + moeda[i].value + "'>" + moeda[i].name + "</option>"
-                                    }
-                                    result += "</select>";
-                                    result += "</div>";
-                                    result += "</div>";
-                                    result += "</div>";
-                                    $("#rows-variacao").append(result);
-                                }
-                            },
-                            error: function () {
-                                $("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
-                            }
-                        });
-                    }
-                },
-                error: function () {
-                }
-            });
-        }*/
+        result += "</div>";
+        result += "<div class='deleteTaxaVariacao btn btn-primary' style='margin-left: 10px;' name='id_variacao' data-toggle='modal' data-target='#modalDeleteTaxaVariacao' data-value='" + data[i]["ID_TAXA_CLIENTE_VARIACAO"] + "'> ";
+        result += "<i class='fas fa-trash'></i>";
+        result += "</div> ";
+        result += "</div> ";
+        result += "</div>";
+        result += "</div>";
+    }
+    $("#rows-variacao").append(result);
+}
+else {
+    result += "<div class='row'>";
+    result += "<div class='col-sm-3' style='display: none;'> ";
+    result += "<div class='form-group'> ";
+    result += "<label class='control-label'>Quantidade inicial</label> ";
+    result += "<input type='text' class='form-control' name='idVariacao'/> ";
+    result += "</div>";
+    result += "</div>";
+    result += "<div class='col-sm-3'>";
+    result += "<div class='form-group'>";
+    result += "<label class='control-label'>Quantidade inicial</label>";
+    result += "<input type='text' class='form-control' name='qtdinicial'/>";
+    result += "</div>";
+    result += "</div>";
+    result += "<div class='col-sm-3'>";
+    result += "<div class='form-group'>";
+    result += "<label class='control-label'>Quantidade Final</label>";
+    result += "<input type='text' class='form-control' name='qtdfinal'/>";
+    result += "</div>";
+    result += "</div>";
+    result += "<div class='col-sm-3'>";
+    result += "<div class='form-group'>";
+    result += "<label class='control-label'>Valor</label>";
+    result += "<input type='text' class='form-control' name='valor'/>";
+    result += "</div>";
+    result += "</div>";
+    result += "<div class='col-sm-3'>";
+    result += "<div class='form-group'>";
+    result += "<label class='control-label'>Moeda</label>";
+    result += "<select class='form-control' name='moeda'>";
+    for (let i = 0; i < moeda.length; i++) {
+        result += "<option value='" + moeda[i].value + "'>" + moeda[i].name + "</option>"
+    }
+    result += "</select>";
+    result += "</div>";
+    result += "</div>";
+    result += "</div>";
+    $("#rows-variacao").append(result);
+}
+},
+error: function () {
+$("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
+}
+});
+}
+},
+error: function () {
+}
+});
+}*/
 
 
         /*function RegraAvancada() {
@@ -1216,44 +1216,44 @@
                             result += "<label class='control-label'>Moeda</label>";
 
                             *//*result += "<input type='text' class='form-control' name='moeda' value='" + dado[i]["ID_MOEDA"] + "'/> ";*//*
-        result += "</div>";
-        result += "<div class='deleteTaxaVariacao btn btn-primary' style='margin-left: 10px;' name='id_variacao' data-toggle='modal' data-target='#modalDeleteTaxaVariacao' data-value='" + dado[i]["ID_TAXA_CLIENTE_VARIACAO"] + "'> ";
-        result += "<i class='fas fa-trash'></i>";
-        result += "</div> ";
-        result += "</div> ";
-        result += "</div>";
-        result += "</div>";
-    }
-    $("#rows-variacao").append(result);
+result += "</div>";
+result += "<div class='deleteTaxaVariacao btn btn-primary' style='margin-left: 10px;' name='id_variacao' data-toggle='modal' data-target='#modalDeleteTaxaVariacao' data-value='" + dado[i]["ID_TAXA_CLIENTE_VARIACAO"] + "'> ";
+result += "<i class='fas fa-trash'></i>";
+result += "</div> ";
+result += "</div> ";
+result += "</div>";
+result += "</div>";
+}
+$("#rows-variacao").append(result);
 }
 else {
-    result += "<div class='row'>";
-    result += "<div class='col-sm-3'>";
-    result += "<div class='form-group'>";
-    result += "<label class='control-label'>Quantidade inicial</label>";
-    result += "<input type='text' class='form-control' name='qtdinicial'/>";
-    result += "</div>";
-    result += "</div>";
-    result += "<div class='col-sm-3'>";
-    result += "<div class='form-group'>";
-    result += "<label class='control-label'>Quantidade Final</label>";
-    result += "<input type='text' class='form-control' name='qtdfinal'/>";
-    result += "</div>";
-    result += "</div>";
-    result += "<div class='col-sm-3'>";
-    result += "<div class='form-group'>";
-    result += "<label class='control-label'>Valor</label>";
-    result += "<input type='text' class='form-control' name='valor'/>";
-    result += "</div>";
-    result += "</div>";
-    result += "<div class='col-sm-3'>";
-    result += "<div class='form-group'>";
-    result += "<label class='control-label'>Moeda</label>";
-    result += "<input type='text' class='form-control' name='moeda'/>";
-    result += "</div>";
-    result += "</div>";
-    result += "</div>";
-    $("#rows-variacao").append(result);
+result += "<div class='row'>";
+result += "<div class='col-sm-3'>";
+result += "<div class='form-group'>";
+result += "<label class='control-label'>Quantidade inicial</label>";
+result += "<input type='text' class='form-control' name='qtdinicial'/>";
+result += "</div>";
+result += "</div>";
+result += "<div class='col-sm-3'>";
+result += "<div class='form-group'>";
+result += "<label class='control-label'>Quantidade Final</label>";
+result += "<input type='text' class='form-control' name='qtdfinal'/>";
+result += "</div>";
+result += "</div>";
+result += "<div class='col-sm-3'>";
+result += "<div class='form-group'>";
+result += "<label class='control-label'>Valor</label>";
+result += "<input type='text' class='form-control' name='valor'/>";
+result += "</div>";
+result += "</div>";
+result += "<div class='col-sm-3'>";
+result += "<div class='form-group'>";
+result += "<label class='control-label'>Moeda</label>";
+result += "<input type='text' class='form-control' name='moeda'/>";
+result += "</div>";
+result += "</div>";
+result += "</div>";
+$("#rows-variacao").append(result);
 }
 },
 error: function () {
@@ -1575,7 +1575,7 @@ $("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
                             fontSize: "18px"
                         }
                     }).showToast();
-                    
+
                     CarregarLista();
                     ListarTaxa();
                 },
@@ -1597,7 +1597,7 @@ $("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
                             fontSize: "18px"
                         }
                     }).showToast();
-                    
+
                     CarregarLista();
                     ListarTaxa();
                 }
@@ -1629,7 +1629,7 @@ $("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
                             fontSize: "18px"
                         }
                     }).showToast();
-                    
+                   
                     CarregarLista();
                     ListarTaxa();
                 },
@@ -1649,7 +1649,7 @@ $("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
                             fontSize: "18px"
                         }
                     }).showToast();
-                    
+                   
                     CarregarLista();
                     ListarTaxa();
                 }
@@ -1658,4 +1658,5 @@ $("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
         }*/
 
     </script>
+
 </asp:Content>

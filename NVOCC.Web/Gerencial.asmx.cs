@@ -1778,7 +1778,7 @@ namespace ABAINFRA.Web
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");
             SQL = "SELECT A.NR_BL, A.NR_PROCESSO, ORIGEM.NM_PORTO AS ORIGEM, DESTINO.NM_PORTO AS DESTINO,ID_PARCEIRO_CLIENTE, CLIENTE.NM_RAZAO AS CLIENTE, ";
-            SQL += "CLIENTE.CNPJ, IMPORTADOR.NM_RAZAO AS IMPORTADOR, C.NM_VIATRANSPORTE as VIA ";
+            SQL += "CLIENTE.CNPJ, IMPORTADOR.NM_RAZAO AS IMPORTADOR, C.NM_VIATRANSPORTE as VIA, C.ID_TIPO_ESTUFAGEM AS TPESTUFAGEM ";
             SQL += "FROM TB_BL A ";
             SQL += "LEFT JOIN TB_PORTO ORIGEM ON A.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
             SQL += "LEFT JOIN TB_PORTO DESTINO ON A.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
@@ -1800,6 +1800,7 @@ namespace ABAINFRA.Web
             string nmVia = listTable.Rows[0]["VIA"].ToString();
             string idCliente = listTable.Rows[0]["ID_PARCEIRO_CLIENTE"].ToString();
             string nmImportador = listTable.Rows[0]["IMPORTADOR"].ToString();
+            string tpestufagem = listTable.Rows[0]["TPESTUFAGEM"].ToString();
 
             if (nmVia == "MARÍTIMA")
             {
@@ -1826,9 +1827,9 @@ namespace ABAINFRA.Web
             {
                 nmImportador = "- IMPORTADOR: " + nmImportador + " - ";
             }
-            SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, ID_DESTINATARIO) ";
+            SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, ID_DESTINATARIO, IDTIPOESTUFAGEM) ";
             SQL += "VALUES ('" + nrProcesso + " - COMUNICADO - " + origemP + " X " + destinoP + " - HBL: " + nrHouse + "<br>" + nmCliente + " - " + cnpj + "<br>"+ nmImportador + refCliente + "<br>', ";
-            SQL += "'" + corpo + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "',12,'" + house + "','" + idCliente + "','" + origem + "','" + destinatario + "') ";
+            SQL += "'" + corpo + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "',12,'" + house + "','" + idCliente + "','" + origem + "','" + destinatario + "', '"+tpestufagem+"') ";
             string gerarEmail = DBS.ExecuteScalar(SQL);
 
             return "ok";

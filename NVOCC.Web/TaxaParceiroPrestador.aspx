@@ -1731,5 +1731,4 @@
             $("#modalDeleteTaxaVariacao").modal('hide');
         }
         
-    </script>
-</asp:Content>
+    </script></asp:Content>

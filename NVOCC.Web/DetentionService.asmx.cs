@@ -21,18 +21,18 @@ using System.Globalization;
 
 namespace ABAINFRA.Web
 {
-	/// <summary>
-	/// Descrição resumida de DetentionService
-	/// </summary>
-	[WebService(Namespace = "http://tempuri.org/")]
-	[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-	[System.ComponentModel.ToolboxItem(false)]
-	// Para permitir que esse serviço da web seja chamado a partir do script, usando ASP.NET AJAX, remova os comentários da linha a seguir. 
-	[System.Web.Script.Services.ScriptService]
-	public class DetentionService : System.Web.Services.WebService
-	{
+    /// <summary>
+    /// Descrição resumida de DetentionService
+    /// </summary>
+    [WebService(Namespace = "http://tempuri.org/")]
+    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+    [System.ComponentModel.ToolboxItem(false)]
+    // Para permitir que esse serviço da web seja chamado a partir do script, usando ASP.NET AJAX, remova os comentários da linha a seguir. 
+    [System.Web.Script.Services.ScriptService]
+    public class DetentionService : System.Web.Services.WebService
+    {
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string carregarArmador()
         {
             string SQL;
@@ -43,7 +43,7 @@ namespace ABAINFRA.Web
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarDetentionContainer(string armador)
         {
             string SQL;
@@ -63,7 +63,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listarDETENTIONContainer);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CadastrarDetentionContainer(DetentionCls dados)
         {
             int qtdfreetime = Convert.ToInt32(dados.QT_DIAS_FREETIME);
@@ -332,7 +332,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string BuscarDetention(int Id)
         {
 
@@ -377,7 +377,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string DetentionList()
         {
             string SQL;
@@ -389,7 +389,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(DETENTIONList);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EditarDetentionContainer(DetentionCls dadosEdit)
         {
             int qtdfreetime = Convert.ToInt32(dadosEdit.QT_DIAS_FREETIME);
@@ -461,7 +461,7 @@ namespace ABAINFRA.Web
             return "1";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string DeletarDetention(int Id)
         {
             string SQL;
@@ -479,7 +479,7 @@ namespace ABAINFRA.Web
 
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTabela()
         {
             string SQL;
@@ -518,7 +518,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string filtrarTabela(string idFilter, string Filter, string Ativo, string Finalizado)
         {
             string SQL;
@@ -614,7 +614,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string filtrarTabelaDetention(string idFilter, string Filter, string Ativo, string Finalizado)
         {
             string SQL;
@@ -709,7 +709,7 @@ namespace ABAINFRA.Web
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoContainer(int idCont)
         {
             string SQL;
@@ -740,7 +740,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoContainerExp(int idCont)
         {
             string SQL;
@@ -759,7 +759,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoContainerDevolucao(int idCont)
         {
             string SQL;
@@ -778,7 +778,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoContainerDevolucaoExp(int idCont)
         {
             string SQL;
@@ -797,7 +797,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string atualizarContainer(int idCont, string dtStatus, int dsStatus, int qtDias, string dsObs, string qtDiasConfirm, string qtDiasDetentionCompra, string qtDiasDetentionVenda, string dtStatusCompra, int dsStatusCompra)
         {
             if (dsStatus.ToString() != "" && dsStatusCompra.ToString() != "")
@@ -852,7 +852,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string atualizarContainerExp(int idCont, string dtStatus, int dsStatus, int qtDias, string dsObs, string qtDiasConfirm, string qtDiasDetentionCompra, string dtStatusCompra, int dsStatusCompra)
         {
             if (dsStatus.ToString() != "" && dsStatusCompra.ToString() != "")
@@ -907,7 +907,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCalculo(string idCont)
         {
             string SQL;
@@ -922,7 +922,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCalculoExp(string idCont)
         {
             string SQL;
@@ -937,7 +937,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarCalculoDetention(string nrProcesso, string tipoCalculo)
         {
 
@@ -972,7 +972,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCalculoMarcadoVenda(string idCont)
         {
             string SQL;
@@ -989,7 +989,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCalculoMarcadoVendaTaxa(string idCont)
         {
             string SQL;
@@ -1117,7 +1117,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCalculoMarcadoCompra(string idCont)
         {
             string SQL;
@@ -1135,7 +1135,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCalculoMarcadoCompraTaxa(string idCont, string transportador)
         {
             string SQL;
@@ -1259,7 +1259,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void zerarCalculoVenda(string idCont)
         {
             string SQL;
@@ -1279,7 +1279,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void zerarCalculoCompra(string idCont)
         {
             string SQL;
@@ -1299,7 +1299,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void calcularDETENTIONVenda(string idCont, decimal vlTaxa, string idStatus, string dtStatus)
         {
             string SQL;
@@ -1439,7 +1439,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void calcularDetentionCompra(string idCont, decimal vlTaxa, string transportador, string idStatus, string dtStatus)
         {
             string SQL;
@@ -1885,7 +1885,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarContainerDevolucao(string nrProcesso)
         {
             string SQL;
@@ -1903,7 +1903,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarContainerDevolucaoExp(string nrProcesso)
         {
             string SQL;
@@ -1921,7 +1921,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarFaturas(int check, string filtroFatura, string txtFiltro, string Ativo, string Finalizado)
         {
             DataTable listTable = new DataTable();
@@ -2047,7 +2047,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string verificarProcesso(string processo)
         {
             string SQL;
@@ -2070,7 +2070,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarProcessoTaxaAberta(string dataI, string dataF, string chkB, string chkE, string filter, string text)
         {
             string sqlFormattedDate;
@@ -2225,7 +2225,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarProcessoFaturas(string processo, int check)
         {
             string SQL;
@@ -2293,7 +2293,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void processarFaturaItens(int idcntr, int check, int fatura)
         {
             DataTable localizarFatura = new DataTable();
@@ -2325,7 +2325,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoAtualizacao(int idFatura)
         {
             string SQL;
@@ -2347,7 +2347,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarFaturasAtualizacaoCambial(int idFatura, int check)
         {
             string SQL;
@@ -2377,7 +2377,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string atualizacaoCambialFatura(int idFatura, string dtVencimento, string idContaBancaria)
         {
             string SQL;
@@ -2396,7 +2396,7 @@ namespace ABAINFRA.Web
             return Valor;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string atualizacaoCambialContainer(int idCntr, string vlDetention, string dtCambio, double vlCambio, string descontoBRL, string multaBRL, int check)
         {
             string SQL;
@@ -2435,7 +2435,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoAtualizacaoCambial(int idFatura, int check)
         {
             string SQL;
@@ -2463,7 +2463,7 @@ namespace ABAINFRA.Web
             return "0";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCancelar(int idFatura)
         {
             string SQL;
@@ -2588,7 +2588,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoExportCC(int idFatura)
         {
             string SQL;
@@ -2605,7 +2605,7 @@ namespace ABAINFRA.Web
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoExportFatura(int idFatura, int check)
         {
             string SQL;
@@ -3230,7 +3230,7 @@ namespace ABAINFRA.Web
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string finalizarFaturaDETENTION(int idFatura, int check)
         {
             string SQL;
@@ -3249,7 +3249,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject("OK");
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string imprimirDadosCalc(string id)
         {
             string SQL;
@@ -3285,7 +3285,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(imprimirDados);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string imprimirDadosFatura(string idFatura)
         {
             string SQL;
@@ -3312,7 +3312,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(imprimirDados);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarContainerFaturaPrintVenda(string idFatura)
         {
             string SQL;
@@ -3353,7 +3353,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(imprimirDados);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarContainerFaturaPrintCompra(string idFatura)
         {
             string SQL;
@@ -3379,7 +3379,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(imprimirDados);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarEstimativa()
         {
             int somaDias;
@@ -3925,7 +3925,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string excluirFatura(string idFatura, int check)
         {
             string SQL;
@@ -4069,7 +4069,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string atualizarDevolucao(string idCont, string dtStatus, string dsStatus, string dtDevolucao)
         {
             string SQL;
@@ -4161,7 +4161,7 @@ namespace ABAINFRA.Web
             return "1";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string atualizarDevolucaoExp(string idCont, string dtStatus, string dsStatus, string dtDevolucao)
         {
             string SQL;
@@ -4249,7 +4249,7 @@ namespace ABAINFRA.Web
             return "1";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string consultarProcesso(string nrProcesso)
         {
             string SQL;
@@ -4271,7 +4271,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string consultarNumeroContainer(string nrContainer, string nrProcesso)
         {
             string SQL;
@@ -4293,7 +4293,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string exportExcel()
         {
             string SQL;
@@ -4322,7 +4322,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarContainerCalculoPrint(string idprocess)
         {
             string SQL;
@@ -4354,7 +4354,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(imprimirDados);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string exportExcelFiltrada(string inicial, string final, string regExpo, string regNExpo)
         {
             string SQL;
@@ -4698,7 +4698,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarDetentionVenda()
         {
             string SQL;
@@ -4721,7 +4721,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string parcelarDetention(int idfatura, string vlDetentionParcela, int qtDetentionParcela, string dtPeriodoInicial)
         {
             string SQL;
@@ -4746,7 +4746,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject("OK");
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarParcelamentoDetention(int fatura)
         {
             string SQL;
@@ -4764,7 +4764,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoParcela(int idParcela)
         {
             string SQL;
@@ -4779,7 +4779,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string editarParcela(int idParcela, string vencimento, string vlParcela, string vlParcelaJuros, string vlJuros, string pago)
         {
             string SQL;
@@ -4790,7 +4790,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject("Success");
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string deletarParcela(int idParcela)
         {
             string SQL;
@@ -4816,7 +4816,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string cancelarExportarParcelaCC(int idParcela)
         {
             string SQL;
@@ -4837,7 +4837,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EnviarFaturamento(int idParcela)
         {
             string SQL;

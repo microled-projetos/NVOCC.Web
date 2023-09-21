@@ -38,7 +38,7 @@ namespace ABAINFRA.Web.Classes
         public string ID_BL { get => id_bl; set => id_bl = value; }
         public string ID_BL_MASTER { get => id_bl_master; set => id_bl_master = value; }
         public string NR_BL_MASTER { get => nr_bl_master; set => nr_bl_master = value; }
-        public string NR_BL{ get => nr_bl; set => nr_bl= value; }
+        public string NR_BL { get => nr_bl; set => nr_bl = value; }
         public string FL_TROCA { get => fl_troca; set => fl_troca = value; }
         public string OBS_COURRIER { get => obs_courrier; set => obs_courrier = value; }
         public string ID_USUARIO { get => id_usuario; set => id_usuario = value; }

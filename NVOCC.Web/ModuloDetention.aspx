@@ -1536,7 +1536,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script> 
-    </script>
+</script>
     <script>
         var armadortabela;
         var armadorT = 0;
@@ -2127,7 +2127,7 @@
                 }
             }
             else {
-                 Swal.fire('Erro', '', 'error')
+                Swal.fire('Erro', '', 'error')
             }
         }
 
@@ -2186,7 +2186,7 @@
                 })
             }
             else {
-                 Swal.fire('Erro', '', 'error')
+                Swal.fire('Erro', '', 'error')
             }
         }
 
@@ -2212,7 +2212,7 @@
                         dado = $.parseJSON(dado);
                         $("#modalEditContInfo").modal("hide");
                         if (dado != 2) {
-                             Swal.fire('Salvo', '', 'success')
+                            Swal.fire('Salvo', '', 'success')
                             consultaFiltrada();
                         }
                         else {
@@ -2286,7 +2286,7 @@
                 })
             }
             else {
-                 Swal.fire('Selecione um container', '', 'info')
+                Swal.fire('Selecione um container', '', 'info')
             }
         }
 
@@ -2408,7 +2408,7 @@
             }
             else {
                 values = [];
-                 Swal.fire('Selecione pelo menos um registro', '', 'info')
+                Swal.fire('Selecione pelo menos um registro', '', 'info')
             }
         }
 
@@ -2444,7 +2444,7 @@
                         })
                     }
                     else {
-                         Swal.fire('Selecione um status', '', 'info')
+                        Swal.fire('Selecione um status', '', 'info')
                     }
 
                 }
