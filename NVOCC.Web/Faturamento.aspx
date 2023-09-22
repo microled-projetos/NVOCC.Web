@@ -95,7 +95,7 @@
                                                 <asp:ListItem Value="5">&nbsp;Cancelados</asp:ListItem>
                                                 <asp:ListItem Value="3">&nbsp;À Vista</asp:ListItem>
                                                 <asp:ListItem Value="4">&nbsp;A Prazo</asp:ListItem>
-                                            </asp:CheckBoxList>                                           
+                                            </asp:CheckBoxList>
                                         </div>
                                     </div>
 
@@ -109,8 +109,9 @@
                                     </div>
                                     <div class="col-sm-1" style="padding-top: 20px;">
                                         <div class="form-group">
-                                             <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisar" CssClass="btn btn-success" /><br /><br />
-                                             <asp:Button runat="server" Text="Limpar" ID="btnLimpar" CssClass="btn btn-info" />
+                                            <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisar" CssClass="btn btn-success" /><br />
+                                            <br />
+                                            <asp:Button runat="server" Text="Limpar" ID="btnLimpar" CssClass="btn btn-info" />
                                         </div>
                                     </div>
 
@@ -176,14 +177,14 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Free Hand" HeaderStyle-ForeColor="#337ab7">
                                                 <ItemTemplate>
-                                                    <asp:CheckBox ID="ckFreeHand" runat="server" enabled="false" checked='<%# Eval("FL_FREE_HAND") %>'></asp:CheckBox>
+                                                    <asp:CheckBox ID="ckFreeHand" runat="server" Enabled="false" Checked='<%# Eval("FL_FREE_HAND") %>'></asp:CheckBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
                                         <HeaderStyle CssClass="headerStyle" />
                                     </asp:GridView>
                                 </div>
-                                
+
                                 <asp:TextBox ID="TextBox9" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <asp:TextBox ID="TextBox7" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <ajaxToolkit:ModalPopupExtender ID="mpeOpcoesBoletos" runat="server" PopupControlID="pnlOpcoesBoletos" TargetControlID="TextBox7" CancelControlID="TextBox9" OkControlID="lkBoleto"></ajaxToolkit:ModalPopupExtender>
@@ -222,7 +223,7 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnAuxOpcoesFatura" style="display: none;"/>
+                                <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnAuxOpcoesFatura" Style="display: none;" />
                                 <ajaxToolkit:ModalPopupExtender ID="mpeOpcoesFatura" runat="server" PopupControlID="pnlFatura" TargetControlID="btnAuxOpcoesFatura" CancelControlID="btnFecharFatura" OkControlID="lkBaixarFatura"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlFatura" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document" id="modalFatura">
@@ -257,7 +258,7 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                                                <asp:TextBox ID="TextBox6" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+                                <asp:TextBox ID="TextBox6" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <asp:TextBox ID="TextBox8" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <ajaxToolkit:ModalPopupExtender ID="mpeRPS" runat="server" PopupControlID="pnlRPS" TargetControlID="TextBox6" CancelControlID="TextBox8"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlRPS" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -469,7 +470,8 @@
                                 <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlSubstituirNota" TargetControlID="TextBox3" CancelControlID="btnFecharSubstituicao"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlSubstituirNota" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <center>     
+                                        <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">SUBSTITUIR NOTA  <asp:label runat="server" ID="lblProcessoSubs"/></h5>
@@ -483,11 +485,12 @@
                                
                                                                 <div class="col-sm-4">
                                      <div class="form-group">
-                                        <label class="control-label">CNPJ:</label><br />
+                                        <label class="control-label">CNPJ/CPF:</label><br />
                                           <asp:TextBox ID="txtIDParceiro" runat="server" style="display: none" CssClass="form-control"></asp:TextBox>
-                                          <asp:TextBox ID="txtCNPJSub" runat="server" AutoPostBack="true" CssClass="form-control cnpj"></asp:TextBox>
+                                          <asp:TextBox ID="txtCNPJSub" runat="server" AutoPostBack="true" CssClass="form-control txtCNPJSub" ></asp:TextBox>
                            </div>
-                                     </div> <div class="col-sm-8">
+                                     </div> 
+                                                                <div class="col-sm-8">
                                      <div class="form-group">
                                         <label class="control-label">Razão Social:</label></label><label runat="server" style="color:red" >*</label>
                                <asp:TextBox ID="txtRazaoSocial" runat="server" CssClass="form-control"></asp:TextBox>
@@ -609,8 +612,8 @@
                                 </asp:Panel>
 
 
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender9" runat="server" PopupControlID="pnlConsultaNota" TargetControlID="lkConsultaNotas" CancelControlID="btnFecharConsulta"></ajaxToolkit:ModalPopupExtender>
+                                <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeConsultaNotas" runat="server" PopupControlID="pnlConsultaNota" TargetControlID="TextBox2" CancelControlID="btnFecharConsulta"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlConsultaNota" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -629,13 +632,13 @@
                                      <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
-                               <asp:TextBox ID="txtConsultaNotaInicio" runat="server" CssClass="form-control"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaNotaInicio" runat="server" CssClass="form-control" tabindex="1" ></asp:TextBox>
                            </div>
    </div>
                                     <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
-                               <asp:TextBox ID="txtConsultaNotaFim" runat="server" CssClass="form-control"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaNotaFim" runat="server" CssClass="form-control" tabindex="2" ></asp:TextBox>
                            </div>
                                     </div>
                                     </div>
@@ -644,13 +647,13 @@
                                      <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
-                               <asp:TextBox ID="txtConsultaRPSInicio" runat="server" CssClass="form-control"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaRPSInicio" runat="server" CssClass="form-control" tabindex="4"></asp:TextBox>
                            </div>
                                          </div>
                                      <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
-                               <asp:TextBox ID="txtConsultaRPSFim" runat="server" CssClass="form-control"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaRPSFim" runat="server" CssClass="form-control" tabindex="5"></asp:TextBox>
                            </div>
                                      </div>
                                                                 
@@ -662,13 +665,13 @@
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
-                               <asp:TextBox ID="txtConsultaVencimentoInicio" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaVencimentoInicio" runat="server" CssClass="form-control data" tabindex="7"></asp:TextBox>
                            </div>
                                      </div>
                                                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
-                               <asp:TextBox ID="txtConsultaVencimentoFim" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaVencimentoFim" runat="server" CssClass="form-control data" tabindex="8"></asp:TextBox>
                            </div>
                                      </div>
                                                                  </div>
@@ -677,13 +680,13 @@
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
-                               <asp:TextBox ID="txtConsultaPagamentoInicio" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaPagamentoInicio" runat="server" CssClass="form-control data" tabindex="10"></asp:TextBox>
                            </div>
                                      </div>
                               <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
-                               <asp:TextBox ID="txtConsultaPagamentoFim" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaPagamentoFim" runat="server" CssClass="form-control data" tabindex="11"></asp:TextBox>
                            </div>
                                      </div>
                        </div>
@@ -721,7 +724,7 @@
                                                             
                              </div>
                                <div class="modal-footer">
-                                                                  <asp:Button runat="server" Text="Pesquisar" ID="btnConsultaNotas" CssClass="btn btn-success"  />
+                                                                  <asp:Button runat="server" Text="Pesquisar" tabindex="3" ID="btnConsultaNotas" CssClass="btn btn-success"  />
 
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharConsulta" text="Close" />
                                                         </div>
@@ -739,11 +742,11 @@
                                 <asp:TextBox ID="txtAuxObsRps" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <asp:Button ID="btnAuxObsRps" runat="server" CssClass="form-control" Style="display: none;"></asp:Button>
                                 <ajaxToolkit:ModalPopupExtender ID="mpeObsRps" runat="server" PopupControlID="pnlOBSRPS" TargetControlID="btnAuxObsRps" CancelControlID="btnAuxObsRps"></ajaxToolkit:ModalPopupExtender>
-                              <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
-                                    <ContentTemplate>  
+                                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>
                                         <asp:Panel ID="pnlOBSRPS" runat="server" CssClass="modalPopup" Style="display: none;">
-                                           
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+
+                                            <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" >
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">OBSERVAÇÃO DE RPS</h5>
@@ -766,14 +769,14 @@
       
                                        </div>     </center>
 
-</asp:Panel>
+                                        </asp:Panel>
 
                                     </ContentTemplate>
-                            <Triggers>
-                                <asp:AsyncPostBackTrigger ControlID="btnProsseguir" />                               
-                            </Triggers>
-                        </asp:UpdatePanel>
-                                
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="btnProsseguir" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
+
 
                             </ContentTemplate>
                             <Triggers>
@@ -783,7 +786,7 @@
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvFaturamento" />
                                 <asp:AsyncPostBackTrigger ControlID="lkOpcoesBoletos" />
                                 <asp:AsyncPostBackTrigger ControlID="lkRPS" />
-                             </Triggers>
+                            </Triggers>
                         </asp:UpdatePanel>
                     </div>
 
@@ -810,7 +813,7 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsClientes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT DISTINCT ID_PARCEIRO_CLIENTE COD, NM_CLIENTE FROM TB_FATURAMENTO WHERE NM_CLIENTE IS NOT NULL union SELECT  0, 'Selecione' ORDER BY COD"></asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsTaxa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsTaxa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1 UNION SELECT  0, '    TODAS AS TAXAS' ORDER BY ID_ITEM_DESPESA"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
@@ -832,32 +835,33 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
                 }
             }
-        }
+        };
 
 
         function getCliente() {
             var Cliente = document.getElementById('<%= lblClienteBaixa.ClientID %>').innerHTML;
             return Cliente;
 
-        }
+        };
+
         function getProcesso() {
             var Processo = document.getElementById('<%= lblProcessoBaixa.ClientID %>').innerHTML;
             return Processo;
-        }
+        };
 
         function FuncImprimirRPS() {
             var ID = document.getElementById('<%= txtID.ClientID %>').value;
             console.log(ID);
 
             window.open('ReciboProvisorioServico.aspx?id=' + ID, '_blank');
-        }
+        };
 
         function FuncImprimirBoleto() {
             var ID = document.getElementById('<%= txtIDBoleto.ClientID %>').value;
             console.log(ID);
 
             window.open('Content/boletos/BOLETO ' + ID + '.pdf', '_blank');
-        }
+        };
 
 
         function ImprimirNota() {
@@ -871,7 +875,7 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
             document.getElementById('<%= txtNR_NOTA.ClientID %>').value = ''
             window.open(LINK, '_blank');
 
-        }
+        };
 
 
 
@@ -880,7 +884,7 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
             console.log(ID);
 
             window.open('ReciboPagamento.aspx?id=' + ID, '_blank');
-        }
+        };
 
 
         function SalvaPosicao() {
@@ -912,12 +916,12 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
             window.open('FaturamentoArquivo.aspx?id=' + ID, '_blank');
 
-        }
+        };
 
-        function RelatorioFaturamento() { 
+        function RelatorioFaturamento() {
             window.open('RelatorioFaturamento.aspx', '_blank');
-         }
-     
+        };
+
 
         function VerificaSelecao() {
             var ID = document.getElementById('<%= txtID.ClientID %>').value;
@@ -930,6 +934,138 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
                 console.log("3");
                 return ID;
             }
+        };
+
+        var el = document.getElementById("result");
+
+        function minhaFuncao(codigo) {
+            if (codigo == '13') {
+                console.log("enter");
+                if (document.getElementById('<%= txtConsultaNotaInicio.ClientID %>') === document.activeElement) {
+                    console.log("if");
+                    document.getElementById('<%= txtConsultaNotaFim.ClientID %>').focus();
+                }
+                else {
+
+                    if (document.getElementById('<%= txtConsultaNotaFim.ClientID %>') === document.activeElement) {
+
+                        document.getElementById('<%= btnConsultaNotas.ClientID %>').focus();
+                    } else {
+
+                        if (document.getElementById('<%= txtConsultaRPSInicio.ClientID %>') === document.activeElement) {
+
+                            document.getElementById('<%= txtConsultaRPSFim.ClientID %>').focus();
+                        } else {
+
+                            if (document.getElementById('<%= txtConsultaRPSFim.ClientID %>') === document.activeElement) {
+
+                                document.getElementById('<%= btnConsultaNotas.ClientID %>').focus();
+                            } else {
+
+                                if (document.getElementById('<%= txtConsultaVencimentoInicio.ClientID %>') === document.activeElement) {
+
+                                    document.getElementById('<%= txtConsultaVencimentoFim.ClientID %>').focus();
+                                } else {
+
+                                    if (document.getElementById('<%= txtConsultaVencimentoFim.ClientID %>') === document.activeElement) {
+
+                                        document.getElementById('<%= btnConsultaNotas.ClientID %>').focus();
+                                    } else {
+
+                                        if (document.getElementById('<%= txtConsultaPagamentoInicio.ClientID %>') === document.activeElement) {
+
+                                            document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>').focus();
+                                        } else {
+
+                                            if (document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>') === document.activeElement) {
+
+                                                document.getElementById('<%= btnConsultaNotas.ClientID %>').focus();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (codigo == '9') {
+                console.log("tab");
+                if (document.getElementById('<%= txtConsultaNotaInicio.ClientID %>') === document.activeElement) {
+                    console.log("if");
+                    document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 3;
+
+                }
+                else {
+
+                    if (document.getElementById('<%= txtConsultaNotaFim.ClientID %>') === document.activeElement) {
+
+                        document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 3;
+                    } else {
+
+                        if (document.getElementById('<%= txtConsultaRPSInicio.ClientID %>') === document.activeElement) {
+
+                            document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 6;
+
+                        } else {
+
+                            if (document.getElementById('<%= txtConsultaRPSFim.ClientID %>') === document.activeElement) {
+
+                                document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 6;
+
+                            } else {
+
+                                if (document.getElementById('<%= txtConsultaVencimentoInicio.ClientID %>') === document.activeElement) {
+
+                                    document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 9;
+
+                                } else {
+
+                                    if (document.getElementById('<%= txtConsultaVencimentoFim.ClientID %>') === document.activeElement) {
+
+                                        document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 9;
+
+                                    } else {
+
+                                        if (document.getElementById('<%= txtConsultaPagamentoInicio.ClientID %>') === document.activeElement) {
+
+                                            document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 12;
+                                        } else {
+
+                                            if (document.getElementById('<%= txtConsultaPagamentoFim.ClientID %>') === document.activeElement) {
+
+                                                document.getElementById('<%= btnConsultaNotas.ClientID %>').tabIndex = 12;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
+
+        document.addEventListener('keydown', function (e) {
+            e = e || window.event;
+            var code = e.which || e.keyCode;
+            minhaFuncao(code);
+        });
+
+
+
+        function formatarCPFouCNPJ() {
+            var CNPJ_CPF = document.getElementById('<%= txtCNPJSub.ClientID %>').value;
+            var cleanValue = CNPJ_CPF.replace(/\D/g, '');
+            if (cleanValue.length <= 11) { // Formatar como CPF
+                document.getElementById('<%= txtCNPJSub.ClientID %>').value = cleanValue.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+            } else if (cleanValue.length == 14) { // Formatar como CNPJ
+                document.getElementById('<%= txtCNPJSub.ClientID %>').value = cleanValue.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+            }
+        };
+
+
+
     </script>
 </asp:Content>

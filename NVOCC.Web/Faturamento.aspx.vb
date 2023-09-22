@@ -52,6 +52,9 @@ Public Class Faturamento
             txtData.Text = Now.Date.ToString("dd/MM/yyyy")
             lkNotasFiscais.Visible = True
             lkConsultaNotas.Visible = True
+
+            txtCNPJSub.Attributes.Add("onkeyup", "formatarCPFouCNPJ();")
+
         End If
         Con.Fechar()
     End Sub
@@ -1352,7 +1355,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
                 'msg erro
                 divErroConsultasNotas.Visible = True
                 lblErroConsultasNotas.Text = "É necessário informar inicio e fim para prosseguir com a consulta!"
-                ModalPopupExtender9.Show()
+                mpeConsultaNotas.Show()
                 Exit Sub
             End If
         End If
@@ -1366,7 +1369,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
                 'msg erro
                 divErroConsultasNotas.Visible = True
                 lblErroConsultasNotas.Text = "É necessário informar inicio e fim para prosseguir com a consulta!"
-                ModalPopupExtender9.Show()
+                mpeConsultaNotas.Show()
                 Exit Sub
             End If
         End If
@@ -1380,7 +1383,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
                 'msg erro
                 divErroConsultasNotas.Visible = True
                 lblErroConsultasNotas.Text = "É necessário informar data de inicio e fim para prosseguir com a consulta!"
-                ModalPopupExtender9.Show()
+                mpeConsultaNotas.Show()
                 Exit Sub
 
             End If
@@ -1396,7 +1399,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
                 'msg erro
                 divErroConsultasNotas.Visible = True
                 lblErroConsultasNotas.Text = "É necessário informar data de inicio e fim para prosseguir com a consulta!"
-                ModalPopupExtender9.Show()
+                mpeConsultaNotas.Show()
                 Exit Sub
             End If
         End If
@@ -1411,7 +1414,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,N
         Dim sql As String = "SELECT * FROM [dbo].[View_Faturamento] WHERE NR_NOTA_FISCAL IS NOT NULL " & filtro & " ORDER BY DT_VENCIMENTO,NR_PROCESSO"
         dsFaturamento.SelectCommand = sql
         dgvFaturamento.DataBind()
-        ModalPopupExtender9.Hide()
+        mpeConsultaNotas.Hide()
         divErroConsultasNotas.Visible = False
 
         ddlCliente.SelectedValue = 0
@@ -1742,7 +1745,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
         If txtCNPJSub.Text <> "" Then
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO, UPPER(P.NM_RAZAO)NM_RAZAO, UPPER(P.ENDERECO)ENDERECO, P.NR_ENDERECO, UPPER(P.COMPL_ENDERECO)COMPL_ENDERECO, UPPER(P.BAIRRO)BAIRRO, P.CEP, P.CNPJ, P.INSCR_ESTADUAL, P.INSCR_MUNICIPAL, UPPER(C.NM_CIDADE)NM_CIDADE, UPPER(E.NM_ESTADO)NM_ESTADO FROM TB_PARCEIRO P LEFT JOIN TB_CIDADE C ON C.ID_CIDADE = P.ID_CIDADE LEFT JOIN TB_ESTADO E ON E.ID_ESTADO = C.ID_ESTADO WHERE CNPJ ='" & txtCNPJSub.Text & "'")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO, UPPER(P.NM_RAZAO)NM_RAZAO, UPPER(P.ENDERECO)ENDERECO, P.NR_ENDERECO, UPPER(P.COMPL_ENDERECO)COMPL_ENDERECO, UPPER(P.BAIRRO)BAIRRO, P.CEP, P.CNPJ, P.INSCR_ESTADUAL, P.INSCR_MUNICIPAL, UPPER(C.NM_CIDADE)NM_CIDADE, UPPER(E.NM_ESTADO)NM_ESTADO FROM TB_PARCEIRO P LEFT JOIN TB_CIDADE C ON C.ID_CIDADE = P.ID_CIDADE LEFT JOIN TB_ESTADO E ON E.ID_ESTADO = C.ID_ESTADO WHERE ((CNPJ ='" & txtCNPJSub.Text & "') or (CPF ='" & txtCNPJSub.Text & "'))")
             If ds.Tables(0).Rows.Count > 0 Then
                 txtIDParceiro.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO")
 
@@ -1808,7 +1811,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
             Else
                 divErroSubstituir.Visible = True
-                lblErroSubstituir.Text = "CNPJ não localizado!"
+                lblErroSubstituir.Text = "CNPJ/CPF não localizado!"
 
             End If
         End If
@@ -1823,7 +1826,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             lblmsgErro.Text = "Selecione um registro"
         Else
             mpeOpcoesBoletos.Show()
-            mpeDemonstrativos.Hide()
+            '  mpeDemonstrativos.Hide()
 
         End If
     End Sub
@@ -1832,7 +1835,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
         mpeDemonstrativos.Show()
     End Sub
     Private Sub lkRPS_Click(sender As Object, e As EventArgs) Handles lkRPS.Click
-        mpeDemonstrativos.Hide()
+        '  mpeDemonstrativos.Hide()
         mpeRPS.Show()
     End Sub
 
@@ -1866,6 +1869,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             divErro.Visible = True
             lblmsgErro.Text = "Selecione um registro"
         Else
+            mpeDemonstrativos.Show()
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirND()", True)
         End If
     End Sub
@@ -1894,5 +1898,9 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
         Else
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "RelatorioFaturamento()", True)
         End If
+    End Sub
+
+    Private Sub lkConsultaNotas_Click(sender As Object, e As EventArgs) Handles lkConsultaNotas.Click
+        mpeConsultaNotas.Show()
     End Sub
 End Class

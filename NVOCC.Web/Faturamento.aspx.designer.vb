@@ -1067,13 +1067,22 @@ Partial Public Class Faturamento
     Protected WithEvents btnFecharBoleto As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle ModalPopupExtender9.
+    '''Controle TextBox2.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ModalPopupExtender9 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle mpeConsultaNotas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeConsultaNotas As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
     '''Controle UpdatePanel2.
