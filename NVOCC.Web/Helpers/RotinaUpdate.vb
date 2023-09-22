@@ -141,8 +141,9 @@ ID_PARCEIRO_IMPORTADOR,
                 Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_TIPO_CARGA = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_CARGA").ToString & " WHERE ID_BL = " & ID_BL)
             End If
 
+            'CHAMADO 4289
             If dsCotacao.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR").ToString Then
-                Con.ExecutarQuery("UPDATE TB_BL SET ID_PARCEIRO_TRANSPORTADOR = " & dsCotacao.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString & " WHERE ID_BL = " & ID_BL)
+                Con.ExecutarQuery("UPDATE TB_BL SET ID_PARCEIRO_TRANSPORTADOR = " & dsCotacao.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString & " WHERE ((ID_BL_MASTER IS NULL) OR (ID_TIPO_ESTUFAGEM = 1) OR (ID_SERVICO IN( 2,5))) AND ID_BL = " & ID_BL)
             End If
 
             If dsCotacao.Tables(0).Rows(0).Item("NR_CONTRATO_ARMADOR").ToString <> dsProcesso.Tables(0).Rows(0).Item("NR_CONTRATO_ARMADOR").ToString Then
