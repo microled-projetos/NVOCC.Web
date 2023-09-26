@@ -1667,20 +1667,21 @@ namespace ABAINFRA.Web
 
             if (idtipoaviso == "3")
             {
-                SQL = "SELECT NR_PROCESSO AS NRHOUSE FROM TB_BL WHERE ID_BL = '" + idprocesso + "' ";
+                SQL = "SELECT NR_PROCESSO AS NRHOUSE, ID_TIPO_ESTUFAGEM AS TPESTUFAGEM FROM TB_BL WHERE ID_BL = '" + idprocesso + "' ";
                 DataTable listTable2 = new DataTable();
                 listTable2 = DBS.List(SQL);
                 string anoH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(9, 2);
                 string mesH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(6, 2);
                 string diretorio = path + "20" + anoH + "\\" + mesH + "\\" + listTable2.Rows[0]["NRHOUSE"].ToString().Replace("/", "") + "\\";
+                string tpestufagem = listTable2.Rows[0]["TPESTUFAGEM"].ToString();
 
                 SQL = "INSERT INTO TB_GER_ANEXO (IDPROCESSO, IDMASTER, IDDOCUMENTO, DTPOSTAGEM, DCPATHARQUIVO, NMARQUIVO, DCPATHARQUIVOROBO) ";
                 SQL += "VALUES ('" + idprocesso + "',NULL,'" + iddocumento + "','" + sqlFormattedDate + "','" + diretorio + "','" + arquivo + "','" + pathrobo + "') ";
 
                 DBS.ExecuteScalar(SQL);
 
-                SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', '" + idprocesso + "',NULL,'" + idprocesso + "',NULL,NULL) ";
+                SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO, IDTIPOESTUFAGEM) ";
+                SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', '" + idprocesso + "',NULL,'" + idprocesso + "',NULL,NULL, '" + tpestufagem + "') ";
 
                 DBS.ExecuteScalar(SQL);
             }
@@ -1692,11 +1693,12 @@ namespace ABAINFRA.Web
                 string anoH = listTable3.Rows[0]["NRHOUSE"].ToString().Substring(9, 2);
                 string mesH = listTable3.Rows[0]["NRHOUSE"].ToString().Substring(6, 2);
 
-                SQL = "SELECT M.NR_BL AS NRMASTER FROM TB_BL C LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL WHERE C.ID_BL_MASTER = '" + blmaster + "' ";
+                SQL = "SELECT M.NR_BL AS NRMASTER, ID_TIPO_ESTUFAGEM AS TPESTUFAGEM FROM TB_BL C LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL WHERE C.ID_BL_MASTER = '" + blmaster + "' ";
                 DataTable listTable4 = new DataTable();
                 listTable4 = DBS.List(SQL);
                 string nrblmaster = listTable4.Rows[0]["NRMASTER"].ToString();
                 string diretorio = path + "20" + anoH + "\\" + mesH + "\\MASTER-" + nrblmaster + "\\";
+                string tpestufagem = listTable4.Rows[0]["TPESTUFAGEM"].ToString();
 
                 SQL = "INSERT INTO TB_GER_ANEXO (IDPROCESSO, IDMASTER, IDDOCUMENTO, DTPOSTAGEM, DCPATHARQUIVO, NMARQUIVO, DCPATHARQUIVOROBO) ";
                 SQL += "VALUES (NULL,'" + blmaster + "','" + iddocumento + "','" + sqlFormattedDate + "','" + diretorio + "','" + arquivo + "','" + pathrobo + "') ";
@@ -1704,14 +1706,14 @@ namespace ABAINFRA.Web
 
                 if (idtipoaviso == "1")
                 {
-                    SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '" + blmaster + "',NULL,NULL,'" + parceiroD + "') ";
+                    SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO, IDTIPOESTUFAGEM) ";
+                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '" + blmaster + "',NULL,NULL,'" + parceiroD + "', '" + tpestufagem + "') ";
                     DBS.ExecuteScalar(SQL);
                 }
                 else if (idtipoaviso == "2")
                 {
-                    SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '" + blmaster + "','" + idprocesso + "','" + parceiroRD + "',NULL) ";
+                    SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO, IDTIPOESTUFAGEM) ";
+                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '" + blmaster + "','" + idprocesso + "','" + parceiroRD + "',NULL, '" + tpestufagem + "') ";
                     DBS.ExecuteScalar(SQL);
                 }
             }
@@ -1778,7 +1780,8 @@ namespace ABAINFRA.Web
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");
             SQL = "SELECT A.NR_BL, A.NR_PROCESSO, ORIGEM.NM_PORTO AS ORIGEM, DESTINO.NM_PORTO AS DESTINO,ID_PARCEIRO_CLIENTE, CLIENTE.NM_RAZAO AS CLIENTE, ";
-            SQL += "CLIENTE.CNPJ, IMPORTADOR.NM_RAZAO AS IMPORTADOR, C.NM_VIATRANSPORTE as VIA ";
+            SQL += "CLIENTE.CNPJ, IMPORTADOR.NM_RAZAO AS IMPORTADOR, C.NM_VIATRANSPORTE as VIA, ";
+            SQL += "C.ID_TIPO_ESTUFAGEM AS TPESTUFAGEM ";
             SQL += "FROM TB_BL A ";
             SQL += "LEFT JOIN TB_PORTO ORIGEM ON A.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
             SQL += "LEFT JOIN TB_PORTO DESTINO ON A.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
@@ -1800,6 +1803,7 @@ namespace ABAINFRA.Web
             string nmVia = listTable.Rows[0]["VIA"].ToString();
             string idCliente = listTable.Rows[0]["ID_PARCEIRO_CLIENTE"].ToString();
             string nmImportador = listTable.Rows[0]["IMPORTADOR"].ToString();
+            string tpestufagem = listTable.Rows[0]["TPESTUFAGEM"].ToString();
 
             if (nmVia == "MARÍTIMA")
             {
@@ -1826,9 +1830,9 @@ namespace ABAINFRA.Web
             {
                 nmImportador = "- IMPORTADOR: " + nmImportador + " - ";
             }
-            SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, ID_DESTINATARIO) ";
+            SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, ID_DESTINATARIO, IDTIPOESTUFAGEM) ";
             SQL += "VALUES ('" + nrProcesso + " - COMUNICADO - " + origemP + " X " + destinoP + " - HBL: " + nrHouse + "<br>" + nmCliente + " - " + cnpj + "<br>"+ nmImportador + refCliente + "<br>', ";
-            SQL += "'" + corpo + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "',12,'" + house + "','" + idCliente + "','" + origem + "','" + destinatario + "') ";
+            SQL += "'" + corpo + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "',12,'" + house + "','" + idCliente + "','" + origem + "','" + destinatario + "', '"+ tpestufagem + "') ";
             string gerarEmail = DBS.ExecuteScalar(SQL);
 
             return "ok";
