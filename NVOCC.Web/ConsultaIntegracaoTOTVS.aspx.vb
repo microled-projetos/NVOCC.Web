@@ -17,23 +17,25 @@
             ScriptManager.RegisterClientScriptBlock(Me, [GetType](), "script", "<script>alert('Filtros obrigatórios!');</script>", False)
 
         Else
+            Dim ds As DataSet
+            Dim sql As String = "SELECT * FROM [dbo].[FN_INTEGRACAO_TOTVS]('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') ORDER BY DATA_EMISSAO DESC"
 
-            Dim sql As String = "SELECT * FROM [dbo].[FN_INTEGRACAO_TOTVS]('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') ORDER BY NUMERO_DOC DESC"
-
+            ' dgvConsulta.DataSource = ds.Tables(0)
             dsConsulta.SelectCommand = sql
+
             dgvConsulta.DataBind()
             divDados.Visible = True
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [FN_INTEGRACAO_TOTVS] ('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') WHERE NUMERO_DOC <> 'TOTAL' ")
+            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [FN_INTEGRACAO_TOTVS] ('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') WHERE NUMERO_DOC <> '   TOTAL' ")
             lblTotalNF.Text = ds.Tables(0).Rows(0).Item("QTD")
 
-            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [FN_INTEGRACAO_TOTVS] ('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') WHERE NUMERO_DOC <> 'TOTAL' AND CANCELADA <> 0 ")
+            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [FN_INTEGRACAO_TOTVS] ('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') WHERE NUMERO_DOC <> '   TOTAL' AND CANCELADA <> 0 ")
             lblNFCanceladas.Text = ds.Tables(0).Rows(0).Item("QTD")
 
-            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [FN_INTEGRACAO_TOTVS] ('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') WHERE NUMERO_DOC <> 'TOTAL' AND DATA_INTEG_REC IS NOT NULL ")
+            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [FN_INTEGRACAO_TOTVS] ('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') WHERE NUMERO_DOC <> '   TOTAL' AND DATA_INTEG_REC IS NOT NULL ")
             lblNFIntegradas.Text = ds.Tables(0).Rows(0).Item("QTD")
 
-            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [FN_INTEGRACAO_TOTVS] ('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') WHERE NUMERO_DOC <> 'TOTAL' AND DATA_INTEG_REC IS NULL ")
+            ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [FN_INTEGRACAO_TOTVS] ('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') WHERE NUMERO_DOC <> '   TOTAL' AND DATA_INTEG_REC IS NULL ")
             lblNFNaoIntegradas.Text = ds.Tables(0).Rows(0).Item("QTD")
 
         End If
@@ -44,6 +46,19 @@
 
     Private Sub btnLimpar_Click(sender As Object, e As EventArgs) Handles btnLimpar.Click
         Response.Redirect("ConsultaIntegracaoTOTVS.aspx")
+    End Sub
+
+    Private Sub dgvConsulta_Sorting(sender As Object, e As GridViewSortEventArgs) Handles dgvConsulta.Sorting
+        Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
+
+        If dt IsNot Nothing Then
+            dt.DefaultView.Sort = e.SortExpression & " " + GetSortDirection(e.SortExpression)
+            Session("TaskTable") = dt
+            dgvConsulta.DataSource = Session("TaskTable")
+            dgvConsulta.DataBind()
+            dgvConsulta.HeaderRow.TableSection = TableRowSection.TableHeader
+        End If
+        Pesquisa()
     End Sub
 
     Private Function GetSortDirection(ByVal column As String) As String
@@ -65,17 +80,4 @@
         ViewState("SortExpression") = column
         Return sortDirection
     End Function
-
-    Private Sub dgvConsulta_Sorting(sender As Object, e As GridViewSortEventArgs) Handles dgvConsulta.Sorting
-        Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
-
-        If dt IsNot Nothing Then
-            dt.DefaultView.Sort = e.SortExpression & " " + GetSortDirection(e.SortExpression)
-            Session("TaskTable") = dt
-            dgvConsulta.DataSource = Session("TaskTable")
-            dgvConsulta.DataBind()
-            dgvConsulta.HeaderRow.TableSection = TableRowSection.TableHeader
-        End If
-        Pesquisa()
-    End Sub
 End Class
