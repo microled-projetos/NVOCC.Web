@@ -75,6 +75,11 @@
                                 <asp:CheckBox ID="chkAtivo" runat="server" CssClass="form-control noborder" Checked="true" Text="&nbsp;Ativos"></asp:CheckBox>
                             </div>
                         </div>
+                        <div class="form-group" style="display:flex;align-items:center; margin-bottom: 0px; margin-left: 10px;">
+                            <div>
+                                <asp:CheckBox ID="chkTarifaSpot" runat="server" CssClass="form-control noborder" Text="&nbsp;Tarifa Spot"></asp:CheckBox>
+                            </div>
+                        </div>
                     </div>
                     <div class="row topMarg">
                         
@@ -1595,6 +1600,7 @@
                                     <th class="text-center" scope="col">Transportador</th>
                                     <th class="text-center" scope="col">Data Chegada</th>
                                     <th class="text-center" scope="col">Data Limite Chegada</th>
+                                    <th class="text-center" scope="col">Acordo Comercial</th>
                                     <th class="text-center" scope="col">FreeTime</th>
                                     <th class="text-center" scope="col">FreeTime Confirmado</th>
                                     <th class="text-center" scope="col">Data Devolução</th>
@@ -5108,6 +5114,8 @@
             var finalizadoValue;
             var ativo = document.getElementById("MainContent_chkAtivo");
             var ativoValue;
+            var tarifaSpot = document.getElementById("MainContent_chkTarifaSpot");
+            var tarifaSpotValue;
             var freetime = "";
             if (ativo.checked) {
                 ativoValue = "1";
@@ -5122,10 +5130,17 @@
             else {
                 finalizadoValue = "0";
             }
+
+            if (tarifaSpot.checked) {
+                tarifaSpotValue = "1";
+            }
+            else {
+                tarifaSpotValue = "0";
+            }
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/filtrarTabela",
-                data: '{idFilter:"' + idFiltro + '", Filter:"' + stringConsulta + '", Finalizado: "' + finalizadoValue + '",Ativo: "' + ativoValue + '" }',
+                data: '{idFilter:"' + idFiltro + '", Filter:"' + stringConsulta + '", Finalizado: "' + finalizadoValue + '",Ativo: "' + ativoValue + '", TarifaSpot: "' + tarifaSpotValue+'" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
@@ -5156,6 +5171,7 @@
                                     "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ACORDO_COMERCIAL"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     freetime +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
@@ -5186,6 +5202,7 @@
                                     "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ACORDO_COMERCIAL"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     freetime +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
@@ -5215,6 +5232,7 @@
                                     "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ACORDO_COMERCIAL"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     freetime +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +

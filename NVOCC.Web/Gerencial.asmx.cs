@@ -29,7 +29,7 @@ namespace ABAINFRA.Web
     public class Gerencial : System.Web.Services.WebService
     {
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarVendedores()
         {
             string SQL;
@@ -41,7 +41,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(vendedor);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregaFiltro(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -114,7 +114,7 @@ namespace ABAINFRA.Web
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregaFiltroProcesso(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -182,7 +182,7 @@ namespace ABAINFRA.Web
             return SQL;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregaFiltroCntr(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -250,7 +250,7 @@ namespace ABAINFRA.Web
             return SQL;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregaFiltroTeus(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -318,7 +318,7 @@ namespace ABAINFRA.Web
             return SQL;
         }
 
-        /*[WebMethod]
+        /*[WebMethod(EnableSession = true)]
         public string CarregarEstatistica(string anoI, string anoF, string mesI, string mesF, int vendedor,string tipo)
         {
             string SQL;
@@ -343,7 +343,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(total);
         }*/
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarProcessos(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -361,7 +361,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(total);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarCntr(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -381,7 +381,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(total);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarTEUS(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -402,7 +402,7 @@ namespace ABAINFRA.Web
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
          public string CarregarEstatistica(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
          {
              string SQL;
@@ -439,7 +439,7 @@ namespace ABAINFRA.Web
              return JsonConvert.SerializeObject(total);
          }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static string TaxaProcesso(string dataI, string dataF, string nota, string filter)
         {
             string SQL;
@@ -517,7 +517,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregaFiltroPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -564,7 +564,7 @@ namespace ABAINFRA.Web
             return SQL;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarEstatisticaPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -599,7 +599,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(total);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarProcessosPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -626,7 +626,7 @@ namespace ABAINFRA.Web
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarQtdCntrPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -652,7 +652,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(total);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarTeusPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -678,7 +678,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(total);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregaFiltroIndicador(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -743,7 +743,7 @@ namespace ABAINFRA.Web
             return SQL;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ProcessosIndicador(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -820,7 +820,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(processosIndicador);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ProcessosIndicadorPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
         {
             string SQL;
@@ -856,7 +856,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(processosIndicador);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarProcessos(string nmfilter, string txtfilter, string estufagem, string servico, string dtSiIni, string dtSiFim)
         {
             if (dtSiIni != "")
@@ -971,7 +971,7 @@ namespace ABAINFRA.Web
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarProcessosMaster()
         {
             string SQL;
@@ -1007,7 +1007,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarProcessosOperacionalFilter(FiltroModuloOperacional dados)
         {
             string FILTER;
@@ -1251,7 +1251,7 @@ namespace ABAINFRA.Web
             return FILTER;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarProcessosOperacional(FiltroModuloOperacional dados)
         {
             string SQL;
@@ -1292,7 +1292,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string NumeroProcesso(string idProcesso)
         {
             string SQL;
@@ -1303,7 +1303,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string dadosUpload(string idProcesso)
         {
             string SQL;
@@ -1314,7 +1314,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string verificarProcesso(string idProcesso)
         {
             string SQL;
@@ -1329,7 +1329,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarProcessosEmail(string idProcessoMaster)
         {
             string SQL;
@@ -1349,7 +1349,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string escreverTituloEmail(string idProcessoMaster)
         {
             string SQL;
@@ -1365,7 +1365,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string escreverCorpoEmail()
         {
             string SQL;
@@ -1376,7 +1376,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string escreverAssuntoEmail(string idprocesso)
         {
             string SQL;
@@ -1392,7 +1392,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarEmail(string filtro, string consulta, string enviado, string nenviado, string dtgerado)
         {
             switch (filtro)
@@ -1479,7 +1479,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarEmailAgendado(string filtro, string consulta, string enviado, string nenviado, string dtgerado)
         {
             switch (filtro)
@@ -1566,7 +1566,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string verificarCancelamento(string idEmail)
         {
             string SQL;
@@ -1584,7 +1584,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string cancelarAgendamento(string idEmail)
         {
             string SQL;
@@ -1607,7 +1607,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string reativarAgendamento(string idEmail)
         {
             string SQL;
@@ -1619,7 +1619,7 @@ namespace ABAINFRA.Web
             return "ok";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string checarDiretorio()
         {
             string SQL;
@@ -1636,7 +1636,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string uploadArquivo(string idprocesso, string iddocumento, string arquivo, string idtipoaviso)
         {
             string path = HttpContext.Current.Server.MapPath("~/UPLOADS/");
@@ -1721,7 +1721,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject("ok");
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarDcoumentosArquivados(string idprocesso, string idtipoaviso)
         {
             string SQL;
@@ -1755,7 +1755,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string deleterDocumentoArquivado(string documentoArquivado)
         {
             string path = DBS.ExecuteScalar("SELECT DCPATHARQUIVO FROM TB_GER_ANEXO WHERE AUTONUM = '" + documentoArquivado + "' ");
@@ -1770,7 +1770,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject("ok");
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string enviarEmail(string house, string corpo)
         {
             string SQL;
@@ -1781,7 +1781,7 @@ namespace ABAINFRA.Web
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");
             SQL = "SELECT A.NR_BL, A.NR_PROCESSO, ORIGEM.NM_PORTO AS ORIGEM, DESTINO.NM_PORTO AS DESTINO,ID_PARCEIRO_CLIENTE, CLIENTE.NM_RAZAO AS CLIENTE, ";
             SQL += "CLIENTE.CNPJ, IMPORTADOR.NM_RAZAO AS IMPORTADOR, C.NM_VIATRANSPORTE as VIA, ";
-            SQL += "C.ID_TIPO_ESTUFAGEM AS TPESTUFAGEM ";
+            SQL += "A.ID_TIPO_ESTUFAGEM AS TPESTUFAGEM ";
             SQL += "FROM TB_BL A ";
             SQL += "LEFT JOIN TB_PORTO ORIGEM ON A.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
             SQL += "LEFT JOIN TB_PORTO DESTINO ON A.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
@@ -1838,7 +1838,7 @@ namespace ABAINFRA.Web
             return "ok";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTipoAviso()
         {
             string SQL;
@@ -1854,7 +1854,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTipoDocumento(string idtipoaviso)
         {
             string SQL;
@@ -1870,7 +1870,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string visualizarEmail(string idProcesso)
         {
             string SQL;
@@ -1881,7 +1881,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string verificarRemocao(string idProcesso)
         {
             string SQL;
@@ -1902,7 +1902,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string verificarReenvio(string idProcesso)
         {
             string SQL;
@@ -1923,7 +1923,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string removerEmail(string idProcesso)
         {
             string SQL;
@@ -1936,7 +1936,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(result);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string reenviarEmail(string idProcesso)
         {
             string SQL;
@@ -1949,7 +1949,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(result);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string inserirDados(string week, string dtRedestinacao, string dtDesconsolidacao, string idProcesso, string termo)
         {
             string SQL;
@@ -1988,7 +1988,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarCliente(string idvendedor)
         {
             string SQL;
@@ -2001,7 +2001,7 @@ namespace ABAINFRA.Web
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string deletarAtendimento(string id)
         {
             string SQL;
@@ -2012,7 +2012,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject("0");
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarClienteFinal(string idcliente)
         {
             string SQL;
@@ -2067,7 +2067,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string buscarAtendimento(string id)
         {
             string SQL;
@@ -2088,7 +2088,7 @@ namespace ABAINFRA.Web
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CadastrarAtendimento(Atendimento dados)
         {
 
@@ -2155,7 +2155,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject("1");
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarEmailFinanceiro(string filtro, string consulta, string enviado, string nenviado, string dtgerado)
         {
             switch (filtro)
@@ -2244,7 +2244,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarEmailAgendadoFinanceiro(string filtro, string consulta, string enviado, string nenviado, string dtgerado)
         {
             switch (filtro)
@@ -2331,7 +2331,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarPremiacao(string dtCompetencia, string quinzena)
         {
             string SQL;
