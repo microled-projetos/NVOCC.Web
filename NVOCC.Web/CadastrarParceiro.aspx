@@ -563,7 +563,38 @@
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <div class="form-group">
+                                                <br />
                                                 <asp:CheckBox ID="ckbTranspRodoviario" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Transp. Rodoviário"></asp:CheckBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">                                            
+                                            <div class="form-group">                                                
+                                                <br />
+                                                <asp:CheckBox ID="ckbProspeccao" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Propspecção"></asp:CheckBox>
+                                            </div>
+                                        </div>
+                                         <div class="col-sm-3">                                             
+                                            <div class="form-group">                                                
+                                                <br />
+                                                <asp:CheckBox ID="ckbIndicacaoInterna" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Indicação Interna"></asp:CheckBox>
+                                            </div>
+                                        </div>
+                                         
+                                       <div class="col-sm-3">
+                                            <label class="control-label">Time de Prospecção:</label>
+                                                <asp:DropDownList ID="ddlTimeProspeccao" runat="server" CssClass="form-control" Font-Size="11px">
+                                                </asp:DropDownList>
+                                        </div>
+
+                                        
+                                    </div>
+                                    <div class="row">
+                                        
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Indicação Interna:</label>
+                                                <asp:DropDownList ID="ddlIndicacaoInterna" runat="server" CssClass="form-control" Font-Size="11px">
+                                                </asp:DropDownList>
                                             </div>
                                         </div>
                                         <div id="divDadosBancarios" class="divDadosBancarios" style="display: none" runat="server">
@@ -590,7 +621,7 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    
                                      <div class="row">
 
                                         <div class="col-sm-3 col-sm-offset-6">

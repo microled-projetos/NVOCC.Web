@@ -266,8 +266,10 @@
     <Content Include="AtendimentoNegado.aspx.cs" />
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
     <Content Include="BaixasCancelamentosRecebimento.aspx" />
+    <Content Include="CadastrarEquipeVendedor.aspx" />
     <Content Include="CadastrarEquipe.aspx" />
     <Content Include="CadastrarTipoFaturamento.aspx" />
+    <Content Include="CadastroMetas.aspx" />
     <Content Include="Classes\FiltrosTaxasInativas.cs" />
     <Content Include="ComissaoInsideSales.aspx" />
     <Content Include="ConsultaIntegracaoTOTVS.aspx" />
@@ -660,6 +662,14 @@
     </Compile>
     <Compile Include="BaixasCancelamentosRecebimento.aspx.vb">
       <DependentUpon>BaixasCancelamentosRecebimento.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarEquipeVendedor.aspx.designer.vb">
+      <DependentUpon>CadastrarEquipeVendedor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarEquipeVendedor.aspx.vb">
+      <DependentUpon>CadastrarEquipeVendedor.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="CadastrarEquipe.aspx.designer.vb">
       <DependentUpon>CadastrarEquipe.aspx</DependentUpon>
@@ -675,6 +685,14 @@
       <DependentUpon>CadastrarTipoFaturamento.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="CadastroMetas.aspx.designer.vb">
+      <DependentUpon>CadastroMetas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastroMetas.aspx.vb">
+      <DependentUpon>CadastroMetas.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Class\ComissoesVendedor.vb" />
     <Compile Include="Class\ResultadoCNPJ.vb" />
     <Compile Include="ComissaoInsideSales.aspx.designer.vb">
       <DependentUpon>ComissaoInsideSales.aspx</DependentUpon>
