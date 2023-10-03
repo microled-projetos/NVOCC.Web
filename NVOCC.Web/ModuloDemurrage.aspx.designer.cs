@@ -42,6 +42,15 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.CheckBox chkAtivo;
 
 		/// <summary>
+		/// Controle chkTarifaSpot.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.CheckBox chkTarifaSpot;
+
+		/// <summary>
 		/// Controle dsStatus.
 		/// </summary>
 		/// <remarks>
