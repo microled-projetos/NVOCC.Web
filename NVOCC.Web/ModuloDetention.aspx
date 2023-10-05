@@ -1499,13 +1499,13 @@
                                     <th class="text-center" scope="col">MBL</th>
                                     <th class="text-center" scope="col">Cliente</th>
                                     <th class="text-center" scope="col">Transportador</th>
-                                    <th class="text-center" scope="col">Data Embarque</th>
                                     <th class="text-center" scope="col">Data Limite Embarque</th>
+                                    <th class="text-center" scope="col">Data Embarque</th>
                                     <th class="text-center" scope="col">FreeTime</th>
                                     <th class="text-center" scope="col">FreeTime Confirmado</th>
-                                    <th class="text-center" scope="col">Data Devolução</th>
-                                    <th class="text-center" scope="col">Dias DEM Venda</th>
-                                    <th class="text-center" scope="col">Dias DEM Compra</th>
+                                    <th class="text-center" scope="col">Data Entrega</th>
+                                    <th class="text-center" scope="col">Dias DET Venda</th>
+                                    <th class="text-center" scope="col">Dias DET Compra</th>
                                     <th class="text-center" scope="col">Observação</th>
                                     <th class="text-center" scope="col">Status Compra</th>                                    
                                     <th class="text-center" scope="col">Id Fatura Compra</th>

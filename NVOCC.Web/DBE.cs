@@ -97,16 +97,16 @@ namespace Eudmarco
                     Transaction = Con.BeginTransaction();
                     Cmd.Transaction = Transaction;
 
-                    //try
-                    //{
-                    Cmd.ExecuteNonQuery();
-                    Transaction.Commit();
-                    Success = true;
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //Transaction.Rollback();
-                    //}
+                    try
+                    {
+                        Cmd.ExecuteNonQuery();
+                        Transaction.Commit();
+                        Success = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Transaction.Rollback();
+                    }
 
                     return Success;
 
@@ -200,9 +200,8 @@ namespace Eudmarco
         }
 
         public static string ConnectionString()
-        {  
-            var x  = ConfigurationManager.ConnectionStrings["StringConexaoOracle"].ConnectionString;
-            return ConfigurationManager.ConnectionStrings["StringConexaoOracle"].ConnectionString;
+        {
+            return ConfigurationManager.ConnectionStrings["StringConexaoEud"].ConnectionString;
         }
 
     }

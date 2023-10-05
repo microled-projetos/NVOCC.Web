@@ -78,7 +78,6 @@
                         <div class="form-group">
                             <asp:CheckBox ID="ckAtivo" runat="server" Text="&nbsp;&nbsp;Ativo" Checked="true" /><br />
                             <asp:CheckBox ID="ckInativo" runat="server" Text="&nbsp;&nbsp;Inativo" />
-
                         </div>
                     </div>
                     <div class="col-sm-2">
