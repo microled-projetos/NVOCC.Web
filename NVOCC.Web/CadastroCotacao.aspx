@@ -2305,7 +2305,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_PAGAMENTO"></asp:SqlDataSource>
         SelectCommand="SELECT ID_STATUS_FRETE_AGENTE, NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENTE 
 union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE_AGENTE"></asp:SqlDataSource>
   
-    <asp:SqlDataSource ID="dsHistoricoFrete" runat="server" ConnectionString="<%$ ConnectionStrings:StringConexaoOracle %>" ProviderName="<%$ConnectionStrings:StringConexaoOracle.ProviderName %> "
+    <asp:SqlDataSource ID="dsHistoricoFrete" runat="server" ConnectionString="<%$ ConnectionStrings:StringConexaoEud %>" ProviderName="<%$ConnectionStrings:StringConexaoEud.ProviderName %> "
         SelectCommand="SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= 10 and cnpj = '@cnpj'">
         <SelectParameters>
             <asp:Parameter Name="cnpj" Type="string" />
