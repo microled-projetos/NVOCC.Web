@@ -108,31 +108,21 @@ FL_SHIPPER,
 FL_CNEE,
 FL_RODOVIARIO,
 OB_COMPLEMENTARES,
-NEGOCIACOES_INTERNAS,
-ISNULL(REGRA_ATUALIZACAO,0)REGRA_ATUALIZACAO,
-ISNULL(FL_CIA_AEREA,0)FL_CIA_AEREA,
-ISNULL(ID_VIATRANSPORTE,0)ID_VIATRANSPORTE 
+ISNULL(REGRA_ATUALIZACAO,0)REGRA_ATUALIZACAO 
 FROM TB_PARCEIRO 
 WHERE ID_PARCEIRO =" & ID)
             If ds.Tables(0).Rows.Count > 0 Then
                 txtID.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO").ToString()
-                ckbExportador.Checked = ds.Tables(0).Rows(0).Item("FL_EXPORTADOR")
                 ckbImportador.Checked = ds.Tables(0).Rows(0).Item("FL_IMPORTADOR")
-                ckbCiaAerea.Checked = ds.Tables(0).Rows(0).Item("FL_CIA_AEREA")
+                ckbExportador.Checked = ds.Tables(0).Rows(0).Item("FL_EXPORTADOR")
                 ckbAgente.Checked = ds.Tables(0).Rows(0).Item("FL_AGENTE")
-
                 ckbAgenteInternacional.Checked = ds.Tables(0).Rows(0).Item("FL_AGENTE_INTERNACIONAL")
 
                 If ds.Tables(0).Rows(0).Item("FL_AGENTE_INTERNACIONAL") = "True" Then
                     divDadosBancarios.Attributes.CssStyle.Add("display", "block")
-                    divNegociacoesInternas.Attributes.CssStyle.Add("display", "block")
-                    divObsComplementares.Attributes.CssStyle.Add("display", "none")
                 Else
                     divDadosBancarios.Attributes.CssStyle.Add("display", "none")
-                    divNegociacoesInternas.Attributes.CssStyle.Add("display", "none")
-                    divObsComplementares.Attributes.CssStyle.Add("display", "block")
                 End If
-
                 ckbTransportador.Checked = ds.Tables(0).Rows(0).Item("FL_TRANSPORTADOR")
                 ckbComissaria.Checked = ds.Tables(0).Rows(0).Item("FL_COMISSARIA")
                 ckbVendedor.Checked = ds.Tables(0).Rows(0).Item("FL_VENDEDOR")
@@ -140,12 +130,6 @@ WHERE ID_PARCEIRO =" & ID)
                 ckbArmazemDesembaraco.Checked = ds.Tables(0).Rows(0).Item("FL_ARMAZEM_DESEMBARACO")
                 ckbArmazemDescarga.Checked = ds.Tables(0).Rows(0).Item("FL_ARMAZEM_DESCARGA")
                 ckbPrestador.Checked = ds.Tables(0).Rows(0).Item("FL_PRESTADOR")
-                If ds.Tables(0).Rows(0).Item("FL_PRESTADOR") = True Then
-                    ddlTipoModal.Enabled = True
-                Else
-                    ddlTipoModal.Enabled = False
-                End If
-
                 ckbShipper.Checked = ds.Tables(0).Rows(0).Item("FL_SHIPPER")
                 ckbCNEE.Checked = ds.Tables(0).Rows(0).Item("FL_CNEE")
                 ckbTranspRodoviario.Checked = ds.Tables(0).Rows(0).Item("FL_RODOVIARIO")
@@ -161,9 +145,6 @@ WHERE ID_PARCEIRO =" & ID)
                 txtBairro.Text = ds.Tables(0).Rows(0).Item("BAIRRO").ToString()
                 txtComplemento.Text = ds.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString()
                 txtOBSComplementares.Text = ds.Tables(0).Rows(0).Item("OB_COMPLEMENTARES").ToString()
-                txtDadosCadastrais.Text = ds.Tables(0).Rows(0).Item("OB_COMPLEMENTARES").ToString()
-                txtNegociacoesInternas.Text = ds.Tables(0).Rows(0).Item("NEGOCIACOES_INTERNAS").ToString()
-
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMAIL")) Then
                     txtEmailParceiro.Text = ds.Tables(0).Rows(0).Item("EMAIL").ToString()
                 End If
@@ -223,7 +204,6 @@ WHERE ID_PARCEIRO =" & ID)
                 txtMaritimoExpoLCL.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_LCL")
                 txtAereoImpo.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_IMPO")
                 txtAereoExpo.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_EXPO")
-                ddlTipoModal.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VIATRANSPORTE")
                 ddlAcordoCambioAereoIMPO.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO_IMPO")
                 ddlAcordoCambioAereoEXPO.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO_EXPO")
                 ddlAcordoCambioMaritimoImpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL")
@@ -355,7 +335,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False And ckbEquipeInsideSales.Checked = False And ckbIndicador.Checked = False And ckbShipper.Checked = False And ckbCNEE.Checked = False And ckbTranspRodoviario.Checked = False And ckbCiaAerea.Checked = False Then
+        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False And ckbEquipeInsideSales.Checked = False And ckbIndicador.Checked = False And ckbShipper.Checked = False And ckbCNEE.Checked = False And ckbTranspRodoviario.Checked = False Then
             msgErro.Text = "Marque o tipo de parceiro"
             divmsg1.Visible = True
             msgErro.Visible = True
@@ -431,7 +411,6 @@ WHERE ID_PARCEIRO =" & ID)
                 lblInformacao.Text = "Averigue a Inscrição Estadual!"
                 divInformativa.Visible = True
             End If
-
             Dim AliquotaISS = txtAliquotaISS.Text
             If AliquotaISS = "" Then
                 AliquotaISS = "0"
@@ -497,10 +476,6 @@ WHERE ID_PARCEIRO =" & ID)
 
             If txtQtdFaturamento.Text = "" Then
                 txtQtdFaturamento.Text = 0
-            End If
-
-            If ckbAgenteInternacional.Checked And txtDadosCadastrais.Text <> "" Then
-                txtOBSComplementares.Text = txtDadosCadastrais.Text
             End If
 
             Dim Razao = txtRazaoSocial.Text
@@ -602,14 +577,6 @@ WHERE ID_PARCEIRO =" & ID)
                 EmailNF = "'" & EmailNF & "'"
             End If
 
-            Dim NegociacoesInternas = txtNegociacoesInternas.Text
-            If NegociacoesInternas = "" Then
-                NegociacoesInternas = "NULL"
-            Else
-                NegociacoesInternas = "'" & NegociacoesInternas & "'"
-            End If
-
-
             If txtID.Text = "" Then
 
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
@@ -647,7 +614,7 @@ WHERE ID_PARCEIRO =" & ID)
             FL_ARMAZEM_DESCARGA, 
             FL_PRESTADOR, 
             NM_RAZAO, 
-            NM_FANTASIA, 
+            NM_FANTASIA,
             CNPJ, 
             CPF, 
             TP_PESSOA, 
@@ -696,10 +663,7 @@ WHERE ID_PARCEIRO =" & ID)
             REGRA_ATUALIZACAO,
             ID_PAIS,
             ID_USUARIO,
-            CREATED_AT,
-            NEGOCIACOES_INTERNAS,
-            FL_CIA_AEREA,
-            ID_VIATRANSPORTE
+            CREATED_AT
             ) 
             VALUES ( 
             '" & ckbImportador.Checked & "',
@@ -714,7 +678,7 @@ WHERE ID_PARCEIRO =" & ID)
             '" & ckbArmazemDescarga.Checked & "',
             '" & ckbPrestador.Checked & "', 
             '" & Razao & "',
-            '" & Fantasia & "', "
+            " & Fantasia & ", "
 
                             ''CNPJ E CPF
                             If ddlTipoPessoa.SelectedValue = 1 Or ddlTipoPessoa.SelectedValue = 3 Then
@@ -747,7 +711,7 @@ WHERE ID_PARCEIRO =" & ID)
             '" & ckbSimplesNacional.Checked & "',
             '" & ckbAtivo.Checked & "',
             '" & ckbIndicador.Checked & "',
-            '" & MaritimoImpoFCL & "',
+             '" & MaritimoImpoFCL & "',
             '" & MaritimoImpoLCL & "',
             '" & MaritimoExpoFCL & "',
             '" & MaritimoExpoLCL & "',
@@ -770,10 +734,7 @@ WHERE ID_PARCEIRO =" & ID)
             " & ddlRegraAtualizacao.SelectedValue & ",
             " & ddlPais.SelectedValue & " ,
             " & Session("ID_USUARIO") & ",
-             getdate(),
-            " & NegociacoesInternas & ",
-            '" & ckbCiaAerea.Checked & "',
-            " & ddlTipoModal.SelectedValue & " 
+             getdate() 
             ) Select SCOPE_IDENTITY() as ID_PARCEIRO "
 
 
@@ -791,6 +752,7 @@ WHERE ID_PARCEIRO =" & ID)
                             Else
                                 mpeTaxas.Show()
                             End If
+
 
                         End If
                     End If
@@ -819,7 +781,8 @@ WHERE ID_PARCEIRO =" & ID)
                             msgErro.Visible = True
                         Else
 
-                            Dim ID As String = Request.QueryString("id")
+
+                            Dim ID As String = txtID.Text
                             Con.Conectar()
 
                             Dim SQL As String = "UPDATE [dbo].[TB_PARCEIRO] SET FL_IMPORTADOR = '" & ckbImportador.Checked & "',
@@ -836,7 +799,6 @@ WHERE ID_PARCEIRO =" & ID)
             NM_RAZAO= '" & Razao & "',
             NM_FANTASIA = " & Fantasia & ", 
             TP_PESSOA= '" & ddlTipoPessoa.SelectedValue & "',"
-
                             ''CNPJ E CPF
                             If ddlTipoPessoa.SelectedValue = 1 Or ddlTipoPessoa.SelectedValue = 3 Then
                                 SQL = SQL & " CNPJ = '" & txtCNPJ.Text & "',CPF = NULL ,"
@@ -890,15 +852,12 @@ WHERE ID_PARCEIRO =" & ID)
             REGRA_ATUALIZACAO = " & ddlRegraAtualizacao.SelectedValue & " ,
             ID_PAIS=" & ddlPais.SelectedValue & ",
             ID_USUARIO = " & Session("ID_USUARIO") & ",
-            UPDATED_AT = GETDATE() ,
-            NEGOCIACOES_INTERNAS = " & NegociacoesInternas & ",
-            FL_CIA_AEREA = '" & ckbCiaAerea.Checked & "',
-            ID_VIATRANSPORTE = " & ddlTipoModal.SelectedValue & " where ID_PARCEIRO = " & ID
+            UPDATED_AT = GETDATE() 
+            where ID_PARCEIRO = " & ID
 
                             Session("ID_Parceiro") = ID
 
                             Con.ExecutarQuery(SQL)
-
 
                             Con.ExecutarQuery("update F 
                             set F.COMPL_ENDERECO = P.COMPL_ENDERECO,
@@ -925,6 +884,7 @@ WHERE ID_PARCEIRO =" & ID)
                 End If
 
             End If
+
         End If
 
     End Sub
@@ -1055,6 +1015,7 @@ WHERE ID_PARCEIRO =" & ID)
         End If
 
     End Sub
+
     Protected Sub dgvEmailEvento_Sorting(ByVal sender As Object, ByVal e As GridViewSortEventArgs)
         Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
 
@@ -1117,15 +1078,10 @@ WHERE ID_PARCEIRO =" & ID)
     End Sub
 
     Private Sub btnSim_Click(sender As Object, e As EventArgs) Handles btnSim.Click
-        If ckbTransportador.Checked = True Or ckbCiaAerea.Checked = True Then
+        If ckbTransportador.Checked = True Then
             Response.Redirect("TaxasLocaisArmador.aspx?id=" & Session("ID_Parceiro"))
-
-        ElseIf ckbPrestador.Checked = True Then
-
-            Response.Redirect("TaxaPrestador.aspx?id=" & Session("ID_Parceiro"))
-
         Else
-            Response.Redirect("TaxaParceiroAgenteInternacional.aspx?id=" & Session("ID_Parceiro"))
+            Response.Redirect("TaxaParceiro.aspx?id=" & Session("ID_Parceiro"))
 
         End If
 
@@ -1185,7 +1141,7 @@ WHERE ID_PARCEIRO =" & ID)
                     txtDepartamento.Text = ds.Tables(0).Rows(0).Item("NM_DEPARTAMENTO").ToString()
                 End If
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "EditaContato()", True)
-                ' btnSalvarContato.Visible = True
+                btnSalvarContato.Visible = True
             End If
         End If
 
@@ -1298,7 +1254,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
         Else
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "' and TP_PESSOA <> 3")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "' AND FL_ATIVO = 1 AND TP_PESSOA <> 3")
             If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
                 msgErro.Text = "Já existe Parceiro com este CNPJ"
                 divmsg1.Visible = True
@@ -1318,7 +1274,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
         Else
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "' AND FL_ATIVO = 1 ")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "' AND FL_ATIVO = 1")
             If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
                 msgErro.Text = "Já existe Parceiro com este CPF"
                 divmsg1.Visible = True
@@ -1472,14 +1428,6 @@ WHERE ID_PARCEIRO =" & ID)
 
     End Sub
 
-    Private Sub ckbPrestador_CheckedChanged(sender As Object, e As EventArgs) Handles ckbPrestador.CheckedChanged
-        If ckbPrestador.Checked = True Then
-            ddlTipoModal.Enabled = True
-        Else
-            ddlTipoModal.Enabled = False
-        End If
-    End Sub
-
     Private Sub dgvEmailEvento_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvEmailEvento.RowCommand
         divSuccessEvento.Visible = False
         divErroEvento.Visible = False
@@ -1487,7 +1435,6 @@ WHERE ID_PARCEIRO =" & ID)
         Dim Con As New Conexao_sql
         Con.Conectar()
         If e.CommandName = "Editar" Then
-            'Dim ds As DataSet = Con.ExecutarQuery("SELECT  A.ID_CONTATO as Id, A.NM_CONTATO,A.TELEFONE_CONTATO,A.CELULAR_CONTATO,A.NM_DEPARTAMENTO,A.EMAIL_CONTATO FROM [dbo].[TB_CONTATO] A WHERE A.ID_CONTATO = " & ID)
             Dim ds As DataSet = Con.ExecutarQuery("
 SELECT ID_PARCEIRO,NM_RAZAO,NM_FANTASIA,CNPJ,B.ID_TERMINAL,B.ID_EVENTO,B.ENDERECOS FROM [dbo].[TB_PARCEIRO] A
 LEFT JOIN TB_AMR_PESSOA_EVENTO B ON B.ID_PESSOA = A.ID_PARCEIRO
@@ -1513,7 +1460,6 @@ WHERE B.ID = " & ID)
     End Sub
 
     Private Sub btnSalvarEvento_Click(sender As Object, e As EventArgs) Handles btnSalvarEvento.Click
-
         divSuccessEvento.Visible = False
         divErroEvento.Visible = False
         Dim Con As New Conexao_sql
@@ -1523,7 +1469,7 @@ WHERE B.ID = " & ID)
             divErroEvento.Visible = True
             lblErroEvento.Text = "Necessário cadastrar dados basicos e informações adicionais antes de inserir um evento!"
 
-        ElseIf txtIdEvento.Text = "" And txtEmail.Text = "" Or ddlPorto.SelectedValue = 0 Or ddlEvento.SelectedValue = 0 Then
+        ElseIf txtIdEvento.Text = "" And txtEmail.Text = "" Or ddlEvento.SelectedValue = 0 Then
             'ERRO
             divErroEvento.Visible = True
             lblErroEvento.Text = "Campos obrigatórios!!"
@@ -1680,17 +1626,6 @@ WHERE B.ID = " & ID)
 
     End Sub
 
-    Private Sub dgvEmailEvento_RowDeleted(sender As Object, e As GridViewDeletedEventArgs) Handles dgvEmailEvento.RowDeleted
-        If e.Exception IsNot Nothing Then
-            lblErroEvento.Text = "Erro ao realizar exclusão!"
-            divErroEvento.Visible = True
-        Else
-            divSuccessEvento.Visible = True
-            lblSuccessEvento.Text = "Evento deletado com sucesso!"
-        End If
-
-    End Sub
-
     Private Sub dgvContato_RowDeleted(sender As Object, e As GridViewDeletedEventArgs) Handles dgvContato.RowDeleted
         If e.Exception IsNot Nothing Then
             lblErroContato.Text = "Erro ao realizar exclusão!"
@@ -1698,6 +1633,16 @@ WHERE B.ID = " & ID)
         Else
             divSuccessContato.Visible = True
             lblSuccessContato.Text = "Contato deletado com sucesso!"
+        End If
+    End Sub
+
+    Private Sub dgvEmailEvento_RowDeleted(sender As Object, e As GridViewDeletedEventArgs) Handles dgvEmailEvento.RowDeleted
+        If e.Exception IsNot Nothing Then
+            lblErroEvento.Text = "Erro ao realizar exclusão!"
+            divErroEvento.Visible = True
+        Else
+            divSuccessEvento.Visible = True
+            lblSuccessEvento.Text = "Evento deletado com sucesso!"
         End If
     End Sub
 End Class

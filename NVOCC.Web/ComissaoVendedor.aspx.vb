@@ -21,6 +21,10 @@ Public Class ComissaoVendedor
 
         End If
         Con.Fechar()
+
+
+        txtIDComissoesProspeccao.Enabled = False
+
     End Sub
 
     Protected Sub dgvComissoes_Sorting(ByVal sender As Object, ByVal e As GridViewSortEventArgs)
@@ -780,6 +784,16 @@ WHERE A.ID_USUARIO_MEMBRO_EQUIPE = " & linha.Item("ID_ANALISTA_COTACAO"))
 
         Next
     End Sub
+    Public Sub btnFecharComissoesProspecao_Click(sender As Object, e As EventArgs) Handles btnFecharComissoesProspecao.Click
+        txtIDComissoesProspeccao.Text = String.Empty
+        cbValidadeInicialCommissoesVenda.SelectedValue = 0
+        cbTipoEstufagemCommissoesVenda.SelectedValue = 0
+        cbViaCommissoesVenda.SelectedValue = 0
+        cbTipoCalculoComissoesProspeccao.SelectedValue = 0
+        cbBaseCalculoComissoesProspeccao.SelectedValue = 0
+        txtValorCommissoesVenda.Text = String.Empty
+
+    End Sub
 
     Private Sub btnLimpaTaxaTabela_Click(sender As Object, e As EventArgs) Handles btnLimpaTaxaTabela.Click
         txtIDTabelaTaxa.Text = ""
@@ -915,4 +929,64 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
         End If
 
     End Sub
+
+    'Public Sub txtDtInicioComissaoProspecao_TextChanged(sender As Object, e As EventArgs) Handles txtDtInicioComissaoProspecao.TextChanged
+    '    Dim DtInicio As String = txtDtInicioComissaoProspecao.Text
+
+    '    If Not IsDate(Convert.ToDateTime(DtInicio)) Then
+    '        lblErroDataInicio.Text = "Data Inválida"
+    '    End If
+
+    'End Sub
+
+
+    Public Sub btnFecharRelComissaoProspecao_Click(sender As Object, e As EventArgs) Handles btnFecharRelComissaoProspecao.Click
+
+        UpdateRelComissaoProspecao.Visible = False
+        txtDtInicioComissaoProspecao.Text = String.Empty
+        txtDtTerminoComissaoProspecao.Text = String.Empty
+
+    End Sub
+
+    Public Sub btnFecharRelComissaoIndicacaoInterna_Click(sender As Object, e As EventArgs) Handles btnFecharRelComissaoIndicacaoInterna.Click
+        UpdateRelComissaoIndicacaoInterna.Visible = False
+        txtDtInicioRelIndicacaoInterna.Text = String.Empty
+        txtDtTerminoRelIndicacaoInterna.Text = String.Empty
+
+    End Sub
+
+    'Public Sub lkCadastroMeta_OnClick(sender As Object, e As EventArgs) Handles lkCadastroMeta.Click
+
+    'End Sub
+
+
+
+    'Public Shared Function ListComissao() As DataTable
+
+    '    Dim comissaoProspecao = New ComissaoProspecao
+
+    '    comissaoProspecao.Competencia = "FEV/2023"
+    '    comissaoProspecao.Processo = "MXXXX/2023"
+    '    comissaoProspecao.NF = "XXXXXXX"
+    '    comissaoProspecao.Prospeccao = "TATIANE"
+    '    comissaoProspecao.Cliente = "ANX"
+    '    comissaoProspecao.Servico = "IMP"
+    '    comissaoProspecao.Via = "Maritima"
+    '    comissaoProspecao.Estufagem = "LCL"
+    '    comissaoProspecao.BL = "1"
+    '    comissaoProspecao.CNTR = "-"
+    '    comissaoProspecao.VL_Comissao = "30"
+    '    comissaoProspecao.VL_Comissao_Total = "30,00"
+
+
+    '    GridView8.DataSource = comissaoProspecao
+
+
+
+    '    'Return comissaoProspecao
+
+    'End Function
+
+
+
 End Class
