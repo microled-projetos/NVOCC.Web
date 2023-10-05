@@ -908,8 +908,10 @@ VL_TAXA_VENDA_MIN,
 VL_TAXA_COMPRA,
 VL_TAXA_VENDA,
 VL_TAXA_COMPRA_MIN,
-QTD_BASE_CALCULO
+QTD_BASE_CALCULO,
+ISNULL(I.FL_PREMIACAO,0)FL_PREMIACAO 
 FROM TB_COTACAO_TAXA A
+LEFT JOIN TB_ITEM_DESPESA I ON A.ID_ITEM_DESPESA = I.ID_ITEM_DESPESA
 WHERE A.ID_COTACAO_TAXA = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
@@ -1003,6 +1005,13 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
                     ddlFornecedor.Enabled = False
                 End If
 
+                If ds.Tables(0).Rows(0).Item("FL_PREMIACAO") = True Then
+                    ddlMoedaVendaTaxa.Enabled = False
+                    txtValorTaxaVenda.Enabled = False
+                    txtValorTaxaVendaMin.Enabled = False
+                    txtValorTaxaVendaCalc.Enabled = False
+                    ddlDestinatarioCobrancaTaxa.Enabled = False
+                End If
 
                 If ddlStatusCotacao.SelectedValue = 12 Or ddlStatusCotacao.SelectedValue = 15 Or ddlStatusCotacao.SelectedValue = 9 Then
                     btnSalvarTaxa.Visible = False
