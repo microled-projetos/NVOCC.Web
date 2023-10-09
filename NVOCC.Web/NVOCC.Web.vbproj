@@ -292,7 +292,7 @@
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
     <Content Include="BaixasCancelamentosRecebimento.aspx" />
     <Content Include="CadastrarEquipeVendedor.aspx" />
-    <Content Include="CadastrarEquipe.aspx" />
+    <Content Include="CadastrarEquipeInside.aspx" />
     <Content Include="CadastrarTipoFaturamento.aspx" />
     <Content Include="CadastroMetas.aspx" />
     <Content Include="Classes\DetentionCls.cs" />
@@ -714,11 +714,11 @@
       <DependentUpon>CadastrarEquipeVendedor.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="CadastrarEquipe.aspx.designer.vb">
-      <DependentUpon>CadastrarEquipe.aspx</DependentUpon>
+    <Compile Include="CadastrarEquipeInside.aspx.designer.vb">
+      <DependentUpon>CadastrarEquipeInside.aspx</DependentUpon>
     </Compile>
-    <Compile Include="CadastrarEquipe.aspx.vb">
-      <DependentUpon>CadastrarEquipe.aspx</DependentUpon>
+    <Compile Include="CadastrarEquipeInside.aspx.vb">
+      <DependentUpon>CadastrarEquipeInside.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="CadastrarTipoFaturamento.aspx.designer.vb">

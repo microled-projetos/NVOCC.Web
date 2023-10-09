@@ -130,73 +130,40 @@
                                                                 <asp:Label ID="lblErroMontarEquipe" runat="server"></asp:Label>
                                                             </div>
                                                             <asp:TextBox ID="txtIDEquipe" runat="server" CssClass="form-control" Style="display: none"></asp:TextBox>
-                                                            <div class="row" runat="server" visible="false">
-                                                                <br />
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Busca Lider:</label>
-                                                                        <asp:TextBox ID="txtNomeLider" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Lider:</label>
-                                                                        <asp:DropDownList ID="ddlLider" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsBuscaLider">
-                                                                        </asp:DropDownList>
-                                                                        <asp:TextBox ID="txtIDLider" runat="server" CssClass="form-control" Style="display: none"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
+                                                            
                                                             <div class="row">
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Nome Equipe:</label>
                                                                         <asp:TextBox ID="txtNomeEquipe" runat="server" CssClass="form-control"></asp:TextBox>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-sm-2" runat="server" visible="false">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Taxa Lider:</label>
-                                                                        <asp:TextBox ID="txtTaxaLider" runat="server" CssClass="form-control valores"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-2" runat="server" visible="false"> 
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Taxa Equipe:</label>
-                                                                        <asp:TextBox ID="txtTaxaEquipe" runat="server" CssClass="form-control valores"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
+                                                                </div>                                                               
+                                                                                                                               
                                                                 <div class="col-sm-2">
-                                                                    <div class="form-group"></div>
-                                                                </div>                                                                
-                                                                <div class="col-sm-2">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label" style="color: white">Lider:</label><br />
-                                                                        <asp:Button runat="server" CssClass="btn btn-success" ID="btnCadastrarLider" Text="Cadastrar Lider" Visible="false" />
-                                                                        <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarEdicao" Text="Salvar Edição" Visible="true" />
+                                                                    <div class="form-group"><br />
+                                                                        <asp:Button runat="server" CssClass="btn btn-success btn-block" ID="btnSalvarEquipe" Text="Salvar" Visible="true" />
 
                                                                     </div>
 
                                                                 </div>
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group"><br />
-                                                                        <asp:Button runat="server" CssClass="btn btn-primary" ID="btnAddTime" Text="Adicionar Time" Visible="true" />
+                                                                        <asp:Button runat="server" CssClass="btn btn-primary btn-block" ID="btnAddTime" Text="Adicionar Time" Visible="false" />
                                                                     </div>
                                                                 </div>
 
                                                             </div>
-                                                            <div class="row">
+                                                            <div class="row" id="divMembrosEquipe" runat="server" Visible="false" >
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Busca Membro:</label>
-                                                                        <asp:TextBox ID="txtBuscaMembro" runat="server" CssClass="form-control valores"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtBuscaMembros" runat="server" CssClass="form-control valores"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Membro:</label>
-                                                                        <asp:DropDownList ID="cbBuscaMembro" runat="server" CssClass="form-control" Font-Size="11px" DataSourceID="dsBuscaLider">
+                                                                        <asp:DropDownList ID="ddlBuscaMembros" runat="server" CssClass="form-control" Font-Size="11px"  >
                                                                         </asp:DropDownList>                                                                        
                                                                     </div>
                                                                 </div>
@@ -210,41 +177,33 @@
                                                             <%--Grid para preencher os dados de montar equipe--%>
 
                                                             <div class="row">
-
-                                                                    <div class="col-sm-12">
-                                                                        <div class="form-group">
-                                                                            <div class="table-responsive tableFixHead" style="margin: 10px; max-height: 300px;">
-                                                                                <asp:GridView ID="GridView1" DataKeyNames="ID_EQUIPE" DataSourceID="dsEquipesCadastradas"  CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" Style="max-height: 300px; overflow: auto;"
+                                                                <asp:GridView ID="gdvMembrosEquipesCadastradas" DataKeyNames="ID_EQUIPE_MEMBROS" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" Style="max-height: 300px; overflow: auto;"
                                                                                     AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado.">
-                                                                                    <Columns>                                                                                        
-                                                                                         <asp:BoundField DataField="NM_EQUIPE" HeaderText="NOME" SortExpression="NM_EQUIPE" />
+                                                                                    <Columns>
+                                                                                        <asp:BoundField DataField="ID_USUARIO" Visible="False" HeaderText="ID_USUARIO" SortExpression="ID_USUARIO" />
+                                                                                        <asp:BoundField DataField="NOME" HeaderText="NOME" SortExpression="NOME " />
                                                                                         <asp:TemplateField HeaderText="">
                                                                                             <ItemTemplate>
-                                                                                                <asp:LinkButton CommandName="Editar" Visible='<%#Eval("ID_EQUIPE") <> 0 %>' CommandArgument='<%# Eval("ID_EQUIPE") %>' runat="server" CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar">
-                                                                                                    <span class="glyphicon glyphicon-edit" style="font-size:medium"></span>
-                                                                                                </asp:LinkButton>
+                                                                                                <asp:LinkButton CommandName="Editar" Visible='<%#Eval("ID_TIME") <> 0 %>' CommandArgument='<%# Eval("ID_TIME") %>' runat="server" CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:LinkButton>
                                                                                             </ItemTemplate>
                                                                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                                                         </asp:TemplateField>
                                                                                         <asp:TemplateField HeaderText="">
                                                                                             <ItemTemplate>
                                                                                                 <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
-                                                                                                    OnClientClick="javascript:return confirm('Deseja realmente excluir este usuario da equipe?');" CommandArgument='<%# Eval("ID_EQUIPE") %>' Autopostback="true"><span class="glyphicon glyphicon-trash" style="font-size:medium"></span></asp:LinkButton>
+                                                                                                    OnClientClick="javascript:return confirm('Deseja realmente excluir este usuario da equipe?');" CommandArgument='<%# Eval("ID_EQUIPE_MEMBROS") %>' Autopostback="true"><span class="glyphicon glyphicon-trash" style="font-size:medium"></span></asp:LinkButton>
                                                                                             </ItemTemplate>
                                                                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                                                         </asp:TemplateField>
                                                                                     </Columns>
                                                                                     <HeaderStyle CssClass="headerStyle" />
                                                                                 </asp:GridView>
-
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                   
                                                                 </div>
 
                                                             <%--Grid para preencher os dados de montar equipe--%>
 
-                                                            <div class="row" id="divEquipe" runat="server" visible="false">
+                                                           <%-- <div class="row" id="divEquipe" runat="server" visible="false">
                                                                 <div class="col-sm-1" style="display: none">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Cód Membro:</label>
@@ -310,7 +269,7 @@
                                                                     </div>
                                                                 </div>
 
-                                                            </div>
+                                                            </div>--%>
                                                         </div>
                                                         <div class="modal-footer">
 
@@ -324,9 +283,7 @@
                                         </asp:Panel>
                                     </ContentTemplate>
                                     <Triggers>
-                                        <asp:AsyncPostBackTrigger ControlID="btnCadastrarLider" />
                                         <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="gdvMembrosEquipesCadastradas" />
-                                        <asp:AsyncPostBackTrigger ControlID="txtNomeLider" />
                                         <asp:AsyncPostBackTrigger ControlID="txtBuscaMembros" />
                                     </Triggers>
                                 </asp:UpdatePanel>
@@ -473,69 +430,8 @@
 
 
     </div>
-    <asp:SqlDataSource ID="dsBuscaLider" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_USUARIO,NOME from TB_USUARIO WHERE (NOME  like '%' + @NOME + '%' or ID_USUARIO =  @ID_USUARIO) UNION SELECT 0, '   Selecione' ORDER BY NOME">
-        <SelectParameters>
-            <asp:ControlParameter Name="NOME" Type="String" ControlID="txtNomeLider" DefaultValue="NULL" />
-            <asp:ControlParameter Name="ID_USUARIO" Type="Int32" ControlID="txtIDLider" DefaultValue="0" />
-        </SelectParameters>
-    </asp:SqlDataSource>
-    <asp:SqlDataSource ID="dsBuscaMembrosEquipes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_USUARIO,NOME from TB_USUARIO WHERE (NOME  like '%' + @NOME + '%' or ID_USUARIO =  @ID_USUARIO) UNION SELECT 0, '   Selecione' ORDER BY NOME">
-        <SelectParameters>
-            <asp:ControlParameter Name="NOME" Type="String" ControlID="txtBuscaMembros" DefaultValue="NULL" />
-            <asp:ControlParameter Name="ID_USUARIO" Type="Int32" ControlID="txtCodMembro" DefaultValue="0" />
-        </SelectParameters>
-    </asp:SqlDataSource>
-
-    <asp:SqlDataSource ID="dsMembrosEquipesCadastradas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT M.ID_EQUIPE_MEMBROS,M.ID_EQUIPE,U.ID_USUARIO,ISNULL(M.ID_TIME,0)ID_TIME, CASE WHEN M.ID_TIME IS NULL THEN U.NOME ELSE T.NM_TIME END NOME
-FROM TB_INSIDE_EQUIPE E
-INNER JOIN TB_INSIDE_EQUIPE_MEMBROS M ON E.ID_EQUIPE = M.ID_EQUIPE  
-LEFT JOIN TB_USUARIO U ON U.ID_USUARIO = M.ID_USUARIO_MEMBRO_EQUIPE 
-LEFT JOIN TB_INSIDE_TIME T ON T.ID_TIME = M.ID_TIME
-WHERE E.ID_USUARIO_LIDER = @ID_USUARIO_LIDER ORDER BY NOME">
-        <SelectParameters>
-            <asp:ControlParameter Name="ID_USUARIO_LIDER" Type="Int32" ControlID="txtIDLider" />
-        </SelectParameters>
-    </asp:SqlDataSource>
-
-    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT M.ID_EQUIPE_MEMBROS,M.ID_EQUIPE,U.ID_USUARIO,ISNULL(M.ID_TIME,0)ID_TIME, CASE WHEN M.ID_TIME IS NULL THEN U.NOME ELSE T.NM_TIME END NOME
-FROM TB_INSIDE_EQUIPE E
-INNER JOIN TB_INSIDE_EQUIPE_MEMBROS M ON E.ID_EQUIPE = M.ID_EQUIPE  
-LEFT JOIN TB_USUARIO U ON U.ID_USUARIO = M.ID_USUARIO_MEMBRO_EQUIPE 
-LEFT JOIN TB_INSIDE_TIME T ON T.ID_TIME = M.ID_TIME
-WHERE E.ID_USUARIO_LIDER = @ID_USUARIO_LIDER ORDER BY NOME">
-        <SelectParameters>
-            <asp:ControlParameter Name="ID_USUARIO_LIDER" Type="Int32" ControlID="txtIDLider" />
-        </SelectParameters>
-    </asp:SqlDataSource>
-
-    <asp:SqlDataSource ID="dsBuscaMembrosTime" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_USUARIO,NOME from TB_USUARIO WHERE (NOME  like '%' + @NOME + '%' or ID_USUARIO =  @ID_USUARIO) UNION SELECT 0, '   Selecione' ORDER BY NOME">
-        <SelectParameters>
-            <asp:ControlParameter Name="NOME" Type="String" ControlID="txtBuscaMembrosTime" DefaultValue="NULL" />
-            <asp:ControlParameter Name="ID_USUARIO" Type="Int32" ControlID="txtCodMembrosTime" DefaultValue="0" />
-        </SelectParameters>
-    </asp:SqlDataSource>
-
-    <asp:SqlDataSource ID="dsMembrosTime" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT T.ID_TIME,U.ID_USUARIO, U.NOME, M.ID_TIME_MEMBROS
-FROM TB_INSIDE_TIME T
-INNER JOIN TB_INSIDE_TIME_MEMBROS M ON T.ID_TIME = M.ID_TIME 
-LEFT JOIN TB_USUARIO U ON U.ID_USUARIO = M.ID_USUARIO_MEMBRO_TIME
-WHERE T.ID_TIME = @ID_TIME ORDER BY NOME">
-        <SelectParameters>
-            <asp:ControlParameter Name="ID_TIME" Type="Int32" ControlID="txtIDTime" />
-        </SelectParameters>
-    </asp:SqlDataSource>
-
-    <asp:SqlDataSource ID="dsEquipesCadastradas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_EQUIPE,ID_USUARIO,NOME,NM_EQUIPE,TAXA_LIDER,TAXA_EQUIPE from TB_USUARIO A
-INNER JOIN TB_INSIDE_EQUIPE B ON A.ID_USUARIO = B.ID_USUARIO_LIDER
-ORDER BY NOME"></asp:SqlDataSource>
-
+     
+   
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>

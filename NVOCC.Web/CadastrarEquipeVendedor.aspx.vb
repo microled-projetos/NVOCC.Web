@@ -4,54 +4,54 @@
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
     End Sub
-    Private Sub btnCadastrarLider_Click(sender As Object, e As EventArgs) Handles btnCadastrarLider.Click
-        divErroMontarEquipe.Visible = False
-        divSuccessMontarEquipe.Visible = False
-        Dim ds As DataSet
-        Dim Con As New Conexao_sql
-        Con.Conectar()
+    'Private Sub btnCadastrarLider_Click(sender As Object, e As EventArgs) Handles btnCadastrarLider.Click
+    '    divErroMontarEquipe.Visible = False
+    '    divSuccessMontarEquipe.Visible = False
+    '    Dim ds As DataSet
+    '    Dim Con As New Conexao_sql
+    '    Con.Conectar()
 
-        'If ddlLider.SelectedValue = 0 Then
-        '    divErro.Visible = True
-        '    lblmsgErro.Text = "Selecione um usuário para lider!"
+    '    'If ddlLider.SelectedValue = 0 Then
+    '    '    divErro.Visible = True
+    '    '    lblmsgErro.Text = "Selecione um usuário para lider!"
 
-        'Else
-        '    If txtIDLider.Text = "" Then
-        '        'INSERT
-        '        ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_INSIDE_EQUIPE WHERE ID_USUARIO_LIDER = " & ddlLider.SelectedValue)
-        '        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+    '    'Else
+    '    '    If txtIDLider.Text = "" Then
+    '    '        'INSERT
+    '    '        ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_INSIDE_EQUIPE WHERE ID_USUARIO_LIDER = " & ddlLider.SelectedValue)
+    '    '        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-        '            Dim TaxaEquipe_final As String = txtTaxaEquipe.Text.ToString.Replace(".", "")
-        '            TaxaEquipe_final = TaxaEquipe_final.ToString.Replace(",", ".")
+    '    '            Dim TaxaEquipe_final As String = txtTaxaEquipe.Text.ToString.Replace(".", "")
+    '    '            TaxaEquipe_final = TaxaEquipe_final.ToString.Replace(",", ".")
 
-        '            Dim TaxaLider_final As String = txtTaxaLider.Text.ToString.Replace(".", "")
-        '            TaxaLider_final = TaxaLider_final.ToString.Replace(",", ".")
+    '    '            Dim TaxaLider_final As String = txtTaxaLider.Text.ToString.Replace(".", "")
+    '    '            TaxaLider_final = TaxaLider_final.ToString.Replace(",", ".")
 
 
-        '            ds = Con.ExecutarQuery("INSERT INTO TB_INSIDE_EQUIPE (ID_USUARIO_LIDER,NM_EQUIPE,TAXA_LIDER,TAXA_EQUIPE) VALUES (" & ddlLider.SelectedValue & ",'" & txtNomeEquipe.Text & "'," & TaxaLider_final & "," & TaxaEquipe_final & " ) Select SCOPE_IDENTITY() As ID_EQUIPE ")
-        '            txtIDEquipe.Text = ds.Tables(0).Rows(0).Item("ID_EQUIPE")
-        '            divSuccessMontarEquipe.Visible = True
-        '            lblSuccessMontarEquipe.Text = "Lider cadastrado com sucesso!"
-        '            gdvMembrosEquipesCadastradas.DataBind()
-        '            divEquipe.Visible = True
-        '            'txtIDLider.Text = ddlLider.SelectedValue
-        '            'ddlLider.SelectedValue = txtIDLider.Text
-        '            'ddlLider.Enabled = False
-        '            btnCadastrarLider.Visible = False
-        '            btnSalvarEdicao.Visible = True
-        '            mpeMontarEquipe.Show()
-        '        Else
-        '            divErroMontarEquipe.Visible = True
-        '            lblErroMontarEquipe.Text = "Este lider já faz possui equipe!"
-        '            gdvMembrosEquipesCadastradas.DataBind()
-        '            divEquipe.Visible = False
-        '            mpeMontarEquipe.Show()
-        '        End If
-        '    End If
+    '    '            ds = Con.ExecutarQuery("INSERT INTO TB_INSIDE_EQUIPE (ID_USUARIO_LIDER,NM_EQUIPE,TAXA_LIDER,TAXA_EQUIPE) VALUES (" & ddlLider.SelectedValue & ",'" & txtNomeEquipe.Text & "'," & TaxaLider_final & "," & TaxaEquipe_final & " ) Select SCOPE_IDENTITY() As ID_EQUIPE ")
+    '    '            txtIDEquipe.Text = ds.Tables(0).Rows(0).Item("ID_EQUIPE")
+    '    '            divSuccessMontarEquipe.Visible = True
+    '    '            lblSuccessMontarEquipe.Text = "Lider cadastrado com sucesso!"
+    '    '            gdvMembrosEquipesCadastradas.DataBind()
+    '    '            divEquipe.Visible = True
+    '    '            'txtIDLider.Text = ddlLider.SelectedValue
+    '    '            'ddlLider.SelectedValue = txtIDLider.Text
+    '    '            'ddlLider.Enabled = False
+    '    '            btnCadastrarLider.Visible = False
+    '    '            btnSalvarEdicao.Visible = True
+    '    '            mpeMontarEquipe.Show()
+    '    '        Else
+    '    '            divErroMontarEquipe.Visible = True
+    '    '            lblErroMontarEquipe.Text = "Este lider já faz possui equipe!"
+    '    '            gdvMembrosEquipesCadastradas.DataBind()
+    '    '            divEquipe.Visible = False
+    '    '            mpeMontarEquipe.Show()
+    '    '        End If
+    '    '    End If
 
-        'End If
+    '    'End If
 
-    End Sub
+    'End Sub
 
     Private Sub btnFecharMontarEquipe_Click(sender As Object, e As EventArgs) Handles btnFecharMontarEquipe.Click
         txtIDEquipe.Text = ""
@@ -70,8 +70,8 @@
         divErroMontarEquipe.Visible = False
         divEquipe.Visible = False
 
-        btnCadastrarLider.Visible = True
-        btnSalvarEdicao.Visible = False
+        ' btnCadastrarLider.Visible = True
+        btnSalvarEquipe.Visible = False
         gdvEquipesCadastradas.DataBind()
     End Sub
 
@@ -122,8 +122,8 @@
                     gdvMembrosEquipesCadastradas.DataBind()
                     mpeMontarEquipe.Show()
                     divEquipe.Visible = True
-                    btnCadastrarLider.Visible = False
-                    btnSalvarEdicao.Visible = True
+                    ' btnCadastrarLider.Visible = False
+                    btnSalvarEquipe.Visible = True
                 End If
 
             End If
@@ -210,29 +210,29 @@ WHERE A.ID_TIME = " & txtIDTime.Text)
         divErroMontarEquipe.Visible = False
         divSuccessMontarEquipe.Visible = False
         Dim sql As String = "SELECT ID_EQUIPE,ID_USUARIO,NOME,NM_EQUIPE,TAXA_LIDER,TAXA_EQUIPE  FROM TB_USUARIO A INNER JOIN TB_INSIDE_EQUIPE B ON A.ID_USUARIO = B.ID_USUARIO_LIDER WHERE NOME LIKE '%" & txtPesquisa.Text & "%' ORDER BY NOME"
-        dsEquipesCadastradas.SelectCommand = sql
+        '  dsEquipesCadastradas.SelectCommand = sql
         gdvEquipesCadastradas.DataBind()
     End Sub
 
-    Private Sub btnSalvarEdicao_Click(sender As Object, e As EventArgs) Handles btnSalvarEdicao.Click
+    Private Sub btnSalvarEquipe_Click(sender As Object, e As EventArgs) Handles btnSalvarEquipe.Click
         divSuccess.Visible = False
         divErro.Visible = False
         Dim Con As New Conexao_sql
         If txtIDEquipe.Text <> "" Then
-            Dim TaxaEquipe_final As String = txtTaxaEquipe.Text.ToString.Replace(".", "")
-            TaxaEquipe_final = TaxaEquipe_final.ToString.Replace(",", ".")
+            'ALTERA
 
-            Dim TaxaLider_final As String = txtTaxaLider.Text.ToString.Replace(".", "")
-            TaxaLider_final = TaxaLider_final.ToString.Replace(",", ".")
             Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery("UPDATE TB_INSIDE_EQUIPE SET NM_EQUIPE = '" & txtNomeEquipe.Text & "',TAXA_LIDER = " & TaxaLider_final & ",TAXA_EQUIPE =" & TaxaEquipe_final & " WHERE ID_EQUIPE = " & txtIDEquipe.Text)
             divSuccessMontarEquipe.Visible = True
             lblSuccessMontarEquipe.Text = "Atualizado com sucesso!"
             gdvMembrosEquipesCadastradas.DataBind()
-            divEquipe.Visible = True
-            btnCadastrarLider.Visible = False
-            btnSalvarEdicao.Visible = True
+
+            divMembrosEquipe.Visible = True
+            btnSalvarEquipe.Visible = True
+            btnAddTime.Visible = True
             mpeMontarEquipe.Show()
+        Else
+            'INCLUI
         End If
         Con.Fechar()
     End Sub
