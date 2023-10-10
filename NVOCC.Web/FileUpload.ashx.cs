@@ -86,6 +86,7 @@ namespace ABAINFRA.Web
                     DBS.ExecuteScalar(SQL);
 
                     SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO, IDTIPOESTUFAGEM) ";
+
                     SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', '" + idprocesso + "',NULL, '" + idprocesso + "', NULL, NULL, '"+ tpestufagem + "') ";
 
                     DBS.ExecuteScalar(SQL);
@@ -123,13 +124,17 @@ namespace ABAINFRA.Web
                     if (tipoaviso == "1")
                     {
                         SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO, IDTIPOESTUFAGEM) ";
+
                         SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "',NULL,'" + parceiroD + "', '"+ tpestufagem + "') ";
+
                         DBS.ExecuteScalar(SQL);
                     }
                     else
                     {
                         SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO, IDTIPOESTUFAGEM) ";
+
                         SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "','" + parceiroRD + "',NULL, '"+ tpestufagem + "') ";
+
                         DBS.ExecuteScalar(SQL);
                     }
                 }

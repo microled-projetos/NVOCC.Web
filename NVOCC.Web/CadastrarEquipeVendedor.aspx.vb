@@ -53,27 +53,27 @@
 
     'End Sub
 
-    Private Sub btnFecharMontarEquipe_Click(sender As Object, e As EventArgs) Handles btnFecharMontarEquipe.Click
-        txtIDEquipe.Text = ""
+    'Private Sub btnFecharMontarEquipe_Click(sender As Object, e As EventArgs) Handles btnFecharMontarEquipe.Click
+    '    txtIDEquipe.Text = ""
 
-        txtNomeEquipe.Text = ""
-        txtNomeEquipe.Enabled = True
-        txtTaxaLider.Text = ""
-        txtTaxaLider.Enabled = True
-        txtTaxaEquipe.Text = ""
-        txtTaxaEquipe.Enabled = True
+    '    txtNomeEquipe.Text = ""
+    '    txtNomeEquipe.Enabled = True
+    '    txtTaxaLider.Text = ""
+    '    txtTaxaLider.Enabled = True
+    '    txtTaxaEquipe.Text = ""
+    '    txtTaxaEquipe.Enabled = True
 
-        txtBuscaMembros.Text = ""
-        ddlMembro.SelectedValue = 0
-        txtCodMembro.Text = ""
-        divSuccessMontarEquipe.Visible = False
-        divErroMontarEquipe.Visible = False
-        divEquipe.Visible = False
+    '    txtBuscaMembros.Text = ""
+    '    ddlMembro.SelectedValue = 0
+    '    txtCodMembro.Text = ""
+    '    divSuccessMontarEquipe.Visible = False
+    '    divErroMontarEquipe.Visible = False
+    '    divEquipe.Visible = False
 
-        ' btnCadastrarLider.Visible = True
-        btnSalvarEquipe.Visible = False
-        gdvEquipesCadastradas.DataBind()
-    End Sub
+    '    ' btnCadastrarLider.Visible = True
+    '    btnSalvarEquipe.Visible = False
+    '    gdvEquipesCadastradas.DataBind()
+    'End Sub
 
     'Private Sub txtNomeLider_TextChanged(sender As Object, e As EventArgs) Handles txtNomeLider.TextChanged
     '    mpeMontarEquipe.Show()
@@ -83,55 +83,55 @@
         mpeMontarEquipe.Show()
     End Sub
 
-    Private Sub gdvEquipesCadastradas_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles gdvEquipesCadastradas.RowCommand
-        divSuccess.Visible = False
-        divErro.Visible = False
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        If e.CommandName = "Excluir" Then
-            Dim ID As String = e.CommandArgument
+    'Private Sub gdvEquipesCadastradas_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles gdvEquipesCadastradas.RowCommand
+    '    divSuccess.Visible = False
+    '    divErro.Visible = False
+    '    Dim Con As New Conexao_sql
+    '    Con.Conectar()
+    '    If e.CommandName = "Excluir" Then
+    '        Dim ID As String = e.CommandArgument
 
-            Con.ExecutarQuery("DELETE FROM [dbo].[TB_INSIDE_TIME_MEMBROS] WHERE ID_TIME IN (SELECT ID_TIME FROM [dbo].[TB_INSIDE_EQUIPE_MEMBROS] WHERE ID_EQUIPE = " & ID & " AND ID_TIME IS NOT NULL) ")
-            Con.ExecutarQuery("DELETE FROM [dbo].[TB_INSIDE_TIME] WHERE  ID_TIME IN (SELECT ID_TIME FROM [dbo].[TB_INSIDE_EQUIPE_MEMBROS] WHERE ID_EQUIPE = " & ID & " AND ID_TIME IS NOT NULL) ")
-            Con.ExecutarQuery("DELETE FROM [dbo].[TB_INSIDE_EQUIPE_MEMBROS] WHERE ID_EQUIPE = " & ID)
-            Con.ExecutarQuery("DELETE FROM [dbo].[TB_INSIDE_EQUIPE] WHERE ID_EQUIPE =" & ID)
-            Con.Fechar()
-            gdvEquipesCadastradas.DataBind()
-            lblSuccess.Text = "Registro deletado!"
-            divSuccess.Visible = True
+    '        Con.ExecutarQuery("DELETE FROM [dbo].[TB_INSIDE_TIME_MEMBROS] WHERE ID_TIME IN (SELECT ID_TIME FROM [dbo].[TB_INSIDE_EQUIPE_MEMBROS] WHERE ID_EQUIPE = " & ID & " AND ID_TIME IS NOT NULL) ")
+    '        Con.ExecutarQuery("DELETE FROM [dbo].[TB_INSIDE_TIME] WHERE  ID_TIME IN (SELECT ID_TIME FROM [dbo].[TB_INSIDE_EQUIPE_MEMBROS] WHERE ID_EQUIPE = " & ID & " AND ID_TIME IS NOT NULL) ")
+    '        Con.ExecutarQuery("DELETE FROM [dbo].[TB_INSIDE_EQUIPE_MEMBROS] WHERE ID_EQUIPE = " & ID)
+    '        Con.ExecutarQuery("DELETE FROM [dbo].[TB_INSIDE_EQUIPE] WHERE ID_EQUIPE =" & ID)
+    '        Con.Fechar()
+    '        gdvEquipesCadastradas.DataBind()
+    '        lblSuccess.Text = "Registro deletado!"
+    '        divSuccess.Visible = True
 
-        ElseIf e.CommandName = "Editar" Then
-
-
-            Dim ID As String = e.CommandArgument
-            txtIDEquipe.Text = ID
-            Dim ds As DataSet = Con.ExecutarQuery("Select ID_USUARIO_LIDER,NM_EQUIPE,TAXA_LIDER,TAXA_EQUIPE FROM TB_INSIDE_EQUIPE WHERE ID_EQUIPE = " & ID)
-            If ds.Tables(0).Rows.Count > 0 Then
+    '    ElseIf e.CommandName = "Editar" Then
 
 
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_USUARIO_LIDER")) Then
-                    'txtIDLider.Text = ds.Tables(0).Rows(0).Item("ID_USUARIO_LIDER")
-                    'ddlLider.DataBind()
-                    'ddlLider.SelectedValue = ds.Tables(0).Rows(0).Item("ID_USUARIO_LIDER")
-                    'ddlLider.Enabled = False
-                    'txtNomeLider.Enabled = False
-                    txtNomeEquipe.Text = ds.Tables(0).Rows(0).Item("NM_EQUIPE")
-                    txtTaxaLider.Text = ds.Tables(0).Rows(0).Item("TAXA_LIDER")
-                    txtTaxaEquipe.Text = ds.Tables(0).Rows(0).Item("TAXA_EQUIPE")
-                    dsMembrosEquipesCadastradas.DataBind()
-                    gdvMembrosEquipesCadastradas.DataBind()
-                    mpeMontarEquipe.Show()
-                    divEquipe.Visible = True
-                    ' btnCadastrarLider.Visible = False
-                    btnSalvarEquipe.Visible = True
-                End If
-
-            End If
+    '        Dim ID As String = e.CommandArgument
+    '        txtIDEquipe.Text = ID
+    '        Dim ds As DataSet = Con.ExecutarQuery("Select ID_USUARIO_LIDER,NM_EQUIPE,TAXA_LIDER,TAXA_EQUIPE FROM TB_INSIDE_EQUIPE WHERE ID_EQUIPE = " & ID)
+    '        If ds.Tables(0).Rows.Count > 0 Then
 
 
-        End If
-        Con.Fechar()
-    End Sub
+    '            If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_USUARIO_LIDER")) Then
+    '                'txtIDLider.Text = ds.Tables(0).Rows(0).Item("ID_USUARIO_LIDER")
+    '                'ddlLider.DataBind()
+    '                'ddlLider.SelectedValue = ds.Tables(0).Rows(0).Item("ID_USUARIO_LIDER")
+    '                'ddlLider.Enabled = False
+    '                'txtNomeLider.Enabled = False
+    '                txtNomeEquipe.Text = ds.Tables(0).Rows(0).Item("NM_EQUIPE")
+    '                txtTaxaLider.Text = ds.Tables(0).Rows(0).Item("TAXA_LIDER")
+    '                txtTaxaEquipe.Text = ds.Tables(0).Rows(0).Item("TAXA_EQUIPE")
+    '                dsMembrosEquipesCadastradas.DataBind()
+    '                gdvMembrosEquipesCadastradas.DataBind()
+    '                mpeMontarEquipe.Show()
+    '                divEquipe.Visible = True
+    '                ' btnCadastrarLider.Visible = False
+    '                btnSalvarEquipe.Visible = True
+    '            End If
+
+    '        End If
+
+
+    '    End If
+    '    Con.Fechar()
+    'End Sub
 
     Private Sub gdvMembrosEquipesCadastradas_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles gdvMembrosEquipesCadastradas.RowCommand
         divErroMontarEquipe.Visible = False
@@ -169,40 +169,40 @@ WHERE A.ID_TIME = " & txtIDTime.Text)
         Con.Fechar()
     End Sub
 
-    Private Sub btnAdicionarMembro_Click(sender As Object, e As EventArgs) Handles btnAdicionarMembro.Click
-        divErroMontarEquipe.Visible = False
-        divSuccessMontarEquipe.Visible = False
-        Dim ds As DataSet
-        Dim Con As New Conexao_sql
-        Con.Conectar()
+    'Private Sub btnAdicionarMembro_Click(sender As Object, e As EventArgs) Handles btnAdicionarMembro.Click
+    '    divErroMontarEquipe.Visible = False
+    '    divSuccessMontarEquipe.Visible = False
+    '    Dim ds As DataSet
+    '    Dim Con As New Conexao_sql
+    '    Con.Conectar()
 
-        If ddlMembro.SelectedValue = 0 Then
-            divErroMontarEquipe.Visible = True
-            lblErroMontarEquipe.Text = "Selecione um usuário para adicionar à equipe!"
-        Else
+    '    If ddlMembro.SelectedValue = 0 Then
+    '        divErroMontarEquipe.Visible = True
+    '        lblErroMontarEquipe.Text = "Selecione um usuário para adicionar à equipe!"
+    '    Else
 
-            ds = Con.ExecutarQuery("Select COUNT(*)QTD FROM TB_INSIDE_EQUIPE_MEMBROS WHERE ID_EQUIPE = " & txtIDEquipe.Text & " AND ID_USUARIO_MEMBRO_EQUIPE = " & ddlMembro.SelectedValue)
-            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                'INSERT
-                Con.ExecutarQuery("INSERT INTO TB_INSIDE_EQUIPE_MEMBROS (ID_EQUIPE,ID_USUARIO_MEMBRO_EQUIPE) VALUES (" & txtIDEquipe.Text & "," & ddlMembro.SelectedValue & ")")
-                divSuccessMontarEquipe.Visible = True
-                lblSuccessMontarEquipe.Text = "Membro da equipe cadastrado com sucesso!"
-                gdvMembrosEquipesCadastradas.DataBind()
-                divEquipe.Visible = True
-                mpeMontarEquipe.Show()
-            Else
-                divErroMontarEquipe.Visible = True
-                lblErroMontarEquipe.Text = "Este usuario já faz parte desta equipe!"
-                gdvMembrosEquipesCadastradas.DataBind()
-                divEquipe.Visible = True
-                mpeMontarEquipe.Show()
-            End If
+    '        ds = Con.ExecutarQuery("Select COUNT(*)QTD FROM TB_INSIDE_EQUIPE_MEMBROS WHERE ID_EQUIPE = " & txtIDEquipe.Text & " AND ID_USUARIO_MEMBRO_EQUIPE = " & ddlMembro.SelectedValue)
+    '        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+    '            'INSERT
+    '            Con.ExecutarQuery("INSERT INTO TB_INSIDE_EQUIPE_MEMBROS (ID_EQUIPE,ID_USUARIO_MEMBRO_EQUIPE) VALUES (" & txtIDEquipe.Text & "," & ddlMembro.SelectedValue & ")")
+    '            divSuccessMontarEquipe.Visible = True
+    '            lblSuccessMontarEquipe.Text = "Membro da equipe cadastrado com sucesso!"
+    '            gdvMembrosEquipesCadastradas.DataBind()
+    '            divEquipe.Visible = True
+    '            mpeMontarEquipe.Show()
+    '        Else
+    '            divErroMontarEquipe.Visible = True
+    '            lblErroMontarEquipe.Text = "Este usuario já faz parte desta equipe!"
+    '            gdvMembrosEquipesCadastradas.DataBind()
+    '            divEquipe.Visible = True
+    '            mpeMontarEquipe.Show()
+    '        End If
 
-            txtCodMembro.Text = ""
-            txtBuscaMembros.Text = ""
-            ddlMembro.SelectedValue = 0
-        End If
-    End Sub
+    '        txtCodMembro.Text = ""
+    '        txtBuscaMembros.Text = ""
+    '        ddlMembro.SelectedValue = 0
+    '    End If
+    'End Sub
 
     Private Sub btnPesquisar_Click(sender As Object, e As EventArgs) Handles btnPesquisar.Click
         divErro.Visible = False
@@ -222,7 +222,7 @@ WHERE A.ID_TIME = " & txtIDTime.Text)
             'ALTERA
 
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("UPDATE TB_INSIDE_EQUIPE SET NM_EQUIPE = '" & txtNomeEquipe.Text & "',TAXA_LIDER = " & TaxaLider_final & ",TAXA_EQUIPE =" & TaxaEquipe_final & " WHERE ID_EQUIPE = " & txtIDEquipe.Text)
+            Dim ds As DataSet = Con.ExecutarQuery("UPDATE TB_INSIDE_EQUIPE SET NM_EQUIPE = '" & txtNomeEquipe.Text & "' WHERE ID_EQUIPE = " & txtIDEquipe.Text)
             divSuccessMontarEquipe.Visible = True
             lblSuccessMontarEquipe.Text = "Atualizado com sucesso!"
             gdvMembrosEquipesCadastradas.DataBind()
@@ -237,10 +237,10 @@ WHERE A.ID_TIME = " & txtIDTime.Text)
         Con.Fechar()
     End Sub
 
-    Private Sub btnAdicionarTime_Click(sender As Object, e As EventArgs) Handles btnAdicionarTime.Click
-        mpeMontarEquipe.Show()
-        mpeMontarTime.Show()
-    End Sub
+    'Private Sub btnAdicionarTime_Click(sender As Object, e As EventArgs) Handles btnAdicionarTime.Click
+    '    mpeMontarEquipe.Show()
+    '    mpeMontarTime.Show()
+    'End Sub
 
     Private Sub btnAddTime_Click(sender As Object, e As EventArgs) Handles btnAddTime.Click
         mpeMontarTime.Show()
