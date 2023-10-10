@@ -824,42 +824,6 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ckbTranspRodoviario As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
-    '''Controle ckbProspeccao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ckbProspeccao As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
-    '''Controle ckbIndicacaoInterna.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ckbIndicacaoInterna As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
-    '''Controle ddlTimeProspeccao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlTimeProspeccao As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlIndicacaoInterna.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlIndicacaoInterna As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle divDadosBancarios.
     '''</summary>
     '''<remarks>
