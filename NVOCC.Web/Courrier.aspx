@@ -1434,7 +1434,7 @@
                             result += "<div class='btn btn-primary' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div>";
                             result += dado[i]["FL_TROCA"] == 1 ? "<div class='btn btn-success' title='Troca' style='margin-left:5px;' onclick='TrocaCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-exchange-alt'></i></div>" : "";
                             result += dado[i]["CD_RASTREAMENTO_HBL"] != 'ORIGEM' ? "<div class='btn btn-warning' title='Disponibilidade de BL' style='margin-left: 5px;' onclick='DisponibilidadeBL(" + dado[i]["ID_BL"] + ")'><i class='far fa-file-alt'></i></div>" : "";
-                            result += "<div class='btn btn-info' title='Agente Internacional' style='margin-left: 5px;' onclick='AgenteInternacional(" + dado[i]["ID_BL"] + ")'><i class='fas fa-user'></i></div>";
+                            result += dado[i]["FL_ENVIO_AGENTE_INTERNACIONAL"] == 1 ? "<div class='btn btn-success' title='Agente Internacional' style='margin-left: 5px;' onclick='AgenteInternacional(" + dado[i]["ID_BL"] + ")'><i class='fas fa-user'></i></div>" : "<div class='btn btn-info' title='Agente Internacional' style='margin-left: 5px;' onclick='AgenteInternacional(" + dado[i]["ID_BL"] + ")'><i class='fas fa-user'></i></div>";
                             result += "</td>";
                             result += "</tr>";
                         }

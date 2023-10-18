@@ -111,7 +111,7 @@ namespace ABAINFRA.Web
             }
 
             if (dados.ID_TAMANHO_CONTAINER.ToString() == "" && dados.FL_CARGA_IMO == "1")
-            {
+			{
                 return "0";
             }
 
@@ -324,7 +324,7 @@ namespace ABAINFRA.Web
             string vlvenda08 = dados.VL_VENDA_08.ToString().Replace(',', '.');
             string SQL;
             SQL = "SELECT * FROM TB_TABELA_DEMURRAGE WHERE ID_PARCEIRO_TRANSPORTADOR = '" + dados.ID_PARCEIRO_TRANSPORTADOR + "' AND ";
-            SQL += "ID_TIPO_CONTAINER ='" + dados.ID_TIPO_CONTAINER + "' AND DT_VALIDADE_INICIAL = '" + dados.DT_VALIDADE_INICIAL + "' AND FL_CARGA_IMO = '" + dados.FL_CARGA_IMO + "' ";
+            SQL += "ID_TIPO_CONTAINER ='" + dados.ID_TIPO_CONTAINER + "' AND DT_VALIDADE_INICIAL = '" + dados.DT_VALIDADE_INICIAL + "' AND FL_CARGA_IMO = '"+dados.FL_CARGA_IMO+"' ";
             DataTable consulta = new DataTable();
             consulta = DBS.List(SQL);
             if (consulta == null)
@@ -332,8 +332,8 @@ namespace ABAINFRA.Web
                 SQL = "insert into TB_TABELA_DEMURRAGE (ID_PARCEIRO_TRANSPORTADOR,ID_TIPO_CONTAINER,DT_VALIDADE_INICIAL,QT_DIAS_FREETIME, ";
                 SQL += "ID_MOEDA, FL_ESCALONADA, FL_INICIO_CHEGADA, FL_CARGA_IMO, ID_TAMANHO_CONTAINER, QT_DIAS_01 ,VL_VENDA_01 ,QT_DIAS_02 ,VL_VENDA_02 ,QT_DIAS_03 ,VL_VENDA_03 ,QT_DIAS_04, ";
                 SQL += "VL_VENDA_04 ,QT_DIAS_05 ,VL_VENDA_05 ,QT_DIAS_06 ,VL_VENDA_06 ,QT_DIAS_07 ,VL_VENDA_07 ,QT_DIAS_08 ,VL_VENDA_08) ";
-                SQL += "VALUES( '" + dados.ID_PARCEIRO_TRANSPORTADOR + "'," + (dados.ID_TIPO_CONTAINER == "" ? "NULL" : dados.ID_TIPO_CONTAINER) + ", ";
-                SQL += "'" + dados.DT_VALIDADE_INICIAL + "','" + dados.QT_DIAS_FREETIME + "','" + dados.ID_MOEDA + "','" + dados.FL_ESCALONADA + "', '" + dados.FL_INICIO_CHEGADA + "', '" + dados.FL_CARGA_IMO + "', " + (dados.ID_TAMANHO_CONTAINER == "" ? "NULL" : dados.ID_TAMANHO_CONTAINER) + ", ";
+                SQL += "VALUES( '" + dados.ID_PARCEIRO_TRANSPORTADOR + "'," + (dados.ID_TIPO_CONTAINER == "" ? "NULL": dados.ID_TIPO_CONTAINER) + ", ";
+                SQL += "'" + dados.DT_VALIDADE_INICIAL + "','" + dados.QT_DIAS_FREETIME + "','" + dados.ID_MOEDA + "','" + dados.FL_ESCALONADA + "', '" + dados.FL_INICIO_CHEGADA + "', '"+dados.FL_CARGA_IMO+"', "+(dados.ID_TAMANHO_CONTAINER == "" ? "NULL":dados.ID_TAMANHO_CONTAINER)+", ";
                 SQL += "'" + qtdias01 + "','" + vlVenda01.ToString().Replace(',', '.') + "', '" + qtdias02 + "','" + vlVenda02.ToString().Replace(',', '.') + "', ";
                 SQL += "'" + qtdias03 + "','" + vlVenda03.ToString().Replace(',', '.') + "', '" + qtdias04 + "','" + vlVenda04.ToString().Replace(',', '.') + "', ";
                 SQL += "'" + qtdias05 + "','" + vlVenda05.ToString().Replace(',', '.') + "', '" + qtdias06 + "','" + vlVenda06.ToString().Replace(',', '.') + "', ";
@@ -460,9 +460,9 @@ namespace ABAINFRA.Web
             string vlvenda06 = dadosEdit.VL_VENDA_06.ToString().Replace(',', '.');
             string vlvenda07 = dadosEdit.VL_VENDA_07.ToString().Replace(',', '.');
             string vlvenda08 = dadosEdit.VL_VENDA_08.ToString().Replace(',', '.');
-            SQL = "UPDATE TB_TABELA_DEMURRAGE SET ID_PARCEIRO_TRANSPORTADOR = '" + dadosEdit.ID_PARCEIRO_TRANSPORTADOR + "' , ID_TIPO_CONTAINER = " + (dadosEdit.ID_TIPO_CONTAINER == "" ? "NULL" : dadosEdit.ID_TIPO_CONTAINER) + ", ";
+            SQL = "UPDATE TB_TABELA_DEMURRAGE SET ID_PARCEIRO_TRANSPORTADOR = '" + dadosEdit.ID_PARCEIRO_TRANSPORTADOR + "' , ID_TIPO_CONTAINER = " + (dadosEdit.ID_TIPO_CONTAINER == "" ? "NULL":dadosEdit.ID_TIPO_CONTAINER)+ ", ";
             SQL += "DT_VALIDADE_INICIAL = '" + dadosEdit.DT_VALIDADE_INICIAL + "', QT_DIAS_FREETIME = '" + dadosEdit.QT_DIAS_FREETIME + "', ";
-            SQL += "ID_MOEDA = '" + dadosEdit.ID_MOEDA + "', FL_ESCALONADA ='" + dadosEdit.FL_ESCALONADA + "', FL_CARGA_IMO = '" + dadosEdit.FL_CARGA_IMO + "', ID_TAMANHO_CONTAINER = " + (dadosEdit.ID_TAMANHO_CONTAINER == "" ? "NULL" : dadosEdit.ID_TAMANHO_CONTAINER) + ", ";
+            SQL += "ID_MOEDA = '" + dadosEdit.ID_MOEDA + "', FL_ESCALONADA ='" + dadosEdit.FL_ESCALONADA + "', FL_CARGA_IMO = '" + dadosEdit.FL_CARGA_IMO + "', ID_TAMANHO_CONTAINER = "+ (dadosEdit.ID_TAMANHO_CONTAINER == "" ? "NULL":dadosEdit.ID_TAMANHO_CONTAINER)+ ", ";
             SQL += "QT_DIAS_01 ='" + qtdias01 + "' , VL_VENDA_01 = '" + vlvenda01 + "', ";
             SQL += "QT_DIAS_02 = '" + dadosEdit.QT_DIAS_02 + "', VL_VENDA_02 = '" + vlvenda02 + "', ";
             SQL += "QT_DIAS_03 = '" + dadosEdit.QT_DIAS_03 + "', VL_VENDA_03 = '" + vlvenda03 + "', ";
@@ -566,12 +566,12 @@ namespace ABAINFRA.Web
                     break;
             }
 
-            if (TarifaSpot == "1")
-            {
+            if(TarifaSpot == "1")
+			{
                 TarifaSpot = " AND ISNULL(E.FL_TARIFA_SPOT, 0) <> 0 ";
-            }
-            else
-            {
+			}
+			else
+			{
                 TarifaSpot = " AND ISNULL(E.FL_TARIFA_SPOT, 0) = 0 ";
             }
 
@@ -762,7 +762,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_CNTR_BL C ON B.ID_CNTR_BL = C.ID_CNTR_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO D ON A.ID_PARCEIRO_CLIENTE = D.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_CNTR_DEMURRAGE E ON C.ID_CNTR_BL = E.ID_CNTR_BL ";
-            SQL += "WHERE C.ID_CNTR_BL = " + idCont + " AND A.GRAU IN('C') AND A.DT_CANCELAMENTO IS NULL ";
+            SQL += "WHERE C.ID_CNTR_BL = "+idCont+" AND A.GRAU IN('C') AND A.DT_CANCELAMENTO IS NULL ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -869,7 +869,7 @@ namespace ABAINFRA.Web
                 }
 
                 SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + dsStatus + "', QT_DIAS_FREETIME = '" + qtDias + "', QT_DIAS_FREETIME_CONFIRMA = '" + qtDiasConfirm + "', ";
-                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', DS_OBSERVACAO = '" + dsObs + "', ID_STATUS_DEMURRAGE_COMPRA = '" + dsStatusCompra + "', DT_STATUS_DEMURRAGE_COMPRA = '" + dtStatusCompra + "' WHERE ID_CNTR_BL = '" + idCont + "' ;  UPDATE TB_CNTR_DEMURRAGE SET QT_DIAS_DEMURRAGE_COMPRA = '" + qtDiasDemurrageCompra + "', QT_DIAS_DEMURRAGE = '" + qtDiasDemurrageVenda + "' WHERE ID_CNTR_BL = '" + idCont + "'   ";
+                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', DS_OBSERVACAO = '" + dsObs + "', ID_STATUS_DEMURRAGE_COMPRA = '" + dsStatusCompra +"', DT_STATUS_DEMURRAGE_COMPRA = '"+dtStatusCompra+"' WHERE ID_CNTR_BL = '" + idCont + "' ;  UPDATE TB_CNTR_DEMURRAGE SET QT_DIAS_DEMURRAGE_COMPRA = '" + qtDiasDemurrageCompra + "', QT_DIAS_DEMURRAGE = '" +qtDiasDemurrageVenda+ "' WHERE ID_CNTR_BL = '" + idCont + "'   ";
                 string atualizarContainer = DBS.ExecuteScalar(SQL);
                 return "1";
 
@@ -1027,7 +1027,7 @@ namespace ABAINFRA.Web
 
             SQL = "SELECT ISNULL(B.ID_TIPO_CARGA,0) AS ID_TIPO_CARGA FROM TB_CNTR_BL A ";
             SQL += "LEFT JOIN TB_CARGA_BL B ON A.ID_CNTR_BL=B.ID_CNTR_BL ";
-            SQL += "WHERE A.ID_CNTR_BL = " + idCont + " ";
+            SQL += "WHERE A.ID_CNTR_BL = "+idCont+" ";
             string tipoCarga = DBS.ExecuteScalar(SQL);
 
             SQL = "SELECT PFCL.NR_CNTR, PFCL.NM_TIPO_CONTAINER, TBD.QT_DIAS_FREETIME as FreeTimeTab, PFCL.QT_DIAS_FREETIME, ";
@@ -1038,19 +1038,19 @@ namespace ABAINFRA.Web
             SQL += "TBD.VL_VENDA_05, TBD.VL_VENDA_06, TBD.VL_VENDA_07, TBD.VL_VENDA_08 ";
             SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
-            if (tipoCarga == "9")
-            {
+            if(tipoCarga == "9")
+			{
                 SQL += "LEFT JOIN TB_TIPO_CONTAINER TPC ON PFCL.NM_TIPO_CONTAINER = TPC.NM_TIPO_CONTAINER ";
                 SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON TPC.ID_TAMANHO_CONTAINER = TBD.ID_TAMANHO_CONTAINER ";
-            }
-            else
-            {
+			}
+			else
+			{
                 SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON PFCL.ID_TIPO_CNTR = TBD.ID_TIPO_CONTAINER ";
-            }
+			}
             SQL += "LEFT JOIN TB_PARCEIRO P ON TBD.ID_PARCEIRO_TRANSPORTADOR = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_MOEDA M ON TBD.ID_MOEDA = M.ID_MOEDA ";
             SQL += "LEFT JOIN TB_CNTR_DEMURRAGE CD ON PFCL.ID_CNTR_BL = CD.ID_CNTR_BL ";
-            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "' " + (tipoCarga == "9" ? "AND TBD.FL_CARGA_IMO = 1 " : "") + "  ";
+            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont +"' "+ (tipoCarga == "9" ? "AND TBD.FL_CARGA_IMO = 1 ":"") +"  ";
             SQL += "AND TBD.ID_PARCEIRO_TRANSPORTADOR = 1 ";
             SQL += "AND PFCL.DT_DEVOLUCAO_CNTR >= TBD.DT_VALIDADE_INICIAL ";
 
@@ -1366,7 +1366,7 @@ namespace ABAINFRA.Web
                 listTable = DBS.List(SQL);
                 string faturaCompra = listTable.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
                 string faturaVenda = listTable.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
-
+                
                 somaDias = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
                 vlDemurr = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"] * vlTaxa;
 
@@ -2130,8 +2130,8 @@ namespace ABAINFRA.Web
                 sqlFormattedDate2 = "01/01/2900";
             }
 
-            if (chkB == "1" && chkE == "1") { chkB = ""; chkE = ""; }
-            else {
+            if (chkB == "1" && chkE == "1"){ chkB = ""; chkE = "";}
+            else{
                 switch (chkB)
                 {
                     case "1":
@@ -2169,12 +2169,12 @@ namespace ABAINFRA.Web
             SQL += "WHERE A.ID_BL_TAXA NOT IN(SELECT ISNULL(ID_BL_TAXA, 0) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
             SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) ";
             SQL += "AND E.ID_BL_MASTER IS NOT NULL ";
-            SQL += "AND CONVERT(DATE, E.DT_ABERTURA,103) BETWEEN CONVERT(DATE, '" + sqlFormattedDate + "', 103)  ";
+            SQL += "AND CONVERT(DATE, E.DT_ABERTURA,103) BETWEEN CONVERT(DATE, '"+sqlFormattedDate+"', 103)  ";
             SQL += "AND CONVERT(DATE, '" + sqlFormattedDate2 + "', 103)  ";
             SQL += "AND E.ID_BL IN(SELECT DISTINCT(A.ID_BL) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
             SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER ";
             SQL += "WHERE B.DT_CANCELAMENTO IS NULL AND A.ID_ITEM_DESPESA = 14 AND CD_PR = 'P') ";
-            SQL += "" + chkE + " " + chkB + " AND(A.FL_TAXA_INATIVA = 0 OR A.FL_TAXA_INATIVA IS NULL) AND A.VL_TAXA <> 0.00 ";
+            SQL += ""+ chkE + " "+ chkB+ " AND(A.FL_TAXA_INATIVA = 0 OR A.FL_TAXA_INATIVA IS NULL) AND A.VL_TAXA <> 0.00 ";
             SQL += " ";
             SQL += "UNION ";
             SQL += " ";
@@ -2238,7 +2238,7 @@ namespace ABAINFRA.Web
                     SQL += " WHERE DESTINATARIO_COBRANCA LIKE '" + text + "%' ORDER BY NR_PROCESSO ";
                     break;
                 case "2":
-                    SQL += " WHERE NR_PROCESSO LIKE '" + text + "%' ORDER BY NR_PROCESSO ";
+					SQL += " WHERE NR_PROCESSO LIKE '" + text + "%' ORDER BY NR_PROCESSO ";
                     break;
                 default:
                     SQL += " ORDER BY NR_PROCESSO ";
@@ -2528,7 +2528,7 @@ namespace ABAINFRA.Web
 
                 if (listTable != null)
                 {
-                    SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
+                    SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"]: '3') + "', ";
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE DT_COMPETENCIA = '" + idFatura + "' ";
                     string deleteContaPagarReceber = DBS.ExecuteScalar(SQL);
 
@@ -2790,7 +2790,7 @@ namespace ABAINFRA.Web
                     SQL += "ID_MOEDA, ID_PARCEIRO_EMPRESA, VL_TAXA_CALCULADO, DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_DESCONTO, VL_MULTA, VL_LIQUIDO, FL_INTEGRA_PA) VALUES ";
                     SQL += "('" + insertConta + "','" + idbl + "','" + idItemD + "','1','" + idMoedaVenda + "', ";
                     SQL += "'" + parceiroCliente + "','" + vlDemurrageVenda + "','" + dtCambioVenda + "','" + vlCambioDemuVenda + "','" + vlDemuVendaBR + "' ";
-                    SQL += ",'" + vlDescDemuVenda + "', '" + vlMultaDemuVenda + "','" + vlDemuLiquidVenda + "','" + flIntegraPA + "') ";
+                    SQL += ",'" + vlDescDemuVenda + "', '"+vlMultaDemuVenda+ "','" + vlDemuLiquidVenda + "','" + flIntegraPA + "') ";
                     string insertContaPGI = DBS.ExecuteScalar(SQL);
 
                     SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = 10 WHERE ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "' ";
@@ -2812,7 +2812,7 @@ namespace ABAINFRA.Web
                 string faturaCompra = faturas.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
                 string faturaVenda = faturas.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
 
-
+                
             }
             else
             {
@@ -2874,7 +2874,7 @@ namespace ABAINFRA.Web
                     SQL += "ID_MOEDA, ID_PARCEIRO_EMPRESA, VL_TAXA_CALCULADO, DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_DESCONTO, VL_MULTA, VL_LIQUIDO, FL_INTEGRA_PA) VALUES ";
                     SQL += "('" + insertConta + "','" + idbl + "','" + idItemD + "','1','" + idMoedaCompra + "', ";
                     SQL += "'" + parceiroTransportador + "','" + vlDemurrageCompra + "','" + dtCambioCompra + "','" + vlCambioDemuCompra + "','" + vlDemuCompraBR + "' ";
-                    SQL += ",'" + vlDescDemuCompra + "', '" + vlMultaDemuCompra + "', '" + vlDemuLiquidCompra + "','" + flIntegraPA + "') ";
+                    SQL += ",'" + vlDescDemuCompra + "', '"+vlMultaDemuCompra+"', '" + vlDemuLiquidCompra + "','" + flIntegraPA + "') ";
                     string insertContaPGI = DBS.ExecuteScalar(SQL);
 
                     SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE_COMPRA = 10 WHERE ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "' ";
@@ -2896,7 +2896,7 @@ namespace ABAINFRA.Web
                 string faturaCompra = faturas.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
                 string faturaVenda = faturas.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
 
-
+                
             }
             return JsonConvert.SerializeObject("OK");
         }
@@ -3104,7 +3104,7 @@ namespace ABAINFRA.Web
             {
                 return "null";
             }
-
+            
 
             SQL = "SELECT ID_DEMURRAGE_FATURA_PARCELAS, ID_DEMURRAGE_FATURA, VL_DEMURRAGE_PARCELA, FORMAT(DT_VENCIMENTO_DEMURRAGE_PARCELA,'yyyy-MM-dd') as DT_VENCIMENTO_DEMURRAGE_PARCELA, ISNULL(VL_DEMURRAGE_PARCELA_JUROS,0.00) VL_DEMURRAGE_PARCELA_JUROS, ";
             SQL += "FL_PAGO, ISNULL(ID_CONTA_PAGAR_RECEBER,0) AS IDCPR FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idFaturaParcela + "";
@@ -3131,7 +3131,7 @@ namespace ABAINFRA.Web
                 listTable2 = DBS.List(SQL);
                 int idbl = (int)listTable2.Rows[0]["ID_BL"];
 
-                SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_LIQUIDACAO = '" + dtLiquidacao + "',ID_USUARIO_LIQUIDACAO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "' WHERE ID_CONTA_PAGAR_RECEBER = " + idCPR + " ";
+                SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_LIQUIDACAO = '" + dtLiquidacao + "',ID_USUARIO_LIQUIDACAO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "' WHERE ID_CONTA_PAGAR_RECEBER = "+idCPR+" ";
                 string insertConta = DBS.ExecuteScalar(SQL);
 
                 SQL = "SELECT C.ID_CNTR_BL,C.ID_MOEDA_DEMURRAGE_VENDA, C.VL_DEMURRAGE_VENDA, D.ID_PARCEIRO_CLIENTE, ";
@@ -3149,10 +3149,10 @@ namespace ABAINFRA.Web
                 int qtdRows = listarContainers.Rows.Count;
                 int cntrBl = (int)listarContainers.Rows[0]["id_cntr_bl"];
 
+                
 
-
-                double vlParcela = (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) + (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) * (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA_JUROS"]) / 100))) / qtdRows;
-
+                double vlParcela = (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) + (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) * (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA_JUROS"]) / 100)))/ qtdRows;
+                
 
                 for (i = 0; i < qtdRows; i++)
                 {
@@ -3260,9 +3260,9 @@ namespace ABAINFRA.Web
 
         [WebMethod(EnableSession = true)]
         public string finalizarFaturaDemurrage(int idFatura, int check)
-        {
+		{
             string SQL;
-
+            
             if (check == 1)
             {
                 SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_EXPORTACAO_DEMURRAGE = GETDATE() WHERE ID_DEMURRAGE_FATURA = " + idFatura + " ";
@@ -3957,7 +3957,7 @@ namespace ABAINFRA.Web
         public string excluirFatura(string idFatura, int check)
         {
             string SQL;
-
+            
             if (check == 1)
             {
                 SQL = "SELECT DT_EXPORTACAO_DEMURRAGE FROM TB_DEMURRAGE_FATURA WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
@@ -4017,7 +4017,7 @@ namespace ABAINFRA.Web
                     DBS.ExecuteScalar(SQL);
 
                     SQL = "DELETE FROM TB_DEMURRAGE_FATURA WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "'";
-                    DBS.ExecuteScalar(SQL);
+                    DBS.ExecuteScalar(SQL);                   
 
                     return JsonConvert.SerializeObject("1");
                 }
@@ -4086,7 +4086,7 @@ namespace ABAINFRA.Web
                     SQL = "DELETE FROM TB_DEMURRAGE_FATURA WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "'";
                     DBS.ExecuteScalar(SQL);
 
-
+                    
 
                     return JsonConvert.SerializeObject("1");
                 }
@@ -4142,7 +4142,7 @@ namespace ABAINFRA.Web
                     }
                 }
 
-
+                
 
                 SQL = "UPDATE TB_CNTR_BL SET DT_DEVOLUCAO_CNTR = " + dtDevolucao + ", ID_STATUS_DEMURRAGE = '" + dsStatus + "', ";
                 SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "' ";
@@ -4841,7 +4841,7 @@ namespace ABAINFRA.Web
                 dtVencimento = dtVencimento.AddMonths(1);
             }
 
-
+            
 
             return JsonConvert.SerializeObject("OK");
         }
@@ -4857,8 +4857,8 @@ namespace ABAINFRA.Web
             SQL += "FORMAT(B.DT_ENVIO_FATURAMENTO,'dd/MM/yyyy') AS DT_ENVIO_FATURAMENTO ";
             SQL += "FROM TB_DEMURRAGE_FATURA_PARCELAS A ";
             SQL += "LEFT JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER ";
-            SQL += "WHERE A.ID_DEMURRAGE_FATURA = " + fatura + " ";
-
+            SQL += "WHERE A.ID_DEMURRAGE_FATURA = "+fatura+" ";
+            
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
@@ -4884,7 +4884,7 @@ namespace ABAINFRA.Web
         {
             string SQL;
 
-            SQL = "UPDATE TB_DEMURRAGE_FATURA_PARCELAS SET VL_DEMURRAGE_PARCELA ='" + vlParcela.Replace(",", ".") + "', DT_VENCIMENTO_DEMURRAGE_PARCELA='" + vencimento + "', VL_DEMURRAGE_PARCELA_JUROS='" + vlJuros.Replace(",", ".") + "', FL_PAGO=" + pago + " WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idParcela + " ";
+            SQL = "UPDATE TB_DEMURRAGE_FATURA_PARCELAS SET VL_DEMURRAGE_PARCELA ='"+vlParcela.Replace(",",".")+"', DT_VENCIMENTO_DEMURRAGE_PARCELA='"+vencimento+"', VL_DEMURRAGE_PARCELA_JUROS='"+vlJuros.Replace(",",".")+"', FL_PAGO="+pago+" WHERE ID_DEMURRAGE_FATURA_PARCELAS = "+idParcela+" ";
 
             DBS.ExecuteScalar(SQL);
             return JsonConvert.SerializeObject("Success");
@@ -4911,10 +4911,10 @@ namespace ABAINFRA.Web
             DBS.ExecuteScalar(SQL);
 
             SQL = "DELETE FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idParcela + " ";
-            DBS.ExecuteScalar(SQL);
+                DBS.ExecuteScalar(SQL);
 
             return JsonConvert.SerializeObject("1");
-
+ 
         }
 
         [WebMethod(EnableSession = true)]
@@ -4966,11 +4966,11 @@ namespace ABAINFRA.Web
             DataTable InfoCliente = new DataTable();
             InfoCliente = DBS.List(SQL);
 
-            SQL = "INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER, VL_NOTA, ID_PARCEIRO_CLIENTE, NM_CLIENTE, CNPJ, INSCR_ESTADUAL, INSCR_MUNICIPAL, ENDERECO, NR_ENDERECO, COMPL_ENDERECO, BAIRRO, CEP, CIDADE, ESTADO) VALUES (" + idcpr + ", " + vlNota.ToString().Replace(",", ".") + "," + InfoCliente.Rows[0]["ID_PARCEIRO_CLIENTE"] + ", '" + InfoCliente.Rows[0]["NM_RAZAO"] + "','" + InfoCliente.Rows[0]["CNPJ"] + "', '" + InfoCliente.Rows[0]["INSCR_ESTADUAL"] + "','" + InfoCliente.Rows[0]["INSCR_MUNICIPAL"] + "', '" + InfoCliente.Rows[0]["ENDERECO"] + "','" + InfoCliente.Rows[0]["NR_ENDERECO"] + "', '" + InfoCliente.Rows[0]["COMPL_ENDERECO"] + "','" + InfoCliente.Rows[0]["BAIRRO"] + "', '" + InfoCliente.Rows[0]["CEP"] + "','" + InfoCliente.Rows[0]["NM_CIDADE"] + "', '" + InfoCliente.Rows[0]["NM_ESTADO"] + "') ";
+            SQL = "INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER, VL_NOTA, ID_PARCEIRO_CLIENTE, NM_CLIENTE, CNPJ, INSCR_ESTADUAL, INSCR_MUNICIPAL, ENDERECO, NR_ENDERECO, COMPL_ENDERECO, BAIRRO, CEP, CIDADE, ESTADO) VALUES (" + idcpr + ", " + vlNota.ToString().Replace(",",".") + "," + InfoCliente.Rows[0]["ID_PARCEIRO_CLIENTE"] + ", '" + InfoCliente.Rows[0]["NM_RAZAO"] + "','" + InfoCliente.Rows[0]["CNPJ"] + "', '" + InfoCliente.Rows[0]["INSCR_ESTADUAL"] + "','" + InfoCliente.Rows[0]["INSCR_MUNICIPAL"] + "', '" + InfoCliente.Rows[0]["ENDERECO"] + "','" + InfoCliente.Rows[0]["NR_ENDERECO"] + "', '" + InfoCliente.Rows[0]["COMPL_ENDERECO"] + "','" + InfoCliente.Rows[0]["BAIRRO"] + "', '" + InfoCliente.Rows[0]["CEP"] + "','" + InfoCliente.Rows[0]["NM_CIDADE"] + "', '" + InfoCliente.Rows[0]["NM_ESTADO"] + "') ";
 
             DBS.ExecuteScalar(SQL);
 
-            SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = GETDATE() WHERE ID_CONTA_PAGAR_RECEBER = " + idcpr + " ";
+            SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = GETDATE() WHERE ID_CONTA_PAGAR_RECEBER = "+idcpr+" ";
 
             DBS.ExecuteScalar(SQL);
 
@@ -5123,10 +5123,10 @@ namespace ABAINFRA.Web
                     idFilter = "AND M.NR_BL LIKE '" + Filter + "%' ";
                     break;
                 case "3":
-                    idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
+                    idFilter = "AND BL.NR_BL LIKE '" + Filter + "%' ";
                     break;
                 case "4":
-                    idFilter = "AND N.NM_NAVIO LIKE '" + Filter + "%' ";
+                    idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
                     break;
                 case "5":
                     idFilter = "AND BL.CD_RASTREAMENTO_HBL LIKE '" + Filter + "%' OR M.CD_RASTREAMENTO_MBL LIKE '" + Filter + "%' ";
@@ -5175,11 +5175,6 @@ namespace ABAINFRA.Web
                 filter += "AND (BL.CD_RASTREAMENTO_HBL IS NULL OR BL.CD_RASTREAMENTO_HBL = '') ";
 
             }
-            else
-            {
-                filter += "AND (BL.CD_RASTREAMENTO_HBL IS NOT NULL OR (BL.CD_RASTREAMENTO_HBL <> 'ORIGEM' AND BL.CD_RASTREAMENTO_HBL <> '')) ";
-
-            }
 
             if (filter_freehand == "1")
             {
@@ -5212,7 +5207,8 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ";
             SQL += "ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ";
             SQL += "ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
-            SQL += "BL.FL_TROCA, ";
+            SQL += "ISNULL(BL.FL_TROCA,0) FL_TROCA, ";
+            SQL += "ISNULL(BL.FL_ENVIO_AGENTE_INTERNACIONAL,0) FL_ENVIO_AGENTE_INTERNACIONAL, ";
             SQL += "ISNULL(BL.OBS_COURRIER,'') AS OBS_COURRIER, ";
             SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ";
             SQL += "ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
@@ -5225,14 +5221,14 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_PARCEIRO P4 ON C.ID_PARCEIRO = P4.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
             SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
-            SQL += "LEFT JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
+            SQL += "JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
             SQL += "" + listarCourrierFilter(dados) + " ";
             SQL += "" + idFilter + "";
             SQL += "" + filter + "";
             SQL += "AND BL.GRAU IN ('C') ";
             SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
-            SQL += "AND ((BL.DT_CHEGADA IS NULL OR M.DT_CHEGADA IS NULL) ";
-            SQL += "OR(M.DT_RETIRADA_PERSONAL IS NULL OR BL.DT_RETIRADA_PERSONAL IS NOT NULL)) ";
+            SQL += "AND (BL.DT_CHEGADA IS NULL OR M.DT_CHEGADA IS NULL) ";
+            //SQL += "OR (M.DT_RETIRADA_PERSONAL IS NULL OR BL.DT_RETIRADA_PERSONAL IS NOT NULL)) ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
@@ -5463,7 +5459,7 @@ namespace ABAINFRA.Web
             }
             return JsonConvert.SerializeObject(listTable);
         }
-
+        
         [WebMethod(EnableSession = true)]
         public string listarCourrierFilterTeste(Filtro dados)
         {
@@ -5726,7 +5722,7 @@ namespace ABAINFRA.Web
         public string TrocaCourrier(int id)
         {
             string SQL;
-            SQL = "SELECT NR_PROCESSO, ID_PARCEIRO_CLIENTE FROM TB_BL WHERE ID_BL = " + id + "";
+            SQL = "SELECT NR_PROCESSO, ID_PARCEIRO_CLIENTE, ID_TIPO_ESTUFAGEM FROM TB_BL WHERE ID_BL = " + id + "";
             DataTable carregarDados = new DataTable();
             carregarDados = DBS.List(SQL);
 
@@ -5736,7 +5732,7 @@ namespace ABAINFRA.Web
 
             if (carregarDados != null)
             {
-                SQL += "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),21," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_CLIENTE"] + ",'OP') ";
+                SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, IDTIPOESTUFAGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),21," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_CLIENTE"] + ",'OP', "+ carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"] + ") ";
 
                 bool status = DBS.BeginTransaction(SQL);
 
@@ -5754,7 +5750,7 @@ namespace ABAINFRA.Web
         public string DisponibilidadeCourrier(int id)
         {
             string SQL;
-            SQL = "SELECT NR_PROCESSO, ID_PARCEIRO_CLIENTE FROM TB_BL WHERE ID_BL = " + id + "";
+            SQL = "SELECT NR_PROCESSO, ID_PARCEIRO_CLIENTE, ID_TIPO_ESTUFAGEM FROM TB_BL WHERE ID_BL = " + id + "";
             DataTable carregarDados = new DataTable();
             carregarDados = DBS.List(SQL);
 
@@ -5764,7 +5760,7 @@ namespace ABAINFRA.Web
 
             if (carregarDados != null)
             {
-                SQL += "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),22," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_CLIENTE"] + ",'OP') ";
+                SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, IDTIPOESTUFAGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),22," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_CLIENTE"] + ",'OP', " + carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"] + ") ";
 
                 bool status = DBS.BeginTransaction(SQL);
 
@@ -5795,7 +5791,9 @@ namespace ABAINFRA.Web
 
                 if (carregarDados != null)
                 {
-                    SQL += "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),23," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_AGENTE_INTERNACIONAL"] + ",'OP') ";
+                    SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, IDTIPOESTUFAGEM) ";
+                    SQL += "VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),23," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_AGENTE_INTERNACIONAL"] + ",'OP', " + carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"] + "); ";
+                    SQL += "UPDATE TB_BL SET FL_ENVIO_AGENTE_INTERNACIONAL = 1 WHERE ID_BL = " + id + ";";
                     status = DBS.BeginTransaction(SQL);
                 }
                 else
@@ -5812,7 +5810,7 @@ namespace ABAINFRA.Web
 
                 if (carregarDados != null)
                 {
-                    SQL += "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),24," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_CLIENTE"] + ",'OP') ";
+                    SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, IDTIPOESTUFAGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),24," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_CLIENTE"] + ",'OP', " + carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"] + ") ";
                     status = DBS.BeginTransaction(SQL);
                 }
                 else
@@ -6273,7 +6271,7 @@ namespace ABAINFRA.Web
                 string[] conf = new string[listTable.Rows.Count];
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
-                    conf[i] += "'" + listTable.Rows[i]["NR_INVOICE"].ToString() + "';";
+                    conf[i] += "'"+listTable.Rows[i]["NR_INVOICE"].ToString() + "';";
                     conf[i] += listTable.Rows[i]["NR_PROCESSO"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["HBL"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["MBL"].ToString() + ";";
@@ -6295,9 +6293,9 @@ namespace ABAINFRA.Web
             }
         }
 
+        
 
-
-        [WebMethod(EnableSession = true)]
+[WebMethod(EnableSession = true)]
         public string listarDemonstrativoRateio(string text, string filter)
         {
             string SQL;
@@ -6347,7 +6345,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod(EnableSession = true)]
-        public string FCADebitCreditInvoice(string dataI, string dataF, string filter, string text)
+        public string FCADebitCreditInvoice(string dataI, string dataF, string filter, string text) 
         {
             string SQL;
             string diaI;
@@ -6412,7 +6410,7 @@ namespace ABAINFRA.Web
             SQL += "JOIN TB_ACCOUNT_TIPO_INVOICE G ON B.ID_ACCOUNT_TIPO_INVOICE = G.ID_ACCOUNT_TIPO_INVOICE ";
             SQL += "JOIN TB_MOEDA H ON B.ID_MOEDA=H.ID_MOEDA ";
             SQL += "WHERE B.ID_ACCOUNT_TIPO_EMISSOR = 2 ";
-            SQL += "AND CONVERT(DATE,B.DT_VENCIMENTO,103) BETWEEN CONVERT(DATE,'" + dataI + "',103) AND CONVERT(DATE,'" + dataF + "',103) ";
+            SQL += "AND CONVERT(DATE,B.DT_VENCIMENTO,103) BETWEEN CONVERT(DATE,'"+dataI+"',103) AND CONVERT(DATE,'"+dataF+"',103) ";
             SQL += "AND B.ID_ACCOUNT_INVOICE NOT IN (SELECT ID_ACCOUNT_INVOICE FROM TB_ACCOUNT_FECHAMENTO_ITENS) ";
             SQL += "" + text + "";
 
@@ -6438,12 +6436,12 @@ namespace ABAINFRA.Web
             SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER E ON C.ID_CONTA_PAGAR_RECEBER = E.ID_CONTA_PAGAR_RECEBER ";
             SQL += "LEFT JOIN TB_ITEM_DESPESA D ON C.ID_ITEM_DESPESA = D.ID_ITEM_DESPESA ";
             SQL += "WHERE E.DT_CANCELAMENTO IS NULL AND E.CD_PR = 'P' ";
-            if (tpestufagem == "1")
-            {
+            if(tpestufagem == "1")
+			{
                 SQL += "AND B.ID_BL = '" + blmaster + "' AND C.FL_ABATER_ISS = 1 ";
-            }
-            else
-            {
+			}
+			else
+			{
                 SQL += "AND B.ID_BL = '" + blmaster + "' AND C.FL_ABATER_ISS = 0 ";
             }
             SQL += "AND ISNULL(E.TP_EXPORTACAO ,'') = '' ";
@@ -6459,7 +6457,7 @@ namespace ABAINFRA.Web
                 string[] rateio = new string[listTable.Rows.Count];
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
-                    rateio[i] += listTable.Rows[i]["NR_BL"].ToString() + ";";
+                    rateio[i] += listTable.Rows[i]["NR_BL"].ToString() +";";
                     rateio[i] += listTable.Rows[i]["PROCESSO"].ToString() + ";";
                     rateio[i] += listTable.Rows[i]["CUBAGEM"].ToString() + ";";
                     rateio[i] += listTable.Rows[i]["RATEIO_NF"].ToString() + ";";
@@ -6616,10 +6614,10 @@ namespace ABAINFRA.Web
                 if (situacao != "")
                 {
                     SQL += "AND " + situacao + "";
-                    SQL += "AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
-                }
-                else
-                {
+                    SQL += "AND ID_CONTA_PAGAR_RECEBER IN ("+ values + ") ";
+				}
+				else
+				{
                     SQL += "AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
                 }
             }
@@ -6627,9 +6625,9 @@ namespace ABAINFRA.Web
             {
                 SQL += "WHERE " + situacao + "";
                 SQL += "AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
-            }
-            else
-            {
+			}
+			else
+			{
                 SQL += "WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             SQL += "ORDER BY NR_NOTA ";
@@ -6704,7 +6702,7 @@ namespace ABAINFRA.Web
                 SQL += " WHERE " + situacao + " ";
                 //SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
-            /*else
+			/*else
 			{
                 SQL += " WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }*/
@@ -6777,7 +6775,7 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
-            SQL = "EXECUTE DBO.PR_NOTA_DESPESA_NEGATIVO '" + dataI + "','" + dataF + "' ";
+            SQL = "EXECUTE DBO.PR_NOTA_DESPESA_NEGATIVO '"+dataI+"','"+dataF+"' ";
             DBS.ExecuteScalar(SQL);
 
             SQL = "SELECT PREFIXO, NUM, PARCELA, TIPO, NATUREZ, CLIENTE, LOJA, EMISSAO, VENCTO, VENCREA, ";
@@ -6789,9 +6787,9 @@ namespace ABAINFRA.Web
             {
                 SQL += " WHERE " + situacao + " ";
                 SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
-            }
-            else
-            {
+			}
+			else
+			{
                 SQL += " WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             SQL += " ORDER BY ITEMCTA ";
@@ -6862,13 +6860,13 @@ namespace ABAINFRA.Web
 
             string nota;
 
-            if (notai.ToString() == "" && notaf.ToString() == "") {
+            if(notai.ToString() == "" && notaf.ToString() == ""){
                 nota = "";
-            } else if (notai.ToString() != "" && notaf.ToString() != "") {
-                nota = "AND NR_NOTA BETWEEN " + notai + " AND '" + notaf + "' ";
-            } else if (notai.ToString() != "") {
+			}else if(notai.ToString() != "" && notaf.ToString() != ""){
+                nota = "AND NR_NOTA BETWEEN " + notai + " AND '"+notaf+"' ";
+			}else if(notai.ToString() != ""){
                 nota = "AND NR_NOTA  >= '" + notai + "' ";
-            } else {
+			}else{
                 nota = "AND NR_NOTA  <= '" + notaf + "' ";
             }
 
@@ -8290,7 +8288,7 @@ namespace ABAINFRA.Web
                 SQL += " WHERE " + situacao + " ";
                 /*SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";*/
             }
-            /*else
+			/*else
 			{
                 SQL += "WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }*/
@@ -8369,9 +8367,9 @@ namespace ABAINFRA.Web
             {
                 SQL += " WHERE " + situacao + " ";
                 SQL += "AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
-            }
-            else
-            {
+			}
+			else
+			{
                 SQL += "WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             SQL += "ORDER BY ITEMCTA ";
@@ -8435,7 +8433,7 @@ namespace ABAINFRA.Web
                     break;
 
                 case "3":
-                    nota = "NM_CLIENTE LIKE '" + nota + "' ";
+                    nota = "NM_CLIENTE LIKE '"+ nota +"' ";
                     break;
 
                 default:
@@ -9593,7 +9591,7 @@ namespace ABAINFRA.Web
                     filter = "";
                     break;
             }
-
+             
             SQL = "SELECT NR_PROCESSO, ";
             SQL += "ISNULL(MAX(CASE WHEN TP_FATURA = 'VENDA' THEN NM_PARCEIRO ELSE '' END ),'') AS CLIENTE, ";
             SQL += "ISNULL(MAX(CASE WHEN TP_FATURA = 'COMPRA' THEN NM_PARCEIRO ELSE '' END ),'') AS TRANSPORTADOR, ";
@@ -9605,7 +9603,7 @@ namespace ABAINFRA.Web
             SQL += "THEN NULL ELSE ISNULL(MAX(CASE WHEN TP_FATURA = 'VENDA' THEN DT_LIQUIDACAO ELSE '' END),'') END),'dd/MM/yyyy') AS DT_LIQUIDACAO, ";
             SQL += "FORMAT((CASE WHEN LEFT(ISNULL(MAX(CASE WHEN TP_FATURA = 'COMPRA' THEN DT_LIQUIDACAO ELSE '' END), ''), 4) = '1900' ";
             SQL += "THEN NULL ELSE ISNULL(MAX(CASE WHEN TP_FATURA = 'COMPRA' THEN DT_LIQUIDACAO ELSE '' END),'') END),'dd/MM/yyyy') AS DT_LIQUIDACAO_COMPRA ";
-            SQL += "FROM FN_DEMURRAGE_FATURAS('" + dataI + "','" + dataF + "') A ";
+            SQL += "FROM FN_DEMURRAGE_FATURAS('"+ dataI + "','" + dataF + "') A ";
             SQL += "" + filter + "";
             SQL += "GROUP BY A.NR_PROCESSO ";
             DataTable listTable = new DataTable();
@@ -9620,12 +9618,12 @@ namespace ABAINFRA.Web
             string SQL;
             string param;
             string dataI;
-
-
+			
+			
             DateTime dataInicial = DateTime.Now;
             string dataF;
 
-
+            
 
             switch (filter)
             {
@@ -9675,9 +9673,9 @@ namespace ABAINFRA.Web
                         param = "";
                         break;
                 }
-            }
-            else
-            {
+			}
+			else
+			{
                 switch (parametro)
                 {
                     case "0":
@@ -9720,7 +9718,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(FORMAT(DT_NOTA_FISCAL,'dd/MM/yyyy'),'') AS DT_NOTA, ";
             SQL += "ISNULL(FORMAT(DT_LIQUIDACAO,'dd/MM/yyyy'),'') AS DT_LIQ, ";
             SQL += "ISNULL(VL_COMISSAO,0) AS COMISSAO ";
-            SQL += "FROM FN_COMISSAO_TRANSPORTADORAS('" + dataI + "','" + dataF + "', '" + parametro + "') A ";
+            SQL += "FROM FN_COMISSAO_TRANSPORTADORAS('" + dataI + "','" + dataF + "', '"+parametro+"') A ";
             SQL += "" + filter + "";
             SQL += "" + param + "";
             DataTable listTable = new DataTable();
@@ -9814,29 +9812,29 @@ namespace ABAINFRA.Web
 
             if (dataI != "")
             {
-                diaI = dataI.Substring(8, 2);
-                mesI = dataI.Substring(5, 2);
-                anoI = dataI.Substring(0, 4);
+                 diaI = dataI.Substring(8, 2);
+                 mesI = dataI.Substring(5, 2);
+                 anoI = dataI.Substring(0, 4);
                 dataI = diaI + '-' + mesI + '-' + anoI;
-            }
-            else
-            {
+			}
+			else
+			{
                 dataI = "01-01-1900";
-            }
+			}
 
             if (dataF != "")
             {
-                diaF = dataF.Substring(8, 2);
-                mesF = dataF.Substring(5, 2);
-                anoF = dataF.Substring(0, 4);
+                 diaF = dataF.Substring(8, 2);
+                 mesF = dataF.Substring(5, 2);
+                 anoF = dataF.Substring(0, 4);
                 dataF = diaF + '-' + mesF + '-' + anoF;
-            }
-            else
-            {
+			}
+			else
+			{
                 dataF = "01-01-2900";
-            }
-
-
+			}
+            
+            
 
             switch (filter)
             {
@@ -9897,7 +9895,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(TP_FATURAMENTO,'') AS FATURAMENTO, ISNULL(FORMAT(DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS PREV_CHEGADA, ";
             SQL += "ISNULL(FORMAT(DT_CHEGADA,'dd/MM/yyyy'),'') AS CHEGADA, ISNULL(TP_ESTUFAGEM,'') AS ESTUFAGEM, ";
             SQL += "ISNULL(NM_CLIENTE_FINAL,'') AS CLI_FINAL, ISNULL(NM_AGENTE,'') AS AGENTE, ISNULL(TP_PAGTO_MASTER,'') AS PAG_MASTER, ";
-            SQL += "ISNULL(TP_PAGTO_HOUSE,'') AS PAG_HOUSE FROM FN_CONTAS_RECEBIDAS_PAGAS_II('" + dataI + "','" + dataF + "') ";
+            SQL += "ISNULL(TP_PAGTO_HOUSE,'') AS PAG_HOUSE FROM FN_CONTAS_RECEBIDAS_PAGAS_II('"+dataI+"','"+dataF+"') ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             if (listTable != null)
@@ -10413,8 +10411,8 @@ namespace ABAINFRA.Web
                     conf[i] += listTable.Rows[i]["DECLARADO"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["FREEHAND"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["STATUSFRETE"].ToString() + ";";
-                    conf[i] += listTable.Rows[i]["PROFIT"].ToString() + ";";
-
+                    conf[i] += listTable.Rows[i]["PROFIT"].ToString()+";";
+                    
                 }
                 return JsonConvert.SerializeObject(conf);
             }
@@ -10426,22 +10424,22 @@ namespace ABAINFRA.Web
 
         [WebMethod(EnableSession = true)]
         public string listarSaldo(string nota, string filter, string dataI, string dataF)
-        {
+        {   
             string sqlFormattedDate;
             string sqlFormattedDate2;
             string SQL;
 
-            if (dataI != "")
-            {
+            if(dataI != "")
+			{
                 string diaI = dataI.Substring(8, 2);
                 string mesI = dataI.Substring(5, 2);
                 string anoI = dataI.Substring(0, 4);
-                sqlFormattedDate = diaI + "/" + mesI + "/" + anoI;
-            }
-            else
-            {
+                sqlFormattedDate = diaI+"/"+mesI+"/"+anoI;
+			}
+			else
+			{
                 sqlFormattedDate = "01/01/1900";
-            }
+			}
 
             if (dataF != "")
             {
@@ -10475,13 +10473,13 @@ namespace ABAINFRA.Web
                         filter = "WHERE NR_BL_MASTER LIKE '" + nota + "%' ";
                         break;
                 }
-            }
-            else
-            {
+			}
+			else
+			{
                 filter = "";
-            }
+			}
 
-            SQL = "SELECT ISNULL(NR_PROCESSO,'') PROCESSO, ISNULL(NR_BL_MASTER,'') AS MBL, ISNULL(NR_BL_HOUSE,'') AS HBL, ISNULL(TP_SERVICO,'') AS TPSERVICO, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, FORMAT(DT_CHEGADA,'dd/MM/yyyy') AS CHEGADA, ISNULL(TP_ESTUFAGEM, '') AS TPESTUFAGEM, ISNULL(FREE_HAND,'') AS FREEHAND, ISNULL(VL_SALDO_RECEBER_BR,0) AS RECEBER, ISNULL(VL_SALDO_PAGAR_BR,0) AS PAGAR, ISNULL(VL_SALDO_PROCESSO,0) AS SALDO_PROCESSO, ISNULL(NM_CLIENTE,'') AS CLIENTE, ISNULL(NM_FORNECEDOR,'') AS FORNECEDOR FROM FN_PREVISIBILIDADE_CONFERENCIA_TOTAIS('" + sqlFormattedDate + "','" + sqlFormattedDate2 + "') " + filter + " ORDER BY NR_PROCESSO";
+            SQL = "SELECT ISNULL(NR_PROCESSO,'') PROCESSO, ISNULL(NR_BL_MASTER,'') AS MBL, ISNULL(NR_BL_HOUSE,'') AS HBL, ISNULL(TP_SERVICO,'') AS TPSERVICO, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, FORMAT(DT_CHEGADA,'dd/MM/yyyy') AS CHEGADA, ISNULL(TP_ESTUFAGEM, '') AS TPESTUFAGEM, ISNULL(FREE_HAND,'') AS FREEHAND, ISNULL(VL_SALDO_RECEBER_BR,0) AS RECEBER, ISNULL(VL_SALDO_PAGAR_BR,0) AS PAGAR, ISNULL(VL_SALDO_PROCESSO,0) AS SALDO_PROCESSO, ISNULL(NM_CLIENTE,'') AS CLIENTE, ISNULL(NM_FORNECEDOR,'') AS FORNECEDOR FROM FN_PREVISIBILIDADE_CONFERENCIA_TOTAIS('" + sqlFormattedDate + "','" + sqlFormattedDate2 + "') "+filter+" ORDER BY NR_PROCESSO";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -10527,7 +10525,7 @@ namespace ABAINFRA.Web
                 filter = "";
             }
 
-            SQL = "SELECT ISNULL(NR_PROCESSO,'') PROCESSO, ISNULL(NR_BL_MASTER,'') AS MBL, ISNULL(NR_BL_HOUSE,'') AS HBL, FORMAT(DT_CHEGADA,'dd/MM/yyyy') AS CHEGADA, ISNULL(NM_ITEM_DESPESA, '') AS ITEM_DESPESA, ISNULL(VL_VENDA,0) AS VENDA, ISNULL(MOEDA_VENDA,'') AS MOEDA_VENDA, ISNULL(VL_COMPRA,0) AS COMPRA, ISNULL(MOEDA_COMPRA,'') AS MOEDA_COMPRA, ISNULL(FREE_HAND,'') AS FREEHAND, ISNULL(TP_ESTUFAGEM_MASTER,'') AS ESTUFAGEM_MASTER, ISNULL(TP_ESTUFAGEM_HOUSE,'') AS ESTUFAGEM_HOUSE, ISNULL(NM_STATUS_FRETE_AGENTE,'') AS STATUS_FRETE, ISNULL(TP_PROFIT,'') AS TIPO_PROFIT, ISNULL(VL_PROFIT,0) AS  PROFIT FROM FN_PREVISIBILIDADE_CONFERENCIA_ITENS('" + sqlFormattedDate + "','" + sqlFormattedDate2 + "') " + filter + " ORDER BY NR_PROCESSO";
+            SQL = "SELECT ISNULL(NR_PROCESSO,'') PROCESSO, ISNULL(NR_BL_MASTER,'') AS MBL, ISNULL(NR_BL_HOUSE,'') AS HBL, FORMAT(DT_CHEGADA,'dd/MM/yyyy') AS CHEGADA, ISNULL(NM_ITEM_DESPESA, '') AS ITEM_DESPESA, ISNULL(VL_VENDA,0) AS VENDA, ISNULL(MOEDA_VENDA,'') AS MOEDA_VENDA, ISNULL(VL_COMPRA,0) AS COMPRA, ISNULL(MOEDA_COMPRA,'') AS MOEDA_COMPRA, ISNULL(FREE_HAND,'') AS FREEHAND, ISNULL(TP_ESTUFAGEM_MASTER,'') AS ESTUFAGEM_MASTER, ISNULL(TP_ESTUFAGEM_HOUSE,'') AS ESTUFAGEM_HOUSE, ISNULL(NM_STATUS_FRETE_AGENTE,'') AS STATUS_FRETE, ISNULL(TP_PROFIT,'') AS TIPO_PROFIT, ISNULL(VL_PROFIT,0) AS  PROFIT FROM FN_PREVISIBILIDADE_CONFERENCIA_ITENS('" + sqlFormattedDate + "','" + sqlFormattedDate2 + "') "+filter+" ORDER BY NR_PROCESSO";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -10543,7 +10541,7 @@ namespace ABAINFRA.Web
         }
         [WebMethod(EnableSession = true)]
         public string ListarProcessoFinalizado(string dataI, string dataF, string fcl, string lcl, string filter, string text)
-        {
+		{
             string sqlFormattedDate;
             string sqlFormattedDate2;
             string SQL;
@@ -10571,31 +10569,31 @@ namespace ABAINFRA.Web
             else
             {
                 sqlFormattedDate2 = "01/01/2900";
-            }
+            }            
 
-            switch (filter)
-            {
+			switch (filter)
+			{
                 case "2":
                     filter = " AND NR_PROCESSO LIKE '" + text + "%' ";
                     break;
                 default:
                     filter = "";
                     break;
-            }
+			}
 
-            if (lcl == "1")
-            {
-                if (fcl == "1")
-                {
+            if(lcl == "1")
+			{
+                if(fcl == "1")
+				{
                     estufagem = "";
-                }
-                else
-                {
+				}
+				else
+				{
                     estufagem = " AND B.NM_TIPO_ESTUFAGEM = 'LCL' ";
                 }
-            }
-            else
-            {
+			}
+			else
+			{
                 if (fcl == "1")
                 {
                     estufagem = " AND B.NM_TIPO_ESTUFAGEM = 'FCL' ";
@@ -10614,7 +10612,7 @@ namespace ABAINFRA.Web
             SQL += "WHERE A.DT_FINALIZACAO_PROCESSO IS NOT NULL ";
             SQL += "" + filter + " ";
             SQL += "" + estufagem + " ";
-            SQL += " AND CONVERT(DATE,A.DT_FINALIZACAO_PROCESSO,103) BETWEEN CONVERT(DATE,'" + sqlFormattedDate + "',103) AND CONVERT(DATE,'" + sqlFormattedDate2 + "',103) ";
+            SQL += " AND CONVERT(DATE,A.DT_FINALIZACAO_PROCESSO,103) BETWEEN CONVERT(DATE,'"+ sqlFormattedDate + "',103) AND CONVERT(DATE,'"+ sqlFormattedDate2 + "',103) ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -10655,15 +10653,15 @@ namespace ABAINFRA.Web
                 string mesC = dataC.Substring(5, 2);
                 string anoC = dataC.Substring(0, 4);
                 sqlFormattedDate3 = diaC + "/" + mesC + "/" + anoC;
-            }
-
+			}
+			
             if (dataE != "")
             {
                 string diaE = dataE.Substring(8, 2);
                 string mesE = dataE.Substring(5, 2);
                 string anoE = dataE.Substring(0, 4);
                 sqlFormattedDate4 = diaE + "/" + mesE + "/" + anoE;
-            }
+			}
 
 
             if (sqlFormattedDate != "")
@@ -10677,14 +10675,14 @@ namespace ABAINFRA.Web
             }
 
             if (sqlFormattedDate3 != "")
-            {
+			{
                 filter += "AND X.DT_CHEGADA = CONVERT(DATE,'" + sqlFormattedDate3 + "',103) ";
-            }
+			}
 
-            if (sqlFormattedDate4 != "")
-            {
+            if(sqlFormattedDate4 != "")
+			{
                 filter += "AND X.DT_EMBARQUE = CONVERT(DATE, '" + sqlFormattedDate4 + "',103) ";
-            }
+			}
 
 
             SQL = "SELECT X.NM_NAVIO, ";
@@ -10936,7 +10934,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod(EnableSession = true)]
+            [WebMethod(EnableSession = true)]
         public string listarReportOCR()
         {
             string SQL;
@@ -11035,7 +11033,7 @@ namespace ABAINFRA.Web
             SQL += "FROM FN_PREVISIBILIDADE_SALDO('" + dataI + "', '" + dataF + "', '') ";
             SQL += "WHERE(VL_SALDO_RECEBER <> 0 OR VL_SALDO_PAGAR <> 0) ";
             SQL += "" + nota + "";
-            SQL += "ORDER BY NR_PROCESSO, NM_ITEM_DESPESA ";
+            SQL += "ORDER BY NR_PROCESSO, NM_ITEM_DESPESA ";            
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -11058,18 +11056,18 @@ namespace ABAINFRA.Web
             dados.DATAINICIAL = diaI + '/' + mesI + '/' + anoI;
             dados.DATAFINAL = diaF + '/' + mesF + '/' + anoF;
 
-            if (dados.PROCESSO != "") { Filtro += "AND A.NR_PROCESSO LIKE '" + dados.PROCESSO + "%' "; }
+            if (dados.PROCESSO != "") { Filtro += "AND A.NR_PROCESSO LIKE '"+dados.PROCESSO+"%' " ; }
             if (dados.FORNECEDOR != "") { Filtro += "AND E1.ID_PARCEIRO = '" + dados.FORNECEDOR + "' "; }
-            if (dados.ESTUFAGEM != "") { Filtro += "AND C.ID_TIPO_ESTUFAGEM = '" + dados.ESTUFAGEM + "' "; }
-            if (dados.MODAL != "") { Filtro += "AND D1.ID_VIATRANSPORTE = '" + dados.MODAL + "' "; }
-            if (dados.SERVICO != "") { Filtro += "AND D.ID_SERVICO = '" + dados.SERVICO + "' "; }
-            if (dados.AGENTEINTER != "") { Filtro += "AND E2.ID_PARCEIRO = '" + dados.AGENTEINTER + "' "; }
+            if (dados.ESTUFAGEM != "") { Filtro += "AND C.ID_TIPO_ESTUFAGEM = '" + dados.ESTUFAGEM+ "' "; }
+            if (dados.MODAL != "") { Filtro += "AND D1.ID_VIATRANSPORTE = '" + dados.MODAL+ "' "; }
+            if (dados.SERVICO != "") { Filtro += "AND D.ID_SERVICO = '" + dados.SERVICO+ "' "; }
+            if (dados.AGENTEINTER != "") { Filtro += "AND E2.ID_PARCEIRO = '" + dados.AGENTEINTER+ "' "; }
             if (dados.CLIENTE != "") { Filtro += "AND E3.ID_PARCEIRO = '" + dados.CLIENTE + "' "; }
             if (dados.TPMOVIMENTO != "") { Filtro += "AND B.CD_PR = '" + dados.TPMOVIMENTO + "' "; }
             if (dados.ITEMDESPESA != "") { Filtro += "AND F.ID_ITEM_DESPESA = '" + dados.ITEMDESPESA + "' "; }
             if (dados.MOEDA != "") { Filtro += "AND G.ID_MOEDA = '" + dados.MOEDA + "' "; }
             if (dados.BASECALCULO != "") { Filtro += "AND H.ID_BASE_CALCULO_TAXA = '" + dados.BASECALCULO + "' "; }
-            if (dados.USUARIO != "") { Filtro += "AND J.ID_USUARIO = '" + dados.USUARIO + "' "; }
+            if (dados.USUARIO != "") { Filtro += "AND J.ID_USUARIO = '" + dados.USUARIO+ "' "; }
 
             SQL = "SELECT A.NR_PROCESSO, E1.NM_RAZAO AS FORNECEDOR, C.NM_TIPO_ESTUFAGEM, D1.NM_VIATRANSPORTE, ";
             SQL += "D.TP_SERVICO, E2.NM_RAZAO AS AGENTE, E3.NM_RAZAO AS CLIENTE, ";
@@ -11090,7 +11088,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_USUARIO J ON I.ID_USUARIO_INATIVACAO=J.ID_USUARIO ";
             SQL += "LEFT JOIN TB_MOTIVO_INATIVACAO K ON I.ID_MOTIVO_INATIVACAO = K.ID_MOTIVO_INATIVACAO ";
             SQL += "WHERE B.FL_TAXA_INATIVA = 1 ";
-            SQL += "AND CONVERT(DATE,A.DT_EMBARQUE,103) BETWEEN CONVERT(DATE,'" + dados.DATAINICIAL + "',103) AND CONVERT(DATE,'" + dados.DATAFINAL + "' ,103) ";
+            SQL += "AND CONVERT(DATE,A.DT_EMBARQUE,103) BETWEEN CONVERT(DATE,'" + dados.DATAINICIAL + "',103) AND CONVERT(DATE,'" + dados.DATAFINAL+ "' ,103) ";
             SQL += "" + Filtro + "";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -11138,599 +11136,598 @@ namespace ABAINFRA.Web
             listTable = DBS.List(SQL);
 
             return JsonConvert.SerializeObject(listTable);
-
-        }
-
-            [WebMethod(EnableSession = true)]
-            public string BuscaClienteParceiro(int Id)
-            {
-                if (Id != 0)
-                {
-                    string SQL;
-                    SQL = "SELECT ISNULL(A.ID_TIPO_ESTUFAGEM,0) AS ID_TIPO_ESTUFAGEM, ISNULL(A.ID_TIPO_COMEX,0) AS ID_TIPO_COMEX, ISNULL(A.ID_VIATRANSPORTE,0) AS ID_VIATRANSPORTE, A.OB_TAXAS, B.ID_ITEM_DESPESA, A.ID_BASE_CALCULO_TAXA, VL_TAXA_COMPRA, ISNULL(A.ID_PORTO_DESCARGA,0) AS ID_PORTO_DESCARGA, ISNULL(A.ID_TIPO_COBRANCA,0) AS ID_TIPO_COBRANCA, ";
-                    SQL += "ISNULL(ID_MOEDA_COMPRA,'') AS MOEDA_COMPRA, VL_TAXA_VENDA, ISNULL(ID_MOEDA_VENDA,'') AS MOEDA_VENDA, A.FL_DECLARADO, A.FL_DIVISAO_PROFIT, ";
-                    SQL += "A.ID_DESTINATARIO_COBRANCA, A.ID_TIPO_PAGAMENTO, A.ID_ORIGEM_PAGAMENTO, ";
-                    SQL += "ISNULL(A.ID_PORTO_RECEBIMENTO,0) RECEBIMENTO, ISNULL(A.ID_PORTO_CARREGAMENTO,0) AS CARREGAMENTO, ISNULL(A.ID_INCOTERM,0) AS INCOTERM, A.ID_TIPO_PAGAMENTO, A.ID_ORIGEM_PAGAMENTO, ";
-                    SQL += "A.ID_ITEM_DESPESA, FL_TAXA_TRANSPORTADOR, isnull(A.VL_TARIFA_MINIMA,0) as VL_TARIFA_MINIMA, isnull(A.VL_TARIFA_MINIMA_COMPRA,0) as VL_TARIFA_MINIMA_COMPRA ";
-                    SQL += "FROM TB_TAXA_CLIENTE A ";
-                    SQL += "INNER JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
-                    SQL += "LEFT JOIN TB_BASE_CALCULO_TAXA C ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
-                    SQL += "LEFT JOIN TB_MOEDA D ON A.ID_MOEDA_VENDA = D.CD_MOEDA ";
-                    SQL += "WHERE ID_TAXA_CLIENTE = '" + Id + "'";
-
-                    DataTable carregarDados = new DataTable();
-                    carregarDados = DBS.List(SQL);
-                    TaxasPrestador resultado = new TaxasPrestador();
-                    resultado.ID_TAXA_CLIENTE = Id.ToString();
-                    resultado.ID_ITEM_DESPESA = carregarDados.Rows[0]["ID_ITEM_DESPESA"].ToString();
-                    resultado.ID_BASE_CALCULO_TAXA = carregarDados.Rows[0]["ID_BASE_CALCULO_TAXA"].ToString();
-                    resultado.VL_TARIFA_MINIMA = carregarDados.Rows[0]["VL_TARIFA_MINIMA"].ToString();
-                    resultado.VL_TARIFA_MINIMA_COMPRA = carregarDados.Rows[0]["VL_TARIFA_MINIMA_COMPRA"].ToString();
-                    resultado.VL_TAXA_COMPRA = carregarDados.Rows[0]["VL_TAXA_COMPRA"].ToString();
-                    resultado.ID_MOEDA_COMPRA = carregarDados.Rows[0]["MOEDA_COMPRA"].ToString();
-                    resultado.VL_TAXA_VENDA = carregarDados.Rows[0]["VL_TAXA_VENDA"].ToString();
-                    resultado.ID_MOEDA_VENDA = carregarDados.Rows[0]["MOEDA_VENDA"].ToString();
-                    resultado.ID_TIPO_ESTUFAGEM = carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"].ToString();
-                    resultado.ID_TIPO_COMEX = carregarDados.Rows[0]["ID_TIPO_COMEX"].ToString();
-                    resultado.ID_PORTO_DESCARGA = carregarDados.Rows[0]["ID_PORTO_DESCARGA"].ToString();
-                    resultado.ID_PORTO_RECEBIMENTO = carregarDados.Rows[0]["RECEBIMENTO"].ToString();
-                    resultado.ID_PORTO_CARREGAMENTO = carregarDados.Rows[0]["CARREGAMENTO"].ToString();
-                    resultado.ID_INCOTERM = carregarDados.Rows[0]["INCOTERM"].ToString();
-                    resultado.ID_TIPO_COBRANCA = carregarDados.Rows[0]["ID_TIPO_COBRANCA"].ToString();
-                    resultado.ID_VIATRANSPORTE = carregarDados.Rows[0]["ID_VIATRANSPORTE"].ToString();
-                    if (carregarDados.Rows[0]["FL_DECLARADO"].ToString() == "True")
-                    {
-                        resultado.FL_DECLARADO = "1";
-                    }
-                    else
-                    {
-                        resultado.FL_DECLARADO = "0";
-                    }
-                    if (carregarDados.Rows[0]["FL_DIVISAO_PROFIT"].ToString() == "True")
-                    {
-                        resultado.FL_DIVISAO_PROFIT = "1";
-                    }
-                    else
-                    {
-                        resultado.FL_DIVISAO_PROFIT = "0";
-                    }
-                    if (carregarDados.Rows[0]["FL_TAXA_TRANSPORTADOR"].ToString() == "True")
-                    {
-                        resultado.FL_TAXA_TRANSPORTADOR = "1";
-                    }
-                    else
-                    {
-                        resultado.FL_TAXA_TRANSPORTADOR = "0";
-                    }
-                    resultado.ID_DESTINATARIO_COBRANCA = carregarDados.Rows[0]["ID_DESTINATARIO_COBRANCA"].ToString();
-                    resultado.ID_TIPO_PAGAMENTO = carregarDados.Rows[0]["ID_TIPO_PAGAMENTO"].ToString();
-                    resultado.ID_ORIGEM_PAGAMENTO = carregarDados.Rows[0]["ID_ORIGEM_PAGAMENTO"].ToString();
-                    resultado.OB_TAXAS = carregarDados.Rows[0]["OB_TAXAS"].ToString();
-
-
-
-                    return JsonConvert.SerializeObject(resultado);
-                }
-                else
-                {
-                    return "selecione outro valor";
-                }
-            }
-
-            [WebMethod(EnableSession = true)]
-            public void CopiarTaxa(int Id)
+	}
+	
+        [WebMethod(EnableSession = true)]
+        public string BuscaClienteParceiro(int Id)
+        {
+            if (Id != 0)
             {
                 string SQL;
-
-                try
-                {
-                    SQL = "INSERT INTO TB_TAXA_CLIENTE ";
-                    SQL += "SELECT ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_TIPO_PAGAMENTO, ID_ORIGEM_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_RECEBIMENTO, ID_PORTO_CARREGAMENTO, ID_PORTO_DESCARGA, ID_INCOTERM, ID_TIPO_COBRANCA FROM TB_TAXA_CLIENTE WHERE ID_TAXA_CLIENTE = " + Id + " SELECT SCOPE_IDENTITY()";
-                    string newTaxa = DBS.ExecuteScalar(SQL);
-
-                    SQL = "SELECT * FROM TB_TAXA_CLIENTE_VARIACAO WHERE ID_TAXA_CLIENTE = " + Id + "";
-                    DataTable carregarDados = new DataTable();
-                    carregarDados = DBS.List(SQL);
-
-                    if (carregarDados != null)
-                    {
-                        SQL = "INSERT INTO TB_TAXA_CLIENTE_VARIACAO ";
-                        SQL += "SELECT " + newTaxa + ", ID_CALCULO_VARIACAO, QT_ITEM, QT_ITEM_INICIAL, QT_ITEM_FINAL, ID_MOEDA, VL_COMPRA FROM TB_TAXA_CLIENTE_VARIACAO WHERE ID_TAXA_CLIENTE = " + Id + " ";
-                        DBS.ExecuteScalar(SQL);
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-
-            }
-
-            [WebMethod(EnableSession = true)]
-            public string getObs(int Id)
-            {
-                string SQL;
-                SQL = "SELECT OBS_GERAL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " + Id + "";
-                DataTable carregarDados = new DataTable();
-                carregarDados = DBS.List(SQL);
-                Taxas obs = new Taxas();
-
-                obs.DS_OBSERVACAO_GERAL = carregarDados.Rows[0]["OBS_GERAL"].ToString();
-                return JsonConvert.SerializeObject(carregarDados);
-
-            }
-
-            [WebMethod(EnableSession = true)]
-            public void UpdateObs(int Id, string obsGeral)
-            {
-                string SQL;
-                SQL = "UPDATE TB_PARCEIRO SET OBS_GERAL = '" + obsGeral + "' WHERE ID_PARCEIRO = " + Id + "";
-                DBS.ExecuteScalar(SQL);
-
-            }
-
-            [WebMethod(EnableSession = true)]
-            public void CadastrarRegra([FromBody] List<Variacao> dados)
-            {
-                string SQL;
-                try
-                {
-                    for (int i = 0; i < dados.Count; i++)
-                    {
-                        string idBaseCalculoVariacao = dados[i].idBaseCalculoVariacao;
-                        string idTaxaCliente = dados[i].idTaxaCliente;
-                        string qtinicial = dados[i].qtInicial;
-                        string qtfinal = dados[i].qtFinal;
-                        string moedac = dados[i].moedaC;
-                        string valorc = dados[i].valorC;
-                        string idVariacao = dados[i].idVariacao;
-
-                        if (idVariacao != "")
-                        {
-                            SQL = "UPDATE TB_TAXA_CLIENTE_VARIACAO SET ID_CALCULO_VARIACAO = " + idBaseCalculoVariacao + ", QT_ITEM_INICIAL = '" + qtinicial + "', QT_ITEM_FINAL = '" + qtfinal + "', ID_MOEDA= '" + moedac + "', VL_COMPRA = '" + valorc + "' ";
-                            SQL += "WHERE ID_TAXA_CLIENTE_VARIACAO = '" + idVariacao + "' ";
-                            DBS.ExecuteScalar(SQL);
-                        }
-                        else
-                        {
-                            SQL = "INSERT INTO TB_TAXA_CLIENTE_VARIACAO (ID_CALCULO_VARIACAO, ID_TAXA_CLIENTE, QT_ITEM_INICIAL, QT_ITEM_FINAL, ID_MOEDA, VL_COMPRA) ";
-                            SQL += "VALUES (" + idBaseCalculoVariacao + "," + idTaxaCliente + ",'" + qtinicial + "', '" + qtfinal + "', '" + moedac + "', '" + valorc + "') ";
-                            DBS.ExecuteScalar(SQL);
-                        }
-                    }
-                    return;
-                }
-                catch
-                {
-                    return;
-                }
-            }
-
-            [WebMethod(EnableSession = true)]
-            public string CarregarMoeda()
-            {
-                string SQL;
-
-                SQL = "SELECT ID_MOEDA, NM_MOEDA FROM TB_MOEDA ";
-
-                DataTable carregarDados = new DataTable();
-                carregarDados = DBS.List(SQL);
-
-                return JsonConvert.SerializeObject(carregarDados);
-            }
-
-            [WebMethod(EnableSession = true)]
-            public string CadastrarTaxaPrestador(TaxasPrestador dados)
-            {
-                string tarifaV;
-                string tarifaC;
-
-
-                if (dados.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
-                if (dados.ID_TIPO_COMEX.ToString() == "") { dados.ID_TIPO_COMEX = "null"; }
-                if (dados.ID_TIPO_ESTUFAGEM.ToString() == "") { dados.ID_TIPO_ESTUFAGEM = "null"; }
-                if (dados.ID_VIATRANSPORTE.ToString() == "") { dados.ID_VIATRANSPORTE = "null"; }
-                if (dados.ID_INCOTERM.ToString() == "") { dados.ID_INCOTERM = "null"; }
-                if (dados.ID_PORTO_RECEBIMENTO.ToString() == "") { dados.ID_PORTO_RECEBIMENTO = "null"; }
-                if (dados.ID_PORTO_DESCARGA.ToString() == "") { dados.ID_PORTO_DESCARGA = "null"; };
-                if (dados.ID_PORTO_CARREGAMENTO.ToString() == "") { dados.ID_PORTO_CARREGAMENTO = "null"; }
-                if (dados.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
-                if ((dados.ID_BASE_CALCULO_TAXA == "6" || dados.ID_BASE_CALCULO_TAXA == "7" || dados.ID_BASE_CALCULO_TAXA == "13" || dados.ID_BASE_CALCULO_TAXA == "14" || dados.ID_BASE_CALCULO_TAXA == "37") && dados.VL_TARIFA_MINIMA.ToString() == "")
-                {
-                    return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
-                }
-
-                if (dados.ID_MOEDA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Compra" }); }
-                if (dados.VL_TAXA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Compra" }); }
-                if (Double.Parse(dados.VL_TAXA_COMPRA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Compra menor ou igual a 0" }); }
-                if (dados.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
-                {
-                    tarifaC = "0.00";
-                }
-                else
-                {
-                    tarifaC = dados.VL_TARIFA_MINIMA_COMPRA.ToString();
-                }
-
-                if (dados.ID_MOEDA_VENDA.ToString() == "") { dados.ID_MOEDA_VENDA = "null"; }
-                if (dados.VL_TAXA_VENDA.ToString() == "") { dados.VL_TAXA_VENDA = "0.00"; }
-                if (dados.VL_TARIFA_MINIMA.ToString() == "")
-                {
-                    tarifaV = "0.00";
-                }
-                else
-                {
-                    tarifaV = dados.VL_TARIFA_MINIMA.ToString();
-                }
-
-                if (dados.FL_DECLARADO.ToString() == "") { dados.FL_DECLARADO = "0"; }
-                if (dados.FL_DIVISAO_PROFIT.ToString() == "") { dados.FL_DIVISAO_PROFIT = "0"; }
-                if (dados.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
-                if (dados.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
-                if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
-                if (dados.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
-
-
-                string SQL;
-                string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
-                string vlTaxaCompra = dados.VL_TAXA_COMPRA.ToString().Replace(',', '.');
-
-
-                SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
-                SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA,";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_DESCARGA, ID_TIPO_COBRANCA, ID_PORTO_CARREGAMENTO, ID_PORTO_RECEBIMENTO, ID_INCOTERM) ";
-                SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
-                SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "'," + dados.ID_MOEDA_COMPRA + ",'" + vlTaxaCompra + "'," + dados.ID_MOEDA_VENDA + ", ";
-                SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "'," + dados.ID_DESTINATARIO_COBRANCA + ", ";
-                SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + ", ";
-                SQL += "" + dados.ID_TIPO_ESTUFAGEM + "," + dados.ID_ORIGEM_PAGAMENTO + "," + dados.ID_TIPO_PAGAMENTO + ", ";
-                SQL += "'" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "', ";
-                SQL += "'" + tarifaC.ToString().Replace(',', '.') + "'," + dados.ID_PORTO_DESCARGA + ", ";
-                SQL += "" + dados.ID_TIPO_COBRANCA.ToString() + ", " + dados.ID_PORTO_CARREGAMENTO + ", ";
-                SQL += "" + dados.ID_PORTO_RECEBIMENTO + ", " + dados.ID_INCOTERM + ") ";
-                string taxa = DBS.ExecuteScalar(SQL);
-                return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
-            }
-
-            [WebMethod(EnableSession = true)]
-            public string CarregarTaxaParceiro(string Id, string comex, string via, string estufagem)
-            {
-
-                string SQL;
-                string filter = "";
-                if (comex != "0") { filter += " AND (A.ID_TIPO_COMEX = '" + comex + "' OR A.ID_TIPO_COMEX IS NULL) "; }
-                if (via != "0") { filter += " AND (A.ID_VIATRANSPORTE = '" + via + "'  OR A.ID_VIATRANSPORTE  IS NULL) "; }
-                if (estufagem != "0") { filter += " AND (A.ID_TIPO_ESTUFAGEM= '" + estufagem + "' OR A.ID_TIPO_ESTUFAGEM IS NULL) "; }
-
-                SQL = "SELECT ID_TAXA_CLIENTE, B.NM_ITEM_DESPESA as ITEM, ISNULL(H1.NM_PORTO,'TODOS') AS DESCARGA, ISNULL(H2.NM_PORTO,'') AS RECEBIMENTO, ISNULL(H3.NM_PORTO,'TODOS') AS CARREGAMENTO, ISNULL(NM_INCOTERM,'TODOS') AS INCOTERM, CD_INCOTERM, C.NM_BASE_CALCULO_TAXA, ISNULL(D.NM_MOEDA,'') AS NM_MOEDA, ISNULL(D1.NM_MOEDA,'') AS NM_MOEDA_COMPRA, VL_TAXA_VENDA, VL_TAXA_COMPRA, ISNULL(E.NM_TIPO_ESTUFAGEM,'TODOS') AS NM_TIPO_ESTUFAGEM, ISNULL(F.NM_TIPO_COMEX,'TODOS') AS NM_TIPO_COMEX, ISNULL(G.NM_VIATRANSPORTE,'TODOS') AS NM_VIATRANSPORTE, ISNULL(I.NM_TIPO_COBRANCA,'') AS NM_TIPO_COBRANCA ";
+                SQL = "SELECT ISNULL(A.ID_TIPO_ESTUFAGEM,0) AS ID_TIPO_ESTUFAGEM, ISNULL(A.ID_TIPO_COMEX,0) AS ID_TIPO_COMEX, ISNULL(A.ID_VIATRANSPORTE,0) AS ID_VIATRANSPORTE, A.OB_TAXAS, B.ID_ITEM_DESPESA, A.ID_BASE_CALCULO_TAXA, VL_TAXA_COMPRA, ISNULL(A.ID_PORTO_DESCARGA,0) AS ID_PORTO_DESCARGA, ISNULL(A.ID_TIPO_COBRANCA,0) AS ID_TIPO_COBRANCA, ";
+                SQL += "ISNULL(ID_MOEDA_COMPRA,'') AS MOEDA_COMPRA, VL_TAXA_VENDA, ISNULL(ID_MOEDA_VENDA,'') AS MOEDA_VENDA, A.FL_DECLARADO, A.FL_DIVISAO_PROFIT, ";
+                SQL += "A.ID_DESTINATARIO_COBRANCA, A.ID_TIPO_PAGAMENTO, A.ID_ORIGEM_PAGAMENTO, ";
+                SQL += "ISNULL(A.ID_PORTO_RECEBIMENTO,0) RECEBIMENTO, ISNULL(A.ID_PORTO_CARREGAMENTO,0) AS CARREGAMENTO, ISNULL(A.ID_INCOTERM,0) AS INCOTERM, A.ID_TIPO_PAGAMENTO, A.ID_ORIGEM_PAGAMENTO, ";
+                SQL += "A.ID_ITEM_DESPESA, FL_TAXA_TRANSPORTADOR, isnull(A.VL_TARIFA_MINIMA,0) as VL_TARIFA_MINIMA, isnull(A.VL_TARIFA_MINIMA_COMPRA,0) as VL_TARIFA_MINIMA_COMPRA ";
                 SQL += "FROM TB_TAXA_CLIENTE A ";
                 SQL += "INNER JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
                 SQL += "LEFT JOIN TB_BASE_CALCULO_TAXA C ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
-                SQL += "LEFT JOIN TB_MOEDA D ON A.ID_MOEDA_VENDA= D.CD_MOEDA ";
-                SQL += "LEFT JOIN TB_MOEDA D1 ON A.ID_MOEDA_COMPRA = D1.CD_MOEDA ";
-                SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM E ON A.ID_TIPO_ESTUFAGEM = E.ID_TIPO_ESTUFAGEM ";
-                SQL += "LEFT JOIN TB_TIPO_COMEX F ON A.ID_TIPO_COMEX = F.ID_TIPO_COMEX ";
-                SQL += "LEFT JOIN TB_VIATRANSPORTE G ON A.ID_VIATRANSPORTE = G.ID_VIATRANSPORTE ";
-                SQL += "LEFT JOIN TB_PORTO H1 ON A.ID_PORTO_DESCARGA= H1.ID_PORTO ";
-                SQL += "LEFT JOIN TB_PORTO H2 ON A.ID_PORTO_RECEBIMENTO= H2.ID_PORTO ";
-                SQL += "LEFT JOIN TB_PORTO H3 ON A.ID_PORTO_CARREGAMENTO= H3.ID_PORTO ";
-                SQL += "LEFT JOIN TB_INCOTERM J ON A.ID_INCOTERM = J.ID_INCOTERM ";
-                SQL += "LEFT JOIN TB_TIPO_COBRANCA I ON A.ID_TIPO_COBRANCA= I.ID_TIPO_COBRANCA ";
-                SQL += "WHERE A.ID_PARCEIRO = '" + Id + "' ";
-                SQL += filter;
-                SQL += " ORDER BY B.NM_ITEM_DESPESA ASC ";
-
-                DataTable fclimpo = new DataTable();
-
-                fclimpo = DBS.List(SQL);
-
-                return JsonConvert.SerializeObject(fclimpo);
-            }
-
-            [WebMethod(EnableSession = true)]
-            public string ListarTaxaCliente(int Id, string comex, string via, string estufagem)
-            {
-                string SQL;
-                string filter = "";
-                if (comex != "0") { filter += " AND A.ID_TIPO_COMEX = '" + comex + "' "; }
-                if (via != "0") { filter += " AND A.ID_VIATRANSPORTE = '" + via + "' "; }
-                if (estufagem != "0") { filter += " AND A.ID_TIPO_ESTUFAGEM= '" + estufagem + "' "; }
-
-
-                SQL = "SELECT ID_TAXA_CLIENTE, B.NM_ITEM_DESPESA,A.ID_ITEM_DESPESA, NM_BASE_CALCULO_TAXA, NM_ITEM_DESPESA + ' (' + NM_BASE_CALCULO_TAXA + ')' AS DataField ";
-                SQL += "FROM TB_TAXA_CLIENTE A ";
-                SQL += "JOIN TB_ITEM_DESPESA B ";
-                SQL += "ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
-                SQL += "JOIN TB_BASE_CALCULO_TAXA C ";
-                SQL += "ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
-                SQL += "WHERE A.ID_PARCEIRO = '" + Id + "' ";
-                SQL += filter;
-                SQL += "ORDER BY ID_TAXA_CLIENTE ASC ";
-
-                DataTable taxaClienteFCLexpo = new DataTable();
-                taxaClienteFCLexpo = DBS.List(SQL);
-                return JsonConvert.SerializeObject(taxaClienteFCLexpo);
-            }
-
-            [WebMethod(EnableSession = true)]
-            public string BuscarRegraAvancada(string idTaxa)
-            {
-                string SQL;
-
-                SQL = "SELECT ID_TAXA_CLIENTE_VARIACAO, ID_CALCULO_VARIACAO, QT_ITEM, QT_ITEM_INICIAL, QT_ITEM_FINAL, ID_MOEDA, VL_COMPRA FROM TB_TAXA_CLIENTE_VARIACAO ";
-                SQL += "WHERE ID_TAXA_CLIENTE = " + idTaxa + " ";
+                SQL += "LEFT JOIN TB_MOEDA D ON A.ID_MOEDA_VENDA = D.CD_MOEDA ";
+                SQL += "WHERE ID_TAXA_CLIENTE = '" + Id + "'";
 
                 DataTable carregarDados = new DataTable();
                 carregarDados = DBS.List(SQL);
+                TaxasPrestador resultado = new TaxasPrestador();
+                resultado.ID_TAXA_CLIENTE = Id.ToString();
+                resultado.ID_ITEM_DESPESA = carregarDados.Rows[0]["ID_ITEM_DESPESA"].ToString();
+                resultado.ID_BASE_CALCULO_TAXA = carregarDados.Rows[0]["ID_BASE_CALCULO_TAXA"].ToString();
+                resultado.VL_TARIFA_MINIMA = carregarDados.Rows[0]["VL_TARIFA_MINIMA"].ToString();
+                resultado.VL_TARIFA_MINIMA_COMPRA = carregarDados.Rows[0]["VL_TARIFA_MINIMA_COMPRA"].ToString();
+                resultado.VL_TAXA_COMPRA = carregarDados.Rows[0]["VL_TAXA_COMPRA"].ToString();
+                resultado.ID_MOEDA_COMPRA = carregarDados.Rows[0]["MOEDA_COMPRA"].ToString();
+                resultado.VL_TAXA_VENDA = carregarDados.Rows[0]["VL_TAXA_VENDA"].ToString();
+                resultado.ID_MOEDA_VENDA = carregarDados.Rows[0]["MOEDA_VENDA"].ToString();
+                resultado.ID_TIPO_ESTUFAGEM = carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"].ToString();
+                resultado.ID_TIPO_COMEX = carregarDados.Rows[0]["ID_TIPO_COMEX"].ToString();
+                resultado.ID_PORTO_DESCARGA = carregarDados.Rows[0]["ID_PORTO_DESCARGA"].ToString();
+                resultado.ID_PORTO_RECEBIMENTO = carregarDados.Rows[0]["RECEBIMENTO"].ToString();
+                resultado.ID_PORTO_CARREGAMENTO = carregarDados.Rows[0]["CARREGAMENTO"].ToString();
+                resultado.ID_INCOTERM = carregarDados.Rows[0]["INCOTERM"].ToString();
+                resultado.ID_TIPO_COBRANCA = carregarDados.Rows[0]["ID_TIPO_COBRANCA"].ToString();
+                resultado.ID_VIATRANSPORTE = carregarDados.Rows[0]["ID_VIATRANSPORTE"].ToString();
+                if (carregarDados.Rows[0]["FL_DECLARADO"].ToString() == "True")
+                {
+                    resultado.FL_DECLARADO = "1";
+                }
+                else
+                {
+                    resultado.FL_DECLARADO = "0";
+                }
+                if (carregarDados.Rows[0]["FL_DIVISAO_PROFIT"].ToString() == "True")
+                {
+                    resultado.FL_DIVISAO_PROFIT = "1";
+                }
+                else
+                {
+                    resultado.FL_DIVISAO_PROFIT = "0";
+                }
+                if (carregarDados.Rows[0]["FL_TAXA_TRANSPORTADOR"].ToString() == "True")
+                {
+                    resultado.FL_TAXA_TRANSPORTADOR = "1";
+                }
+                else
+                {
+                    resultado.FL_TAXA_TRANSPORTADOR = "0";
+                }
+                resultado.ID_DESTINATARIO_COBRANCA = carregarDados.Rows[0]["ID_DESTINATARIO_COBRANCA"].ToString();
+                resultado.ID_TIPO_PAGAMENTO = carregarDados.Rows[0]["ID_TIPO_PAGAMENTO"].ToString();
+                resultado.ID_ORIGEM_PAGAMENTO = carregarDados.Rows[0]["ID_ORIGEM_PAGAMENTO"].ToString();
+                resultado.OB_TAXAS = carregarDados.Rows[0]["OB_TAXAS"].ToString();
 
-                return JsonConvert.SerializeObject(carregarDados);
+
+
+                return JsonConvert.SerializeObject(resultado);
             }
-
-            [WebMethod(EnableSession = true)]
-            public string EditarTaxaPrestador(TaxasPrestador dadosEdit)
+            else
             {
-                string tarifaV;
-                string tarifaC;
-
-
-                if (dadosEdit.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
-                if (dadosEdit.ID_TIPO_COMEX.ToString() == "") { dadosEdit.ID_TIPO_COMEX = "null"; }
-                if (dadosEdit.ID_TIPO_ESTUFAGEM.ToString() == "") { dadosEdit.ID_TIPO_ESTUFAGEM = "null"; }
-                if (dadosEdit.ID_VIATRANSPORTE.ToString() == "") { dadosEdit.ID_VIATRANSPORTE = "null"; }
-                if (dadosEdit.ID_INCOTERM.ToString() == "") { dadosEdit.ID_INCOTERM = "null"; }
-                if (dadosEdit.ID_PORTO_RECEBIMENTO.ToString() == "") { dadosEdit.ID_PORTO_RECEBIMENTO = "null"; }
-                if (dadosEdit.ID_PORTO_DESCARGA.ToString() == "") { dadosEdit.ID_PORTO_DESCARGA = "null"; };
-                if (dadosEdit.ID_PORTO_CARREGAMENTO.ToString() == "") { dadosEdit.ID_PORTO_CARREGAMENTO = "null"; }
-                if (dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
-                if ((dadosEdit.ID_BASE_CALCULO_TAXA == "6" || dadosEdit.ID_BASE_CALCULO_TAXA == "7" || dadosEdit.ID_BASE_CALCULO_TAXA == "13" || dadosEdit.ID_BASE_CALCULO_TAXA == "14" || dadosEdit.ID_BASE_CALCULO_TAXA == "37") && dadosEdit.VL_TARIFA_MINIMA.ToString() == "")
-                {
-                    return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
-                }
-
-                if (dadosEdit.ID_MOEDA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Compra" }); }
-                if (dadosEdit.VL_TAXA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Compra" }); }
-                if (Double.Parse(dadosEdit.VL_TAXA_COMPRA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Compra menor ou igual a 0" }); }
-                if (dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
-                {
-                    tarifaC = "0.00";
-                }
-                else
-                {
-                    tarifaC = dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString();
-                }
-
-                if (dadosEdit.ID_MOEDA_VENDA.ToString() == "") { dadosEdit.ID_MOEDA_VENDA = "null"; }
-                if (dadosEdit.VL_TAXA_VENDA.ToString() == "") { dadosEdit.VL_TAXA_VENDA = "0.00"; }
-
-                if (dadosEdit.VL_TARIFA_MINIMA.ToString() == "")
-                {
-                    tarifaV = "0.00";
-                }
-                else
-                {
-                    tarifaV = dadosEdit.VL_TARIFA_MINIMA.ToString();
-                }
-
-                if (dadosEdit.FL_DECLARADO.ToString() == "") { dadosEdit.FL_DECLARADO = "0"; }
-                if (dadosEdit.FL_DIVISAO_PROFIT.ToString() == "") { dadosEdit.FL_DIVISAO_PROFIT = "0"; }
-                if (dadosEdit.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
-                if (dadosEdit.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
-                if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
-                if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
-
-
-                string SQL;
-                string vlTaxaVenda = dadosEdit.VL_TAXA_VENDA.ToString().Replace(',', '.');
-                string vlTaxaCompra = dadosEdit.VL_TAXA_COMPRA.ToString().Replace(',', '.');
-                SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
-                SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
-                SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = " + dadosEdit.ID_MOEDA_VENDA + ", ";
-                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
-                SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
-                SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', FL_TAXA_TRANSPORTADOR = '" + dadosEdit.FL_TAXA_TRANSPORTADOR + "', VL_TARIFA_MINIMA = '" + tarifaV + "', VL_TARIFA_MINIMA_COMPRA = " + tarifaC + ",  ";
-                SQL += "ID_TIPO_ESTUFAGEM =" + dadosEdit.ID_TIPO_ESTUFAGEM + ", ";
-                SQL += "ID_TIPO_COMEX =" + dadosEdit.ID_TIPO_COMEX + ", ";
-                SQL += "ID_VIATRANSPORTE =" + dadosEdit.ID_VIATRANSPORTE + ", ";
-                SQL += "ID_TIPO_COBRANCA ='" + dadosEdit.ID_TIPO_COBRANCA + "', ";
-                SQL += "ID_PORTO_DESCARGA =" + dadosEdit.ID_PORTO_DESCARGA + ", ";
-                SQL += "ID_PORTO_CARREGAMENTO =" + dadosEdit.ID_PORTO_CARREGAMENTO + ", ";
-                SQL += "ID_PORTO_RECEBIMENTO =" + dadosEdit.ID_PORTO_RECEBIMENTO + ", ";
-                SQL += "ID_INCOTERM =" + dadosEdit.ID_INCOTERM + " ";
-                SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
-
-                string editTaxa = DBS.ExecuteScalar(SQL);
-                return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
-            }
-
-            [WebMethod(EnableSession = true)]
-            public void DeletarTaxa(int Id)
-            {
-                string SQL;
-                SQL = "DELETE FROM TB_TAXA_CLIENTE WHERE ID_TAXA_CLIENTE = '" + Id + "' ";
-
-                string deleteTaxa = DBS.ExecuteScalar(SQL);
-
-            }
-
-            [WebMethod(EnableSession = true)]
-            public void DeletarTaxaVariacao(int Id)
-            {
-                string SQL;
-                SQL = "DELETE FROM TB_TAXA_CLIENTE_VARIACAO WHERE ID_TAXA_CLIENTE_VARIACAO = '" + Id + "' ";
-
-                string deleteTaxa = DBS.ExecuteScalar(SQL);
-
-            }
-
-            [WebMethod(EnableSession = true)]
-            public string ListarPortoAeroporto(string via)
-            {
-                string SQL;
-
-
-                SQL = "SELECT ID_PORTO, NM_PORTO, CD_PORTO FROM TB_PORTO ";
-                if (via != "")
-                {
-                    SQL += "WHERE ID_VIATRANSPORTE = " + via + " ORDER BY NM_PORTO";
-                }
-                else
-                {
-                    SQL += "ORDER BY NM_PORTO";
-
-                }
-                DataTable carregarDados = new DataTable();
-                carregarDados = DBS.List(SQL);
-
-                return JsonConvert.SerializeObject(carregarDados);
-            }
-
-
-            [WebMethod(EnableSession = true)]
-            public string CadastrarTaxaAgenteInternacional(TaxasPrestador dados)
-            {
-                string tarifaV;
-                string tarifaC;
-
-                if (dados.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
-                if (dados.ID_TIPO_COMEX.ToString() == "") { dados.ID_TIPO_COMEX = "null"; }
-                if (dados.ID_TIPO_ESTUFAGEM.ToString() == "") { dados.ID_TIPO_ESTUFAGEM = "null"; }
-                if (dados.ID_VIATRANSPORTE.ToString() == "") { dados.ID_VIATRANSPORTE = "null"; }
-                if (dados.ID_INCOTERM.ToString() == "") { dados.ID_INCOTERM = "null"; }
-                if (dados.ID_PORTO_RECEBIMENTO.ToString() == "") { dados.ID_PORTO_RECEBIMENTO = "null"; }
-                if (dados.ID_PORTO_DESCARGA.ToString() == "") { dados.ID_PORTO_DESCARGA = "null"; };
-                if (dados.ID_PORTO_CARREGAMENTO.ToString() == "") { dados.ID_PORTO_CARREGAMENTO = "null"; }
-                if (dados.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
-                if ((dados.ID_BASE_CALCULO_TAXA == "6" || dados.ID_BASE_CALCULO_TAXA == "7" || dados.ID_BASE_CALCULO_TAXA == "13" || dados.ID_BASE_CALCULO_TAXA == "14" || dados.ID_BASE_CALCULO_TAXA == "37") && (dados.VL_TARIFA_MINIMA.ToString() == "" || Double.Parse(dados.VL_TARIFA_MINIMA.ToString()) <= 0.00))
-                {
-                    return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
-                }
-
-                if (dados.ID_MOEDA_COMPRA.ToString() == "") { dados.ID_MOEDA_COMPRA = "null"; }
-                if (dados.VL_TAXA_COMPRA.ToString() == "") { dados.VL_TAXA_COMPRA = "0.00"; }
-                if (dados.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
-                {
-                    tarifaC = "0.00";
-                }
-                else
-                {
-                    tarifaC = dados.VL_TARIFA_MINIMA_COMPRA.ToString();
-                }
-
-                if (dados.ID_MOEDA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Venda" }); }
-                if (dados.VL_TAXA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Venda" }); }
-                if (Double.Parse(dados.VL_TAXA_VENDA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Venda menor ou igual a 0" }); }
-
-                if (dados.FL_DECLARADO.ToString() == "") { dados.FL_DECLARADO = "0"; }
-                if (dados.FL_DIVISAO_PROFIT.ToString() == "") { dados.FL_DIVISAO_PROFIT = "0"; }
-                if (dados.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
-                if (dados.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
-                if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
-                if (dados.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
-
-
-                string SQL;
-                string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
-                string vlTaxaCompra = dados.VL_TAXA_COMPRA.ToString().Replace(',', '.');
-                if (dados.VL_TARIFA_MINIMA.ToString() == "" || Double.Parse(dados.VL_TARIFA_MINIMA) <= 0.00)
-                {
-                    tarifaV = "0.00";
-                }
-                else
-                {
-                    tarifaV = dados.VL_TARIFA_MINIMA.ToString();
-                }
-
-                SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
-                SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA,";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_DESCARGA, ID_TIPO_COBRANCA, ID_PORTO_CARREGAMENTO, ID_PORTO_RECEBIMENTO, ID_INCOTERM) ";
-                SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
-                SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "'," + dados.ID_MOEDA_COMPRA + ",'" + vlTaxaCompra + "'," + dados.ID_MOEDA_VENDA + ", ";
-                SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "'," + dados.ID_DESTINATARIO_COBRANCA + ", ";
-                SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + ", ";
-                SQL += "" + dados.ID_TIPO_ESTUFAGEM + "," + dados.ID_ORIGEM_PAGAMENTO + "," + dados.ID_TIPO_PAGAMENTO + ", ";
-                SQL += "'" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "', ";
-                SQL += "'" + tarifaC.ToString().Replace(',', '.') + "'," + dados.ID_PORTO_DESCARGA + ", ";
-                SQL += "" + dados.ID_TIPO_COBRANCA.ToString() + ", " + dados.ID_PORTO_CARREGAMENTO + ", ";
-                SQL += "" + dados.ID_PORTO_RECEBIMENTO + ", " + dados.ID_INCOTERM + ") ";
-                string taxa = DBS.ExecuteScalar(SQL);
-                return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
-            }
-
-            [WebMethod(EnableSession = true)]
-            public string EditarTaxaAgenteInternacional(TaxasPrestador dadosEdit)
-            {
-
-                string tarifaV;
-                string tarifaC;
-                if (dadosEdit.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
-                if (dadosEdit.ID_TIPO_COMEX.ToString() == "") { dadosEdit.ID_TIPO_COMEX = "null"; }
-                if (dadosEdit.ID_TIPO_ESTUFAGEM.ToString() == "") { dadosEdit.ID_TIPO_ESTUFAGEM = "null"; }
-                if (dadosEdit.ID_VIATRANSPORTE.ToString() == "") { dadosEdit.ID_VIATRANSPORTE = "null"; }
-                if (dadosEdit.ID_INCOTERM.ToString() == "") { dadosEdit.ID_INCOTERM = "null"; }
-                if (dadosEdit.ID_PORTO_RECEBIMENTO.ToString() == "") { dadosEdit.ID_PORTO_RECEBIMENTO = "null"; }
-                if (dadosEdit.ID_PORTO_DESCARGA.ToString() == "") { dadosEdit.ID_PORTO_DESCARGA = "null"; };
-                if (dadosEdit.ID_PORTO_CARREGAMENTO.ToString() == "") { dadosEdit.ID_PORTO_CARREGAMENTO = "null"; }
-                if (dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
-                if ((dadosEdit.ID_BASE_CALCULO_TAXA == "6" || dadosEdit.ID_BASE_CALCULO_TAXA == "7" || dadosEdit.ID_BASE_CALCULO_TAXA == "13" || dadosEdit.ID_BASE_CALCULO_TAXA == "14" || dadosEdit.ID_BASE_CALCULO_TAXA == "37") && (dadosEdit.VL_TARIFA_MINIMA.ToString() == "" || Double.Parse(dadosEdit.VL_TARIFA_MINIMA.ToString()) <= 0.00))
-                {
-                    return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
-                }
-
-                if (dadosEdit.ID_MOEDA_COMPRA.ToString() == "") { dadosEdit.ID_MOEDA_COMPRA = "null"; }
-                if (dadosEdit.VL_TAXA_COMPRA.ToString() == "") { dadosEdit.VL_TAXA_COMPRA = "0.00"; }
-                if (dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
-                {
-                    tarifaC = "0.00";
-                }
-                else
-                {
-                    tarifaC = dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString();
-                }
-
-                if (dadosEdit.ID_MOEDA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Venda" }); }
-                if (dadosEdit.VL_TAXA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Venda" }); }
-                if (Double.Parse(dadosEdit.VL_TAXA_VENDA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Venda menor ou igual a 0" }); }
-
-                if (dadosEdit.VL_TARIFA_MINIMA.ToString() == "" || Double.Parse(dadosEdit.VL_TARIFA_MINIMA) <= 0.00)
-                {
-                    tarifaV = "0.00";
-                }
-                else
-                {
-                    tarifaV = dadosEdit.VL_TARIFA_MINIMA.ToString();
-                }
-
-                if (dadosEdit.FL_DECLARADO.ToString() == "") { dadosEdit.FL_DECLARADO = "0"; }
-                if (dadosEdit.FL_DIVISAO_PROFIT.ToString() == "") { dadosEdit.FL_DIVISAO_PROFIT = "0"; }
-                if (dadosEdit.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
-                if (dadosEdit.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
-                if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
-                if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
-
-
-                string SQL;
-                string vlTaxaVenda = dadosEdit.VL_TAXA_VENDA.ToString().Replace(',', '.');
-                string vlTaxaCompra = dadosEdit.VL_TAXA_COMPRA.ToString().Replace(',', '.');
-                SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
-                SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
-                SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = " + dadosEdit.ID_MOEDA_VENDA + ", ";
-                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
-                SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
-                SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', FL_TAXA_TRANSPORTADOR = '" + dadosEdit.FL_TAXA_TRANSPORTADOR + "', VL_TARIFA_MINIMA = '" + tarifaV + "', VL_TARIFA_MINIMA_COMPRA = " + tarifaC + ",  ";
-                SQL += "ID_TIPO_ESTUFAGEM =" + dadosEdit.ID_TIPO_ESTUFAGEM + ", ";
-                SQL += "ID_TIPO_COMEX =" + dadosEdit.ID_TIPO_COMEX + ", ";
-                SQL += "ID_VIATRANSPORTE =" + dadosEdit.ID_VIATRANSPORTE + ", ";
-                SQL += "ID_TIPO_COBRANCA ='" + dadosEdit.ID_TIPO_COBRANCA + "', ";
-                SQL += "ID_PORTO_DESCARGA =" + dadosEdit.ID_PORTO_DESCARGA + ", ";
-                SQL += "ID_PORTO_CARREGAMENTO =" + dadosEdit.ID_PORTO_CARREGAMENTO + ", ";
-                SQL += "ID_PORTO_RECEBIMENTO =" + dadosEdit.ID_PORTO_RECEBIMENTO + ", ";
-                SQL += "ID_INCOTERM =" + dadosEdit.ID_INCOTERM + " ";
-                SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
-
-                string editTaxa = DBS.ExecuteScalar(SQL);
-                return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
+                return "selecione outro valor";
             }
         }
+
+        [WebMethod(EnableSession = true)]
+        public void CopiarTaxa(int Id)
+        {
+            string SQL;
+
+            try
+            {
+                SQL = "INSERT INTO TB_TAXA_CLIENTE ";
+                SQL += "SELECT ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_TIPO_PAGAMENTO, ID_ORIGEM_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_RECEBIMENTO, ID_PORTO_CARREGAMENTO, ID_PORTO_DESCARGA, ID_INCOTERM, ID_TIPO_COBRANCA FROM TB_TAXA_CLIENTE WHERE ID_TAXA_CLIENTE = " + Id + " SELECT SCOPE_IDENTITY()";
+                string newTaxa = DBS.ExecuteScalar(SQL);
+
+                SQL = "SELECT * FROM TB_TAXA_CLIENTE_VARIACAO WHERE ID_TAXA_CLIENTE = " + Id + "";
+                DataTable carregarDados = new DataTable();
+                carregarDados = DBS.List(SQL);
+
+                if (carregarDados != null)
+                {
+                    SQL = "INSERT INTO TB_TAXA_CLIENTE_VARIACAO ";
+                    SQL += "SELECT " + newTaxa + ", ID_CALCULO_VARIACAO, QT_ITEM, QT_ITEM_INICIAL, QT_ITEM_FINAL, ID_MOEDA, VL_COMPRA FROM TB_TAXA_CLIENTE_VARIACAO WHERE ID_TAXA_CLIENTE = " + Id + " ";
+                    DBS.ExecuteScalar(SQL);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string getObs(int Id)
+        {
+            string SQL;
+            SQL = "SELECT OBS_GERAL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " + Id + "";
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+            Taxas obs = new Taxas();
+
+            obs.DS_OBSERVACAO_GERAL = carregarDados.Rows[0]["OBS_GERAL"].ToString();
+            return JsonConvert.SerializeObject(carregarDados);
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public void UpdateObs(int Id, string obsGeral)
+        {
+            string SQL;
+            SQL = "UPDATE TB_PARCEIRO SET OBS_GERAL = '" + obsGeral + "' WHERE ID_PARCEIRO = " + Id + "";
+            DBS.ExecuteScalar(SQL);
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public void CadastrarRegra([FromBody] List<Variacao> dados)
+        {
+            string SQL;
+            try
+            {
+                for (int i = 0; i < dados.Count; i++)
+                {
+                    string idBaseCalculoVariacao = dados[i].idBaseCalculoVariacao;
+                    string idTaxaCliente = dados[i].idTaxaCliente;
+                    string qtinicial = dados[i].qtInicial;
+                    string qtfinal = dados[i].qtFinal;
+                    string moedac = dados[i].moedaC;
+                    string valorc = dados[i].valorC;
+                    string idVariacao = dados[i].idVariacao;
+
+                    if (idVariacao != "")
+                    {
+                        SQL = "UPDATE TB_TAXA_CLIENTE_VARIACAO SET ID_CALCULO_VARIACAO = " + idBaseCalculoVariacao + ", QT_ITEM_INICIAL = '" + qtinicial + "', QT_ITEM_FINAL = '" + qtfinal + "', ID_MOEDA= '" + moedac + "', VL_COMPRA = '" + valorc + "' ";
+                        SQL += "WHERE ID_TAXA_CLIENTE_VARIACAO = '" + idVariacao + "' ";
+                        DBS.ExecuteScalar(SQL);
+                    }
+                    else
+                    {
+                        SQL = "INSERT INTO TB_TAXA_CLIENTE_VARIACAO (ID_CALCULO_VARIACAO, ID_TAXA_CLIENTE, QT_ITEM_INICIAL, QT_ITEM_FINAL, ID_MOEDA, VL_COMPRA) ";
+                        SQL += "VALUES (" + idBaseCalculoVariacao + "," + idTaxaCliente + ",'" + qtinicial + "', '" + qtfinal + "', '" + moedac + "', '" + valorc + "') ";
+                        DBS.ExecuteScalar(SQL);
+                    }
+                }
+                return;
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string CarregarMoeda()
+        {
+            string SQL;
+
+            SQL = "SELECT ID_MOEDA, NM_MOEDA FROM TB_MOEDA ";
+
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(carregarDados);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string CadastrarTaxaPrestador(TaxasPrestador dados)
+        {
+            string tarifaV;
+            string tarifaC;
+
+
+            if (dados.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
+            if (dados.ID_TIPO_COMEX.ToString() == "") { dados.ID_TIPO_COMEX = "null"; }
+            if (dados.ID_TIPO_ESTUFAGEM.ToString() == "") { dados.ID_TIPO_ESTUFAGEM = "null"; }
+            if (dados.ID_VIATRANSPORTE.ToString() == "") { dados.ID_VIATRANSPORTE = "null"; }
+            if (dados.ID_INCOTERM.ToString() == "") { dados.ID_INCOTERM = "null"; }
+            if (dados.ID_PORTO_RECEBIMENTO.ToString() == "") { dados.ID_PORTO_RECEBIMENTO = "null"; }
+            if (dados.ID_PORTO_DESCARGA.ToString() == "") { dados.ID_PORTO_DESCARGA = "null"; };
+            if (dados.ID_PORTO_CARREGAMENTO.ToString() == "") { dados.ID_PORTO_CARREGAMENTO = "null"; }
+            if (dados.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
+            if ((dados.ID_BASE_CALCULO_TAXA == "6" || dados.ID_BASE_CALCULO_TAXA == "7" || dados.ID_BASE_CALCULO_TAXA == "13" || dados.ID_BASE_CALCULO_TAXA == "14" || dados.ID_BASE_CALCULO_TAXA == "37") && dados.VL_TARIFA_MINIMA.ToString() == "")
+            {
+                return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
+            }
+
+            if (dados.ID_MOEDA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Compra" }); }
+            if (dados.VL_TAXA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Compra" }); }
+            if (Double.Parse(dados.VL_TAXA_COMPRA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Compra menor ou igual a 0" }); }
+            if (dados.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
+            {
+                tarifaC = "0.00";
+            }
+            else
+            {
+                tarifaC = dados.VL_TARIFA_MINIMA_COMPRA.ToString();
+            }
+
+            if (dados.ID_MOEDA_VENDA.ToString() == "") { dados.ID_MOEDA_VENDA = "null"; }
+            if (dados.VL_TAXA_VENDA.ToString() == "") { dados.VL_TAXA_VENDA = "0.00"; }
+            if (dados.VL_TARIFA_MINIMA.ToString() == "")
+            {
+                tarifaV = "0.00";
+            }
+            else
+            {
+                tarifaV = dados.VL_TARIFA_MINIMA.ToString();
+            }
+
+            if (dados.FL_DECLARADO.ToString() == "") { dados.FL_DECLARADO = "0"; }
+            if (dados.FL_DIVISAO_PROFIT.ToString() == "") { dados.FL_DIVISAO_PROFIT = "0"; }
+            if (dados.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
+            if (dados.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
+            if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
+            if (dados.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
+
+
+            string SQL;
+            string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
+            string vlTaxaCompra = dados.VL_TAXA_COMPRA.ToString().Replace(',', '.');
+
+
+            SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
+            SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA,";
+            SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_DESCARGA, ID_TIPO_COBRANCA, ID_PORTO_CARREGAMENTO, ID_PORTO_RECEBIMENTO, ID_INCOTERM) ";
+            SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
+            SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "'," + dados.ID_MOEDA_COMPRA + ",'" + vlTaxaCompra + "'," + dados.ID_MOEDA_VENDA + ", ";
+            SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "'," + dados.ID_DESTINATARIO_COBRANCA + ", ";
+            SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
+            SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + ", ";
+            SQL += "" + dados.ID_TIPO_ESTUFAGEM + "," + dados.ID_ORIGEM_PAGAMENTO + "," + dados.ID_TIPO_PAGAMENTO + ", ";
+            SQL += "'" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "', ";
+            SQL += "'" + tarifaC.ToString().Replace(',', '.') + "'," + dados.ID_PORTO_DESCARGA + ", ";
+            SQL += "" + dados.ID_TIPO_COBRANCA.ToString() + ", " + dados.ID_PORTO_CARREGAMENTO + ", ";
+            SQL += "" + dados.ID_PORTO_RECEBIMENTO + ", " + dados.ID_INCOTERM + ") ";
+            string taxa = DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string CarregarTaxaParceiro(string Id, string comex, string via, string estufagem)
+        {
+
+            string SQL;
+            string filter = "";
+            if (comex != "0") { filter += " AND (A.ID_TIPO_COMEX = '" + comex + "' OR A.ID_TIPO_COMEX IS NULL) "; }
+            if (via != "0") { filter += " AND (A.ID_VIATRANSPORTE = '" + via + "'  OR A.ID_VIATRANSPORTE  IS NULL) "; }
+            if (estufagem != "0") { filter += " AND (A.ID_TIPO_ESTUFAGEM= '" + estufagem + "' OR A.ID_TIPO_ESTUFAGEM IS NULL) "; }
+
+            SQL = "SELECT ID_TAXA_CLIENTE, B.NM_ITEM_DESPESA as ITEM, ISNULL(H1.NM_PORTO,'TODOS') AS DESCARGA, ISNULL(H2.NM_PORTO,'') AS RECEBIMENTO, ISNULL(H3.NM_PORTO,'TODOS') AS CARREGAMENTO, ISNULL(NM_INCOTERM,'TODOS') AS INCOTERM, CD_INCOTERM, C.NM_BASE_CALCULO_TAXA, ISNULL(D.NM_MOEDA,'') AS NM_MOEDA, ISNULL(D1.NM_MOEDA,'') AS NM_MOEDA_COMPRA, VL_TAXA_VENDA, VL_TAXA_COMPRA, ISNULL(E.NM_TIPO_ESTUFAGEM,'TODOS') AS NM_TIPO_ESTUFAGEM, ISNULL(F.NM_TIPO_COMEX,'TODOS') AS NM_TIPO_COMEX, ISNULL(G.NM_VIATRANSPORTE,'TODOS') AS NM_VIATRANSPORTE, ISNULL(I.NM_TIPO_COBRANCA,'') AS NM_TIPO_COBRANCA ";
+            SQL += "FROM TB_TAXA_CLIENTE A ";
+            SQL += "INNER JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
+            SQL += "LEFT JOIN TB_BASE_CALCULO_TAXA C ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
+            SQL += "LEFT JOIN TB_MOEDA D ON A.ID_MOEDA_VENDA= D.CD_MOEDA ";
+            SQL += "LEFT JOIN TB_MOEDA D1 ON A.ID_MOEDA_COMPRA = D1.CD_MOEDA ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM E ON A.ID_TIPO_ESTUFAGEM = E.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_TIPO_COMEX F ON A.ID_TIPO_COMEX = F.ID_TIPO_COMEX ";
+            SQL += "LEFT JOIN TB_VIATRANSPORTE G ON A.ID_VIATRANSPORTE = G.ID_VIATRANSPORTE ";
+            SQL += "LEFT JOIN TB_PORTO H1 ON A.ID_PORTO_DESCARGA= H1.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PORTO H2 ON A.ID_PORTO_RECEBIMENTO= H2.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PORTO H3 ON A.ID_PORTO_CARREGAMENTO= H3.ID_PORTO ";
+            SQL += "LEFT JOIN TB_INCOTERM J ON A.ID_INCOTERM = J.ID_INCOTERM ";
+            SQL += "LEFT JOIN TB_TIPO_COBRANCA I ON A.ID_TIPO_COBRANCA= I.ID_TIPO_COBRANCA ";
+            SQL += "WHERE A.ID_PARCEIRO = '" + Id + "' ";
+            SQL += filter;
+            SQL += " ORDER BY B.NM_ITEM_DESPESA ASC ";
+
+            DataTable fclimpo = new DataTable();
+
+            fclimpo = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(fclimpo);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string ListarTaxaCliente(int Id, string comex, string via, string estufagem)
+        {
+            string SQL;
+            string filter = "";
+            if (comex != "0") { filter += " AND A.ID_TIPO_COMEX = '" + comex + "' "; }
+            if (via != "0") { filter += " AND A.ID_VIATRANSPORTE = '" + via + "' "; }
+            if (estufagem != "0") { filter += " AND A.ID_TIPO_ESTUFAGEM= '" + estufagem + "' "; }
+
+
+            SQL = "SELECT ID_TAXA_CLIENTE, B.NM_ITEM_DESPESA,A.ID_ITEM_DESPESA, NM_BASE_CALCULO_TAXA, NM_ITEM_DESPESA + ' (' + NM_BASE_CALCULO_TAXA + ')' AS DataField ";
+            SQL += "FROM TB_TAXA_CLIENTE A ";
+            SQL += "JOIN TB_ITEM_DESPESA B ";
+            SQL += "ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
+            SQL += "JOIN TB_BASE_CALCULO_TAXA C ";
+            SQL += "ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
+            SQL += "WHERE A.ID_PARCEIRO = '" + Id + "' ";
+            SQL += filter;
+            SQL += "ORDER BY ID_TAXA_CLIENTE ASC ";
+
+            DataTable taxaClienteFCLexpo = new DataTable();
+            taxaClienteFCLexpo = DBS.List(SQL);
+            return JsonConvert.SerializeObject(taxaClienteFCLexpo);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string BuscarRegraAvancada(string idTaxa)
+        {
+            string SQL;
+
+            SQL = "SELECT ID_TAXA_CLIENTE_VARIACAO, ID_CALCULO_VARIACAO, QT_ITEM, QT_ITEM_INICIAL, QT_ITEM_FINAL, ID_MOEDA, VL_COMPRA FROM TB_TAXA_CLIENTE_VARIACAO ";
+            SQL += "WHERE ID_TAXA_CLIENTE = " + idTaxa + " ";
+
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(carregarDados);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string EditarTaxaPrestador(TaxasPrestador dadosEdit)
+        {
+            string tarifaV;
+            string tarifaC;
+
+
+            if (dadosEdit.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
+            if (dadosEdit.ID_TIPO_COMEX.ToString() == "") { dadosEdit.ID_TIPO_COMEX = "null"; }
+            if (dadosEdit.ID_TIPO_ESTUFAGEM.ToString() == "") { dadosEdit.ID_TIPO_ESTUFAGEM = "null"; }
+            if (dadosEdit.ID_VIATRANSPORTE.ToString() == "") { dadosEdit.ID_VIATRANSPORTE = "null"; }
+            if (dadosEdit.ID_INCOTERM.ToString() == "") { dadosEdit.ID_INCOTERM = "null"; }
+            if (dadosEdit.ID_PORTO_RECEBIMENTO.ToString() == "") { dadosEdit.ID_PORTO_RECEBIMENTO = "null"; }
+            if (dadosEdit.ID_PORTO_DESCARGA.ToString() == "") { dadosEdit.ID_PORTO_DESCARGA = "null"; };
+            if (dadosEdit.ID_PORTO_CARREGAMENTO.ToString() == "") { dadosEdit.ID_PORTO_CARREGAMENTO = "null"; }
+            if (dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
+            if ((dadosEdit.ID_BASE_CALCULO_TAXA == "6" || dadosEdit.ID_BASE_CALCULO_TAXA == "7" || dadosEdit.ID_BASE_CALCULO_TAXA == "13" || dadosEdit.ID_BASE_CALCULO_TAXA == "14" || dadosEdit.ID_BASE_CALCULO_TAXA == "37") && dadosEdit.VL_TARIFA_MINIMA.ToString() == "")
+            {
+                return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
+            }
+
+            if (dadosEdit.ID_MOEDA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Compra" }); }
+            if (dadosEdit.VL_TAXA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Compra" }); }
+            if (Double.Parse(dadosEdit.VL_TAXA_COMPRA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Compra menor ou igual a 0" }); }
+            if (dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
+            {
+                tarifaC = "0.00";
+            }
+            else
+            {
+                tarifaC = dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString();
+            }
+
+            if (dadosEdit.ID_MOEDA_VENDA.ToString() == "") { dadosEdit.ID_MOEDA_VENDA = "null"; }
+            if (dadosEdit.VL_TAXA_VENDA.ToString() == "") { dadosEdit.VL_TAXA_VENDA = "0.00"; }
+
+            if (dadosEdit.VL_TARIFA_MINIMA.ToString() == "")
+            {
+                tarifaV = "0.00";
+            }
+            else
+            {
+                tarifaV = dadosEdit.VL_TARIFA_MINIMA.ToString();
+            }
+
+            if (dadosEdit.FL_DECLARADO.ToString() == "") { dadosEdit.FL_DECLARADO = "0"; }
+            if (dadosEdit.FL_DIVISAO_PROFIT.ToString() == "") { dadosEdit.FL_DIVISAO_PROFIT = "0"; }
+            if (dadosEdit.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
+            if (dadosEdit.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
+            if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
+            if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
+
+
+            string SQL;
+            string vlTaxaVenda = dadosEdit.VL_TAXA_VENDA.ToString().Replace(',', '.');
+            string vlTaxaCompra = dadosEdit.VL_TAXA_COMPRA.ToString().Replace(',', '.');
+            SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
+            SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
+            SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = " + dadosEdit.ID_MOEDA_VENDA + ", ";
+            SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
+            SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
+            SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', FL_TAXA_TRANSPORTADOR = '" + dadosEdit.FL_TAXA_TRANSPORTADOR + "', VL_TARIFA_MINIMA = '" + tarifaV + "', VL_TARIFA_MINIMA_COMPRA = " + tarifaC + ",  ";
+            SQL += "ID_TIPO_ESTUFAGEM =" + dadosEdit.ID_TIPO_ESTUFAGEM + ", ";
+            SQL += "ID_TIPO_COMEX =" + dadosEdit.ID_TIPO_COMEX + ", ";
+            SQL += "ID_VIATRANSPORTE =" + dadosEdit.ID_VIATRANSPORTE + ", ";
+            SQL += "ID_TIPO_COBRANCA ='" + dadosEdit.ID_TIPO_COBRANCA + "', ";
+            SQL += "ID_PORTO_DESCARGA =" + dadosEdit.ID_PORTO_DESCARGA + ", ";
+            SQL += "ID_PORTO_CARREGAMENTO =" + dadosEdit.ID_PORTO_CARREGAMENTO + ", ";
+            SQL += "ID_PORTO_RECEBIMENTO =" + dadosEdit.ID_PORTO_RECEBIMENTO + ", ";
+            SQL += "ID_INCOTERM =" + dadosEdit.ID_INCOTERM + " ";
+            SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
+
+            string editTaxa = DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
+        }
+
+        [WebMethod(EnableSession = true)]
+        public void DeletarTaxa(int Id)
+        {
+            string SQL;
+            SQL = "DELETE FROM TB_TAXA_CLIENTE WHERE ID_TAXA_CLIENTE = '" + Id + "' ";
+
+            string deleteTaxa = DBS.ExecuteScalar(SQL);
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public void DeletarTaxaVariacao(int Id)
+        {
+            string SQL;
+            SQL = "DELETE FROM TB_TAXA_CLIENTE_VARIACAO WHERE ID_TAXA_CLIENTE_VARIACAO = '" + Id + "' ";
+
+            string deleteTaxa = DBS.ExecuteScalar(SQL);
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string ListarPortoAeroporto(string via)
+        {
+            string SQL;
+
+
+            SQL = "SELECT ID_PORTO, NM_PORTO, CD_PORTO FROM TB_PORTO ";
+            if (via != "")
+            {
+                SQL += "WHERE ID_VIATRANSPORTE = " + via + " ORDER BY NM_PORTO";
+            }
+            else
+            {
+                SQL += "ORDER BY NM_PORTO";
+
+            }
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(carregarDados);
+        }
+
+
+        [WebMethod(EnableSession = true)]
+        public string CadastrarTaxaAgenteInternacional(TaxasPrestador dados)
+        {
+            string tarifaV;
+            string tarifaC;
+
+            if (dados.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
+            if (dados.ID_TIPO_COMEX.ToString() == "") { dados.ID_TIPO_COMEX = "null"; }
+            if (dados.ID_TIPO_ESTUFAGEM.ToString() == "") { dados.ID_TIPO_ESTUFAGEM = "null"; }
+            if (dados.ID_VIATRANSPORTE.ToString() == "") { dados.ID_VIATRANSPORTE = "null"; }
+            if (dados.ID_INCOTERM.ToString() == "") { dados.ID_INCOTERM = "null"; }
+            if (dados.ID_PORTO_RECEBIMENTO.ToString() == "") { dados.ID_PORTO_RECEBIMENTO = "null"; }
+            if (dados.ID_PORTO_DESCARGA.ToString() == "") { dados.ID_PORTO_DESCARGA = "null"; };
+            if (dados.ID_PORTO_CARREGAMENTO.ToString() == "") { dados.ID_PORTO_CARREGAMENTO = "null"; }
+            if (dados.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
+            if ((dados.ID_BASE_CALCULO_TAXA == "6" || dados.ID_BASE_CALCULO_TAXA == "7" || dados.ID_BASE_CALCULO_TAXA == "13" || dados.ID_BASE_CALCULO_TAXA == "14" || dados.ID_BASE_CALCULO_TAXA == "37") && (dados.VL_TARIFA_MINIMA.ToString() == "" || Double.Parse(dados.VL_TARIFA_MINIMA.ToString()) <= 0.00))
+            {
+                return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
+            }
+
+            if (dados.ID_MOEDA_COMPRA.ToString() == "") { dados.ID_MOEDA_COMPRA = "null"; }
+            if (dados.VL_TAXA_COMPRA.ToString() == "") { dados.VL_TAXA_COMPRA = "0.00"; }
+            if (dados.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
+            {
+                tarifaC = "0.00";
+            }
+            else
+            {
+                tarifaC = dados.VL_TARIFA_MINIMA_COMPRA.ToString();
+            }
+
+            if (dados.ID_MOEDA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Venda" }); }
+            if (dados.VL_TAXA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Venda" }); }
+            if (Double.Parse(dados.VL_TAXA_VENDA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Venda menor ou igual a 0" }); }
+
+            if (dados.FL_DECLARADO.ToString() == "") { dados.FL_DECLARADO = "0"; }
+            if (dados.FL_DIVISAO_PROFIT.ToString() == "") { dados.FL_DIVISAO_PROFIT = "0"; }
+            if (dados.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
+            if (dados.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
+            if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
+            if (dados.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
+
+
+            string SQL;
+            string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
+            string vlTaxaCompra = dados.VL_TAXA_COMPRA.ToString().Replace(',', '.');
+            if (dados.VL_TARIFA_MINIMA.ToString() == "" || Double.Parse(dados.VL_TARIFA_MINIMA) <= 0.00)
+            {
+                tarifaV = "0.00";
+            }
+            else
+            {
+                tarifaV = dados.VL_TARIFA_MINIMA.ToString();
+            }
+
+            SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
+            SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA,";
+            SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_DESCARGA, ID_TIPO_COBRANCA, ID_PORTO_CARREGAMENTO, ID_PORTO_RECEBIMENTO, ID_INCOTERM) ";
+            SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
+            SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "'," + dados.ID_MOEDA_COMPRA + ",'" + vlTaxaCompra + "'," + dados.ID_MOEDA_VENDA + ", ";
+            SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "'," + dados.ID_DESTINATARIO_COBRANCA + ", ";
+            SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
+            SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + ", ";
+            SQL += "" + dados.ID_TIPO_ESTUFAGEM + "," + dados.ID_ORIGEM_PAGAMENTO + "," + dados.ID_TIPO_PAGAMENTO + ", ";
+            SQL += "'" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "', ";
+            SQL += "'" + tarifaC.ToString().Replace(',', '.') + "'," + dados.ID_PORTO_DESCARGA + ", ";
+            SQL += "" + dados.ID_TIPO_COBRANCA.ToString() + ", " + dados.ID_PORTO_CARREGAMENTO + ", ";
+            SQL += "" + dados.ID_PORTO_RECEBIMENTO + ", " + dados.ID_INCOTERM + ") ";
+            string taxa = DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string EditarTaxaAgenteInternacional(TaxasPrestador dadosEdit)
+        {
+
+            string tarifaV;
+            string tarifaC;
+            if (dadosEdit.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
+            if (dadosEdit.ID_TIPO_COMEX.ToString() == "") { dadosEdit.ID_TIPO_COMEX = "null"; }
+            if (dadosEdit.ID_TIPO_ESTUFAGEM.ToString() == "") { dadosEdit.ID_TIPO_ESTUFAGEM = "null"; }
+            if (dadosEdit.ID_VIATRANSPORTE.ToString() == "") { dadosEdit.ID_VIATRANSPORTE = "null"; }
+            if (dadosEdit.ID_INCOTERM.ToString() == "") { dadosEdit.ID_INCOTERM = "null"; }
+            if (dadosEdit.ID_PORTO_RECEBIMENTO.ToString() == "") { dadosEdit.ID_PORTO_RECEBIMENTO = "null"; }
+            if (dadosEdit.ID_PORTO_DESCARGA.ToString() == "") { dadosEdit.ID_PORTO_DESCARGA = "null"; };
+            if (dadosEdit.ID_PORTO_CARREGAMENTO.ToString() == "") { dadosEdit.ID_PORTO_CARREGAMENTO = "null"; }
+            if (dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
+            if ((dadosEdit.ID_BASE_CALCULO_TAXA == "6" || dadosEdit.ID_BASE_CALCULO_TAXA == "7" || dadosEdit.ID_BASE_CALCULO_TAXA == "13" || dadosEdit.ID_BASE_CALCULO_TAXA == "14" || dadosEdit.ID_BASE_CALCULO_TAXA == "37") && (dadosEdit.VL_TARIFA_MINIMA.ToString() == "" || Double.Parse(dadosEdit.VL_TARIFA_MINIMA.ToString()) <= 0.00))
+            {
+                return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
+            }
+
+            if (dadosEdit.ID_MOEDA_COMPRA.ToString() == "") { dadosEdit.ID_MOEDA_COMPRA = "null"; }
+            if (dadosEdit.VL_TAXA_COMPRA.ToString() == "") { dadosEdit.VL_TAXA_COMPRA = "0.00"; }
+            if (dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
+            {
+                tarifaC = "0.00";
+            }
+            else
+            {
+                tarifaC = dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString();
+            }
+
+            if (dadosEdit.ID_MOEDA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Venda" }); }
+            if (dadosEdit.VL_TAXA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Venda" }); }
+            if (Double.Parse(dadosEdit.VL_TAXA_VENDA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Venda menor ou igual a 0" }); }
+
+            if (dadosEdit.VL_TARIFA_MINIMA.ToString() == "" || Double.Parse(dadosEdit.VL_TARIFA_MINIMA) <= 0.00)
+            {
+                tarifaV = "0.00";
+            }
+            else
+            {
+                tarifaV = dadosEdit.VL_TARIFA_MINIMA.ToString();
+            }
+
+            if (dadosEdit.FL_DECLARADO.ToString() == "") { dadosEdit.FL_DECLARADO = "0"; }
+            if (dadosEdit.FL_DIVISAO_PROFIT.ToString() == "") { dadosEdit.FL_DIVISAO_PROFIT = "0"; }
+            if (dadosEdit.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
+            if (dadosEdit.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
+            if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
+            if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
+
+
+            string SQL;
+            string vlTaxaVenda = dadosEdit.VL_TAXA_VENDA.ToString().Replace(',', '.');
+            string vlTaxaCompra = dadosEdit.VL_TAXA_COMPRA.ToString().Replace(',', '.');
+            SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
+            SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
+            SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = " + dadosEdit.ID_MOEDA_VENDA + ", ";
+            SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
+            SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
+            SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', FL_TAXA_TRANSPORTADOR = '" + dadosEdit.FL_TAXA_TRANSPORTADOR + "', VL_TARIFA_MINIMA = '" + tarifaV + "', VL_TARIFA_MINIMA_COMPRA = " + tarifaC + ",  ";
+            SQL += "ID_TIPO_ESTUFAGEM =" + dadosEdit.ID_TIPO_ESTUFAGEM + ", ";
+            SQL += "ID_TIPO_COMEX =" + dadosEdit.ID_TIPO_COMEX + ", ";
+            SQL += "ID_VIATRANSPORTE =" + dadosEdit.ID_VIATRANSPORTE + ", ";
+            SQL += "ID_TIPO_COBRANCA ='" + dadosEdit.ID_TIPO_COBRANCA + "', ";
+            SQL += "ID_PORTO_DESCARGA =" + dadosEdit.ID_PORTO_DESCARGA + ", ";
+            SQL += "ID_PORTO_CARREGAMENTO =" + dadosEdit.ID_PORTO_CARREGAMENTO + ", ";
+            SQL += "ID_PORTO_RECEBIMENTO =" + dadosEdit.ID_PORTO_RECEBIMENTO + ", ";
+            SQL += "ID_INCOTERM =" + dadosEdit.ID_INCOTERM + " ";
+            SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
+
+            string editTaxa = DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
+        }
     }
+}
