@@ -199,7 +199,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
                 lblErroExcluir.Text = "Usuário não tem permissão para realizar exclusões"
                 DivExcluir.Visible = True
             Else
-                Con.ExecutarQuery("DELETE FROM [dbo].[TB_TAXA_COMISSAO_VENDEDOR] WHERE ID_TAXA_COMISSAO_VENDEDORES =" & ID)
+                Con.ExecutarQuery("DELETE FROM [dbo].[TB_VENDEDOR_TAXA_COMISSAO] WHERE ID_VENDEDOR_TAXA_COMISSAO =" & ID)
                 dgvTabelaComissao.DataBind()
                 divInfo.Visible = True
                 lblInfo.Text = "Taxa excluída com sucesso"
@@ -208,16 +208,17 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
 
         ElseIf e.CommandName = "Editar" Then
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_COMISSAO_VENDEDORES,DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL FROM TB_TAXA_COMISSAO_VENDEDOR WHERE ID_TAXA_COMISSAO_VENDEDORES = " & ID)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_VENDEDOR_TAXA_COMISSAO,DT_VALIDADE_INICIAL,ID_TIPO_ESTUFAGEM,ID_VIATRANSPORTE,ID_TIPO_CALCULO,ID_BASE_CALCULO_TAXA ,VL_TAXA
+      ,VL_TAXA_INICIO,VL_TAXA_FIM,VL_TAXA_COMISSAO FROM TB_VENDEDOR_TAXA_COMISSAO WHERE ID_VENDEDOR_TAXA_COMISSAO = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TAXA_COMISSAO_VENDEDORES")) Then
-                    txtIDTabelaTaxa.Text = ds.Tables(0).Rows(0).Item("ID_TAXA_COMISSAO_VENDEDORES").ToString()
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_VENDEDOR_TAXA_COMISSAO")) Then
+                    txtIDTabelaTaxa.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR_TAXA_COMISSAO").ToString()
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL")) Then
                     txtValidade.Text = ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL").ToString()
                 End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_LCL")) Then
-                    txtLCL.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_LCL").ToString()
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA")) Then
+                    txtLCL.Text = ds.Tables(0).Rows(0).Item("VL_TAXA").ToString()
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_FCL")) Then
                     txtFCL.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_FCL").ToString()

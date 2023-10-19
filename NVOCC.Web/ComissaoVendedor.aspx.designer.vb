@@ -617,13 +617,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents txtIDCommissoesVenda As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle cbValidadeInicialCommissoesVenda.
+    '''Controle TextBox3.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents cbValidadeInicialCommissoesVenda As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents TextBox3 As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle cbTipoEstufagemCommissoesVenda.
@@ -734,13 +734,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents Label36 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle GridView2.
+    '''Controle dgvTabelaComissaoVendedor.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents GridView2 As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvTabelaComissaoVendedor As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle btnAddIndicacaoInterna.
@@ -2417,13 +2417,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle dsTabelaComissao.
+    '''Controle dsTabelaComissaoVendedor.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsTabelaComissao As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsTabelaComissaoVendedor As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsVendedor.
@@ -2487,4 +2487,22 @@ Partial Public Class ComissaoVendedor
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsVendedores As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsBaseCalculo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsBaseCalculo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsViaTransporte.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsViaTransporte As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

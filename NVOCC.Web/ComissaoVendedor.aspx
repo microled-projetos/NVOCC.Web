@@ -405,7 +405,7 @@
                                                                             <div id="div2" runat="server" visible="false" class="alert alert-success">
                                                                                 <asp:Label ID="Label20" Text="" runat="server" />
                                                                             </div>
-                                                                            <asp:GridView ID="GridView1" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissao" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                            <asp:GridView ID="GridView1" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                                 <Columns>
                                                                                     <asp:TemplateField HeaderText="ID" Visible="False">
                                                                                         <ItemTemplate>
@@ -457,20 +457,17 @@
                                                                     </div>
                                                                     <div class="col-sm-2">
                                                                         <span class="font-bold text-align-left">Validade Inicial:</span> <br />
-                                                                        <asp:DropDownList ID="cbValidadeInicialCommissoesVenda" runat="server" CssClass="form-control">
+                                                                        <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control data" />                                                                
+                                                                    </div>
+                                                                    <div class="col-sm-1">
+                                                                        <span class="font-bold text-align-left">Estufagem: </span><br />
+                                                                        <asp:DropDownList ID="cbTipoEstufagemCommissoesVenda" runat="server" CssClass="form-control" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem">
                                                                             <asp:ListItem Value="0">Selecione</asp:ListItem>
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                     <div class="col-sm-2">
-                                                                        <span class="font-bold text-align-left">Tipo de estufagem: </span><br />
-                                                                        <asp:DropDownList ID="cbTipoEstufagemCommissoesVenda" runat="server" CssClass="form-control">
-                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
-                                                                        </asp:DropDownList>
-                                                                    </div>
-                                                                    <div class="col-sm-1">
                                                                         <span class="font-bold text-align-left">Via:</span> <br />
-                                                                        <asp:DropDownList ID="cbViaCommissoesVenda" runat="server" CssClass="form-control">
-                                                                            <asp:ListItem Valu="0">Selecione</asp:ListItem>
+                                                                        <asp:DropDownList ID="cbViaCommissoesVenda" runat="server" CssClass="form-control" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" >
                                                                         </asp:DropDownList>                                                                        
                                                                     </div>                                                                                                                               
                                                                     <div class="col-sm-2">
@@ -481,7 +478,7 @@
                                                                     </div>
                                                                     <div class="col-sm-2">
                                                                         <span class="font-bold text-align-left">Base de Cálculo: </span><br />
-                                                                        <asp:DropDownList ID="cbBaseCalculoCommissoesVenda" runat="server" CssClass="form-control">
+                                                                        <asp:DropDownList ID="cbBaseCalculoCommissoesVenda" runat="server" CssClass="form-control" DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA">
                                                                             <asp:ListItem Value="0">Selecione</asp:ListItem>
                                                                         </asp:DropDownList>
                                                                     </div>
@@ -518,7 +515,7 @@
                                                                             <div id="div4" runat="server" visible="false" class="alert alert-success">
                                                                                 <asp:Label ID="Label36" Text="" runat="server" />
                                                                             </div>
-                                                                            <asp:GridView ID="GridView2" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissao" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                            <asp:GridView ID="dgvTabelaComissaoVendedor" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                                 <Columns>
                                                                                     <asp:TemplateField HeaderText="ID" Visible="False">
                                                                                         <ItemTemplate>
@@ -629,26 +626,26 @@
                                                                             <div id="divInfo" runat="server" visible="false" class="alert alert-success">
                                                                                 <asp:Label ID="lblInfo" Text="" runat="server" />
                                                                             </div>
-                                                                            <asp:GridView ID="dgvTabelaComissao" DataKeyNames="ID_TAXA_COMISSAO_VENDEDORES" DataSourceID="dsTabelaComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                                                            <asp:GridView ID="dgvTabelaComissao" DataKeyNames="ID_VENDEDOR_TAXA_COMISSAO" DataSourceID="dsTabelaComissaoVendedor" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                                                                 <Columns>
                                                                                     <asp:TemplateField HeaderText="ID" Visible="False">
                                                                                         <ItemTemplate>
-                                                                                            <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' />
+                                                                                            <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_VENDEDOR_TAXA_COMISSAO") %>' />
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="VALIDADE INICIAL" SortExpression="DT_VALIDADE_INICIAL" />
-                                                                                    <asp:BoundField DataField="VL_TAXA_LCL" HeaderText="TAXA LCL" SortExpression="VL_TAXA_LCL" />
-                                                                                    <asp:BoundField DataField="VL_TAXA_FCL" HeaderText="TAXA FCL" SortExpression="VL_TAXA_FCL" />
+                                                                                    <asp:BoundField DataField="VL_TAXA" HeaderText="TAXA" SortExpression="VL_TAXA" />
+                                                                                    <asp:BoundField DataField="VL_TAXA_COMISSAO" HeaderText="TAXA COMISSAO" SortExpression="VL_TAXA_COMISSAO" />
                                                                                     <asp:TemplateField HeaderText="">
                                                                                         <ItemTemplate>
-                                                                                            <asp:LinkButton CommandName="Editar" CommandArgument='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' runat="server" CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:LinkButton>
+                                                                                            <asp:LinkButton CommandName="Editar" CommandArgument='<%# Eval("ID_VENDEDOR_TAXA_COMISSAO") %>' runat="server" CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="">
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
-                                                                                                OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');" CommandArgument='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
+                                                                                                OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');" CommandArgument='<%# Eval("ID_VENDEDOR_TAXA_COMISSAO") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                                                     </asp:TemplateField>
@@ -696,7 +693,7 @@
                                                                             <div id="div6" runat="server" visible="false" class="alert alert-success">
                                                                                 <asp:Label ID="Label38" Text="" runat="server" />
                                                                             </div>
-                                                                            <asp:GridView ID="GridView3" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissao" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                            <asp:GridView ID="GridView3" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                                 <Columns>
                                                                                     <asp:TemplateField HeaderText="ID" Visible="False">
                                                                                         <ItemTemplate>
@@ -810,7 +807,7 @@
                                                                                 <div id="div8" runat="server" visible="false" class="alert alert-success">
                                                                                     <asp:Label ID="Label40" Text="" runat="server" />
                                                                                 </div>
-                                                                                <asp:GridView ID="GridView4" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissao" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                                <asp:GridView ID="GridView4" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                                     <Columns>
                                                                                         <asp:TemplateField HeaderText="ID" Visible="False">
                                                                                             <ItemTemplate>
@@ -886,7 +883,7 @@
                                                                         <div id="div10" runat="server" visible="false" class="alert alert-success">
                                                                             <asp:Label ID="Label42" Text="" runat="server" />
                                                                         </div>
-                                                                        <asp:GridView ID="GridView5" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissao" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                        <asp:GridView ID="GridView5" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                             <Columns>
                                                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                                                     <ItemTemplate>
@@ -969,7 +966,7 @@
                                                                         <div id="div12" runat="server" visible="false" class="alert alert-success">
                                                                             <asp:Label ID="Label44" Text="" runat="server" />
                                                                         </div>
-                                                                        <asp:GridView ID="GridView6" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissao" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                        <asp:GridView ID="GridView6" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                             <Columns>
                                                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                                                     <ItemTemplate>
@@ -1062,7 +1059,7 @@
                                                                         <div id="div14" runat="server" visible="false" class="alert alert-success">
                                                                             <asp:Label ID="Label46" Text="" runat="server" />
                                                                         </div>
-                                                                        <asp:GridView ID="GridView7" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissao" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                        <asp:GridView ID="GridView7" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                             <Columns>
                                                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                                                     <ItemTemplate>
@@ -1149,7 +1146,7 @@
                                                                         <div id="div16" runat="server" visible="false" class="alert alert-success">
                                                                             <asp:Label ID="Label48" Text="" runat="server" />
                                                                         </div>
-                                                                        <asp:GridView ID="GridView8" CssClass="grdViewTable" GridLines="None" DataSourceID="dsTabelaComissao" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                        <asp:GridView ID="GridView8" CssClass="grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                             <Columns>
                                                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                                                     <ItemTemplate>
@@ -1533,8 +1530,8 @@
     </div>
 
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
-    <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_TAXA_COMISSAO_VENDEDORES,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL FROM TB_TAXA_COMISSAO_VENDEDOR"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="dsTabelaComissaoVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_VENDEDOR_TAXA_COMISSAO,DT_VALIDADE_INICIAL,ID_TIPO_ESTUFAGEM,ID_VIATRANSPORTE,ID_TIPO_CALCULO,ID_BASE_CALCULO_TAXA,VL_TAXA,VL_TAXA_INICIO,VL_TAXA_FIM,VL_TAXA_COMISSAO FROM TB_VENDEDOR_TAXA_COMISSAO "></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO = 1 AND FL_ATIVO = 1 ORDER BY NM_RAZAO"></asp:SqlDataSource>
@@ -1565,6 +1562,17 @@ union SELECT 0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsVendedores" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE (FL_VENDEDOR_DIRETO = 1 OR FL_VENDEDOR = 1 OR ID_PARCEIRO = (SELECT ID_PARCEIRO_EQUIPE_INSIDE FROM TB_PARAMETROS)) AND FL_ATIVO = 1 
 union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
+
+
+     <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA]
+union SELECT 0, '      Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY NM_BASE_CALCULO_TAXA"></asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsViaTransporte" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_VIATRANSPORTE,NM_VIATRANSPORTE FROM [dbo].[TB_VIATRANSPORTE]
+union SELECT  0, 'Selecione' ORDER BY ID_VIATRANSPORTE">
+</asp:SqlDataSource> 
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>

@@ -444,7 +444,7 @@
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label"></label>
-                                                        <asp:CheckBox ID="ckbFreeHand_BasicoMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Free Hand"></asp:CheckBox>
+                                                        <asp:CheckBox ID="ckbFreeHand_BasicoMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Free Hand" AutoPostBack="true"></asp:CheckBox>
 
                                                     </div>
                                                 </div>
@@ -597,6 +597,7 @@
                                             <asp:AsyncPostBackTrigger ControlID="btnVisualizarMBL_Maritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeComissaria_Maritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeTranspRodoviario_BasicoMaritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="ckbFreeHand_BasicoMaritimo" />
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>

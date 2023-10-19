@@ -5662,11 +5662,21 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
 
     Private Sub ddlTipoPagamento_BasicoMaritimo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoPagamento_BasicoMaritimo.SelectedIndexChanged
         Dim AtualizaStatus As New AtualizaStatusFreteAgente
-        ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoMaritimo.Text, ddlTipoPagamento_BasicoMaritimo.SelectedValue)
+        ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoMaritimo.Text, ddlTipoPagamento_BasicoMaritimo.SelectedValue, ckbFreeHand_BasicoMaritimo.Checked)
     End Sub
 
     Private Sub ddlTipoPagamento_BasicoAereo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoPagamento_BasicoAereo.SelectedIndexChanged
         Dim AtualizaStatus As New AtualizaStatusFreteAgente
-        ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoAereo.Text, ddlTipoPagamento_BasicoAereo.SelectedValue)
+        ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoAereo.Text, ddlTipoPagamento_BasicoAereo.SelectedValue, ckbFreeHand_BasicoAereo.Checked)
+    End Sub
+
+    Private Sub ckbFreeHand_BasicoAereo_CheckedChanged(sender As Object, e As EventArgs) Handles ckbFreeHand_BasicoAereo.CheckedChanged
+        Dim AtualizaStatus As New AtualizaStatusFreteAgente
+        ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoAereo.Text, ddlTipoPagamento_BasicoAereo.SelectedValue, ckbFreeHand_BasicoAereo.Checked)
+    End Sub
+
+    Private Sub ckbFreeHand_BasicoMaritimo_CheckedChanged(sender As Object, e As EventArgs) Handles ckbFreeHand_BasicoMaritimo.CheckedChanged
+        Dim AtualizaStatus As New AtualizaStatusFreteAgente
+        ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoMaritimo.Text, ddlTipoPagamento_BasicoMaritimo.SelectedValue, ckbFreeHand_BasicoMaritimo.Checked)
     End Sub
 End Class

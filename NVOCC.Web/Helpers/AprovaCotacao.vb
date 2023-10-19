@@ -294,9 +294,9 @@ WHERE A.ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA"))
 
 
         'Status de frete agente automatico
-        ds = Con.ExecutarQuery("SELECT ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO FROM TB_BL WHERE ID_BL = " & ID_BL)
+        ds = Con.ExecutarQuery("SELECT ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO,ISNULL(FL_FREE_HAND,0)FL_FREE_HAND FROM TB_BL WHERE ID_BL = " & ID_BL)
         Dim AtualizaStatus As New AtualizaStatusFreteAgente
-        Dim STATUS = AtualizaStatus.AtualizaStatusFreteAgenteHouse(ID_BL, ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO"))
+        Dim STATUS = AtualizaStatus.AtualizaStatusFreteAgenteHouse(ID_BL, ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO"), ds.Tables(0).Rows(0).Item("FL_FREE_HAND"))
         Con.ExecutarQuery(" UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE = " & STATUS & " WHERE ID_BL = " & ID_BL)
 
 

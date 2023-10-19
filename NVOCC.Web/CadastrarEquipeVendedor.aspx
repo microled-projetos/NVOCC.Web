@@ -49,7 +49,7 @@
 
                                             <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
                                                 <asp:ListItem Value="0" Selected="True">Todos os registros</asp:ListItem>
-                                                <asp:ListItem Value="1">Nome Lider</asp:ListItem>
+                                                <asp:ListItem Value="1">Nome Equipe</asp:ListItem>
                                             </asp:DropDownList>
                                         </div>
                                     </div>
@@ -154,22 +154,28 @@
 
                                                             </div>
                                                             <div class="row" id="divMembrosEquipe" runat="server" Visible="false" >
+                                                                <div class="col-sm-1" style="display: none">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Cód Membro:</label>
+                                                                        <asp:TextBox ID="txtCodMembroEquipe" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Busca Membro:</label>
-                                                                        <asp:TextBox ID="txtBuscaMembros" runat="server" CssClass="form-control valores"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtBuscaMembrosEquipe" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Membro:</label>
-                                                                        <asp:DropDownList ID="ddlBuscaMembros" runat="server" CssClass="form-control" Font-Size="11px"  >
+                                                                        <asp:DropDownList ID="ddlBuscaMembrosEquipe" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsBuscaMembrosEquipe" >
                                                                         </asp:DropDownList>                                                                        
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group"><br />
-                                                                        <asp:Button runat="server" CssClass="btn btn-primary" ID="btnAddMembro" Text="Adicionar Membro" Visible="true" />
+                                                                        <asp:Button runat="server" CssClass="btn btn-primary" ID="btnAddMembroEquipe" Text="Adicionar Membro" Visible="true" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -177,8 +183,7 @@
                                                             <%--Grid para preencher os dados de montar equipe--%>
 
                                                             <div class="row">
-                                                                <asp:GridView ID="gdvMembrosEquipesCadastradas" DataKeyNames="ID_EQUIPE_MEMBROS" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" Style="max-height: 300px; overflow: auto;"
-                                                                                    AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado.">
+                                                                <asp:GridView ID="gdvMembrosEquipesCadastradas" DataKeyNames="ID_EQUIPE_MEMBROS" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" Style="max-height: 300px; overflow: auto;" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado." DataSourceID="dsMembrosEquipesCadastradas">
                                                                                     <Columns>
                                                                                         <asp:BoundField DataField="ID_USUARIO" Visible="False" HeaderText="ID_USUARIO" SortExpression="ID_USUARIO" />
                                                                                         <asp:BoundField DataField="NOME" HeaderText="NOME" SortExpression="NOME " />
@@ -284,7 +289,7 @@
                                     </ContentTemplate>
                                     <Triggers>
                                         <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="gdvMembrosEquipesCadastradas" />
-                                        <asp:AsyncPostBackTrigger ControlID="txtBuscaMembros" />
+                                        <asp:AsyncPostBackTrigger ControlID="txtBuscaMembrosEquipe" />
                                     </Triggers>
                                 </asp:UpdatePanel>
 
@@ -327,33 +332,33 @@
                                                                 <div class="col-sm-2">
                                                                     <div class="form-group">
                                                                         <label class="control-label" style="color: white">:</label><br />
-                                                                        <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarTime" Text="Salvar Edição" />
+                                                                        <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarTime" Text="Salvar" />
                                                                     </div>
 
                                                                 </div>
 
                                                             </div>
-                                                            <div class="row" id="divMembroTime" runat="server">
+                                                            <div class="row" id="divMembroTime" runat="server" visible="false">
                                                                 <div class="col-sm-1" runat="server" visible="false"> 
                                                                     <div class="form-group">
                                                                         <label class="control-label">Cód Membro:</label>
                                                                         <asp:TextBox ID="txtCodMembrosTime" runat="server" CssClass="form-control"></asp:TextBox>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-4">
+                                                                <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Busca Membro:</label>
                                                                         <asp:TextBox ID="txtBuscaMembrosTime" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-8">
+                                                                <div class="col-sm-6">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Membro:</label></label><label runat="server" style="color: red">*</label>
-                                                                        <asp:DropDownList ID="ddlMembroTime" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsBuscaMembrosTime">
+                                                                        <asp:DropDownList ID="ddlBuscaMembrosTime" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsBuscaMembrosTime">
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-3" runat="server" visible="false">
+                                                                <div class="col-sm-3" runat="server">
                                                                     <div class="form-group">
                                                                         <label class="control-label" style="color: white">Membro:</label><br />
                                                                         <asp:Button runat="server" CssClass="btn btn-primary" ID="btnAdicionarMembroTime" Text="Adicionar Membro" />
@@ -429,9 +434,52 @@
         </div>
 
 
-    </div>
+    </div> 
      
-   
+     <asp:SqlDataSource ID="dsEquipesCadastradas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_EQUIPE, NM_EQUIPE FROM TB_VENDEDOR_EQUIPE ORDER BY NM_EQUIPE"></asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsMembrosTime" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT T.ID_TIME,U.ID_USUARIO, U.NOME,M.ID_TIME_MEMBROS 
+FROM TB_VENDEDOR_TIME T
+INNER JOIN TB_VENDEDOR_TIME_MEMBROS M ON T.ID_TIME = M.ID_TIME 
+LEFT JOIN TB_USUARIO U ON U.ID_USUARIO = M.ID_USUARIO_MEMBRO_TIME 
+WHERE T.ID_TIME = @ID_TIME ORDER BY NOME">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_TIME" Type="Int32" ControlID="txtIDTime" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
+
+      <asp:SqlDataSource ID="dsBuscaMembrosEquipe" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="select ID_USUARIO,NOME from TB_USUARIO WHERE (NOME  like '%' + @NOME + '%' or ID_USUARIO =  @ID_USUARIO) UNION SELECT 0, '   Selecione' ORDER BY NOME">
+        <SelectParameters>
+            <asp:ControlParameter Name="NOME" Type="String" ControlID="txtBuscaMembrosEquipe" DefaultValue="NULL" />
+            <asp:ControlParameter Name="ID_USUARIO" Type="Int32" ControlID="txtCodMembroEquipe" DefaultValue="0" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
+
+    <asp:SqlDataSource ID="dsBuscaMembrosTime" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="select ID_USUARIO,NOME from TB_USUARIO WHERE (NOME  like '%' + @NOME + '%' or ID_USUARIO =  @ID_USUARIO) UNION SELECT 0, '   Selecione' ORDER BY NOME">
+        <SelectParameters>
+            <asp:ControlParameter Name="NOME" Type="String" ControlID="txtBuscaMembrosTime" DefaultValue="NULL" />
+            <asp:ControlParameter Name="ID_USUARIO" Type="Int32" ControlID="txtCodMembrosTime" DefaultValue="0" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsMembrosEquipesCadastradas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand=" SELECT M.ID_EQUIPE_MEMBROS,M.ID_EQUIPE,U.ID_USUARIO,ISNULL(M.ID_TIME,0)ID_TIME, CASE WHEN M.ID_TIME IS NULL THEN U.NOME ELSE T.NM_TIME END NOME
+FROM TB_VENDEDOR_EQUIPE E
+INNER JOIN TB_VENDEDOR_EQUIPE_MEMBROS M ON E.ID_EQUIPE = M.ID_EQUIPE  
+LEFT JOIN TB_USUARIO U ON U.ID_USUARIO = M.ID_USUARIO_MEMBRO_EQUIPE 
+LEFT JOIN TB_VENDEDOR_TIME T ON T.ID_TIME = M.ID_TIME
+WHERE E.ID_EQUIPE =  @ID_EQUIPE ORDER BY NOME">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_EQUIPE" Type="Int32" ControlID="txtIDEquipe" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>

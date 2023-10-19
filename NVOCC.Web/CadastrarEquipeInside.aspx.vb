@@ -215,7 +215,7 @@ WHERE A.ID_TIME = " & txtIDTime.Text)
         divSuccess.Visible = False
         divErroMontarEquipe.Visible = False
         divSuccessMontarEquipe.Visible = False
-        Dim sql As String = "Select ID,ID_USUARIO,NOME,NM_EQUIPE FROM TB_USUARIO A INNER JOIN TB_EQUIPE_LIDER B On A.ID_USUARIO = B.ID_USUARIO_LIDER WHERE NOME Like '%" & txtPesquisa.Text & "%' ORDER BY NOME"
+        Dim sql As String = "Select ID_EQUIPE,ID_USUARIO,NOME,NM_EQUIPE,TAXA_LIDER,TAXA_EQUIPE FROM TB_USUARIO A INNER JOIN TB_INSIDE_EQUIPE B On A.ID_USUARIO = B.ID_USUARIO_LIDER WHERE NOME Like '%" & txtPesquisa.Text & "%' ORDER BY NOME"
         dsEquipesCadastradas.SelectCommand = sql
         gdvEquipesCadastradas.DataBind()
     End Sub
