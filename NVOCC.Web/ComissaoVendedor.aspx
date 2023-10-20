@@ -303,13 +303,11 @@
                                     </center>
                                 </asp:Panel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlTabela" TargetControlID="lkTabelaComissoes" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeTabelas" runat="server" PopupControlID="pnlTabelas" TargetControlID="lkTabelaComissoes" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="upPanelComissoesProspeccao" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false" >
                                     <ContentTemplate>
-                                        <asp:Panel ID="pnlTabela" runat="server" CssClass="modalPopup" >
+                                        <asp:Panel ID="pnlTabelas" runat="server" CssClass="modalPopup" >
                                             <center>
-
-                                                <%--<div class="modal fade bd-example-modal-xl" id="modalVisualizarEmail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">--%>
                                                     <div class=" modal-dialog modal-dialog-centered modal-xxl" role="document">
                                                     <div class="modal-content">
                                                         <div id="tabs">
@@ -331,94 +329,220 @@
                                                                 </li>
                                                             </ul>
                                                         </div>
+                                                        <%--Tabela comissoes de vendas --%>
+                                                        <div class="tab-pane fade in" id="Comissao">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">TABELA DE COMISSÕES DE VENDAS</h5>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                <div class="alert alert-success" ID="divComissoesVendaSucesso" runat="server" visible="false">
+                                                                    <asp:label ID="lblComissoesVendaSucesso" runat="server" Text="Registro deletado com sucesso!"></asp:label>
+                                                                </div>
+ 
+                                                                <div class="alert alert-danger" ID="divComissoesVendaErro" runat="server" visible="false">
+                                                                    <asp:label ID="lblComissoesVendaErro" runat="server" ></asp:label>
+                                                                </div>
+
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-1">
+                                                                        <span class="font-bold text-align-left">ID:</span> <br />
+                                                                        <asp:TextBox ID="txtIDComissoesVenda" runat="server" CssClass="form-control" Enabled="false"/>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        <span class="font-bold text-align-left">Validade Inicial:</span> <br />
+                                                                        <asp:TextBox ID="txtValidadaInicialComissoesVenda" runat="server" CssClass="form-control" />                                                                
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        <span class="font-bold text-align-left">Estufagem: </span><br />
+                                                                        <asp:DropDownList ID="ddlEstufagemComissoesVenda" runat="server" CssClass="form-control" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem">
+                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        <span class="font-bold text-align-left">Via:</span> <br />
+                                                                        <asp:DropDownList ID="ddlViaComissoesVenda" runat="server" CssClass="form-control" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" >
+                                                                        </asp:DropDownList>                                                                        
+                                                                    </div>                                                                                                                          
+                                                                    <div class="col-sm-2">
+                                                                        <span class="font-bold text-align-left">Tipo de Cálculo: </span> <br />
+                                                                        <asp:DropDownList ID="ddlTipoCalculoComissoesVenda" runat="server" CssClass="form-control"  DataTextField="NM_TIPO_CALCULO" DataSourceID="dsTipoCalculo" DataValueField="ID_TIPO_CALCULO">
+                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        <span class="font-bold text-align-left">Base de Cálculo: </span><br />
+                                                                        <asp:DropDownList ID="ddlBaseCalculoComissoesVenda" runat="server" CssClass="form-control" DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA">
+                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                                <hr />
+                                                                <div class="row">  
+                                                                    <div class="col-sm-2">
+                                                                        <span class="font-bold text-align-left">Valor: </span> <br />
+                                                                        <asp:TextBox ID="txtValorComissoesVenda" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                    </div>
+
+                                                                    <div class="col-md-2">
+                                                                   <br />      Escalonado por Profit Brasil
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        De<br />
+                                                                        <asp:TextBox ID="txtProfitInicialComissoesVenda" CssClass="form-control" runat="server" placeholder="USD 0.00"></asp:TextBox>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        Até: <br />
+                                                                        <asp:TextBox ID="txtProfitFinalComissoesVenda" CssClass="form-control" runat="server"  placeholder="USD 0.00"></asp:TextBox>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        Valor de Comissão: 
+                                                                        <asp:TextBox ID="txtCalculadoComissoesVenda" CssClass="form-control" runat="server"  placeholder="R$ 0.00"></asp:TextBox>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                         <br />
+                                                                        <asp:Button ID="btnSalvarComissaoVendedor" CssClass="btn btn-block btn-success" Text="Salvar Tabela" runat="server" />
+                                                                    </div>
+                                                                                                                                            
+
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12" style="padding-bottom:20px;"></div>
+                                                                    <div class="col-sm-12">
+                                                                        <div class="form-group">
+                                                                            <div id="Div3" runat="server" visible="false" class="alert alert-danger">
+                                                                                <asp:Label ID="Label35" Text="" runat="server" />
+                                                                            </div>
+                                                                            <div id="div4" runat="server" visible="false" class="alert alert-success">
+                                                                                <asp:Label ID="Label36" Text="" runat="server" />
+                                                                            </div>
+                                                                            <asp:GridView ID="dgvTabelaComissaoVendedor" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                                <Columns>
+                                                                                    <asp:BoundField DataField="ID_VENDEDOR_TAXA_COMISSAO" HeaderText="ID" SortExpression="ID_VENDEDOR_TAXA_COMISSAO" />
+                                                                                    <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="Validade Inicial" SortExpression="DT_VALIDADE_INICIAL" />
+                                                                                    <asp:BoundField DataField="NM_TIPO_ESTUFAGEM" HeaderText="Tipo de Estufagem" SortExpression="NM_TIPO_ESTUFAGEM" />                                                                                                                                                                        
+                                                                                    <asp:BoundField DataField="NM_VIATRANSPORTE" HeaderText="VIA" SortExpression="NM_VIATRANSPORTE" />
+                                                                                    <asp:BoundField DataField="NM_BASE_CALCULO_TAXA" HeaderText="Base de Calculo" SortExpression="NM_BASE_CALCULO_TAXA" />
+                                                                                    <asp:BoundField DataField="VL_TAXA" HeaderText="Valor" SortExpression="VALOR" />                                                                         <asp:BoundField DataField="VL_PROFIT_INICIO" HeaderText="USD - DE" SortExpression="VL_PROFIT_INICIO" />
+                                                                                    <asp:BoundField DataField="VL_PROFIT_FIM" HeaderText="USD - ATÉ" SortExpression="VL_PROFIT_FIM" />
+                                                                                    <asp:TemplateField HeaderText="">
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton CommandName="Editar" runat="server" CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"  CommandArgument='<%# Eval("ID_VENDEDOR_TAXA_COMISSAO") %>'><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="">
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir" CommandArgument='<%# Eval("ID_VENDEDOR_TAXA_COMISSAO") %>'  OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                                                    </asp:TemplateField>
+                                                                                </Columns>
+                                                                                <HeaderStyle CssClass="headerStyle" />
+                                                                            </asp:GridView>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-11"></div>
+                                                                    <div class="col-md-1">
+                                                                        <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharComissoesVenda" Text="Close"  />
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                             
+                                                        <%--Tabela Prospeccao --%>
                                                         <div class="tab-pane fade" id="Prospeccao" style="display:none" >
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title">TABELA DE COMISSÕES PROSPECÇÃO</h5>
                                                             </div>
                                                             <div class="modal-body">
-
+                                                                  <div class="alert alert-success" ID="divComissoesProspeccaoSucesso" runat="server" visible="false">
+                                                                    <asp:label ID="lblComissoesProspeccaoSucesso" runat="server" Text="Registro deletado com sucesso!"></asp:label>
+                                                                </div>
+ 
+                                                                <div class="alert alert-danger" ID="divComissoesProspeccaoErro" runat="server" visible="false">
+                                                                    <asp:label ID="lblComissoesProspeccaoErro" runat="server" ></asp:label>
+                                                                </div>
                                                                 <div class="row">
                                                                     <div class="col-sm-1">
-                                                                        ID: <br />
-                                                                        <asp:TextBox ID="txtIDComissoesProspeccao" runat="server" CssClass="form-control" />
+                                                                        <strong>ID:</strong> <br />
+                                                                        <asp:TextBox ID="txtIDComissoesProspeccao" runat="server" CssClass="form-control" Enabled="false" />
                                                                     </div>
-                                                                    <div class="col-sm-1">
-                                                                        Validade: <br />
-                                                                        <asp:DropDownList ID="cbValidadeComissaoProspeccao" runat="server" CssClass="form-control">
-                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
+                                                                    <div class="col-sm-2">
+                                                                        <strong>Validade:</strong> <br />
+                                                                       <asp:TextBox ID="txtValidadeInicialComissoesProspeccao" runat="server" CssClass="form-control data"></asp:TextBox>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                       <strong>Tipo Estufagem:</strong> <br />
+                                                                        <asp:DropDownList ID="ddlEstufagemComissoesProspeccao" runat="server" CssClass="form-control" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem">
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                     <div class="col-sm-2">
-                                                                        Tipo de estufagem: <br />
-                                                                        <asp:DropDownList ID="cbTipoEstufagemComissaoProspeccao" runat="server" CssClass="form-control">
-                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
-                                                                        </asp:DropDownList>
-                                                                    </div>
-                                                                    <div class="col-sm-1">
-                                                                        Via: <br />
-                                                                        <asp:DropDownList ID="cbViaComissaoProspeccao" runat="server" CssClass="form-control">
-                                                                            <asp:ListItem Valu="0">Selecione</asp:ListItem>
+                                                                      <strong> Via:</strong> <br />
+                                                                        <asp:DropDownList ID="ddlViaComissoesProspeccao" runat="server" CssClass="form-control" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE">
                                                                         </asp:DropDownList>                                                                        
                                                                     </div>
-                                                                    <div class="col-sm-2" style="border:1px solid; text-align:left">
-                                                                        <asp:RadioButton ID="rdPrimeiroProcessoComissaoProspeccao" runat="server" Text =" &nbsp; 1º Processo" />      <br />                                                                 
-                                                                        <asp:RadioButton ID="rdDemaisProcessosComissaoProspeccao" runat="server" Text =" &nbsp; Demais Processos" />
+                                                                    <div class="col-sm-2" style="border:1px ridge; text-align:left">                                                                        
+                                                                     <%--<asp:RadioButtonList ID="rdPrimeiroProcessoComissaoProspeccao" runat="server" Text =" &nbsp; 1º Processo" /><br/>
+                                                                        <asp:RadioButton ID="rdDemaisProcessosComissaoProspeccao" runat="server" Text =" &nbsp; Demais Processos" />--%>      
+                                                                        <asp:RadioButtonList ID="rdPagamentoComissoesProspeccao" runat="server">
+                                                        <asp:ListItem Value="0" Selected="True">&nbsp; 1º Processo</asp:ListItem>
+                                                        <asp:ListItem Value="1">&nbsp; Demais Processos</asp:ListItem>
+                                                    </asp:RadioButtonList>
                                                                     </div>                                                                    
                                                                     <div class="col-sm-2">
-                                                                        Tipo de Cálculo: <br />
-                                                                        <asp:DropDownList ID="cbTipoCalculoComissoesProspeccao" runat="server" CssClass="form-control">
-                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
+                                                                        <strong>Tipo de Cálculo:</strong> <br />
+                                                                        <asp:DropDownList ID="ddlTipoCalculoComissoesProspeccao" runat="server" CssClass="form-control" DataTextField="NM_TIPO_CALCULO" DataSourceID="dsTipoCalculo" DataValueField="ID_TIPO_CALCULO">
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                    
+                                                                    
+                                                                </div>
+                                                          
+                                                                <div class="row">
+                                                                    <div class="col-sm-2">
+                                                                        <strong>Base de Cálculo:</strong> <br />
+                                                                        <asp:DropDownList ID="ddlBaseCalculoComissoesProspeccao" runat="server" CssClass="form-control" DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA">
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                     <div class="col-sm-2">
-                                                                        Base de Cálculo: <br />
-                                                                        <asp:DropDownList ID="cbBaseCalculoComissoesProspeccao" runat="server" CssClass="form-control">
-                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
-                                                                        </asp:DropDownList>
-                                                                    </div>
-                                                                    <div class="col-sm-1">
-                                                                        Valor: <br />
+                                                                        <strong>Valor:</strong> <br />
                                                                         <asp:TextBox ID="txtValorComissoesProspecccao" runat="server" CssClass="form-control"></asp:TextBox>
                                                                     </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-12"><h1 style="text-align:left;">EQUIPE:</h1></div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-7">                                                                        
-                                                                        <asp:DropDownList ID="cbEquipes" runat="server" CssClass="form-control">
-                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
+                                                                    <div class="col-sm-4"> 
+                                                                        <strong>Equipe:</strong> <br />
+                                                                        <asp:DropDownList ID="ddlEquipeComissoesProspeccao" runat="server" CssClass="form-control" DataTextField="NM_EQUIPE" DataSourceID="dsEquipes" DataValueField="ID_EQUIPE">
                                                                         </asp:DropDownList>
                                                                     </div>
-                                                                    <div class="col-md-2"></div>
-                                                                    <div class="col-md-3" style="padding-bottom:40px">
-                                                                        <asp:Button ID="btnGravarComissoesProspeccao" CssClass="btn btn-success" Text="Gravar" runat="server" Visible="true" />
-                                                                        <asp:Button ID="btnLimparComissoesProspeccao" CssClass="btn btn-warning" Text="Limpar" runat="server" Visible="true" />
+                                                                     <div class="col-sm-2"><br/>
+                                                                        <asp:Button ID="btnSalvarComissoesProspeccao" CssClass="btn btn-block btn-success" Text="Gravar" runat="server" Visible="true" />
+                                                                    </div>
+                                                                    <div class="col-sm-2"><br/>
+                                                                        <asp:Button ID="btnLimparComissoesProspeccao" CssClass="btn btn-block btn-warning" Text="Limpar" runat="server" Visible="true" />
                                                                     </div>
                                                                 </div>
+                                                              <br />
+                                                              <br />
                                                                 <div class="row">
                                                                     <div class="col-sm-12">
                                                                         <div class="form-group">
-                                                                            <div id="Div1" runat="server" visible="false" class="alert alert-danger">
-                                                                                <asp:Label ID="Label9" Text="" runat="server" />
-                                                                            </div>
-                                                                            <div id="div2" runat="server" visible="false" class="alert alert-success">
-                                                                                <asp:Label ID="Label20" Text="" runat="server" />
-                                                                            </div>
-                                                                            <asp:GridView ID="GridView1" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                             
+                                                                            <asp:GridView ID="dgvTabelaComissaoProspeccao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoProspeccao" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                                 <Columns>
-                                                                                    <asp:TemplateField HeaderText="ID" Visible="False">
-                                                                                        <ItemTemplate>
-                                                                                            <asp:Label ID="lblID" runat="server" />
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:BoundField HeaderText="VALIDADE" SortExpression="DT_VALIDADE" />
-                                                                                    <asp:BoundField HeaderText="EQUIPE" SortExpression="EQUIPE" />
-                                                                                    <asp:BoundField HeaderText="TIPO ESTUFAGEM" SortExpression="TIPO_ESTUFAGEM" />
-                                                                                    <asp:BoundField HeaderText="VIA" SortExpression="VIA" />
-                                                                                    <asp:BoundField HeaderText="PROCESSO" SortExpression="PROCESSO" />
-                                                                                    <asp:BoundField HeaderText="TIPO DE CALCULO" SortExpression="TIPO_DE_CALCULO" />
-                                                                                    <asp:BoundField HeaderText="BASE CALCULO" SortExpression="BASE_CALCULO" />
+                                                                                    <asp:BoundField HeaderText="ID" DataField="ID_VENDEDOR_PROSPECCAO" SortExpression="ID_VENDEDOR_PROSPECCAO" />
+                                                                                    <asp:BoundField HeaderText="Validade Inicial" DataField="DT_VALIDADE_INICIAL" SortExpression="DT_VALIDADE_INICIAL" />
+                                                                                    <asp:BoundField HeaderText="Equipe" DataField="NM_EQUIPE" SortExpression="NM_EQUIPE" />
+                                                                                    <asp:BoundField HeaderText="Estufagem" DataField="NM_TIPO_ESTUFAGEM" SortExpression="NM_TIPO_ESTUFAGEM" />
+                                                                                    <asp:BoundField HeaderText="Via" DataField="NM_VIATRANSPORTE" SortExpression="NM_VIATRANSPORTE" />
+                                                                                    <asp:BoundField HeaderText="Processo" DataField="FL_PAGAMENTO_RECORRENTE" SortExpression="FL_PAGAMENTO_RECORRENTE" />
+                                                                                    <asp:BoundField HeaderText="Tipo de Calculo" DataField="NM_TIPO_CALCULO" SortExpression="NM_TIPO_CALCULO" />
+                                                                                    <asp:BoundField HeaderText="Base de Calculo" DataField="NM_BASE_CALCULO_TAXA" SortExpression="NM_BASE_CALCULO_TAXA" />
                                                                                     <asp:TemplateField HeaderText="">
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton CommandName="Editar" runat="server" CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:LinkButton>
@@ -443,226 +567,8 @@
                                                                 <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharComissoesProspecao" Text="Close" />
                                                             </div>
                                                         </div>
-                                                        <%--Tabela comissoes de vendas --%>
-                                                        <div class="tab-pane fade in" id="Comissao">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">TABELA DE COMISSÕES DE VENDAS</h5>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                <div class="row">
-                                                                    <div class="col-sm-1">
-                                                                        <span class="font-bold text-align-left">ID:</span> <br />
-                                                                        <asp:TextBox ID="txtIDCommissoesVenda" runat="server" CssClass="form-control" />
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <span class="font-bold text-align-left">Validade Inicial:</span> <br />
-                                                                        <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control data" />                                                                
-                                                                    </div>
-                                                                    <div class="col-sm-1">
-                                                                        <span class="font-bold text-align-left">Estufagem: </span><br />
-                                                                        <asp:DropDownList ID="cbTipoEstufagemCommissoesVenda" runat="server" CssClass="form-control" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem">
-                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
-                                                                        </asp:DropDownList>
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <span class="font-bold text-align-left">Via:</span> <br />
-                                                                        <asp:DropDownList ID="cbViaCommissoesVenda" runat="server" CssClass="form-control" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" >
-                                                                        </asp:DropDownList>                                                                        
-                                                                    </div>                                                                                                                               
-                                                                    <div class="col-sm-2">
-                                                                        <span class="font-bold text-align-left">Tipo de Cálculo: </span> <br />
-                                                                        <asp:DropDownList ID="cbTipoCalculoCommissoesVenda" runat="server" CssClass="form-control">
-                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
-                                                                        </asp:DropDownList>
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <span class="font-bold text-align-left">Base de Cálculo: </span><br />
-                                                                        <asp:DropDownList ID="cbBaseCalculoCommissoesVenda" runat="server" CssClass="form-control" DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA">
-                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
-                                                                        </asp:DropDownList>
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <span class="font-bold text-align-left">Valor: </span> <br />
-                                                                        <asp:TextBox ID="txtValorCommissoesVenda" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                                <hr />
-                                                                <div class="row">                                                                    
-                                                                    <div class="col-md-3">
-                                                                        Escalonado por Profit Brasil
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        De<br />
-                                                                        <asp:TextBox ID="txtValorIniciaProfitCommissoesVenda" CssClass="form-control" runat="server" placeholder="USD 0.00"></asp:TextBox>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        Até: <br />
-                                                                        <asp:TextBox ID="txtValorFinalProfitCommissoesVenda" CssClass="form-control" runat="server"  placeholder="USD 0.00"></asp:TextBox>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        Valor de Comissão: 
-                                                                        <asp:TextBox ID="txtValorComissaoProfitCommissoesVenda" CssClass="form-control" runat="server"  placeholder="R$ 0.00"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-12" style="padding-bottom:20px;"></div>
-                                                                    <div class="col-sm-12">
-                                                                        <div class="form-group">
-                                                                            <div id="Div3" runat="server" visible="false" class="alert alert-danger">
-                                                                                <asp:Label ID="Label35" Text="" runat="server" />
-                                                                            </div>
-                                                                            <div id="div4" runat="server" visible="false" class="alert alert-success">
-                                                                                <asp:Label ID="Label36" Text="" runat="server" />
-                                                                            </div>
-                                                                            <asp:GridView ID="dgvTabelaComissaoVendedor" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
-                                                                                <Columns>
-                                                                                    <asp:TemplateField HeaderText="ID" Visible="False">
-                                                                                        <ItemTemplate>
-                                                                                            <asp:Label ID="lblID" runat="server" />
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:BoundField HeaderText="Validade Inicial" SortExpression="VALIDADE_INICIAL" />
-                                                                                    <asp:BoundField HeaderText="Tipo de Estufagem" SortExpression="TIPO_ESTUFAGEM" />                                                                                                                                                                        
-                                                                                    <asp:BoundField HeaderText="VIA" SortExpression="VIA" />
-                                                                                    <asp:BoundField HeaderText="Base de Calculo" SortExpression="BASE_DE_CALCULO" />
-                                                                                    <asp:BoundField HeaderText="Valor" SortExpression="VALOR" />                                                                                    
-                                                                                    <asp:BoundField HeaderText="USD - DE" SortExpression="USD_DE" />
-                                                                                    <asp:BoundField HeaderText="USD - ATÉ" SortExpression="USD_ATE" />
-                                                                                    <asp:TemplateField HeaderText="">
-                                                                                        <ItemTemplate>
-                                                                                            <asp:LinkButton CommandName="Editar" runat="server" CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:LinkButton>
-                                                                                        </ItemTemplate>
-                                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="">
-                                                                                        <ItemTemplate>
-                                                                                            <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
-                                                                                                OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');" Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                                                                        </ItemTemplate>
-                                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                                    </asp:TemplateField>
-                                                                                </Columns>
-                                                                                <HeaderStyle CssClass="headerStyle" />
-                                                                            </asp:GridView>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-9"></div>
-                                                                    <div class="col-md-3">
-                                                                        <asp:Button ID="btnAddIndicacaoInterna" CssClass="btn btn-primary" Text="Adicionar" runat="server" />
-                                                                        <asp:Button ID="btnSalvarEdicaoIndicacaoInterna" CssClass="btn btn-success" Text="Salvar Edição" runat="server" />
-                                                                        <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharIndicacaoInterna" Text="Close"  />
-                                                                        
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                        <%--Tabela comissoes de vendas --%>
-                                                        <%--Tabela comissoes --%>
-                                                        <div  class="tab-pane fade active in" id="Comissao1" style="display:none">
-
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">TABELA DE COMISSÕES</h5>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="row">
-                                                                    <div class="col-sm-2">
-                                                                        <div class="form-group">
-
-                                                                            <asp:Label ID="Label27" runat="server">ID</asp:Label><br />
-
-                                                                            <asp:TextBox ID="txtIDTabelaTaxa" Enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <div class="form-group">
-
-                                                                            <asp:Label ID="Label5" runat="server">Validade Inicial</asp:Label><br />
-
-                                                                            <asp:TextBox ID="txtValidade" placeholder="___/___/____" runat="server" CssClass="form-control data"></asp:TextBox>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <div class="form-group">
-
-                                                                            <asp:Label ID="Label7" runat="server">Taxa LCL</asp:Label><br />
-
-                                                                            <asp:TextBox ID="txtLCL" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-sm-2">
-                                                                        <div class="form-group">
-                                                                            <asp:Label ID="Label8" runat="server">Taxa FCL</asp:Label><br />
-
-                                                                            <asp:TextBox ID="txtFCL" runat="server" CssClass="form-control"></asp:TextBox>
-
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-sm-2">
-                                                                        <div class="form-group">
-                                                                            <div class="form-group">
-                                                                                <asp:Label ID="Label10" runat="server"></asp:Label><br />
-                                                                                <asp:Button runat="server" Text="Gravar" ID="btnGravaTaxaTabela" CssClass="btn btn-success" />
-                                                                                <asp:Button runat="server" Text="Limpar" ID="btnLimpaTaxaTabela" CssClass="btn btn-warning" />
-
-
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <div class="form-group">
-                                                                            <div id="DivExcluir" runat="server" visible="false" class="alert alert-danger">
-                                                                                <asp:Label ID="lblErroExcluir" Text="" runat="server" />
-                                                                            </div>
-                                                                            <div id="divInfo" runat="server" visible="false" class="alert alert-success">
-                                                                                <asp:Label ID="lblInfo" Text="" runat="server" />
-                                                                            </div>
-                                                                            <asp:GridView ID="dgvTabelaComissao" DataKeyNames="ID_VENDEDOR_TAXA_COMISSAO" DataSourceID="dsTabelaComissaoVendedor" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
-                                                                                <Columns>
-                                                                                    <asp:TemplateField HeaderText="ID" Visible="False">
-                                                                                        <ItemTemplate>
-                                                                                            <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_VENDEDOR_TAXA_COMISSAO") %>' />
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="VALIDADE INICIAL" SortExpression="DT_VALIDADE_INICIAL" />
-                                                                                    <asp:BoundField DataField="VL_TAXA" HeaderText="TAXA" SortExpression="VL_TAXA" />
-                                                                                    <asp:BoundField DataField="VL_TAXA_COMISSAO" HeaderText="TAXA COMISSAO" SortExpression="VL_TAXA_COMISSAO" />
-                                                                                    <asp:TemplateField HeaderText="">
-                                                                                        <ItemTemplate>
-                                                                                            <asp:LinkButton CommandName="Editar" CommandArgument='<%# Eval("ID_VENDEDOR_TAXA_COMISSAO") %>' runat="server" CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:LinkButton>
-                                                                                        </ItemTemplate>
-                                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="">
-                                                                                        <ItemTemplate>
-                                                                                            <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
-                                                                                                OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');" CommandArgument='<%# Eval("ID_VENDEDOR_TAXA_COMISSAO") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                                                                        </ItemTemplate>
-                                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                                    </asp:TemplateField>
-                                                                                </Columns>
-                                                                                <HeaderStyle CssClass="headerStyle" />
-                                                                            </asp:GridView>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="modal-footer">
-                                                                <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharTabela" Text="Close" />
-                                                            </div>
-                                                        </div>
-                                                        <%--Tabela comissoes --%>
-
+                                                                                                                                                                                                
+                                                        <%--Tabela Indicacao Interno --%>
                                                         <div class="tab-pane fade" id="IndicacaoInt" style="display:none;">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title">TABELA DE INDICADOR INTERNO</h5>
@@ -730,22 +636,19 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                 
+                                                        </div>
 
-                                                </div>
-                                                
-
-
-
+                                                </div>                                               
                                                 </div>    
                                             </center>
                                         </asp:Panel>
                                     </ContentTemplate>
 
                                     <Triggers>
-                                        <asp:AsyncPostBackTrigger ControlID="btnGravarComissoesProspeccao" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnSalvarComissoesProspeccao" />
                                         <asp:AsyncPostBackTrigger ControlID="btnLimparComissoesProspeccao" />
-                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTabelaComissao" />
+                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTabelaComissaoVendedor" />
 
                                     </Triggers>
                                 </asp:UpdatePanel>
@@ -1014,7 +917,7 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender10" runat="server" PopupControlID="pnlRelComissaoProspecao" TargetControlID="lkRelComissaoProspecao" CancelControlID="btnFecharRelComissaoProspecao"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeTabelas0" runat="server" PopupControlID="pnlRelComissaoProspecao" TargetControlID="lkRelComissaoProspecao" CancelControlID="btnFecharRelComissaoProspecao"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdateRelComissaoProspecao" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                         <ContentTemplate>
                                         <asp:Panel ID="pnlRelComissaoProspecao" CssClass="modalPopUp" runat="server" Style="display: none;">
@@ -1103,7 +1006,7 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender11" runat="server" PopupControlID="pnlRelComissaoIndicacaoInterna" TargetControlID="lkRelComissaoIndicacaoInterna" CancelControlID="btnFecharRelComissaoIndicacaoInterna"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeTabelas1" runat="server" PopupControlID="pnlRelComissaoIndicacaoInterna" TargetControlID="lkRelComissaoIndicacaoInterna" CancelControlID="btnFecharRelComissaoIndicacaoInterna"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdateRelComissaoIndicacaoInterna" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                         <ContentTemplate>
                                         <asp:Panel ID="pnlRelComissaoIndicacaoInterna" CssClass="modalPopUp" runat="server" Style="display: none;">
@@ -1531,7 +1434,12 @@
 
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsTabelaComissaoVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_VENDEDOR_TAXA_COMISSAO,DT_VALIDADE_INICIAL,ID_TIPO_ESTUFAGEM,ID_VIATRANSPORTE,ID_TIPO_CALCULO,ID_BASE_CALCULO_TAXA,VL_TAXA,VL_TAXA_INICIO,VL_TAXA_FIM,VL_TAXA_COMISSAO FROM TB_VENDEDOR_TAXA_COMISSAO "></asp:SqlDataSource>
+        SelectCommand="SELECT ID_VENDEDOR_TAXA_COMISSAO, DT_VALIDADE_INICIAL DT_VALIDADE_INICIAL,VL_TAXA,VL_PROFIT_INICIO,VL_PROFIT_FIM,VL_COMISSAO ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 
+TB_VENDEDOR_TAXA_COMISSAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO"></asp:SqlDataSource>
+
+       <asp:SqlDataSource ID="dsTabelaComissaoProspeccao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT  A.ID_VENDEDOR_PROSPECCAO,  A.DT_VALIDADE_INICIAL, A.VL_TAXA,E.NM_EQUIPE, A.FL_PAGAMENTO_RECORRENTE ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 
+TB_VENDEDOR_PROSPECCAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN TB_VENDEDOR_EQUIPE E ON E.ID_EQUIPE = A.ID_EQUIPE  INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO = 1 AND FL_ATIVO = 1 ORDER BY NM_RAZAO"></asp:SqlDataSource>
@@ -1565,14 +1473,22 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
 
      <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA]
+        SelectCommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE ID_BASE_CALCULO_TAXA IN (31,32,34)
 union SELECT 0, '      Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY NM_BASE_CALCULO_TAXA"></asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsViaTransporte" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_VIATRANSPORTE,NM_VIATRANSPORTE FROM [dbo].[TB_VIATRANSPORTE]
-union SELECT  0, 'Selecione' ORDER BY ID_VIATRANSPORTE">
-</asp:SqlDataSource> 
+    <asp:SqlDataSource ID="dsTipoCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_TIPO_CALCULO ,NM_TIPO_CALCULO FROM [dbo].[TB_TIPO_CALCULO]
+union SELECT 0, '      Selecione' FROM [dbo].[TB_TIPO_CALCULO] ORDER BY NM_TIPO_CALCULO "></asp:SqlDataSource>
 
+    <asp:SqlDataSource ID="dsViaTransporte" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_VIATRANSPORTE,NM_VIATRANSPORTE FROM [dbo].[TB_VIATRANSPORTE] WHERE ID_VIATRANSPORTE IN (1,4)
+union SELECT  0, 'Selecione' ORDER BY ID_VIATRANSPORTE">
+</asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsEquipes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_EQUIPE, NM_EQUIPE FROM [dbo].[TB_VENDEDOR_EQUIPE]
+UNION SELECT  0, '    Selecione' ORDER BY NM_EQUIPE">
+</asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>

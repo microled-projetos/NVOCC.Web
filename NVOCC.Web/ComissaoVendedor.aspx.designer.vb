@@ -419,13 +419,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnFecharRelatorios As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle ModalPopupExtender1.
+    '''Controle mpeTabelas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ModalPopupExtender1 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents mpeTabelas As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
     '''Controle upPanelComissoesProspeccao.
@@ -437,265 +437,148 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents upPanelComissoesProspeccao As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
-    '''Controle pnlTabela.
+    '''Controle pnlTabelas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents pnlTabela As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents pnlTabelas As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle txtIDComissoesProspeccao.
+    '''Controle divComissoesVendaSucesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtIDComissoesProspeccao As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents divComissoesVendaSucesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle cbValidadeComissaoProspeccao.
+    '''Controle lblComissoesVendaSucesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents cbValidadeComissaoProspeccao As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents lblComissoesVendaSucesso As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle cbTipoEstufagemComissaoProspeccao.
+    '''Controle divComissoesVendaErro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents cbTipoEstufagemComissaoProspeccao As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents divComissoesVendaErro As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle cbViaComissaoProspeccao.
+    '''Controle lblComissoesVendaErro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents cbViaComissaoProspeccao As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents lblComissoesVendaErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle rdPrimeiroProcessoComissaoProspeccao.
+    '''Controle txtIDComissoesVenda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents rdPrimeiroProcessoComissaoProspeccao As Global.System.Web.UI.WebControls.RadioButton
+    Protected WithEvents txtIDComissoesVenda As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle rdDemaisProcessosComissaoProspeccao.
+    '''Controle txtValidadaInicialComissoesVenda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents rdDemaisProcessosComissaoProspeccao As Global.System.Web.UI.WebControls.RadioButton
+    Protected WithEvents txtValidadaInicialComissoesVenda As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle cbTipoCalculoComissoesProspeccao.
+    '''Controle ddlEstufagemComissoesVenda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents cbTipoCalculoComissoesProspeccao As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlEstufagemComissoesVenda As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle cbBaseCalculoComissoesProspeccao.
+    '''Controle ddlViaComissoesVenda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents cbBaseCalculoComissoesProspeccao As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlViaComissoesVenda As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtValorComissoesProspecccao.
+    '''Controle ddlTipoCalculoComissoesVenda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtValorComissoesProspecccao As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents ddlTipoCalculoComissoesVenda As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle cbEquipes.
+    '''Controle ddlBaseCalculoComissoesVenda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents cbEquipes As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlBaseCalculoComissoesVenda As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle btnGravarComissoesProspeccao.
+    '''Controle txtValorComissoesVenda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnGravarComissoesProspeccao As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents txtValorComissoesVenda As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle btnLimparComissoesProspeccao.
+    '''Controle txtProfitInicialComissoesVenda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnLimparComissoesProspeccao As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents txtProfitInicialComissoesVenda As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle Div1.
+    '''Controle txtProfitFinalComissoesVenda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Div1 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents txtProfitFinalComissoesVenda As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle Label9.
+    '''Controle txtCalculadoComissoesVenda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label9 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents txtCalculadoComissoesVenda As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle div2.
+    '''Controle btnSalvarComissaoVendedor.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents div2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle Label20.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label20 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle GridView1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents GridView1 As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
-    '''Controle btnFecharComissoesProspecao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnFecharComissoesProspecao As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle txtIDCommissoesVenda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtIDCommissoesVenda As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle TextBox3.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents TextBox3 As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle cbTipoEstufagemCommissoesVenda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents cbTipoEstufagemCommissoesVenda As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle cbViaCommissoesVenda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents cbViaCommissoesVenda As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle cbTipoCalculoCommissoesVenda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents cbTipoCalculoCommissoesVenda As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle cbBaseCalculoCommissoesVenda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents cbBaseCalculoCommissoesVenda As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle txtValorCommissoesVenda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtValorCommissoesVenda As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtValorIniciaProfitCommissoesVenda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtValorIniciaProfitCommissoesVenda As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtValorFinalProfitCommissoesVenda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtValorFinalProfitCommissoesVenda As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtValorComissaoProfitCommissoesVenda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtValorComissaoProfitCommissoesVenda As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents btnSalvarComissaoVendedor As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle Div3.
@@ -743,184 +626,166 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents dgvTabelaComissaoVendedor As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle btnAddIndicacaoInterna.
+    '''Controle btnFecharComissoesVenda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnAddIndicacaoInterna As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnFecharComissoesVenda As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnSalvarEdicaoIndicacaoInterna.
+    '''Controle divComissoesProspeccaoSucesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnSalvarEdicaoIndicacaoInterna As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents divComissoesProspeccaoSucesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle btnFecharIndicacaoInterna.
+    '''Controle lblComissoesProspeccaoSucesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnFecharIndicacaoInterna As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents lblComissoesProspeccaoSucesso As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle Label27.
+    '''Controle divComissoesProspeccaoErro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label27 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents divComissoesProspeccaoErro As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle txtIDTabelaTaxa.
+    '''Controle lblComissoesProspeccaoErro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtIDTabelaTaxa As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents lblComissoesProspeccaoErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle Label5.
+    '''Controle txtIDComissoesProspeccao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label5 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents txtIDComissoesProspeccao As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtValidade.
+    '''Controle txtValidadeInicialComissoesProspeccao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtValidade As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtValidadeInicialComissoesProspeccao As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle Label7.
+    '''Controle ddlEstufagemComissoesProspeccao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label7 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents ddlEstufagemComissoesProspeccao As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtLCL.
+    '''Controle ddlViaComissoesProspeccao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtLCL As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents ddlViaComissoesProspeccao As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle Label8.
+    '''Controle rdPagamentoComissoesProspeccao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label8 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents rdPagamentoComissoesProspeccao As Global.System.Web.UI.WebControls.RadioButtonList
 
     '''<summary>
-    '''Controle txtFCL.
+    '''Controle ddlTipoCalculoComissoesProspeccao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtFCL As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents ddlTipoCalculoComissoesProspeccao As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle Label10.
+    '''Controle ddlBaseCalculoComissoesProspeccao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label10 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents ddlBaseCalculoComissoesProspeccao As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle btnGravaTaxaTabela.
+    '''Controle txtValorComissoesProspecccao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnGravaTaxaTabela As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents txtValorComissoesProspecccao As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle btnLimpaTaxaTabela.
+    '''Controle ddlEquipeComissoesProspeccao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnLimpaTaxaTabela As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents ddlEquipeComissoesProspeccao As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle DivExcluir.
+    '''Controle btnSalvarComissoesProspeccao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DivExcluir As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents btnSalvarComissoesProspeccao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle lblErroExcluir.
+    '''Controle btnLimparComissoesProspeccao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblErroExcluir As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents btnLimparComissoesProspeccao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle divInfo.
+    '''Controle dgvTabelaComissaoProspeccao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents divInfo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents dgvTabelaComissaoProspeccao As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle lblInfo.
+    '''Controle btnFecharComissoesProspecao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblInfo As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle dgvTabelaComissao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dgvTabelaComissao As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
-    '''Controle btnFecharTabela.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnFecharTabela As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnFecharComissoesProspecao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle txtValidadeIndicadorInterno.
@@ -1418,13 +1283,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnFecharRelComissaoVendas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle ModalPopupExtender10.
+    '''Controle mpeTabelas0.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ModalPopupExtender10 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents mpeTabelas0 As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
     '''Controle UpdateRelComissaoProspecao.
@@ -1571,13 +1436,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnFecharRelComissaoProspecao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle ModalPopupExtender11.
+    '''Controle mpeTabelas1.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ModalPopupExtender11 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents mpeTabelas1 As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
     '''Controle UpdateRelComissaoIndicacaoInterna.
@@ -2426,6 +2291,15 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents dsTabelaComissaoVendedor As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
+    '''Controle dsTabelaComissaoProspeccao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTabelaComissaoProspeccao As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Controle dsVendedor.
     '''</summary>
     '''<remarks>
@@ -2498,6 +2372,15 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents dsBaseCalculo As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
+    '''Controle dsTipoCalculo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTipoCalculo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Controle dsViaTransporte.
     '''</summary>
     '''<remarks>
@@ -2505,4 +2388,13 @@ Partial Public Class ComissaoVendedor
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsViaTransporte As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsEquipes.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsEquipes As Global.System.Web.UI.WebControls.SqlDataSource
 End Class
