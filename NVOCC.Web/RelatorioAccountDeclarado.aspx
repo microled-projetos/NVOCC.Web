@@ -24,11 +24,6 @@
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="processoExpectGrid">
                             <div class="row topMarg">
-                                <div class="row">
-                                    <div class="alert alert-danger text-center" id="msgErrExportContaPagaRecebida">
-                                        Não há registros para a data informada.
-                                    </div>
-                                </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
                                         <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="exportCSV('TaxasPorProcesso.csv')">Exportar Grid - CSV</button>
@@ -72,14 +67,12 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center" scope="col">NR PROCESSO</th>
+                                                <th class="text-center" scope="col">AGENTE</th>
+                                                <th class="text-center" scope="col">PARCEIRO TAXA</th>
+                                                <th class="text-center" scope="col">DATA EMBARQUE</th>
+                                                <th class="text-center" scope="col">DATA CHEGADA</th>
                                                 <th class="text-center" scope="col">NR MASTER</th>
                                                 <th class="text-center" scope="col">NR HOUSE</th>
-                                                <th class="text-center" scope="col">AGENTE</th>
-                                                <th class="text-center" scope="col">DATA EMBARQUE</th>
-                                                <th class="text-center" scope="col">DATA PREV. EMBARQUE</th>
-                                                <th class="text-center" scope="col">DATA CHEGADA</th>
-                                                <th class="text-center" scope="col">DATA PREV. CHEGADA</th>
-
                                                 <th class="text-center" scope="col">ITEM DESPESA</th>
                                                 <th class="text-center" scope="col">MOEDA</th>
                                                 <th class="text-center" scope="col">VALOR</th>
@@ -179,35 +172,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 
     <script>
-       function printRelatorioTaxasPorProcessos() {
-            var dtInicial = document.getElementById("txtDtInicialPagamentoRecebimento").value;
-            var dtFinal = document.getElementById("txtDtFinalPagamentoRecebimento").value;
-            if (dtInicial != "" && dtFinal != "") {
-                $.ajax({
-                    type: "POST",
-                    url: "DemurrageService.asmx/listarRelatorioContasRecebidasPagas",
-                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '"}',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (dado) {
-                        var dado = dado.d;
-                        dado = $.parseJSON(dado);
-                        var rel = [["PROCESSO;MBL;ITEM DESPESA;DATA LIQUIDAÇÃO REC;CLIENTE REC; VALOR DEVIDO REC;MOEDA REC; CAMBIO REC;VALOR LIQUIDO REC; VALOR ISS REC; DATA LIQUIDAÇÃO PAG;FORNECEDOR PAG; VALOR DEVIDO PAG; MOEDA PAG; CAMBIO PAG; VALOR LIQUIDO PAG; VALOR ISS PAG; TIPO EXPORTAÇÃO; DATA EMISSAO; DATA VENCIMENTO; TIPO FATURAMENTO; DATA PREVISÃO DE CHEGADA;DATA CHEGADA; TIPO DE ESTUFAGEM; CLIENTE FINAL; AGENTE;TIPO DE PAGAMENTO MASTER; TIPO PAGAMENTO HOUSE"]];
-                        if (dado != null) {
-                            console.log(dado)
-                            for (let i = 0; i < dado.length; i++) {
-                                rel.push([dado[i]])
-                            }
-                            exportRelatorioPagamentosRecebimentosCSV("previsibilidade.csv", rel.join("\n"));
-                        } else {
-                            $("#msgErrExportContaPagaRecebida").fadeIn(500).delay(1000).fadeOut(500);
-                        }
-                    }
-                })
-            } else {
-                $("#msgErrExportContaPagaRecebida").fadeIn(500).delay(1000).fadeOut(500);
-            }
-        }
         //PagamentosRecebimentos
 
         function ProcessosPorAgente() {
@@ -283,13 +247,12 @@
                         for (let i = 0; i < dado.length; i++) {
                             $("#grdPagamentoRecebimentoBody").append("<tr>" +
                                 "<td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["NM_RAZAO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["PARCEIRO_TAXA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_EMBARQUE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_MASTER"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_HOUSE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["NM_RAZAO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DT_EMBARQUE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DT_PREVISAO_EMBARQUE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td>" +
                                 "<td class='text-center'> " + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["SIGLA_MOEDA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["VL_TAXA_CALCULADO"] + "</td>" +
