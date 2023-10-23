@@ -428,15 +428,6 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents mpeTabelas As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
-    '''Controle upPanelComissoesProspeccao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents upPanelComissoesProspeccao As Global.System.Web.UI.UpdatePanel
-
-    '''<summary>
     '''Controle pnlTabelas.
     '''</summary>
     '''<remarks>
@@ -635,6 +626,15 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnFecharComissoesVenda As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle UpdatePanel4.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel4 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
     '''Controle divComissoesProspeccaoSucesso.
     '''</summary>
     '''<remarks>
@@ -788,6 +788,60 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnFecharComissoesProspecao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle UpdatePanel5.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel5 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
+    '''Controle divIndicacaoInternoSucesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divIndicacaoInternoSucesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblIndicacaoInternoSucesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblIndicacaoInternoSucesso As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divIndicacaoInternoErro.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divIndicacaoInternoErro As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblIndicacaoInternoErro.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblIndicacaoInternoErro As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtIDIndicadorInterno.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDIndicadorInterno As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtValidadeIndicadorInterno.
     '''</summary>
     '''<remarks>
@@ -824,58 +878,22 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnLimparIndicadorInterno As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Div5.
+    '''Controle dgvIndicadorInterno.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Div5 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents dgvIndicadorInterno As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle Label37.
+    '''Controle btnFecharIndicadorInterno.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label37 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle div6.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents div6 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle Label38.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label38 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle GridView3.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents GridView3 As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
-    '''Controle Button3.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Button3 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnFecharIndicadorInterno As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle ModalPopupExtender7.
@@ -2397,4 +2415,13 @@ Partial Public Class ComissaoVendedor
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsEquipes As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsIndicadorInterno.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsIndicadorInterno As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

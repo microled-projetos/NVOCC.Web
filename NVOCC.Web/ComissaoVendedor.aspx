@@ -20,10 +20,11 @@
             font-size: 8pt;
             background-color: #e6c3a5;
         }
+
         .modal-xxl {
-            width: 100%;            
+            width: 100%;
             max-width: 2000px;
-        }        
+        }
     </style>
 
 
@@ -37,7 +38,7 @@
 
                 <div class="panel-body">
                     <div class="tab-pane fade active in" id="consulta">
-                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
+                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
                             <ContentTemplate>
 
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
@@ -304,9 +305,9 @@
                                 </asp:Panel>
 
                                 <ajaxToolkit:ModalPopupExtender ID="mpeTabelas" runat="server" PopupControlID="pnlTabelas" TargetControlID="lkTabelaComissoes" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
-                                <asp:UpdatePanel ID="upPanelComissoesProspeccao" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false" >
-                                    <ContentTemplate>
-                                        <asp:Panel ID="pnlTabelas" runat="server" CssClass="modalPopup" >
+                               <%-- <asp:UpdatePanel ID="upPanelComissoesProspeccao" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>--%>
+                                        <asp:Panel ID="pnlTabelas" runat="server" CssClass="modalPopup">
                                             <center>
                                                     <div class=" modal-dialog modal-dialog-centered modal-xxl" role="document">
                                                     <div class="modal-content">
@@ -329,6 +330,7 @@
                                                                 </li>
                                                             </ul>
                                                         </div>
+                                            
                                                         <%--Tabela comissoes de vendas --%>
                                                         <div class="tab-pane fade in" id="Comissao">
                                                             <div class="modal-header">
@@ -456,11 +458,16 @@
 
                                                         </div>
                                              
+                                                        
+
                                                         <%--Tabela Prospeccao --%>
                                                         <div class="tab-pane fade" id="Prospeccao" style="display:none" >
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title">TABELA DE COMISSÕES PROSPECÇÃO</h5>
                                                             </div>
+
+                                                            <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                                                      <ContentTemplate>
                                                             <div class="modal-body">
                                                                   <div class="alert alert-success" ID="divComissoesProspeccaoSucesso" runat="server" visible="false">
                                                                     <asp:label ID="lblComissoesProspeccaoSucesso" runat="server" Text="Registro deletado com sucesso!"></asp:label>
@@ -521,10 +528,10 @@
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                      <div class="col-sm-2"><br/>
-                                                                        <asp:Button ID="btnSalvarComissoesProspeccao" CssClass="btn btn-block btn-success" Text="Gravar" runat="server" Visible="true" />
+                                                                        <asp:Button ID="btnSalvarComissoesProspeccao" CssClass="btn btn-block btn-success" Text="Gravar" runat="server"/>
                                                                     </div>
                                                                     <div class="col-sm-2"><br/>
-                                                                        <asp:Button ID="btnLimparComissoesProspeccao" CssClass="btn btn-block btn-warning" Text="Limpar" runat="server" Visible="true" />
+                                                                        <asp:Button ID="btnLimparComissoesProspeccao" CssClass="btn btn-block btn-warning" Text="Limpar" runat="server"/>
                                                                     </div>
                                                                 </div>
                                                               <br />
@@ -545,13 +552,13 @@
                                                                                     <asp:BoundField HeaderText="Base de Calculo" DataField="NM_BASE_CALCULO_TAXA" SortExpression="NM_BASE_CALCULO_TAXA" />
                                                                                     <asp:TemplateField HeaderText="">
                                                                                         <ItemTemplate>
-                                                                                            <asp:LinkButton CommandName="Editar" runat="server" CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:LinkButton>
+                                                                                            <asp:LinkButton CommandName="Editar" runat="server" CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"  CommandArgument='<%# Eval("ID_VENDEDOR_PROSPECCAO") %>'><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="">
                                                                                         <ItemTemplate>
-                                                                                            <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
+                                                                                            <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"  CommandArgument='<%# Eval("ID_VENDEDOR_PROSPECCAO") %>'
                                                                                                 OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');" Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
@@ -566,57 +573,72 @@
                                                             <div class="modal-footer">
                                                                 <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharComissoesProspecao" Text="Close" />
                                                             </div>
-                                                        </div>
-                                                                                                                                                                                                
+                                                  </ContentTemplate>
+
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="btnSalvarComissoesProspeccao" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnLimparComissoesProspeccao" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnFecharComissoesProspecao" />
+                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTabelaComissaoProspeccao" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
+                                                          
+                                                          </div>
+                                                            
+                                                            
+                                                             
+
                                                         <%--Tabela Indicacao Interno --%>
                                                         <div class="tab-pane fade" id="IndicacaoInt" style="display:none;">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title">TABELA DE INDICADOR INTERNO</h5>
                                                             </div>
+                                                             <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                                                      <ContentTemplate>
                                                             <div class="modal-body">
-                                                                    <div class="row">
-                                                                        <div class="col-md-4">
-                                                                        Validade<br />
-                                                                        <asp:TextBox ID="txtValidadeIndicadorInterno" CssClass="form-control" runat="server" ></asp:TextBox>
+                                                                <div class="alert alert-success" id="divIndicacaoInternoSucesso" runat="server" visible="false">
+                                                                    <asp:Label ID="lblIndicacaoInternoSucesso" runat="server"></asp:Label>
+                                                                </div>
+                                                                <div class="alert alert-danger" id="divIndicacaoInternoErro" runat="server" visible="false">
+                                                                    <asp:Label ID="lblIndicacaoInternoErro" runat="server"></asp:Label>
+                                                                </div>
+                                                                <div class="row">
+                                                                <div class="col-md-2">
+                                                                        <strong>ID:</strong> <br />
+                                                                        <asp:TextBox ID="txtIDIndicadorInterno" runat="server" CssClass="form-control" Enabled="false" />
                                                                     </div>
-                                                                    <div class="col-md-4">
+                                                                    
+                                                                        <div class="col-md-3">
+                                                                        Validade<br />
+                                                                        <asp:TextBox ID="txtValidadeIndicadorInterno" CssClass="form-control data" runat="server" ></asp:TextBox>
+                                                                    </div>
+                                                                    <div class="col-md-3">
                                                                         Valor <br />
                                                                         <asp:TextBox ID="txtValorIndicadorInterno" CssClass="form-control" runat="server"></asp:TextBox>
                                                                     </div>
-                                                                    <div class="col-md-4"><br />
+                                                                    <div class="col-md-3"><br />
                                                                         <asp:Button ID="btnSalvarIndicadorInterno" CssClass="btn btn-success" Text="Gravar" runat="server" />
-                                                                            <asp:Button ID="btnLimparIndicadorInterno" CssClass="btn btn-warning" Text="Limpar" runat="server" />
-                                                                            <%--<asp:Button runat="server" CssClass="btn btn-secondary" ID="Button3" Text="Close" />--%>
-                                                                    </div>
+                                                                        <asp:Button ID="btnLimparIndicadorInterno" CssClass="btn btn-warning" Text="Limpar" runat="server" />
+                                                                     </div>
                                                                  </div>
                                                                 <div class="row">
                                                                     <div class="col-sm-12" style="padding-bottom:20px;"></div>
                                                                     <div class="col-sm-12">
                                                                         <div class="form-group">
-                                                                            <div id="Div5" runat="server" visible="false" class="alert alert-danger">
-                                                                                <asp:Label ID="Label37" Text="" runat="server" />
-                                                                            </div>
-                                                                            <div id="div6" runat="server" visible="false" class="alert alert-success">
-                                                                                <asp:Label ID="Label38" Text="" runat="server" />
-                                                                            </div>
-                                                                            <asp:GridView ID="GridView3" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                            <asp:GridView ID="dgvIndicadorInterno" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsIndicadorInterno" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                                 <Columns>
-                                                                                    <asp:TemplateField HeaderText="ID" Visible="False">
-                                                                                        <ItemTemplate>
-                                                                                            <asp:Label ID="lblID" runat="server" />
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:BoundField HeaderText="Validade" SortExpression="VALIDADE" />                                                                                    
-                                                                                    <asp:BoundField HeaderText="Valor Indicação" SortExpression="VALOR_INDICACAO" />                                                                                                                                                                        
+                                                                                    <asp:BoundField DataField="ID_VENDEDOR_INDICADOR_INTERNO" HeaderText="ID" SortExpression="ID_VENDEDOR_INDICADOR_INTERNO" />
+                                                                                    <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="Validade" SortExpression="DT_VALIDADE_INICIAL" />
+                                                                                    <asp:BoundField DataField="VL_TAXA"  HeaderText="Valor Indicação" SortExpression="VL_TAXA" />
                                                                                     <asp:TemplateField HeaderText="">
                                                                                         <ItemTemplate>
-                                                                                            <asp:LinkButton CommandName="Editar" runat="server" CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:LinkButton>
+                                                                                            <asp:LinkButton CommandName="Editar" runat="server" CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar" CommandArgument='<%# Eval("ID_VENDEDOR_INDICADOR_INTERNO") %>'><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="">
                                                                                         <ItemTemplate>
-                                                                                            <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
+                                                                                            <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandArgument='<%# Eval("ID_VENDEDOR_INDICADOR_INTERNO") %>' CommandName="Excluir"
                                                                                                 OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');" Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
@@ -630,12 +652,22 @@
                                                                 <div class="row">
                                                                     <div class="col-md-10"></div>
                                                                     <div class="col-md-2">                                                                        
-                                                                        <asp:Button runat="server" CssClass="btn btn-secondary" ID="Button3" Text="Close" />
+                                                                        <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharIndicadorInterno" Text="Close" />
                                                                         
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                       
+                                                          </ContentTemplate>
+
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="btnSalvarIndicadorInterno" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnLimparIndicadorInterno" />
+                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvIndicadorInterno" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnFecharIndicadorInterno" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
+                                                          </div>
                                                  
                                                         </div>
 
@@ -643,23 +675,26 @@
                                                 </div>    
                                             </center>
                                         </asp:Panel>
-                                    </ContentTemplate>
+
+
+                                    <%--</ContentTemplate>
 
                                     <Triggers>
                                         <asp:AsyncPostBackTrigger ControlID="btnSalvarComissoesProspeccao" />
                                         <asp:AsyncPostBackTrigger ControlID="btnLimparComissoesProspeccao" />
+                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTabelaComissaoProspeccao" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnSalvarComissaoVendedor" />
                                         <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTabelaComissaoVendedor" />
-
                                     </Triggers>
-                                </asp:UpdatePanel>
+                                </asp:UpdatePanel>--%>
 
-                                
+
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender7" runat="server" PopupControlID="pnlCadastroMeta" TargetControlID="lkCadastroMeta" CancelControlID="btnFecharCadastrarMetas"></ajaxToolkit:ModalPopupExtender>
-                                   <asp:UpdatePanel ID="UpdatePnlCadastroMeta" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False" >
-                                        <ContentTemplate>
-                                            <asp:Panel ID="pnlCadastroMeta" runat="server" CssClass="modalPopup" Style="display: none;">
-                                                <center>
+                                <asp:UpdatePanel ID="UpdatePnlCadastroMeta" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                    <ContentTemplate>
+                                        <asp:Panel ID="pnlCadastroMeta" runat="server" CssClass="modalPopup" Style="display: none;">
+                                            <center>
                                                     <div class="modal-dialog modal-dialog-centered modal-xxl" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -744,13 +779,13 @@
                                                         </div>
                                                     </div>
                                                 </center>
-                                            </asp:Panel>                                            
-                                        </ContentTemplate>
-                                    </asp:UpdatePanel>          
+                                        </asp:Panel>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender8" runat="server" PopupControlID="pnlMetas" TargetControlID="lkMeta" CancelControlID="btnFecharMetas"></ajaxToolkit:ModalPopupExtender>
-                                    <asp:UpdatePanel ID="UpdatePanelMetas" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                                        <ContentTemplate>
+                                <asp:UpdatePanel ID="UpdatePanelMetas" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>
                                         <asp:Panel ID="pnlMetas" CssClass="modalPopUp" runat="server" Style="display: none;">
                                             <center>
                                                 <div class=" modal-dialog modal-dialog-centered modal-xxl" role="document">
@@ -816,19 +851,19 @@
                                                 </div>
                                         </center>
                                         </asp:Panel>
-                                        
+
                                     </ContentTemplate>
                                     <Triggers>
                                         <%--<asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />--%>
                                         <asp:AsyncPostBackTrigger ControlID="btnGerarCompetenciasMediasAlcancadasComissaoVendas" />
                                         <asp:AsyncPostBackTrigger ControlID="btnLimparCompetenciasMediasAlcancadasComissaoVendas" />
-                                
+
                                     </Triggers>
                                 </asp:UpdatePanel>
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender9" runat="server" PopupControlID="pnlRelComissaoVendas" TargetControlID="lkRelComissaoVendas" CancelControlID="btnFecharRelComissaoVendas"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdateRelComissaoVendas" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                                        <ContentTemplate>
+                                    <ContentTemplate>
                                         <asp:Panel ID="pnlRelComissaoVendas" CssClass="modalPopUp" runat="server" Style="display: none;">
                                             <center>
                                                 <div class=" modal-dialog modal-dialog-centered modal-xxl" role="document">
@@ -907,19 +942,19 @@
                                                 </div>
                                         </center>
                                         </asp:Panel>
-                                        
+
                                     </ContentTemplate>
                                     <Triggers>
                                         <%--<asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />--%>
                                         <asp:AsyncPostBackTrigger ControlID="btnRelGerarCompetenciaComissaoVendas" />
                                         <asp:AsyncPostBackTrigger ControlID="btnRelGravarCCProcessoComissaoVendas" />
-                                
+
                                     </Triggers>
                                 </asp:UpdatePanel>
 
                                 <ajaxToolkit:ModalPopupExtender ID="mpeTabelas0" runat="server" PopupControlID="pnlRelComissaoProspecao" TargetControlID="lkRelComissaoProspecao" CancelControlID="btnFecharRelComissaoProspecao"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdateRelComissaoProspecao" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                                        <ContentTemplate>
+                                    <ContentTemplate>
                                         <asp:Panel ID="pnlRelComissaoProspecao" CssClass="modalPopUp" runat="server" Style="display: none;">
                                             <center>
                                                 <div class=" modal-dialog modal-dialog-centered modal-xxl" role="document">
@@ -996,19 +1031,19 @@
                                                 </div>
                                         </center>
                                         </asp:Panel>
-                                        
+
                                     </ContentTemplate>
                                     <Triggers>
                                         <%--<asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />--%>
                                         <asp:AsyncPostBackTrigger ControlID="btnGerarCompetenciaComissaoProspecao" />
                                         <asp:AsyncPostBackTrigger ControlID="btnGravarCCProcessoComissaoProspecao" />
-                                
+
                                     </Triggers>
                                 </asp:UpdatePanel>
 
                                 <ajaxToolkit:ModalPopupExtender ID="mpeTabelas1" runat="server" PopupControlID="pnlRelComissaoIndicacaoInterna" TargetControlID="lkRelComissaoIndicacaoInterna" CancelControlID="btnFecharRelComissaoIndicacaoInterna"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdateRelComissaoIndicacaoInterna" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                                        <ContentTemplate>
+                                    <ContentTemplate>
                                         <asp:Panel ID="pnlRelComissaoIndicacaoInterna" CssClass="modalPopUp" runat="server" Style="display: none;">
                                             <center>
                                                 <div class=" modal-dialog modal-dialog-centered modal-xxl" role="document">
@@ -1076,13 +1111,13 @@
                                                 </div>
                                         </center>
                                         </asp:Panel>
-                                        
+
                                     </ContentTemplate>
                                     <Triggers>
                                         <%--<asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />--%>
                                         <asp:AsyncPostBackTrigger ControlID="btnRelGerarCompetenciaComissaoIndicacaoInterna" />
                                         <asp:AsyncPostBackTrigger ControlID="btnRelGravarCCProcessoComissaoIndicacaoInterna" />
-                                
+
                                     </Triggers>
                                 </asp:UpdatePanel>
 
@@ -1408,7 +1443,7 @@
                                             </div>
                                         </div>
                                     </center>
-                                </asp:Panel>                               
+                                </asp:Panel>
 
                             </ContentTemplate>
                             <Triggers>
@@ -1422,7 +1457,7 @@
                             </Triggers>
                         </asp:UpdatePanel>
 
-                         
+
                     </div>
 
                 </div>
@@ -1437,7 +1472,7 @@
         SelectCommand="SELECT ID_VENDEDOR_TAXA_COMISSAO, DT_VALIDADE_INICIAL DT_VALIDADE_INICIAL,VL_TAXA,VL_PROFIT_INICIO,VL_PROFIT_FIM,VL_COMISSAO ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 
 TB_VENDEDOR_TAXA_COMISSAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO"></asp:SqlDataSource>
 
-       <asp:SqlDataSource ID="dsTabelaComissaoProspeccao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsTabelaComissaoProspeccao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT  A.ID_VENDEDOR_PROSPECCAO,  A.DT_VALIDADE_INICIAL, A.VL_TAXA,E.NM_EQUIPE, A.FL_PAGAMENTO_RECORRENTE ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 
 TB_VENDEDOR_PROSPECCAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN TB_VENDEDOR_EQUIPE E ON E.ID_EQUIPE = A.ID_EQUIPE  INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO"></asp:SqlDataSource>
 
@@ -1472,7 +1507,7 @@ union SELECT 0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
 
-     <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE ID_BASE_CALCULO_TAXA IN (31,32,34)
 union SELECT 0, '      Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY NM_BASE_CALCULO_TAXA"></asp:SqlDataSource>
 
@@ -1481,14 +1516,18 @@ union SELECT 0, '      Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY NM_
 union SELECT 0, '      Selecione' FROM [dbo].[TB_TIPO_CALCULO] ORDER BY NM_TIPO_CALCULO "></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsViaTransporte" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_VIATRANSPORTE,NM_VIATRANSPORTE FROM [dbo].[TB_VIATRANSPORTE] WHERE ID_VIATRANSPORTE IN (1,4)
-union SELECT  0, 'Selecione' ORDER BY ID_VIATRANSPORTE">
-</asp:SqlDataSource>
+        SelectCommand="SELECT ID_VIATRANSPORTE,NM_VIATRANSPORTE FROM [dbo].[TB_VIATRANSPORTE] WHERE ID_VIATRANSPORTE IN (1,4)
+union SELECT  0, 'Selecione' ORDER BY ID_VIATRANSPORTE"></asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsEquipes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_EQUIPE, NM_EQUIPE FROM [dbo].[TB_VENDEDOR_EQUIPE]
-UNION SELECT  0, '    Selecione' ORDER BY NM_EQUIPE">
-</asp:SqlDataSource>
+    <asp:SqlDataSource ID="dsEquipes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_EQUIPE, NM_EQUIPE FROM [dbo].[TB_VENDEDOR_EQUIPE]
+UNION SELECT  0, '    Selecione' ORDER BY NM_EQUIPE"></asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsIndicadorInterno" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_VENDEDOR_INDICADOR_INTERNO,DT_VALIDADE_INICIAL,VL_TAXA FROM TB_VENDEDOR_INDICADOR_INTERNO  ORDER BY ID_VENDEDOR_INDICADOR_INTERNO"></asp:SqlDataSource>
+
+
+    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>
@@ -1527,19 +1566,19 @@ UNION SELECT  0, '    Selecione' ORDER BY NM_EQUIPE">
             $('#hdComissao').click(function () {
                 $('#Comissao').show();
                 $('#IndicacaoInt').hide();
-                $('#Prospeccao').hide();               
+                $('#Prospeccao').hide();
             });
 
             $('#hdIndicacaoInt').click(function () {
                 $('#Comissao').hide();
                 $('#IndicacaoInt').show();
-                $('#Prospeccao').hide();                
+                $('#Prospeccao').hide();
             });
 
             $('#hdProspeccao').click(function () {
                 $('#Comissao').hide();
                 $('#IndicacaoInt').hide();
-                $('#Prospeccao').show();                
+                $('#Prospeccao').show();
             });
 
             $('#MainContent_txtDataInicioMetas').mask('99/99/9999');
@@ -1548,7 +1587,10 @@ UNION SELECT  0, '    Selecione' ORDER BY NM_EQUIPE">
             $('#MainContent_txtDtTerminoComissaoProspecao').mask('99/99/9999');
             $('#MainContent_txtDtInicioComissaoProspecao').attr('placeholder', '__/__/____');
             $('#MainContent_txtDtTerminoComissaoProspecao').attr('placeholder', '__/__/____');
-            
+
         });
-    </script>
+
+
+
+        </script>
 </asp:Content>

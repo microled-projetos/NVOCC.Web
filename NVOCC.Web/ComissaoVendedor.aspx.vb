@@ -748,15 +748,7 @@ WHERE A.ID_USUARIO_MEMBRO_EQUIPE = " & linha.Item("ID_ANALISTA_COTACAO"))
 
         Next
     End Sub
-    Public Sub btnFecharComissoesProspecao_Click(sender As Object, e As EventArgs) Handles btnFecharComissoesProspecao.Click
-        txtIDComissoesProspeccao.Text = String.Empty
-        ddlEstufagemComissoesVenda.SelectedValue = 0
-        ddlViaComissoesVenda.SelectedValue = 0
-        ddlTipoCalculoComissoesProspeccao.SelectedValue = 0
-        ddlBaseCalculoComissoesProspeccao.SelectedValue = 0
-        txtValorComissoesVenda.Text = String.Empty
-        txtValorComissoesVenda.Text = String.Empty
-    End Sub
+
 
     Private Sub lkGravarCCProcesso_Click(sender As Object, e As EventArgs) Handles lkGravarCCProcesso.Click
         divErroCCProcesso.Visible = False
@@ -981,6 +973,8 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
         txtProfitFinalComissoesVenda.Text = ""
         txtCalculadoComissoesVenda.Text = ""
     End Sub
+
+
     Private Sub btnSalvarComissaoVendedor_Click(sender As Object, e As EventArgs) Handles btnSalvarComissaoVendedor.Click
         divComissoesVendaSucesso.Visible = False
         divComissoesVendaErro.Visible = False
@@ -1015,7 +1009,7 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
             lblComissoesVendaSucesso.Text = "Taxa inserida com sucesso"
             dgvTabelaComissaoVendedor.DataBind()
             mpeTabelas.Show()
-            LimparComissaoVenda()
+            LimparComissaoProspeccao()
         Else
             sql = " UPDATE TB_VENDEDOR_TAXA_COMISSAO Set DT_VALIDADE_INICIAL = CONVERT(Date,'" & txtValidadaInicialComissoesVenda.Text & "',103) , "
             sql = sql & " ID_TIPO_ESTUFAGEM = " & ddlEstufagemComissoesVenda.SelectedValue & " ,ID_VIATRANSPORTE = " & ddlViaComissoesVenda.SelectedValue & " , "
@@ -1037,6 +1031,16 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
         mpeTabelas.Hide()
     End Sub
 
+    Public Sub LimparComissaoProspeccao()
+        txtIDComissoesProspeccao.Text = ""
+        txtValidadeInicialComissoesProspeccao.Text = ""
+        ddlEstufagemComissoesProspeccao.SelectedValue = 0
+        ddlViaComissoesProspeccao.SelectedValue = 0
+        ddlTipoCalculoComissoesProspeccao.SelectedValue = 0
+        ddlBaseCalculoComissoesProspeccao.SelectedValue = 0
+        txtValorComissoesProspecccao.Text = ""
+        ddlEquipeComissoesProspeccao.SelectedValue = 0
+    End Sub
     Private Sub btnSalvarComissoesProspeccao_Click(sender As Object, e As EventArgs) Handles btnSalvarComissoesProspeccao.Click
         divComissoesProspeccaoErro.Visible = False
         divComissoesProspeccaoSucesso.Visible = False
@@ -1060,11 +1064,11 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
             lblComissoesProspeccaoSucesso.Text = "Taxa inserida com sucesso"
             dgvTabelaComissaoProspeccao.DataBind()
             mpeTabelas.Show()
-            LimparComissaoVenda()
+            LimparComissaoProspeccao()
         Else
             sql = " UPDATE TB_VENDEDOR_PROSPECCAO SET DT_VALIDADE_INICIAL = CONVERT(Date,'" & txtValidadeInicialComissoesProspeccao.Text & "',103) , "
-            sql = sql & " ID_TIPO_ESTUFAGEM = " & ddlEstufagemComissoesVenda.SelectedValue & " ,ID_VIATRANSPORTE = " & ddlViaComissoesVenda.SelectedValue & " , "
-            sql = sql & " ID_TIPO_CALCULO = " & ddlTipoCalculoComissoesVenda.SelectedValue & " ,ID_BASE_CALCULO_TAXA = " & ddlBaseCalculoComissoesVenda.SelectedValue & ", "
+            sql = sql & " ID_TIPO_ESTUFAGEM = " & ddlEstufagemComissoesProspeccao.SelectedValue & " ,ID_VIATRANSPORTE = " & ddlViaComissoesProspeccao.SelectedValue & " , "
+            sql = sql & " ID_TIPO_CALCULO = " & ddlTipoCalculoComissoesProspeccao.SelectedValue & " ,ID_BASE_CALCULO_TAXA = " & ddlBaseCalculoComissoesProspeccao.SelectedValue & ", "
             sql = sql & " VL_TAXA = " & Valor & " ,ID_EQUIPE = " & ddlEquipeComissoesProspeccao.SelectedValue & ",  FL_PAGAMENTO_RECORRENTE = " & rdPagamentoComissoesProspeccao.SelectedValue
             sql = sql & " WHERE ID_VENDEDOR_PROSPECCAO = " & txtIDComissoesProspeccao.Text
             Con.ExecutarQuery(sql)
@@ -1074,5 +1078,165 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
             mpeTabelas.Show()
 
         End If
+    End Sub
+
+    Private Sub dgvTabelaComissaoProspeccao_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvTabelaComissaoProspeccao.RowCommand
+        divComissoesProspeccaoSucesso.Visible = False
+        divComissoesProspeccaoErro.Visible = False
+
+        Dim ID As String = e.CommandArgument
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If e.CommandName = "Excluir" Then
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2029 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblComissoesProspeccaoErro.Text = "Usuário não tem permissão para realizar exclusões"
+                divComissoesProspeccaoErro.Visible = True
+            Else
+                Con.ExecutarQuery("DELETE FROM TB_VENDEDOR_PROSPECCAO WHERE ID_VENDEDOR_PROSPECCAO =" & ID)
+                dgvTabelaComissaoProspeccao.DataBind()
+                divComissoesProspeccaoSucesso.Visible = True
+                lblComissoesProspeccaoSucesso.Text = "Taxa excluída com sucesso"
+                mpeTabelas.Show()
+            End If
+
+        ElseIf e.CommandName = "Editar" Then
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_VENDEDOR_PROSPECCAO,DT_VALIDADE_INICIAL,ID_TIPO_ESTUFAGEM,ID_VIATRANSPORTE,ID_TIPO_CALCULO
+      ,ID_BASE_CALCULO_TAXA,VL_TAXA,ID_EQUIPE,FL_PAGAMENTO_RECORRENTE FROM TB_VENDEDOR_PROSPECCAO WHERE ID_VENDEDOR_PROSPECCAO = " & ID)
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_VENDEDOR_PROSPECCAO")) Then
+                    txtIDComissoesProspeccao.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR_PROSPECCAO").ToString()
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL")) Then
+                    txtValidadeInicialComissoesProspeccao.Text = ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL").ToString()
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")) Then
+                    ddlEstufagemComissoesProspeccao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_VIATRANSPORTE")) Then
+                    ddlViaComissoesProspeccao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VIATRANSPORTE")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_CALCULO")) Then
+                    ddlTipoCalculoComissoesProspeccao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_CALCULO")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA")) Then
+                    ddlBaseCalculoComissoesProspeccao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA")) Then
+                    txtValorComissoesProspecccao.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_EQUIPE")) Then
+                    ddlEquipeComissoesProspeccao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_EQUIPE")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_PAGAMENTO_RECORRENTE")) Then
+                    rdPagamentoComissoesProspeccao.SelectedValue = ds.Tables(0).Rows(0).Item("FL_PAGAMENTO_RECORRENTE")
+                End If
+
+            End If
+
+            mpeTabelas.Show()
+        End If
+        Con.Fechar()
+    End Sub
+
+    Private Sub btnLimparComissoesProspeccao_Click(sender As Object, e As EventArgs) Handles btnLimparComissoesProspeccao.Click
+        LimparComissaoProspeccao()
+    End Sub
+
+    Private Sub btnFecharComissoesProspecao_Click(sender As Object, e As EventArgs) Handles btnFecharComissoesProspecao.Click
+        LimparComissaoProspeccao()
+        mpeTabelas.Hide()
+    End Sub
+
+    Public Sub LimparIndicadorInterno()
+        txtIDIndicadorInterno.Text = ""
+        txtValidadeIndicadorInterno.Text = ""
+        txtValorIndicadorInterno.Text = ""
+    End Sub
+
+    Private Sub btnLimparIndicadorInterno_Click(sender As Object, e As EventArgs) Handles btnLimparIndicadorInterno.Click
+        LimparIndicadorInterno()
+        mpeTabelas.Show()
+    End Sub
+
+    Private Sub btnSalvarIndicadorInterno_Click(sender As Object, e As EventArgs) Handles btnSalvarIndicadorInterno.Click
+        divIndicacaoInternoSucesso.Visible = False
+        divIndicacaoInternoErro.Visible = False
+
+        Dim Valor As String = txtValorIndicadorInterno.Text.Replace(".", "")
+        Valor = Valor.Replace(",", ".")
+
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim sql As String = ""
+        If txtIDIndicadorInterno.Text = "" Then
+
+            sql = " INSERT INTO TB_VENDEDOR_INDICADOR_INTERNO (DT_VALIDADE_INICIAL,VL_TAXA)  VALUES ( CONVERT(DATE,'" & txtValidadeIndicadorInterno.Text & "',103) ," & Valor & ") "
+            Con.ExecutarQuery(sql)
+            divIndicacaoInternoSucesso.Visible = True
+            lblIndicacaoInternoSucesso.Text = "Taxa inserida com sucesso"
+            dgvIndicadorInterno.DataBind()
+            mpeTabelas.Show()
+            LimparComissaoProspeccao()
+        Else
+            sql = " UPDATE TB_VENDEDOR_INDICADOR_INTERNO SET DT_VALIDADE_INICIAL = CONVERT(Date,'" & txtValidadeIndicadorInterno.Text & "',103) ,  VL_TAXA = " & Valor & "  WHERE ID_VENDEDOR_INDICADOR_INTERNO = " & txtIDIndicadorInterno.Text
+            Con.ExecutarQuery(sql)
+            divIndicacaoInternoSucesso.Visible = True
+            lblIndicacaoInternoSucesso.Text = "Taxa alterada com sucesso"
+            dgvIndicadorInterno.DataBind()
+            mpeTabelas.Show()
+
+        End If
+    End Sub
+
+    Private Sub dgvIndicadorInterno_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvIndicadorInterno.RowCommand
+        divIndicacaoInternoSucesso.Visible = False
+        divIndicacaoInternoErro.Visible = False
+
+        Dim ID As String = e.CommandArgument
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If e.CommandName = "Excluir" Then
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2029 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblIndicacaoInternoErro.Text = "Usuário não tem permissão para realizar exclusões"
+                divIndicacaoInternoErro.Visible = True
+            Else
+                Con.ExecutarQuery("DELETE FROM TB_VENDEDOR_INDICADOR_INTERNO WHERE ID_VENDEDOR_INDICADOR_INTERNO =" & ID)
+                dgvIndicadorInterno.DataBind()
+                divIndicacaoInternoSucesso.Visible = True
+                lblIndicacaoInternoSucesso.Text = "Taxa excluída com sucesso"
+                mpeTabelas.Show()
+            End If
+
+        ElseIf e.CommandName = "Editar" Then
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_VENDEDOR_INDICADOR_INTERNO,DT_VALIDADE_INICIAL,VL_TAXA FROM TB_VENDEDOR_INDICADOR_INTERNO WHERE ID_VENDEDOR_INDICADOR_INTERNO = " & ID)
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_VENDEDOR_INDICADOR_INTERNO")) Then
+                    txtIDIndicadorInterno.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR_INDICADOR_INTERNO").ToString()
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL")) Then
+                    txtValidadeIndicadorInterno.Text = ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL").ToString()
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA")) Then
+                    txtValorIndicadorInterno.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
+                End If
+
+
+            End If
+
+            mpeTabelas.Show()
+        End If
+        Con.Fechar()
+    End Sub
+
+    Private Sub btnFecharIndicadorInterno_Click(sender As Object, e As EventArgs) Handles btnFecharIndicadorInterno.Click
+        LimparIndicadorInterno()
+        mpeTabelas.Hide()
     End Sub
 End Class
