@@ -206,12 +206,12 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
 
                 End If
 
-                Dim dsBanco As DataSet = Con.ExecutarQuery("SELECT NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,NM_CEDENTE,CNPJ_CPF_CEDENTE,CHAVE_PIX FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = 1")
+                Dim dsBanco As DataSet = Con.ExecutarQuery("SELECT NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,NM_CEDENTE,CNPJ,CHAVE_PIX FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = 1")
                 If dsBanco.Tables(0).Rows.Count > 0 Then
                     lblRazaoContaBancaria.Text = dsBanco.Tables(0).Rows(0).Item("NM_CEDENTE")
                     lblAgenciaBancaria.Text = "Banco Santander - AG " & dsBanco.Tables(0).Rows(0).Item("NR_AGENCIA")
                     lblContaBancaria.Text = " C/C " & dsBanco.Tables(0).Rows(0).Item("NR_CONTA") & "-" & dsBanco.Tables(0).Rows(0).Item("DG_CONTA")
-                    lblCnpjContaBancaria.Text = "CNPJ: " & dsBanco.Tables(0).Rows(0).Item("CNPJ_CPF_CEDENTE")
+                    lblCnpjContaBancaria.Text = "CNPJ: " & dsBanco.Tables(0).Rows(0).Item("CNPJ")
                     lblPix.Text = "Chave PIX: " & dsBanco.Tables(0).Rows(0).Item("CHAVE_PIX")
 
                 End If
