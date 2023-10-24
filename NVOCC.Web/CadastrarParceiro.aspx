@@ -605,7 +605,6 @@
                                             </div>
                                         </div>
                                         <div id="divDadosBancarios" class="divDadosBancarios" style="display: none" runat="server">
-
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <div class="form-group">
@@ -615,10 +614,7 @@
                                             </div>
 
                                         </div>
-                                     </div>
-                                     <div class="row">
-                                    <div id="divVendedor" class="divVendedor" style="display: none" runat="server">
-                                       
+                                        <div id="divVendedor" class="divVendedor" style="display: none" runat="server">                                      
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">Vendedor:</label><label id="lblRed2" runat="server" visible="false" style="color: red">*</label>
@@ -629,6 +625,36 @@
                                             </div>
                                        
                                     </div>
+                                        </div>
+                                        <div class="row">
+                                        <div class="col-sm-3">                                            
+                                            <div class="form-group">                                                
+                                                <label class="control-label" style="color:white">Time de Prospecção:</label>
+                                                <asp:CheckBox ID="ckbProspeccao" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Propspecção"></asp:CheckBox>
+                                            </div>
+                                        </div>
+                                       <div class="col-sm-3">
+                                            <label class="control-label">Time de Prospecção:</label>
+                                                <asp:DropDownList ID="ddlTimeProspeccao" runat="server" CssClass="form-control" Font-Size="11px">
+                                                </asp:DropDownList>
+                                        </div>
+                                        <div class="col-sm-3">                                             
+                                            <div class="form-group">                                                
+                                                <label class="control-label"  style="color:white">Indicação Interna:</label>
+                                                <asp:CheckBox ID="ckbIndicacaoInterna" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Indicação Interna"></asp:CheckBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Indicação Interna:</label>
+                                                <asp:DropDownList ID="ddlIndicacaoInterna" runat="server" CssClass="form-control" Font-Size="11px">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+
+                                     </div>
+                                     <div class="row">
+                                    
 
                                     </div>
                                      <div class="row">

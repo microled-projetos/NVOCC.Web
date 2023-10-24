@@ -896,13 +896,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnFecharIndicadorInterno As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle ModalPopupExtender7.
+    '''Controle mpeCadastroMetas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ModalPopupExtender7 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents mpeCadastroMetas As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
     '''Controle UpdatePnlCadastroMeta.
@@ -923,6 +923,51 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents pnlCadastroMeta As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
+    '''Controle divCadastroMetaErro.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divCadastroMetaErro As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblCadastroMetaErro.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCadastroMetaErro As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divCadastroMetaSucesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divCadastroMetaSucesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblCadastroMetaSucesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCadastroMetaSucesso As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtIDCadastroMeta.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDCadastroMeta As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtValidadeCadastroMeta.
     '''</summary>
     '''<remarks>
@@ -932,22 +977,22 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents txtValidadeCadastroMeta As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle cbTipoProdutoCadastroMeta.
+    '''Controle ddlEstufagemCadastroMeta.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents cbTipoProdutoCadastroMeta As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlEstufagemCadastroMeta As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle cbViaCadastroMeta.
+    '''Controle ddlViaCadastroMeta.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents cbViaCadastroMeta As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlViaCadastroMeta As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtMetaMinimaCadastroMeta.
@@ -986,58 +1031,22 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnSalvarCadastroMeta As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnLimpar.
+    '''Controle btnLimparCadastroMeta.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnLimpar As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnLimparCadastroMeta As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Div7.
+    '''Controle dgvCadastroMeta.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Div7 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle Label39.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label39 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle div8.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents div8 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle Label40.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label40 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle GridView4.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents GridView4 As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvCadastroMeta As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle btnFecharCadastrarMetas.
@@ -1049,121 +1058,130 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnFecharCadastrarMetas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle ModalPopupExtender8.
+    '''Controle mpeGerarMetasAlcancadas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ModalPopupExtender8 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents mpeGerarMetasAlcancadas As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
-    '''Controle UpdatePanelMetas.
+    '''Controle UpdatePanelMetasAlcancadas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents UpdatePanelMetas As Global.System.Web.UI.UpdatePanel
+    Protected WithEvents UpdatePanelMetasAlcancadas As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
-    '''Controle pnlMetas.
+    '''Controle pnlMetasAlcancadas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents pnlMetas As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents pnlMetasAlcancadas As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle txtDataInicioMetas.
+    '''Controle divMetasAlcancadasErro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtDataInicioMetas As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents divMetasAlcancadasErro As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle txtDataTerminoMetas.
+    '''Controle lblMetasAlcancadasErro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtDataTerminoMetas As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents lblMetasAlcancadasErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle btnGerarCompetenciasMediasAlcancadasComissaoVendas.
+    '''Controle divMetasAlcancadasSucesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnGerarCompetenciasMediasAlcancadasComissaoVendas As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents divMetasAlcancadasSucesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle btnLimparCompetenciasMediasAlcancadasComissaoVendas.
+    '''Controle lblMetasAlcancadasSucesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnLimparCompetenciasMediasAlcancadasComissaoVendas As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents lblMetasAlcancadasSucesso As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle Div9.
+    '''Controle txtDataInicioMetasAlcancadas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Div9 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents txtDataInicioMetasAlcancadas As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle Label41.
+    '''Controle txtDataTerminoMetasAlcancadas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label41 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents txtDataTerminoMetasAlcancadas As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle div10.
+    '''Controle btnGerarMetasAlcancadas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents div10 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents btnGerarMetasAlcancadas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Label42.
+    '''Controle btnLimparGeradorMetasAlcancadas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label42 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents btnLimparGeradorMetasAlcancadas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle GridView5.
+    '''Controle dgvMetasAlcancadas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents GridView5 As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvMetasAlcancadas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle btnFecharMetas.
+    '''Controle btnFecharMetasAlcancadas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnFecharMetas As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnFecharMetasAlcancadas As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnValidarMetasAlcancadas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnValidarMetasAlcancadas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle ModalPopupExtender9.
@@ -2316,6 +2334,15 @@ Partial Public Class ComissaoVendedor
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsTabelaComissaoProspeccao As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsCadastroMetas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsCadastroMetas As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsVendedor.

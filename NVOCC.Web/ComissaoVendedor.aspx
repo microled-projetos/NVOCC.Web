@@ -305,8 +305,6 @@
                                 </asp:Panel>
 
                                 <ajaxToolkit:ModalPopupExtender ID="mpeTabelas" runat="server" PopupControlID="pnlTabelas" TargetControlID="lkTabelaComissoes" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
-                               <%-- <asp:UpdatePanel ID="upPanelComissoesProspeccao" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                                    <ContentTemplate>--%>
                                         <asp:Panel ID="pnlTabelas" runat="server" CssClass="modalPopup">
                                             <center>
                                                     <div class=" modal-dialog modal-dialog-centered modal-xxl" role="document">
@@ -677,20 +675,7 @@
                                         </asp:Panel>
 
 
-                                    <%--</ContentTemplate>
-
-                                    <Triggers>
-                                        <asp:AsyncPostBackTrigger ControlID="btnSalvarComissoesProspeccao" />
-                                        <asp:AsyncPostBackTrigger ControlID="btnLimparComissoesProspeccao" />
-                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTabelaComissaoProspeccao" />
-                                        <asp:AsyncPostBackTrigger ControlID="btnSalvarComissaoVendedor" />
-                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTabelaComissaoVendedor" />
-                                    </Triggers>
-                                </asp:UpdatePanel>--%>
-
-
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender7" runat="server" PopupControlID="pnlCadastroMeta" TargetControlID="lkCadastroMeta" CancelControlID="btnFecharCadastrarMetas"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeCadastroMetas" runat="server" PopupControlID="pnlCadastroMeta" TargetControlID="lkCadastroMeta" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdatePnlCadastroMeta" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlCadastroMeta" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -701,66 +686,68 @@
                                                                 <h5 class="modal-title font-bold">TABELA CADASTRO DE META</h5>
                                                             </div>
                                                             <div class="modal-body">
+                                                                <div id="divCadastroMetaErro" runat="server" visible="false" class="alert alert-danger">
+                                                                    <asp:Label ID="lblCadastroMetaErro" Text="" runat="server" />
+                                                                </div>
+                                                                <div id="divCadastroMetaSucesso" runat="server" visible="false" class="alert alert-success">
+                                                                    <asp:Label ID="lblCadastroMetaSucesso" Text="" runat="server" />
+                                                               </div>
                                                                 <div class="row linhabotao text-center" style="margin-left: 0px; border: ridge 1px; padding-top: 20px; padding-bottom: 20px; margin-right: 5px;">
-                                                                    <div class="col-sm-1">
+                                                                    <div class="col-md-1">
+                                                                        <strong>ID:</strong> <br />
+                                                                        <asp:TextBox ID="txtIDCadastroMeta" runat="server" CssClass="form-control" Enabled="false" />
+                                                                    </div>
+                                                                    <div class="col-md-2">
                                                                         <span class="font-bold text-align-left">VALIDADE</span> <br />
-                                                                        <asp:TextBox ID="txtValidadeCadastroMeta" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtValidadeCadastroMeta" runat="server" CssClass="form-control data"></asp:TextBox>
                                                                     </div>
                                                                     <div class="col-md-2">
                                                                         <span class="font-bold text-align-left">TIPO DE PRODUTO </span><br />
-                                                                        <asp:DropDownList ID="cbTipoProdutoCadastroMeta" runat="server" CssClass="form-control font-size-11">
-                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
-                                                                        </asp:DropDownList>                                        
+                                                                        <asp:DropDownList ID="ddlEstufagemCadastroMeta" runat="server" CssClass="form-control font-size-11" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem" DataValueField="ID_TIPO_ESTUFAGEM"></asp:DropDownList>                                        
                                                                    </div>
-                                                                  <div class="col-md-1">
+                                                                  <div class="col-md-2">
                                                                       <span class="font-bold text-align-left">VIA </span><br />
-                                                                        <asp:DropDownList ID="cbViaCadastroMeta" runat="server" CssClass="form-control font-size-11">
-                                                                            <asp:ListItem Value="0">Selecione</asp:ListItem>
-                                                                        </asp:DropDownList>
+                                                                        <asp:DropDownList ID="ddlViaCadastroMeta" runat="server" CssClass="form-control font-size-11"  DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" ></asp:DropDownList>
                                                                   </div>                                      
-                                                                   <div class="col-md-2">
-                                                                       <span class="font-bold text-align-left">META MÍNIMA</span> <br />
+                                                                   <div class="col-md-1">
+                                                                       <span class="font-bold text-align-left">META MÍN.</span> <br />
                                                                        <asp:TextBox ID="txtMetaMinimaCadastroMeta" runat="server" CssClass="form-control"></asp:TextBox>
                                                                    </div>
-                                                                    <div class="col-md-2">
-                                                                        <span class="font-bold text-align-left">META MÁXIMA </span><br />
+                                                                    <div class="col-md-1">
+                                                                        <span class="font-bold text-align-left">META MÁX. </span><br />
                                                                        <asp:TextBox ID="txtMetaMaximaCadastroMeta" runat="server" CssClass="form-control"></asp:TextBox>
                                                                     </div>
-                                                                    <div class="col-md-2">
-                                                                        <span class="font-bold text-align-left">VALOR DA META</span> <br />
+                                                                    <div class="col-md-1">
+                                                                        <span class="font-bold text-align-left">VALOR META</span> <br />
                                                                         <asp:TextBox ID="txtValorCadastroMeta" runat="server" CssClass="form-control"></asp:TextBox>
                                                                     </div>
                                                                     <div class="col-md-2"><br />
                                                                         <asp:Button ID="btnSalvarCadastroMeta" runat="server" CssClass="btn btn-success" Text="Gravar"  />
-                                                                        <asp:Button ID="btnLimpar" runat="server" CssClass="btn btn-warning" Text="Limpar" />
+                                                                        <asp:Button ID="btnLimparCadastroMeta" runat="server" CssClass="btn btn-warning" Text="Limpar" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
                                                                         <div class="col-sm-12" style="padding-bottom:20px;"></div>
                                                                         <div class="col-sm-12">
                                                                             <div class="form-group">
-                                                                                <div id="Div7" runat="server" visible="false" class="alert alert-danger">
-                                                                                    <asp:Label ID="Label39" Text="" runat="server" />
-                                                                                </div>
-                                                                                <div id="div8" runat="server" visible="false" class="alert alert-success">
-                                                                                    <asp:Label ID="Label40" Text="" runat="server" />
-                                                                                </div>
-                                                                                <asp:GridView ID="GridView4" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                                
+                                                                                <asp:GridView ID="dgvCadastroMeta" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsCadastroMetas" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                                     <Columns>
-                                                                                        <asp:TemplateField HeaderText="ID" Visible="False">
-                                                                                            <ItemTemplate>
-                                                                                                <asp:Label ID="lblID" runat="server" />
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:BoundField HeaderText="VALIDADE" SortExpression="VALIDADE" />
-                                                                                        <asp:BoundField HeaderText="TIPO DE PRODUTO" SortExpression="TIPO_PRODUTO" />                                                                                                                                                                        
-                                                                                        <asp:BoundField HeaderText="VIA" SortExpression="VIA" />
-                                                                                        <asp:BoundField HeaderText="META MÍNIMA" SortExpression="META_MINIMA" />
-                                                                                        <asp:BoundField HeaderText="META MÁXIMA" SortExpression="META_MAXIMA" />
-                                                                                        <asp:BoundField HeaderText="VALOR DA META " SortExpression="VALOR_META" />
+                                                                                        <asp:BoundField DataField="ID_VENDEDOR_METAS" HeaderText="ID" SortExpression="ID_VENDEDOR_METAS" />
+                                                                                        <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="VALIDADE" SortExpression="DT_VALIDADE_INICIAL" />
+                                                                                        <asp:BoundField DataField="NM_TIPO_ESTUFAGEM" HeaderText="TIPO DE PRODUTO" SortExpression="NM_TIPO_ESTUFAGEM" />                                              <asp:BoundField DataField="NM_VIATRANSPORTE" HeaderText="VIA" SortExpression="NM_VIATRANSPORTE" />
+                                                                                        <asp:BoundField DataField="VL_META_MIN" HeaderText="META MÍNIMA" SortExpression="VL_META_MIN" />
+                                                                                        <asp:BoundField DataField="VL_META_MAX" HeaderText="META MÁXIMA" SortExpression="VL_META_MAX" />
+                                                                                        <asp:BoundField DataField="VL_META" HeaderText="VALOR DA META " SortExpression="VALOR_META" />
+                                                                                          <asp:TemplateField HeaderText="">
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton CommandName="Editar" runat="server" CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"  CommandArgument='<%# Eval("ID_VENDEDOR_METAS") %>'><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                                                    </asp:TemplateField>
                                                                                         <asp:TemplateField HeaderText="">
                                                                                             <ItemTemplate>
-                                                                                                <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
+                                                                                                <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"  CommandArgument='<%# Eval("ID_VENDEDOR_METAS") %>'
                                                                                                     OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');" Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
                                                                                             </ItemTemplate>
                                                                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
@@ -781,12 +768,18 @@
                                                 </center>
                                         </asp:Panel>
                                     </ContentTemplate>
+                                     <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="btnSalvarCadastroMeta" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnLimparCadastroMeta" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnFecharCadastrarMetas" />
+                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCadastroMeta" />
+                                    </Triggers>
                                 </asp:UpdatePanel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender8" runat="server" PopupControlID="pnlMetas" TargetControlID="lkMeta" CancelControlID="btnFecharMetas"></ajaxToolkit:ModalPopupExtender>
-                                <asp:UpdatePanel ID="UpdatePanelMetas" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                                <ajaxToolkit:ModalPopupExtender ID="mpeGerarMetasAlcancadas" runat="server" PopupControlID="pnlMetasAlcancadas" TargetControlID="lkMeta" CancelControlID="btnFecharMetasAlcancadas"></ajaxToolkit:ModalPopupExtender>
+                                <asp:UpdatePanel ID="UpdatePanelMetasAlcancadas" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
-                                        <asp:Panel ID="pnlMetas" CssClass="modalPopUp" runat="server" Style="display: none;">
+                                        <asp:Panel ID="pnlMetasAlcancadas" CssClass="modalPopUp" runat="server" Style="display: none;">
                                             <center>
                                                 <div class=" modal-dialog modal-dialog-centered modal-xxl" role="document">
                                                     <div class="modal-content">
@@ -794,34 +787,35 @@
                                                             <h5 class="modal-title">METAS</h5>
                                                         </div>
                                                         <div class="modal-body">
+                                                             <div id="divMetasAlcancadasErro" runat="server" visible="false" class="alert alert-danger">
+                                                                <asp:Label ID="lblMetasAlcancadasErro" Text="" runat="server" />
+                                                             </div>
+                                                              <div id="divMetasAlcancadasSucesso" runat="server" visible="false" class="alert alert-success">
+                                                                <asp:Label ID="lblMetasAlcancadasSucesso" Text="" runat="server" />
+                                                              </div>
                                                             <div class="row">
                                                                 <div class="col-md-2">
                                                                     Data Início: 
-                                                                    <asp:TextBox ID="txtDataInicioMetas" runat="server" CssClass="form-control" placeholder="__/__/____"></asp:TextBox>
+                                                                    <asp:TextBox ID="txtDataInicioMetasAlcancadas" runat="server" CssClass="form-control" placeholder="__/__/____"></asp:TextBox>
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     Data Término: 
-                                                                    <asp:TextBox ID="txtDataTerminoMetas" runat="server" CssClass="form-control" placeholder="__/__/____">
+                                                                    <asp:TextBox ID="txtDataTerminoMetasAlcancadas" runat="server" CssClass="form-control" placeholder="__/__/____">
                                                                     </asp:TextBox>
                                                                 </div>
                                                                 <div class="col-md-4"><br />
-                                                                    <asp:Button ID="btnGerarCompetenciasMediasAlcancadasComissaoVendas" CssClass="btn btn-success" Text="GERAR COMPETÊNCIA DE METAS ALCAÇANDAS" runat="server" />
+                                                                    <asp:Button ID="btnGerarMetasAlcancadas" CssClass="btn btn-success" Text="GERAR COMPETÊNCIA DE METAS ALCAÇANDAS" runat="server" />
                                                                 </div>                                                                
                                                                 <div class="col-md-4"><br />
-                                                                    <asp:Button ID="btnLimparCompetenciasMediasAlcancadasComissaoVendas" CssClass="btn btn-secondary" Text="LIMPAR" runat="server" />
+                                                                    <asp:Button ID="btnLimparGeradorMetasAlcancadas" CssClass="btn btn-secondary" Text="LIMPAR" runat="server" />
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-sm-12" style="padding-bottom:20px;"></div>
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
-                                                                        <div id="Div9" runat="server" visible="false" class="alert alert-danger">
-                                                                            <asp:Label ID="Label41" Text="" runat="server" />
-                                                                        </div>
-                                                                        <div id="div10" runat="server" visible="false" class="alert alert-success">
-                                                                            <asp:Label ID="Label42" Text="" runat="server" />
-                                                                        </div>
-                                                                        <asp:GridView ID="GridView5" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                       
+                                                                        <asp:GridView ID="dgvMetasAlcancadas" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                             <Columns>
                                                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                                                     <ItemTemplate>
@@ -845,7 +839,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharMetas" Text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharMetasAlcancadas" Text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnValidarMetasAlcancadas" Text="Close" />
                                                         </div>
                                                    </div>
                                                 </div>
@@ -854,10 +849,11 @@
 
                                     </ContentTemplate>
                                     <Triggers>
-                                        <%--<asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />--%>
-                                        <asp:AsyncPostBackTrigger ControlID="btnGerarCompetenciasMediasAlcancadasComissaoVendas" />
-                                        <asp:AsyncPostBackTrigger ControlID="btnLimparCompetenciasMediasAlcancadasComissaoVendas" />
-
+                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvMetasAlcancadas" /> 
+                                        <asp:AsyncPostBackTrigger ControlID="btnGerarMetasAlcancadas" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnLimparGeradorMetasAlcancadas" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnValidarMetasAlcancadas" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnFecharMetasAlcancadas" />
                                     </Triggers>
                                 </asp:UpdatePanel>
 
@@ -1475,6 +1471,13 @@ TB_VENDEDOR_TAXA_COMISSAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALC
     <asp:SqlDataSource ID="dsTabelaComissaoProspeccao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT  A.ID_VENDEDOR_PROSPECCAO,  A.DT_VALIDADE_INICIAL, A.VL_TAXA,E.NM_EQUIPE, A.FL_PAGAMENTO_RECORRENTE ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 
 TB_VENDEDOR_PROSPECCAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN TB_VENDEDOR_EQUIPE E ON E.ID_EQUIPE = A.ID_EQUIPE  INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO"></asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsCadastroMetas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT A.ID_VENDEDOR_METAS,A.DT_VALIDADE_INICIAL,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE,A.VL_META,A.VL_META_MIN,A.VL_META_MAX
+  FROM  TB_VENDEDOR_METAS A
+ INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM 
+ INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE"></asp:SqlDataSource>
+    
 
     <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO = 1 AND FL_ATIVO = 1 ORDER BY NM_RAZAO"></asp:SqlDataSource>
