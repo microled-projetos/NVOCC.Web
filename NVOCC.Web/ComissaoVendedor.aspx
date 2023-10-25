@@ -505,11 +505,8 @@
                                                                         <strong>Tipo de Cálculo:</strong> <br />
                                                                         <asp:DropDownList ID="ddlTipoCalculoComissoesProspeccao" runat="server" CssClass="form-control" DataTextField="NM_TIPO_CALCULO" DataSourceID="dsTipoCalculo" DataValueField="ID_TIPO_CALCULO">
                                                                         </asp:DropDownList>
-                                                                    </div>
-                                                                    
-                                                                    
-                                                                </div>
-                                                          
+                                                                    </div>                                                                    
+                                                                </div>                                                          
                                                                 <div class="row">
                                                                     <div class="col-sm-2">
                                                                         <strong>Base de Cálculo:</strong> <br />
@@ -736,8 +733,8 @@
                                                                                         <asp:BoundField DataField="ID_VENDEDOR_METAS" HeaderText="ID" SortExpression="ID_VENDEDOR_METAS" />
                                                                                         <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="VALIDADE" SortExpression="DT_VALIDADE_INICIAL" />
                                                                                         <asp:BoundField DataField="NM_TIPO_ESTUFAGEM" HeaderText="TIPO DE PRODUTO" SortExpression="NM_TIPO_ESTUFAGEM" />                                              <asp:BoundField DataField="NM_VIATRANSPORTE" HeaderText="VIA" SortExpression="NM_VIATRANSPORTE" />
-                                                                                        <asp:BoundField DataField="VL_META_MIN" HeaderText="META MÍNIMA" SortExpression="VL_META_MIN" />
-                                                                                        <asp:BoundField DataField="VL_META_MAX" HeaderText="META MÁXIMA" SortExpression="VL_META_MAX" />
+                                                                                        <asp:BoundField DataField="META_MIN" HeaderText="META MÍNIMA" SortExpression="META_MIN" />
+                                                                                        <asp:BoundField DataField="META_MAX" HeaderText="META MÁXIMA" SortExpression="META_MAX" />
                                                                                         <asp:BoundField DataField="VL_META" HeaderText="VALOR DA META " SortExpression="VALOR_META" />
                                                                                           <asp:TemplateField HeaderText="">
                                                                                         <ItemTemplate>
@@ -1147,7 +1144,7 @@
 
                                                                         <asp:Label ID="Label11" runat="server">Competência</asp:Label><br />
 
-                                                                        <asp:TextBox ID="txtNovaCompetencia" AutoPostBack="true" placeholder="MM/AAAA" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtNovaCompetencia" placeholder="MM/AAAA" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
@@ -1155,7 +1152,7 @@
 
                                                                         <asp:Label ID="Label12" runat="server">Data Liquidação(Inicial)</asp:Label><br />
 
-                                                                        <asp:TextBox ID="txtLiquidacaoInicial" runat="server" AutoPostBack="true" CssClass="form-control data"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtLiquidacaoInicial" runat="server" CssClass="form-control data"></asp:TextBox>
                                                                     </div>
                                                                 </div>
 
@@ -1235,9 +1232,9 @@
                                         </asp:Panel>
                                     </ContentTemplate>
                                     <Triggers>
-                                        <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />
+                                        <%--<asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />--%>
                                         <asp:AsyncPostBackTrigger ControlID="btnGerarComissao" />
-                                        <asp:AsyncPostBackTrigger ControlID="txtNovaCompetencia" />
+<%--                                        <asp:AsyncPostBackTrigger ControlID="txtNovaCompetencia" />--%>
                                     </Triggers>
                                 </asp:UpdatePanel>
 
@@ -1466,14 +1463,14 @@
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsTabelaComissaoVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_VENDEDOR_TAXA_COMISSAO, DT_VALIDADE_INICIAL DT_VALIDADE_INICIAL,VL_TAXA,VL_PROFIT_INICIO,VL_PROFIT_FIM,VL_COMISSAO ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 
-TB_VENDEDOR_TAXA_COMISSAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO"></asp:SqlDataSource>
+TB_VENDEDOR_TAXA_COMISSAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO ORDER BY ID_VENDEDOR_TAXA_COMISSAO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTabelaComissaoProspeccao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT  A.ID_VENDEDOR_PROSPECCAO,  A.DT_VALIDADE_INICIAL, A.VL_TAXA,E.NM_EQUIPE, A.FL_PAGAMENTO_RECORRENTE ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 
 TB_VENDEDOR_PROSPECCAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN TB_VENDEDOR_EQUIPE E ON E.ID_EQUIPE = A.ID_EQUIPE  INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsCadastroMetas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT A.ID_VENDEDOR_METAS,A.DT_VALIDADE_INICIAL,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE,A.VL_META,A.VL_META_MIN,A.VL_META_MAX
+        SelectCommand="SELECT A.ID_VENDEDOR_METAS,A.DT_VALIDADE_INICIAL,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE,A.VL_META,A.META_MIN,A.META_MAX
   FROM  TB_VENDEDOR_METAS A
  INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM 
  INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE"></asp:SqlDataSource>

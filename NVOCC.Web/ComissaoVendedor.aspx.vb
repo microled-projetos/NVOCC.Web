@@ -338,12 +338,13 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
                     divErroGerarComissao.Visible = True
                 Else
 
+                    Dim competencia As String = txtNovaCompetencia.Text
 
-                    Dim dsInsert As DataSet = Con.ExecutarQuery("INSERT INTO TB_CABECALHO_COMISSAO_VENDEDOR (DT_COMPETENCIA,ID_USUARIO_GERACAO,DT_GERACAO,DT_LIQUIDACAO_INICIAL ,DT_LIQUIDACAO_FINAL ) VALUES('" & txtNovaCompetencia.Text & "'," & Session("ID_USUARIO") & ", getdate(),CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103),CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103)) Select SCOPE_IDENTITY() as ID_CABECALHO_COMISSAO_VENDEDOR  ")
+                    Dim dsInsert As DataSet = Con.ExecutarQuery("INSERT INTO TB_CABECALHO_COMISSAO_VENDEDOR (DT_COMPETENCIA,ID_USUARIO_GERACAO,DT_GERACAO,DT_LIQUIDACAO_INICIAL ,DT_LIQUIDACAO_FINAL ) VALUES('" & competencia.Replace("/", "") & "'," & Session("ID_USUARIO") & ", getdate(),CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103),CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103)) Select SCOPE_IDENTITY() as ID_CABECALHO_COMISSAO_VENDEDOR  ")
                     Dim cabecalho As String = dsInsert.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_VENDEDOR")
 
 
-                    ds = Con.ExecutarQuery("SELECT A.ID_BL, A.ID_TIPO_ESTUFAGEM, A.QT_CNTR,A.ID_SERVICO,B.ID_VIATRANSPORTE FROM FN_VENDEDOR('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') A INNER JOIN TB_SERVICO B ON B.ID_SERVICO = A.ID_SERVICO WHERE A.DT_PAGAMENTO_EXP IS NULL AND A.FL_VENDEDOR_DIRETO = 1 ")
+                    ds = Con.ExecutarQuery("SELECT A.ID_BL, A.ID_TIPO_ESTUFAGEM, A.QT_CNTR,A.ID_SERVICO,B.ID_VIATRANSPORTE,NULL AS DT_PAGAMENTO_EXP FROM FN_VENDEDOR('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') A INNER JOIN TB_SERVICO B ON B.ID_SERVICO = A.ID_SERVICO WHERE A.DT_PAGAMENTO_EXP IS NULL AND A.FL_VENDEDOR_DIRETO = 1 ")
                     If ds.Tables(0).Rows.Count > 0 Then
 
                         For Each linha As DataRow In ds.Tables(0).Rows
@@ -354,39 +355,39 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
 
                                 '1)
                                 Dim DespesaDestinoAberta As String = 0
-                                consulta = Con.ExecutarQuery("SELECT sum(VL_TAXA_CALCULADO)VL_TAXA_CALCULADO FROM TB_BL_TAXA WHERE ID_BL =" & linha.Item("ID_BL") & " AND CD_PR ='R' AND ID_BL_TAXA NOT IN (SELECT ISNULL(ID_BL_TAXA,0) FROM View_Taxa_Bloqueada)")
+                                consulta = Con.ExecutarQuery(" SELECT ISNULL(SUM(VL_TAXA_CALCULADO),0)VL_TAXA_CALCULADO FROM TB_BL_TAXA WHERE ID_BL =" & linha.Item("ID_BL") & " AND CD_PR ='R' AND ID_BL_TAXA NOT IN (SELECT ISNULL(ID_BL_TAXA,0) FROM View_Taxa_Bloqueada)")
                                 If consulta.Tables(0).Rows.Count > 0 Then
                                     DespesaDestinoAberta = consulta.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
                                 End If
 
                                 '2)
-                                Dim FreteCompra As String = 0
-                                consulta = Con.ExecutarQuery("SELECT VL_TAXA_CALCULADO FROM TB_BL_TAXA WHERE ID_BL =" & linha.Item("ID_BL") & " AND CD_PR ='R' AND ID_ITEM_DESPESA = 14")
+                                Dim FreteVenda As String = 0
+                                consulta = Con.ExecutarQuery("SELECT  ISNULL(VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO FROM TB_BL_TAXA WHERE ID_BL =" & linha.Item("ID_BL") & " AND CD_PR ='R' AND ID_ITEM_DESPESA = 14")
                                 If consulta.Tables(0).Rows.Count > 0 Then
-                                    FreteCompra = consulta.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
+                                    FreteVenda = consulta.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
                                 End If
 
-                                Dim TaxasVenda As String = 0
-                                consulta = Con.ExecutarQuery("SELECT  SUM(VL_TAXA_CALCULADO) FROM TB_BL_TAXA WHERE ID_BL =" & linha.Item("ID_BL") & " AND CD_PR ='P' AND ID_ITEM_DESPESA IN ( 14,134,510,1733)")
+                                Dim TaxasCompra As String = 0
+                                consulta = Con.ExecutarQuery("SELECT  ISNULL(SUM(VL_TAXA_CALCULADO),0)VL_TAXA_CALCULADO FROM TB_BL_TAXA WHERE ID_BL =" & linha.Item("ID_BL") & " AND CD_PR ='P' AND ID_ITEM_DESPESA IN ( 14,134,510,1733)")
                                 If consulta.Tables(0).Rows.Count > 0 Then
-                                    TaxasVenda = consulta.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
+                                    TaxasCompra = consulta.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
                                 End If
 
                                 Dim ProfitBL As String = 0
-                                consulta = Con.ExecutarQuery("SELECT VL_PROFIT_DIVISAO_CALCULADO FROM TB_BL WHERE ID_BL =" & linha.Item("ID_BL") & " ")
+                                consulta = Con.ExecutarQuery("SELECT  ISNULL(VL_PROFIT_DIVISAO_CALCULADO,0)VL_PROFIT_DIVISAO_CALCULADO FROM TB_BL WHERE ID_BL =" & linha.Item("ID_BL") & " ")
                                 If consulta.Tables(0).Rows.Count > 0 Then
                                     ProfitBL = consulta.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO_CALCULADO")
                                 End If
 
 
 
-                                Dim ProfitBrasil As Decimal = Convert.ToDecimal(FreteCompra) - (Convert.ToDecimal(TaxasVenda) + Convert.ToDecimal(ProfitBL))
+                                Dim ProfitBrasil As Decimal = Convert.ToDecimal(FreteVenda) - (Convert.ToDecimal(TaxasCompra) + Convert.ToDecimal(ProfitBL))
 
                                 '3)
                                 Dim DespesaOrigemAberta As String = 0
-                                consulta = Con.ExecutarQuery("SELECT sum(VL_TAXA_CALCULADO) FROM TB_BL_TAXA WHERE ID_BL =" & linha.Item("ID_BL") & " AND CD_PR ='R' AND ID_BL_TAXA NOT IN (SELECT ISNULL(ID_BL_TAXA,0) FROM View_Taxa_Bloqueada)")
+                                consulta = Con.ExecutarQuery("SELECT  ISNULL(SUM(VL_TAXA_CALCULADO),0)VL_TAXA_CALCULADO FROM TB_BL_TAXA WHERE ID_BL =" & linha.Item("ID_BL") & " AND CD_PR ='R' AND ID_BL_TAXA NOT IN (SELECT ISNULL(ID_BL_TAXA,0) FROM View_Taxa_Bloqueada)")
                                 If consulta.Tables(0).Rows.Count > 0 Then
-                                    DespesaDestinoAberta = consulta.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
+                                    DespesaOrigemAberta = consulta.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
                                 End If
 
 
@@ -399,13 +400,38 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
                                     RealProfitBrasil = RealProfitBrasil / linha.Item("QT_CNTR")
                                 End If
 
+                                Dim Valor As String = RealProfitBrasil
 
-                                Dim BaseCaculo As DataSet = Con.ExecutarQuery("SELECT VL_COMISSAO, ID_TIPO_CALCULO, ID_BASE_CALCULO_TAXA FROM TB_VENDEDOR_TAXA_COMISSAO WHERE ID_TIPO_ESTUFAGEM = " & linha.Item("ID_TIPO_ESTUFAGEM") & " AND ID_VIATRANSPORTE = " & linha.Item("ID_VIATRANSPORTE") & " AND DT_VALIDADE_INICIAL >= GETDATE() ")
-                                If BaseCaculo.Tables(0).Rows.Count > 0 Then
 
-                                    Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_VENDEDOR (ID_CABECALHO_COMISSAO_VENDEDOR,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,NR_PROCESSO,ID_SERVICO,ID_BL,ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,ID_TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,ID_ANALISTA_COTACAO )
-SELECT " & cabecalho & ", NR_NOTA_FISCAL, DT_NOTA_FISCAL, NR_PROCESSO, ID_SERVICO, ID_BL, ID_PARCEIRO_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_TIPO_ESTUFAGEM, QT_BL, QT_CNTR, " & BaseCaculo.Tables(0).Rows(0).Item("VL_COMISSAO") & " , " & BaseCaculo.Tables(0).Rows(0).Item("VL_COMISSAO") * RealProfitBrasil & " , DT_LIQUIDACAO, ISNULL(ID_ANALISTA_COTACAO,0)ID_ANALISTA_COTACAO FROM FN_VENDEDOR('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE ID_BL = " & linha.Item("ID_BL"))
+                                Dim VL_COMISSAO As String = ""
+
+                                Dim VL_COMISSAO_TOTAL As Decimal = 0
+
+                                If RealProfitBrasil < 0 Then
+
+                                    VL_COMISSAO = 20
+
+                                    VL_COMISSAO_TOTAL = Convert.ToDecimal(VL_COMISSAO) * linha.Item("QT_CNTR")
+
+                                    Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_VENDEDOR (ID_CABECALHO_COMISSAO_VENDEDOR,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,NR_PROCESSO,ID_SERVICO,ID_BL,ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,ID_TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,ID_ANALISTA_COTACAO, VL_PROFIT_REAL_BRASIL)
+SELECT " & cabecalho & ", NR_NOTA_FISCAL, DT_NOTA_FISCAL, NR_PROCESSO, ID_SERVICO, ID_BL, ID_PARCEIRO_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_TIPO_ESTUFAGEM, QT_BL, QT_CNTR, " & VL_COMISSAO.Replace(",", ".") & " , " & VL_COMISSAO_TOTAL.ToString.Replace(",", ".") & " , DT_LIQUIDACAO, ISNULL(ID_ANALISTA_COTACAO,0)ID_ANALISTA_COTACAO," & Valor.Replace(",", ".") & " FROM FN_VENDEDOR('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE ID_BL = " & linha.Item("ID_BL"))
+
                                 Else
+
+                                    Dim BaseCaculo As DataSet = Con.ExecutarQuery("SELECT VL_COMISSAO, ID_TIPO_CALCULO, ID_BASE_CALCULO_TAXA FROM TB_VENDEDOR_TAXA_COMISSAO WHERE ID_TIPO_ESTUFAGEM = " & linha.Item("ID_TIPO_ESTUFAGEM") & " AND ID_VIATRANSPORTE = " & linha.Item("ID_VIATRANSPORTE") & " AND DT_VALIDADE_INICIAL <= GETDATE() AND (( " & Valor.Replace(",", ".") & " BETWEEN VL_PROFIT_INICIO AND VL_PROFIT_FIM ) OR (" & Valor.Replace(",", ".") & " > VL_PROFIT_INICIO AND VL_PROFIT_FIM IS NULL)) ")
+                                    If BaseCaculo.Tables(0).Rows.Count > 0 Then
+
+                                        VL_COMISSAO = BaseCaculo.Tables(0).Rows(0).Item("VL_COMISSAO")
+
+                                        VL_COMISSAO_TOTAL = Convert.ToDecimal(VL_COMISSAO) * linha.Item("QT_CNTR")
+
+
+                                        Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_VENDEDOR (ID_CABECALHO_COMISSAO_VENDEDOR,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,NR_PROCESSO,ID_SERVICO,ID_BL,ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,ID_TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,ID_ANALISTA_COTACAO,VL_PROFIT_REAL_BRASIL)
+SELECT " & cabecalho & ", NR_NOTA_FISCAL, DT_NOTA_FISCAL, NR_PROCESSO, ID_SERVICO, ID_BL, ID_PARCEIRO_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_TIPO_ESTUFAGEM, QT_BL, QT_CNTR, " & VL_COMISSAO.Replace(",", ".") & " , " & VL_COMISSAO_TOTAL.ToString.Replace(",", ".") & " , DT_LIQUIDACAO, ISNULL(ID_ANALISTA_COTACAO,0)ID_ANALISTA_COTACAO," & Valor.Replace(",", ".") & " FROM FN_VENDEDOR('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE ID_BL = " & linha.Item("ID_BL"))
+
+                                    Else
+
+                                    End If
 
                                 End If
 
@@ -414,7 +440,7 @@ SELECT " & cabecalho & ", NR_NOTA_FISCAL, DT_NOTA_FISCAL, NR_PROCESSO, ID_SERVIC
                         Next
                     End If
 
-
+                    '  CalcularMetas(cabecalho)
 
 
                     divErro.Visible = False
@@ -435,6 +461,35 @@ SELECT " & cabecalho & ", NR_NOTA_FISCAL, DT_NOTA_FISCAL, NR_PROCESSO, ID_SERVIC
     Private Sub txtNovaCompetencia_TextChanged(sender As Object, e As EventArgs) Handles txtNovaCompetencia.TextChanged
         ' VerificaCompetencia()
     End Sub
+
+    '    Sub CalcularMetas(cabecalho As Integer)
+    '        Dim Con As New Conexao_sql
+    '        Con.Conectar()
+    '        Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_PARCEIRO_VENDEDOR, A.ID_TIPO_ESTUFAGEM, B.ID_VIATRANSPORTE, A.ID_SERVICO, COUNT(*)QTD FROM TB_DETALHE_COMISSAO_VENDEDOR A
+    'INNER JOIN TB_SERVICO B ON A.ID_SERVICO = B.ID_SERVICO 
+    'GROUP BY A.ID_PARCEIRO_VENDEDOR, A.ID_TIPO_ESTUFAGEM, B.ID_VIATRANSPORTE, A.ID_SERVICO 
+    'ORDER BY QTD DESC")
+    '        If ds.Tables(0).Rows.Count > 0 Then
+    '            For Each linha As DataRow In ds.Tables(0).Rows
+
+    '                If Not IsDBNull(linha.Item("ID_PARCEIRO_VENDEDOR")) Then
+    '                    Dim dsConsulta As DataSet = Con.ExecutarQuery("SELECT VL_META FROM TB_VENDEDOR_CADASTRO_METAS WHERE DT_VALIDADE_INICIAL <= GETDATE() AND ID_TIPO_ESTUFAGEM = " & linha.Item("ID_TIPO_ESTUFAGEM") & " AND ID_VIATRANSPORTE = " & linha.Item("ID_VIATRANSPORTE") & " AND " & linha.Item("QTD") & " BETWEEN META_MIN AND META_MAX ")
+
+    '                    If dsConsulta.Tables(0).Rows.Count > 0 Then
+    '                        If Not IsDBNull(dsConsulta.Tables(0).Rows(0).Item("VL_META")) Then
+    '                            Con.ExecutarQuery("UPDATE A SET 
+    'A.VL_META = " & dsConsulta.Tables(0).Rows(0).Item("VL_META").ToString.Replace(",", ".") & " , 
+    'A.VL_COMISSAO_TOTAL = A.VL_COMISSAO_TOTAL + " & dsConsulta.Tables(0).Rows(0).Item("VL_META").ToString.Replace(",", ".") & "
+    'FROM TB_DETALHE_COMISSAO_VENDEDOR AS A
+    'INNER JOIN TB_SERVICO AS B ON A.ID_SERVICO = B.ID_SERVICO 
+    'WHERE A.ID_CABECALHO_COMISSAO_VENDEDOR = " & cabecalho & " AND A.ID_TIPO_ESTUFAGEM = " & linha.Item("ID_TIPO_ESTUFAGEM") & " AND B.ID_VIATRANSPORTE = " & linha.Item("ID_VIATRANSPORTE") & " AND A.ID_PARCEIRO_VENDEDOR = " & linha.Item("ID_PARCEIRO_VENDEDOR"))
+
+    '                        End If
+    '                    End If
+    '                End If
+    '            Next
+    '        End If
+    '    End Sub
 
     Sub SubVendedor(cabecalho As Integer)
         Dim Con As New Conexao_sql
@@ -653,6 +708,8 @@ WHERE A.ID_USUARIO_MEMBRO_EQUIPE = " & linha.Item("ID_ANALISTA_COTACAO"))
         End If
         ModalPopupExtender6.Show()
     End Sub
+
+
     Private Sub btnFecharGerarComissao_Click(sender As Object, e As EventArgs) Handles btnFecharGerarComissao.Click
         divAtencaoGerarComissao.Visible = False
         divSuccessGerarComissao.Visible = False
@@ -1306,7 +1363,7 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
         Dim sql As String = ""
         If txtIDCadastroMeta.Text = "" Then
 
-            sql = " INSERT INTO TB_VENDEDOR_METAS (DT_VALIDADE_INICIAL,ID_TIPO_ESTUFAGEM,ID_VIATRANSPORTE,VL_META,VL_META_MIN,VL_META_MAX)"
+            sql = " INSERT INTO TB_VENDEDOR_CADASTRO_METAS (DT_VALIDADE_INICIAL,ID_TIPO_ESTUFAGEM,ID_VIATRANSPORTE,VL_META,VL_META_MIN,META_MAX)"
             sql = sql & " VALUES ( CONVERT(DATE,'" & txtValidadeCadastroMeta.Text & "',103) , " & ddlEstufagemCadastroMeta.SelectedValue & " , " & ddlViaCadastroMeta.SelectedValue & " , "
             sql = sql & " " & Meta & " ,  " & MetaMin & " , " & "  " & MetaMax & " ) "
             Con.ExecutarQuery(sql)
@@ -1316,9 +1373,9 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
             mpeCadastroMetas.Show()
             LimparCadastroMeta()
         Else
-            sql = " UPDATE TB_VENDEDOR_METAS Set DT_VALIDADE_INICIAL = CONVERT(Date,'" & txtValidadeCadastroMeta.Text & "',103) ,"
+            sql = " UPDATE TB_VENDEDOR_CADASTRO_METAS Set DT_VALIDADE_INICIAL = CONVERT(Date,'" & txtValidadeCadastroMeta.Text & "',103) ,"
             sql = sql & " ID_TIPO_ESTUFAGEM = " & ddlEstufagemCadastroMeta.SelectedValue & " ,ID_VIATRANSPORTE = " & ddlViaCadastroMeta.SelectedValue & " , "
-            sql = sql & " VL_META = " & Meta & " , VL_META_MIN = " & MetaMin & " , " & " , VL_META_MAX = " & MetaMax
+            sql = sql & " VL_META = " & Meta & " , VL_META_MIN = " & MetaMin & " , " & " , META_MAX = " & MetaMax
             sql = sql & " WHERE ID_VENDEDOR_METAS = " & txtIDCadastroMeta.Text
             Con.ExecutarQuery(sql)
             divCadastroMetaSucesso.Visible = True
@@ -1349,7 +1406,7 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
                 divCadastroMetaErro.Visible = True
                 mpeCadastroMetas.Show()
             Else
-                Con.ExecutarQuery("DELETE FROM TB_VENDEDOR_METAS WHERE ID_VENDEDOR_METAS =" & ID)
+                Con.ExecutarQuery("DELETE FROM TB_VENDEDOR_CADASTRO_METAS WHERE ID_VENDEDOR_METAS =" & ID)
                 dgvIndicadorInterno.DataBind()
                 divCadastroMetaSucesso.Visible = True
                 lblCadastroMetaSucesso.Text = "Taxa excluída com sucesso"
@@ -1358,7 +1415,7 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
 
         ElseIf e.CommandName = "Editar" Then
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_VENDEDOR_METAS,DT_VALIDADE_INICIAL,ID_TIPO_ESTUFAGEM,ID_VIATRANSPORTE,VL_META,VL_META_MIN,VL_META_MAX FROM TB_VENDEDOR_METAS WHERE ID_VENDEDOR_METAS = " & ID)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_VENDEDOR_METAS,DT_VALIDADE_INICIAL,ID_TIPO_ESTUFAGEM,ID_VIATRANSPORTE,VL_META,VL_META_MIN,META_MAX FROM TB_VENDEDOR_CADASTRO_METAS WHERE ID_VENDEDOR_METAS = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_VENDEDOR_METAS")) Then
                     txtIDCadastroMeta.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR_METAS").ToString()
@@ -1372,8 +1429,8 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_META_MIN")) Then
                     txtMetaMinimaCadastroMeta.Text = ds.Tables(0).Rows(0).Item("VL_META_MIN")
                 End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_META_MAX")) Then
-                    txtMetaMaximaCadastroMeta.Text = ds.Tables(0).Rows(0).Item("VL_META_MAX").ToString()
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("META_MAX")) Then
+                    txtMetaMaximaCadastroMeta.Text = ds.Tables(0).Rows(0).Item("META_MAX").ToString()
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")) Then
                     ddlEstufagemCadastroMeta.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")
