@@ -811,7 +811,8 @@
                                                                 <div class="col-sm-12" style="padding-bottom:20px;"></div>
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
-                                                                       
+                                                                           <div id="divConteudoDinamico" runat="server"  >
+
                                                                         <asp:GridView ID="dgvMetasAlcancadas" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                             <Columns>
                                                                                 <asp:TemplateField HeaderText="ID" Visible="False">
@@ -1471,7 +1472,7 @@ TB_VENDEDOR_PROSPECCAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO
 
      <asp:SqlDataSource ID="dsCadastroMetas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT A.ID_VENDEDOR_METAS,A.DT_VALIDADE_INICIAL,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE,A.VL_META,A.META_MIN,A.META_MAX
-  FROM  TB_VENDEDOR_METAS A
+  FROM  TB_VENDEDOR_CADASTRO_METAS A
  INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM 
  INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE"></asp:SqlDataSource>
     
