@@ -1463,45 +1463,34 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
             divErroGerarComissao.Visible = True
         Else
             Dim tabela As String = ""
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO_VENDEDOR ,VENDEDOR,NR_PROCESSO,CLIENTE,TP_SERVICO, TP_VIA, NM_TIPO_ESTUFAGEM, QT_PROCESSO,QT_CNTR FROM [dbo].[FN_VENDEDOR_RELATORIO_METAS] ('" & txtDataInicioMetasAlcancadas.Text & "','" & txtDataTerminoMetasAlcancadas.Text & "')")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT DISTINCT ID_PARCEIRO_VENDEDOR ,VENDEDOR,NR_PROCESSO,CLIENTE,TP_SERVICO, TP_VIA, NM_TIPO_ESTUFAGEM, QT_PROCESSO,QT_CNTR, ID_VIATRANSPORTE , ID_TIPO_ESTUFAGEM FROM [dbo].[FN_VENDEDOR_RELATORIO_METAS] ('" & txtDataInicioMetasAlcancadas.Text & "','" & txtDataTerminoMetasAlcancadas.Text & "') ORDER BY VENDEDOR,NM_TIPO_ESTUFAGEM,NR_PROCESSO")
             If ds.Tables(0).Rows.Count > 0 Then
+
+                tabela &= "<table>"
+                tabela &= "<tr style='border: ridge 1px;'><td><strong>VENDEDOR</strong></td>"
+                tabela &= "<td><strong>PROCESSO</strong></td>"
+                tabela &= "<td><strong>CLIENTE</strong></td>"
+                tabela &= "<td><strong>SERVIÇO</strong></td>"
+                tabela &= "<td><strong>VIA</strong></td>"
+                tabela &= "<td><strong>TIPO ESTUFAGEM</strong></td>"
+                tabela &= "<td><strong>QTD. BL</strong></td>"
+                tabela &= "<td><strong>QTD. CNTR</strong></td>"
+                tabela &= "<td><strong>VALOR ADICIONAL</strong></td></tr>"
+
                 For Each linha As DataRow In ds.Tables(0).Rows
-
-
-                    tabela &= "</strong></p><br/><h5>DEBIT/CREDIT NOTE</h5></center>"
-
-                    tabela &= "<table>"
-                    tabela &= "<tr style='border: ridge 1px;'><td><strong>VENDEDOR</strong></td>"
-                    tabela &= "<td><strong>PROCESSO</strong></td>"
-                    tabela &= "<td><strong>CLIENTE</strong></td>"
-                    tabela &= "<td><strong>SERVIÇO</strong></td>"
-                    tabela &= "<td><strong>VIA</strong></td>"
-                    tabela &= "<td><strong>TIPO ESTUFAGEM</strong></td>"
-                    tabela &= "<td><strong>QTD. BL</strong></td>"
-                    tabela &= "<td><strong>QTD. CNTR</strong></td>"
-                    tabela &= "<td><strong>VALOR ADICIONAL</strong></td></tr>"
-
 
                     tabela &= "<tr><td style='border: ridge 1px;'>" & linha("VENDEDOR") & "</td>"
                     tabela &= "<td style='border: ridge 1px;'>" & linha("NR_PROCESSO") & "</td>"
+                    tabela &= "<td style='border: ridge 1px;'>" & linha("CLIENTE") & "</td>"
                     tabela &= "<td style='border: ridge 1px;'>" & linha("TP_SERVICO") & "</td>"
                     tabela &= "<td style='border: ridge 1px;'>" & linha("TP_VIA") & "</td>"
                     tabela &= "<td style='border: ridge 1px;'>" & linha("NM_TIPO_ESTUFAGEM") & "</td>"
                     tabela &= "<td style='border: ridge 1px;'>" & linha("QT_PROCESSO") & "</td>"
                     tabela &= "<td style='border: ridge 1px;'>" & linha("QT_CNTR") & "</td>"
 
-                    If 1 = 1 Then
-                        tabela &= "<td style='border: ridge 1px;'>" & linha("VALOR_ADICIONAL") & "</td></tr>"
 
-                    Else
-
-                        tabela &= "<td style='border: ridge 1px;'>-</td></tr>"
-                    End If
-
-
-
-                    Dim dsMeta As DataSet = Con.ExecutarQuery("SELECT VL_META, DIFERENCA FROM [FN_VENDEDOR_CALCULA_METAS]('" & linha("ID_PARCEIRO_VENDEDOR") & "','" & txtDataInicioMetasAlcancadas.Text & "','" & txtDataTerminoMetasAlcancadas.Text & "')")
-                    If ds.Tables(0).Rows.Count > 0 Then
+                    Dim dsMeta As DataSet = Con.ExecutarQuery("SELECT VL_META, DIFERENCA FROM [FN_VENDEDOR_CALCULA_METAS]('" & linha("ID_PARCEIRO_VENDEDOR") & "','" & txtDataInicioMetasAlcancadas.Text & "','" & txtDataTerminoMetasAlcancadas.Text & "') WHERE ID_VIATRANSPORTE = " & linha("ID_VIATRANSPORTE") & " AND ID_TIPO_ESTUFAGEM = " & linha("ID_TIPO_ESTUFAGEM"))
+                    If dsMeta.Tables(0).Rows.Count > 0 Then
 
                         For Each linhaMeta As DataRow In dsMeta.Tables(0).Rows
 

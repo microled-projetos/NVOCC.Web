@@ -812,26 +812,6 @@
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
                                                                            <div id="divConteudoDinamico" runat="server"  >
-
-                                                                        <asp:GridView ID="dgvMetasAlcancadas" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
-                                                                            <Columns>
-                                                                                <asp:TemplateField HeaderText="ID" Visible="False">
-                                                                                    <ItemTemplate>
-                                                                                        <asp:Label ID="lblID" runat="server" />
-                                                                                    </ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:BoundField HeaderText="Vendedor" SortExpression="VENDEDOR" HeaderStyle-CssClass="header-blue" />
-                                                                                <asp:BoundField HeaderText="Processo" SortExpression="PROCESSO" HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="Cliente" SortExpression="CLIENTE" HeaderStyle-CssClass="header-blue" />
-                                                                                <asp:BoundField HeaderText="Serviço" SortExpression="SERVICO" HeaderStyle-CssClass="header-blue" />
-                                                                                <asp:BoundField HeaderText="Via" SortExpression="VIA" HeaderStyle-CssClass="header-blue" />
-                                                                                <asp:BoundField HeaderText="Tipo de Estufagem" SortExpression="TIPO_ESTUFAGEM" HeaderStyle-CssClass="header-blue" />
-                                                                                <asp:BoundField HeaderText="Qtde BL" SortExpression="QTDE_BL"  HeaderStyle-CssClass="header-blue" />
-                                                                                <asp:BoundField HeaderText="Qtde CNTR" SortExpression="QTDE_CNTR"  HeaderStyle-CssClass="header-blue" />
-                                                                                <asp:BoundField HeaderText="Valor adicional" SortExpression="VALOR_ADICIONAL"  HeaderStyle-CssClass="header-blue" />                                                                                
-                                                                            </Columns>
-                                                                            <HeaderStyle CssClass="headerStyle" />
-                                                                        </asp:GridView>
                                                                     </div>
                                                                 </div>
                                                             </div>
