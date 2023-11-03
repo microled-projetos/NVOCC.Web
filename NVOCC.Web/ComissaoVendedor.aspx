@@ -812,6 +812,24 @@
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
                                                                            <div id="divConteudoDinamico" runat="server"  >
+<%-- <asp:GridView ID="dgvMetasAlcancadas" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsMetasAlcancadas" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                            <Columns>
+                                                                                <asp:TemplateField HeaderText="ID" Visible="False">
+                                                                                    <ItemTemplate>
+                                                                                        <asp:Label ID="lblID" runat="server" />
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:BoundField DataField="VENDEDOR"  HeaderText="Vendedor" SortExpression="VENDEDOR" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="PROCESSO" HeaderStyle-CssClass="header-blue" />                                        <asp:BoundField DataField="CLIENTE" HeaderText="Cliente" SortExpression="CLIENTE" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="TP_SERVICO" HeaderText="Serviço" SortExpression="SERVICO" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="TP_VIA" HeaderText="Via" SortExpression="VIA" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="NM_TIPO_ESTUFAGEM" HeaderText="Tipo de Estufagem" SortExpression="TIPO_ESTUFAGEM" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="QT_BL" HeaderText="Qtde BL" SortExpression="QTDE_BL"  HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="QT_CNTR" HeaderText="Qtde CNTR" SortExpression="QTDE_CNTR"  HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="VL_META" HeaderText="Valor adicional" SortExpression="VALOR_ADICIONAL"  HeaderStyle-CssClass="header-blue" />                                                                                
+                                                                            </Columns>
+                                                                            <HeaderStyle CssClass="headerStyle" />
+                                                                        </asp:GridView>--%>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -827,7 +845,7 @@
 
                                     </ContentTemplate>
                                     <Triggers>
-                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvMetasAlcancadas" /> 
+<%--                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvMetasAlcancadas" /> --%>
                                         <asp:AsyncPostBackTrigger ControlID="btnGerarMetasAlcancadas" />
                                         <asp:AsyncPostBackTrigger ControlID="btnLimparGeradorMetasAlcancadas" />
                                         <asp:AsyncPostBackTrigger ControlID="btnValidarMetasAlcancadas" />
@@ -1506,8 +1524,15 @@ UNION SELECT  0, '    Selecione' ORDER BY NM_EQUIPE"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsIndicadorInterno" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_VENDEDOR_INDICADOR_INTERNO,DT_VALIDADE_INICIAL,VL_TAXA FROM TB_VENDEDOR_INDICADOR_INTERNO  ORDER BY ID_VENDEDOR_INDICADOR_INTERNO"></asp:SqlDataSource>
-
-
+    
+    <asp:SqlDataSource ID="dsMetasAlcancadas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand=" SELECT V.NM_RAZAO AS VENDEDOR,A.NR_PROCESSO,F.NM_RAZAO AS CLIENTE ,C.TP_SERVICO ,C.TP_VIA ,E.NM_TIPO_ESTUFAGEM, A.QT_BL, A.QT_CNTR , A.VL_META 
+ FROM TB_VENDEDOR_META_TEMP A
+ INNER JOIN TB_SERVICO C ON C.ID_SERVICO = A.ID_SERVICO  
+INNER JOIN TB_PARCEIRO V ON V.ID_PARCEIRO= A.ID_PARCEIRO_VENDEDOR 
+INNER JOIN TB_PARCEIRO F ON F.ID_PARCEIRO= A.ID_PARCEIRO_CLIENTE
+INNER JOIN TB_TIPO_ESTUFAGEM E ON E.ID_TIPO_ESTUFAGEM= A.ID_TIPO_ESTUFAGEM 
+"></asp:SqlDataSource>
     
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

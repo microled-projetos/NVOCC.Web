@@ -462,9 +462,13 @@ SELECT " & cabecalho & ", NR_NOTA_FISCAL, DT_NOTA_FISCAL, NR_PROCESSO, ID_SERVIC
         ' VerificaCompetencia()
     End Sub
 
-    Sub CalcularMetasOld(cabecalho As Integer)
+    Sub CalcularMetas(cabecalho As Integer)
+
         Dim Con As New Conexao_sql
         Con.Conectar()
+
+        Con.ExecutarQuery("INSERT INTO TB_VENDEDOR_META_TEMP (ID_CABECALHO_COMISSAO_VENDEDOR,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,NR_PROCESSO,ID_SERVICO,ID_BL,ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,ID_TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,ID_ANALISTA_COTACAO,VL_PROFIT_REAL_BRASIL) SELECT  ID_CABECALHO_COMISSAO_VENDEDOR,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,NR_PROCESSO,ID_SERVICO,ID_BL,ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,ID_TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,ID_ANALISTA_COTACAO,VL_PROFIT_REAL_BRASIL FROM TB_DETALHE_COMISSAO_VENDEDOR WHERE ID_CABECALHO_COMISSAO_VENDEDOR = " & cabecalho)
+
         Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_PARCEIRO_VENDEDOR, A.ID_TIPO_ESTUFAGEM, B.ID_VIATRANSPORTE, A.ID_SERVICO, COUNT(*)QTD FROM TB_DETALHE_COMISSAO_VENDEDOR A
     INNER JOIN TB_SERVICO B ON A.ID_SERVICO = B.ID_SERVICO 
     GROUP BY A.ID_PARCEIRO_VENDEDOR, A.ID_TIPO_ESTUFAGEM, B.ID_VIATRANSPORTE, A.ID_SERVICO 
@@ -480,7 +484,7 @@ SELECT " & cabecalho & ", NR_NOTA_FISCAL, DT_NOTA_FISCAL, NR_PROCESSO, ID_SERVIC
                             Con.ExecutarQuery("UPDATE A SET 
     A.VL_META = " & dsConsulta.Tables(0).Rows(0).Item("VL_META").ToString.Replace(",", ".") & " , 
     A.VL_COMISSAO_TOTAL = A.VL_COMISSAO_TOTAL + " & dsConsulta.Tables(0).Rows(0).Item("VL_META").ToString.Replace(",", ".") & "
-    FROM TB_DETALHE_COMISSAO_VENDEDOR AS A
+    FROM TB_VENDEDOR_META_TEMP AS A
     INNER JOIN TB_SERVICO AS B ON A.ID_SERVICO = B.ID_SERVICO 
     WHERE A.ID_CABECALHO_COMISSAO_VENDEDOR = " & cabecalho & " AND A.ID_TIPO_ESTUFAGEM = " & linha.Item("ID_TIPO_ESTUFAGEM") & " AND B.ID_VIATRANSPORTE = " & linha.Item("ID_VIATRANSPORTE") & " AND A.ID_PARCEIRO_VENDEDOR = " & linha.Item("ID_PARCEIRO_VENDEDOR"))
 
@@ -1462,60 +1466,64 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
             lblErroGerarComissao.Text = "Preencha os campos obrigatórios."
             divErroGerarComissao.Visible = True
         Else
-            Dim tabela As String = ""
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT DISTINCT ID_PARCEIRO_VENDEDOR ,VENDEDOR,NR_PROCESSO,CLIENTE,TP_SERVICO, TP_VIA, NM_TIPO_ESTUFAGEM, QT_PROCESSO,QT_CNTR, ID_VIATRANSPORTE , ID_TIPO_ESTUFAGEM FROM [dbo].[FN_VENDEDOR_RELATORIO_METAS] ('" & txtDataInicioMetasAlcancadas.Text & "','" & txtDataTerminoMetasAlcancadas.Text & "') ORDER BY VENDEDOR,NM_TIPO_ESTUFAGEM,NR_PROCESSO")
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                tabela &= "<table>"
-                tabela &= "<tr style='border: ridge 1px;'><td><strong>VENDEDOR</strong></td>"
-                tabela &= "<td><strong>PROCESSO</strong></td>"
-                tabela &= "<td><strong>CLIENTE</strong></td>"
-                tabela &= "<td><strong>SERVIÇO</strong></td>"
-                tabela &= "<td><strong>VIA</strong></td>"
-                tabela &= "<td><strong>TIPO ESTUFAGEM</strong></td>"
-                tabela &= "<td><strong>QTD. BL</strong></td>"
-                tabela &= "<td><strong>QTD. CNTR</strong></td>"
-                tabela &= "<td><strong>VALOR ADICIONAL</strong></td></tr>"
-
-                For Each linha As DataRow In ds.Tables(0).Rows
-
-                    tabela &= "<tr><td style='border: ridge 1px;'>" & linha("VENDEDOR") & "</td>"
-                    tabela &= "<td style='border: ridge 1px;'>" & linha("NR_PROCESSO") & "</td>"
-                    tabela &= "<td style='border: ridge 1px;'>" & linha("CLIENTE") & "</td>"
-                    tabela &= "<td style='border: ridge 1px;'>" & linha("TP_SERVICO") & "</td>"
-                    tabela &= "<td style='border: ridge 1px;'>" & linha("TP_VIA") & "</td>"
-                    tabela &= "<td style='border: ridge 1px;'>" & linha("NM_TIPO_ESTUFAGEM") & "</td>"
-                    tabela &= "<td style='border: ridge 1px;'>" & linha("QT_PROCESSO") & "</td>"
-                    tabela &= "<td style='border: ridge 1px;'>" & linha("QT_CNTR") & "</td>"
-
-
-                    Dim dsMeta As DataSet = Con.ExecutarQuery("SELECT VL_META, DIFERENCA FROM [FN_VENDEDOR_CALCULA_METAS]('" & linha("ID_PARCEIRO_VENDEDOR") & "','" & txtDataInicioMetasAlcancadas.Text & "','" & txtDataTerminoMetasAlcancadas.Text & "') WHERE ID_VIATRANSPORTE = " & linha("ID_VIATRANSPORTE") & " AND ID_TIPO_ESTUFAGEM = " & linha("ID_TIPO_ESTUFAGEM"))
-                    If dsMeta.Tables(0).Rows.Count > 0 Then
-
-                        For Each linhaMeta As DataRow In dsMeta.Tables(0).Rows
-
-                            If dsMeta.Tables(0).Rows.Count >= linhaMeta("DIFERENCA") Then
-                                tabela &= "<td style='border: ridge 1px;'>" & linhaMeta("VL_META") & "</td></tr>"
-
-                            Else
-
-                                tabela &= "<td style='border: ridge 1px;'>-</td></tr>"
-                            End If
-
-
-                        Next
-
-                    Else
-                        tabela &= "<td style='border: ridge 1px;'>-</td></tr>"
-                    End If
-                Next
-                tabela &= "</table><br/><div style='break-after:page'></div>"
-
-                divConteudoDinamico.InnerHtml &= tabela
-            End If
+            CalcularMetasOld()
+            mpeGerarMetasAlcancadas.Show()
         End If
     End Sub
 
+    Sub CalcularMetasOld()
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim tabela As String = ""
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT DISTINCT   ROW_NUMBER() OVER( PARTITION BY ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM, ID_VIATRANSPORTE ORDER BY VENDEDOR,NM_TIPO_ESTUFAGEM,NR_PROCESSO )NUM, ID_PARCEIRO_VENDEDOR ,VENDEDOR,NR_PROCESSO,CLIENTE,TP_SERVICO, TP_VIA, NM_TIPO_ESTUFAGEM, QT_PROCESSO,QT_CNTR, ID_VIATRANSPORTE , ID_TIPO_ESTUFAGEM FROM [dbo].[FN_VENDEDOR_RELATORIO_METAS] ('" & txtDataInicioMetasAlcancadas.Text & "','" & txtDataTerminoMetasAlcancadas.Text & "') ORDER BY VENDEDOR,NM_TIPO_ESTUFAGEM,NR_PROCESSO")
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            tabela &= "<table>"
+            tabela &= "<tr style='border: ridge 1px;'><td><strong>VENDEDOR</strong></td>"
+            tabela &= "<td><strong>PROCESSO</strong></td>"
+            tabela &= "<td><strong>CLIENTE</strong></td>"
+            tabela &= "<td><strong>SERVIÇO</strong></td>"
+            tabela &= "<td><strong>VIA</strong></td>"
+            tabela &= "<td><strong>TIPO ESTUFAGEM</strong></td>"
+            tabela &= "<td><strong>QTD. BL</strong></td>"
+            tabela &= "<td><strong>QTD. CNTR</strong></td>"
+            tabela &= "<td><strong>VALOR ADICIONAL</strong></td></tr>"
+
+            For Each linha As DataRow In ds.Tables(0).Rows
+
+                tabela &= "<tr><td style='border: ridge 1px;'>" & linha("VENDEDOR") & "</td>"
+                tabela &= "<td style='border: ridge 1px;'>" & linha("NR_PROCESSO") & "</td>"
+                tabela &= "<td style='border: ridge 1px;'>" & linha("CLIENTE") & "</td>"
+                tabela &= "<td style='border: ridge 1px;'>" & linha("TP_SERVICO") & "</td>"
+                tabela &= "<td style='border: ridge 1px;'>" & linha("TP_VIA") & "</td>"
+                tabela &= "<td style='border: ridge 1px;'>" & linha("NM_TIPO_ESTUFAGEM") & "</td>"
+                tabela &= "<td style='border: ridge 1px;'>" & linha("QT_PROCESSO") & "</td>"
+                tabela &= "<td style='border: ridge 1px;'>" & linha("QT_CNTR") & "</td>"
+
+
+                Dim dsMeta As DataSet = Con.ExecutarQuery("SELECT VL_META, META_MIN, META_MAX FROM [FN_VENDEDOR_CALCULA_METAS]('" & linha("ID_PARCEIRO_VENDEDOR") & "','" & txtDataInicioMetasAlcancadas.Text & "','" & txtDataTerminoMetasAlcancadas.Text & "') WHERE ID_VIATRANSPORTE = " & linha("ID_VIATRANSPORTE") & " AND ID_TIPO_ESTUFAGEM = " & linha("ID_TIPO_ESTUFAGEM"))
+                If dsMeta.Tables(0).Rows.Count > 0 Then
+                    For Each linhaMeta As DataRow In dsMeta.Tables(0).Rows
+
+                        If linha("NUM") > linhaMeta("META_MIN") And linha("NUM") < linhaMeta("META_MAX") Then
+                            tabela &= "<td style='border: ridge 1px;'>" & linhaMeta("VL_META") & "</td></tr>"
+
+                        Else
+
+                            tabela &= "<td style='border: ridge 1px;'>-</td></tr>"
+                        End If
+
+                    Next
+
+                Else
+                    tabela &= "<td style='border: ridge 1px;'>-</td></tr>"
+                End If
+            Next
+            tabela &= "</table><br/><div style='break-after:page'></div>"
+
+            divConteudoDinamico.InnerHtml = tabela
+        End If
+    End Sub
     Private Sub btnValidarMetasAlcancadas_Click(sender As Object, e As EventArgs) Handles btnValidarMetasAlcancadas.Click
         ''GRAVA NA TABELA
     End Sub
