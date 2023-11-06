@@ -38,8 +38,8 @@
 
                 <div class="panel-body">
                     <div class="tab-pane fade active in" id="consulta">
-                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
-                            <ContentTemplate>
+                        <%--<asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                            <ContentTemplate>--%>
 
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
@@ -455,8 +455,7 @@
                                                             </div>
 
                                                         </div>
-                                             
-                                                        
+                                                                                                     
 
                                                         <%--Tabela Prospeccao --%>
                                                         <div class="tab-pane fade" id="Prospeccao" style="display:none" >
@@ -580,9 +579,7 @@
                                                           
                                                           </div>
                                                             
-                                                            
-                                                             
-
+                                                                                                                     
                                                         <%--Tabela Indicacao Interno --%>
                                                         <div class="tab-pane fade" id="IndicacaoInt" style="display:none;">
                                                             <div class="modal-header">
@@ -667,12 +664,11 @@
                                                         </div>
 
                                                 </div>                                               
-                                                </div>    
                                             </center>
                                         </asp:Panel>
 
 
-                                <ajaxToolkit:ModalPopupExtender ID="mpeCadastroMetas" runat="server" PopupControlID="pnlCadastroMeta" TargetControlID="lkCadastroMeta" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeCadastroMetas" runat="server" PopupControlID="pnlCadastroMeta" TargetControlID="lkCadastroMeta" CancelControlID="TextBox3"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdatePnlCadastroMeta" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlCadastroMeta" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -773,7 +769,7 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="mpeGerarMetasAlcancadas" runat="server" PopupControlID="pnlMetasAlcancadas" TargetControlID="lkMeta" CancelControlID="btnFecharMetasAlcancadas"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeGerarMetasAlcancadas" runat="server" PopupControlID="pnlMetasAlcancadas" TargetControlID="lkMeta" CancelControlID="TextBox6"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdatePanelMetasAlcancadas" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlMetasAlcancadas" CssClass="modalPopUp" runat="server" Style="display: none;">
@@ -810,7 +806,7 @@
                                                             <div class="row">
                                                                 <div class="col-sm-12" style="padding-bottom:20px;"></div>
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group">
+                                                                    <div class="form-group table-responsive tableFixHead">
                                                                            <div id="divConteudoDinamico" runat="server"  >
 <%-- <asp:GridView ID="dgvMetasAlcancadas" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsMetasAlcancadas" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                             <Columns>
@@ -836,7 +832,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharMetasAlcancadas" Text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnValidarMetasAlcancadas" Text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-primary" ID="btnValidarMetasAlcancadas" Text="Validar" />
                                                         </div>
                                                    </div>
                                                 </div>
@@ -846,10 +842,10 @@
                                     </ContentTemplate>
                                     <Triggers>
 <%--                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvMetasAlcancadas" /> --%>
-                                        <asp:AsyncPostBackTrigger ControlID="btnGerarMetasAlcancadas" />
-                                        <asp:AsyncPostBackTrigger ControlID="btnLimparGeradorMetasAlcancadas" />
-                                        <asp:AsyncPostBackTrigger ControlID="btnValidarMetasAlcancadas" />
-                                        <asp:AsyncPostBackTrigger ControlID="btnFecharMetasAlcancadas" />
+                                        <asp:PostBackTrigger ControlID="btnGerarMetasAlcancadas" />
+                                        <asp:PostBackTrigger ControlID="btnLimparGeradorMetasAlcancadas" />
+                                        <asp:PostBackTrigger ControlID="btnValidarMetasAlcancadas" />
+                                        <asp:PostBackTrigger ControlID="btnFecharMetasAlcancadas" />
                                     </Triggers>
                                 </asp:UpdatePanel>
 
@@ -1114,7 +1110,7 @@
                                 </asp:UpdatePanel>
 
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlGerarComissao" TargetControlID="lkGerarComissao" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlGerarComissao" TargetControlID="lkGerarComissao" CancelControlID="TextBox4"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlGerarComissao" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -1184,7 +1180,7 @@
 
                                                             </div>
                                                             <br />
-                                                            <div class="row">
+                                                           <%-- <div class="row">
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
                                                                         VENDEDORES DIRETOS:                                          
@@ -1218,14 +1214,11 @@
                                                                           </asp:GridView>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div>--%>
                                                             <div class="modal-footer">
                                                                 <asp:Button runat="server" Text="Gerar" ID="btnGerarComissao" CssClass="btn btn-success" OnClientClick="MouseWait(); return true;" />
                                                                 <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharGerarComissao" Text="Close" />
-
-
                                                             </div>
-
                                                         </div>
                                             </center>
                                         </asp:Panel>
@@ -1237,7 +1230,7 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlAjustarComissao" TargetControlID="lkAjustarComissao" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlAjustarComissao" TargetControlID="lkAjustarComissao" CancelControlID="TextBox5"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlAjustarComissao" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -1390,7 +1383,6 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                                <asp:TextBox ID="TextBox2" runat="server" Style="display: none;"></asp:TextBox>
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkCCProcesso" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -1437,7 +1429,7 @@
                                     </center>
                                 </asp:Panel>
 
-                            </ContentTemplate>
+                            <%--</ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />
                                 <asp:AsyncPostBackTrigger ControlID="btnPesquisar" />
@@ -1447,7 +1439,7 @@
                                 <asp:PostBackTrigger ControlID="lkCSV" />
                                 <asp:PostBackTrigger ControlID="lkRelEquipe" />
                             </Triggers>
-                        </asp:UpdatePanel>
+                        </asp:UpdatePanel>--%>
 
 
                     </div>
@@ -1459,7 +1451,13 @@
         </div>
     </div>
 
-    <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
+    <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>  
+    <asp:TextBox ID="TextBox2" Style="display: none" runat="server" ></asp:TextBox>
+    <asp:TextBox ID="TextBox3" Style="display: none" runat="server"></asp:TextBox>
+    <asp:TextBox ID="TextBox4" Style="display: none" runat="server"></asp:TextBox>
+    <asp:TextBox ID="TextBox5" Style="display: none" runat="server"></asp:TextBox>
+    <asp:TextBox ID="TextBox6" Style="display: none" runat="server"></asp:TextBox>
+
     <asp:SqlDataSource ID="dsTabelaComissaoVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_VENDEDOR_TAXA_COMISSAO, DT_VALIDADE_INICIAL DT_VALIDADE_INICIAL,VL_TAXA,VL_PROFIT_INICIO,VL_PROFIT_FIM,VL_COMISSAO ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 
 TB_VENDEDOR_TAXA_COMISSAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO ORDER BY ID_VENDEDOR_TAXA_COMISSAO"></asp:SqlDataSource>
@@ -1567,6 +1565,7 @@ INNER JOIN TB_TIPO_ESTUFAGEM E ON E.ID_TIPO_ESTUFAGEM= A.ID_TIPO_ESTUFAGEM
             console.log("default");
             document.body.style.cursor = "default";
         };
+
         $(document).ready(function () {
 
             $('#hdComissao').click(function () {
@@ -1587,12 +1586,12 @@ INNER JOIN TB_TIPO_ESTUFAGEM E ON E.ID_TIPO_ESTUFAGEM= A.ID_TIPO_ESTUFAGEM
                 $('#Prospeccao').show();
             });
 
-            $('#MainContent_txtDataInicioMetas').mask('99/99/9999');
-            $('#MainContent_txtDataFimMetas').mask('99/99/9999');
-            $('#MainContent_txtDtInicioComissaoProspecao').mask('99/99/9999');
-            $('#MainContent_txtDtTerminoComissaoProspecao').mask('99/99/9999');
-            $('#MainContent_txtDtInicioComissaoProspecao').attr('placeholder', '__/__/____');
-            $('#MainContent_txtDtTerminoComissaoProspecao').attr('placeholder', '__/__/____');
+            //$('#MainContent_txtDataInicioMetas').mask('99/99/9999');
+            //$('#MainContent_txtDataFimMetas').mask('99/99/9999');
+            //$('#MainContent_txtDtInicioComissaoProspecao').mask('99/99/9999');
+            //$('#MainContent_txtDtTerminoComissaoProspecao').mask('99/99/9999');
+            //$('#MainContent_txtDtInicioComissaoProspecao').attr('placeholder', '__/__/____');
+            //$('#MainContent_txtDtTerminoComissaoProspecao').attr('placeholder', '__/__/____');
 
         });
 

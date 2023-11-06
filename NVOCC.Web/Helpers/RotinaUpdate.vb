@@ -158,6 +158,9 @@ ID_PARCEIRO_IMPORTADOR,
                 Con.ExecutarQuery("UPDATE TB_BL SET ID_PROFIT_DIVISAO = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_DIVISAO_FRETE").ToString & " WHERE ID_BL = " & ID_BL)
             End If
 
+            Dim Calcula As New CalculaBL
+            Calcula.CalculoProfit(ID_BL)
+
             If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString Then
                 Con.ExecutarQuery("UPDATE TB_BL SET ID_TIPO_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString & " WHERE ID_BL = " & ID_BL)
             End If

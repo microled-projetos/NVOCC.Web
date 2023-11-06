@@ -279,7 +279,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             End If
 
             GridHistoricoCotacao()
-            GridHistoricoFrete()
+            '  GridHistoricoFrete()
 
 
             ''ATUALIZA PORTO E AGENTE NO MODAL DE ENVIO DE S.I
@@ -2945,7 +2945,7 @@ union SELECT  0, '    Selecione' ORDER BY NM_CLIENTE_FINAL"
             Session("ID_CLIENTE") = ddlCliente.SelectedValue
 
             GridHistoricoCotacao()
-            GridHistoricoFrete()
+            '  GridHistoricoFrete()
         Else
             ddlClienteFinal.DataBind()
             ddlContato.DataBind()
