@@ -927,6 +927,7 @@ WHERE ID_PARCEIRO =" & ID)
             divIATA.Attributes.CssStyle.Add("display", "none")
             divCPF.Visible = True
             divCNPJ.Visible = False
+            txtCPF.Enabled = True
             txtCPF.Text = ""
             txtCDIATA.Text = ""
             btnConsultaCNPJ.Visible = False
