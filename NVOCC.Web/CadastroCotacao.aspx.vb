@@ -5333,4 +5333,13 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         lblmsgSuccess.Text = "Registro cadastrado/atualizado com sucesso!"
         divsuccess.Visible = True
     End Sub
+
+    Private Sub ddlDivisaoProfit_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlDivisaoProfit.SelectedIndexChanged
+        If ddlDivisaoProfit.SelectedValue = 0 Or ddlDivisaoProfit.SelectedValue = 11 Then
+            txtValorDivisaoProfit.Text = 0
+            txtValorDivisaoProfit.Enabled = False
+        Else
+            txtValorDivisaoProfit.Enabled = True
+        End If
+    End Sub
 End Class
