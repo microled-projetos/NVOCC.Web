@@ -221,15 +221,6 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents DivGrid2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle dgvComissoes.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dgvComissoes As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
     '''Controle ModalPopupExtender4.
     '''</summary>
     '''<remarks>
@@ -1157,13 +1148,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnValidarMetasAlcancadas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle ModalPopupExtender9.
+    '''Controle mpeRelComissaoVenda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ModalPopupExtender9 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents mpeRelComissaoVenda As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
     '''Controle UpdateRelComissaoVendas.
@@ -1238,49 +1229,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnRelGravarCCProcessoComissaoVendas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Div11.
+    '''Controle dgvComissoes.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Div11 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle Label43.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label43 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle div12.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents div12 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle Label44.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label44 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle GridView6.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents GridView6 As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvComissoes As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle btnFecharRelComissaoVendas.

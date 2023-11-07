@@ -104,7 +104,7 @@
                                     <asp:Label ID="lblContasReceber" runat="server"></asp:Label>
                                 </div>
                                 <div runat="server" visible="false" id="DivGrid2">
-                                    <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
+                                    <%--<div class="table-responsive tableFixHead DivGrid" id="DivGrid">
                                         <asp:GridView ID="dgvComissoes" DataKeyNames="ID_DETALHE_COMISSAO_VENDEDOR,ID_CABECALHO_COMISSAO_VENDEDOR" DataSourceID="dsComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="ID" Visible="False">
@@ -137,7 +137,7 @@
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
-                                    </div>
+                                    </div>--%>
                                 </div>
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlComissoes" TargetControlID="lkComissoes" CancelControlID="btnFecharComissoes" OkControlID="lkTabelaComissoes"></ajaxToolkit:ModalPopupExtender>
@@ -842,7 +842,7 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender9" runat="server" PopupControlID="pnlRelComissaoVendas" TargetControlID="lkRelComissaoVendas" CancelControlID="btnFecharRelComissaoVendas"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeRelComissaoVenda" runat="server" PopupControlID="pnlRelComissaoVendas" TargetControlID="lkRelComissaoVendas" CancelControlID="btnFecharRelComissaoVendas"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdateRelComissaoVendas" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlRelComissaoVendas" CssClass="modalPopUp" runat="server" Style="display: none;">
@@ -850,17 +850,17 @@
                                                 <div class=" modal-dialog modal-dialog-centered modal-xxl" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title font-bold">Relatório - Comissão de Vendas</h5>
+                                                            <h5 class="modal-title font-bold">Relatório - Comissão de Venda</h5>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
                                                                 <div class="col-md-2">
                                                                     Data Início: 
-                                                                    <asp:TextBox ID="txtDtInicioRelComissaoVendas" runat="server" CssClass="form-control" placeholder="__/__/____"></asp:TextBox>
+                                                                    <asp:TextBox ID="txtDtInicioRelComissaoVendas" runat="server" CssClass="form-control data" placeholder="__/__/____"></asp:TextBox>
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     Data Término: 
-                                                                    <asp:TextBox ID="txtDtTerminoRelComissaoVendas" runat="server" CssClass="form-control" placeholder="__/__/____"></asp:TextBox>
+                                                                    <asp:TextBox ID="txtDtTerminoRelComissaoVendas" runat="server" CssClass="form-control data" placeholder="__/__/____"></asp:TextBox>
                                                                 </div>
                                                                 <div class="col-md-2"><br />
                                                                     <asp:Button ID="btnFiltrarRelComissaoVendas" CssClass="btn btn-success" Text="FILTRAR" runat="server" />
@@ -879,7 +879,7 @@
                                                                 <div class="col-sm-12" style="padding-bottom:20px;"></div>
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
-                                                                        <div id="Div11" runat="server" visible="false" class="alert alert-danger">
+                                                                        <%--<div id="Div11" runat="server" visible="false" class="alert alert-danger">
                                                                             <asp:Label ID="Label43" Text="" runat="server" />
                                                                         </div>
                                                                         <div id="div12" runat="server" visible="false" class="alert alert-success">
@@ -911,7 +911,38 @@
                                                                                 <asp:BoundField HeaderText="Profit negativo" SortExpression="PROFIT_NEGATIVO"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
                                                                             </Columns>
                                                                             <HeaderStyle CssClass="headerStyle" />
-                                                                        </asp:GridView>
+                                                                        </asp:GridView>--%>
+
+                                                                        <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
+                                        <asp:GridView ID="dgvComissoes" DataKeyNames="ID_DETALHE_COMISSAO_VENDEDOR,ID_CABECALHO_COMISSAO_VENDEDOR" DataSourceID="dsComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="ID" Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_DETALHE_COMISSAO_VENDEDOR") %>' />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="COMPETENCIA" HeaderText="COMPETENCIA" SortExpression="COMPETENCIA" />
+                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
+                                                <asp:BoundField DataField="NR_NOTAS_FISCAL" HeaderText="NOTA FISCAL" SortExpression="NR_NOTAS_FISCAL" />
+                                                <asp:BoundField DataField="PARCEIRO_VENDEDOR" HeaderText="VENDEDOR" SortExpression="PARCEIRO_VENDEDOR" />
+                                                <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="CLIENTE" SortExpression="PARCEIRO_CLIENTE" />
+                                                <asp:BoundField DataField="TP_SERVICO" HeaderText="SERVIÇO" SortExpression="SERVICO"  HeaderStyle-CssClass="header-blue" />                         
+                                                <asp:BoundField DataField="TP_VIA" HeaderText="VIA" SortExpression="VIA"  HeaderStyle-CssClass="header-blue" />  
+                                                <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="ESTUFAGEM" SortExpression="TIPO_ESTUFAGEM" />
+                                                <asp:BoundField DataField="QTD. BL/CNTR" HeaderText="QTD. BL/CNTR" SortExpression="QTD. BL/CNTR" />
+                                                <asp:BoundField DataField="QTD. BL/CNTR" HeaderText="QTD. BL/CNTR" SortExpression="QTD. BL/CNTR" />
+                                                <asp:BoundField DataField="VL_COMISSAO_BASE" HeaderText="COMISSAO BASE" SortExpression="VL_COMISSAO_BASE" />
+                                                <asp:BoundField DataField="VL_COMISSAO_TOTAL" HeaderText="VALOR COMISSAO" SortExpression="VL_COMISSAO_TOTAL" />
+                                                <asp:BoundField DataField="VL_META" HeaderText="ADD META" SortExpression="VL_META" />
+                                                <asp:BoundField DataField="TOTAL" HeaderText="TOTAL" SortExpression="TOTAL" />
+                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="LIQUIDAÇÃO" SortExpression="DT_LIQUIDACAO" />
+                                                <asp:BoundField DataField="DS_OBSERVACAO" HeaderText="OBSERVACAO" SortExpression="DS_OBSERVACAO" />
+                                                <asp:BoundField DataField="VL_PROFIT_REAL_BRASIL" HeaderText="PROFIT NEGATIVO" SortExpression="VL_PROFIT_REAL_BRASIL" />
+                                                 
+                                            </Columns>
+                                            <HeaderStyle CssClass="headerStyle" />
+                                        </asp:GridView>
+                                    </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -927,8 +958,8 @@
                                     </ContentTemplate>
                                     <Triggers>
                                         <%--<asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />--%>
-                                        <asp:AsyncPostBackTrigger ControlID="btnRelGerarCompetenciaComissaoVendas" />
-                                        <asp:AsyncPostBackTrigger ControlID="btnRelGravarCCProcessoComissaoVendas" />
+                                        <asp:PostBackTrigger ControlID="btnRelGerarCompetenciaComissaoVendas" />
+                                        <asp:PostBackTrigger ControlID="btnRelGravarCCProcessoComissaoVendas" />
 
                                     </Triggers>
                                 </asp:UpdatePanel>
