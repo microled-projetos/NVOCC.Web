@@ -563,42 +563,6 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnSalvarComissaoVendedor As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Div3.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Div3 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle Label35.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label35 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle div4.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents div4 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle Label36.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label36 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Controle dgvTabelaComissaoVendedor.
     '''</summary>
     '''<remarks>
@@ -1148,6 +1112,15 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnLimparGeradorMetasAlcancadas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle txtIDMetasAlcancadas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDMetasAlcancadas As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle divConteudoDinamico.
     '''</summary>
     '''<remarks>
@@ -1155,6 +1128,15 @@ Partial Public Class ComissaoVendedor
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents divConteudoDinamico As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle dgvMetasAlcancadas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvMetasAlcancadas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle btnFecharMetasAlcancadas.
@@ -2165,13 +2147,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnFecharAlteraComisaao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle ModalPopupExtender6.
+    '''Controle mpeCCProcesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ModalPopupExtender6 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents mpeCCProcesso As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
     '''Controle pnlCCProcesso.
