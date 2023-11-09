@@ -5,6 +5,9 @@
         .valores{
             text-align: right !important;
         }
+        .dados{
+            text-align: center !important;
+        }
     </style>
     <br />
     <div class="row principal">
@@ -56,17 +59,15 @@
                        <%-- <asp:GridView ID="dgvConsulta" DataKeyNames="NUMERO_DOC" DataSourceID="dsConsulta" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." PageSize="100">--%>
                              <asp:GridView ID="dgvConsulta" DataKeyNames="NUMERO_DOC"  DataSourceID="dsConsulta"  CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." PageSize="100">
                             <Columns>
-                                <asp:BoundField DataField="NUMERO_DOC" HeaderText="Número" SortExpression="NUMERO_DOC" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
-                                <asp:BoundField DataField="SERIE" HeaderText="Série" SortExpression="SERIE" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
-                                <asp:BoundField DataField="DATA_EMISSAO" HeaderText="Emissão" SortExpression="DATA_EMISSAO" DataFormatString="{0:dd/MM/yyyy hh:mm}" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
+                                <asp:BoundField DataField="NUMERO_DOC" HeaderText="Número" SortExpression="NUMERO_DOC" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
+                                <asp:BoundField DataField="DATA_EMISSAO" HeaderText="Emissão" SortExpression="DATA_EMISSAO" DataFormatString="{0:dd/MM/yyyy hh:mm}" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
                                 <asp:BoundField DataField="VALOR" HeaderText="Valor" SortExpression="VALOR" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
-                                <asp:BoundField DataField="DADOS_CLIENTE" HeaderText="Cliente" SortExpression="DADOS_CLIENTE" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
-                                <asp:BoundField DataField="TIPO" HeaderText="Tipo" SortExpression="TIPO" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
-                                <asp:BoundField DataField="SERVICO" HeaderText="Serviço" SortExpression="SERVICO" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
-                                <asp:BoundField DataField="DATA_INTEG_REC" HeaderText="Integração" SortExpression="DATA_INTEG_REC" DataFormatString="{0:dd/MM/yyyy hh:mm}" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
-                                <asp:BoundField DataField="RETORNO" HeaderText="Retorno" SortExpression="RETORNO" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
-                                <asp:BoundField DataField="INTEGRACAO_CANCELADA" HeaderText="Integração Cancelada" SortExpression="INTEGRACAO_CANCELADA" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
-                                <asp:BoundField DataField="CRITICA" HeaderText="Crítica" SortExpression="CRITICA" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="valores"/>
+                                <asp:BoundField DataField="DADOS_CLIENTE" HeaderText="Cliente" SortExpression="DADOS_CLIENTE" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
+                                <asp:BoundField DataField="TIPO" HeaderText="Tipo" SortExpression="TIPO" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
+                                <asp:BoundField DataField="DATA_INTEG_REC" HeaderText="Integração" SortExpression="DATA_INTEG_REC" DataFormatString="{0:dd/MM/yyyy hh:mm}" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
+                                <asp:BoundField DataField="RETORNO" HeaderText="Retorno" SortExpression="RETORNO" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
+                                <asp:BoundField DataField="INTEGRACAO_CANCELADA" HeaderText="Integração Cancelada" SortExpression="INTEGRACAO_CANCELADA" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
+                                <asp:BoundField DataField="CRITICA" HeaderText="Crítica" SortExpression="CRITICA" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
                             </Columns>
                             <HeaderStyle CssClass="headerStyle" />
                         </asp:GridView>
@@ -86,7 +87,7 @@
         SelectCommand="SELECT * FROM FN_INTEGRACAO_TOTVS('', GETDATE(),GETDATE()) ORDER BY DATA_EMISSAO DESC "></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsFiltroTipo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT DISTINCT TIPO AS 'COD', TIPO as 'DESCR'  FROM VW_INTEGRACAO_TOTVS UNION SELECT  '0' TIPO, '     Selecione' ORDER BY TIPO"></asp:SqlDataSource>
+        SelectCommand="SELECT DISTINCT NM_TIPO_INTEGRACAO_TOTVS AS 'COD', NM_TIPO_INTEGRACAO_TOTVS as 'DESCR' FROM TB_TIPO_INTEGRACAO_TOTVS UNION SELECT  '0' TIPO, '     Selecione' ORDER BY NM_TIPO_INTEGRACAO_TOTVS"></asp:SqlDataSource>
 
 
 

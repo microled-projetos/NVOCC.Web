@@ -116,13 +116,17 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                     ElseIf linha.Item("ID").ToString() = 2036 And linha.Item("Acessar").ToString() = 0 Then
                         mnModuloGerencial.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2037 And linha.Item("Acessar").ToString() = 0 Then
-                        mnTOTVSDespesa.Visible = False
+                        ' mnTOTVSDespesa.Visible = False
+                        liTOTVSDespesa.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2038 And linha.Item("Acessar").ToString() = 0 Then
-                        mnTOTVSPA.Visible = False
+                        '  mnTOTVSPA.Visible = False
+                        liTOTVSPA.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2039 And linha.Item("Acessar").ToString() = 0 Then
-                        mnTOTVSDebit.Visible = False
+                        ' mnTOTVSDebit.Visible = False
+                        liTOTVSDebit.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2040 And linha.Item("Acessar").ToString() = 0 Then
-                        mnTOTVSCredit.Visible = False
+                        ' mnTOTVSCredit.Visible = False
+                        liTOTVSCredit.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2041 And linha.Item("Acessar").ToString() = 0 Then
                         mnTOTVSServico.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2042 And linha.Item("Acessar").ToString() = 0 Then
@@ -150,9 +154,11 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                     ElseIf linha.Item("ID").ToString() = 2054 And linha.Item("Acessar").ToString() = 0 Then
                         mnPremiacao.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2055 And linha.Item("Acessar").ToString() = 0 Then
-                        mnTOTVSDemurrageRA.Visible = False
+                        ' mnTOTVSDemurrageRA.Visible = False
+                        liTOTVSDemurrageRA.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2056 And linha.Item("Acessar").ToString() = 0 Then
-                        mnTOTVSDemurragePA.Visible = False
+                        '  mnTOTVSDemurragePA.Visible = False
+                        liTOTVSDemurragePA.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2057 And linha.Item("Acessar").ToString() = 0 Then
                         mnComissaoTransportadora.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2058 And linha.Item("Acessar").ToString() = 0 Then
@@ -180,7 +186,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                     ElseIf linha.Item("ID").ToString() = 2069 And linha.Item("Acessar").ToString() = 0 Then
                         mnDetention.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2070 And linha.Item("Acessar").ToString() = 0 Then
-                        mnConsultaIntegracaoTOTVS.Visible = False
+                        ' mnConsultaIntegracaoTOTVS.Visible = False
+                        liConsultaIntegracaoTOTVS.Visible = False
                     End If
 
 
