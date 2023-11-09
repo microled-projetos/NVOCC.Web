@@ -929,6 +929,7 @@ WHERE ID_PARCEIRO =" & ID)
             divCNPJ.Visible = False
             txtCPF.Text = ""
             txtCDIATA.Text = ""
+            txtCPF.Enabled = True
             btnConsultaCNPJ.Visible = False
             RedCidade.Visible = True
             RedBairro.Visible = True

@@ -2624,6 +2624,9 @@ WHERE ID_CARGA_BL = " & ID)
 
                             Dim Calcula As New CalculaBL
                             txtProfitCalculado_BasicoMaritimo.Text = Calcula.CalculoProfit(txtID_BasicoMaritimo.Text)
+                            If ddlDivisaoProfit_BasicoMaritimo.SelectedValue = 11 Or ddlDivisaoProfit_BasicoMaritimo.SelectedValue = 0 Then
+                                txtValorDivisaoProfit_BasicoMaritimo.Text = txtProfitCalculado_BasicoMaritimo.Text
+                            End If
                             dgvTaxaMaritimoCompras.DataBind()
                             dgvTaxaMaritimoVendas.DataBind()
 
@@ -2683,6 +2686,9 @@ WHERE ID_CARGA_BL = " & ID)
 
                     Dim Calcula As New CalculaBL
                     txtProfitCalculado_BasicoMaritimo.Text = Calcula.CalculoProfit(txtID_BasicoMaritimo.Text)
+                    If ddlDivisaoProfit_BasicoMaritimo.SelectedValue = 11 Or ddlDivisaoProfit_BasicoMaritimo.SelectedValue = 0 Then
+                        txtValorDivisaoProfit_BasicoMaritimo.Text = txtProfitCalculado_BasicoMaritimo.Text
+                    End If
                     dgvTaxaMaritimoCompras.DataBind()
                     dgvTaxaMaritimoVendas.DataBind()
 
@@ -2832,6 +2838,9 @@ WHERE ID_CARGA_BL = " & ID)
 
                             Dim Calcula As New CalculaBL
                             txtProfitCalculado_BasicoAereo.Text = Calcula.CalculoProfit(txtID_BasicoAereo.Text)
+                            If ddlDivisaoProfit_BasicoAereo.SelectedValue = 11 Or ddlDivisaoProfit_BasicoAereo.SelectedValue = 0 Then
+                                txtValorDivisaoProfit_BasicoAereo.Text = txtProfitCalculado_BasicoAereo.Text
+                            End If
                             dgvTaxaAereoCompras.DataBind()
                             dgvTaxaAereoVendas.DataBind()
 
@@ -2887,6 +2896,9 @@ WHERE ID_CARGA_BL = " & ID)
 
                     Dim Calcula As New CalculaBL
                     txtProfitCalculado_BasicoAereo.Text = Calcula.CalculoProfit(txtID_BasicoAereo.Text)
+                    If ddlDivisaoProfit_BasicoAereo.SelectedValue = 11 Or ddlDivisaoProfit_BasicoAereo.SelectedValue = 0 Then
+                        txtValorDivisaoProfit_BasicoAereo.Text = txtProfitCalculado_BasicoAereo.Text
+                    End If
                     dgvTaxaAereoCompras.DataBind()
                     dgvTaxaAereoVendas.DataBind()
 

@@ -815,7 +815,7 @@
                                                                         <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Tipo Divisão Profit:</label>
-                                                                                <asp:DropDownList ID="ddlDivisaoProfit" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_DIVISAO_PROFIT" DataTextField="NM_TIPO_DIVISAO_PROFIT" DataSourceID="dsDivisaoProfit">
+                                                                                <asp:DropDownList ID="ddlDivisaoProfit" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_DIVISAO_PROFIT" DataTextField="NM_TIPO_DIVISAO_PROFIT" DataSourceID="dsDivisaoProfit" AutoPostBack="true">
                                                                                 </asp:DropDownList>
                                                                             </div>
 
@@ -823,7 +823,7 @@
                                                                         <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Valor Divisão Profit:</label>
-                                                                                <asp:TextBox ID="txtValorDivisaoProfit" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                                <asp:TextBox ID="txtValorDivisaoProfit" runat="server" CssClass="form-control" MaxLength="100" enabled="false"></asp:TextBox>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -898,6 +898,7 @@
                                                 <asp:AsyncPostBackTrigger ControlID="txtTTimeFreteInicial" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlOrigemFrete" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlTransportadorFrete" />
+                                                <asp:AsyncPostBackTrigger ControlID="ddlDivisaoProfit" />
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>

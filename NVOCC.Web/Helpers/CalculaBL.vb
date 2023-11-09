@@ -2032,11 +2032,11 @@ INNER JOIN TB_TIPO_CONTAINER C ON C.ID_TIPO_CONTAINER =A.ID_TIPO_CNTR
                 Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & ID)
                 Return z
             Else
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = 0  WHERE ID_BL = " & ID)
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = 0, VL_PROFIT_DIVISAO = 0  WHERE ID_BL = " & ID)
                 Return "0"
             End If
         Else
-            Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = 0  WHERE ID_BL = " & ID)
+            Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = 0, VL_PROFIT_DIVISAO = 0  WHERE ID_BL = " & ID)
             Return "0"
         End If
 
