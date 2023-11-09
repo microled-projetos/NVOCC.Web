@@ -263,12 +263,13 @@
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
-                                                <%--    <asp:TemplateField HeaderText="">
+                                                    <asp:TemplateField HeaderText="">
                                             <ItemTemplate>
-                                                <a href="CadastrarUsuario.aspx?id=<%# Eval("Id") %>" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>
+                                                <%--<a href="CadastrarUsuario.aspx?id=<%# Eval("Id") %>" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>--%>
+                                                <asp:LinkButton runat="server" Text="Excluir" ID="ButtonExcluir" CommandName="Excluir" CommandArgument='<%# Eval("ID") %>' class="btn btn-danger btn-sm" OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"><i class="fa fa-trash" style="font-size: large"></i> </asp:LinkButton>
                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                        </asp:TemplateField>--%>
+                                        </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>

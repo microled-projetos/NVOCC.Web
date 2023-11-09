@@ -148,7 +148,11 @@
 
 
                                         Con.Conectar()
-                                        Con.ExecutarQuery("INSERT INTO [dbo].[TB_USUARIO] (LOGIN, SENHA,NOME, EMAIL, TELEFONE,CPF,FL_ATIVO,DT_CADASTRO, FL_EXTERNO, CELULAR,FL_GRAVAR_MASTER_BASICO,FL_GRAVAR_MASTER_CONTAINER,FL_GRAVAR_MASTER_TAXAS,FL_GRAVAR_MASTER_VINCULAR,FL_GRAVAR_HOUSE_BASICO,FL_GRAVAR_HOUSE_CARGA,FL_GRAVAR_HOUSE_TAXAS) VALUES ('" & txtLogin.Text & "' ,'" & Senha & "','" & txtNome.Text & "','" & txtEmail.Text & "' , '" & txtTelefone.Text & "' ,'" & txtCPF.Text & "' , " & Ativo & ", GetDate(), '" & ckbExterno.Checked & "','" & txtCelular.Text & "','" & ckbMasterBasico.Checked & "','" & ckbMasterCNTR.Checked & "','" & ckbMasterTaxas.Checked & "','" & ckbMasterVinculo.Checked & "','" & ckbHouseBasico.Checked & "','" & ckbHouseCarga.Checked & "','" & ckbHouseTaxas.Checked & "'); SELECT CAST(SCOPE_IDENTITY() AS INT)")
+                                        ds = Con.ExecutarQuery("INSERT INTO [dbo].[TB_USUARIO] (LOGIN, SENHA,NOME, EMAIL, TELEFONE,CPF,FL_ATIVO,DT_CADASTRO, FL_EXTERNO, CELULAR,FL_GRAVAR_MASTER_BASICO,FL_GRAVAR_MASTER_CONTAINER,FL_GRAVAR_MASTER_TAXAS,FL_GRAVAR_MASTER_VINCULAR,FL_GRAVAR_HOUSE_BASICO,FL_GRAVAR_HOUSE_CARGA,FL_GRAVAR_HOUSE_TAXAS) VALUES ('" & txtLogin.Text & "' ,'" & Senha & "','" & txtNome.Text & "','" & txtEmail.Text & "' , '" & txtTelefone.Text & "' ,'" & txtCPF.Text & "' , " & Ativo & ", GetDate(), '" & ckbExterno.Checked & "','" & txtCelular.Text & "','" & ckbMasterBasico.Checked & "','" & ckbMasterCNTR.Checked & "','" & ckbMasterTaxas.Checked & "','" & ckbMasterVinculo.Checked & "','" & ckbHouseBasico.Checked & "','" & ckbHouseCarga.Checked & "','" & ckbHouseTaxas.Checked & "'); Select SCOPE_IDENTITY() as ID_USUARIO ")
+                                        If ds.Tables(0).Rows.Count > 0 Then
+                                            txtID.Text = ds.Tables(0).Rows(0).Item("ID_USUARIO")
+                                        End If
+
                                         Dim Esquema As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString
                                         Esquema = Esquema.Substring(Esquema.IndexOf("Catalog="))
                                         Esquema = Esquema.Substring(0, Esquema.IndexOf(";User ID"))
@@ -290,7 +294,7 @@ ALTER ROLE [FCA_NVOCC_ROLE] ADD MEMBER [" & txtLogin.Text & "];
             Dim ds As DataSet = Con.ExecutarQuery("SELECT LOGIN FROM [dbo].[TB_USUARIO] WHERE ID_USUARIO = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
                 If ds.Tables(0).Rows(0).Item("LOGIN") <> "" Then
-                    Con.ExecutarQuery("USE [master] DROP LOGIN ['" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "'] USE [NVOCCHOM] DROP USER ['" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "']")
+                    Con.ExecutarQuery("USE [master] DROP LOGIN [" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "] USE [NVOCCHOM] DROP USER [" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "]")
                 End If
             End If
             Con.ExecutarQuery("DELETE FROM [dbo].[TB_USUARIO] WHERE ID_USUARIO =" & ID)
