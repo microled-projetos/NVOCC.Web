@@ -574,7 +574,7 @@
                                                             
                                                             <asp:Button runat="server" CssClass="btn btn-warning" ID="btnTaxasExcessao" text="Todas as taxas exceto as mencionadas acima" />
                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnTodastaxas" text="Para todas as taxas" />
-                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnCancelarDestinatarioCob" text="Cancelar atual alteração" />                                  
+                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnCancelarDestinatarioCob" text="Cancelar atual alteração"  />                                  
                                                         </div>
                                                     
                                                 </div>
@@ -1620,6 +1620,7 @@
                                                 <asp:Button runat="server" Text="Importar Taxas" ID="btnImportar" CssClass="btn btn-success" />
                                                 <asp:Button runat="server" Text="Selecionar Tudo" ID="btnSelecionarTudo" CssClass="btn btn-warning" />
                                                 <asp:Button runat="server" Text="Deletar Taxas" ID="btnDeletarTaxas" CssClass="btn btn-danger" Visible="true" OnClientClick="javascript:return confirm('Deseja realmente excluir?');" />
+                                                <asp:Button runat="server" Text="Exportar CSV" ID="btnExportarCSV" CssClass="btn btn-info" />
                                             </div>
                                         </div>
                                     </div>
