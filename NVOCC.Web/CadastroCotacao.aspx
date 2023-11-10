@@ -1684,7 +1684,7 @@
                                     <asp:AsyncPostBackTrigger ControlID="btnSalvarTaxa" />
                                     <asp:AsyncPostBackTrigger ControlID="btnFecharFrete" />
                                     <asp:AsyncPostBackTrigger ControlID="btnImportar" />
-
+                                    <asp:PostBackTrigger ControlID="btnExportarCSV" />
                                     <asp:AsyncPostBackTrigger ControlID="btnDeletarTaxas" />
                                     <asp:AsyncPostBackTrigger ControlID="btnSelecionarTudo" />
                                 </Triggers>
