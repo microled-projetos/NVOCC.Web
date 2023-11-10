@@ -868,26 +868,28 @@ SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ES
             dsFornecedor.DataBind()
             ddlFornecedor.DataBind()
 
-            ds = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA,ID_FORNECEDOR,
-ID_COTACAO,
-ID_ITEM_DESPESA,
-ID_TIPO_PAGAMENTO,
-ID_ORIGEM_PAGAMENTO,
-FL_DECLARADO,
-FL_DIVISAO_PROFIT,
-ID_DESTINATARIO_COBRANCA,
-ID_MOEDA_COMPRA,
-VL_TAXA_COMPRA_CALCULADO,
-ID_MOEDA_VENDA,
-VL_TAXA_VENDA_CALCULADO,
-ID_BASE_CALCULO_TAXA,
-OB_TAXAS,
-VL_TAXA_VENDA_MIN,
-VL_TAXA_COMPRA,
-VL_TAXA_VENDA,
-VL_TAXA_COMPRA_MIN,
-QTD_BASE_CALCULO
+            ds = Con.ExecutarQuery("SELECT A.ID_COTACAO_TAXA,A.ID_FORNECEDOR,
+A.ID_COTACAO,
+A.ID_ITEM_DESPESA,
+A.ID_TIPO_PAGAMENTO,
+A.ID_ORIGEM_PAGAMENTO,
+A.FL_DECLARADO,
+A.FL_DIVISAO_PROFIT,
+A.ID_DESTINATARIO_COBRANCA,
+A.ID_MOEDA_COMPRA,
+A.VL_TAXA_COMPRA_CALCULADO,
+A.ID_MOEDA_VENDA,
+A.VL_TAXA_VENDA_CALCULADO,
+A.ID_BASE_CALCULO_TAXA,
+A.OB_TAXAS,
+A.VL_TAXA_VENDA_MIN,
+A.VL_TAXA_COMPRA,
+A.VL_TAXA_VENDA,
+A.VL_TAXA_COMPRA_MIN,
+A.QTD_BASE_CALCULO,
+ISNULL(I.FL_PREMIACAO,0)FL_PREMIACAO 
 FROM TB_COTACAO_TAXA A
+LEFT JOIN TB_ITEM_DESPESA I ON A.ID_ITEM_DESPESA = I.ID_ITEM_DESPESA 
 WHERE A.ID_COTACAO_TAXA = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
@@ -981,6 +983,13 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
                     ddlFornecedor.Enabled = False
                 End If
 
+                If ds.Tables(0).Rows(0).Item("FL_PREMIACAO") = True Then
+                    ddlMoedaVendaTaxa.Enabled = False
+                    txtValorTaxaVenda.Enabled = False
+                    txtValorTaxaVendaMin.Enabled = False
+                    txtValorTaxaVendaCalc.Enabled = False
+                    ddlDestinatarioCobrancaTaxa.Enabled = False
+                End If
 
                 If ddlStatusCotacao.SelectedValue = 12 Or ddlStatusCotacao.SelectedValue = 15 Or ddlStatusCotacao.SelectedValue = 9 Then
                     btnSalvarTaxa.Visible = False
