@@ -2748,6 +2748,7 @@ DT_ULTIMA_EDICAO = GETDATE()
         End If
 
         mpeNovoTaxa.Show()
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefaultTaxas()", True)
 
 
     End Sub
@@ -5245,6 +5246,7 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         Con.ExecutarQuery("UPDATE TB_COTACAO SET FL_ENVIA_SI = 1 WHERE ID_COTACAO = " & txtID.Text)
         Gravar()
         mpeEnvioSI.Hide()
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefaultSI()", True)
     End Sub
 
     Private Sub btnCancelaEnvioSI_Click(sender As Object, e As EventArgs) Handles btnCancelaEnvioSI.Click
@@ -5253,6 +5255,7 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
         Con.ExecutarQuery("UPDATE TB_COTACAO SET FL_ENVIA_SI = 0 WHERE ID_COTACAO = " & txtID.Text)
         Gravar()
         mpeEnvioSI.Hide()
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefaultSI()", True)
     End Sub
     Sub AtualizaPortoAgenteSI()
         Dim Con As New Conexao_sql

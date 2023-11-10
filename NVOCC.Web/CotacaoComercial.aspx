@@ -320,8 +320,8 @@
                              </div></div>
                                                                                   </div>                     
                                <div class="modal-footer">
-                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnConfirmaEnviarSI" text="Sim" />
-                                                            <asp:Button runat="server" CssClass="btn btn-danger" ID="btnCancelaEnvioSI" text="Não" />
+                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnConfirmaEnviarSI" text="Sim" OnClientClick="MouseWaitSI(); return true;"/>
+                                                            <asp:Button runat="server" CssClass="btn btn-danger" ID="btnCancelaEnvioSI" text="Não" OnClientClick="MouseWaitSI(); return true;"/>
                                                                                                
                                                         </div>
                                                     
@@ -530,5 +530,21 @@ union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
             document.body.style.cursor = "default";
         };
 
+
+        function MouseWaitSI() {
+            document.getElementById('<%= btnConfirmaEnviarSI.ClientID %>').style.display = 'none';
+            document.getElementById('<%= btnCancelaEnvioSI.ClientID %>').style.display = 'none';
+            console.log("wait");
+            document.body.style.cursor = "wait";
+        };
+        function MouseDefaultSI() {
+            document.getElementById('<%= btnConfirmaEnviarSI.ClientID %>').style.display = 'block';
+            document.getElementById('<%= btnCancelaEnvioSI.ClientID %>').style.display = 'block';
+             console.log("default");
+             document.body.style.cursor = "default";
+         };
+
+
+        
     </script>
 </asp:Content>
