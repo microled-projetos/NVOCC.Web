@@ -177,7 +177,7 @@
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Destinatário de Cobrança (Frete e/ou taxas):</label></label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="ddlDestinatarioCobranca" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_DESTINATARIO_COBRANCA" DataSourceID="dsDestinatarioCobranca" DataValueField="ID_DESTINATARIO_COBRANCA" AutoPostBack="true"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlDestinatarioCobranca" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_DESTINATARIO_COBRANCA" DataSourceID="dsDestinatarioCobranca" DataValueField="ID_DESTINATARIO_COBRANCA" AutoPostBack="true" O></asp:DropDownList>
                                             </div>
                                         </div>
 
@@ -537,9 +537,10 @@
       
                                        </div>     </center>
                                 </asp:Panel>
-
+                                    <asp:TextBox ID="txtTipoAtualizacaoDestinatarioCob" runat="server" Style="display: none;"/>
+                                    <asp:Button ID="btnAuxiliarDestinatarioCob2" runat="server" Style="display: none;"/>
                                     <asp:Button ID="btnAuxiliarDestinatarioCob" runat="server" Style="display: none;"/>
-                                     <ajaxToolkit:ModalPopupExtender ID="mpeDestinatarioCob" runat="server" PopupControlID="pnlDestinatarioCob" TargetControlID="btnAuxiliarDestinatarioCob" CancelControlID="btnCancelarDestinatarioCob"></ajaxToolkit:ModalPopupExtender>
+                                     <ajaxToolkit:ModalPopupExtender ID="mpeDestinatarioCob" runat="server" PopupControlID="pnlDestinatarioCob" TargetControlID="btnAuxiliarDestinatarioCob" CancelControlID="btnAuxiliarDestinatarioCob2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlDestinatarioCob" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -640,6 +641,7 @@
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeTranspRodoviario" />
                                     <asp:AsyncPostBackTrigger ControlID="ddlFreteTransportador_Frete" />
                                     <asp:AsyncPostBackTrigger ControlID="btnSalvarTaxa" />
+                                    <asp:AsyncPostBackTrigger ControlID="btnCancelarDestinatarioCob" />
                                 </Triggers>
                             </asp:UpdatePanel>
 
@@ -1718,6 +1720,12 @@
                                         <i class="fa fa-edit" style="padding-right: 8px;"></i>Histórico Valores de Frete
                                     </a>
                                 </li>
+                                <li>
+                                   <%-- <asp:HyperLink ID="lkHistoricoFrete" runat="server"><a href="#HistoricoFrete" role="tab" data-toggle="tab">
+                                        <i class="fa fa-edit" style="padding-right: 8px;"></i>Histórico Valores de Frete 2</a></asp:HyperLink>--%>
+                                     <asp:HyperLink ID="hlHistoricoFrete" runat="server" href="#HistoricoFrete" role="tab" data-toggle="tab">
+                                        <i class="fa fa-edit" style="padding-right: 8px;"></i>Histórico Valores de Frete 2</asp:HyperLink>
+                                 </li>
 
                             </ul>
                             <div class="tab-content">
@@ -2525,6 +2533,9 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
              document.body.style.cursor = "default";
          };
 
-          
+
+         function AlertaDestinatarioCobranca() {
+             alert("Necessário clicar no botão gravar na aba Inf. Básicas para que seja replicada o mesmo destinatário na aba Taxas");
+         }
      </script>
 </asp:Content>

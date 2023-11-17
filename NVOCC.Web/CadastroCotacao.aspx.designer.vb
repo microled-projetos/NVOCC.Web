@@ -743,6 +743,24 @@ Partial Public Class CadastroCotacao
     Protected WithEvents btnEnviar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle txtTipoAtualizacaoDestinatarioCob.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtTipoAtualizacaoDestinatarioCob As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle btnAuxiliarDestinatarioCob2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnAuxiliarDestinatarioCob2 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle btnAuxiliarDestinatarioCob.
     '''</summary>
     '''<remarks>
@@ -2478,6 +2496,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtQtd As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle hlHistoricoFrete.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents hlHistoricoFrete As Global.System.Web.UI.WebControls.HyperLink
 
     '''<summary>
     '''Controle UpdatePanel7.
