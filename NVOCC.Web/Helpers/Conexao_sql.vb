@@ -55,6 +55,27 @@ Public Class Conexao_sql
 
         Return ds
     End Function
+
+    Public Function CriaUsuario(ByVal Command As String) As DataSet
+        Dim ds As New DataSet
+        Dim ObjDataAdapter As New SqlClient.SqlDataAdapter
+        Dim ObjCommand As New SqlClient.SqlCommand
+
+        ObjCon = New SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString)
+
+        Try
+            ObjCommand = ObjCon.CreateCommand
+            ObjCommand.CommandText = Command
+
+            ObjDataAdapter = New SqlClient.SqlDataAdapter(ObjCommand)
+            ObjDataAdapter.Fill(ds)
+
+        Catch ex As Exception
+            Throw ex
+        End Try
+
+        Return ds
+    End Function
     Public Shared Function List(ByVal SQL As String) As DataTable
         Dim Ds As DataSet = New DataSet()
 

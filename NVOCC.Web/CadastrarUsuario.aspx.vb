@@ -158,7 +158,7 @@
                                         Esquema = Esquema.Substring(0, Esquema.IndexOf(";User ID"))
                                         Esquema = Esquema.Replace("Catalog=", "")
 
-                                        Con.ExecutarQuery("USE master; 
+                                        Con.CriaUsuario("USE master; 
 CREATE LOGIN [" & txtLogin.Text & "] WITH PASSWORD = N'gflcoablaolg!@2023', DEFAULT_DATABASE=[master], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF;
 USE " & Esquema & "; 
 CREATE USER [" & txtLogin.Text & "]FOR LOGIN [" & txtLogin.Text & "];
