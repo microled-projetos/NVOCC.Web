@@ -158,7 +158,7 @@
                                         Esquema = Esquema.Substring(0, Esquema.IndexOf(";User ID"))
                                         Esquema = Esquema.Replace("Catalog=", "")
 
-                                        Con.CriaUsuario("USE master; 
+                                        Con.CriaDeletaUsuario("USE master; 
 CREATE LOGIN [" & txtLogin.Text & "] WITH PASSWORD = N'gflcoablaolg!@2023', DEFAULT_DATABASE=[master], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF;
 USE " & Esquema & "; 
 CREATE USER [" & txtLogin.Text & "]FOR LOGIN [" & txtLogin.Text & "];
@@ -261,11 +261,6 @@ ALTER ROLE [FCA_NVOCC_ROLE] ADD MEMBER [" & txtLogin.Text & "];
 
     End Sub
 
-    'Private Sub cbTipoUsuario_Load(sender As Object, e As EventArgs) Handles cbTipoUsuario.Load
-    '    cbTipoUsuario.Items.Insert(0, "Selecione o tipo de usuario")
-    '    cbTipoUsuario.SelectedIndex = 0
-    'End Sub
-
     Public Sub Limpar(ByVal controlP As Control)
 
         Dim ctl As Control
@@ -286,6 +281,8 @@ ALTER ROLE [FCA_NVOCC_ROLE] ADD MEMBER [" & txtLogin.Text & "];
 
     End Sub
     Private Sub dgvUsuarios_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvUsuarios.RowCommand
+        divmsg.Visible = False
+        diverro.Visible = False
         If e.CommandName = "Excluir" Then
             Dim ID As String = e.CommandArgument
 
@@ -294,14 +291,17 @@ ALTER ROLE [FCA_NVOCC_ROLE] ADD MEMBER [" & txtLogin.Text & "];
             Dim ds As DataSet = Con.ExecutarQuery("SELECT LOGIN FROM [dbo].[TB_USUARIO] WHERE ID_USUARIO = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
                 If ds.Tables(0).Rows(0).Item("LOGIN") <> "" Then
-                    Con.ExecutarQuery("USE [master] DROP LOGIN [" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "] USE [NVOCCHOM] DROP USER [" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "]")
+                    Dim Esquema As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString
+                    Esquema = Esquema.Substring(Esquema.IndexOf("Catalog="))
+                    Esquema = Esquema.Substring(0, Esquema.IndexOf(";User ID"))
+                    Esquema = Esquema.Replace("Catalog=", "")
+                    Con.CriaDeletaUsuario("USE [master] DROP LOGIN [" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "] USE " & Esquema & "; DROP USER [" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "]")
                 End If
             End If
             Con.ExecutarQuery("DELETE FROM [dbo].[TB_USUARIO] WHERE ID_USUARIO =" & ID)
             Con.Fechar()
             dgvUsuarios.DataBind()
-            Response.Redirect("CadastrarUsuario.aspx")
-
+            divmsg.Visible = True
         End If
     End Sub
 

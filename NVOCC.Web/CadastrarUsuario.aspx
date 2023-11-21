@@ -34,9 +34,8 @@
                                     <br />
                                     <asp:ValidationSummary ID="Validacoes" runat="server" ShowModelStateErrors="true" CssClass="alert alert-danger" />
 
-
                                     <div class="alert alert-success" id="divmsg" runat="server" visible="false">
-                                        Registro cadastrado/atualizado com sucesso!
+                                        Ação realizada com sucesso!
                                     </div>
                                     <div class="alert alert-danger" id="diverro" runat="server" visible="false">
                                         <asp:Label ID="lblerro" runat="server" />
@@ -274,8 +273,9 @@
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
                                     </ContentTemplate>
-                                    <Triggers>
-                                        <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvUsuarios" />
+                                    <Triggers> 
+<%--                                        <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvUsuarios" />--%>
+                                        <asp:PostBackTrigger  ControlID="dgvUsuarios" />
                                     </Triggers>
                                 </asp:UpdatePanel>
                             </div>
@@ -342,27 +342,27 @@ WHERE A.ID_USUARIO = @ID_USUARIO">
     <script src="Content/js/jquery.dataTables.min.js"></script>
 
     <script>
-        $(document).ready(function () {
+       <%-- $(document).ready(function () {
 
             $('#<%= dgvUsuarios.ClientID %>').DataTable({
                 "language": {
                     "url": "Content/js/pt-br.json"
                 }
             });
-        });
+        });--%>
 
-        function divexpandcollapse(div1) {
+        //function divexpandcollapse(div1) {
 
-            var div = document.getElementById(div1);
-            var img = document.getElementById('imgdiv1');
+        //    var div = document.getElementById(div1);
+        //    var img = document.getElementById('imgdiv1');
 
-            if (div.style.display === "none") {
-                div.style.display = "inline";
-                img.src = "Content/imagens/minus.png";
-            } else {
-                div.style.display = "none";
-                img.src = "Content/imagens/plus.png";
-            }
-        }
+        //    if (div.style.display === "none") {
+        //        div.style.display = "inline";
+        //        img.src = "Content/imagens/minus.png";
+        //    } else {
+        //        div.style.display = "none";
+        //        img.src = "Content/imagens/plus.png";
+        //    }
+        //}
     </script>
 </asp:Content>

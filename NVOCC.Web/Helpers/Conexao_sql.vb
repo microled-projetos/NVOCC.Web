@@ -56,7 +56,7 @@ Public Class Conexao_sql
         Return ds
     End Function
 
-    Public Function CriaUsuario(ByVal Command As String) As DataSet
+    Public Function CriaDeletaUsuario(ByVal Command As String) As DataSet
         Dim ds As New DataSet
         Dim ObjDataAdapter As New SqlClient.SqlDataAdapter
         Dim ObjCommand As New SqlClient.SqlCommand
@@ -76,6 +76,7 @@ Public Class Conexao_sql
 
         Return ds
     End Function
+
     Public Shared Function List(ByVal SQL As String) As DataTable
         Dim Ds As DataSet = New DataSet()
 
