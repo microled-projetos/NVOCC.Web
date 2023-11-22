@@ -569,7 +569,7 @@
                                                             <asp:Button runat="server" CssClass="btn btn-danger" ID="btnCancelaEnvioSI" text="Não" OnClientClick="MouseWaitSI(); return true;"/>
                                                         </div>
                                                     
-                                                </div>btnSalvarTaxa
+                                                </div>
       
                                        </div>     </center>
                                 </asp:Panel>
