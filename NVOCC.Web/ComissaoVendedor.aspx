@@ -26,8 +26,6 @@
             max-width: 2000px;
         }
     </style>
-
-
     <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="panel panel-primary">
@@ -863,11 +861,10 @@
                                                                     <asp:TextBox ID="txtDtTerminoRelComissaoVendas" runat="server" CssClass="form-control data" placeholder="__/__/____"></asp:TextBox>
                                                                 </div>
                                                                 <div class="col-md-2"><br />
-                                                                    <asp:Button ID="btnFiltrarRelComissaoVendas" CssClass="btn btn-success" Text="FILTRAR" runat="server" />
-                                                                </div>
-                                                                
+                                                                    <asp:Button ID="btnFiltrarRelComissaoVendas" CssClass="btn btn-block btn-success"  Text="FILTRAR" runat="server" />
+                                                                </div>                                                               
                                                                 <div class="col-md-2"><br />
-                                                                    <asp:Button ID="btnLimparRelComissaoVendas" CssClass="btn btn-warning" Text="LIMPAR" runat="server" />
+                                                                    <asp:Button ID="btnLimparRelComissaoVendas" CssClass="btn btn-block btn-warning" Text="LIMPAR" runat="server" />
                                                                 </div>
 
                                                                 <div class="col-md-4">Ações<br />
@@ -958,8 +955,8 @@
                                     </ContentTemplate>
                                     <Triggers>
                                         <%--<asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />--%>
-                                        <asp:PostBackTrigger ControlID="btnRelGerarCompetenciaComissaoVendas" />
-                                        <asp:PostBackTrigger ControlID="btnRelGravarCCProcessoComissaoVendas" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnRelGerarCompetenciaComissaoVendas" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnRelGravarCCProcessoComissaoVendas" />
 
                                     </Triggers>
                                 </asp:UpdatePanel>
@@ -1408,7 +1405,7 @@
                                 </asp:UpdatePanel>
 
 
-                                <ajaxToolkit:ModalPopupExtender ID="mpeCCProcesso" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkCCProcesso" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeCCProcesso" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="TextBox7" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>
                                         <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -1481,6 +1478,7 @@
     <asp:TextBox ID="TextBox4" Style="display: none" runat="server"></asp:TextBox>
     <asp:TextBox ID="TextBox5" Style="display: none" runat="server"></asp:TextBox>
     <asp:TextBox ID="TextBox6" Style="display: none" runat="server"></asp:TextBox>
+    <asp:TextBox ID="TextBox7" Style="display: none" runat="server"></asp:TextBox>
 
     <asp:SqlDataSource ID="dsTabelaComissaoVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_VENDEDOR_TAXA_COMISSAO, DT_VALIDADE_INICIAL DT_VALIDADE_INICIAL,VL_TAXA,VL_PROFIT_INICIO,VL_PROFIT_FIM,VL_COMISSAO ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 

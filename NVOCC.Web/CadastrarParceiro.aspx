@@ -635,7 +635,7 @@
                                         </div>
                                        <div class="col-sm-3">
                                             <label class="control-label">Time de Prospecção:</label>
-                                                <asp:DropDownList ID="ddlTimeProspeccao" runat="server" CssClass="form-control" Font-Size="11px">
+                                                <asp:DropDownList ID="ddlTimeProspeccao" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_EQUIPE" DataSourceID="dsTimeProspeccao" DataValueField="ID_VENDEDOR_PROSPECCAO">
                                                 </asp:DropDownList>
                                         </div>
                                         <div class="col-sm-3">                                             
@@ -647,7 +647,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Indicação Interna:</label>
-                                                <asp:DropDownList ID="ddlIndicacaoInterna" runat="server" CssClass="form-control" Font-Size="11px">
+                                                <asp:DropDownList ID="ddlIndicacaoInterna" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsIndicacaoInterna" DataValueField="ID_PARCEIRO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -962,8 +962,21 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID"
 
         <asp:SqlDataSource ID="dsTipoFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
             SelectCommand="select ID_TIPO_FATURAMENTO,NM_TIPO_FATURAMENTO FROM [dbo].[TB_TIPO_FATURAMENTO] union SELECT  0, 'Selecione' ORDER BY ID_TIPO_FATURAMENTO"></asp:SqlDataSource>
-</asp:Content>
+ 
 
+  <asp:SqlDataSource ID="dsTimeProspeccao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+            SelectCommand="SELECT  A.ID_VENDEDOR_PROSPECCAO ,E.NM_EQUIPE   FROM 
+TB_VENDEDOR_PROSPECCAO  A 
+ INNER JOIN TB_VENDEDOR_EQUIPE E ON E.ID_EQUIPE = A.ID_EQUIPE  
+  union SELECT  0, '   Selecione' ORDER BY ID_VENDEDOR_PROSPECCAO"></asp:SqlDataSource>
+ 
+
+  <asp:SqlDataSource ID="dsIndicacaoInterna" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+            SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE ( FL_INDICACAO_INTERNA = 1 AND FL_ATIVO = 1)  
+union SELECT  0, '  Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
+
+
+</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script src="Content/js/viacep.js"></script>
     <script src="Content/js/jquery.dataTables.min.js"></script>
