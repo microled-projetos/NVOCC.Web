@@ -2620,7 +2620,7 @@ WHERE ID_CARGA_BL = " & ID)
                             NumeroProcesso()
 
                             Dim AtualizaStatus As New AtualizaStatusFreteAgente
-                            ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoMaritimo.Text, ddlTipoPagamento_BasicoMaritimo.SelectedValue)
+                            ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoMaritimo.Text, ddlTipoPagamento_BasicoMaritimo.SelectedValue, ckbFreeHand_BasicoMaritimo.Checked)
 
                             Dim Calcula As New CalculaBL
                             txtProfitCalculado_BasicoMaritimo.Text = Calcula.CalculoProfit(txtID_BasicoMaritimo.Text)
@@ -2682,7 +2682,7 @@ WHERE ID_CARGA_BL = " & ID)
                     End If
 
                     Dim AtualizaStatus As New AtualizaStatusFreteAgente
-                    ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoMaritimo.Text, ddlTipoPagamento_BasicoMaritimo.SelectedValue)
+                    ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoMaritimo.Text, ddlTipoPagamento_BasicoMaritimo.SelectedValue, ckbFreeHand_BasicoMaritimo.Checked)
 
                     Dim Calcula As New CalculaBL
                     txtProfitCalculado_BasicoMaritimo.Text = Calcula.CalculoProfit(txtID_BasicoMaritimo.Text)
@@ -2834,7 +2834,7 @@ WHERE ID_CARGA_BL = " & ID)
                             NumeroProcesso()
 
                             Dim AtualizaStatus As New AtualizaStatusFreteAgente
-                            ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoAereo.Text, ddlTipoPagamento_BasicoAereo.SelectedValue)
+                            ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoAereo.Text, ddlTipoPagamento_BasicoAereo.SelectedValue, ckbFreeHand_BasicoAereo.Checked)
 
                             Dim Calcula As New CalculaBL
                             txtProfitCalculado_BasicoAereo.Text = Calcula.CalculoProfit(txtID_BasicoAereo.Text)
@@ -2892,7 +2892,7 @@ WHERE ID_CARGA_BL = " & ID)
                     'End If
 
                     Dim AtualizaStatus As New AtualizaStatusFreteAgente
-                    ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoAereo.Text, ddlTipoPagamento_BasicoAereo.SelectedValue)
+                    ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoAereo.Text, ddlTipoPagamento_BasicoAereo.SelectedValue, ckbFreeHand_BasicoAereo.Checked)
 
                     Dim Calcula As New CalculaBL
                     txtProfitCalculado_BasicoAereo.Text = Calcula.CalculoProfit(txtID_BasicoAereo.Text)
@@ -5575,4 +5575,13 @@ Where A.ID_BL = " & txtID_BasicoAereo.Text)
         End If
     End Sub
 
+    Private Sub ckbFreeHand_BasicoAereo_CheckedChanged(sender As Object, e As EventArgs) Handles ckbFreeHand_BasicoAereo.CheckedChanged
+        Dim AtualizaStatus As New AtualizaStatusFreteAgente
+        ddlStatusFreteAgente_BasicoAereo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoAereo.Text, ddlTipoPagamento_BasicoAereo.SelectedValue, ckbFreeHand_BasicoAereo.Checked)
+    End Sub
+
+    Private Sub ckbFreeHand_BasicoMaritimo_CheckedChanged(sender As Object, e As EventArgs) Handles ckbFreeHand_BasicoMaritimo.CheckedChanged
+        Dim AtualizaStatus As New AtualizaStatusFreteAgente
+        ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = AtualizaStatus.AtualizaStatusFreteAgenteHouse(txtID_BasicoMaritimo.Text, ddlTipoPagamento_BasicoMaritimo.SelectedValue, ckbFreeHand_BasicoMaritimo.Checked)
+    End Sub
 End Class
