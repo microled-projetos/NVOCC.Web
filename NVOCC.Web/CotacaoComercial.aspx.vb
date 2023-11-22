@@ -1250,7 +1250,7 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
         Con.ExecutarQuery("UPDATE TB_COTACAO SET FL_ENVIA_SI = 0 WHERE ID_COTACAO = " & txtID.Text)
         Aprovar()
         mpeEnvioSI.Hide()
-
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefaultSI()", True)
     End Sub
 
     Private Sub btnConfirmaEnviarSI_Click(sender As Object, e As EventArgs) Handles btnConfirmaEnviarSI.Click
@@ -1259,6 +1259,7 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
         Con.ExecutarQuery("UPDATE TB_COTACAO SET FL_ENVIA_SI = 1 WHERE ID_COTACAO = " & txtID.Text)
         Aprovar()
         mpeEnvioSI.Hide()
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefaultSI()", True)
     End Sub
 
     Private Sub rdTRansporte_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdTRansporte.SelectedIndexChanged

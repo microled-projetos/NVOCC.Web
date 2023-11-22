@@ -565,12 +565,11 @@
                              </div></div>
                                                                                   </div>                     
                                <div class="modal-footer">
-                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnConfirmaEnviarSI" text="Sim" />
-                                                            <asp:Button runat="server" CssClass="btn btn-danger" ID="btnCancelaEnvioSI" text="Não" />
-                                                                                               
+                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnConfirmaEnviarSI" text="Sim" OnClientClick="MouseWaitSI(); return true;"/>
+                                                            <asp:Button runat="server" CssClass="btn btn-danger" ID="btnCancelaEnvioSI" text="Não" OnClientClick="MouseWaitSI(); return true;"/>
                                                         </div>
                                                     
-                                                </div>
+                                                </div>btnSalvarTaxa
       
                                        </div>     </center>
                                 </asp:Panel>
@@ -1549,7 +1548,7 @@
 
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <asp:Button runat="server" Text="Salvar Taxa" ID="btnSalvarTaxa" CssClass="btn btn-success" />
+                                                            <asp:Button runat="server" Text="Salvar Taxa" ID="btnSalvarTaxa" CssClass="btn btn-success" OnClientClick="MouseWaitTaxas(); return true;"/>
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharTaxa" Text="Close" />
                                                         </div>
 
@@ -2406,6 +2405,30 @@ SELECT  0, '      Selecione' ORDER BY ID_TIPO_AERONAVE "></asp:SqlDataSource>
             window.open('GeraPDF.aspx?c=' + ID + '&l=' + Linguagem + '&f=e', '_blank');
 
         }
+
+        function MouseWaitSI() {
+            document.getElementById('<%= btnConfirmaEnviarSI.ClientID %>').style.display = 'none';
+             document.getElementById('<%= btnCancelaEnvioSI.ClientID %>').style.display = 'none';
+            console.log("wait");
+            document.body.style.cursor = "wait";
+        };
+        function MouseDefaultSI() {
+            document.getElementById('<%= btnConfirmaEnviarSI.ClientID %>').style.display = 'block';
+             document.getElementById('<%= btnCancelaEnvioSI.ClientID %>').style.display = 'block';
+             console.log("default");
+             document.body.style.cursor = "default";
+         };
+       
+         function MouseWaitTaxas() {
+             document.getElementById('<%= btnSalvarTaxa.ClientID %>').style.display = 'none';
+            console.log("wait");
+            document.body.style.cursor = "wait";
+        };
+         function MouseDefaultTaxas() {
+            document.getElementById('<%= btnSalvarTaxa.ClientID %>').style.display = 'block';
+            console.log("default");
+            document.body.style.cursor = "default";
+        };
 
     </script>
 </asp:Content>
