@@ -6518,11 +6518,11 @@ namespace ABAINFRA.Web
             SQL += "" + situacao + " ";
             if (situacao != "")
             {
-                SQL += "AND ID_CONTA_PAGAR_RECEBER = " + values + " ";
+                SQL += "AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             else
             {
-                SQL += "WHERE ID_CONTA_PAGAR_RECEBER = " + values + " ";
+                SQL += "WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             SQL += "ORDER BY NR_NOTA ";
 
@@ -6567,11 +6567,11 @@ namespace ABAINFRA.Web
             SQL += "" + situacao + " ";
             if (situacao != "")
             {
-                SQL += "AND ID_CONTA_PAGAR_RECEBER = " + dado + " ";
+                SQL += "AND ID_CONTA_PAGAR_RECEBER IN (" + dado + ") ";
             }
             else
             {
-                SQL += "WHERE ID_CONTA_PAGAR_RECEBER = " + dado + " ";
+                SQL += "WHERE ID_CONTA_PAGAR_RECEBER IN (" + dado + ") ";
             }
             SQL += "ORDER BY NR_NOTA ";
 
@@ -6746,11 +6746,11 @@ namespace ABAINFRA.Web
             if (situacao != "")
             {
                 SQL += " WHERE " + situacao + " ";
-                SQL += " AND ID_CONTA_PAGAR_RECEBER = " + values + " ";
+                SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             else
             {
-                SQL += " WHERE ID_CONTA_PAGAR_RECEBER = " + values + " ";
+                SQL += " WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -6858,11 +6858,11 @@ namespace ABAINFRA.Web
             if (situacao != "")
             {
                 SQL += " WHERE " + situacao + " ";
-                SQL += " AND ID_CONTA_PAGAR_RECEBER = " + values + " ";
+                SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             else
             {
-                SQL += " WHERE ID_CONTA_PAGAR_RECEBER = " + values + " ";
+                SQL += " WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
 
             DataTable listTable = new DataTable();
@@ -6965,11 +6965,11 @@ namespace ABAINFRA.Web
             if (situacao != "")
             {
                 SQL += " WHERE " + situacao + " ";
-                SQL += " AND ID_CONTA_PAGAR_RECEBER = " + values + " ";
+                SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             else
             {
-                SQL += " WHERE ID_CONTA_PAGAR_RECEBER = " + values + " ";
+                SQL += " WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             SQL += " ORDER BY ITEMCTA ";
             DataTable listTable = new DataTable();
@@ -7523,7 +7523,7 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT XGRUPO, COD, LOJA, NOME, NREDUZ, END1, ";
             SQL += "BAIRRO, EST, COD_MUN, CEP, TIPO, CGC, TEL, INSCR, INSCRM, EMAIL, DDD, ";
-            SQL += "NATUREZ, CODPAIS, CONTATO, SIMPNAC ";
+            SQL += "NATUREZ, CODPAIS, CONTATO, SIMPNAC, PAIS ";
             SQL += "FROM dbo.FN_INV_DEBIT_FORNEC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -7560,6 +7560,7 @@ namespace ABAINFRA.Web
                     cli[i] += fmtTotvs(listTable.Rows[i]["CODPAIS"].ToString(), 5);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
                     cli[i] += fmtTotvs(listTable.Rows[i]["SIMPNAC"].ToString(), 1);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["PAIS"].ToString(), 5);
                 }
                 return JsonConvert.SerializeObject(cli);
             }
