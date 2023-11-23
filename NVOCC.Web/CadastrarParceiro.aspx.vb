@@ -108,7 +108,11 @@ FL_SHIPPER,
 FL_CNEE,
 FL_RODOVIARIO,
 OB_COMPLEMENTARES,
-ISNULL(REGRA_ATUALIZACAO,0)REGRA_ATUALIZACAO 
+ISNULL(REGRA_ATUALIZACAO,0)REGRA_ATUALIZACAO,
+ISNULL(FL_PROSPECCAO,0)FL_PROSPECCAO,
+ISNULL(ID_VENDEDOR_PROSPECCAO,0)ID_VENDEDOR_PROSPECCAO,
+ISNULL(FL_INDICACAO_INTERNA,0)FL_INDICACAO_INTERNA,
+ISNULL(ID_PARCEIRO_INDICACAO_INTERNA ,0)ID_PARCEIRO_INDICACAO_INTERNA 
 FROM TB_PARCEIRO 
 WHERE ID_PARCEIRO =" & ID)
             If ds.Tables(0).Rows.Count > 0 Then
@@ -233,6 +237,11 @@ WHERE ID_PARCEIRO =" & ID)
                 ckbSimplesNacional.Checked = ds.Tables(0).Rows(0).Item("FL_SIMPLES_NACIONAL")
                 ckbAtivo.Checked = ds.Tables(0).Rows(0).Item("FL_ATIVO")
                 ckbIndicador.Checked = ds.Tables(0).Rows(0).Item("FL_INDICADOR")
+
+                ckbProspeccao.Checked = ds.Tables(0).Rows(0).Item("FL_PROSPECCAO")
+                ckbIndicacaoInterna.Checked = ds.Tables(0).Rows(0).Item("FL_INDICACAO_INTERNA")
+                ddlTimeProspeccao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR_PROSPECCAO")
+                ddlIndicacaoInterna.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICACAO_INTERNA")
 
                 VerificaChecks()
 
@@ -663,7 +672,11 @@ WHERE ID_PARCEIRO =" & ID)
             REGRA_ATUALIZACAO,
             ID_PAIS,
             ID_USUARIO,
-            CREATED_AT
+            CREATED_AT,
+            FL_PROSPECCAO,
+            ID_VENDEDOR_PROSPECCAO,
+            FL_INDICACAO_INTERNA,
+            ID_PARCEIRO_INDICACAO_INTERNA
             ) 
             VALUES ( 
             '" & ckbImportador.Checked & "',
@@ -734,7 +747,11 @@ WHERE ID_PARCEIRO =" & ID)
             " & ddlRegraAtualizacao.SelectedValue & ",
             " & ddlPais.SelectedValue & " ,
             " & Session("ID_USUARIO") & ",
-             getdate() 
+             getdate() ,
+            '" & ckbProspeccao.Checked & "',
+            " & ddlTimeProspeccao.SelectedValue & ",
+            '" & ckbIndicacaoInterna.Checked & "',
+            " & ddlIndicacaoInterna.SelectedValue & " 
             ) Select SCOPE_IDENTITY() as ID_PARCEIRO "
 
 
@@ -852,8 +869,12 @@ WHERE ID_PARCEIRO =" & ID)
             REGRA_ATUALIZACAO = " & ddlRegraAtualizacao.SelectedValue & " ,
             ID_PAIS=" & ddlPais.SelectedValue & ",
             ID_USUARIO = " & Session("ID_USUARIO") & ",
-            UPDATED_AT = GETDATE() 
-            where ID_PARCEIRO = " & ID
+            UPDATED_AT = GETDATE() , 
+            FL_PROSPECCAO =  '" & ckbProspeccao.Checked & "',
+            ID_VENDEDOR_PROSPECCAO =  " & ddlTimeProspeccao.SelectedValue & ",
+            FL_INDICACAO_INTERNA=  '" & ckbIndicacaoInterna.Checked & "',
+            ID_PARCEIRO_INDICACAO_INTERNA =  " & ddlIndicacaoInterna.SelectedValue & " 
+            WHERE ID_PARCEIRO = " & ID
 
                             Session("ID_Parceiro") = ID
 
