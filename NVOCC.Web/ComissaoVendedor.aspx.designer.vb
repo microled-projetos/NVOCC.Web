@@ -1517,13 +1517,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents Label48 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle GridView8.
+    '''Controle dgvRelIndicacaoInterna.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents GridView8 As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvRelIndicacaoInterna As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle btnFecharRelComissaoIndicacaoInterna.
@@ -2280,6 +2280,15 @@ Partial Public Class ComissaoVendedor
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsTabelaComissaoVendedor As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsRelIndicacaoInterna.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsRelIndicacaoInterna As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsTabelaComissaoProspeccao.

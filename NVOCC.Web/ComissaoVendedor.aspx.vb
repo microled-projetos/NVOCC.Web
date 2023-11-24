@@ -1659,10 +1659,6 @@ ID_DETALHE_COMISSAO_VENDEDOR_META ,ID_VIATRANSPORTE , ID_PARCEIRO_VENDEDOR , ID_
             lblErroGerarComissao.Text = "Preencha os campos obrigatórios."
             divErroGerarComissao.Visible = True
 
-        ElseIf txtDtInicioRelComissaoVendas.Text = "" Or txtDtTerminoRelComissaoVendas.Text = "" Then
-            lblErroGerarComissao.Text = "Preencha os campos obrigatórios."
-            divErroGerarComissao.Visible = True
-
         Else
             Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2029 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
@@ -1735,10 +1731,82 @@ FROM FN_VENDEDOR('" & txtDtInicioRelComissaoVendas.Text & "','" & txtDtTerminoRe
     End Sub
 
     Private Sub btnRelGerarCompetenciaComissaoIndicacaoInterna_Click(sender As Object, e As EventArgs) Handles btnRelGerarCompetenciaComissaoIndicacaoInterna.Click
+        btnGerarComissao.Visible = False
+        divSuccess.Visible = False
+        divErro.Visible = False
+        divAtencaoGerarComissao.Visible = False
+        divSuccessGerarComissao.Visible = False
+        divErroGerarComissao.Visible = False
+        divInfoGerarComissao.Visible = False
 
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        If lblCompetenciaSobrepor.Text = "" Then
+            lblCompetenciaSobrepor.Text = 0
+        End If
+
+        If lblContasReceber.Text = "" Then
+            lblContasReceber.Text = 0
+        End If
+
+        If txtDtInicioRelIndicacaoInterna.Text = "" Or txtDtTerminoRelIndicacaoInterna.Text = "" Then
+            lblErroGerarComissao.Text = "Preencha os campos obrigatórios."
+            divErroGerarComissao.Visible = True
+
+
+        Else
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2029 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblErroGerarComissao.Text = "Usuário não tem permissão!"
+                divErroGerarComissao.Visible = True
+            Else
+
+
+                Dim NOVA_COMPETECIA As String = txtDtInicioRelIndicacaoInterna.Text
+                NOVA_COMPETECIA = NOVA_COMPETECIA.Substring(2)
+                NOVA_COMPETECIA = NOVA_COMPETECIA.Replace("/", "")
+
+                Dim dsInsert As DataSet
+                Dim cabecalho As String
+
+                dsInsert = Con.ExecutarQuery("INSERT INTO TB_CABECALHO_COMISSAO_INDICACAO_INTERNA (DT_COMPETENCIA,ID_USUARIO_GERACAO,DT_GERACAO,DT_LIQUIDACAO_INICIAL ,DT_LIQUIDACAO_FINAL ) VALUES('" & NOVA_COMPETECIA & "'," & Session("ID_USUARIO") & ", getdate(),CONVERT(DATE,'" & txtDtInicioRelIndicacaoInterna.Text & "',103),CONVERT(DATE,'" & txtDtTerminoRelIndicacaoInterna.Text & "',103)) Select SCOPE_IDENTITY() as ID_CABECALHO_COMISSAO_INDICACAO_INTERNA   ")
+                cabecalho = dsInsert.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_INDICACAO_INTERNA")
+
+                Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INDICACAO_INTERNA (ID_CABECALHO_COMISSAO_INDICACAO_INTERNA,NR_PROCESSO,ID_BL,NR_NOTA_FISCAL,ID_PARCEIRO_INDICACAO_INTERNA,VL_COMISSAO_TOTAL,DT_LIQUIDACAO)
+SELECT DISTINCT " & cabecalho & ",  MIN(A.NR_PROCESSO)NR_PROCESSO,MIN(A.ID_BL)ID_BL,MIN(A.NR_NOTA_FISCAL)NR_NOTA_FISCAL,C.ID_PARCEIRO,   (SELECT VL_TAXA FROM TB_VENDEDOR_INDICADOR_INTERNO
+WHERE DT_VALIDADE_INICIAL <= GETDATE()
+)VL_TAXA,MIN(A.DT_LIQUIDACAO)DT_LIQUIDACAO
+FROM FN_VENDEDOR('" & txtDtInicioRelIndicacaoInterna.Text & "','" & txtDtTerminoRelIndicacaoInterna.Text & "') A
+ INNER JOIN TB_DETALHE_COMISSAO_VENDEDOR E ON  E.ID_BL =A.ID_BL
+ INNER JOIN TB_CABECALHO_COMISSAO_VENDEDOR D ON D.ID_CABECALHO_COMISSAO_VENDEDOR = E.ID_CABECALHO_COMISSAO_VENDEDOR
+LEFT  JOIN TB_PARCEIRO B ON B.ID_PARCEIRO=A.ID_PARCEIRO_CLIENTE
+LEFT  JOIN TB_PARCEIRO C  ON B.ID_PARCEIRO_INDICACAO_INTERNA=C.ID_PARCEIRO  
+WHERE ISNULL(B.ID_PARCEIRO_INDICACAO_INTERNA,0) <> 0 AND ISNULL(C.FL_INDICACAO_REALIZADA,0) = 0 GROUP BY  C.NM_RAZAO ,C.ID_PARCEIRO ")
+
+
+
+                Con.ExecutarQuery("UPDATE TB_PARCEIRO SET FL_INDICACAO_REALIZADA = 1 WHERE ID_PARCEIRO IN ( SELECT ID_PARCEIRO_INDICACAO_INTERNA FROM TB_DETALHE_COMISSAO_INDICACAO_INTERNA) ")
+
+                divErro.Visible = False
+                divSuccessGerarComissao.Visible = True
+                lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
+
+            End If
+
+        End If
+
+
+        btnGerarComissao.Visible = True
+        mpeRelComissaoVenda.Show()
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
     End Sub
 
     Private Sub btnRelGravarCCProcessoComissaoIndicacaoInterna_Click(sender As Object, e As EventArgs) Handles btnRelGravarCCProcessoComissaoIndicacaoInterna.Click
+
+    End Sub
+
+    Private Sub btnFiltrarRelIndicacaoInterna_Click(sender As Object, e As EventArgs) Handles btnFiltrarRelIndicacaoInterna.Click
 
     End Sub
 End Class
