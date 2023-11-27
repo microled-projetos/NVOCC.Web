@@ -186,6 +186,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
             lblCompetenciaCCProcesso.Text = txtCompetencia.Text
         End If
     End Sub
+
     'Private Sub dgvTabelaComissao_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvTabelaComissao.RowCommand
     '    DivExcluir.Visible = False
     '    divInfo.Visible = False
@@ -840,11 +841,11 @@ WHERE A.ID_USUARIO_MEMBRO_EQUIPE = " & linha.Item("ID_ANALISTA_COTACAO"))
             End If
 
             Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (CD_PR, DT_COMPETENCIA, DT_LANCAMENTO,DT_LIQUIDACAO ,DT_VENCIMENTO,ID_TIPO_LANCAMENTO_CAIXA  ,
-ID_USUARIO_LANCAMENTO ,ID_USUARIO_LIQUIDACAO,TP_EXPORTACAO) VALUES('P','" & txtCompetencia.Text & "',GETDATE(),CONVERT(DATE,'" & txtLiquidacaoCCProcesso.Text & "',103),CONVERT(DATE,'" & txtLiquidacaoCCProcesso.Text & "',103),7, " & Session("ID_USUARIO") & ", " & Session("ID_USUARIO") & ",'CVEND')  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER_ITENS")
-            Dim ID_CONTAS_PAGAR_RECEBER_ITENS As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER_ITENS")
+ID_USUARIO_LANCAMENTO ,ID_USUARIO_LIQUIDACAO,TP_EXPORTACAO) VALUES('P','" & txtCompetencia.Text & "',GETDATE(),CONVERT(DATE,'" & txtLiquidacaoCCProcesso.Text & "',103),CONVERT(DATE,'" & txtLiquidacaoCCProcesso.Text & "',103),7, " & Session("ID_USUARIO") & ", " & Session("ID_USUARIO") & ",'CVEND')  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER")
+            Dim ID_CONTA_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
 
             Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_PARCEIRO_EMPRESA,DS_HISTORICO_LANCAMENTO,ID_CONTA_PAGAR_RECEBER, VL_LANCAMENTO ,VL_LIQUIDO,ID_ITEM_DESPESA,VL_TAXA_CALCULADO,ID_MOEDA, ID_BL )
-               SELECT ID_PARCEIRO_VENDEDOR,'COMISSÃO VENDEDOR – " & txtCompetencia.Text & "'," & ID_CONTAS_PAGAR_RECEBER_ITENS & ",VL_COMISSAO_TOTAL, VL_COMISSAO_TOTAL, (SELECT ID_ITEM_VENDEDOR FROM TB_PARAMETROS)ID_ITEM_VENDEDOR,VL_COMISSAO_TOTAL,124,ID_BL  FROM TB_DETALHE_COMISSAO_VENDEDOR WHERE ID_CABECALHO_COMISSAO_VENDEDOR in (SELECT distinct ID_CABECALHO_COMISSAO_VENDEDOR FROM View_Comissao_Vendedor WHERE COMPETENCIA = '" & txtCompetencia.Text & "')")
+               SELECT ID_PARCEIRO_VENDEDOR,'COMISSÃO VENDEDOR – " & txtCompetencia.Text & "'," & ID_CONTA_PAGAR_RECEBER & ",VL_COMISSAO_TOTAL, VL_COMISSAO_TOTAL, (SELECT ID_ITEM_VENDEDOR FROM TB_PARAMETROS)ID_ITEM_VENDEDOR,VL_COMISSAO_TOTAL,124,ID_BL  FROM TB_DETALHE_COMISSAO_VENDEDOR WHERE ID_CABECALHO_COMISSAO_VENDEDOR in (SELECT distinct ID_CABECALHO_COMISSAO_VENDEDOR FROM View_Comissao_Vendedor WHERE COMPETENCIA = '" & txtCompetencia.Text & "')")
 
 
             Con.ExecutarQuery("UPDATE TB_CABECALHO_COMISSAO_VENDEDOR SET DT_EXPORTACAO =  GETDATE(), ID_USUARIO_EXPORTACAO = " & Session("ID_USUARIO") & "   WHERE ID_CABECALHO_COMISSAO_VENDEDOR in (SELECT distinct ID_CABECALHO_COMISSAO_VENDEDOR FROM View_Comissao_Vendedor WHERE COMPETENCIA = '" & txtCompetencia.Text & "')")
@@ -1445,139 +1446,6 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
         End If
     End Sub
 
-    Sub CalcularMetas3()
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim tabela As String = ""
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT DISTINCT   ROW_NUMBER() OVER( PARTITION BY ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM, ID_VIATRANSPORTE ORDER BY VENDEDOR,NM_TIPO_ESTUFAGEM,NR_PROCESSO )NUM, ID_PARCEIRO_VENDEDOR ,VENDEDOR,NR_PROCESSO,CLIENTE,TP_SERVICO, TP_VIA, NM_TIPO_ESTUFAGEM, QT_PROCESSO,QT_CNTR, ID_VIATRANSPORTE , ID_TIPO_ESTUFAGEM FROM [dbo].[FN_VENDEDOR_RELATORIO_METAS] ('" & txtDataInicioMetasAlcancadas.Text & "','" & txtDataTerminoMetasAlcancadas.Text & "') ORDER BY VENDEDOR,NM_TIPO_ESTUFAGEM,NR_PROCESSO")
-        If ds.Tables(0).Rows.Count > 0 Then
-
-            tabela &= "<table>"
-            tabela &= "<tr><td style='border: solid 1px;'><strong>VENDEDOR</strong></td>"
-            tabela &= "<td style='border: solid 1px;'><strong>PROCESSO</strong></td>"
-            tabela &= "<td style='border: solid 1px;'><strong>CLIENTE</strong></td>"
-            tabela &= "<td style='border: solid 1px;'><strong>SERVIÇO</strong></td>"
-            tabela &= "<td style='border: solid 1px;'><strong>VIA</strong></td>"
-            tabela &= "<td style='border: solid 1px;'><strong>TIPO ESTUFAGEM</strong></td>"
-            tabela &= "<td style='border: solid 1px;'><strong>QTD. BL</strong></td>"
-            tabela &= "<td style='border: solid 1px;'><strong>QTD. CNTR</strong></td>"
-            tabela &= "<td style='border: solid 1px;'><strong>VALOR ADICIONAL</strong></td></tr>"
-
-            For Each linha As DataRow In ds.Tables(0).Rows
-
-                tabela &= "<tr><td style='border: solid 1px;'>" & linha("VENDEDOR") & "</td>"
-                tabela &= "<td style='border: solid 1px;'>" & linha("NR_PROCESSO") & "</td>"
-                tabela &= "<td style='border: solid 1px;'>" & linha("CLIENTE") & "</td>"
-                tabela &= "<td style='border: solid 1px;'>" & linha("TP_SERVICO") & "</td>"
-                tabela &= "<td style='border: solid 1px;'>" & linha("TP_VIA") & "</td>"
-                tabela &= "<td style='border: solid 1px;'>" & linha("NM_TIPO_ESTUFAGEM") & "</td>"
-                tabela &= "<td style='border: solid 1px;'>" & linha("QT_PROCESSO") & "</td>"
-                tabela &= "<td style='border: solid 1px;'>" & linha("QT_CNTR") & "</td>"
-
-
-                Dim dsMeta As DataSet = Con.ExecutarQuery("SELECT VL_META, META_MIN, META_MAX FROM [FN_VENDEDOR_CALCULA_METAS]('" & txtDataInicioMetasAlcancadas.Text & "','" & txtDataTerminoMetasAlcancadas.Text & "') WHERE ID_PARCEIRO_VENDEDOR = '" & linha("ID_PARCEIRO_VENDEDOR") & "' AND ID_VIATRANSPORTE = " & linha("ID_VIATRANSPORTE") & " AND ID_TIPO_ESTUFAGEM = " & linha("ID_TIPO_ESTUFAGEM"))
-                If dsMeta.Tables(0).Rows.Count > 0 Then
-                    For Each linhaMeta As DataRow In dsMeta.Tables(0).Rows
-
-                        If linha("NUM") > linhaMeta("META_MIN") And linha("NUM") < linhaMeta("META_MAX") Then
-                            tabela &= "<td style='border: solid 1px;'>" & linhaMeta("VL_META") & "</td></tr>"
-
-                        Else
-
-                            tabela &= "<td style='border: solid 1px;'>-</td></tr>"
-                        End If
-
-                    Next
-
-                Else
-                    tabela &= "<td style='border: solid 1px;'>-</td></tr>"
-                End If
-            Next
-            tabela &= "</table>" '<div style='break-after:page'></div>
-
-            Dim dsTotais As DataSet
-
-            dsTotais = Con.ExecutarQuery("SELECT DISTINCT NM_TIPO_ESTUFAGEM, COUNT(NR_PROCESSO)QTD FROM [FN_VENDEDOR_RELATORIO_METAS]('" & txtDataInicioMetasAlcancadas.Text & "','" & txtDataTerminoMetasAlcancadas.Text & "')  GROUP BY NM_TIPO_ESTUFAGEM ")
-            If dsTotais.Tables(0).Rows.Count > 0 Then
-                tabela &= "<br/><br/><br/> "
-
-                tabela &= "<table>"
-                For Each linhaTotais As DataRow In dsTotais.Tables(0).Rows
-                    tabela &= "<tr style='border: solid 1px;'>"
-                    tabela &= "<td style='border: solid 1px;'>TOTAL DE FECHAMENTOS " & linhaTotais("NM_TIPO_ESTUFAGEM").ToString() & "</td>"
-                    tabela &= "<td style='border: solid 1px;'>" & linhaTotais("QTD").ToString() & "</td>"
-                    tabela &= "</tr>"
-                Next
-                tabela &= "</table>"
-            End If
-
-
-            dsTotais = Con.ExecutarQuery("SELECT META_MIN,META_MAX, COUNT(*)QTD FROM [FN_VENDEDOR_CALCULA_METAS]('" & txtDataInicioMetasAlcancadas.Text & "','" & txtDataTerminoMetasAlcancadas.Text & "')  WHERE ID_TIPO_ESTUFAGEM = 1 GROUP BY  META_MIN,META_MAX")
-            If dsTotais.Tables(0).Rows.Count > 0 Then
-                tabela &= "<br/><br/><br/> "
-                tabela &= "METAS ALCANÇADAS FCL"
-                tabela &= "<table>"
-                For Each linhaTotais As DataRow In dsTotais.Tables(0).Rows
-                    tabela &= "<tr style='border: solid 1px;'>"
-                    tabela &= "<td style='border: solid 1px;'>" & linhaTotais("META_MIN") & " até " & linhaTotais("META_MAX") & "</td>"
-                    tabela &= "<td style='border: solid 1px;'>" & linhaTotais("QTD") & "</td>"
-                    tabela &= "</tr>"
-                Next
-                tabela &= "</table>"
-            End If
-
-            dsTotais = Con.ExecutarQuery("SELECT META_MIN,META_MAX, COUNT(*)QTD FROM [FN_VENDEDOR_CALCULA_METAS]('" & txtDataInicioMetasAlcancadas.Text & "','" & txtDataTerminoMetasAlcancadas.Text & "')  WHERE ID_TIPO_ESTUFAGEM = 2 GROUP BY  META_MIN,META_MAX")
-            If dsTotais.Tables(0).Rows.Count > 0 Then
-                tabela &= "<br/><br/><br/> "
-                tabela &= "METAS ALCANÇADAS LCL"
-                tabela &= "<table>"
-                For Each linhaTotais As DataRow In dsTotais.Tables(0).Rows
-                    tabela &= "<tr style='border: solid 1px;'>"
-                    tabela &= "<td style='border: solid 1px;'>" & linhaTotais("META_MIN") & " até " & linhaTotais("META_MAX") & "</td>"
-                    tabela &= "<td style='border: solid 1px;'>" & linhaTotais("QTD") & "</td>"
-                    tabela &= "</tr>"
-                Next
-                tabela &= "</table>"
-            End If
-
-
-            divConteudoDinamico.InnerHtml = tabela
-
-        End If
-    End Sub
-    Sub CalcularMetas2(cabecalho As Integer)
-
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-
-        Con.ExecutarQuery("INSERT INTO TB_VENDEDOR_META_TEMP (ID_CABECALHO_COMISSAO_VENDEDOR,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,NR_PROCESSO,ID_SERVICO,ID_BL,ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,ID_TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,ID_ANALISTA_COTACAO,VL_PROFIT_REAL_BRASIL) SELECT  ID_CABECALHO_COMISSAO_VENDEDOR,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,NR_PROCESSO,ID_SERVICO,ID_BL,ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,ID_TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,ID_ANALISTA_COTACAO,VL_PROFIT_REAL_BRASIL FROM TB_DETALHE_COMISSAO_VENDEDOR WHERE ID_CABECALHO_COMISSAO_VENDEDOR = " & cabecalho)
-
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_PARCEIRO_VENDEDOR, A.ID_TIPO_ESTUFAGEM, B.ID_VIATRANSPORTE, A.ID_SERVICO, COUNT(*)QTD FROM TB_DETALHE_COMISSAO_VENDEDOR A
-    INNER JOIN TB_SERVICO B ON A.ID_SERVICO = B.ID_SERVICO 
-    GROUP BY A.ID_PARCEIRO_VENDEDOR, A.ID_TIPO_ESTUFAGEM, B.ID_VIATRANSPORTE, A.ID_SERVICO 
-    ORDER BY QTD DESC")
-        If ds.Tables(0).Rows.Count > 0 Then
-            For Each linha As DataRow In ds.Tables(0).Rows
-
-                If Not IsDBNull(linha.Item("ID_PARCEIRO_VENDEDOR")) Then
-                    Dim dsConsulta As DataSet = Con.ExecutarQuery("SELECT VL_META FROM TB_VENDEDOR_CADASTRO_METAS WHERE DT_VALIDADE_INICIAL <= GETDATE() AND ID_TIPO_ESTUFAGEM = " & linha.Item("ID_TIPO_ESTUFAGEM") & " AND ID_VIATRANSPORTE = " & linha.Item("ID_VIATRANSPORTE") & " AND " & linha.Item("QTD") & " BETWEEN META_MIN AND META_MAX ")
-
-                    If dsConsulta.Tables(0).Rows.Count > 0 Then
-                        If Not IsDBNull(dsConsulta.Tables(0).Rows(0).Item("VL_META")) Then
-                            Con.ExecutarQuery("UPDATE A SET 
-    A.VL_META = " & dsConsulta.Tables(0).Rows(0).Item("VL_META").ToString.Replace(",", ".") & " , 
-    A.VL_COMISSAO_TOTAL = A.VL_COMISSAO_TOTAL + " & dsConsulta.Tables(0).Rows(0).Item("VL_META").ToString.Replace(",", ".") & "
-    FROM TB_VENDEDOR_META_TEMP AS A
-    INNER JOIN TB_SERVICO AS B ON A.ID_SERVICO = B.ID_SERVICO 
-    WHERE A.ID_CABECALHO_COMISSAO_VENDEDOR = " & cabecalho & " AND A.ID_TIPO_ESTUFAGEM = " & linha.Item("ID_TIPO_ESTUFAGEM") & " AND B.ID_VIATRANSPORTE = " & linha.Item("ID_VIATRANSPORTE") & " AND A.ID_PARCEIRO_VENDEDOR = " & linha.Item("ID_PARCEIRO_VENDEDOR"))
-
-                        End If
-                    End If
-                End If
-            Next
-        End If
-    End Sub
-
     Sub CalcularMetas()
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -1731,35 +1599,22 @@ FROM FN_VENDEDOR('" & txtDtInicioRelComissaoVendas.Text & "','" & txtDtTerminoRe
     End Sub
 
     Private Sub btnRelGerarCompetenciaComissaoIndicacaoInterna_Click(sender As Object, e As EventArgs) Handles btnRelGerarCompetenciaComissaoIndicacaoInterna.Click
-        btnGerarComissao.Visible = False
-        divSuccess.Visible = False
-        divErro.Visible = False
-        divAtencaoGerarComissao.Visible = False
-        divSuccessGerarComissao.Visible = False
-        divErroGerarComissao.Visible = False
-        divInfoGerarComissao.Visible = False
+        divIndicacaoInternaSucesso.Visible = False
+        divIndicacaoInternaErro.Visible = False
 
         Dim Con As New Conexao_sql
         Con.Conectar()
 
-        If lblCompetenciaSobrepor.Text = "" Then
-            lblCompetenciaSobrepor.Text = 0
-        End If
-
-        If lblContasReceber.Text = "" Then
-            lblContasReceber.Text = 0
-        End If
-
         If txtDtInicioRelIndicacaoInterna.Text = "" Or txtDtTerminoRelIndicacaoInterna.Text = "" Then
-            lblErroGerarComissao.Text = "Preencha os campos obrigatórios."
-            divErroGerarComissao.Visible = True
+            lblIndicacaoInternaErro.Text = "Preencha os campos obrigatórios."
+            divIndicacaoInternaErro.Visible = True
 
 
         Else
             Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2029 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                lblErroGerarComissao.Text = "Usuário não tem permissão!"
-                divErroGerarComissao.Visible = True
+                lblIndicacaoInternaErro.Text = "Usuário não tem permissão!"
+                divIndicacaoInternaErro.Visible = True
             Else
 
 
@@ -1786,27 +1641,61 @@ WHERE ISNULL(B.ID_PARCEIRO_INDICACAO_INTERNA,0) <> 0 AND ISNULL(C.FL_INDICACAO_R
 
 
 
-                Con.ExecutarQuery("UPDATE TB_PARCEIRO SET FL_INDICACAO_REALIZADA = 1 WHERE ID_PARCEIRO IN ( SELECT ID_PARCEIRO_INDICACAO_INTERNA FROM TB_DETALHE_COMISSAO_INDICACAO_INTERNA) ")
+                Con.ExecutarQuery("UPDATE TB_PARCEIRO SET FL_INDICACAO_REALIZADA = 0 WHERE ID_PARCEIRO IN ( SELECT ID_PARCEIRO_INDICACAO_INTERNA FROM TB_DETALHE_COMISSAO_INDICACAO_INTERNA) ")
 
-                divErro.Visible = False
-                divSuccessGerarComissao.Visible = True
-                lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
+                divIndicacaoInternaSucesso.Visible = True
+                lblIndicacaoInternaSucesso.Text = "Comissão gerada com sucesso!"
+
+                dsRelIndicacaoInterna.SelectCommand = "SELECT * FROM [dbo].[View_Indicacao_Interna] WHERE DT_COMPETENCIA = '" & NOVA_COMPETECIA & "' ORDER BY NR_PROCESSO"
+                dgvRelIndicacaoInterna.DataBind()
 
             End If
 
         End If
 
-
-        btnGerarComissao.Visible = True
-        mpeRelComissaoVenda.Show()
+        mpeRelComissaoIndicacaoInterna.Show()
         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
     End Sub
 
     Private Sub btnRelGravarCCProcessoComissaoIndicacaoInterna_Click(sender As Object, e As EventArgs) Handles btnRelGravarCCProcessoComissaoIndicacaoInterna.Click
+        divIndicacaoInternaSucesso.Visible = False
+        divIndicacaoInternaErro.Visible = False
 
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        If txtDtInicioRelIndicacaoInterna.Text = "" Or txtDtTerminoRelIndicacaoInterna.Text = "" Then
+            lblIndicacaoInternaErro.Text = "Preencha os campos obrigatórios."
+            divIndicacaoInternaErro.Visible = True
+
+
+        Else
+            Dim COMPETECIA As String = txtDtInicioRelIndicacaoInterna.Text
+            COMPETECIA = COMPETECIA.Substring(3)
+
+            Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (CD_PR, DT_COMPETENCIA, DT_LANCAMENTO,DT_LIQUIDACAO ,DT_VENCIMENTO,ID_TIPO_LANCAMENTO_CAIXA  ,
+ID_USUARIO_LANCAMENTO ,ID_USUARIO_LIQUIDACAO,TP_EXPORTACAO,ID_CONTA_BANCARIA) VALUES('P','" & COMPETECIA & "',GETDATE(),GETDATE(),GETDATE(),7, " & Session("ID_USUARIO") & ", " & Session("ID_USUARIO") & ",'CINDINT',1)  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER")
+            Dim ID_CONTA_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
+
+            Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_PARCEIRO_EMPRESA,DS_HISTORICO_LANCAMENTO,ID_CONTA_PAGAR_RECEBER, VL_LANCAMENTO ,VL_LIQUIDO,ID_ITEM_DESPESA,VL_TAXA_CALCULADO,ID_MOEDA, ID_BL )
+               SELECT ID_PARCEIRO_INDICACAO_INTERNA,'COMISSÃO INDICADOR INTERNO - " & COMPETECIA & "'," & ID_CONTA_PAGAR_RECEBER & ",VL_COMISSAO_TOTAL, VL_COMISSAO_TOTAL, (SELECT ID_ITEM_VENDEDOR FROM TB_PARAMETROS)ID_ITEM_VENDEDOR,VL_COMISSAO_TOTAL,124,ID_BL  FROM [TB_DETALHE_COMISSAO_INDICACAO_INTERNA] WHERE ID_CABECALHO_COMISSAO_INDICACAO_INTERNA in (SELECT DISTINCT ID_CABECALHO_COMISSAO_INDICACAO_INTERNA FROM [dbo].[View_Indicacao_Interna] WHERE COMPETENCIA = '" & COMPETECIA & "')")
+
+
+            Con.ExecutarQuery("UPDATE [TB_CABECALHO_COMISSAO_INDICACAO_INTERNA] SET DT_EXPORTACAO =  GETDATE(), ID_USUARIO_EXPORTACAO = " & Session("ID_USUARIO") & " WHERE ID_CABECALHO_COMISSAO_INDICACAO_INTERNA IN (SELECT DISTINCT ID_CABECALHO_COMISSAO_INDICACAO_INTERNA FROM VIEW_INDICACAO_INTERNA WHERE COMPETENCIA = '" & COMPETECIA & "')")
+
+            divIndicacaoInternaSucesso.Visible = True
+            lblIndicacaoInternaSucesso.Text = "Comissão exportada para o CC com sucesso!"
+
+        End If
+        mpeRelComissaoIndicacaoInterna.Show()
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
     End Sub
 
     Private Sub btnFiltrarRelIndicacaoInterna_Click(sender As Object, e As EventArgs) Handles btnFiltrarRelIndicacaoInterna.Click
 
+    End Sub
+
+    Private Sub lkRelComissaoIndicacaoInterna_Click(sender As Object, e As EventArgs) Handles lkRelComissaoIndicacaoInterna.Click
+        mpeRelComissaoIndicacaoInterna.Show()
     End Sub
 End Class
