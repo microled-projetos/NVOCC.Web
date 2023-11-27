@@ -2150,9 +2150,17 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     Con.Fechar()
                     divSuccess_TaxaAereo2.Visible = True
 
+                    ddlDespesa_TaxaAereo.SelectedValue = 0
+                    ddlTipoPagamento_TaxaAereo.SelectedValue = 0
+                    ddlOrigemPagamento_TaxasAereo.SelectedValue = 0
+                    ddlBaseCalculo_TaxaAereo.SelectedValue = 0
+                    ddlEmpresa_TaxaAereo.SelectedValue = 0
+                    ddlMoedaCompra_TaxaAereo.SelectedValue = 0
+                    txtTaxaCompra_TaxaAereo.Text = ""
+                    txtMinimoCompra_TaxaAereo.Text = ""
+                    txtNomeEmpresa_TaxasAereo.Text = ""
+
                 End If
-
-
 
             Else
 
@@ -2214,6 +2222,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                             dgvTaxasAereo.DataBind()
                             GridTaxaAereo()
 
+
                         End If
                     End If
 
@@ -2227,9 +2236,8 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             txtMinimoCompra_TaxaAereo.Text = txtMinimoCompra_TaxaAereo.Text.Replace(".", ",")
         End If
 
-
-
         mpeTaxaAereo.Show()
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefaultAereo()", True)
 
     End Sub
 
@@ -2295,6 +2303,17 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                     Con.Fechar()
 
                     divSuccess_TaxasMaritimo2.Visible = True
+
+                    ddlDespesa_TaxasMaritimo.SelectedValue = 0
+                    ddlTipoPagamento_TaxasMaritimo.SelectedValue = 0
+                    ddlOrigemPagamento_TaxasMaritimo.SelectedValue = 0
+                    ddlBaseCalculo_TaxasMaritimo.SelectedValue = 0
+                    ddlEmpresa_TaxasMaritimo.SelectedValue = 0
+                    ddlMoedaCompra_TaxasMaritimo.SelectedValue = 0
+                    txtTaxaCompra_TaxasMaritimo.Text = ""
+                    txtMinimoCompra_TaxasMaritimo.Text = ""
+                    txtNomeEmpresa_TaxasMaritimo.Text = ""
+
                 End If
 
             Else
@@ -2374,7 +2393,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
         txtTaxaCompra_TaxasMaritimo.Text = txtTaxaCompra_TaxasMaritimo.Text.Replace(".", ",")
         txtMinimoCompra_TaxasMaritimo.Text = txtMinimoCompra_TaxasMaritimo.Text.Replace(".", ",")
         mpeTaxasMaritimo.Show()
-
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefaultMaritimo()", True)
     End Sub
 
     Private Sub btnSalvar_CNTRMaritimo_Click(sender As Object, e As EventArgs) Handles btnSalvar_CNTRMaritimo.Click
@@ -2478,7 +2497,6 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
         End If
         txtTara_CNTRMaritimo.Text = txtTara_CNTRMaritimo.Text.Replace(".", ",")
         mpeCNTRMaritimo.Show()
-
     End Sub
 
     Private Sub btnDesvincular_Click(sender As Object, e As EventArgs) Handles btnDesvincular.Click
