@@ -36,7 +36,7 @@
 
 
                                     <div class="alert alert-success" id="divmsg" runat="server" visible="false">
-                                        Registro cadastrado/atualizado com sucesso!
+                                        Ação realizada com sucesso!
                                     </div>
                                     <div class="alert alert-danger" id="diverro" runat="server" visible="false">
                                         <asp:Label ID="lblerro" runat="server" />
@@ -263,18 +263,18 @@
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
-                                                <%--    <asp:TemplateField HeaderText="">
+                                              <asp:TemplateField HeaderText="">
                                             <ItemTemplate>
-                                                <a href="CadastrarUsuario.aspx?id=<%# Eval("Id") %>" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>
-                                            </ItemTemplate>
+                                                    <asp:LinkButton runat="server" Text="Excluir" ID="ButtonExcluir" CommandName="Excluir" CommandArgument='<%# Eval("ID") %>' class="btn btn-danger btn-sm" OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"><i class="fa fa-trash" style="font-size: large"></i> </asp:LinkButton>
+                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                        </asp:TemplateField>--%>
+                                        </asp:TemplateField> 
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
                                     </ContentTemplate>
                                     <Triggers>
-                                        <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvUsuarios" />
+                                         <asp:PostBackTrigger  ControlID="dgvUsuarios" />
                                     </Triggers>
                                 </asp:UpdatePanel>
                             </div>
@@ -302,12 +302,8 @@
             </div>
         </div>
     </div>
-    <%--<asp:SqlDataSource ID="dsUsuario" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT USU.ID_USUARIO as Id, USU.LOGIN, USU.NOME, USU.EMAIL,USU.CPF, TIPO.NM_TIPO_USUARIO as TipoUsuarioDescricao,
-case when FL_Ativo = 1 then 'Sim' else 'Não' end as Ativo,FL_Ativo FROM [dbo].[TB_USUARIO] USU LEFT JOIN TB_TIPO_USUARIO TIPO ON TIPO.ID_TIPO_USUARIO = USU.ID_TIPO_USUARIO"
-        >
-</asp:SqlDataSource>--%>
-     <asp:SqlDataSource ID="dsEmpresa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+ 
+    <asp:SqlDataSource ID="dsEmpresa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO)
 union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
               <SelectParameters>
@@ -338,30 +334,4 @@ WHERE A.ID_USUARIO = @ID_USUARIO">
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
 
-    <script src="Content/js/jquery.dataTables.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-
-            $('#<%= dgvUsuarios.ClientID %>').DataTable({
-                "language": {
-                    "url": "Content/js/pt-br.json"
-                }
-            });
-        });
-
-        function divexpandcollapse(div1) {
-
-            var div = document.getElementById(div1);
-            var img = document.getElementById('imgdiv1');
-
-            if (div.style.display === "none") {
-                div.style.display = "inline";
-                img.src = "Content/imagens/minus.png";
-            } else {
-                div.style.display = "none";
-                img.src = "Content/imagens/plus.png";
-            }
-        }
-    </script>
 </asp:Content>
