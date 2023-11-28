@@ -281,25 +281,32 @@ ALTER ROLE [FCA_NVOCC_ROLE] ADD MEMBER [" & txtLogin.Text & "];
     End Sub
     Private Sub dgvUsuarios_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvUsuarios.RowCommand
         If e.CommandName = "Excluir" Then
-            Dim ID As String = e.CommandArgument
-
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT LOGIN FROM [dbo].[TB_USUARIO] WHERE ID_USUARIO = " & ID)
-            If ds.Tables(0).Rows.Count > 0 Then
-                If ds.Tables(0).Rows(0).Item("LOGIN") <> "" Then
-                    Dim Esquema As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString
-                    Esquema = Esquema.Substring(Esquema.IndexOf("Catalog="))
-                    Esquema = Esquema.Substring(0, Esquema.IndexOf(";User ID"))
-                    Esquema = Esquema.Replace("Catalog=", "")
-                    Con.CriaDeletaUsuario("USE [master] DROP LOGIN [" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "] USE " & Esquema & "; DROP USER [" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "]")
-                End If
-            End If
-            Con.ExecutarQuery("DELETE FROM [dbo].[TB_USUARIO] WHERE ID_USUARIO =" & ID)
-            Con.Fechar()
-            dgvUsuarios.DataBind()
-            divmsg.Visible = True
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                diverro.Visible = True
+                lblerro.Text = "Usuário não possui permissão para excluir"
+            Else
 
+                Dim ID As String = e.CommandArgument
+
+                ds = Con.ExecutarQuery("SELECT LOGIN FROM [dbo].[TB_USUARIO] WHERE ID_USUARIO = " & ID)
+                If ds.Tables(0).Rows.Count > 0 Then
+                    If ds.Tables(0).Rows(0).Item("LOGIN") <> "" Then
+                        Dim Esquema As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString
+                        Esquema = Esquema.Substring(Esquema.IndexOf("Catalog="))
+                        Esquema = Esquema.Substring(0, Esquema.IndexOf(";User ID"))
+                        Esquema = Esquema.Replace("Catalog=", "")
+                        Con.CriaDeletaUsuario("USE [master] DROP LOGIN [" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "] USE " & Esquema & "; DROP USER [" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "]")
+                    End If
+                End If
+                Con.ExecutarQuery("DELETE FROM [dbo].[TB_USUARIO] WHERE ID_USUARIO =" & ID)
+                Con.Fechar()
+                dgvUsuarios.DataBind()
+                divmsg.Visible = True
+
+            End If
         End If
     End Sub
 
@@ -312,6 +319,13 @@ ALTER ROLE [FCA_NVOCC_ROLE] ADD MEMBER [" & txtLogin.Text & "];
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
             dgvUsuarios.Columns(7).Visible = False
+
+        End If
+
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+
+            dgvUsuarios.Columns(8).Visible = False
 
         End If
 

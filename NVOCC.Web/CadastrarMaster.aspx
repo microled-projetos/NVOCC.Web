@@ -1128,7 +1128,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <asp:Button runat="server" Text="Salvar" ID="btnSalvar_TaxasMaritimo" CssClass="btn btn-success" />
+                                                                    <asp:Button runat="server" Text="Salvar" ID="btnSalvar_TaxasMaritimo" CssClass="btn btn-success" OnClientClick="MouseWaitMaritimo(); return true;" />
                                                                     <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar_TaxasMaritimo" Text="Close" />
                                                                 </div>
 
@@ -1992,7 +1992,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <asp:Button runat="server" Text="Salvar" ID="btnSalvar_TaxaAereo" CssClass="btn btn-success" />
+                                                                    <asp:Button runat="server" Text="Salvar" ID="btnSalvar_TaxaAereo" CssClass="btn btn-success" OnClientClick="MouseWaitAereo(); return true;" />
                                                                     <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar_TaxaAereo" Text="Close" />
                                                                 </div>
 
@@ -2724,6 +2724,28 @@ C.NM_MOTIVO_INATIVACAO + ': ' +A.DS_MOTIVO_INATIVACAO ELSE C.NM_MOTIVO_INATIVACA
         function InIEvent() {
             Cursor();
         }
+
+
+        function MouseWaitMaritimo() {
+            document.getElementById('<%= btnSalvar_TaxasMaritimo.ClientID %>').style.display = 'none';
+            console.log("wait");
+            document.body.style.cursor = "wait";
+        };
+        function MouseDefaultMaritimo() {
+            document.getElementById('<%= btnSalvar_TaxasMaritimo.ClientID %>').style.display = 'block';
+            console.log("default");
+            document.body.style.cursor = "default";
+        };
+        function MouseWaitAereo() {
+            document.getElementById('<%= btnSalvar_TaxaAereo.ClientID %>').style.display = 'none';
+            console.log("wait");
+            document.body.style.cursor = "wait";
+        };
+        function MouseDefaultAereo() {
+            document.getElementById('<%= btnSalvar_TaxaAereo.ClientID %>').style.display = 'block';
+            console.log("default");
+            document.body.style.cursor = "default";
+        };
 
     </script>
  

@@ -2134,7 +2134,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     Dim retorno As String
 
                     'REALIZA INSERT TAXA COMPRA
-                    Dim dstaxa As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA, FL_PREMIACAO,CD_PR,FL_DECLARADO, FL_DIVISAO_PROFIT,DT_CRIACAO,ID_USUARIO_CRIACAO) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxasAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaCompra_TaxaAereo.SelectedValue & "," & txtTaxaCompra_TaxaAereo.Text & "," & txtMinimoCompra_TaxaAereo.Text & "," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "','P', " & FL_DECLARADO & ",FL_DIVISAO_PROFIT = '" & ckbProfit_TaxasAereo.Checked & "',GETDATE()," & Session("ID_USUARIO") & ")) Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+                    Dim dstaxa As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA, FL_PREMIACAO,CD_PR,FL_DECLARADO, FL_DIVISAO_PROFIT,DT_CRIACAO,ID_USUARIO_CRIACAO) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxasAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaCompra_TaxaAereo.SelectedValue & "," & txtTaxaCompra_TaxaAereo.Text & "," & txtMinimoCompra_TaxaAereo.Text & "," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "','P', " & FL_DECLARADO & ", '" & ckbProfit_TaxasAereo.Checked & "',GETDATE()," & Session("ID_USUARIO") & ") Select SCOPE_IDENTITY() as ID_BL_TAXA ")
 
                     ID_BL_TAXA = dstaxa.Tables(0).Rows(0).Item("ID_BL_TAXA")
                     retorno = Calcula.Calcular(ID_BL_TAXA, "M")
@@ -2147,6 +2147,16 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
                     Con.Fechar()
                     divSuccess_TaxaAereo2.Visible = True
+
+                    ddlDespesa_TaxaAereo.SelectedValue = 0
+                    ddlTipoPagamento_TaxaAereo.SelectedValue = 0
+                    ddlOrigemPagamento_TaxasAereo.SelectedValue = 0
+                    ddlBaseCalculo_TaxaAereo.SelectedValue = 0
+                    ddlEmpresa_TaxaAereo.SelectedValue = 0
+                    ddlMoedaCompra_TaxaAereo.SelectedValue = 0
+                    txtTaxaCompra_TaxaAereo.Text = ""
+                    txtMinimoCompra_TaxaAereo.Text = ""
+                    txtNomeEmpresa_TaxasAereo.Text = ""
 
                 End If
 
@@ -2225,10 +2235,8 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             txtMinimoCompra_TaxaAereo.Text = txtMinimoCompra_TaxaAereo.Text.Replace(".", ",")
         End If
 
-
-
         mpeTaxaAereo.Show()
-
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefaultAereo()", True)
     End Sub
 
 
@@ -2293,6 +2301,17 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                     Con.Fechar()
 
                     divSuccess_TaxasMaritimo2.Visible = True
+
+                    ddlDespesa_TaxasMaritimo.SelectedValue = 0
+                    ddlTipoPagamento_TaxasMaritimo.SelectedValue = 0
+                    ddlOrigemPagamento_TaxasMaritimo.SelectedValue = 0
+                    ddlBaseCalculo_TaxasMaritimo.SelectedValue = 0
+                    ddlEmpresa_TaxasMaritimo.SelectedValue = 0
+                    ddlMoedaCompra_TaxasMaritimo.SelectedValue = 0
+                    txtTaxaCompra_TaxasMaritimo.Text = ""
+                    txtMinimoCompra_TaxasMaritimo.Text = ""
+                    txtNomeEmpresa_TaxasMaritimo.Text = ""
+
                 End If
 
             Else
@@ -2369,10 +2388,12 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
             divErro_TaxasMaritimo2.Visible = True
             lblErro_TaxasMaritimo2.Text = "É necessário informar um valor para que a taxa seja cadastrada/alterada."
         End If
+
         txtTaxaCompra_TaxasMaritimo.Text = txtTaxaCompra_TaxasMaritimo.Text.Replace(".", ",")
         txtMinimoCompra_TaxasMaritimo.Text = txtMinimoCompra_TaxasMaritimo.Text.Replace(".", ",")
-        mpeTaxasMaritimo.Show()
 
+        mpeTaxasMaritimo.Show()
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefaultMaritimo()", True)
     End Sub
 
     Private Sub btnSalvar_CNTRMaritimo_Click(sender As Object, e As EventArgs) Handles btnSalvar_CNTRMaritimo.Click
