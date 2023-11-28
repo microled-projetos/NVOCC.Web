@@ -280,6 +280,8 @@ ALTER ROLE [FCA_NVOCC_ROLE] ADD MEMBER [" & txtLogin.Text & "];
 
     End Sub
     Private Sub dgvUsuarios_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvUsuarios.RowCommand
+        divmsg.Visible = False
+        diverro.Visible = False
         If e.CommandName = "Excluir" Then
             Dim Con As New Conexao_sql
             Con.Conectar()
