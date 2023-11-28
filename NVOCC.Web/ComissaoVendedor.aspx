@@ -961,7 +961,7 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="mpeTabelas0" runat="server" PopupControlID="pnlRelComissaoProspecao" TargetControlID="lkRelComissaoProspecao" CancelControlID="btnFecharRelComissaoProspecao"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeRelComissaoProspecao" runat="server" PopupControlID="pnlRelComissaoProspecao" TargetControlID="lkRelComissaoProspecao" CancelControlID="btnFecharRelComissaoProspecao"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdateRelComissaoProspecao" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlRelComissaoProspecao" CssClass="modalPopUp" runat="server" Style="display: none;">
@@ -992,21 +992,21 @@
                                                                 </div>
 
                                                                 <div class="col-md-5">Ações<br />
-                                                                    <asp:Button ID="btnGerarCompetenciaComissaoProspecao" CssClass="btn btnn btn-default btn-sm" Text="Gerar a competência" runat="server" />
-                                                                    <asp:Button ID="btnGravarCCProcessoComissaoProspecao" CssClass="btn btnn btn-default btn-sm" Text="Gravar no CC do Processo" runat="server" />
+                                                                    <asp:Button ID="btnRelGerarCompetenciaComissaoProspecao" CssClass="btn btnn btn-default btn-sm" Text="Gerar a competência" runat="server" />
+                                                                    <asp:Button ID="btnRelGravarCCProcessoComissaoProspecao" CssClass="btn btnn btn-default btn-sm" Text="Gravar no CC do Processo" runat="server" />
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-sm-12" style="padding-bottom:20px;"></div>
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
-                                                                        <div id="Div13" runat="server" visible="false" class="alert alert-danger">
-                                                                            <asp:Label ID="Label45" Text="" runat="server" />
+                                                                        <div id="divComissaoProspeccaoErro" runat="server" visible="false" class="alert alert-danger">
+                                                                            <asp:Label ID="lblComissaoProspeccaoErro" Text="" runat="server" />
                                                                         </div>
-                                                                        <div id="div14" runat="server" visible="false" class="alert alert-success">
-                                                                            <asp:Label ID="Label46" Text="" runat="server" />
+                                                                        <div id="divComissaoProspeccaoSucesso" runat="server" visible="false" class="alert alert-success">
+                                                                            <asp:Label ID="lblComissaoProspeccaoSucesso" Text="" runat="server" />
                                                                         </div>
-                                                                        <asp:GridView ID="GridView7" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                        <asp:GridView ID="dgvRelProspeccao" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsRelProspeccao" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                             <Columns>
                                                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                                                     <ItemTemplate>
@@ -1044,8 +1044,8 @@
                                     </ContentTemplate>
                                     <Triggers>
                                         <%--<asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />--%>
-                                        <asp:AsyncPostBackTrigger ControlID="btnGerarCompetenciaComissaoProspecao" />
-                                        <asp:AsyncPostBackTrigger ControlID="btnGravarCCProcessoComissaoProspecao" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnRelGerarCompetenciaComissaoProspecao" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnRelGravarCCProcessoComissaoProspecao" />
 
                                     </Triggers>
                                 </asp:UpdatePanel>
@@ -1479,10 +1479,17 @@
         SelectCommand="SELECT ID_VENDEDOR_TAXA_COMISSAO, DT_VALIDADE_INICIAL DT_VALIDADE_INICIAL,VL_TAXA,VL_PROFIT_INICIO,VL_PROFIT_FIM,VL_COMISSAO ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 
 TB_VENDEDOR_TAXA_COMISSAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO ORDER BY ID_VENDEDOR_TAXA_COMISSAO"></asp:SqlDataSource>
 
+    <asp:SqlDataSource ID="dsRelProspeccao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_VENDEDOR_TAXA_COMISSAO, DT_VALIDADE_INICIAL DT_VALIDADE_INICIAL,VL_TAXA,VL_PROFIT_INICIO,VL_PROFIT_FIM,VL_COMISSAO ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 
+TB_VENDEDOR_TAXA_COMISSAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO ORDER BY ID_VENDEDOR_TAXA_COMISSAO"></asp:SqlDataSource>
+
+
      <asp:SqlDataSource ID="dsRelIndicacaoInterna" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT A.DT_COMPETENCIA, B.NR_PROCESSO, C.NM_RAZAO, B.VL_COMISSAO_TOTAL, B.DT_LIQUIDACAO, B.NR_NOTA_FISCAL FROM [DBO].[TB_CABECALHO_COMISSAO_INDICACAO_INTERNA] A
-INNER JOIN [DBO].[TB_DETALHE_COMISSAO_INDICACAO_INTERNA]  B ON A.ID_CABECALHO_COMISSAO_INDICACAO_INTERNA =B.ID_CABECALHO_COMISSAO_INDICACAO_INTERNA
-INNER  JOIN TB_PARCEIRO C ON C.ID_PARCEIRO=B.ID_PARCEIRO_INDICACAO_INTERNA"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Indicacao_Interna] WHERE DT_COMPETENCIA = '@COMPETENCIA' ORDER BY NR_PROCESSO ">
+         <SelectParameters>
+            <asp:ControlParameter Name="COMPETENCIA" Type="string" ControlID="txtCompetencia" />
+        </SelectParameters>
+     </asp:SqlDataSource>
     
     <asp:SqlDataSource ID="dsTabelaComissaoProspeccao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT  A.ID_VENDEDOR_PROSPECCAO,  A.DT_VALIDADE_INICIAL, A.VL_TAXA,E.NM_EQUIPE, A.FL_PAGAMENTO_RECORRENTE ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 

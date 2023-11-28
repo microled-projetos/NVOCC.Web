@@ -1247,13 +1247,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnFecharRelComissaoVendas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle mpeTabelas0.
+    '''Controle mpeRelComissaoProspecao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents mpeTabelas0 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents mpeRelComissaoProspecao As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
     '''Controle UpdateRelComissaoProspecao.
@@ -1328,67 +1328,67 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnLimparComissaoProspecao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnGerarCompetenciaComissaoProspecao.
+    '''Controle btnRelGerarCompetenciaComissaoProspecao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnGerarCompetenciaComissaoProspecao As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnRelGerarCompetenciaComissaoProspecao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnGravarCCProcessoComissaoProspecao.
+    '''Controle btnRelGravarCCProcessoComissaoProspecao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnGravarCCProcessoComissaoProspecao As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnRelGravarCCProcessoComissaoProspecao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Div13.
+    '''Controle divComissaoProspeccaoErro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Div13 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents divComissaoProspeccaoErro As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle Label45.
+    '''Controle lblComissaoProspeccaoErro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label45 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblComissaoProspeccaoErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle div14.
+    '''Controle divComissaoProspeccaoSucesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents div14 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents divComissaoProspeccaoSucesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle Label46.
+    '''Controle lblComissaoProspeccaoSucesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label46 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblComissaoProspeccaoSucesso As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle GridView7.
+    '''Controle dgvRelProspeccao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents GridView7 As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvRelProspeccao As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle btnFecharRelComissaoProspecao.
@@ -2289,6 +2289,15 @@ Partial Public Class ComissaoVendedor
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsTabelaComissaoVendedor As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsRelProspeccao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsRelProspeccao As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsRelIndicacaoInterna.

@@ -1693,9 +1693,74 @@ ID_USUARIO_LANCAMENTO ,ID_USUARIO_LIQUIDACAO,TP_EXPORTACAO,ID_CONTA_BANCARIA) VA
 
     Private Sub btnFiltrarRelIndicacaoInterna_Click(sender As Object, e As EventArgs) Handles btnFiltrarRelIndicacaoInterna.Click
 
+        Dim DT_COMPETENCIA As String = txtDtInicioRelIndicacaoInterna.Text
+        DT_COMPETENCIA = DT_COMPETENCIA.Substring(2)
+        DT_COMPETENCIA = DT_COMPETENCIA.Replace("/", "")
+        dsRelIndicacaoInterna.SelectCommand = "SELECT * FROM [dbo].[View_Indicacao_Interna] WHERE DT_COMPETENCIA = '" & DT_COMPETENCIA & "' ORDER BY NR_PROCESSO"
+        dgvRelIndicacaoInterna.DataBind()
+
     End Sub
 
     Private Sub lkRelComissaoIndicacaoInterna_Click(sender As Object, e As EventArgs) Handles lkRelComissaoIndicacaoInterna.Click
         mpeRelComissaoIndicacaoInterna.Show()
+    End Sub
+
+    Private Sub btnRelGerarCompetenciaComissaoProspecao_Click(sender As Object, e As EventArgs) Handles btnRelGerarCompetenciaComissaoProspecao.Click
+        divComissaoProspeccaoSucesso.Visible = False
+        divComissaoProspeccaoErro.Visible = False
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        If txtDtInicioComissaoProspecao.Text = "" Or txtDtTerminoComissaoProspecao.Text = "" Then
+            lblComissaoProspeccaoErro.Text = "Preencha os campos obrigatórios."
+            divComissaoProspeccaoErro.Visible = True
+
+
+        Else
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2029 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblComissaoProspeccaoErro.Text = "Usuário não tem permissão!"
+                divComissaoProspeccaoErro.Visible = True
+            Else
+
+
+                Dim NOVA_COMPETECIA As String = txtDtInicioComissaoProspecao.Text
+                NOVA_COMPETECIA = NOVA_COMPETECIA.Substring(2)
+                NOVA_COMPETECIA = NOVA_COMPETECIA.Replace("/", "")
+
+                Dim dsInsert As DataSet
+                Dim cabecalho As String
+
+                dsInsert = Con.ExecutarQuery("INSERT INTO TB_CABECALHO_COMISSAO_PROSPECCAO (DT_COMPETENCIA,ID_USUARIO_GERACAO,DT_GERACAO,DT_LIQUIDACAO_INICIAL ,DT_LIQUIDACAO_FINAL ) VALUES('" & NOVA_COMPETECIA & "'," & Session("ID_USUARIO") & ", getdate(),CONVERT(DATE,'" & txtDtInicioComissaoProspecao.Text & "',103),CONVERT(DATE,'" & txtDtTerminoComissaoProspecao.Text & "',103)) Select SCOPE_IDENTITY() as ID_CABECALHO_COMISSAO_PROSPECCAO   ")
+                cabecalho = dsInsert.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_PROSPECCAO")
+
+                Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_PROSPECCAO (ID_CABECALHO_COMISSAO_INDICACAO_INTERNA,NR_PROCESSO,ID_BL,NR_NOTA_FISCAL,ID_PARCEIRO_INDICACAO_INTERNA,VL_COMISSAO_TOTAL,DT_LIQUIDACAO)
+SELECT DISTINCT " & cabecalho & ",  MIN(A.NR_PROCESSO)NR_PROCESSO,MIN(A.ID_BL)ID_BL,MIN(A.NR_NOTA_FISCAL)NR_NOTA_FISCAL,C.ID_EQUIPE,   (SELECT VL_TAXA FROM TB_VENDEDOR_INDICADOR_INTERNO
+WHERE DT_VALIDADE_INICIAL <= GETDATE()
+)VL_TAXA,MIN(A.DT_LIQUIDACAO)DT_LIQUIDACAO 
+FROM FN_VENDEDOR('" & txtDtInicioComissaoProspecao.Text & "','" & txtDtTerminoComissaoProspecao.Text & "') A
+ INNER JOIN TB_DETALHE_COMISSAO_VENDEDOR E ON  E.ID_BL =A.ID_BL
+ INNER JOIN TB_CABECALHO_COMISSAO_VENDEDOR D ON D.ID_CABECALHO_COMISSAO_VENDEDOR = E.ID_CABECALHO_COMISSAO_VENDEDOR
+LEFT  JOIN TB_PARCEIRO B ON B.ID_PARCEIRO=A.ID_PARCEIRO_CLIENTE
+LEFT  JOIN TB_VENDEDOR_EQUIPE C  ON B.ID_VENDEDOR_PROSPECCAO=C.ID_EQUIPE
+WHERE ISNULL(B.ID_VENDEDOR_PROSPECCAO,0) <> 0 AND ISNULL(B.FL_PROSPECCAO_REALIZADA,0) = 0 GROUP BY  C.ID_EQUIPE, C.NM_EQUIPE ,B.ID_PARCEIRO ")
+
+
+
+                Con.ExecutarQuery("UPDATE TB_PARCEIRO SET FL_PROSPECCAO_REALIZADA = 0 WHERE ID_PARCEIRO IN ( SELECT ID_PARCEIRO_PROSPECCAO FROM TB_DETALHE_COMISSAO_PROSPECCAO) ")
+
+                divComissaoProspeccaoSucesso.Visible = True
+                lblComissaoProspeccaoSucesso.Text = "Comissão gerada com sucesso!"
+
+                dsRelProspeccao.SelectCommand = "SELECT * FROM [dbo].[View_Indicacao_Prospeccao] WHERE DT_COMPETENCIA = '" & NOVA_COMPETECIA & "' ORDER BY NR_PROCESSO"
+                dgvRelProspeccao.DataBind()
+
+            End If
+
+        End If
+
+        mpeRelComissaoProspecao.Show()
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
     End Sub
 End Class
