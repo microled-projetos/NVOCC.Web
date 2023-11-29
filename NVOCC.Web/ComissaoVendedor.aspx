@@ -961,7 +961,7 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="mpeRelComissaoProspecao" runat="server" PopupControlID="pnlRelComissaoProspecao" TargetControlID="lkRelComissaoProspecao" CancelControlID="btnFecharRelComissaoProspecao"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeRelComissaoProspecao" runat="server" PopupControlID="pnlRelComissaoProspecao" TargetControlID="TextBox9" CancelControlID="btnFecharRelComissaoProspecao"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdateRelComissaoProspecao" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlRelComissaoProspecao" CssClass="modalPopUp" runat="server" Style="display: none;">
@@ -1008,24 +1008,19 @@
                                                                         </div>
                                                                         <asp:GridView ID="dgvRelProspeccao" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsRelProspeccao" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                             <Columns>
-                                                                                <asp:TemplateField HeaderText="ID" Visible="False">
-                                                                                    <ItemTemplate>
-                                                                                        <asp:Label ID="lblID" runat="server" />
-                                                                                    </ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:BoundField HeaderText="COMP." SortExpression="COMP" HeaderStyle-CssClass="header-blue" HeaderStyle-Height="40"  />
-                                                                                <asp:BoundField HeaderText="PROCESSO" SortExpression="PROCESSO" HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="NF" SortExpression="NF" HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="PROSPECÇÃO" SortExpression="PROSPECCAO" HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="CLIENTE" SortExpression="CLIENTE" HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="SERVIÇO" SortExpression="SERVICO" HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="VIA" SortExpression="VIA" HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="ESTUFAGEM" SortExpression="ESTUFAGEM" HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="BL" SortExpression="BL" HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="CNTR" SortExpression="CNTR" HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="VL.COMISSÃO" SortExpression="VL_COMISSAO" HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="VL.COMISSÃO TOTAL" SortExpression="VL_COMISSAO_TOTAL" HeaderStyle-CssClass="header-blue" />                                                                                                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="LIQUIDAÇÃO" SortExpression="LIQUIDACAO" HeaderStyle-CssClass="header-blue" />                                                                                                                                                                                                                                                        
+                                                                                <asp:BoundField DataField="COMPETENCIA" HeaderText="COMP." SortExpression="COMP" HeaderStyle-CssClass="header-blue" HeaderStyle-Height="40"  />
+                                                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="PROCESSO" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="NR_NOTA_FISCAL" HeaderText="NF" SortExpression="NF" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="NM_RAZAO" HeaderText="PROSPECÇÃO" SortExpression="PROSPECCAO" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="CLIENTE" HeaderText="CLIENTE" SortExpression="CLIENTE" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="TP_SERVICO" HeaderText="SERVIÇO" SortExpression="SERVICO" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="TP_VIA" HeaderText="VIA" SortExpression="VIA" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="NM_TIPO_ESTUFAGEM" HeaderText="ESTUFAGEM" SortExpression="ESTUFAGEM" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="QT_BL" HeaderText="BL" SortExpression="BL" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="QT_CNTR" HeaderText="CNTR" SortExpression="CNTR" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="VL_COMISSAO" HeaderText="VL.COMISSÃO" SortExpression="VL_COMISSAO" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField DataField="VL_COMISSAO_TOTAL" HeaderText="VL.COMISSÃO TOTAL" SortExpression="VL_COMISSAO_TOTAL" HeaderStyle-CssClass="header-blue" />
+                                                                                <asp:BoundField HeaderText="DT_LIQUIDACAO" SortExpression="LIQUIDACAO" HeaderStyle-CssClass="header-blue" />
                                                                             </Columns>
                                                                             <HeaderStyle CssClass="headerStyle" />
                                                                         </asp:GridView>
@@ -1044,9 +1039,9 @@
                                     </ContentTemplate>
                                     <Triggers>
                                         <%--<asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />--%>
-                                        <asp:AsyncPostBackTrigger ControlID="btnRelGerarCompetenciaComissaoProspecao" />
-                                        <asp:AsyncPostBackTrigger ControlID="btnRelGravarCCProcessoComissaoProspecao" />
-
+                                        <asp:PostBackTrigger ControlID="btnRelGerarCompetenciaComissaoProspecao" />
+                                        <asp:PostBackTrigger ControlID="btnRelGravarCCProcessoComissaoProspecao" />
+                                        <asp:PostBackTrigger ControlID="btnFiltrarComissaoProspecao" />
                                     </Triggers>
                                 </asp:UpdatePanel>
 
@@ -1474,14 +1469,18 @@
     <asp:TextBox ID="TextBox6" Style="display: none" runat="server"></asp:TextBox>
     <asp:TextBox ID="TextBox7" Style="display: none" runat="server"></asp:TextBox>
     <asp:TextBox ID="TextBox8" Style="display: none" runat="server"></asp:TextBox>
+    <asp:TextBox ID="TextBox9" Style="display: none" runat="server"></asp:TextBox>
 
     <asp:SqlDataSource ID="dsTabelaComissaoVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_VENDEDOR_TAXA_COMISSAO, DT_VALIDADE_INICIAL DT_VALIDADE_INICIAL,VL_TAXA,VL_PROFIT_INICIO,VL_PROFIT_FIM,VL_COMISSAO ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 
 TB_VENDEDOR_TAXA_COMISSAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO ORDER BY ID_VENDEDOR_TAXA_COMISSAO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsRelProspeccao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_VENDEDOR_TAXA_COMISSAO, DT_VALIDADE_INICIAL DT_VALIDADE_INICIAL,VL_TAXA,VL_PROFIT_INICIO,VL_PROFIT_FIM,VL_COMISSAO ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 
-TB_VENDEDOR_TAXA_COMISSAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO ORDER BY ID_VENDEDOR_TAXA_COMISSAO"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Prospeccao] WHERE DT_COMPETENCIA = '@COMPETENCIA' ORDER BY NR_PROCESSO">
+        <SelectParameters>
+            <asp:ControlParameter Name="COMPETENCIA" Type="string" ControlID="txtCompetencia" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 
 
      <asp:SqlDataSource ID="dsRelIndicacaoInterna" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
