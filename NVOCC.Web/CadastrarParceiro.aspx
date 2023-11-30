@@ -346,7 +346,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="linha-colorida">SPREAD MARITIMO IMPORTAÇÃO</div>
+                                        <div class="linha-colorida">SPREAD IMPORTAÇÃO</div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">FCL:</label>
@@ -362,6 +362,21 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
+                                                <label class="control-label">Qtd. Dias de Faturamento:</label>
+                                                <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control inteiro" MaxLength="50"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Tipo de Faturamento:</label>
+                                                <asp:DropDownList ID="DropDownList1" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
                                                 <label class="control-label">LCL:</label>
                                                 <asp:TextBox ID="txtMaritimoImpoLCL" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
@@ -373,9 +388,78 @@
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Qtd. Dias de Faturamento:</label>
+                                                <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control inteiro" MaxLength="50"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Tipo de Faturamento:</label>
+                                                <asp:DropDownList ID="DropDownList2" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
-                                        <div class="linha-colorida">SPREAD MARITIMO EXPORTAÇÃO</div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Aéreo:</label>
+                                                <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Acordo Câmbio:</label>
+                                                <asp:DropDownList ID="DropDownList3" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Qtd. Dias de Faturamento:</label>
+                                                <asp:TextBox ID="TextBox4" runat="server" CssClass="form-control inteiro" MaxLength="50"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Tipo de Faturamento:</label>
+                                                <asp:DropDownList ID="DropDownList4" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Free Hand:</label>
+                                                <asp:TextBox ID="TextBox5" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Acordo Câmbio:</label>
+                                                <asp:DropDownList ID="DropDownList5" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Qtd. Dias de Faturamento:</label>
+                                                <asp:TextBox ID="TextBox6" runat="server" CssClass="form-control inteiro" MaxLength="50"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Tipo de Faturamento:</label>
+                                                <asp:DropDownList ID="DropDownList6" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="linha-colorida">SPREAD EXPORTAÇÃO</div>
 
                                         <div class="col-sm-3">
                                             <div class="form-group">
@@ -392,6 +476,21 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
+                                                <label class="control-label">Qtd. Dias de Faturamento:</label>
+                                                <asp:TextBox ID="TextBox12" runat="server" CssClass="form-control inteiro" MaxLength="50"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Tipo de Faturamento:</label>
+                                                <asp:DropDownList ID="DropDownList12" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
                                                 <label class="control-label">LCL:</label>
                                                 <asp:TextBox ID="txtMaritimoExpoLCL" runat="server" CssClass="form-control" onkeypress="return nomeFuncao( this , event ) ;" MaxLength="6"></asp:TextBox>
                                             </div>
@@ -400,6 +499,75 @@
                                             <div class="form-group">
                                                 <label class="control-label">Acordo Câmbio:</label>
                                                 <asp:DropDownList ID="ddlAcordoCambioMaritimoExpoLCL" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Qtd. Dias de Faturamento:</label>
+                                                <asp:TextBox ID="TextBox11" runat="server" CssClass="form-control inteiro" MaxLength="50"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Tipo de Faturamento:</label>
+                                                <asp:DropDownList ID="DropDownList11" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Aéreo:</label>
+                                                <asp:TextBox ID="TextBox7" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Acordo Câmbio:</label>
+                                                <asp:DropDownList ID="DropDownList7" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Qtd. Dias de Faturamento:</label>
+                                                <asp:TextBox ID="TextBox8" runat="server" CssClass="form-control inteiro" MaxLength="50"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Tipo de Faturamento:</label>
+                                                <asp:DropDownList ID="DropDownList8" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Free Hand:</label>
+                                                <asp:TextBox ID="TextBox9" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Acordo Câmbio:</label>
+                                                <asp:DropDownList ID="DropDownList9" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Qtd. Dias de Faturamento:</label>
+                                                <asp:TextBox ID="txtQtdFaturamento" runat="server" CssClass="form-control inteiro" MaxLength="50"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Tipo de Faturamento:</label>
+                                                <asp:DropDownList ID="ddlTipoFaturamento" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -435,27 +603,12 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">E-mail NF Eletrônica:</label><label id="lblRed" runat="server" visible="false" style="color: red">*</label>
                                                 <asp:TextBox ID="txtEmailNF" runat="server" CssClass="form-control" MaxLength="200"></asp:TextBox>
                                             </div>
-                                        </div>
-
-
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label class="control-label">Qtd. Dias de Faturamento:</label>
-                                                <asp:TextBox ID="txtQtdFaturamento" runat="server" CssClass="form-control inteiro" MaxLength="50"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label class="control-label">Tipo de Faturamento:</label>
-                                                <asp:DropDownList ID="ddlTipoFaturamento" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
-                                                </asp:DropDownList>
-                                            </div>
-                                        </div>
+                                        </div>                                       
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Regra de atualização:</label>
@@ -476,20 +629,19 @@
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
+                                 
+                                        <div class="col-sm-1">
+                                            <div class="form-group"><br />
                                                 <asp:CheckBox ID="ckbAtivo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
+                                        <div class="col-sm-2">
+                                            <div class="form-group"><br />
                                                 <asp:CheckBox ID="ckbSimplesNacional" runat="server" CssClass="form-control" Text="&nbsp;Simples Nacional"></asp:CheckBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
+                                        <div class="col-sm-2">
+                                            <div class="form-group"><br />
                                                 <asp:CheckBox ID="ckbRFB" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Ativo RFB"></asp:CheckBox>
                                             </div>
                                         </div>
