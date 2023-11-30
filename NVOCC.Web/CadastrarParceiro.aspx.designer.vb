@@ -545,22 +545,22 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlAcordoCambioMaritimoImpoFCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle TextBox1.
+    '''Controle ddlTipoFaturamentoImpoFCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents ddlTipoFaturamentoImpoFCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle DropDownList1.
+    '''Controle txtQtdFaturamentoImpoFCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList1 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents txtQtdFaturamentoImpoFCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtMaritimoImpoLCL.
@@ -581,94 +581,94 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlAcordoCambioMaritimoImpoLCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle TextBox2.
+    '''Controle txtQtdFaturamentoImpoLCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtQtdFaturamentoImpoLCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle DropDownList2.
+    '''Controle ddlTipoFaturamentoImpoLCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList2 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoFaturamentoImpoLCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle TextBox3.
+    '''Controle txtMaritimoImpoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox3 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtMaritimoImpoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle DropDownList3.
+    '''Controle ddlAcordoCambioMaritimoImpoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList3 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlAcordoCambioMaritimoImpoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle TextBox4.
+    '''Controle txtQtdFaturamentoImpoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox4 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtQtdFaturamentoImpoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle DropDownList4.
+    '''Controle ddlTipoFaturamentoImpoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList4 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoFaturamentoImpoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle TextBox5.
+    '''Controle txtMaritimoImpoFree.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox5 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtMaritimoImpoFree As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle DropDownList5.
+    '''Controle ddlAcordoCambioMaritimoImpoFree.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList5 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlAcordoCambioMaritimoImpoFree As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle TextBox6.
+    '''Controle txtQtdFaturamentoImpoFree.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox6 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtQtdFaturamentoImpoFree As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle DropDownList6.
+    '''Controle ddlTipoFaturamentoImpoFree.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList6 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoFaturamentoImpoFree As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtMaritimoExpoFCL.
@@ -689,22 +689,22 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlAcordoCambioMaritimoExpoFCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle TextBox12.
+    '''Controle txtQtdFaturamentoExpoFCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox12 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtQtdFaturamentoExpoFCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle DropDownList12.
+    '''Controle ddlTipoFaturamentoExpoFCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList12 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoFaturamentoExpoFCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtMaritimoExpoLCL.
@@ -725,94 +725,94 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlAcordoCambioMaritimoExpoLCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle TextBox11.
+    '''Controle txtQtdFaturamentoExpoLCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox11 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtQtdFaturamentoExpoLCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle DropDownList11.
+    '''Controle ddlTipoFaturamentoExpoLCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList11 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoFaturamentoExpoLCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle TextBox7.
+    '''Controle txtMaritimoExpoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox7 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtMaritimoExpoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle DropDownList7.
+    '''Controle ddlAcordoCambioMaritimoExpoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList7 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlAcordoCambioMaritimoExpoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle TextBox8.
+    '''Controle txtQtdFaturamentoExpoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox8 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtQtdFaturamentoExpoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle DropDownList8.
+    '''Controle ddlTipoFaturamentoExpoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList8 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoFaturamentoExpoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle TextBox9.
+    '''Controle txtMaritimoExpoFree.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox9 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtMaritimoExpoFree As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle DropDownList9.
+    '''Controle ddlAcordoCambioMaritimoExpoFree.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList9 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlAcordoCambioMaritimoExpoFree As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtQtdFaturamento.
+    '''Controle txtQtdFaturamentoExpoFree.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtQtdFaturamento As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtQtdFaturamentoExpoFree As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlTipoFaturamento.
+    '''Controle ddlTipoFaturamentoExpoFree.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlTipoFaturamento As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoFaturamentoExpoFree As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtAereoImpo.

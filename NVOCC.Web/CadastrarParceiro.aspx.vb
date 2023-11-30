@@ -11,7 +11,7 @@ Public Class CadastrarParceiro
         divmsg.Visible = False
 
         If Not Page.IsPostBack Then
-            ddlTipoFaturamento.SelectedValue = 1
+            ddlTipoFaturamentoImpoLCL.SelectedValue = 1
             CarregaCampos()
         End If
 
@@ -215,8 +215,8 @@ WHERE ID_PARCEIRO =" & ID)
                 ddlAcordoCambioMaritimoExpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL")
                 ddlAcordoCambioMaritimoExpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL")
                 ddlRegraAtualizacao.SelectedValue = ds.Tables(0).Rows(0).Item("REGRA_ATUALIZACAO")
-                txtQtdFaturamento.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO")
-                ddlTipoFaturamento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")
+                txtQtdFaturamentoImpoFCL.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO")
+                ddlTipoFaturamentoImpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")
 
                 ckbVendedorDireto.Checked = ds.Tables(0).Rows(0).Item("FL_VENDEDOR_DIRETO")
                 ckbEquipeInsideSales.Checked = ds.Tables(0).Rows(0).Item("FL_EQUIPE_INSIDE_SALES")
@@ -286,8 +286,8 @@ WHERE ID_PARCEIRO =" & ID)
             UF = dsUf.Tables(0).Rows(0).Item("UF")
         End If
 
-        If txtQtdFaturamento.Text = "" Then
-            txtQtdFaturamento.Text = 0
+        If txtQtdFaturamentoImpoFCL.Text = "" Then
+            txtQtdFaturamentoImpoFCL.Text = 0
         End If
 
         If txtRazaoSocial.Text = "" Then
@@ -373,12 +373,12 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf (ckbImportador.Checked = True Or ckbExportador.Checked = True Or ckbAgente.Checked = True Or ckbComissaria.Checked = True Or ckbAgenteInternacional.Checked = True Or ckbIndicador.Checked = True Or ckbShipper.Checked = True Or ckbCNEE.Checked = True Or ckbTranspRodoviario.Checked = True) And ddlTipoFaturamento.SelectedValue = 0 Then
+        ElseIf (ckbImportador.Checked = True Or ckbExportador.Checked = True Or ckbAgente.Checked = True Or ckbComissaria.Checked = True Or ckbAgenteInternacional.Checked = True Or ckbIndicador.Checked = True Or ckbShipper.Checked = True Or ckbCNEE.Checked = True Or ckbTranspRodoviario.Checked = True) And ddlTipoFaturamentoImpoLCL.SelectedValue = 0 Then
             msgErro.Text = "Informe o tipo de faturamento na aba de Inf. Adicionais!"
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf ddlTipoFaturamento.SelectedValue = 2 And txtQtdFaturamento.Text = 0 Then
+        ElseIf ddlTipoFaturamentoImpoLCL.SelectedValue = 2 And txtQtdFaturamentoImpoFCL.Text = 0 Then
             msgErro.Text = "Informe a quantidade de dias de faturamento na aba de Inf. Adicionais!"
             divmsg1.Visible = True
             msgErro.Visible = True
@@ -483,8 +483,8 @@ WHERE ID_PARCEIRO =" & ID)
                 AereoExpo = AereoExpo.Replace(".", String.Empty).Replace(",", ".")
             End If
 
-            If txtQtdFaturamento.Text = "" Then
-                txtQtdFaturamento.Text = 0
+            If txtQtdFaturamentoImpoFCL.Text = "" Then
+                txtQtdFaturamentoImpoFCL.Text = 0
             End If
 
             Dim Razao = txtRazaoSocial.Text
@@ -736,8 +736,8 @@ WHERE ID_PARCEIRO =" & ID)
             " & ddlAcordoCambioMaritimoExpoLCL.SelectedValue & ",
             " & ddlAcordoCambioAereoIMPO.SelectedValue & ",
             " & ddlAcordoCambioAereoEXPO.SelectedValue & ",
-            " & txtQtdFaturamento.Text & ",
-            " & ddlTipoFaturamento.SelectedValue & ",
+            " & txtQtdFaturamentoImpoFCL.Text & ",
+            " & ddlTipoFaturamentoImpoLCL.SelectedValue & ",
             " & EmailParceiro & ",
             '" & ckbVendedorDireto.Checked & "',
             '" & ckbEquipeInsideSales.Checked & "',
@@ -858,8 +858,8 @@ WHERE ID_PARCEIRO =" & ID)
             ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL = " & ddlAcordoCambioMaritimoExpoLCL.SelectedValue & ",
             ID_ACORDO_CAMBIO_AEREO_IMPO = " & ddlAcordoCambioAereoIMPO.SelectedValue & ",
             ID_ACORDO_CAMBIO_AEREO_EXPO = " & ddlAcordoCambioAereoEXPO.SelectedValue & ",
-            QT_DIAS_FATURAMENTO =  " & txtQtdFaturamento.Text & ",
-            ID_TIPO_FATURAMENTO = " & ddlTipoFaturamento.SelectedValue & ",
+            QT_DIAS_FATURAMENTO =  " & txtQtdFaturamentoImpoFCL.Text & ",
+            ID_TIPO_FATURAMENTO = " & ddlTipoFaturamentoImpoLCL.SelectedValue & ",
             EMAIL =  " & EmailParceiro & ",
             FL_EQUIPE_INSIDE_SALES ='" & ckbEquipeInsideSales.Checked & "',
             FL_VENDEDOR_DIRETO ='" & ckbVendedorDireto.Checked & "',
