@@ -346,26 +346,26 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">FCL:</label>
-                                                <asp:TextBox ID="txtMaritimoImpoFCL" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadImpoFCL" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Acordo Câmbio:</label>
-                                                <asp:DropDownList ID="ddlAcordoCambioMaritimoImpoFCL" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                                <asp:DropDownList ID="ddlAcordoCambioImpoFCL" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Qtd. Dias de Faturamento:</label>
-                                                <asp:TextBox ID="ddlTipoFaturamentoImpoFCL" runat="server" CssClass="form-control inteiro" MaxLength="50"></asp:TextBox>
+                                                <asp:TextBox ID="txtQtdFaturamentoImpoFCL" runat="server" CssClass="form-control inteiro" MaxLength="50"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Tipo de Faturamento:</label>
-                                                <asp:DropDownList ID="txtQtdFaturamentoImpoFCL" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
+                                                <asp:DropDownList ID="ddlTipoFaturamentoImpoFCL" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -374,13 +374,13 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">LCL:</label>
-                                                <asp:TextBox ID="txtMaritimoImpoLCL" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadImpoLCL" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Acordo Câmbio:</label>
-                                                <asp:DropDownList ID="ddlAcordoCambioMaritimoImpoLCL" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                                <asp:DropDownList ID="ddlAcordoCambioImpoLCL" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -402,13 +402,13 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Aéreo:</label>
-                                                <asp:TextBox ID="txtMaritimoImpoAereo" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadImpoAereo" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Acordo Câmbio:</label>
-                                                <asp:DropDownList ID="ddlAcordoCambioMaritimoImpoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                                <asp:DropDownList ID="ddlAcordoCambioImpoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -430,13 +430,13 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Free Hand:</label>
-                                                <asp:TextBox ID="txtMaritimoImpoFree" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadImpoFree" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Acordo Câmbio:</label>
-                                                <asp:DropDownList ID="ddlAcordoCambioMaritimoImpoFree" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                                <asp:DropDownList ID="ddlAcordoCambioImpoFree" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -460,13 +460,13 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">FCL:</label>
-                                                <asp:TextBox ID="txtMaritimoExpoFCL" runat="server" CssClass="form-control" MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadExpoFCL" runat="server" CssClass="form-control" MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Acordo Câmbio:</label>
-                                                <asp:DropDownList ID="ddlAcordoCambioMaritimoExpoFCL" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                                <asp:DropDownList ID="ddlAcordoCambioExpoFCL" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -488,13 +488,13 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">LCL:</label>
-                                                <asp:TextBox ID="txtMaritimoExpoLCL" runat="server" CssClass="form-control" onkeypress="return nomeFuncao( this , event ) ;" MaxLength="6"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadExpoLCL" runat="server" CssClass="form-control" onkeypress="return nomeFuncao( this , event ) ;" MaxLength="6"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Acordo Câmbio:</label>
-                                                <asp:DropDownList ID="ddlAcordoCambioMaritimoExpoLCL" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                                <asp:DropDownList ID="ddlAcordoCambioExpoLCL" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -516,13 +516,13 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Aéreo:</label>
-                                                <asp:TextBox ID="txtMaritimoExpoAereo" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadExpoAereo" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Acordo Câmbio:</label>
-                                                <asp:DropDownList ID="ddlAcordoCambioMaritimoExpoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                                <asp:DropDownList ID="ddlAcordoCambioExpoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -544,13 +544,13 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Free Hand:</label>
-                                                <asp:TextBox ID="txtMaritimoExpoFree" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadExpoFree" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Acordo Câmbio:</label>
-                                                <asp:DropDownList ID="ddlAcordoCambioMaritimoExpoFree" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                                <asp:DropDownList ID="ddlAcordoCambioExpoFree" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -568,7 +568,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                   <%-- <div class="row">
                                         <div class="linha-colorida">SPREAD AEREO</div>
 
                                         <div class="col-sm-3">
@@ -597,7 +597,7 @@
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--%>
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <div class="form-group">
