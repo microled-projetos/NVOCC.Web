@@ -432,7 +432,12 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf ddlTipoFaturamentoImpoLCL.SelectedValue = 2 And txtQtdFaturamentoImpoFCL.Text = 0 Then
+        ElseIf (ddlTipoFaturamentoImpoFCL.SelectedValue = 2 And txtQtdFaturamentoImpoFCL.Text = 0) Or (ddlTipoFaturamentoImpoLCL.SelectedValue = 2 And txtQtdFaturamentoImpoLCL.Text = 0) Or (ddlTipoFaturamentoImpoAereo.SelectedValue = 2 And txtQtdFaturamentoImpoAereo.Text = 0) Or (ddlTipoFaturamentoImpoFree.SelectedValue = 2 And txtQtdFaturamentoImpoFree.Text = 0) Then
+            msgErro.Text = "Informe a quantidade de dias de faturamento na aba de Inf. Adicionais!"
+            divmsg1.Visible = True
+            msgErro.Visible = True
+
+        ElseIf (ddlTipoFaturamentoExpoFCL.SelectedValue = 2 And txtQtdFaturamentoExpoFCL.Text = 0) Or (ddlTipoFaturamentoExpoLCL.SelectedValue = 2 And txtQtdFaturamentoExpoLCL.Text = 0) Or (ddlTipoFaturamentoExpoAereo.SelectedValue = 2 And txtQtdFaturamentoExpoAereo.Text = 0) Or (ddlTipoFaturamentoExpoFree.SelectedValue = 2 And txtQtdFaturamentoExpoFree.Text = 0) Then
             msgErro.Text = "Informe a quantidade de dias de faturamento na aba de Inf. Adicionais!"
             divmsg1.Visible = True
             msgErro.Visible = True

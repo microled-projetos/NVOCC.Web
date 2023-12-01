@@ -53,21 +53,66 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
         Else
 
             If ddlFornecedor.SelectedValue <> 0 Then
+                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_BL_MASTER,GRAU,ISNULL(FL_FREE_HAND,0)FL_FREE_HAND,ISNULL(ID_SERVICO,0)ID_SERVICO,(SELECT TP_SERVICO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)TP_SERVICO, CASE WHEN GRAU = 'C' THEN (SELECT CASE WHEN DT_CHEGADA < GETDATE() THEN GETDATE() ELSE DT_CHEGADA END FROM TB_BL B WHERE B.ID_BL = A.ID_BL_MASTER) WHEN GRAU = 'M' AND DT_CHEGADA < GETDATE() THEN GETDATE() WHEN GRAU = 'M' THEN DT_CHEGADA END DT_CHEGADA,ISNULL(ID_TIPO_ESTUFAGEM,0) ID_TIPO_ESTUFAGEM
+FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
+                Dim DATA As Date
+                If IsDBNull(ds1.Tables(0).Rows(0).Item("DT_CHEGADA")) And ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
+                    lblErro.Text = "PROCESSO SEM DATA DE CHEGADA CADASTRADA"
+                    divErro.Visible = True
+                    Exit Sub
+                End If
 
-                Dim ds As DataSet = Con.ExecutarQuery("SELECT (SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE)NM_CIDADE,(SELECT NM_TIPO_FATURAMENTO FROM TB_TIPO_FATURAMENTO WHERE ID_TIPO_FATURAMENTO = A.ID_TIPO_FATURAMENTO)NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD_AEREO_EXPO,SPREAD_AEREO_IMPO,SPREAD_MARITIMO_EXPO_FCL,SPREAD_MARITIMO_EXPO_LCL,SPREAD_MARITIMO_IMPO_FCL,SPREAD_MARITIMO_IMPO_LCL,
-(SELECT NM_ACORDO_CAMBIO FROM TB_ACORDO_CAMBIO WHERE ID_ACORDO_CAMBIO =  ID_ACORDO_CAMBIO_AEREO_EXPO)ACORDO_CAMBIO_AEREO,
-(SELECT NM_ACORDO_CAMBIO FROM TB_ACORDO_CAMBIO WHERE ID_ACORDO_CAMBIO =  ID_ACORDO_CAMBIO_AEREO_IMPO)ACORDO_CAMBIO_AEREO_IMPO,
-(SELECT NM_ACORDO_CAMBIO FROM TB_ACORDO_CAMBIO WHERE ID_ACORDO_CAMBIO =  ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL)ACORDO_CAMBIO_MARITIMO_EXPO_FCL,
-(SELECT NM_ACORDO_CAMBIO FROM TB_ACORDO_CAMBIO WHERE ID_ACORDO_CAMBIO =  ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL)ACORDO_CAMBIO_MARITIMO_EXPO_LCL,
-(SELECT NM_ACORDO_CAMBIO FROM TB_ACORDO_CAMBIO WHERE ID_ACORDO_CAMBIO =  ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL)ACORDO_CAMBIO_MARITIMO_IMPO_FCL,
-(SELECT NM_ACORDO_CAMBIO FROM TB_ACORDO_CAMBIO WHERE ID_ACORDO_CAMBIO =  ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL)ACORDO_CAMBIO_MARITIMO_IMPO_LCL,
-ID_ACORDO_CAMBIO_AEREO_EXPO AS ID_ACORDO_CAMBIO_AEREO,
-ID_ACORDO_CAMBIO_AEREO_IMPO,
-ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,
-ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,
-ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL,
-ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,
-ISNULL(VL_ALIQUOTA_ISS,3)VL_ALIQUOTA_ISS, ISNULL(VL_ALIQUOTA_PIS,7.6)VL_ALIQUOTA_PIS, ISNULL(VL_ALIQUOTA_COFINS,1.65)VL_ALIQUOTA_COFINS FROM [TB_PARCEIRO] A WHERE ID_PARCEIRO =" & ddlFornecedor.SelectedValue)
+                If IsDBNull(ds1.Tables(0).Rows(0).Item("TP_SERVICO")) Then
+                    lblTpServico.Text = ds1.Tables(0).Rows(0).Item("TP_SERVICO")
+                End If
+
+                Dim sql As String = ""
+                If ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Then
+
+                    'IMPO
+                    If ds1.Tables(0).Rows(0).Item("FL_FREE_HAND") = 1 Then
+                        'FL_FREE_HAND
+                        sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_IMPO]( " & ddlFornecedor.SelectedValue & ",1,0,0,0)"
+
+                    ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Then
+                        'AEREO
+                        sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_IMPO]( " & ddlFornecedor.SelectedValue & ",0,1,0,0)"
+
+                    ElseIf ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
+                        'LCL
+                        sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_IMPO]( " & ddlFornecedor.SelectedValue & ",0,0,1,0)"
+
+                    ElseIf ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                        'FCL
+                        sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_IMPO]( " & ddlFornecedor.SelectedValue & ",0,0,0,1)"
+
+                    End If
+
+                ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+
+                    'EXPO
+                    If ds1.Tables(0).Rows(0).Item("FL_FREE_HAND") = 1 Then
+                        'FL_FREE_HAND
+                        sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_EXPO]( " & ddlFornecedor.SelectedValue & ",1,0,0,0)"
+
+                    ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Then
+                        'AEREO
+                        sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_EXPO]( " & ddlFornecedor.SelectedValue & ",0,1,0,0)"
+
+                    ElseIf ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
+                        'LCL
+                        sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_EXPO]( " & ddlFornecedor.SelectedValue & ",0,0,1,0)"
+
+                    ElseIf ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                        'FCL
+                        sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_EXPO]( " & ddlFornecedor.SelectedValue & ",0,0,0,1)"
+
+                    End If
+
+                End If
+
+
+                Dim ds As DataSet = Con.ExecutarQuery(sql)
                 If ds.Tables(0).Rows.Count > 0 Then
                     Session("FORNECEDOR") = ddlFornecedor.SelectedValue
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_CIDADE")) Then
@@ -89,21 +134,10 @@ ISNULL(VL_ALIQUOTA_ISS,3)VL_ALIQUOTA_ISS, ISNULL(VL_ALIQUOTA_PIS,7.6)VL_ALIQUOTA
                         lbl_ISS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS")
                     End If
 
-                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_BL_MASTER,GRAU,ISNULL(ID_SERVICO,0)ID_SERVICO,(SELECT TP_SERVICO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)TP_SERVICO, CASE WHEN GRAU = 'C' THEN (SELECT CASE WHEN DT_CHEGADA < GETDATE() THEN GETDATE() ELSE DT_CHEGADA END FROM TB_BL B WHERE B.ID_BL = A.ID_BL_MASTER) WHEN GRAU = 'M' AND DT_CHEGADA < GETDATE() THEN GETDATE() WHEN GRAU = 'M' THEN DT_CHEGADA END DT_CHEGADA
-FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
-                    Dim DATA As Date
-                    If IsDBNull(ds1.Tables(0).Rows(0).Item("DT_CHEGADA")) And ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
-                        lblErro.Text = "PROCESSO SEM DATA DE CHEGADA CADASTRADA"
-                        divErro.Visible = True
-                        Exit Sub
-                    End If
 
-                    If IsDBNull(ds1.Tables(0).Rows(0).Item("TP_SERVICO")) Then
-                        lblTpServico.Text = ds1.Tables(0).Rows(0).Item("TP_SERVICO")
-                    End If
 
                     If ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
-                        If ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
+                        If ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO").ToString = 1 Then
                             DATA = Now.Date.ToString("dd-MM-yyyy")
 
                         ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
@@ -123,244 +157,48 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                     End If
 
 
-                    ds1 = Con.ExecutarQuery("SELECT ID_SERVICO, ID_TIPO_ESTUFAGEM FROM TB_BL WHERE ID_BL = " & txtID_BL.Text)
-                    If ds1.Tables(0).Rows.Count > 0 Then
 
-                        If Not IsDBNull(ds1.Tables(0).Rows(0).Item("ID_SERVICO")) And Not IsDBNull(ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")) Then
 
-                            If ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 1 And ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
-                                If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_IMPO_FCL")) Then
-                                    lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
-                                    divErro.Visible = True
-                                    lblAcordo.Text = ""
-                                    lblSpread.Text = ""
-                                    Exit Sub
-                                Else
-                                    lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_IMPO_FCL")
-                                    lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_IMPO_FCL")
-                                    If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 2 Then
+                    If Not IsDBNull(ds1.Tables(0).Rows(0).Item("ID_SERVICO")) And Not IsDBNull(ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")) Then
+                        If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO") = 0 Then
+                            lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
+                            divErro.Visible = True
+                            lblAcordo.Text = ""
+                            lblSpread.Text = ""
+                            Exit Sub
+                        Else
+                            lblAcordo.Text = ds.Tables(0).Rows(0).Item("NM_ACORDO_CAMBIO")
+                            lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD")
+                            If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO") = 2 Then
 
 
-                                        dgvMoedaFrete.Visible = True
+                                dgvMoedaFrete.Visible = True
 
-                                        dgvMoedaFreteArmador.Visible = False
+                                dgvMoedaFreteArmador.Visible = False
 
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 4 Then
+                            ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO") = 4 Then
 
-                                        dgvMoedaFreteArmador.Visible = True
+                                dgvMoedaFreteArmador.Visible = True
 
-                                        dgvMoedaFrete.Visible = False
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 5 Then
+                                dgvMoedaFrete.Visible = False
+                            ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO") = 5 Then
 
-                                        dgvMoedaFrete.Visible = True
+                                dgvMoedaFrete.Visible = True
 
-                                        dgvMoedaFreteArmador.Visible = False
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 11 Then
+                                dgvMoedaFreteArmador.Visible = False
+                            ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO") = 11 Then
 
-                                        dgvMoedaFrete.Visible = True
+                                dgvMoedaFrete.Visible = True
 
-                                        dgvMoedaFreteArmador.Visible = False
-                                    End If
-
-
-                                End If
-
-                            ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 1 And ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
-                                If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_IMPO_LCL")) Then
-                                    lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
-                                    divErro.Visible = True
-                                    lblAcordo.Text = ""
-                                    lblSpread.Text = ""
-                                    Exit Sub
-                                Else
-                                    lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_IMPO_LCL")
-                                    lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_IMPO_LCL")
-                                    If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 2 Then
-
-                                        dgvMoedaFrete.Visible = True
-
-                                        dgvMoedaFreteArmador.Visible = False
-
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 4 Then
-                                        dgvMoedaFreteArmador.Visible = True
-
-                                        dgvMoedaFrete.Visible = False
-
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 5 Then
-
-                                        dgvMoedaFrete.Visible = True
-
-                                        dgvMoedaFreteArmador.Visible = False
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 11 Then
-
-                                        dgvMoedaFrete.Visible = True
-
-                                        dgvMoedaFreteArmador.Visible = False
-                                    End If
-
-                                End If
-
-                            ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 4 And ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
-                                If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_EXPO_FCL")) Then
-                                    lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
-                                    divErro.Visible = True
-                                    lblAcordo.Text = ""
-                                    lblSpread.Text = ""
-                                    Exit Sub
-                                Else
-                                    lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_EXPO_FCL")
-                                    lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_FCL")
-
-                                    If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 2 Then
-
-                                        dgvMoedaFrete.Visible = True
-
-                                        dgvMoedaFreteArmador.Visible = False
-
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 4 Then
-                                        dgvMoedaFreteArmador.Visible = True
-
-                                        dgvMoedaFrete.Visible = False
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 5 Then
-
-                                        dgvMoedaFrete.Visible = True
-
-                                        dgvMoedaFreteArmador.Visible = False
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 11 Then
-
-                                        dgvMoedaFrete.Visible = True
-
-                                        dgvMoedaFreteArmador.Visible = False
-                                    End If
-                                End If
-
-
-
-
-
-                            ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 4 And ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
-
-                                If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_EXPO_LCL")) Then
-                                    lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
-                                    divErro.Visible = True
-                                    lblAcordo.Text = ""
-                                    lblSpread.Text = ""
-                                    Exit Sub
-                                Else
-                                    lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_EXPO_LCL")
-                                    lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_LCL")
-
-                                    If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 2 Then
-
-                                        dgvMoedaFrete.Visible = True
-
-                                        dgvMoedaFreteArmador.Visible = False
-
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 4 Then
-
-
-                                        dgvMoedaFreteArmador.Visible = True
-
-                                        dgvMoedaFrete.Visible = False
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 5 Then
-
-                                        dgvMoedaFrete.Visible = True
-
-                                        dgvMoedaFreteArmador.Visible = False
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 11 Then
-
-                                        dgvMoedaFrete.Visible = True
-
-                                        dgvMoedaFreteArmador.Visible = False
-                                    End If
-
-                                End If
-
-
-
-                            ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Then
-
-                                If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_AEREO")) Then
-                                    lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
-                                    divErro.Visible = True
-                                    lblAcordo.Text = ""
-                                    lblSpread.Text = ""
-                                    Exit Sub
-                                Else
-
-                                    lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_AEREO")
-                                    lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_IMPO")
-
-                                    If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 2 Then
-
-                                        dgvMoedaFrete.Visible = True
-
-                                        dgvMoedaFreteArmador.Visible = False
-
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 4 Then
-
-                                        dgvMoedaFreteArmador.Visible = True
-
-                                        dgvMoedaFrete.Visible = False
-
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 5 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 11 Then
-
-                                        dgvMoedaFrete.Visible = True
-
-                                        dgvMoedaFreteArmador.Visible = False
-                                    End If
-
-                                End If
-
-
-
-                            ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
-                                If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_AEREO")) Then
-                                    lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
-                                    divErro.Visible = True
-                                    lblAcordo.Text = ""
-                                    lblSpread.Text = ""
-                                    Exit Sub
-                                Else
-                                    lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_AEREO")
-                                    lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_EXPO")
-
-                                    If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 2 Then
-
-                                        dgvMoedaFrete.Visible = True
-
-                                        dgvMoedaFreteArmador.Visible = False
-
-
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 4 Then
-
-                                        dgvMoedaFreteArmador.Visible = True
-
-                                        dgvMoedaFrete.Visible = False
-
-                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 5 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 11 Then
-
-                                        dgvMoedaFrete.Visible = True
-
-                                        dgvMoedaFreteArmador.Visible = False
-
-                                    End If
-
-                                End If
-
-
-
-
-
-
+                                dgvMoedaFreteArmador.Visible = False
                             End If
 
-                        Else
-                            divInfo.Visible = True
-
                         End If
-                    End If
 
+                    Else
+                        divInfo.Visible = True
+
+                    End If
 
                 End If
 
