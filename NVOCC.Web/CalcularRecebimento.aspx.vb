@@ -78,32 +78,32 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                         'AEREO
                         sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_IMPO]( " & ddlFornecedor.SelectedValue & ",0,1,0,0)"
 
-                    ElseIf ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
+                    ElseIf ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
                         'LCL
                         sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_IMPO]( " & ddlFornecedor.SelectedValue & ",0,0,1,0)"
 
-                    ElseIf ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                    ElseIf ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
                         'FCL
                         sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_IMPO]( " & ddlFornecedor.SelectedValue & ",0,0,0,1)"
 
                     End If
 
-                ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Or ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
 
                     'EXPO
                     If ds1.Tables(0).Rows(0).Item("FL_FREE_HAND") = 1 Then
                         'FL_FREE_HAND
                         sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_EXPO]( " & ddlFornecedor.SelectedValue & ",1,0,0,0)"
 
-                    ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Then
+                    ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
                         'AEREO
                         sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_EXPO]( " & ddlFornecedor.SelectedValue & ",0,1,0,0)"
 
-                    ElseIf ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
+                    ElseIf ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
                         'LCL
                         sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_EXPO]( " & ddlFornecedor.SelectedValue & ",0,0,1,0)"
 
-                    ElseIf ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                    ElseIf ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
                         'FCL
                         sql = "SELECT ID_CIDADE,NM_CIDADE,NM_TIPO_FATURAMENTO,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,SPREAD,ID_ACORDO_CAMBIO,NM_ACORDO_CAMBIO,VL_ALIQUOTA_ISS,VL_ALIQUOTA_PIS,VL_ALIQUOTA_COFINS FROM [DBO].[FN_SPREAD_PARCEIRO_EXPO]( " & ddlFornecedor.SelectedValue & ",0,0,0,1)"
 
