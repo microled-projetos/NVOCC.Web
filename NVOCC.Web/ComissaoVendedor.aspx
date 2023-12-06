@@ -36,8 +36,6 @@
 
                 <div class="panel-body">
                     <div class="tab-pane fade active in" id="consulta">
-                        <%--<asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
-                            <ContentTemplate>--%>
 
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
@@ -101,44 +99,9 @@
                                     <asp:Label ID="lblCompetenciaSobrepor" runat="server"></asp:Label>
                                     <asp:Label ID="lblContasReceber" runat="server"></asp:Label>
                                 </div>
-                                <div runat="server" visible="false" id="DivGrid2">
-                                    <%--<div class="table-responsive tableFixHead DivGrid" id="DivGrid">
-                                        <asp:GridView ID="dgvComissoes" DataKeyNames="ID_DETALHE_COMISSAO_VENDEDOR,ID_CABECALHO_COMISSAO_VENDEDOR" DataSourceID="dsComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
-                                            <Columns>
-                                                <asp:TemplateField HeaderText="ID" Visible="False">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_DETALHE_COMISSAO_VENDEDOR") %>' />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:BoundField DataField="COMPETENCIA" HeaderText="COMPETENCIA" SortExpression="COMPETENCIA" />
-                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
-                                                <asp:BoundField DataField="NR_NOTAS_FISCAL" HeaderText="NOTA FISCAL" SortExpression="NR_NOTAS_FISCAL" />
-                                                <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="DATA NOTA" SortExpression="DT_NOTA_FISCAL" DataFormatString="{0:dd/MM/yyyy}" />
-                                                <asp:BoundField DataField="PARCEIRO_VENDEDOR" HeaderText="VENDEDOR" SortExpression="PARCEIRO_VENDEDOR" />
-                                                <asp:BoundField DataField="ANALISTA_COTACAO" HeaderText="ANALISTA COTAÇÃO" SortExpression="ANALISTA_COTACAO" />
-                                                <asp:BoundField DataField="USUARIO_LIDER" HeaderText="USUARIO LÍDER" SortExpression="USUARIO_LIDER" />
-                                                <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="CLIENTE" SortExpression="PARCEIRO_CLIENTE" />
-                                                <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="ESTUFAGEM" SortExpression="TIPO_ESTUFAGEM" />
-                                                <asp:BoundField DataField="QTD. BL/CNTR" HeaderText="QTD. BL/CNTR" SortExpression="QTD. BL/CNTR" />
-                                                <asp:BoundField DataField="VL_COMISSAO_BASE" HeaderText="BASE" SortExpression="VL_COMISSAO_BASE" />
-                                                <asp:BoundField DataField="VL_PERCENTUAL" HeaderText="PERCENTUAL" SortExpression="VL_PERCENTUAL" />
-                                                <asp:BoundField DataField="VL_COMISSAO_TOTAL" HeaderText="COMISSAO" SortExpression="VL_COMISSAO_TOTAL" />
-                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="LIQUIDAÇÃO" SortExpression="DT_LIQUIDACAO" />
-                                                <asp:BoundField DataField="DT_EXPORTACAO" HeaderText="EXPORTAÇÃO" SortExpression="DT_EXPORTACAO" />
-                                                <asp:TemplateField HeaderText="">
-                                                    <ItemTemplate>
-                                                        <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                            CommandArgument='<%# Eval("ID_DETALHE_COMISSAO_VENDEDOR") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicao()"></asp:LinkButton>
-                                                    </ItemTemplate>
-                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                </asp:TemplateField>
-                                            </Columns>
-                                            <HeaderStyle CssClass="headerStyle" />
-                                        </asp:GridView>
-                                    </div>--%>
-                                </div>
+                               
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlComissoes" TargetControlID="lkComissoes" CancelControlID="btnFecharComissoes" OkControlID="lkTabelaComissoes"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeComissoes" runat="server" PopupControlID="pnlComissoes" TargetControlID="lkComissoes" CancelControlID="btnFecharComissoes"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlComissoes" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>
                                         <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -171,20 +134,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
-                                                        <%-- Comentado o item antigo de equipes 
-                                    
-                                                                <div class="row">
-                                                                 <div class="col-sm-10">
-                                                                <div class="form-group">                                          
-                            <asp:LinkButton ID="lkEquipe" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" href="CadastrarEquipe.aspx" target="_blank" Visible="false">Equipes</asp:LinkButton>
-                                                                </div>
-                                                                    </div>
-                                                                     </div>
-                                                                Comentado o item antigo de equipes  --%>
-
-
                                                         <div class="row">
                                                             <div class="col-sm-10">
                                                                 <div class="form-group">
@@ -192,8 +141,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
                                                         <div class="row">
                                                             <div class="col-sm-10">
                                                                 <div class="form-group">
@@ -209,18 +156,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
-
-
-
-                                                        <div class="row">
-                                                            <div class="col-sm-10">
-                                                                <div class="form-group">
-                                                                    <asp:LinkButton ID="lkAjustarComissao" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" Visible="false">Ajustar Comissões</asp:LinkButton>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -231,7 +166,7 @@
                                     </center>
                                 </asp:Panel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlRelatorios" TargetControlID="lkRelatorios" CancelControlID="btnFecharRelatorios"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="mpeRelatorios" runat="server" PopupControlID="pnlRelatorios" TargetControlID="lkRelatorios" CancelControlID="btnFecharRelatorios"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlRelatorios" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>
                                         <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -876,39 +811,15 @@
                                                                 <div class="col-sm-12" style="padding-bottom:20px;"></div>
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
-                                                                        <%--<div id="Div11" runat="server" visible="false" class="alert alert-danger">
-                                                                            <asp:Label ID="Label43" Text="" runat="server" />
+                                                                         <div class="alert alert-info" id="divInfoGerarComissao" runat="server" visible="false">
+                                                                <asp:Label ID="lblInfoGerarComissao" runat="server"></asp:Label>
+                                                            </div>
+                                                                        <div id="divErroGerarComissao" runat="server" visible="false" class="alert alert-danger">
+                                                                            <asp:Label ID="lblErroGerarComissao" Text="" runat="server" />
                                                                         </div>
-                                                                        <div id="div12" runat="server" visible="false" class="alert alert-success">
-                                                                            <asp:Label ID="Label44" Text="" runat="server" />
+                                                                         <div id="divSuccessGerarComissao" runat="server" visible="false" class="alert alert-success">
+                                                                            <asp:Label ID="lblSuccessGerarComissao" Text="" runat="server" />
                                                                         </div>
-                                                                        <asp:GridView ID="GridView6" CssClass="table table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
-                                                                            <Columns>
-                                                                                <asp:TemplateField HeaderText="ID" Visible="False">
-                                                                                    <ItemTemplate>
-                                                                                        <asp:Label ID="lblID" runat="server" />
-                                                                                    </ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:BoundField HeaderText="COMP." SortExpression="COMP" HeaderStyle-CssClass="header-blue" />
-                                                                                <asp:BoundField HeaderText="PROCESSO" SortExpression="PROCESSO"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="NF" SortExpression="NF"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="VENDEDOR" SortExpression="VENDEDOR"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="CLIENTE" SortExpression="CLIENTE"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="SERVIÇO" SortExpression="SERVICO"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="VIA" SortExpression="VIA"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="ESTUFAGEM" SortExpression="ESTUFAGEM"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="BL" SortExpression="BL"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="CNTR" SortExpression="CNTR"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="VL.COMISSÃO" SortExpression="VL_COMISSAO"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="VL.COMISSÃO TOTAL" SortExpression="VL_COMISSAO_TOTAL"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="ADD META" SortExpression="ADD_META"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="TOTAL COMISSÃO" SortExpression="TOTAL_COMISSAO"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="LIQUIDAÇÃO" SortExpression="LIQUIDACAO"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="OBSERVAÇÂO" SortExpression="OBSERVACAO"  HeaderStyle-CssClass="header-blue"/>                                                                                                                                                                        
-                                                                                <asp:BoundField HeaderText="Profit negativo" SortExpression="PROFIT_NEGATIVO"  HeaderStyle-CssClass="header-blue" />                                                                                                                                                                        
-                                                                            </Columns>
-                                                                            <HeaderStyle CssClass="headerStyle" />
-                                                                        </asp:GridView>--%>
 
                                                                         <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
                                         <asp:GridView ID="dgvComissoes" DataKeyNames="ID_DETALHE_COMISSAO_VENDEDOR,ID_CABECALHO_COMISSAO_VENDEDOR" DataSourceID="dsComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
@@ -1038,9 +949,9 @@
 
                                     </ContentTemplate>
                                     <Triggers>
-                                        <%--<asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />--%>
+                                         <asp:AsyncPostBackTrigger ControlID="dgvRelProspeccao" />
                                         <asp:PostBackTrigger ControlID="btnRelGerarCompetenciaComissaoProspecao" />
-                                        <asp:PostBackTrigger ControlID="btnRelGravarCCProcessoComissaoProspecao" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnRelGravarCCProcessoComissaoProspecao" />
                                         <asp:PostBackTrigger ControlID="btnFiltrarComissaoProspecao" />
                                     </Triggers>
                                 </asp:UpdatePanel>
@@ -1113,287 +1024,12 @@
 
                                     </ContentTemplate>
                                     <Triggers>
-                                        <%--<asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />--%>
-                                        <asp:PostBackTrigger ControlID="btnRelGerarCompetenciaComissaoIndicacaoInterna" />
+                                         <asp:PostBackTrigger ControlID="btnRelGerarCompetenciaComissaoIndicacaoInterna" />
                                         <asp:AsyncPostBackTrigger ControlID="btnRelGravarCCProcessoComissaoIndicacaoInterna" />
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlGerarComissao" TargetControlID="lkGerarComissao" CancelControlID="TextBox4"></ajaxToolkit:ModalPopupExtender>
-                                <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                                    <ContentTemplate>
-                                        <asp:Panel ID="pnlGerarComissao" runat="server" CssClass="modalPopup" Style="display: none;">
-                                            <center>
-                                                <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">GERAR COMISSÕES</h5>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="alert alert-success" id="divSuccessGerarComissao" runat="server" visible="false">
-                                                                <asp:Label ID="lblSuccessGerarComissao" runat="server"></asp:Label>
-                                                            </div>
-                                                            <div class="alert alert-danger" id="divErroGerarComissao" runat="server" visible="false">
-                                                                <asp:Label ID="lblErroGerarComissao" runat="server"></asp:Label>
-                                                            </div>
-                                                            <div class="alert alert-info" id="divInfoGerarComissao" runat="server" visible="false">
-                                                                <asp:Label ID="lblInfoGerarComissao" runat="server"></asp:Label>
-                                                            </div>
-                                                            <div class="alert alert-warning" id="divAtencaoGerarComissao" runat="server" visible="false">
-                                                                <asp:Label ID="lblAtencaoGerarComissao" runat="server"></asp:Label>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-4">
-                                                                    <div class="form-group">
-
-                                                                        <asp:Label ID="Label11" runat="server">Competência</asp:Label><br />
-
-                                                                        <asp:TextBox ID="txtNovaCompetencia" placeholder="MM/AAAA" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-4">
-                                                                    <div class="form-group">
-
-                                                                        <asp:Label ID="Label12" runat="server">Data Liquidação(Inicial)</asp:Label><br />
-
-                                                                        <asp:TextBox ID="txtLiquidacaoInicial" runat="server" CssClass="form-control data"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-sm-4">
-                                                                    <div class="form-group">
-                                                                        <asp:Label ID="Label14" runat="server">Data Liquidação(Final)</asp:Label><br />
-
-                                                                        <asp:TextBox ID="txtLiquidacaoFinal" runat="server" CssClass="form-control data"></asp:TextBox>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-6" style="border: ridge 1px;">
-                                                                    <div class="form-group">
-
-                                                                        <asp:Label ID="Label18" runat="server"><strong>Taxa LCL</strong></asp:Label><br />
-
-                                                                        <asp:Label ID="lblLCL" runat="server" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6" style="border: ridge 1px;">
-                                                                    <div class="form-group">
-                                                                        <asp:Label ID="Label19" runat="server"><strong>Taxa FCL</strong></asp:Label><br />
-
-                                                                        <asp:Label ID="lblFCL" runat="server" />
-
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                            <br />
-                                                           <%-- <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="form-group">
-                                                                        VENDEDORES DIRETOS:                                          
-                                                                <asp:GridView ID="dgvVendedor" DataKeyNames="ID_PARCEIRO" DataSourceID="dsVendedor" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
-                                                                    <Columns>
-                                                                        <asp:TemplateField HeaderText="ID" Visible="False">
-                                                                            <ItemTemplate>
-                                                                                <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_PARCEIRO") %>' />
-                                                                            </ItemTemplate>
-                                                                        </asp:TemplateField>
-                                                                        <asp:BoundField DataField="NM_RAZAO" HeaderText="NOME" SortExpression="NM_RAZAO" />
-                                                                    </Columns>
-                                                                    <HeaderStyle CssClass="headerStyle" />
-                                                                </asp:GridView>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6" style="display: none">
-                                                                    <div class="form-group">
-                                                                        EQUIPE INSIDE SALES                                        
-                                          
-                                                                          <asp:GridView ID="dgvEquipe" DataKeyNames="ID_PARCEIRO" DataSourceID="dsEquipe" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
-                                                                              <Columns>
-                                                                                  <asp:TemplateField HeaderText="ID" Visible="False">
-                                                                                      <ItemTemplate>
-                                                                                          <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_PARCEIRO") %>' />
-                                                                                      </ItemTemplate>
-                                                                                  </asp:TemplateField>
-                                                                                  <asp:BoundField DataField="NM_RAZAO" HeaderText="NOME" SortExpression="NM_RAZAO" />
-                                                                              </Columns>
-                                                                              <HeaderStyle CssClass="headerStyle" />
-                                                                          </asp:GridView>
-                                                                    </div>
-                                                                </div>
-                                                            </div>--%>
-                                                            <div class="modal-footer">
-                                                                <asp:Button runat="server" Text="Gerar" ID="btnGerarComissao" CssClass="btn btn-success" OnClientClick="MouseWait(); return true;" />
-                                                                <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharGerarComissao" Text="Close" />
-                                                            </div>
-                                                        </div>
-                                            </center>
-                                        </asp:Panel>
-                                    </ContentTemplate>
-                                    <Triggers>
-                                        <%--<asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />--%>
-                                        <asp:AsyncPostBackTrigger ControlID="btnGerarComissao" />
-<%--                                        <asp:AsyncPostBackTrigger ControlID="txtNovaCompetencia" />--%>
-                                    </Triggers>
-                                </asp:UpdatePanel>
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlAjustarComissao" TargetControlID="lkAjustarComissao" CancelControlID="TextBox5"></ajaxToolkit:ModalPopupExtender>
-                                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                                    <ContentTemplate>
-                                        <asp:Panel ID="pnlAjustarComissao" runat="server" CssClass="modalPopup" Style="display: none;">
-                                            <center>
-                                                <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">AJUSTAR COMISSÕES</h5>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="alert alert-success" id="divSuccesAjuste" runat="server" visible="false">
-                                                                <asp:Label ID="lblSuccesAjuste" runat="server"></asp:Label>
-                                                            </div>
-                                                            <div class="alert alert-danger" id="divErroAjuste" runat="server" visible="false">
-                                                                <asp:Label ID="lblErroAjuste" runat="server"></asp:Label>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-sm-2">
-                                                                    <div class="form-group">
-                                                                        <asp:Label ID="Label33" runat="server">ID</asp:Label><label runat="server" style="color: red">*</label><br />
-                                                                        <asp:TextBox ID="txtIDAjuste" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <asp:Label ID="Label29" runat="server">Serviço</asp:Label><label runat="server" style="color: red">*</label><br />
-                                                                        <asp:DropDownList ID="ddlAjusteServico" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px" DataTextField="NM_SERVICO" DataSourceID="dsServico" DataValueField="ID_SERVICO" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-3">
-                                                                    <div class="form-group">
-
-                                                                        <asp:Label ID="Label13" runat="server">Processo</asp:Label><label runat="server" style="color: red">*</label><br />
-
-                                                                        <asp:TextBox ID="txtAjusteProcesso" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-3">
-                                                                    <div class="form-group">
-
-                                                                        <asp:Label ID="Label15" runat="server">Nota Fiscal</asp:Label><label runat="server" style="color: red">*</label><br />
-
-                                                                        <asp:TextBox ID="txtAjusteNotaFiscal" runat="server" AutoPostBack="true" CssClass="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-sm-3">
-                                                                    <div class="form-group">
-                                                                        <asp:Label ID="Label16" runat="server">Data NF</asp:Label><label runat="server" style="color: red">*</label><br />
-                                                                        <asp:TextBox ID="txtAjusteDataNota" runat="server" CssClass="form-control data"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-3">
-                                                                    <div class="form-group">
-                                                                        <asp:Label ID="Label22" runat="server">Estufagem:</asp:Label><label runat="server" style="color: red">*</label><br />
-                                                                        <asp:DropDownList ID="ddlAjusteEstufagem" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem" DataValueField="ID_TIPO_ESTUFAGEM" />
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group">
-
-                                                                        <asp:Label ID="Label17" runat="server">Vendedor:</asp:Label><label runat="server" style="color: red">*</label><br />
-
-                                                                        <asp:DropDownList ID="ddlAjusteVendedor" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px" DataTextField="NM_RAZAO" DataSourceID="dsVendedores" DataValueField="ID_PARCEIRO" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <asp:Label ID="Label21" runat="server">Cliente:</asp:Label><label runat="server" style="color: red">*</label><br />
-                                                                        <asp:DropDownList ID="ddlAjusteCliente" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px" DataTextField="NM_RAZAO" DataSourceID="dsCliente" DataValueField="ID_PARCEIRO" />
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-sm-2">
-                                                                    <div class="form-group">
-                                                                        <asp:Label ID="Label23" runat="server">Comissão Base</asp:Label><label runat="server" style="color: red">*</label><br />
-                                                                        <asp:TextBox ID="txtAjusteBase" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-2">
-                                                                    <div class="form-group">
-                                                                        <asp:Label ID="Label24" runat="server">Qtd. BL</asp:Label><label runat="server" style="color: red">*</label><br />
-                                                                        <asp:TextBox ID="txtAjusteQtdBl" runat="server" AutoPostBack="true" CssClass="form-control inteiro"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-sm-2">
-                                                                    <div class="form-group">
-                                                                        <asp:Label ID="Label25" runat="server">Qtd. CNTR</asp:Label><label runat="server" style="color: red">*</label><br />
-                                                                        <asp:TextBox ID="txtAjusteQtdCNTR" runat="server" CssClass="form-control inteiro"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-2">
-                                                                    <div class="form-group">
-                                                                        <asp:Label ID="Label30" runat="server">%</asp:Label><label runat="server" style="color: red">*</label><br />
-                                                                        <asp:TextBox ID="txtAjustePorcentagem" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-2">
-                                                                    <div class="form-group">
-
-                                                                        <asp:Label ID="Label31" runat="server">Comissão Total</asp:Label><label runat="server" style="color: red">*</label><br />
-
-                                                                        <asp:TextBox ID="txtAjusteTotal" runat="server" AutoPostBack="true" CssClass="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-sm-2">
-                                                                    <div class="form-group">
-                                                                        <asp:Label ID="Label32" runat="server">Data Liquidação</asp:Label><label runat="server" style="color: red">*</label><br />
-                                                                        <asp:TextBox ID="txtAjusteLiquidacao" runat="server" CssClass="form-control data"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="form-group">
-                                                                        <asp:Label ID="Label26" runat="server">Observação</asp:Label><br />
-                                                                        <asp:TextBox ID="txtAjusteObs" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="100"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <br />
-                                                            <div class="modal-footer">
-                                                                <asp:Button runat="server" Text="Gravar" ID="btnAlteraComisaao" CssClass="btn btn-success" />
-
-                                                                <asp:Button runat="server" Text="Excluir" ID="btnExcluirAlteraComisaao" CssClass="btn btn-danger" OnClientClick="javascript:return confirm('Deseja realmente excluir esta comissão?');" />
-                                                                <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharAlteraComisaao" Text="Close" />
-
-
-                                                            </div>
-
-                                                        </div>
-                                            </center>
-                                        </asp:Panel>
-                                    </ContentTemplate>
-                                    <Triggers>
-                                        <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />
-                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />
-                                    </Triggers>
-                                </asp:UpdatePanel>
-
-
+                        
                                 <ajaxToolkit:ModalPopupExtender ID="mpeCCProcesso" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="TextBox7" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>
@@ -1439,19 +1075,7 @@
                                     </center>
                                 </asp:Panel>
 
-                            <%--</ContentTemplate>
-                            <Triggers>
-                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />
-                                <asp:AsyncPostBackTrigger ControlID="btnPesquisar" />
-                                <asp:AsyncPostBackTrigger ControlID="btnFecharAlteraComisaao" />
-                                <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoCCProcesso" />
-                                <asp:AsyncPostBackTrigger ControlID="ddlFiltro" />
-                                <asp:PostBackTrigger ControlID="lkCSV" />
-                                <asp:PostBackTrigger ControlID="lkRelEquipe" />
-                            </Triggers>
-                        </asp:UpdatePanel>--%>
-
-
+                         
                     </div>
 
                 </div>
@@ -1476,7 +1100,7 @@
 TB_VENDEDOR_TAXA_COMISSAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO ORDER BY ID_VENDEDOR_TAXA_COMISSAO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsRelProspeccao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Prospeccao] WHERE DT_COMPETENCIA = '@COMPETENCIA' ORDER BY NR_PROCESSO">
+        SelectCommand="SELECT * FROM [dbo].[View_Prospeccao] ORDER BY NR_PROCESSO">
         <SelectParameters>
             <asp:ControlParameter Name="COMPETENCIA" Type="string" ControlID="txtCompetencia" />
         </SelectParameters>
