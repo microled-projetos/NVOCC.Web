@@ -237,8 +237,8 @@ WHERE ID_PARCEIRO =" & ID)
                 txtQtdFaturamentoImpoAereo.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO_IMPO_AEREO")
                 txtQtdFaturamentoImpoFree.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO_IMPO_FREE")
 
-                ddlTipoFaturamentoImpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_IMPO_FCL")
-                ddlTipoFaturamentoImpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_IMPO_LCL")
+                ddlTipoFaturamentoImpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_IMPO_FCL")
+                ddlTipoFaturamentoImpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_IMPO_LCL")
                 ddlTipoFaturamentoImpoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_IMPO_AEREO")
                 ddlTipoFaturamentoImpoFree.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_IMPO_FREE")
 
@@ -260,8 +260,8 @@ WHERE ID_PARCEIRO =" & ID)
                 txtQtdFaturamentoExpoFree.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO_EXPO_FREE")
 
 
-                ddlTipoFaturamentoExpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_EXPO_FCL")
-                ddlTipoFaturamentoExpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_EXPO_LCL")
+                ddlTipoFaturamentoExpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_EXPO_FCL")
+                ddlTipoFaturamentoExpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_EXPO_LCL")
                 ddlTipoFaturamentoExpoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_EXPO_AEREO")
                 ddlTipoFaturamentoExpoFree.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_EXPO_FREE")
 
