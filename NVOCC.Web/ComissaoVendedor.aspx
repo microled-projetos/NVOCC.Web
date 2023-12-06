@@ -336,7 +336,7 @@
                                                                     </div>
                                                                     <div class="col-sm-2">
                                                                          <br />
-                                                                        <asp:Button ID="btnSalvarComissaoVendedor" CssClass="btn btn-block btn-success" Text="Salvar Tabela" runat="server" />
+                                                                        <asp:Button ID="btnSalvarTabelaVenda" CssClass="btn btn-block btn-success" Text="Salvar Tabela" runat="server" />
                                                                     </div>
                                                                                                                                             
 
@@ -344,7 +344,7 @@
                                                                 <div class="row table-responsive tableFixHead">
                                                                         <div class="form-group">
                                                                             
-                                                                            <asp:GridView ID="dgvTabelaComissaoVendedor" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaComissaoVendedor" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 200px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
+                                                                            <asp:GridView ID="dgvTabelaVenda" CssClass="table table-hover table-sm grdViewTable" GridLines="None" DataSourceID="dsTabelaVenda" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 200px; overflow: auto;" AllowSorting="true" ShowHeader="true" EmptyDataText="Nenhum registro encontrado." >
                                                                                 <Columns>
                                                                                     <asp:BoundField DataField="ID_VENDEDOR_TAXA_COMISSAO" HeaderText="ID" SortExpression="ID_VENDEDOR_TAXA_COMISSAO" />
                                                                                     <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="Validade Inicial" SortExpression="DT_VALIDADE_INICIAL" />
@@ -373,7 +373,7 @@
                                                                 <div class="row">
                                                                     <div class="col-md-11"></div>
                                                                     <div class="col-md-1">
-                                                                        <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharComissoesVenda" Text="Close"  />
+                                                                        <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharTabelaVenda" Text="Close"  />
 
                                                                     </div>
                                                                 </div>
@@ -811,18 +811,18 @@
                                                                 <div class="col-sm-12" style="padding-bottom:20px;"></div>
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
-                                                                         <div class="alert alert-info" id="divInfoGerarComissao" runat="server" visible="false">
-                                                                <asp:Label ID="lblInfoGerarComissao" runat="server"></asp:Label>
+                                                                         <div class="alert alert-info" id="divInfoComissaoVendas" runat="server" visible="false">
+                                                                <asp:Label ID="lblInfoComissaoVendas" runat="server"></asp:Label>
                                                             </div>
-                                                                        <div id="divErroGerarComissao" runat="server" visible="false" class="alert alert-danger">
-                                                                            <asp:Label ID="lblErroGerarComissao" Text="" runat="server" />
+                                                                        <div id="divErroComissaoVendas" runat="server" visible="false" class="alert alert-danger">
+                                                                            <asp:Label ID="lblErroComissaoVendas" Text="" runat="server" />
                                                                         </div>
-                                                                         <div id="divSuccessGerarComissao" runat="server" visible="false" class="alert alert-success">
-                                                                            <asp:Label ID="lblSuccessGerarComissao" Text="" runat="server" />
+                                                                         <div id="divSuccessComissaoVendas" runat="server" visible="false" class="alert alert-success">
+                                                                            <asp:Label ID="lblSuccessComissaoVendas" Text="" runat="server" />
                                                                         </div>
 
                                                                         <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
-                                        <asp:GridView ID="dgvComissoes" DataKeyNames="ID_DETALHE_COMISSAO_VENDEDOR,ID_CABECALHO_COMISSAO_VENDEDOR" DataSourceID="dsComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                        <asp:GridView ID="dgvComissaoVendedor" DataKeyNames="ID_DETALHE_COMISSAO_VENDEDOR,ID_CABECALHO_COMISSAO_VENDEDOR" DataSourceID="dsComissaoVendedor" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
@@ -949,7 +949,7 @@
 
                                     </ContentTemplate>
                                     <Triggers>
-                                         <asp:AsyncPostBackTrigger ControlID="dgvRelProspeccao" />
+                                        <asp:AsyncPostBackTrigger ControlID="dgvRelProspeccao" />
                                         <asp:PostBackTrigger ControlID="btnRelGerarCompetenciaComissaoProspecao" />
                                         <asp:AsyncPostBackTrigger ControlID="btnRelGravarCCProcessoComissaoProspecao" />
                                         <asp:PostBackTrigger ControlID="btnFiltrarComissaoProspecao" />
@@ -1030,7 +1030,7 @@
                                 </asp:UpdatePanel>
 
                         
-                                <ajaxToolkit:ModalPopupExtender ID="mpeCCProcesso" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="TextBox7" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
+                              <%--  <ajaxToolkit:ModalPopupExtender ID="mpeCCProcesso" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="TextBox7" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>
                                         <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -1049,7 +1049,7 @@
 
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
-
+                                                                <asp:Label ID="lblTipoComissao" runat="server" Style="display: none;"/>
                                                                 <asp:Label ID="Label28" runat="server">Competência</asp:Label><br />
 
                                                                 <asp:Label ID="lblCompetenciaCCProcesso" runat="server" />
@@ -1073,7 +1073,7 @@
                                             </div>
                                         </div>
                                     </center>
-                                </asp:Panel>
+                                </asp:Panel>--%>
 
                          
                     </div>
@@ -1095,7 +1095,7 @@
     <asp:TextBox ID="TextBox8" Style="display: none" runat="server"></asp:TextBox>
     <asp:TextBox ID="TextBox9" Style="display: none" runat="server"></asp:TextBox>
 
-    <asp:SqlDataSource ID="dsTabelaComissaoVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsTabelaVenda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_VENDEDOR_TAXA_COMISSAO, DT_VALIDADE_INICIAL DT_VALIDADE_INICIAL,VL_TAXA,VL_PROFIT_INICIO,VL_PROFIT_FIM,VL_COMISSAO ,B.NM_BASE_CALCULO_TAXA,C.NM_TIPO_ESTUFAGEM,D.NM_VIATRANSPORTE, F.NM_TIPO_CALCULO FROM 
 TB_VENDEDOR_TAXA_COMISSAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA INNER JOIN TB_TIPO_ESTUFAGEM C ON C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM INNER JOIN TB_VIATRANSPORTE D ON D.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE INNER JOIN [DBO].[TB_TIPO_CALCULO] F ON F.ID_TIPO_CALCULO = A.ID_TIPO_CALCULO ORDER BY ID_VENDEDOR_TAXA_COMISSAO"></asp:SqlDataSource>
 
@@ -1130,7 +1130,7 @@ TB_VENDEDOR_PROSPECCAO  A INNER JOIN TB_BASE_CALCULO_TAXA B ON B.ID_BASE_CALCULO
     <asp:SqlDataSource ID="dsEquipe" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_EQUIPE_INSIDE_SALES = 1 AND FL_ATIVO = 1 ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsComissaoVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Comissao_Vendedor] WHERE COMPETENCIA = '@COMPETENCIA' ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO">
         <SelectParameters>
             <asp:ControlParameter Name="COMPETENCIA" Type="string" ControlID="txtCompetencia" />
