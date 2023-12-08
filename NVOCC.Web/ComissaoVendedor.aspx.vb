@@ -331,6 +331,8 @@ Public Class ComissaoVendedor
 
             dsComissaoVendedor.SelectCommand = "SELECT * FROM [dbo].[View_Comissao_Vendedor] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' " & filtro & " ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
             dgvComissaoVendedor.DataBind()
+            dgvComissoes.DataBind()
+
 
         End If
     End Sub
@@ -572,14 +574,16 @@ FROM FN_VENDEDOR('" & txtDtInicioRelComissaoVendas.Text & "','" & txtDtTerminoRe
                     divErro.Visible = False
                     lblSuccessComissaoVendas.Visible = True
                     lblSuccessComissaoVendas.Text = "Comissão gerada com sucesso!"
+
                 End If
+
             End If
 
         End If
 
-
         mpeRelComissaoVenda.Show()
         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
+
     End Sub
 
     Sub TabelaEquipe(cabecalho As Integer)

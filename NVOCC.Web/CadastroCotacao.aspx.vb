@@ -5319,9 +5319,11 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
     End Sub
 
     Private Sub ddlDestinatarioCobranca_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlDestinatarioCobranca.SelectedIndexChanged
-        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AlertaDestinatarioCobranca()", True)
-        dgvTaxasDestinatarioCob.DataBind()
-        mpeDestinatarioCob.Show()
+        If txtID.Text <> "" Then
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AlertaDestinatarioCobranca()", True)
+            dgvTaxasDestinatarioCob.DataBind()
+            mpeDestinatarioCob.Show()
+        End If
     End Sub
 
     Private Sub btnTaxasExcessao_Click(sender As Object, e As EventArgs) Handles btnTaxasExcessao.Click
@@ -5333,25 +5335,29 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
     End Sub
 
     Sub TaxasExcessao()
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & " WHERE ID_COTACAO = " & txtID.Text)
-        Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & " WHERE ISNULL(FL_EDICAO_DESTINATARIO,0) = 0 AND ISNULL(VL_TAXA_VENDA,0) <> 0 AND ID_COTACAO = " & txtID.Text & " AND ID_COTACAO_TAXA NOT IN (SELECT ISNULL(ID_COTACAO_TAXA,0) FROM View_Taxa_Bloqueada WHERE CD_PR= 'R')")
-        dgvTaxas.DataBind()
-        dgvTaxasDestinatarioCob.DataBind()
-        lblmsgSuccess.Text = "Registro cadastrado/atualizado com sucesso!"
-        divsuccess.Visible = True
+        If txtID.Text <> "" Then
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & " WHERE ID_COTACAO = " & txtID.Text)
+            Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & " WHERE ISNULL(FL_EDICAO_DESTINATARIO,0) = 0 AND ISNULL(VL_TAXA_VENDA,0) <> 0 AND ID_COTACAO = " & txtID.Text & " AND ID_COTACAO_TAXA NOT IN (SELECT ISNULL(ID_COTACAO_TAXA,0) FROM View_Taxa_Bloqueada WHERE CD_PR= 'R')")
+            dgvTaxas.DataBind()
+            dgvTaxasDestinatarioCob.DataBind()
+            lblmsgSuccess.Text = "Registro cadastrado/atualizado com sucesso!"
+            divsuccess.Visible = True
+        End If
     End Sub
 
     Sub Todastaxas()
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & " WHERE ID_COTACAO = " & txtID.Text)
-        Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & " WHERE ISNULL(VL_TAXA_VENDA,0) <> 0 AND ID_COTACAO = " & txtID.Text & " AND ID_COTACAO_TAXA NOT IN (SELECT ISNULL(ID_COTACAO_TAXA,0) FROM View_Taxa_Bloqueada WHERE CD_PR= 'R')")
-        dgvTaxas.DataBind()
-        dgvTaxasDestinatarioCob.DataBind()
-        lblmsgSuccess.Text = "Registro cadastrado/atualizado com sucesso!"
-        divsuccess.Visible = True
+        If txtID.Text <> "" Then
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & " WHERE ID_COTACAO = " & txtID.Text)
+            Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobranca.SelectedValue & " WHERE ISNULL(VL_TAXA_VENDA,0) <> 0 AND ID_COTACAO = " & txtID.Text & " AND ID_COTACAO_TAXA NOT IN (SELECT ISNULL(ID_COTACAO_TAXA,0) FROM View_Taxa_Bloqueada WHERE CD_PR= 'R')")
+            dgvTaxas.DataBind()
+            dgvTaxasDestinatarioCob.DataBind()
+            lblmsgSuccess.Text = "Registro cadastrado/atualizado com sucesso!"
+            divsuccess.Visible = True
+        End If
     End Sub
 
     Private Sub ddlDivisaoProfit_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlDivisaoProfit.SelectedIndexChanged
@@ -5365,11 +5371,13 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
 
     Private Sub btnCancelarDestinatarioCob_Click(sender As Object, e As EventArgs) Handles btnCancelarDestinatarioCob.Click
         mpeDestinatarioCob.Hide()
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_DESTINATARIO_COBRANCA,0)ID_DESTINATARIO_COBRANCA FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
-        If ds.Tables(0).Rows.Count > 0 Then
-            ddlDestinatarioCobranca.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")
+        If txtID.Text <> "" Then
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_DESTINATARIO_COBRANCA,0)ID_DESTINATARIO_COBRANCA FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+            If ds.Tables(0).Rows.Count > 0 Then
+                ddlDestinatarioCobranca.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")
+            End If
         End If
     End Sub
 

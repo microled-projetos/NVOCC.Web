@@ -212,6 +212,15 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents lblContasReceber As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle dgvComissoes.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvComissoes As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
     '''Controle mpeComissoes.
     '''</summary>
     '''<remarks>
