@@ -207,7 +207,7 @@
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado != null) {
-                        var invoices = [["INVOICE;PROCESSO;HBL;MBL;CLIENTE;AGENTE;ORIGEM;DESTINO;TRANSPORTADOR;DATA PREVISÃO EMBARQUE;DATA EMBARQUE;DATA PREVISÃO CHEGADA;DATA CHEGADA"]];
+                        var invoices = [["PROCESSO;INVOICE;DT REC;TX REC;MBL;FRETE MBL;HBL;FRETE HBL;ESTUFAGEM;ORIGEM;DESTINO;EMBARQUE;PREVISÃO CHEGADA;CHEGADA"]];
                         for (let i = 0; i < dado.length; i++) {
                             invoices.push([dado[i]])
                         }
@@ -295,10 +295,10 @@
                         doc.line(3, 38, 296, 38);
                         doc.line(3, 34, 3, 38);
                         doc.line(20, 34, 20, 38);
-                        doc.line(50, 34, 50, 38);
-                        doc.line(71, 34, 71, 38);
-                        doc.line(90, 34, 90, 38);
-                        doc.line(120, 34, 120, 38);
+                        doc.line(67, 34, 67, 38);
+                        doc.line(84, 34, 84, 38);
+                        doc.line(97, 34, 97, 38);
+                        doc.line(127, 34, 127, 38);
                         doc.line(145, 34, 145, 38);
                         doc.line(175, 34, 175, 38);
                         doc.line(195, 34, 195, 38);
@@ -311,12 +311,12 @@
 
                         doc.text("PROCESSO", 4, 37);
                         doc.text("INVOICE", 21, 37);
-                        doc.text("DATA RECEB.", 51, 37);
-                        doc.text("TAXA RECEB.", 72, 37);
-                        doc.text("MASTER", 91, 37);
-                        doc.text("FRETE MASTER", 121, 37);
-                        doc.text("HOUSE", 146, 37);
-                        doc.text("FRETE HOUSE", 176, 37);
+                        doc.text("DT REC", 68, 37);
+                        doc.text("TX REC", 85, 37);
+                        doc.text("MBL", 98, 37);
+                        doc.text("FRETE MBL", 128, 37);
+                        doc.text("HBL", 146, 37);
+                        doc.text("FRETE HBL", 176, 37);
                         doc.text("ESTUFAGEM", 196, 37);
                         doc.text("ORIGEM", 216, 37);
                         doc.text("DESTINO", 231, 37);
@@ -327,10 +327,10 @@
                             if (position >= pageHeight - 10) {
                                 doc.line(3, 38, 3, positionv);
                                 doc.line(20, 38, 20, positionv);
-                                doc.line(50, 38, 50, positionv);
-                                doc.line(71, 38, 71, positionv);
-                                doc.line(90, 38, 90, positionv);
-                                doc.line(120, 38, 120, positionv);
+                                doc.line(67, 38, 67, positionv);
+                                doc.line(84, 38, 84, positionv);
+                                doc.line(97, 38, 97, positionv);
+                                doc.line(127, 38, 127, positionv);
                                 doc.line(145, 38, 145, positionv);
                                 doc.line(175, 38, 175, positionv);
                                 doc.line(195, 38, 195, positionv);
@@ -356,10 +356,10 @@
                                 doc.line(3, 38, 296, 38);
                                 doc.line(3, 34, 3, 38);
                                 doc.line(20, 34, 20, 38);
-                                doc.line(50, 34, 50, 38);
-                                doc.line(71, 34, 71, 38);
-                                doc.line(90, 34, 90, 38);
-                                doc.line(120, 34, 120, 38);
+                                doc.line(67, 34, 67, 38);
+                                doc.line(84, 34, 84, 38);
+                                doc.line(97, 34, 97, 38);
+                                doc.line(127, 34, 127, 38);
                                 doc.line(145, 34, 145, 38);
                                 doc.line(175, 34, 175, 38);
                                 doc.line(195, 34, 195, 38);
@@ -373,12 +373,12 @@
 
                                 doc.text("PROCESSO", 4, 37);
                                 doc.text("INVOICE", 21, 37);
-                                doc.text("DATA RECEB.", 51, 37);
-                                doc.text("TAXA RECEB.", 72, 37);
-                                doc.text("MASTER", 91, 37);
-                                doc.text("FRETE MASTER", 121, 37);
-                                doc.text("HOUSE", 146, 37);
-                                doc.text("FRETE HOUSE", 176, 37);
+                                doc.text("DT REC", 68, 37);
+                                doc.text("TX REC", 85, 37);
+                                doc.text("MBL", 98, 37);
+                                doc.text("FRETE MBL", 128, 37);
+                                doc.text("HBL", 146, 37);
+                                doc.text("FRETE HBL", 176, 37);
                                 doc.text("ESTUFAGEM", 196, 37);
                                 doc.text("ORIGEM", 216, 37);
                                 doc.text("DESTINO", 231, 37);
@@ -391,10 +391,10 @@
                                 doc.line(3, positionv, 296, positionv);
                                 doc.text(dado[i]["NR_PROCESSO"], 4, position);
                                 doc.text(dado[i]["NR_INVOICE"], 21, position);
-                                doc.text(dado[i]["DT_LIQUIDACAO"], 51, position);
-                                doc.text(dado[i]["VL_TAXA_CAMBIO"], 72, position);
-                                doc.text(dado[i]["MBL"], 91, position);
-                                doc.text(dado[i]["FRETE_MASTER"], 121, position);
+                                doc.text(dado[i]["DT_LIQUIDACAO"], 68, position);
+                                doc.text(dado[i]["VL_TAXA_CAMBIO"], 85, position);
+                                doc.text(dado[i]["MBL"], 98, position);
+                                doc.text(dado[i]["FRETE_MASTER"], 128, position);
                                 doc.text(dado[i]["HBL"], 146, position);
                                 doc.text(dado[i]["FRETE_HOUSE"], 176, position);
                                 doc.text(dado[i]["ESTUFAGEM"], 196, position);
@@ -410,10 +410,10 @@
                                 doc.line(3, positionv, 296, positionv);
                                 doc.text(dado[i]["NR_PROCESSO"], 4, position);
                                 doc.text(dado[i]["NR_INVOICE"], 21, position);
-                                doc.text(dado[i]["DT_LIQUIDACAO"], 51, position);
-                                doc.text(dado[i]["VL_TAXA_CAMBIO"], 72, position);
-                                doc.text(dado[i]["MBL"], 91, position);
-                                doc.text(dado[i]["FRETE_MASTER"], 121, position);
+                                doc.text(dado[i]["DT_LIQUIDACAO"], 68, position);
+                                doc.text(dado[i]["VL_TAXA_CAMBIO"], 85, position);
+                                doc.text(dado[i]["MBL"], 98, position);
+                                doc.text(dado[i]["FRETE_MASTER"], 128, position);
                                 doc.text(dado[i]["HBL"], 146, position);
                                 doc.text(dado[i]["FRETE_HOUSE"], 176, position);
                                 doc.text(dado[i]["ESTUFAGEM"], 196, position);
@@ -428,10 +428,10 @@
                         doc.line(3, positionv, 296, positionv);
                         doc.line(3, 38, 3, positionv);
                         doc.line(20, 38, 20, positionv);
-                        doc.line(50, 38, 50, positionv);
-                        doc.line(71, 38, 71, positionv);
-                        doc.line(90, 38, 90, positionv);
-                        doc.line(120, 38, 120, positionv);
+                        doc.line(67, 38, 67, positionv);
+                        doc.line(84, 38, 84, positionv);
+                        doc.line(97, 38, 97, positionv);
+                        doc.line(127, 38, 127, positionv);
                         doc.line(145, 38, 145, positionv);
                         doc.line(175, 38, 175, positionv);
                         doc.line(195, 38, 195, positionv);
