@@ -102,6 +102,7 @@
                                                 <th class="text-center" scope="col">A PAGAR BRL</th>
                                                 <th class="text-center" scope="col">SALDO BRL</th>
                                                 <th class="text-center" scope="col">ITEM DESPESA</th>
+                                                <th class="text-center" scope="col">MODALIDADE</th>
                                             </tr>
                                         </thead>
                                         <tbody id="grdPagamentoRecebimentoBody">
@@ -240,6 +241,7 @@
                             result += "<td class='text-center'>" + dado[i]["APAGARBR"] + "</td>";
                             result += "<td class='text-center'>" + dado[i]["SALDOBR"] + "</td>";
                             result += "<td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["MODALIDADE"] + "</td>";
                             result += "</tr>";
                         }
                         $("#grdPagamentoRecebimentoBody").append(result);
@@ -288,7 +290,7 @@
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado != null) {
-                        var confProcesso = [["DOC CONFERIDO HOUSE;DOC CONFERIDO MASTER;PROCESSO;MASTER;HOUSE;TIPO SERVICO;TIPO ESTUFAGEM;TIPO PAGAMENTO HOUSE;TIPO PAGAMENTO MASTER;CNTR 20;CNTR 40;ORIGEM;DESTINO;DATA EMBARQUE;DATA PREVISAO CHEGADA;PARCEIRO;CNEE;INDICADOR;AGENTE;TIPO FATURAMENTO;DIAS FATURADOS;ORIGEM COMPRA; ORIGEM VENDA;A RECEBER BRL; A PAGAR BRL; SALDO BRL; ITEM DESPESA"]];
+                        var confProcesso = [["DOC CONFERIDO HOUSE;DOC CONFERIDO MASTER;PROCESSO;MASTER;HOUSE;TIPO SERVICO;TIPO ESTUFAGEM;TIPO PAGAMENTO HOUSE;TIPO PAGAMENTO MASTER;CNTR 20;CNTR 40;ORIGEM;DESTINO;DATA EMBARQUE;DATA PREVISAO CHEGADA;PARCEIRO;CNEE;INDICADOR;AGENTE;TIPO FATURAMENTO;DIAS FATURADOS;ORIGEM COMPRA; ORIGEM VENDA;A RECEBER BRL; A PAGAR BRL; SALDO BRL; ITEM DESPESA; MODALIDADE"]];
                         for (let i = 0; i < dado.length; i++) {
                             confProcesso.push([dado[i]]);
                         }

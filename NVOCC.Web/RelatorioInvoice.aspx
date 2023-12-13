@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="expRelatorioInvoice('Invoice.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="expRelatorioInvoice()">Exportar Grid - CSV</button>
                                         <button type="button" id="btnPrintPagamentoRecebimento" class="btn btn-primary" onclick="printPagamentosRecebimentos()">Imprimir</button>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
     <script src="Content/js/papaparse.min.js"></script>    
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
     <script>
         var data = new Date();
         var dia = String(data.getDate()).padStart(2, '0');
@@ -207,7 +207,7 @@
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado != null) {
-                        var invoices = [["INVOICE;PROCESSO;HBL;MBL;CLIENTE;AGENTE;ORIGEM;DESTINO;TRANSPORTADOR;DATA PREVISÃO EMBARQUE;DATA EMBARQUE;DATA PREVISÃO CHEGADA;DATA CHEGADA"]];
+                        var invoices = [["PROCESSO;INVOICE;DT REC;TX REC;MBL;FRETE MBL;HBL;FRETE HBL;ESTUFAGEM;ORIGEM;DESTINO;EMBARQUE;PREVISÃO CHEGADA;CHEGADA"]];
                         for (let i = 0; i < dado.length; i++) {
                             invoices.push([dado[i]])
                         }
@@ -263,8 +263,8 @@
             var anoF = dtFinal.substring(0, 4);
             var nota = document.getElementById("txtInvoice").value;
             var filter = document.getElementById("ddlFilterInvoice").value;
-            var position = 27;
-            var positionv = 28;
+            var position = 37;
+            var positionv = 38;
             var datetime = new Date().toLocaleString('pt-BR');
             $.ajax({
                 type: "POST",
@@ -283,145 +283,165 @@
                         imgData.src = 'Content/imagens/FCA-LOG(deitado).png';
                         doc.setFontStyle("bold");
                         doc.setFontSize(18);
-                        doc.text("AVISO DE EMBARQUE", 120, 13);
+                        doc.text("EMBARQUE POR PERÍODO", 115, 13);
+                        doc.setFontSize(11);
+                        doc.text("AGENTE: "+dado[0]["AGENTE"], 3, 27);
                         doc.setFontSize(8);
-                        doc.text("INVOICES ENTRE " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 125, 18);
+                        doc.text("INVOICES ENTRE: " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 3, 31);
                         doc.addImage(imgData, 'png', 10, 5, 60, 15);
                         doc.setFontSize(7);
                         doc.setLineWidth(0.2);
-                        doc.line(3, 24, 293, 24);
-                        doc.line(3, 28, 293, 28);
-                        doc.line(3, 24, 3, 28);
-                        doc.line(49, 24, 49, 28);
-                        doc.line(67, 24, 67, 28);
-                        doc.line(102, 24, 102, 28);
-                        doc.line(132, 24, 132, 28);
-                        doc.line(159, 24, 159, 28);
-                        doc.line(184, 24, 184, 28);
-                        doc.line(199, 24, 199, 28);
-                        doc.line(213, 24, 213, 28);
-                        doc.line(242, 24, 242, 28);
-                        doc.line(259, 24, 259, 28);
-                        doc.line(277, 24, 277, 28);
-                        doc.line(293, 24, 293, 28);
+                        doc.line(3, 34, 296, 34);
+                        doc.line(3, 38, 296, 38);
+                        doc.line(3, 34, 3, 38);
+                        doc.line(20, 34, 20, 38);
+                        doc.line(67, 34, 67, 38);
+                        doc.line(84, 34, 84, 38);
+                        doc.line(97, 34, 97, 38);
+                        doc.line(127, 34, 127, 38);
+                        doc.line(145, 34, 145, 38);
+                        doc.line(175, 34, 175, 38);
+                        doc.line(195, 34, 195, 38);
+                        doc.line(215, 34, 215, 38);
+                        doc.line(230, 34, 230, 38);
+                        doc.line(245, 34, 245, 38);
+                        doc.line(262, 34, 262, 38);
+                        doc.line(280, 34, 280, 38);
+                        doc.line(296, 34, 296, 38);
 
-                        doc.text("INVOICE", 4, 27);
-                        doc.text("PROCESSO", 50, 27);
-                        doc.text("HBL", 68, 27);
-                        doc.text("MBL", 103, 27);
-                        doc.text("CLIENTE", 133, 27);
-                        doc.text("AGENTE", 161, 27);
-                        doc.text("ORIGEM", 186, 27);
-                        doc.text("DESTINO", 201, 27);
-                        doc.text("TRANSPORTADOR", 214, 27);
-                        doc.text("EMBARQUE", 243, 27);
-                        doc.text("P. CHEGADA", 261, 27);
-                        doc.text("CHEGADA", 278, 27);
+                        doc.text("PROCESSO", 4, 37);
+                        doc.text("INVOICE", 21, 37);
+                        doc.text("DT REC", 68, 37);
+                        doc.text("TX REC", 85, 37);
+                        doc.text("MBL", 98, 37);
+                        doc.text("FRETE MBL", 128, 37);
+                        doc.text("HBL", 146, 37);
+                        doc.text("FRETE HBL", 176, 37);
+                        doc.text("ESTUFAGEM", 196, 37);
+                        doc.text("ORIGEM", 216, 37);
+                        doc.text("DESTINO", 231, 37);
+                        doc.text("EMBARQUE", 246, 37);
+                        doc.text("P.CHEGADA", 263, 37);
+                        doc.text("CHEGADA", 281, 37);
                         for (let i = 0; i < dado.length; i++) {
                             if (position >= pageHeight - 10) {
-                                doc.line(3, 28, 3, positionv);
-                                doc.line(49, 28, 49, positionv);
-                                doc.line(67, 28, 67, positionv);
-                                doc.line(102, 28, 102, positionv);
-                                doc.line(132, 28, 132, positionv);
-                                doc.line(159, 28, 159, positionv);
-                                doc.line(184, 28, 184, positionv);
-                                doc.line(199, 28, 199, positionv);
-                                doc.line(213, 28, 213, positionv);
-                                doc.line(242, 28, 242, positionv);
-                                doc.line(259, 28, 259, positionv);
-                                doc.line(277, 28, 277, positionv);
-                                doc.line(293, 28, 293, positionv);
-                                doc.line(3, 28, 3, positionv);
+                                doc.line(3, 38, 3, positionv);
+                                doc.line(20, 38, 20, positionv);
+                                doc.line(67, 38, 67, positionv);
+                                doc.line(84, 38, 84, positionv);
+                                doc.line(97, 38, 97, positionv);
+                                doc.line(127, 38, 127, positionv);
+                                doc.line(145, 38, 145, positionv);
+                                doc.line(175, 38, 175, positionv);
+                                doc.line(195, 38, 195, positionv);
+                                doc.line(215, 38, 215, positionv);
+                                doc.line(230, 38, 230, positionv);
+                                doc.line(245, 38, 245, positionv);
+                                doc.line(262, 38, 262, positionv);
+                                doc.line(280, 38, 280, positionv);
+                                doc.line(296, 38, 296, positionv);
+                                doc.line(3, 38, 3, positionv);
                                 doc.addPage();
                                 doc.setFontStyle("bold");
                                 doc.setFontSize(18);
-                                doc.text("AVISO DE EMBARQUE", 120, 13);
+                                doc.text("EMBARQUE POR PERÍODO", 115, 13);
+                                doc.setFontSize(11);
+                                doc.text("AGENTE: " + dado[0]["AGENTE"], 3, 27);
                                 doc.setFontSize(8);
-                                doc.text("INVOICES ENTRE " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 125, 18);
+                                doc.text("INVOICES ENTRE: " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 3, 31);
                                 doc.addImage(imgData, 'png', 10, 5, 60, 15);
                                 doc.setFontSize(7);
                                 doc.setLineWidth(0.2);
-                                doc.line(3, 24, 293, 24);
-                                doc.line(3, 28, 293, 28);
-                                doc.line(3, 24, 3, 28);
-                                doc.line(49, 24, 49, 28);
-                                doc.line(67, 24, 67, 28);
-                                doc.line(102, 24, 102, 28);
-                                doc.line(132, 24, 132, 28);
-                                doc.line(159, 24, 159, 28);
-                                doc.line(184, 24, 184, 28);
-                                doc.line(199, 24, 199, 28);
-                                doc.line(213, 24, 213, 28);
-                                doc.line(242, 24, 242, 28);
-                                doc.line(259, 24, 259, 28);
-                                doc.line(277, 24, 277, 28);
-                                doc.line(293, 24, 293, 28);
+                                doc.line(3, 34, 296, 34);
+                                doc.line(3, 38, 296, 38);
+                                doc.line(3, 34, 3, 38);
+                                doc.line(20, 34, 20, 38);
+                                doc.line(67, 34, 67, 38);
+                                doc.line(84, 34, 84, 38);
+                                doc.line(97, 34, 97, 38);
+                                doc.line(127, 34, 127, 38);
+                                doc.line(145, 34, 145, 38);
+                                doc.line(175, 34, 175, 38);
+                                doc.line(195, 34, 195, 38);
+                                doc.line(215, 34, 215, 38);
+                                doc.line(230, 34, 230, 38);
+                                doc.line(245, 34, 245, 38);
+                                doc.line(262, 34, 262, 38);
+                                doc.line(280, 34, 280, 38);
+                                doc.line(296, 34, 296, 38);
 
 
-                                doc.text("INVOICE", 4, 27);
-                                doc.text("PROCESSO", 50, 27);
-                                doc.text("HBL", 70, 27);
-                                doc.text("MBL", 105, 27);
-                                doc.text("CLIENTE", 135, 27);
-                                doc.text("AGENTE", 161, 27);
-                                doc.text("ORIGEM", 186, 27);
-                                doc.text("DESTINO", 201, 27);
-                                doc.text("TRANSPORTADOR", 214, 27);
-                                doc.text("EMBARQUE", 243, 27);
-                                doc.text("P. CHEGADA", 261, 27);
-                                doc.text("CHEGADA", 279, 27);
-                                position = 27+5;
-                                positionv = 28+5;
+                                doc.text("PROCESSO", 4, 37);
+                                doc.text("INVOICE", 21, 37);
+                                doc.text("DT REC", 68, 37);
+                                doc.text("TX REC", 85, 37);
+                                doc.text("MBL", 98, 37);
+                                doc.text("FRETE MBL", 128, 37);
+                                doc.text("HBL", 146, 37);
+                                doc.text("FRETE HBL", 176, 37);
+                                doc.text("ESTUFAGEM", 196, 37);
+                                doc.text("ORIGEM", 216, 37);
+                                doc.text("DESTINO", 231, 37);
+                                doc.text("EMBARQUE", 246, 37);
+                                doc.text("P.CHEGADA", 263, 37);
+                                doc.text("CHEGADA", 281, 37);
+                                position = 37+5;
+                                positionv = 38+5;
                                 doc.setFontStyle("normal");
-                                doc.line(3, positionv, 293, positionv);
-                                doc.text(dado[i]["NR_INVOICE"], 4, position);
-                                doc.text(dado[i]["NR_PROCESSO"], 50, position);
-                                doc.text(dado[i]["HBL"], 68, position);
-                                doc.text(dado[i]["MBL"].substring(0, 20), 103, position);
-                                doc.text(dado[i]["CLIENTE"].substring(0, 12), 133, position);
-                                doc.text(dado[i]["AGENTE"].substring(0, 12), 161, position);
-                                doc.text(dado[i]["ORIGEM"].substring(0, 12), 186, position);
-                                doc.text(dado[i]["DESTINO"], 201, position);
-                                doc.text(dado[i]["TRANSPORTADOR"].substring(0, 15), 214, position);
-                                doc.text(dado[i]["DT_EMBARQUE"], 243, position);
-                                doc.text(dado[i]["DT_PREVISAO_CHEGADA"].substring(0, 15), 261, position);
-                                doc.text(dado[i]["DT_CHEGADA"], 279, position);
+                                doc.line(3, positionv, 296, positionv);
+                                doc.text(dado[i]["NR_PROCESSO"], 4, position);
+                                doc.text(dado[i]["NR_INVOICE"], 21, position);
+                                doc.text(dado[i]["DT_LIQUIDACAO"], 68, position);
+                                doc.text(dado[i]["VL_TAXA_CAMBIO"], 85, position);
+                                doc.text(dado[i]["MBL"], 98, position);
+                                doc.text(dado[i]["FRETE_MASTER"], 128, position);
+                                doc.text(dado[i]["HBL"], 146, position);
+                                doc.text(dado[i]["FRETE_HOUSE"], 176, position);
+                                doc.text(dado[i]["ESTUFAGEM"], 196, position);
+                                doc.text(dado[i]["ORIGEM"], 216, position);
+                                doc.text(dado[i]["DESTINO"], 231, position);
+                                doc.text(dado[i]["DT_EMBARQUE"], 246, position);
+                                doc.text(dado[i]["DT_PREVISAO_CHEGADA"], 263, position);
+                                doc.text(dado[i]["DT_CHEGADA"], 281, position);
                             } else {
                                 position = position + 5;
                                 positionv = positionv + 5;
                                 doc.setFontStyle("normal");
-                                doc.line(3, positionv, 293, positionv);
-                                doc.text(dado[i]["NR_INVOICE"], 4, position);
-                                doc.text(dado[i]["NR_PROCESSO"], 50, position);
-                                doc.text(dado[i]["HBL"], 68, position);
-                                doc.text(dado[i]["MBL"].substring(0, 20), 103, position);
-                                doc.text(dado[i]["CLIENTE"].substring(0, 12), 133, position);
-                                doc.text(dado[i]["AGENTE"].substring(0, 12), 161, position);
-                                doc.text(dado[i]["ORIGEM"].substring(0, 12), 186, position);
-                                doc.text(dado[i]["DESTINO"], 201, position);
-                                doc.text(dado[i]["TRANSPORTADOR"].substring(0, 15), 214, position);
-                                doc.text(dado[i]["DT_EMBARQUE"], 243, position);
-                                doc.text(dado[i]["DT_PREVISAO_CHEGADA"].substring(0, 15), 261, position);
-                                doc.text(dado[i]["DT_CHEGADA"], 279, position);
+                                doc.line(3, positionv, 296, positionv);
+                                doc.text(dado[i]["NR_PROCESSO"], 4, position);
+                                doc.text(dado[i]["NR_INVOICE"], 21, position);
+                                doc.text(dado[i]["DT_LIQUIDACAO"], 68, position);
+                                doc.text(dado[i]["VL_TAXA_CAMBIO"], 85, position);
+                                doc.text(dado[i]["MBL"], 98, position);
+                                doc.text(dado[i]["FRETE_MASTER"], 128, position);
+                                doc.text(dado[i]["HBL"], 146, position);
+                                doc.text(dado[i]["FRETE_HOUSE"], 176, position);
+                                doc.text(dado[i]["ESTUFAGEM"], 196, position);
+                                doc.text(dado[i]["ORIGEM"], 216, position);
+                                doc.text(dado[i]["DESTINO"], 231, position);
+                                doc.text(dado[i]["DT_EMBARQUE"], 246, position);
+                                doc.text(dado[i]["DT_PREVISAO_CHEGADA"], 263, position);
+                                doc.text(dado[i]["DT_CHEGADA"], 281, position);
                             }
                         }
                         doc.text("Gerado: " + datetime, 260, 205);
-                        doc.line(3, positionv, 293, positionv);
-                        doc.line(3, 28, 3, positionv);
-                        doc.line(49, 28, 49, positionv);
-                        doc.line(67, 28, 67, positionv);
-                        doc.line(102, 28, 102, positionv);
-                        doc.line(132, 28, 132, positionv);
-                        doc.line(159, 28, 159, positionv);
-                        doc.line(184, 28, 184, positionv);
-                        doc.line(199, 28, 199, positionv);
-                        doc.line(213, 28, 213, positionv);
-                        doc.line(242, 28, 242, positionv);
-                        doc.line(259, 28, 259, positionv);
-                        doc.line(277, 28, 277, positionv);
-                        doc.line(293, 28, 293, positionv);
-                        doc.line(3, 28, 3, positionv);
+                        doc.line(3, positionv, 296, positionv);
+                        doc.line(3, 38, 3, positionv);
+                        doc.line(20, 38, 20, positionv);
+                        doc.line(67, 38, 67, positionv);
+                        doc.line(84, 38, 84, positionv);
+                        doc.line(97, 38, 97, positionv);
+                        doc.line(127, 38, 127, positionv);
+                        doc.line(145, 38, 145, positionv);
+                        doc.line(175, 38, 175, positionv);
+                        doc.line(195, 38, 195, positionv);
+                        doc.line(215, 38, 215, positionv);
+                        doc.line(230, 38, 230, positionv);
+                        doc.line(245, 38, 245, positionv);
+                        doc.line(262, 38, 262, positionv);
+                        doc.line(280, 38, 280, positionv);
+                        doc.line(296, 38, 296, positionv);
+                        doc.line(3, 38, 3, positionv);
                         doc.output("dataurlnewwindow");
                     }
                     else {

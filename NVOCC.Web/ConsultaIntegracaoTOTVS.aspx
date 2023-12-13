@@ -65,8 +65,8 @@
                                 <asp:BoundField DataField="DADOS_CLIENTE" HeaderText="Cliente" SortExpression="DADOS_CLIENTE" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
                                 <asp:BoundField DataField="TIPO" HeaderText="Tipo" SortExpression="TIPO" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
                                 <asp:BoundField DataField="DATA_INTEG_REC" HeaderText="Integração" SortExpression="DATA_INTEG_REC" DataFormatString="{0:dd/MM/yyyy hh:mm}" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
-                                <asp:BoundField DataField="RETORNO" HeaderText="Retorno" SortExpression="RETORNO" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
-                                <asp:BoundField DataField="INTEGRACAO_CANCELADA" HeaderText="Integração Cancelada" SortExpression="INTEGRACAO_CANCELADA" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
+                                <asp:BoundField DataField="RETORNO" HeaderText="Crítica" SortExpression="RETORNO" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
+                                <asp:BoundField DataField="INTEGRACAO_CANCELADA" HeaderText="Cancelada" SortExpression="INTEGRACAO_CANCELADA" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
                                 <asp:BoundField DataField="CRITICA" HeaderText="Crítica" SortExpression="CRITICA" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="dados"/>
                             </Columns>
                             <HeaderStyle CssClass="headerStyle" />

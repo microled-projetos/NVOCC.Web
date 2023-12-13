@@ -42,7 +42,17 @@ Module Inicio
 
             ''ROTINA QUE ATUALIZA DATA DA BAIXA TOTVS NAS COMISSOES NACIONAIS - CHAMADO 3505
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 42 - Proc_Comissoes_Nacional_Totvs ")
-            Con.ExecutarQuery("EXEC [dbo].[Proc_Comissoes_Nacional_Totvs]")
+            'Con.ExecutarQuery("EXEC [dbo].[Proc_Comissoes_Nacional_Totvs]")
+            Dim cn As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString
+            Dim dsProc As DataSet = New DataSet()
+
+            Using myConnection As SqlConnection = New SqlConnection(cn)
+                Dim dataadapter As SqlDataAdapter = New SqlDataAdapter("[dbo].[Proc_Comissoes_Nacional_Totvs]", myConnection)
+                dataadapter.SelectCommand.CommandTimeout = 180
+                myConnection.Open()
+                dataadapter.Fill(dsProc, "Authors_table")
+            End Using
+
 
 
             ''ROTINA QUE DELETA ARQUIVOC DE UPLOAD DO GLOBAL SYS - CHAMADO 33531  
