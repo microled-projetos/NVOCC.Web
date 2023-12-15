@@ -18,6 +18,7 @@ using ABAINFRA.Web.Classes;
 using System.Net;
 using Microsoft.Exchange.WebServices.Data;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace ABAINFRA.Web
 {
@@ -5550,13 +5551,13 @@ namespace ABAINFRA.Web
             string diaF = dataF.Substring(8, 2);
             string mesF = dataF.Substring(5, 2);
             string anoF = dataF.Substring(0, 4);
-            dataI = anoI + '-' + mesI + '-' + diaI;
-            dataF = anoF + '-' + mesF + '-' + diaF;
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
 
             switch (filter)
             {
                 case "1":
-                    nota = "AND AGENTE.NM_RAZAO LIKE '%" + nota + "%' ";
+                    nota = "AND D.NM_RAZAO LIKE '%" + nota + "%' ";
                     break;
                 case "2":
                     nota = " AND C.NR_PROCESSO LIKE '%" + nota + "%' ";
@@ -5569,33 +5570,41 @@ namespace ABAINFRA.Web
                     break;
             }
 
-            SQL = "select  DISTINCT(NR_INVOICE), AI.ID_ACCOUNT_INVOICE, ";
-            SQL += "CASE WHEN C.GRAU = 'M' THEN 'MASTER' ELSE  'HOUSE' END AS TIPO, ";
-            SQL += "ATE.NM_ACCOUNT_TIPO_EMISSOR, ";
-            SQL += "FORMAT(AI.DT_INVOICE,'dd/MM/yyyy') AS DT_INVOICE, ";
-            SQL += "FORMAT(AI.DT_VENCIMENTO,'dd/MM/yyyy') AS DT_VENCIMENTO, ";
-            SQL += "C.NR_PROCESSO, ";
-            SQL += "C.NR_BL, ";
-            SQL += "AGENTE.NM_RAZAO, ";
-            SQL += "CASE WHEN AI.FL_CONFERIDO = 1 THEN 'SIM' ELSE 'NÃO' END AS CONFERIDO, ";
-            SQL += "ATF.NM_ACCOUNT_TIPO_FATURA, ";
-            SQL += "M.SIGLA_MOEDA, ";
-            SQL += "isnull(convert(varchar,(SELECT SUM(VL_TAXA) FROM TB_ACCOUNT_INVOICE_ITENS ";
-            SQL += "WHERE ID_ACCOUNT_INVOICE = AI.ID_ACCOUNT_INVOICE ";
-            SQL += "GROUP BY ID_ACCOUNT_INVOICE)),'') as VALOR, ";
-            SQL += "ISNULL(FORMAT(AF.DT_FECHAMENTO,'dd/MM/yyyy'),'') AS DT_FECHAMENTO, ";
-            SQL += "ISNULL(AI.DS_OBSERVACAO,'') AS OBS ";
-            SQL += "from TB_ACCOUNT_INVOICE AI ";
-            SQL += "JOIN TB_BL C ON AI.ID_BL = C.ID_BL ";
-            SQL += "LEFT JOIN TB_ACCOUNT_TIPO_EMISSOR ATE ON AI.ID_ACCOUNT_TIPO_EMISSOR = ATE.ID_ACCOUNT_TIPO_EMISSOR ";
-            SQL += "LEFT JOIN TB_PARCEIRO AGENTE ON AI.ID_PARCEIRO_AGENTE = AGENTE.ID_PARCEIRO ";
-            SQL += "LEFT JOIN TB_ACCOUNT_TIPO_FATURA ATF ON AI.ID_ACCOUNT_TIPO_FATURA = ATF.ID_ACCOUNT_TIPO_FATURA ";
-            SQL += "LEFT JOIN TB_MOEDA M ON AI.ID_MOEDA = M.ID_MOEDA ";
-            SQL += "LEFT JOIN TB_ACCOUNT_INVOICE_ITENS AII ON AII.ID_ACCOUNT_INVOICE = AI.ID_ACCOUNT_INVOICE ";
-            SQL += "LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS AFI ON AI.ID_ACCOUNT_INVOICE = AFI.ID_ACCOUNT_INVOICE ";
-            SQL += "LEFT JOIN TB_ACCOUNT_FECHAMENTO AF ON AFI.ID_ACCOUNT_FECHAMENTO = AF.ID_ACCOUNT_FECHAMENTO ";
-            SQL += "WHERE AI.DT_VENCIMENTO >= '" + dataI + "' AND AI.DT_VENCIMENTO <= '" + dataF + "' ";
+            SQL = "SELECT A.NR_INVOICE, C.NR_PROCESSO, D.NM_RAZAO AS AGENTE, ";
+            SQL += "ISNULL(FORMAT(C.DT_EMBARQUE,'dd/MM/yyyy'),'') AS DT_EMBARQUE, ";
+            SQL += "ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ";
+            SQL += "ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+            SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO, '') NM_TIPO_PAGAMENTO ";
+            SQL += "FROM TB_BL A ";
+            SQL += "JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO ";
+            SQL += "WHERE A.ID_BL = C.ID_BL_MASTER),'') AS FRETE_MASTER, ";
+            SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO, '') NM_TIPO_PAGAMENTO ";
+            SQL += "FROM TB_BL A ";
+            SQL += "JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO ";
+            SQL += "WHERE A.ID_BL = C.ID_BL),'') AS FRETE_HOUSE, ";
+            SQL += "F.CD_SIGLA AS ORIGEM, ";
+            SQL += "F1.CD_SIGLA AS DESTINO, ";
+            SQL += "C.NR_BL AS HBL, ";
+            SQL += "M.NR_BL AS MBL, ";
+            SQL += "G.NM_TIPO_ESTUFAGEM AS ESTUFAGEM, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,MAX(H.VL_CAMBIO)),'') VL_CAMBIO, ";
+            SQL += "MAX(ISNULL(FORMAT(I.DT_LIQUIDACAO,'dd/MM/yyyy'),'')) DT_LIQUIDACAO ";
+            SQL += "FROM TB_ACCOUNT_INVOICE A ";
+            SQL += "JOIN TB_ACCOUNT_INVOICE_ITENS B ON A.ID_ACCOUNT_INVOICE = B.ID_ACCOUNT_INVOICE ";
+            SQL += "JOIN TB_BL C ON A.ID_BL = C.ID_BL ";
+            SQL += "JOIN TB_BL M ON C.ID_BL_MASTER=M.ID_BL ";
+            SQL += "JOIN TB_PARCEIRO D ON A.ID_PARCEIRO_AGENTE = D.ID_PARCEIRO ";
+            SQL += "JOIN TB_ITEM_DESPESA E ON B.ID_ITEM_DESPESA = E.ID_ITEM_DESPESA ";
+            SQL += "JOIN TB_PORTO F ON C.ID_PORTO_ORIGEM = F.ID_PORTO ";
+            SQL += "JOIN TB_PORTO F1 ON C.ID_PORTO_DESTINO = F1.ID_PORTO ";
+            SQL += "JOIN TB_TIPO_ESTUFAGEM G ON C.ID_TIPO_ESTUFAGEM = G.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS H ON C.ID_BL = H.ID_BL AND H.ID_ITEM_DESPESA = 14 ";
+            SQL += "LEFT JOIN TB_CONTA_PAGAR_RECEBER I ON I.ID_CONTA_PAGAR_RECEBER = H.ID_CONTA_PAGAR_RECEBER ";
+            SQL += "WHERE CONVERT(DATE,A.DT_VENCIMENTO,103) BETWEEN CONVERT(DATE,'"+ dataI + "',103) AND CONVERT(DATE,'"+ dataF + "',103) ";
             SQL += "" + nota + "";
+            SQL += "GROUP BY A.NR_INVOICE, C.NR_PROCESSO, D.NM_RAZAO, C.DT_EMBARQUE, ";
+            SQL += "C.DT_PREVISAO_CHEGADA, C.DT_CHEGADA, C.ID_BL_MASTER, C.ID_BL, F.CD_SIGLA, F1.CD_SIGLA, G.NM_TIPO_ESTUFAGEM, ";
+            SQL += "C.NR_BL, M.NR_BL ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -5637,7 +5646,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod(EnableSession = true)]
-        public string imprimirInvoice(string dataI, string dataF, string[] invoices)
+        public string imprimirInvoice(string dataI, string dataF)
         {
             string SQL;
 
@@ -5651,7 +5660,7 @@ namespace ABAINFRA.Web
             dataI = anoI + '-' + mesI + '-' + diaI;
             dataF = anoF + '-' + mesF + '-' + diaF;
 
-            SQL = "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(REPLACE(CONVERT(VARCHAR,G.VL_TAXA_CAMBIO,103),'.',','),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(G.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO,  ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL = "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(REPLACE(CONVERT(VARCHAR,J.VL_CAMBIO,103),'.',','),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(I.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO,  ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
             SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ISNULL(AGENTE.NM_RAZAO,'') AS AGENTE, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = M.ID_BL),'') AS FRETE_MASTER, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = C.ID_BL),'') AS FRETE_HOUSE, ";
@@ -5663,6 +5672,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA,  ";
             SQL += "ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
             SQL += "FROM TB_ACCOUNT_INVOICE AI ";
+            SQL += " JOIN TB_ACCOUNT_INVOICE_ITENS B ON AI.ID_ACCOUNT_INVOICE = B.ID_ACCOUNT_INVOICE ";
             SQL += " JOIN TB_BL C ON AI.ID_BL = C.ID_BL_MASTER ";
             SQL += " JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
             SQL += " JOIN TB_PARCEIRO CLIENTE ON C.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
@@ -5670,22 +5680,13 @@ namespace ABAINFRA.Web
             SQL += " JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
             SQL += " JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
             SQL += " JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
-            SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS F ON AI.ID_ACCOUNT_INVOICE = F.ID_ACCOUNT_INVOICE ";
-            SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO G ON F.ID_ACCOUNT_FECHAMENTO = G.ID_ACCOUNT_FECHAMENTO ";
+            SQL += " LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS J ON J.ID_BL_TAXA = B.ID_BL_TAXA ";
+            SQL += " LEFT JOIN TB_CONTA_PAGAR_RECEBER I ON J.ID_CONTA_PAGAR_RECEBER = I.ID_CONTA_PAGAR_RECEBER ";
             SQL += " LEFT JOIN TB_TIPO_ESTUFAGEM H ON C.ID_TIPO_ESTUFAGEM=H.ID_TIPO_ESTUFAGEM ";
-            for (int i = 0; i < invoices.Length; i++)
-            {
-                if (i == 0)
-                {
-                    SQL += " WHERE ID_ACCOUNT_TIPO_INVOICE = 1 AND (AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
-                }
-                else
-                {
-                    SQL += " OR AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
-                }
-            }
-            SQL += " ) UNION ";
-            SQL += "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(REPLACE(CONVERT(VARCHAR,G.VL_TAXA_CAMBIO,103),'.',','),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(G.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += " WHERE I.CD_PR = 'R' ";
+            SQL += " AND AI.DT_VENCIMENTO >= '" + dataI + "' AND AI.DT_VENCIMENTO <= '" + dataF + "' ";
+            SQL += " UNION ";
+            SQL += "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(REPLACE(CONVERT(VARCHAR,J.VL_CAMBIO,103),'.',','),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(I.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
             SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ISNULL(AGENTE.NM_RAZAO,'') AS AGENTE, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = M.ID_BL),'') AS FRETE_MASTER, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = C.ID_BL),'') AS FRETE_HOUSE, ";
@@ -5697,6 +5698,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA,  ";
             SQL += "ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
             SQL += "FROM TB_ACCOUNT_INVOICE AI ";
+            SQL += " JOIN TB_ACCOUNT_INVOICE_ITENS B ON AI.ID_ACCOUNT_INVOICE = B.ID_ACCOUNT_INVOICE ";
             SQL += " JOIN TB_BL C ON AI.ID_BL = C.ID_BL ";
             SQL += " JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
             SQL += " JOIN TB_PARCEIRO CLIENTE ON C.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
@@ -5704,22 +5706,13 @@ namespace ABAINFRA.Web
             SQL += " JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
             SQL += " JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
             SQL += " JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
-            SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS F ON AI.ID_ACCOUNT_INVOICE = F.ID_ACCOUNT_INVOICE ";
-            SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO G ON F.ID_ACCOUNT_FECHAMENTO = G.ID_ACCOUNT_FECHAMENTO ";
+            SQL += " LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS J ON J.ID_BL_TAXA = B.ID_BL_TAXA ";
+            SQL += " LEFT JOIN TB_CONTA_PAGAR_RECEBER I ON J.ID_CONTA_PAGAR_RECEBER = I.ID_CONTA_PAGAR_RECEBER ";
             SQL += " LEFT JOIN TB_TIPO_ESTUFAGEM H ON C.ID_TIPO_ESTUFAGEM=H.ID_TIPO_ESTUFAGEM ";
-            for (int i = 0; i < invoices.Length; i++)
-            {
-                if (i == 0)
-                {
-                    SQL += " WHERE ID_ACCOUNT_TIPO_INVOICE = 2 AND ( AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
-                }
-                else
-                {
-                    SQL += " OR AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
-                }
-            }
-            SQL += " ) UNION ";
-            SQL += "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(REPLACE(CONVERT(VARCHAR,G.VL_TAXA_CAMBIO,103),'.',','),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(G.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += " WHERE I.CD_PR = 'R' ";
+            SQL += " AND AI.DT_VENCIMENTO >= '" + dataI + "' AND AI.DT_VENCIMENTO <= '" + dataF + "' ";
+            SQL += " UNION ";
+            SQL += "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(REPLACE(CONVERT(VARCHAR,J.VL_CAMBIO,103),'.',','),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(I.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
             SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ISNULL(AGENTE.NM_RAZAO,'') AS AGENTE, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = M.ID_BL),'') AS FRETE_MASTER, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = C.ID_BL),'') AS FRETE_HOUSE, ";
@@ -5731,6 +5724,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA,  ";
             SQL += "ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
             SQL += "FROM TB_ACCOUNT_INVOICE AI ";
+            SQL += " JOIN TB_ACCOUNT_INVOICE_ITENS B ON AI.ID_ACCOUNT_INVOICE = B.ID_ACCOUNT_INVOICE ";
             SQL += " JOIN TB_BL C ON AI.ID_BL = C.ID_BL ";
             SQL += " JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
             SQL += " JOIN TB_PARCEIRO CLIENTE ON C.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
@@ -5738,21 +5732,11 @@ namespace ABAINFRA.Web
             SQL += " JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
             SQL += " JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
             SQL += " JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
-            SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS F ON AI.ID_ACCOUNT_INVOICE = F.ID_ACCOUNT_INVOICE ";
-            SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO G ON F.ID_ACCOUNT_FECHAMENTO = G.ID_ACCOUNT_FECHAMENTO ";
+            SQL += " LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS J ON J.ID_BL_TAXA = B.ID_BL_TAXA ";
+            SQL += " LEFT JOIN TB_CONTA_PAGAR_RECEBER I ON J.ID_CONTA_PAGAR_RECEBER = I.ID_CONTA_PAGAR_RECEBER ";
             SQL += " LEFT JOIN TB_TIPO_ESTUFAGEM H ON C.ID_TIPO_ESTUFAGEM=H.ID_TIPO_ESTUFAGEM ";
-            for (int i = 0; i < invoices.Length; i++)
-            {
-                if (i == 0)
-                {
-                    SQL += " WHERE ID_ACCOUNT_TIPO_INVOICE = 1 AND ( AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
-                }
-                else
-                {
-                    SQL += " OR AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
-                }
-            }
-            SQL += " ) ";
+            SQL += " WHERE I.CD_PR = 'R' ";
+            SQL += " AND AI.DT_VENCIMENTO >= '" + dataI + "' AND AI.DT_VENCIMENTO <= '" + dataF + "' ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
