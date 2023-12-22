@@ -20,6 +20,8 @@
             Dim ds As DataSet
             Dim sql As String = "SELECT * FROM [dbo].[FN_INTEGRACAO_TOTVS]('" & ddlFiltroTipo.SelectedValue & "','" & txtDataInicioBusca.Text & "','" & txtDataFimBusca.Text & "') ORDER BY DATA_EMISSAO DESC"
 
+
+
             ' dgvConsulta.DataSource = ds.Tables(0)
             dsConsulta.SelectCommand = sql
 
