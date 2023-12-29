@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ConsultarLoteRpsEnvio xmlns="http://www.ginfes.com.br/servico_consultar_lote_rps_envio_v03.xsd">
+  <Prestador>
+    <Cnpj xmlns="http://www.ginfes.com.br/tipos_v03.xsd">00639367000311</Cnpj>
+    <InscricaoMunicipal xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1831854</InscricaoMunicipal>
+  </Prestador>
+  <Protocolo>529543837</Protocolo>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+      <Reference URI="">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+          <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <DigestValue>vD5dAtnfcxE8JVFuDviR5P7NVOg=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>ZfNPT1xxSz+USa2GoLYRJXiXNzUCxKVGWdZFKyMfRrw8oQP1NI3SFJ2tFfC+YNjsmmYQqizyxWM8xc+nKcYjiORloylxnhj0FhD4tSL7u5RpMWhbO2KUj9g2O9snUcbDfa7ebL9miXcJMbZ0AxF5L3iQbm6nqe99BLOJtUY6ICAgToaI5Srb0sK8CmrqvihrLWAA3ZVe0KkjjNH0VB5lGMayx2pTpD2Ks0uwR3VVCqpiFaKCsczV7OnmdIarOGxNPrNi8K53ZdG13+qbUhrtEI+x/JJumZeQ+O/pZUY3oWetdlYVKTwbbCN/R02HWKyjto+gGDvGhHKc/2j0HNINrQ==</SignatureValue>
+    <KeyInfo>
+      <X509Data>
+        <X509Certificate>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</X509Certificate>
+      </X509Data>
+    </KeyInfo>
+  </Signature>
+</ConsultarLoteRpsEnvio>

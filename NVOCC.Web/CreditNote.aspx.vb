@@ -22,7 +22,7 @@
 
         If Request.QueryString("id") <> "" Then
             lblIDINVOICE.Text = Request.QueryString("id")
-            ds = Con.ExecutarQuery("SELECT A.ID_BL,A.ID_ACCOUNT_TIPO_INVOICE,(SELECT B.ID_BL_MASTER FROM TB_BL B WHERE B.ID_BL = A.ID_BL)ID_BL_MASTER,(SELECT C.NM_RAZAO FROM TB_PARCEIRO C WHERE C.ID_PARCEIRO = A.ID_PARCEIRO_AGENTE)PARCEIRO_AGENTE FROM TB_ACCOUNT_INVOICE A WHERE A.ID_ACCOUNT_INVOICE = " & Request.QueryString("id"))
+            ds = Con.ExecutarQuery("SELECT A.ID_BL,A.ID_ACCOUNT_TIPO_INVOICE,(SELECT isnull(B.ID_BL_MASTER,0) FROM TB_BL B WHERE B.ID_BL = A.ID_BL)ID_BL_MASTER,(SELECT C.NM_RAZAO FROM TB_PARCEIRO C WHERE C.ID_PARCEIRO = A.ID_PARCEIRO_AGENTE)PARCEIRO_AGENTE FROM TB_ACCOUNT_INVOICE A WHERE A.ID_ACCOUNT_INVOICE = " & Request.QueryString("id"))
             If ds.Tables(0).Rows.Count > 0 Then
 
                 lblID_BL.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
@@ -189,6 +189,26 @@ WHERE ID_BL_MASTER = " & lblID_BL_MASTER.Text & " AND ID_ACCOUNT_INVOICE  =" & l
                 lblAgency.Text = dsBanco.Tables(0).Rows(0).Item("AGENCY")
                 lblIban.Text = dsBanco.Tables(0).Rows(0).Item("IBAN_BR")
             End If
+
+
+
+            Dim dsParceiro As DataSet = Con.ExecutarQuery("SELECT UPPER(NM_RAZAO),UPPER(ENDERECO)ENDERECO,NR_ENDERECO,CNPJ,CPF,CEP,ID_CIDADE,(SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE)CIDADE,UPPER(BAIRRO)BAIRRO,TELEFONE,(SELECT NM_PAIS FROM TB_PAIS WHERE ID_PAIS = A.ID_PAIS)PAIS,INSCR_ESTADUAL FROM TB_PARCEIRO A WHERE ID_PARCEIRO = 1 ")
+
+            If ds.Tables(0).Rows.Count > 0 Then
+                lblEnderecoFCA.Text = dsParceiro.Tables(0).Rows(0).Item("ENDERECO") & ", " & dsParceiro.Tables(0).Rows(0).Item("NR_ENDERECO") & " - " & dsParceiro.Tables(0).Rows(0).Item("BAIRRO")
+                lblEnderecoFCA2.Text = dsParceiro.Tables(0).Rows(0).Item("CIDADE") & " - " & dsParceiro.Tables(0).Rows(0).Item("PAIS") & " - CEP: " & dsParceiro.Tables(0).Rows(0).Item("CEP")
+
+
+                If Not IsDBNull(dsParceiro.Tables(0).Rows(0).Item("CNPJ")) Then
+                    lblDocFCA.Text = "CNPJ: " & dsParceiro.Tables(0).Rows(0).Item("CNPJ") & " - I.E: " & dsParceiro.Tables(0).Rows(0).Item("INSCR_ESTADUAL")
+                End If
+
+                If Not IsDBNull(dsParceiro.Tables(0).Rows(0).Item("TELEFONE")) Then
+                    lblContatoFCA.Text = "FONE: " & dsParceiro.Tables(0).Rows(0).Item("TELEFONE")
+                End If
+
+            End If
+
         End If
 
 

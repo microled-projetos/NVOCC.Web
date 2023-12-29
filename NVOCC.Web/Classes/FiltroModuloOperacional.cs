@@ -18,6 +18,8 @@ namespace ABAINFRA.Web.Classes
         private string frete;
         private string estufagem;
         private string agente;
+        private string importador;
+        private string clientefinal;
         private string pembarqueinicio;
         private string pembarquefim;
         private string dtembarqueinicio;
@@ -38,6 +40,8 @@ namespace ABAINFRA.Web.Classes
         private string dtdesconsolidacaofim;
         private string week;
         private string navio;
+        private string naviotransbordo;
+        private string agenteinternacional;
 
         public string VIA { get => via; set => via = value; }
         public string ETAPA { get => etapa; set => etapa = value; }
@@ -50,6 +54,8 @@ namespace ABAINFRA.Web.Classes
         public string FRETE { get => frete; set => frete = value; }
         public string ESTUFAGEM { get => estufagem; set => estufagem = value; }
         public string AGENTE { get => agente; set => agente = value; }
+        public string IMPORTADOR { get => importador; set => importador = value; }
+        public string CLIENTEFINAL { get => clientefinal; set => clientefinal = value; }
         public string PEMBARQUEINICIO { get => pembarqueinicio; set => pembarqueinicio = value; }
         public string PEMBARQUEFIM { get => pembarquefim; set => pembarquefim = value; }
         public string DTEMBARQUEINICIO { get => dtembarqueinicio; set => dtembarqueinicio = value; }
@@ -70,5 +76,7 @@ namespace ABAINFRA.Web.Classes
         public string DTDESCONSOLIDACAOFIM { get => dtdesconsolidacaofim; set => dtdesconsolidacaofim = value; }
         public string WEEK { get => week; set => week = value; }
         public string NAVIO { get => navio; set => navio = value; }
+        public string NAVIOTRANSBORDO { get => naviotransbordo; set => naviotransbordo = value; }
+        public string AGENTEINTERNACIONAL { get => agenteinternacional; set => agenteinternacional = value; }
     }
 }

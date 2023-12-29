@@ -52,10 +52,16 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 04042022\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 20102023\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="AspNet.ScriptManager.bootstrap, Version=4.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AspNet.ScriptManager.bootstrap.4.6.0\lib\net45\AspNet.ScriptManager.bootstrap.dll</HintPath>
+    </Reference>
+    <Reference Include="AspNet.ScriptManager.jQuery, Version=3.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AspNet.ScriptManager.jQuery.3.6.0\lib\net45\AspNet.ScriptManager.jQuery.dll</HintPath>
     </Reference>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
@@ -78,6 +84,9 @@
     <Reference Include="itextsharp.xmlworker, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\itextsharp.xmlworker.5.5.13.2\lib\itextsharp.xmlworker.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.3.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.3.6\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
@@ -92,8 +101,8 @@
     <Reference Include="OfficeOpenXml.Core.ExcelPackage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\OfficeOpenXml.Core.ExcelPackage.1.0.0\lib\net46\OfficeOpenXml.Core.ExcelPackage.dll</HintPath>
     </Reference>
-    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.19.1, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
-      <HintPath>..\packages\Oracle.ManagedDataAccess.19.11.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.21.1, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.21.11.0\lib\net462\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="Reports, Version=0.9.7114.24548, Culture=neutral, processorArchitecture=MSIL">
@@ -103,6 +112,9 @@
       <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
@@ -129,18 +141,25 @@
     <Reference Include="System.IO.Packaging, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Packaging.4.0.0\lib\net46\System.IO.Packaging.dll</HintPath>
     </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -173,8 +192,20 @@
     <Reference Include="System.Text.Encoding.CodePages, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encoding.CodePages.4.7.1\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
     </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.6.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=6.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.6.0.1\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -189,12 +220,6 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="AspNet.ScriptManager.bootstrap">
-      <HintPath>..\packages\AspNet.ScriptManager.bootstrap.3.4.1\lib\net45\AspNet.ScriptManager.bootstrap.dll</HintPath>
-    </Reference>
-    <Reference Include="AspNet.ScriptManager.jQuery">
-      <HintPath>..\packages\AspNet.ScriptManager.jQuery.3.4.1\lib\net45\AspNet.ScriptManager.jQuery.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ScriptManager.MSAjax">
       <HintPath>..\packages\Microsoft.AspNet.ScriptManager.MSAjax.5.0.0\lib\net45\Microsoft.ScriptManager.MSAjax.dll</HintPath>
@@ -265,11 +290,127 @@
     <Content Include="AtendimentoNegado.aspx" />
     <Content Include="AtendimentoNegado.aspx.cs" />
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
-    <Content Include="CadastrarEquipe.aspx" />
+    <Content Include="BaixasCancelamentosRecebimento.aspx" />
+    <Content Include="CadastrarEquipeVendedor.aspx" />
+    <Content Include="CadastrarEquipeInside.aspx" />
+    <Content Include="CadastrarTipoFaturamento.aspx" />
+    <Content Include="CadastroMetas.aspx" />
+    <Content Include="Classes\DetentionCls.cs" />
+    <Content Include="Classes\FiltrosTaxasInativas.cs" />
+    <Content Include="Classes\TaxaPrestador.cs" />
+    <Content Include="Classes\Variacao.cs" />
+    <Content Include="ComissaoInsideSales.aspx" />
+    <Content Include="ConsultaIntegracaoTOTVS.aspx" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\chart.js-3.2.0\package\auto\auto.esm.js" />
+    <Content Include="Content\chart.js-3.2.0\package\auto\auto.js" />
+    <Content Include="Content\chart.js-3.2.0\package\auto\package.json" />
+    <Content Include="Content\chart.js-3.2.0\package\dist\chart.esm.js" />
+    <Content Include="Content\chart.js-3.2.0\package\dist\chart.js" />
+    <Content Include="Content\chart.js-3.2.0\package\dist\chart.min.js" />
+    <Content Include="Content\chart.js-3.2.0\package\dist\chunks\helpers.segment.js" />
+    <Content Include="Content\chart.js-3.2.0\package\dist\helpers.esm.js" />
+    <Content Include="Content\chart.js-3.2.0\package\LICENSE.md" />
+    <Content Include="Content\chart.js-3.2.0\package\package.json" />
+    <Content Include="Content\chart.js-3.2.0\package\README.md" />
+    <Content Include="Content\css\bootstrap-theme.min.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\bootstrap.min.css.map" />
+    <Content Include="Content\css\easy-autocomplete.min.css" />
+    <Content Include="Content\css\easy-autocomplete.themes.min.css" />
+    <Content Include="Content\css\fontawesome-all.css" />
+    <Content Include="Content\css\jquery.dataTables.min.css" />
+    <Content Include="Content\css\relatorios.css" />
+    <Content Include="Content\css\select2.css" />
+    <Content Include="Content\css\select2.min.css" />
+    <Content Include="Content\css\signup.css" />
+    <Content Include="Content\css\smart_wizard.css" />
+    <Content Include="Content\css\smart_wizard_theme_dots.css" />
+    <Content Include="Content\css\toastr.css" />
+    <Content Include="Content\css\traking.css" />
+    <Content Include="Content\fonts\fa-brands-400.eot" />
+    <Content Include="Content\fonts\fa-brands-400.svg" />
+    <Content Include="Content\fonts\fa-brands-400.ttf" />
+    <Content Include="Content\fonts\fa-brands-400.woff" />
+    <Content Include="Content\fonts\fa-brands-400.woff2" />
+    <Content Include="Content\fonts\fa-regular-400.eot" />
+    <Content Include="Content\fonts\fa-regular-400.svg" />
+    <Content Include="Content\fonts\fa-regular-400.ttf" />
+    <Content Include="Content\fonts\fa-regular-400.woff" />
+    <Content Include="Content\fonts\fa-regular-400.woff2" />
+    <Content Include="Content\fonts\fa-solid-900.eot" />
+    <Content Include="Content\fonts\fa-solid-900.svg" />
+    <Content Include="Content\fonts\fa-solid-900.ttf" />
+    <Content Include="Content\fonts\fa-solid-900.woff" />
+    <Content Include="Content\fonts\fa-solid-900.woff2" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\imagens\bg.png" />
+    <Content Include="Content\imagens\Bloquear.png" />
+    <Content Include="Content\imagens\Capa-proposta-FCA-Log.png" />
+    <Content Include="Content\imagens\Desbloquear.png" />
     <Content Include="Content\imagens\fundo-conteineres.png" />
+    <Content Include="Content\imagens\hist.png" />
     <Content Include="Content\imagens\Logo-Background.png" />
     <Content Include="Content\imagens\Logo-Inicio.png" />
     <Content Include="Content\imagens\Logo-Menu.png" />
+    <Content Include="Content\imagens\Logo_FCA_Deitado1.png" />
+    <Content Include="Content\imagens\Logo_FCA_Deitado2.png" />
+    <Content Include="Content\imagens\minus.png" />
+    <Content Include="Content\imagens\plus.png" />
+    <Content Include="Content\imagens\search.png" />
+    <Content Include="Content\js\1-basics.js" />
+    <Content Include="Content\js\2-output-file.js" />
+    <Content Include="Content\js\3-upload.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\campos-numericos.js" />
+    <Content Include="Content\js\dataTables.checkboxes.min.js" />
+    <Content Include="Content\js\datetime-moment.js" />
+    <Content Include="Content\js\jquery-ui.css" />
+    <Content Include="Content\js\jquery-ui.min.js" />
+    <Content Include="Content\js\jquery.dataTables.min.js" />
+    <Content Include="Content\js\jquery.easy-autocomplete.min.js" />
+    <Content Include="Content\js\jquery.mask.js" />
+    <Content Include="Content\js\jquery.mask.min.js" />
+    <Content Include="Content\js\jquery.maskMoney.js" />
+    <Content Include="Content\js\jquery.min.js" />
+    <Content Include="Content\js\jquery.smartWizard.js" />
+    <Content Include="Content\js\jquery.smartWizard.min.js" />
+    <Content Include="Content\js\jquery.tablesorter.min.js" />
+    <Content Include="Content\js\moment-with-locales.js" />
+    <Content Include="Content\js\origem-foto.js" />
+    <Content Include="Content\js\pagination.js" />
+    <Content Include="Content\js\papaparse.min.js" />
+    <Content Include="Content\js\pt-br.json" />
+    <Content Include="Content\js\select2.min.js" />
+    <Content Include="Content\js\set-data-hora.js" />
+    <Content Include="Content\js\site.js" />
+    <Content Include="Content\js\toastr.js" />
+    <Content Include="Content\js\viacep.js" />
+    <Content Include="Content\js\webcam.js" />
+    <Content Include="Content\js\webcam.min.js" />
+    <Content Include="Content\PDFAuxiliar.pdf" />
+    <Content Include="Content\ScrollableGridPlugin.js" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Courrier.aspx" />
+    <Content Include="CourrierPersonal.aspx" />
+    <Content Include="CourrierPersonal.aspx.cs" />
+    <Content Include="CourrierPersonal.aspx.designer.cs" />
+    <Content Include="DBE.cs" />
+    <Content Include="DBS.cs" />
+    <Content Include="DemurrageService.asmx" />
+    <Content Include="DemurrageService.asmx.cs" />
+    <Content Include="DetentionService.asmx" />
+    <Content Include="DetentionService.asmx.cs" />
+    <Content Include="Erro.aspx" />
     <Content Include="FaturamentoArquivo.aspx" />
     <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
@@ -320,73 +461,8 @@
     <Content Include="ContaPagarReceber.aspx" />
     <Content Include="ContaPagarReceber.aspx.cs" />
     <Content Include="ContaPagarReceber.aspx.designer.cs" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\chart.js-3.2.0\package\auto\auto.esm.js" />
-    <Content Include="Content\chart.js-3.2.0\package\auto\auto.js" />
-    <Content Include="Content\chart.js-3.2.0\package\dist\chart.esm.js" />
-    <Content Include="Content\chart.js-3.2.0\package\dist\chart.js" />
-    <Content Include="Content\chart.js-3.2.0\package\dist\chart.min.js" />
-    <Content Include="Content\chart.js-3.2.0\package\dist\chunks\helpers.segment.js" />
-    <Content Include="Content\chart.js-3.2.0\package\dist\helpers.esm.js" />
-    <Content Include="Content\css\bootstrap-theme.min.css" />
-    <Content Include="Content\css\bootstrap.min.css" />
-    <Content Include="Content\css\easy-autocomplete.min.css" />
-    <Content Include="Content\css\easy-autocomplete.themes.min.css" />
-    <Content Include="Content\css\fontawesome-all.css" />
-    <Content Include="Content\css\jquery.dataTables.min.css" />
-    <Content Include="Content\css\relatorios.css" />
-    <Content Include="Content\css\select2.css" />
-    <Content Include="Content\css\select2.min.css" />
-    <Content Include="Content\css\signup.css" />
-    <Content Include="Content\css\smart_wizard.css" />
-    <Content Include="Content\css\smart_wizard_theme_dots.css" />
-    <Content Include="Content\css\toastr.css" />
-    <Content Include="Content\css\traking.css" />
-    <Content Include="Content\fonts\fa-brands-400.svg" />
-    <Content Include="Content\fonts\fa-regular-400.svg" />
-    <Content Include="Content\fonts\fa-solid-900.svg" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\imagens\bg.png" />
-    <Content Include="Content\imagens\Bloquear.png" />
-    <Content Include="Content\imagens\Capa-proposta-FCA-Log.png" />
-    <Content Include="Content\imagens\Desbloquear.png" />
-    <Content Include="Content\imagens\minus.png" />
-    <Content Include="Content\imagens\plus.png" />
-    <Content Include="Content\imagens\search.png" />
-    <Content Include="Content\js\1-basics.js" />
-    <Content Include="Content\js\2-output-file.js" />
-    <Content Include="Content\js\3-upload.js" />
-    <Content Include="Content\js\bootstrap.min.js" />
-    <Content Include="Content\js\campos-numericos.js" />
-    <Content Include="Content\js\dataTables.checkboxes.min.js" />
-    <Content Include="Content\js\datetime-moment.js" />
-    <Content Include="Content\js\jquery.dataTables.min.js" />
-    <Content Include="Content\js\jquery.easy-autocomplete.min.js" />
-    <Content Include="Content\js\jquery.mask.js" />
-    <Content Include="Content\js\jquery.mask.min.js" />
-    <Content Include="Content\js\jquery.maskMoney.js" />
-    <Content Include="Content\js\jquery.min.js" />
-    <Content Include="Content\js\jquery.smartWizard.js" />
-    <Content Include="Content\js\jquery.smartWizard.min.js" />
-    <Content Include="Content\js\jquery.tablesorter.min.js" />
-    <Content Include="Content\js\moment-with-locales.js" />
-    <Content Include="Content\js\origem-foto.js" />
-    <Content Include="Content\js\select2.min.js" />
-    <Content Include="Content\js\set-data-hora.js" />
-    <Content Include="Content\js\site.js" />
-    <Content Include="Content\js\toastr.js" />
-    <Content Include="Content\js\viacep.js" />
-    <Content Include="Content\js\webcam.js" />
-    <Content Include="Content\js\webcam.min.js" />
-    <Content Include="Content\ScrollableGridPlugin.js" />
-    <Content Include="Content\Site.css" />
-    <Content Include="Courrier.aspx" />
     <Content Include="Courrier.aspx.cs" />
     <Content Include="Courrier.aspx.designer.cs" />
-    <Content Include="CourrierInfo.cs" />
     <Content Include="DashBoard.aspx" />
     <Content Include="DashBoard.aspx.cs" />
     <Content Include="DashBoard.aspx.designer.cs" />
@@ -398,13 +474,18 @@
     <Content Include="Demurrage.aspx" />
     <Content Include="Demurrage.aspx.cs" />
     <Content Include="Demurrage.aspx.designer.cs" />
-    <Content Include="DemurrageService.asmx" />
-    <Content Include="DemurrageService.asmx.cs" />
     <Content Include="DemurrageVendas.aspx" />
     <Content Include="DemurrageVendas.aspx.cs" />
     <Content Include="DemurrageVendas.aspx.designer.cs" />
     <Content Include="DadosBancariosAgente.aspx" />
     <Content Include="favicon.ico" />
+    <Content Include="FileUpload.ashx.cs" />
+    <Content Include="FreteTransportador.aspx" />
+    <Content Include="Gerencial.asmx" />
+    <Content Include="Gerencial.asmx.cs" />
+    <Content Include="HomePage.aspx" />
+    <Content Include="HomePage.aspx.cs" />
+    <Content Include="HomePage.aspx.designer.cs" />
     <Content Include="ImprimirND.aspx" />
     <Content Include="EmissaoND.aspx" />
     <Content Include="EstimativaContaPagarReceber.aspx" />
@@ -413,56 +494,25 @@
     <Content Include="Faturamento.aspx" />
     <Content Include="FaturarRecebimento.aspx" />
     <Content Include="FechamentoCambio.aspx" />
-    <Content Include="FileUpload.ashx.cs" />
     <Content Include="Filtro.cs" />
     <Content Include="FiltroModuloOperacional.cs" />
     <Content Include="Financeiro.aspx" />
     <Content Include="CotacaoPDF_ING.aspx" />
-    <Content Include="DBS.cs" />
     <Content Include="DemurrageControl.cs" />
     <Content Include="DemurragesCls.cs" />
     <Content Include="EmissaoBL.aspx" />
     <Content Include="FollowUp.aspx" />
-    <Content Include="FreteTransportador.aspx" />
     <Content Include="CotacaoComercial.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="EmailParceiro.aspx" />
     <Content Include="fonts\fa-brands-400.svg" />
     <Content Include="fonts\fa-regular-400.svg" />
     <Content Include="fonts\fa-solid-900.svg" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="GeraPDF.aspx" />
-    <Content Include="Gerencial.asmx" />
-    <Content Include="Gerencial.asmx.cs" />
     <Content Include="GerencialMaster.aspx" />
     <Content Include="GerencialMaster.aspx.cs" />
     <Content Include="GerencialMaster.aspx.designer.cs" />
     <Content Include="Global.asax" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\fonts\fa-brands-400.eot" />
-    <Content Include="Content\fonts\fa-brands-400.ttf" />
-    <Content Include="Content\fonts\fa-brands-400.woff" />
-    <Content Include="Content\fonts\fa-brands-400.woff2" />
-    <Content Include="Content\fonts\fa-regular-400.eot" />
-    <Content Include="Content\fonts\fa-regular-400.ttf" />
-    <Content Include="Content\fonts\fa-regular-400.woff" />
-    <Content Include="Content\fonts\fa-regular-400.woff2" />
-    <Content Include="Content\fonts\fa-solid-900.eot" />
-    <Content Include="Content\fonts\fa-solid-900.ttf" />
-    <Content Include="Content\fonts\fa-solid-900.woff" />
-    <Content Include="Content\fonts\fa-solid-900.woff2" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Content\js\pt-br.json" />
     <Content Include="fonts\fa-brands-400.eot" />
     <Content Include="fonts\fa-brands-400.ttf" />
     <Content Include="fonts\fa-brands-400.woff" />
@@ -475,9 +525,9 @@
     <Content Include="fonts\fa-solid-900.ttf" />
     <Content Include="fonts\fa-solid-900.woff" />
     <Content Include="fonts\fa-solid-900.woff2" />
-    <Content Include="Content\css\bootstrap.min.css.map" />
     <Content Include="CadastrarFreteTransportador.aspx" />
     <Content Include="CotacaoPDF_PT.aspx" />
+    <Content Include="InativacaoTaxas.aspx" />
     <Content Include="integracaoTotus.aspx" />
     <Content Include="integracaoTotus.aspx.cs" />
     <Content Include="integracaoTotus.aspx.designer.cs" />
@@ -506,10 +556,16 @@
     <Content Include="InvoiceQuitada.aspx.cs" />
     <Content Include="InvoiceQuitada.aspx.designer.cs" />
     <Content Include="ListagemBL.aspx" />
+    <Content Include="LoginRedirect.aspx" />
+    <Content Include="LoginRedirect.aspx.cs" />
+    <Content Include="LoginRedirect.aspx.designer.cs" />
     <Content Include="ManualNVOCC.html" />
     <Content Include="ModuloDemurrage.aspx" />
     <Content Include="ModuloDemurrage.aspx.cs" />
     <Content Include="ModuloDemurrage.aspx.designer.cs" />
+    <Content Include="ModuloDetention.aspx" />
+    <Content Include="ModuloDetention.aspx.cs" />
+    <Content Include="ModuloDetention.aspx.designer.cs" />
     <Content Include="ModuloGerencial.aspx" />
     <Content Include="ModuloGerencial.aspx.cs" />
     <Content Include="ModuloGerencial.aspx.designer.cs" />
@@ -517,11 +573,16 @@
     <Content Include="ModuloOperacional.aspx.cs" />
     <Content Include="ModuloOperacional.aspx.designer.cs" />
     <Content Include="MontagemPagamento.aspx" />
-    <Content Include="Oracle.DataAccess.dll" />
     <Content Include="OUTLOOK.aspx" />
+    <Content Include="PowerBIGerencial.aspx" />
+    <Content Include="PowerBIGerencial.aspx.cs" />
+    <Content Include="PowerBIGerencial.aspx.designer.cs" />
     <Content Include="Premiacao.aspx" />
     <Content Include="Premiacao.aspx.cs" />
     <Content Include="Premiacao.aspx.designer.cs" />
+    <Content Include="PrevisibilidadeContas.aspx" />
+    <Content Include="PrevisibilidadeContas.aspx.cs" />
+    <Content Include="PrevisibilidadeContas.aspx.designer.cs" />
     <Content Include="Processos.cs" />
     <Content Include="ProcessosBL.aspx" />
     <Content Include="ProcessosBL.aspx.cs" />
@@ -535,6 +596,9 @@
     <Content Include="RelacaoCotacao.aspx" />
     <Content Include="RelacaoCotacao.aspx.cs" />
     <Content Include="RelacaoCotacao.aspx.designer.cs" />
+    <Content Include="RelatorioAccountDeclarado.aspx" />
+    <Content Include="RelatorioAccountDeclarado.aspx.cs" />
+    <Content Include="RelatorioAccountDeclarado.aspx.designer.cs" />
     <Content Include="RelatorioComissaoInternacional.aspx" />
     <Content Include="RelatorioComissaoInternacional.aspx.cs" />
     <Content Include="RelatorioComissaoInternacional.aspx.designer.cs" />
@@ -544,6 +608,12 @@
     <Content Include="RelatorioComissaoVendedores.aspx" />
     <Content Include="RelatorioComissaoVendedores.aspx.cs" />
     <Content Include="RelatorioComissaoVendedores.aspx.designer.cs" />
+    <Content Include="RelatorioConsolidada.aspx" />
+    <Content Include="RelatorioConsolidada.aspx.cs" />
+    <Content Include="RelatorioConsolidada.aspx.designer.cs" />
+    <Content Include="RelatorioDebitCredit.aspx" />
+    <Content Include="RelatorioDebitCredit.aspx.cs" />
+    <Content Include="RelatorioDebitCredit.aspx.designer.cs" />
     <Content Include="RelatorioFaturamento.aspx" />
     <Content Include="RelatorioInvoice.aspx" />
     <Content Include="RelatorioInvoice.aspx.cs" />
@@ -553,46 +623,15 @@
     <Content Include="RelatorioProcessos.aspx.designer.cs" />
     <Content Include="RelatorioVendedor.aspx" />
     <Content Include="RemessaBoletos.aspx" />
-    <Content Include="SelecionaPerfil.aspx" />
-    <Content Include="SOA_I.aspx" />
-    <Content Include="SOA_II.aspx" />
-    <Content Include="SolicitacaoPagamento.aspx" />
-    <Content Include="TaxaParceiro.aspx" />
-    <Content Include="TaxaParceiro.aspx.cs" />
-    <Content Include="TaxaParceiro.aspx.designer.cs" />
-    <Content Include="Taxas.cs" />
-    <Content Include="TaxasLocaisArmador.aspx" />
-    <Content Include="TaxasLocaisImpo_PDF.aspx" />
-    <Content Include="TaxasLocaisExpo_PDF.aspx" />
-    <Content Include="Content\chart.js-3.2.0\package\auto\package.json" />
-    <Content Include="Content\chart.js-3.2.0\package\LICENSE.md" />
-    <Content Include="Content\chart.js-3.2.0\package\package.json" />
-    <Content Include="Content\chart.js-3.2.0\package\README.md" />
-    <Content Include="FileUpload.ashx" />
-    <None Include="Web References\NotaFiscal\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.vb</LastGenOutput>
-    </None>
-    <None Include="Web References\NotaFiscal\WsNvocc.disco" />
-    <Content Include="TextoCotacao.aspx" />
-    <Content Include="EmissaoNDFaturamento.aspx" />
-    <Content Include="WebService1.asmx" />
-    <Content Include="WebService1.asmx.cs" />
-    <Content Include="Content\PDFAuxiliar.pdf" />
-    <Content Include="Week.cs" />
-    <Content Include="Bundle.config" />
-    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="ItemDespesa.aspx" />
-    <Content Include="Login.aspx" />
-    <Content Include="MoedaFrete.aspx" />
-    <Content Include="MoedaFreteArmador.aspx" />
-    <Content Include="RecuperarSenha.aspx" />
-    <Content Include="Registrar.aspx" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\DetailsView.js" />
     <Content Include="Scripts\Focus.js" />
     <Content Include="Scripts\GridView.js" />
+    <Content Include="FileUpload.ashx" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -605,33 +644,54 @@
     <Content Include="Scripts\SmartNav.js" />
     <Content Include="Scripts\TreeView.js" />
     <Content Include="Scripts\WebForms.js" />
-    <Content Include="Scripts\WebForms\DetailsView.js" />
-    <Content Include="Scripts\WebForms\Focus.js" />
-    <Content Include="Scripts\WebForms\GridView.js" />
-    <Content Include="Scripts\WebForms\Menu.js" />
-    <Content Include="Scripts\WebForms\MenuStandards.js" />
-    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjax.js" />
-    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxApplicationServices.js" />
-    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxComponentModel.js" />
-    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxCore.js" />
-    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxGlobalization.js" />
-    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxHistory.js" />
-    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxNetwork.js" />
-    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxSerialization.js" />
-    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxTimer.js" />
-    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxWebForms.js" />
-    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxWebServices.js" />
-    <Content Include="Scripts\WebForms\SmartNav.js" />
-    <Content Include="Scripts\WebForms\TreeView.js" />
-    <Content Include="Scripts\WebForms\WebForms.js" />
-    <Content Include="Scripts\WebForms\WebParts.js" />
-    <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Scripts\WebParts.js" />
     <Content Include="Scripts\WebUIValidation.js" />
+    <Content Include="SelecionaPerfil.aspx" />
+    <Content Include="ProcessosPeriodo.aspx" />
+    <Content Include="SOA_II.aspx" />
+    <Content Include="SOA_I.aspx" />
+    <Content Include="SolicitacaoPagamento.aspx" />
+    <Content Include="TaxaParceiro.aspx" />
+    <Content Include="TaxaParceiro.aspx.cs" />
+    <Content Include="TaxaParceiro.aspx.designer.cs" />
+    <Content Include="TaxaParceiroAgenteInternacional.aspx" />
+    <Content Include="TaxaParceiroAgenteInternacional.aspx.cs" />
+    <Content Include="TaxaParceiroAgenteInternacional.aspx.designer.cs" />
+    <Content Include="TaxaParceiroPrestador.aspx" />
+    <Content Include="TaxaParceiroPrestador.aspx.cs" />
+    <Content Include="TaxaParceiroPrestador.aspx.designer.cs" />
+    <Content Include="TaxasAberto.aspx" />
+    <Content Include="TaxasAberto.aspx.cs" />
+    <Content Include="TaxasAberto.aspx.designer.cs" />
+    <Content Include="TaxasInativas.aspx" />
+    <Content Include="TaxasInativas.aspx.cs" />
+    <Content Include="TaxasInativas.aspx.designer.cs" />
+    <Content Include="TaxasLocaisArmador.aspx" />
+    <Content Include="TaxasLocaisImpo_PDF.aspx" />
+    <Content Include="TaxasLocaisExpo_PDF.aspx" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <None Include="Web References\WsNVOCC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WsNVOCC\WsNvocc.disco" />
+    <Content Include="TextoCotacao.aspx" />
+    <Content Include="EmissaoNDFaturamento.aspx" />
+    <Content Include="VisualizarUpload.aspx" />
+    <Content Include="WebService1.asmx" />
+    <Content Include="WebService1.asmx.cs" />
+    <Content Include="Week.cs" />
+    <Content Include="ItemDespesa.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="MoedaFrete.aspx" />
+    <Content Include="MoedaFreteArmador.aspx" />
+    <Content Include="RecuperarSenha.aspx" />
+    <Content Include="Registrar.aspx" />
     <Content Include="Site.Master" />
     <Content Include="TrocarSenha.aspx" />
     <Content Include="Web.config" />
-    <None Include="Web References\NotaFiscal\WsNvocc.wsdl" />
+    <None Include="Web References\WsNVOCC\WsNvocc.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.aspx.designer.vb">
@@ -639,37 +699,87 @@
     </Compile>
     <Compile Include="Account.aspx.vb">
       <DependentUpon>Account.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
-    <Compile Include="CadastrarEquipe.aspx.designer.vb">
-      <DependentUpon>CadastrarEquipe.aspx</DependentUpon>
+    <Compile Include="BaixasCancelamentosRecebimento.aspx.designer.vb">
+      <DependentUpon>BaixasCancelamentosRecebimento.aspx</DependentUpon>
     </Compile>
-    <Compile Include="CadastrarEquipe.aspx.vb">
-      <DependentUpon>CadastrarEquipe.aspx</DependentUpon>
+    <Compile Include="BaixasCancelamentosRecebimento.aspx.vb">
+      <DependentUpon>BaixasCancelamentosRecebimento.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarEquipeVendedor.aspx.designer.vb">
+      <DependentUpon>CadastrarEquipeVendedor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarEquipeVendedor.aspx.vb">
+      <DependentUpon>CadastrarEquipeVendedor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarEquipeInside.aspx.designer.vb">
+      <DependentUpon>CadastrarEquipeInside.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarEquipeInside.aspx.vb">
+      <DependentUpon>CadastrarEquipeInside.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarTipoFaturamento.aspx.designer.vb">
+      <DependentUpon>CadastrarTipoFaturamento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarTipoFaturamento.aspx.vb">
+      <DependentUpon>CadastrarTipoFaturamento.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="CadastroMetas.aspx.designer.vb">
+      <DependentUpon>CadastroMetas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastroMetas.aspx.vb">
+      <DependentUpon>CadastroMetas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Class\ResultadoCNPJ.vb" />
+    <Compile Include="ComissaoInsideSales.aspx.designer.vb">
+      <DependentUpon>ComissaoInsideSales.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ComissaoInsideSales.aspx.vb">
+      <DependentUpon>ComissaoInsideSales.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ConsultaIntegracaoTOTVS.aspx.designer.vb">
+      <DependentUpon>ConsultaIntegracaoTOTVS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultaIntegracaoTOTVS.aspx.vb">
+      <DependentUpon>ConsultaIntegracaoTOTVS.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Erro.aspx.designer.vb">
+      <DependentUpon>Erro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Erro.aspx.vb">
+      <DependentUpon>Erro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FaturamentoArquivo.aspx.designer.vb">
       <DependentUpon>FaturamentoArquivo.aspx</DependentUpon>
     </Compile>
     <Compile Include="FaturamentoArquivo.aspx.vb">
       <DependentUpon>FaturamentoArquivo.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="AvisoEmbarque.aspx.designer.vb">
       <DependentUpon>AvisoEmbarque.aspx</DependentUpon>
     </Compile>
     <Compile Include="AvisoEmbarque.aspx.vb">
       <DependentUpon>AvisoEmbarque.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaixarComissao.aspx.designer.vb">
       <DependentUpon>BaixarComissao.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaixarComissao.aspx.vb">
       <DependentUpon>BaixarComissao.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaixasCancelamentos.aspx.designer.vb">
       <DependentUpon>BaixasCancelamentos.aspx</DependentUpon>
@@ -718,7 +828,7 @@
     </Compile>
     <Compile Include="CadastrarSubVendedor.aspx.vb">
       <DependentUpon>CadastrarSubVendedor.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CadastrarUsuario.aspx.designer.vb">
       <DependentUpon>CadastrarUsuario.aspx</DependentUpon>
@@ -769,7 +879,17 @@
       <DependentUpon>DadosBancariosAgente.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="FreteTransportador.aspx.designer.vb">
+      <DependentUpon>FreteTransportador.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FreteTransportador.aspx.vb">
+      <DependentUpon>FreteTransportador.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Helpers\AtualizaBancoEudmarco.vb" />
+    <Compile Include="Helpers\AprovaCotacao.vb" />
+    <Compile Include="Helpers\AtualizaStatusFreteAgente.vb" />
+    <Compile Include="Helpers\CalculaCotacao.vb" />
     <Compile Include="Helpers\Conexao_oracle.vb" />
     <Compile Include="Class\Aduana.vb" />
     <Compile Include="Class\BL.vb" />
@@ -798,7 +918,7 @@
     </Compile>
     <Compile Include="ComissaoIndicadorInternacional.aspx.vb">
       <DependentUpon>ComissaoIndicadorInternacional.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ComissaoIndicadorNacional.aspx.designer.vb">
       <DependentUpon>ComissaoIndicadorNacional.aspx</DependentUpon>
@@ -812,7 +932,7 @@
     </Compile>
     <Compile Include="ComissaoVendedor.aspx.vb">
       <DependentUpon>ComissaoVendedor.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Helpers\Conexao_sql.vb" />
     <Compile Include="Conferencia.aspx.designer.vb">
@@ -820,7 +940,7 @@
     </Compile>
     <Compile Include="Conferencia.aspx.vb">
       <DependentUpon>Conferencia.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ConsultaParceiro.aspx.designer.vb">
       <DependentUpon>ConsultaParceiro.aspx</DependentUpon>
@@ -834,22 +954,24 @@
     </Compile>
     <Compile Include="CreditNote.aspx.vb">
       <DependentUpon>CreditNote.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="DebitNote.aspx.designer.vb">
       <DependentUpon>DebitNote.aspx</DependentUpon>
     </Compile>
     <Compile Include="DebitNote.aspx.vb">
       <DependentUpon>DebitNote.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Helpers\ExtensoEstrangeira.vb" />
+    <Compile Include="Helpers\InativaAtivaTaxa.vb" />
+    <Compile Include="Helpers\RotinaDeletaDoc.vb" />
     <Compile Include="ImprimirND.aspx.designer.vb">
       <DependentUpon>ImprimirND.aspx</DependentUpon>
     </Compile>
     <Compile Include="ImprimirND.aspx.vb">
       <DependentUpon>ImprimirND.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EmissaoND.aspx.designer.vb">
       <DependentUpon>EmissaoND.aspx</DependentUpon>
@@ -909,13 +1031,6 @@
       <DependentUpon>FollowUp.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="FreteTransportador.aspx.designer.vb">
-      <DependentUpon>FreteTransportador.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="FreteTransportador.aspx.vb">
-      <DependentUpon>FreteTransportador.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="CotacaoComercial.aspx.designer.vb">
       <DependentUpon>CotacaoComercial.aspx</DependentUpon>
     </Compile>
@@ -963,6 +1078,13 @@
     </Compile>
     <Compile Include="CotacaoPDF_PT.aspx.vb">
       <DependentUpon>CotacaoPDF_PT.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="InativacaoTaxas.aspx.designer.vb">
+      <DependentUpon>InativacaoTaxas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="InativacaoTaxas.aspx.vb">
+      <DependentUpon>InativacaoTaxas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ItemDespesa.aspx.designer.vb">
@@ -1073,7 +1195,7 @@
     </Compile>
     <Compile Include="ReciboProvisorioServico.aspx.vb">
       <DependentUpon>ReciboProvisorioServico.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RecuperarSenha.aspx.designer.vb">
       <DependentUpon>RecuperarSenha.aspx</DependentUpon>
@@ -1094,7 +1216,7 @@
     </Compile>
     <Compile Include="ContratosFirmados.aspx.vb">
       <DependentUpon>ContratosFirmados.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RelatorioFaturamento.aspx.designer.vb">
       <DependentUpon>RelatorioFaturamento.aspx</DependentUpon>
@@ -1115,7 +1237,7 @@
     </Compile>
     <Compile Include="RemessaBoletos.aspx.vb">
       <DependentUpon>RemessaBoletos.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SelecionaPerfil.aspx.designer.vb">
       <DependentUpon>SelecionaPerfil.aspx</DependentUpon>
@@ -1133,12 +1255,12 @@
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SOA_I.aspx.designer.vb">
-      <DependentUpon>SOA_I.aspx</DependentUpon>
+    <Compile Include="ProcessosPeriodo.aspx.designer.vb">
+      <DependentUpon>ProcessosPeriodo.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SOA_I.aspx.vb">
-      <DependentUpon>SOA_I.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+    <Compile Include="ProcessosPeriodo.aspx.vb">
+      <DependentUpon>ProcessosPeriodo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SOA_II.aspx.designer.vb">
       <DependentUpon>SOA_II.aspx</DependentUpon>
@@ -1146,6 +1268,13 @@
     <Compile Include="SOA_II.aspx.vb">
       <DependentUpon>SOA_II.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="SOA_I.aspx.designer.vb">
+      <DependentUpon>SOA_I.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SOA_I.aspx.vb">
+      <DependentUpon>SOA_I.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SolicitacaoPagamento.aspx.designer.vb">
       <DependentUpon>SolicitacaoPagamento.aspx</DependentUpon>
@@ -1180,7 +1309,7 @@
     </Compile>
     <Compile Include="TextoCotacao.aspx.vb">
       <DependentUpon>TextoCotacao.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TrocarSenha.aspx.designer.vb">
       <DependentUpon>TrocarSenha.aspx</DependentUpon>
@@ -1197,7 +1326,14 @@
     <Compile Include="ViewSwitcher.ascx.designer.vb">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Web References\NotaFiscal\Reference.vb">
+    <Compile Include="VisualizarUpload.aspx.designer.vb">
+      <DependentUpon>VisualizarUpload.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VisualizarUpload.aspx.vb">
+      <DependentUpon>VisualizarUpload.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Web References\WsNVOCC\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -1207,7 +1343,7 @@
     </Compile>
     <Compile Include="EmissaoNDFaturamento.aspx.vb">
       <DependentUpon>EmissaoNDFaturamento.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1229,9 +1365,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <Content Include="ViewSwitcher.ascx" />
-    <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.4.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1245,6 +1378,7 @@
     <Folder Include="Content\boletos\" />
     <Folder Include="Content\cotacoes\" />
     <Folder Include="Content\remessa\" />
+    <Folder Include="Content\temp\" />
     <Folder Include="UPLOADS\" />
   </ItemGroup>
   <ItemGroup>
@@ -1256,7 +1390,7 @@
   <ItemGroup>
     <WebReferenceUrl Include="https://localhost:44317/WsNvocc.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\NotaFiscal\</RelPath>
+      <RelPath>Web References\WsNVOCC\</RelPath>
       <UpdateFromURL>https://localhost:44317/WsNvocc.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
@@ -1321,7 +1455,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\System.Text.Json.6.0.1\build\System.Text.Json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Text.Json.6.0.1\build\System.Text.Json.targets'))" />
   </Target>
+  <Import Project="..\packages\System.Text.Json.6.0.1\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.1\build\System.Text.Json.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

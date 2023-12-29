@@ -23,6 +23,60 @@ Partial Public Class ReciboPagamento
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
+    '''Controle lblRazaoFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblRazaoFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblEnderecoFCA1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblEnderecoFCA1 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblEnderecoFCA2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblEnderecoFCA2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblTelefoneFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTelefoneFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblCNPJFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCNPJFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblIEFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblIEFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle Label1.
     '''</summary>
     '''<remarks>
@@ -66,6 +120,15 @@ Partial Public Class ReciboPagamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblEmpresa As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblCNPJCPF.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCNPJCPF As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblNRef.

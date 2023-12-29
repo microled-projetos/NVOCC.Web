@@ -59,6 +59,42 @@ Partial Public Class DebitNote
     Protected WithEvents lblGrau As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblEnderecoFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblEnderecoFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblEnderecoFCA2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblEnderecoFCA2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblContatoFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblContatoFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblDocFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblDocFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblEmpresa.
     '''</summary>
     '''<remarks>
@@ -93,6 +129,15 @@ Partial Public Class DebitNote
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblDataInvoice As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblDataVencimento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblDataVencimento As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblProcesso.
@@ -239,6 +284,15 @@ Partial Public Class DebitNote
     Protected WithEvents divConteudoDinamico As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
+    '''Controle lblName.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblName As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblBanco.
     '''</summary>
     '''<remarks>
@@ -248,22 +302,13 @@ Partial Public Class DebitNote
     Protected WithEvents lblBanco As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblAgency.
+    '''Controle lblEnderecoBanco.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblAgency As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblSwift.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblSwift As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblEnderecoBanco As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblAccount.
@@ -275,13 +320,13 @@ Partial Public Class DebitNote
     Protected WithEvents lblAccount As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblName.
+    '''Controle lblSwift.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblName As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblSwift As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblIban.
@@ -291,4 +336,13 @@ Partial Public Class DebitNote
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblIban As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblUsuario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblUsuario As Global.System.Web.UI.WebControls.Label
 End Class

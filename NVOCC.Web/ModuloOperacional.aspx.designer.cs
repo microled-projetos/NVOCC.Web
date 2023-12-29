@@ -96,13 +96,22 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.DropDownList ddlTipoEstufagem;
 
 		/// <summary>
-		/// Controle ddlAgenteFilter.
+		/// Controle ddlClienteFinal.
 		/// </summary>
 		/// <remarks>
 		/// Campo gerado automaticamente.
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlAgenteFilter;
+		protected global::System.Web.UI.WebControls.DropDownList ddlClienteFinal;
+
+		/// <summary>
+		/// Controle ddlImportadorFilter.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.DropDownList ddlImportadorFilter;
 
 		/// <summary>
 		/// Controle ddlTransportadorFilter.
@@ -130,6 +139,24 @@ namespace ABAINFRA.Web
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.DropDownList ddlNavioFilter;
+
+		/// <summary>
+		/// Controle ddlNavioTransbordoFilter.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.DropDownList ddlNavioTransbordoFilter;
+
+		/// <summary>
+		/// Controle ddlAgenteInternacional.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.DropDownList ddlAgenteInternacional;
 
 		/// <summary>
 		/// Controle ddlWeek.

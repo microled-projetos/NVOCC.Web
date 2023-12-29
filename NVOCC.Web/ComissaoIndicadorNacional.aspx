@@ -82,7 +82,7 @@
                            <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
                                      <asp:LinkButton ID="lkComissoes" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Comissões</asp:LinkButton>
                                         <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>
-                                        <asp:LinkButton ID="lkGravarCCProcessoModal" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gravar no CC do Processo</asp:LinkButton>
+                                        <asp:LinkButton ID="lkGravarCCProcessoModal" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px" Visible="false">Gravar no CC do Processo</asp:LinkButton>
 
 
                        </div>
@@ -104,7 +104,9 @@
                                                     <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_DETALHE_COMISSAO_NACIONAL") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="COMPETENCIA_QUINZENA" HeaderText="DATA COMPETENCIA" SortExpression="COMPETENCIA_QUINZENA" />
+                                            <asp:BoundField DataField="DT_BAIXA_NF_TOTVS" HeaderText="BAIXA TOTVS" SortExpression="DT_BAIXA_NF_TOTVS" DataFormatString="{0:dd/MM/yyyy}"  />
+                                            <asp:BoundField DataField="NR_NF_TOTVS" HeaderText="NF TOTVS" SortExpression="NR_NF_TOTVS" />
+                                            <asp:BoundField DataField="COMPETENCIA_QUINZENA" HeaderText="COMPETENCIA" SortExpression="COMPETENCIA_QUINZENA" />
                                             <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />                             
                                             <asp:BoundField DataField="PARCEIRO_INDICADOR" HeaderText="INDICADOR" SortExpression="PARCEIRO_INDICADOR" />
                                             <asp:BoundField DataField="MBL" HeaderText="MBL" SortExpression="MBL" />
@@ -118,14 +120,6 @@
                                             <asp:BoundField DataField="PARCEIRO_IMPORTADOR" HeaderText="IMPORTADOR" SortExpression="PARCEIRO_IMPORTADOR" />                          
                                             <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DATA LIQUIDAÇÃO" SortExpression="DT_LIQUIDACAO" />
                                             <asp:BoundField DataField="DT_EXPORTACAO" HeaderText="DATA EXPORTAÇÃO" SortExpression="DT_EXPORTACAO" />
-
-                                            <asp:TemplateField HeaderText="">
-                                                <ItemTemplate>
-                                                    <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                        CommandArgument='<%# Eval("ID_DETALHE_COMISSAO_NACIONAL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicao()"></asp:LinkButton>
-                                                </ItemTemplate>
-                                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                            </asp:TemplateField>
                                         </Columns>
                                         <HeaderStyle CssClass="headerStyle" />
                                     </asp:GridView>
@@ -185,6 +179,10 @@
                                 <div class="alert alert-info" id="divInfoGerarComissao" runat="server" visible="false">
                                     <asp:Label ID="lblInfoGerarComissao" runat="server"></asp:Label>
                                 </div>
+
+                                                            <div class="alert alert-warning" id="divInfoCCProcesso" runat="server" visible="false">
+                                    <asp:Label ID="lblInfoCCProcesso" runat="server"></asp:Label>
+                                </div>
                                                             <div class="alert alert-warning" id="divAtencaoGerarComissao" runat="server" visible="false">
                                     <asp:Label ID="lblAtencaoGerarComissao" runat="server"></asp:Label>
                                 </div>
@@ -194,7 +192,7 @@
 
                                                <asp:Label ID="Label11" runat="server">Competência</asp:Label><label runat="server" style="color: red">*</label><br />
 
-                               <asp:TextBox ID="txtNovaCompetencia" AUTOPOSTBACK="true" placeholder="MM/AAAA" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                               <asp:TextBox ID="txtNovaCompetencia" placeholder="MM/AAAA" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                          </div>
                                      <div class="col-sm-2">
@@ -233,7 +231,7 @@
       </div>
                                 <br />
                                <div class="modal-footer"> 
-                                   <asp:Button runat="server" Text="Gerar" ID="btnGerarComissao" CssClass="btn btn-success" /> 
+                                   <asp:Button runat="server" Text="Gerar" ID="btnGerarComissao" CssClass="btn btn-success" OnClientClick="MouseWait(); return true;"/>
                                          <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharGerarComissao" text="Close" />
                                                                  
 
@@ -247,7 +245,6 @@
                                         <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />
                                         <asp:AsyncPostBackTrigger ControlID="btnGerarComissao" />
                                         <asp:AsyncPostBackTrigger ControlID="txtNovaQuinzena" />
-                                        <asp:AsyncPostBackTrigger ControlID="txtNovaCompetencia" />
                                     </Triggers>
                                 </asp:UpdatePanel>
 
@@ -313,14 +310,7 @@
                                <asp:TextBox ID="txtAjusteBase" Enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
                                         </div>
                                          </div>
-
-                                    <%-- <div class="col-sm-3">
-                                    <div class="form-group">                                             
-                                <asp:Label ID="Label25" runat="server">Qtd. CNTR</asp:Label><label runat="server" style="color: red">*</label><br />
-                               <asp:TextBox ID="txtAjusteQtdCNTR" runat="server" CssClass="form-control inteiro"></asp:TextBox>                                      
-                                   </div>          
-                                </div>  --%>
-                                                                        
+                                              
                                      <div class="col-sm-4">
                                     <div class="form-group">                                          
                                
@@ -363,9 +353,7 @@
                                                             <h5 class="modal-title">CONTA CORRENTE DO PROCESSO</h5>
                                                         </div>
                                                         <div class="modal-body" >         
-                                                            <div class="alert alert-warning" id="divInfoCCProcesso" runat="server" visible="false">
-                                    <asp:Label ID="lblInfoCCProcesso" runat="server"></asp:Label>
-                                </div>
+                                                            
                                                              <div class="alert alert-danger" id="divErroCCProcesso" runat="server" visible="false">
                                     <asp:Label ID="lblErroCCProcesso" runat="server"></asp:Label>
                                 </div> 
@@ -428,19 +416,15 @@
     </div>
     <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Comissao_Nacional] WHERE COMPETENCIA = '@COMPETENCIA' ORDER BY PARCEIRO_INDICADOR,NR_PROCESSO">
+        SelectCommand="SELECT * FROM [dbo].[View_Comissao_Nacional] WHERE COMPETENCIA = @COMPETENCIA and NR_QUINZENA = @QUINZENA  ORDER BY PARCEIRO_INDICADOR,NR_PROCESSO">
         <SelectParameters>
             <asp:ControlParameter Name="COMPETENCIA" Type="string" ControlID="txtCompetencia" />
+            <asp:ControlParameter Name="QUINZENA" Type="string" ControlID="txtQuinzena" />
         </SelectParameters>
-    </asp:SqlDataSource>
-
-      
+    </asp:SqlDataSource>      
      <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione'  ORDER BY ID_MOEDA">
 </asp:SqlDataSource>
-
-
-
 
         <asp:SqlDataSource ID="dsContaBancaria" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CONTA_BANCARIA,NM_CONTA_BANCARIA FROM TB_CONTA_BANCARIA WHERE FL_ATIVO = 1
@@ -450,5 +434,18 @@ union SELECT 0, 'Selecione' FROM [dbo].TB_CONTA_BANCARIA ORDER BY ID_CONTA_BANCA
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA)
 union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">            
+    <script>
+        function MouseWait() {
+            document.getElementById('<%= btnGerarComissao.ClientID %>').style.display = 'none';
+            console.log("wait");
+            document.body.style.cursor = "wait";
+        };
+        function MouseDefault() {
+           document.getElementById('<%= btnGerarComissao.ClientID %>').style.display = 'block';
+           console.log("default");
+           document.body.style.cursor = "default";
+        };
+         
+    </script>
 </asp:Content>

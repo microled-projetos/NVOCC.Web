@@ -5,19 +5,19 @@ Public Class Conexao_sql
     Public Sub Conectar()
         Try
 
-            'If System.Web.HttpContext.Current.Session("Logado") = "False" Or System.Web.HttpContext.Current.Session("Logado") = Nothing Then
+            If System.Web.HttpContext.Current.Session("Logado") = "False" Or System.Web.HttpContext.Current.Session("Logado") = Nothing Then
 
-            ObjCon = New SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString)
+                ObjCon = New SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString)
 
-            'Else
+            Else
 
-            '    Dim SQL As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString.Substring(0, ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString.IndexOf("User"))
+                Dim SQL As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString.Substring(0, ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString.IndexOf("User"))
 
-            '    SQL = SQL & "User ID=" & System.Web.HttpContext.Current.Session("USER") & ";Password=Ab@2022#Log;"
+                ' SQL = SQL & "User ID=" & System.Web.HttpContext.Current.Session("USER") & ";Password=Ab@2022#Log;"
+                SQL = SQL & "User ID=" & System.Web.HttpContext.Current.Session("USER") & ";Password=gflcoablaolg!@2023;"
+                ObjCon = New SqlClient.SqlConnection(SQL)
 
-            '    ObjCon = New SqlClient.SqlConnection(SQL)
-
-            'End If
+            End If
 
 
 
@@ -54,8 +54,29 @@ Public Class Conexao_sql
         End Try
 
         Return ds
-
     End Function
+
+    Public Function CriaDeletaUsuario(ByVal Command As String) As DataSet
+        Dim ds As New DataSet
+        Dim ObjDataAdapter As New SqlClient.SqlDataAdapter
+        Dim ObjCommand As New SqlClient.SqlCommand
+
+        ObjCon = New SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString)
+
+        Try
+            ObjCommand = ObjCon.CreateCommand
+            ObjCommand.CommandText = Command
+
+            ObjDataAdapter = New SqlClient.SqlDataAdapter(ObjCommand)
+            ObjDataAdapter.Fill(ds)
+
+        Catch ex As Exception
+            Throw ex
+        End Try
+
+        Return ds
+    End Function
+
     Public Shared Function List(ByVal SQL As String) As DataTable
         Dim Ds As DataSet = New DataSet()
 

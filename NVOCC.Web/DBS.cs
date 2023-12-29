@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Data;
@@ -181,9 +182,17 @@ namespace ABAINFRA.Web
 
         public static string ConnectionString()
         {
-
-            return ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString;
-
+            if (HttpContext.Current.Session != null)
+            {
+                Console.WriteLine(HttpContext.Current.Session);
+                string SQL = ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString.Substring(0, ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString.IndexOf("User"));
+                SQL += "User ID=" + System.Web.HttpContext.Current.Session["USER"] + ";Password=gflcoablaolg!@2023;";
+                return SQL;
+            }
+            else
+            {
+                      return ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString;
+            }
         }
     }
 }

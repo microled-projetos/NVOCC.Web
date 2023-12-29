@@ -32,7 +32,19 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
 
         End If
 
-            lblVersion.Text = "ver " & Me.GetType.Assembly.GetName.Version.ToString
+        lblEsquema.Text = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString
+        lblEsquema.Text = lblEsquema.Text.Substring(lblEsquema.Text.IndexOf("Catalog="))
+        lblEsquema.Text = lblEsquema.Text.Substring(0, lblEsquema.Text.IndexOf(";User ID"))
+        lblEsquema.Text = lblEsquema.Text.Replace("Catalog=", "")
+        If lblEsquema.Text = "NVOCCTST" Then
+            lblEsquema.Text = lblEsquema.Text & " (Teste)"
+        ElseIf lblEsquema.Text = "NVOCCHOM" Then
+            lblEsquema.Text = lblEsquema.Text & " (Homologação)"
+        ElseIf lblEsquema.Text = "NVOCC" Then
+            lblEsquema.Text = lblEsquema.Text & " (Produção)"
+        End If
+
+        lblVersion.Text = "ver " & Me.GetType.Assembly.GetName.Version.ToString
 
     End Sub
 
@@ -104,13 +116,17 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                     ElseIf linha.Item("ID").ToString() = 2036 And linha.Item("Acessar").ToString() = 0 Then
                         mnModuloGerencial.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2037 And linha.Item("Acessar").ToString() = 0 Then
-                        mnTOTVSDespesa.Visible = False
+                        ' mnTOTVSDespesa.Visible = False
+                        liTOTVSDespesa.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2038 And linha.Item("Acessar").ToString() = 0 Then
-                        mnTOTVSPA.Visible = False
+                        '  mnTOTVSPA.Visible = False
+                        liTOTVSPA.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2039 And linha.Item("Acessar").ToString() = 0 Then
-                        mnTOTVSDebit.Visible = False
+                        ' mnTOTVSDebit.Visible = False
+                        liTOTVSDebit.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2040 And linha.Item("Acessar").ToString() = 0 Then
-                        mnTOTVSCredit.Visible = False
+                        ' mnTOTVSCredit.Visible = False
+                        liTOTVSCredit.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2041 And linha.Item("Acessar").ToString() = 0 Then
                         mnTOTVSServico.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2042 And linha.Item("Acessar").ToString() = 0 Then
@@ -138,15 +154,40 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                     ElseIf linha.Item("ID").ToString() = 2054 And linha.Item("Acessar").ToString() = 0 Then
                         mnPremiacao.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2055 And linha.Item("Acessar").ToString() = 0 Then
-                        mnTOTVSDemurrageRA.Visible = False
+                        ' mnTOTVSDemurrageRA.Visible = False
+                        liTOTVSDemurrageRA.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2056 And linha.Item("Acessar").ToString() = 0 Then
-                        mnTOTVSDemurragePA.Visible = False
+                        '  mnTOTVSDemurragePA.Visible = False
+                        liTOTVSDemurragePA.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2057 And linha.Item("Acessar").ToString() = 0 Then
                         mnComissaoTransportadora.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2058 And linha.Item("Acessar").ToString() = 0 Then
                         mnConfereProcesso.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2059 And linha.Item("Acessar").ToString() = 0 Then
                         mnRelatorioProcessos.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2060 And linha.Item("Acessar").ToString() = 0 Then
+                        mnRelatorioConsolidada.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2061 And linha.Item("Acessar").ToString() = 0 Then
+                        mnCourrierPersonal.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2062 And linha.Item("Acessar").ToString() = 0 Then
+                        mnRelatorioAccountDeclarada.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2063 And linha.Item("Acessar").ToString() = 0 Then
+                        mnRelatorioDebitCredit.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2064 And linha.Item("Acessar").ToString() = 0 Then
+                        mnTaxasAberto.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2065 And linha.Item("Acessar").ToString() = 0 Then
+                        mnPrevisibilidadeContas.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2066 And linha.Item("Acessar").ToString() = 0 Then
+                        mnInativacaoTaxas.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2067 And linha.Item("Acessar").ToString() = 0 Then
+                        mnRelTaxasInativas.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2068 And linha.Item("Acessar").ToString() = 0 Then
+                        mnPowerBIGerencial.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2069 And linha.Item("Acessar").ToString() = 0 Then
+                        mnDetention.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2070 And linha.Item("Acessar").ToString() = 0 Then
+                        ' mnConsultaIntegracaoTOTVS.Visible = False
+                        liConsultaIntegracaoTOTVS.Visible = False
                     End If
 
 
@@ -192,16 +233,16 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuFaturamento.Visible = False
             End If
 
-            If mnDashBoard.Visible = False And mnGerencialMaster.Visible = False And mnModuloGerencial.Visible = False And mnModuloOperacional.Visible = False Then
+            If mnDashBoard.Visible = False And mnGerencialMaster.Visible = False And mnModuloGerencial.Visible = False And mnModuloOperacional.Visible = False And mnRelTaxasInativas.Visible = False And mnPowerBIGerencial.Visible = False Then
                 MenuGerencial.Visible = False
             End If
 
 
-            If mnEstimativaContaPagarReceber.Visible = False And mnContaPagarReceber.Visible = False And mnRelatorioInvoice.Visible = False And mnInvoiceQuitada.Visible = False And mnDemonstrativoRateio.Visible = False And mnPremiacao.Visible = False And mnRelatorioProcessos.Visible = False Then
+            If mnEstimativaContaPagarReceber.Visible = False And mnContaPagarReceber.Visible = False And mnRelatorioInvoice.Visible = False And mnInvoiceQuitada.Visible = False And mnDemonstrativoRateio.Visible = False And mnPremiacao.Visible = False And mnRelatorioProcessos.Visible = False And mnRelTaxasInativas.Visible = False Then
                 MenuRelatoriosFinanceiros.Visible = False
             End If
 
-            If mnAccount.Visible = False And mnFechamentoCambio.Visible = False Then
+            If mnAccount.Visible = False And mnFechamentoCambio.Visible = False And mnRelatorioDebitCredit.Visible = False And mnRelatorioAccountDeclarada.Visible = False Then
                 MenuAccount.Visible = False
             End If
 
@@ -209,19 +250,25 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuComissoes.Visible = False
             End If
 
-            If mnTOTVSCredit.Visible = False And mnTOTVSDebit.Visible = False And mnTOTVSDespesa.Visible = False And mnTOTVSPA.Visible = False And mnTOTVSDemurrageRA.Visible = False And mnTOTVSDemurragePA.Visible = False Then
+            If mnTOTVSCredit.Visible = False And mnTOTVSDebit.Visible = False And mnTOTVSDespesa.Visible = False And mnTOTVSPA.Visible = False And mnTOTVSDemurrageRA.Visible = False And mnTOTVSDemurragePA.Visible = False And mnConsultaIntegracaoTOTVS.Visible = False Then
                 MenuTotvs.Visible = False
             End If
 
-            If mnFinanceiro.Visible = False And mnModuloDemurrage.Visible = False And MenuAccount.Visible = False And MenuComissoes.Visible = False And MenuTotvs.Visible = False And MenuRelatoriosFinanceiros.Visible = False And mnCaixaSaida.Visible = False Then
+            If mnFinanceiro.Visible = False And mnModuloDemurrage.Visible = False And MenuAccount.Visible = False And MenuComissoes.Visible = False And MenuTotvs.Visible = False And MenuRelatoriosFinanceiros.Visible = False And mnCaixaSaida.Visible = False And mnTaxasAberto.Visible = False And mnPrevisibilidadeContas.Visible = False And mnInativacaoTaxas.Visible = False And mnDetention.Visible = False Then
                 MenuFinanceiro.Visible = False
+            End If
+
+            If mnRelatorioConsolidada.Visible = False Then
+                MenuRelatorios.Visible = False
+            End If
+
+            If mnCourrierPersonal.Visible = False Then
+                MenuServicos.Visible = False
             End If
         End If
 
 
     End Sub
 
-    'Protected Sub Unnamed_AsyncPostBackError(sender As Object, e As AsyncPostBackErrorEventArgs)
-    '    Response.Redirect("Default.aspx")
-    'End Sub
+
 End Class

@@ -23,10 +23,6 @@ namespace ABAINFRA.Web
             ddlFiltro.Items.Insert(0, new ListItem("Selecione", "0"));
             ddlFiltro.Items.Insert(1, new ListItem("Nº Processo", "1"));
             ddlFiltro.Items.Insert(2, new ListItem("Cliente", "2"));
-            ddlVia.DataBind();
-            ddlVia.Items.Insert(0, new ListItem("Todas", "0"));
-            ddlVia.Items.Insert(1, new ListItem("Aérea", "1"));
-            ddlVia.Items.Insert(2, new ListItem("Marítima", "2"));
             ddlServico.DataBind();
             ddlServico.Items.Insert(0, new ListItem("Todos", "0"));
             ddlServico.Items.Insert(1, new ListItem("Importação", "1"));
@@ -35,6 +31,7 @@ namespace ABAINFRA.Web
             ddlTipoEstufagem.Items.Insert(0, new ListItem("Todos", "0"));
             ddlTipoEstufagem.Items.Insert(1, new ListItem("FCL", "1"));
             ddlTipoEstufagem.Items.Insert(2, new ListItem("LCL", "2"));
+            ddlTipoEstufagem.Items.Insert(3, new ListItem("Aereo", "3"));
         }
     }
 }

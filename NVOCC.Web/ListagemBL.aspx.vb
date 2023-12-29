@@ -32,7 +32,11 @@ Public Class ListagemBL
             lblmsgErro.Text = "Usuário não possui permissão."
             Exit Sub
         Else
-            Response.Redirect("CadastrarMaster.aspx")
+            If rdTransporteMaster.SelectedValue = 2 Then
+                Response.Redirect("CadastrarMaster.aspx?&s=A")
+            Else
+                Response.Redirect("CadastrarMaster.aspx?&s=M")
+            End If
         End If
 
     End Sub
@@ -48,7 +52,11 @@ Public Class ListagemBL
             lblmsgErro.Text = "Usuário não possui permissão."
             Exit Sub
         Else
-            Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=e")
+            If rdTRansporteEmbarque.SelectedValue = 2 Then
+                Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=e&s=A")
+            Else
+                Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=e&s=M")
+            End If
         End If
 
     End Sub
@@ -64,7 +72,11 @@ Public Class ListagemBL
             lblErroHouse.Text = "Usuário não possui permissão."
             Exit Sub
         Else
-            Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=h")
+            If rdTransporteHouse.SelectedValue = 2 Then
+                Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=h&s=A")
+            Else
+                Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=h&s=M")
+            End If
         End If
 
     End Sub
@@ -99,7 +111,7 @@ Public Class ListagemBL
     Sub DUPLICAR(ID As String, TIPO As String)
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (ID_BL_MASTER,NR_BL,GRAU,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,NR_CE,DT_CE,ID_TIPO_PAGAMENTO,ID_TIPO_ESTUFAGEM,ID_PARCEIRO_AGENTE,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PARCEIRO_AGENCIA,ID_PARCEIRO_COLOADER,ID_PARCEIRO_COMISSARIA,ID_SERVICO,ID_MOEDA_FRETE,DT_CALCULO_FRETE,VL_CAMBIO_FRETE,VL_FRETE,VL_FRETE_CONVERT,VL_CARGA,ID_PARCEIRO_OPERADOR,ID_PARCEIRO_TRANSPORTADOR,DT_PREVISAO_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,DT_EMBARQUE,ID_NAVIO,NR_VIAGEM,ID_TIPO_CARGA,ID_INCOTERM,VL_M3,QT_MERCADORIA,VL_PESO_BRUTO,VL_PESO_TAXADO,OB_OPERACIONAL_INTERNA,OB_COMERCIAL,OB_AGENTE_INTERNACIONAL,OB_CLIENTE,NR_FATURA_COURRIER,VL_PROFIT_DIVISAO,FL_DIVISAO_INFORMADA,DT_REDESTINACAO,DT_DESCONSOLIDACAO,ID_WEEK,DT_EMISSAO_BL,DT_EMISSAO_CONHECIMENTO,OB_REFERENCIA_AUXILIAR,OB_REFERENCIA_COMERCIAL,NM_RESUMO_MERCADORIA,ID_PARCEIRO_RODOVIARIO,DT_FLWP_LCL,ID_PARCEIRO_EXPORTADOR,VL_PESO_BRUTO_AGENTE,VL_M3_AGENTE,QT_MERCADORIA_AGENTE,DT_READY_DATE,DT_FORECAST_WH,DT_DRAFT_CUTOFF,DT_ARRIVE_WH,ID_MERCADORIA,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,DT_RECEBIMENTO_HBL,DT_RECEBIMENTO_MBL,CD_RASTREAMENTO_HBL,CD_RASTREAMENTO_MBL,DT_RETIRADA_COURRIER,NM_RETIRADO_POR_COURRIER,ID_STATUS_BL,ID_WEEK_CONTAINER,DT_ULTIMO_CALCULO_PROFIT,DT_ULTIMO_CALCULO_TAXAS,ID_PORTO_1T,ID_PORTO_2T,ID_PORTO_3T,ID_NAVIO_1T,ID_NAVIO_2T,ID_NAVIO_3T,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T,DT_1T,DT_2T,DT_3T,VL_TARIFA_MASTER,VL_TARIFA_MASTER_MINIMA, ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA,ID_PARCEIRO_ARMAZEM_DESEMBARACO,FL_DUPLICATA,DT_ABERTURA,ID_USUARIO_ABERTURA) SELECT ID_BL_MASTER,0,GRAU,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,NR_CE,DT_CE,ID_TIPO_PAGAMENTO,ID_TIPO_ESTUFAGEM,ID_PARCEIRO_AGENTE,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PARCEIRO_AGENCIA,ID_PARCEIRO_COLOADER,ID_PARCEIRO_COMISSARIA,ID_SERVICO,ID_MOEDA_FRETE,DT_CALCULO_FRETE,VL_CAMBIO_FRETE,VL_FRETE,VL_FRETE_CONVERT,VL_CARGA,ID_PARCEIRO_OPERADOR,ID_PARCEIRO_TRANSPORTADOR,DT_PREVISAO_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,DT_EMBARQUE,ID_NAVIO,NR_VIAGEM,ID_TIPO_CARGA,ID_INCOTERM,VL_M3,QT_MERCADORIA,VL_PESO_BRUTO,VL_PESO_TAXADO,OB_OPERACIONAL_INTERNA,OB_COMERCIAL,OB_AGENTE_INTERNACIONAL,OB_CLIENTE,NR_FATURA_COURRIER,VL_PROFIT_DIVISAO,FL_DIVISAO_INFORMADA,DT_REDESTINACAO,DT_DESCONSOLIDACAO,ID_WEEK,DT_EMISSAO_BL,DT_EMISSAO_CONHECIMENTO,OB_REFERENCIA_AUXILIAR,OB_REFERENCIA_COMERCIAL,NM_RESUMO_MERCADORIA,ID_PARCEIRO_RODOVIARIO,DT_FLWP_LCL,ID_PARCEIRO_EXPORTADOR,VL_PESO_BRUTO_AGENTE,VL_M3_AGENTE,QT_MERCADORIA_AGENTE,DT_READY_DATE,DT_FORECAST_WH,DT_DRAFT_CUTOFF,DT_ARRIVE_WH,ID_MERCADORIA,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,DT_RECEBIMENTO_HBL,DT_RECEBIMENTO_MBL,CD_RASTREAMENTO_HBL,CD_RASTREAMENTO_MBL,DT_RETIRADA_COURRIER,NM_RETIRADO_POR_COURRIER,ID_STATUS_BL,ID_WEEK_CONTAINER,DT_ULTIMO_CALCULO_PROFIT,DT_ULTIMO_CALCULO_TAXAS,ID_PORTO_1T,ID_PORTO_2T,ID_PORTO_3T,ID_NAVIO_1T,ID_NAVIO_2T,ID_NAVIO_3T,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T,DT_1T,DT_2T,DT_3T,VL_TARIFA_MASTER,VL_TARIFA_MASTER_MINIMA, ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA,ID_PARCEIRO_ARMAZEM_DESEMBARACO,1,GETDATE()," & Session("ID_USUARIO") & "  from TB_BL WHERE ID_BL =" & ID & " ; Select SCOPE_IDENTITY() as ID_BL ")
+        Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (ID_BL_MASTER,NR_BL,GRAU,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,NR_CE,DT_CE,ID_TIPO_PAGAMENTO,ID_TIPO_ESTUFAGEM,ID_PARCEIRO_AGENTE,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PARCEIRO_AGENCIA,ID_PARCEIRO_COLOADER,ID_PARCEIRO_COMISSARIA,ID_SERVICO,ID_MOEDA_FRETE,DT_CALCULO_FRETE,VL_CAMBIO_FRETE,VL_FRETE,VL_FRETE_CONVERT,VL_CARGA,ID_PARCEIRO_OPERADOR,ID_PARCEIRO_TRANSPORTADOR,DT_PREVISAO_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,DT_EMBARQUE,ID_NAVIO,NR_VIAGEM,ID_TIPO_CARGA,ID_INCOTERM,VL_M3,QT_MERCADORIA,VL_PESO_BRUTO,VL_PESO_TAXADO,OB_OPERACIONAL_INTERNA,OB_COMERCIAL,OB_AGENTE_INTERNACIONAL,OB_CLIENTE,NR_FATURA_COURRIER,ID_PROFIT_DIVISAO, VL_PROFIT_DIVISAO,VL_PROFIT_DIVISAO_CALCULADO,FL_DIVISAO_INFORMADA,DT_REDESTINACAO,DT_DESCONSOLIDACAO,ID_WEEK,DT_EMISSAO_BL,DT_EMISSAO_CONHECIMENTO,OB_REFERENCIA_AUXILIAR,OB_REFERENCIA_COMERCIAL,NM_RESUMO_MERCADORIA,ID_PARCEIRO_RODOVIARIO,DT_FLWP_LCL,ID_PARCEIRO_EXPORTADOR,VL_PESO_BRUTO_AGENTE,VL_M3_AGENTE,QT_MERCADORIA_AGENTE,DT_READY_DATE,DT_FORECAST_WH,DT_DRAFT_CUTOFF,DT_ARRIVE_WH,ID_MERCADORIA,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,DT_RECEBIMENTO_HBL,DT_RECEBIMENTO_MBL,CD_RASTREAMENTO_HBL,CD_RASTREAMENTO_MBL,DT_RETIRADA_COURRIER,NM_RETIRADO_POR_COURRIER,ID_STATUS_BL,ID_WEEK_CONTAINER,DT_ULTIMO_CALCULO_PROFIT,DT_ULTIMO_CALCULO_TAXAS,ID_PORTO_1T,ID_PORTO_2T,ID_PORTO_3T,ID_NAVIO_1T,ID_NAVIO_2T,ID_NAVIO_3T,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T,DT_1T,DT_2T,DT_3T,VL_TARIFA_MASTER,VL_TARIFA_MASTER_MINIMA, ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA,ID_PARCEIRO_ARMAZEM_DESEMBARACO,FL_DUPLICATA,DT_ABERTURA,ID_USUARIO_ABERTURA) SELECT ID_BL_MASTER,0,GRAU,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,NR_CE,DT_CE,ID_TIPO_PAGAMENTO,ID_TIPO_ESTUFAGEM,ID_PARCEIRO_AGENTE,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PARCEIRO_AGENCIA,ID_PARCEIRO_COLOADER,ID_PARCEIRO_COMISSARIA,ID_SERVICO,ID_MOEDA_FRETE,DT_CALCULO_FRETE,VL_CAMBIO_FRETE,VL_FRETE,VL_FRETE_CONVERT,VL_CARGA,ID_PARCEIRO_OPERADOR,ID_PARCEIRO_TRANSPORTADOR,DT_PREVISAO_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,DT_EMBARQUE,ID_NAVIO,NR_VIAGEM,ID_TIPO_CARGA,ID_INCOTERM,VL_M3,QT_MERCADORIA,VL_PESO_BRUTO,VL_PESO_TAXADO,OB_OPERACIONAL_INTERNA,OB_COMERCIAL,OB_AGENTE_INTERNACIONAL,OB_CLIENTE,NR_FATURA_COURRIER,ID_PROFIT_DIVISAO, VL_PROFIT_DIVISAO,VL_PROFIT_DIVISAO_CALCULADO,FL_DIVISAO_INFORMADA,DT_REDESTINACAO,DT_DESCONSOLIDACAO,ID_WEEK,DT_EMISSAO_BL,DT_EMISSAO_CONHECIMENTO,OB_REFERENCIA_AUXILIAR,OB_REFERENCIA_COMERCIAL,NM_RESUMO_MERCADORIA,ID_PARCEIRO_RODOVIARIO,DT_FLWP_LCL,ID_PARCEIRO_EXPORTADOR,VL_PESO_BRUTO_AGENTE,VL_M3_AGENTE,QT_MERCADORIA_AGENTE,DT_READY_DATE,DT_FORECAST_WH,DT_DRAFT_CUTOFF,DT_ARRIVE_WH,ID_MERCADORIA,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,DT_RECEBIMENTO_HBL,DT_RECEBIMENTO_MBL,CD_RASTREAMENTO_HBL,CD_RASTREAMENTO_MBL,DT_RETIRADA_COURRIER,NM_RETIRADO_POR_COURRIER,ID_STATUS_BL,ID_WEEK_CONTAINER,DT_ULTIMO_CALCULO_PROFIT,DT_ULTIMO_CALCULO_TAXAS,ID_PORTO_1T,ID_PORTO_2T,ID_PORTO_3T,ID_NAVIO_1T,ID_NAVIO_2T,ID_NAVIO_3T,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T,DT_1T,DT_2T,DT_3T,VL_TARIFA_MASTER,VL_TARIFA_MASTER_MINIMA, ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA,ID_PARCEIRO_ARMAZEM_DESEMBARACO,1,GETDATE()," & Session("ID_USUARIO") & "  from TB_BL WHERE ID_BL =" & ID & " ; Select SCOPE_IDENTITY() as ID_BL ")
         Dim NOVA_BL As String = ds.Tables(0).Rows(0).Item("ID_BL")
         NumeroProcesso(NOVA_BL)
 
@@ -119,19 +131,19 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
         Dim sql As String = ""
         If rdServicoHouse.SelectedValue = 0 Then
-            sql = " SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO NOT IN (1,2,4,5) " 'OUTROS
+            sql = " SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO NOT IN (1,2,4,5)  ORDER BY ID_BL DESC" 'OUTROS
 
         ElseIf rdTransporteHouse.SelectedValue = 2 And rdServicoHouse.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 2" 'AGENCIAMENTO DE IMPORTACAO AEREO
+            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 2 ORDER BY ID_BL DESC" 'AGENCIAMENTO DE IMPORTACAO AEREO
 
         ElseIf rdTransporteHouse.SelectedValue = 1 And rdServicoHouse.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 1" 'AGENCIAMENTO DE IMPORTACAO MARITIMA
+            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 1 ORDER BY ID_BL DESC" 'AGENCIAMENTO DE IMPORTACAO MARITIMA
 
         ElseIf rdTransporteHouse.SelectedValue = 1 And rdServicoHouse.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 4" 'AGENCIAMENTO DE EXPORTACAO MARITIMA
+            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 4 ORDER BY ID_BL DESC" 'AGENCIAMENTO DE EXPORTACAO MARITIMA
 
         ElseIf rdTransporteHouse.SelectedValue = 2 And rdServicoHouse.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 5" 'AGENCIAMENTO DE EXPORTAÇÃO AEREO
+            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 5 ORDER BY ID_BL DESC" 'AGENCIAMENTO DE EXPORTAÇÃO AEREO
 
         End If
 
@@ -145,22 +157,22 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         Dim sql As String
         'AGENCIAMENTO DE IMPORTACAO AEREO
         If rdTRansporteEmbarque.SelectedValue = 2 And rdServicoEmbarque.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 2"
+            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 2 ORDER BY ID_BL DESC"
 
 
             'AGENCIAMENTO DE IMPORTACAO MARITIMA
         ElseIf rdTRansporteEmbarque.SelectedValue = 1 And rdServicoEmbarque.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 1"
+            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 1 ORDER BY ID_BL DESC"
 
 
             'AGENCIAMENTO DE EXPORTACAO MARITIMA
         ElseIf rdTRansporteEmbarque.SelectedValue = 1 And rdServicoEmbarque.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 4"
+            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 4 ORDER BY ID_BL DESC"
 
 
             'AGENCIAMENTO DE EXPORTAÇÃO AEREO
         ElseIf rdTRansporteEmbarque.SelectedValue = 2 And rdServicoEmbarque.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 5"
+            sql = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_SERVICO = 5 ORDER BY ID_BL DESC"
         End If
 
         dsEmbarque.SelectCommand = sql
@@ -173,22 +185,22 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         Dim sql As String
         'AGENCIAMENTO DE IMPORTACAO AEREO
         If rdTransporteMaster.SelectedValue = 2 And rdServicoMaster.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 2"
+            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 2 ORDER BY ID_BL DESC"
 
 
             'AGENCIAMENTO DE IMPORTACAO MARITIMA
         ElseIf rdTransporteMaster.SelectedValue = 1 And rdServicoMaster.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 1"
+            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 1 ORDER BY ID_BL DESC"
 
 
             'AGENCIAMENTO DE EXPORTACAO MARITIMA
         ElseIf rdTransporteMaster.SelectedValue = 1 And rdServicoMaster.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 4"
+            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 4 ORDER BY ID_BL DESC"
 
 
             'AGENCIAMENTO DE EXPORTAÇÃO AEREO
         ElseIf rdTransporteMaster.SelectedValue = 2 And rdServicoMaster.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 5"
+            sql = "SELECT * FROM [dbo].[View_Master] WHERE ID_SERVICO = 5 ORDER BY ID_BL DESC"
         End If
 
         dsMaster.SelectCommand = sql
@@ -197,7 +209,6 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
     End Sub
     Private Sub rdTransporteHouse_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdTransporteHouse.SelectedIndexChanged
         GridHouse()
-
     End Sub
 
     Private Sub btnPesquisaHouse_Click(sender As Object, e As EventArgs) Handles btnPesquisaHouse.Click
@@ -206,18 +217,38 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
         If ddlFiltroHouse.SelectedValue = 0 Then
             dgvHouse.DataBind()
-        ElseIf ddlFiltroHouse.SelectedValue = 1 Then
-            dsHouse.SelectCommand = "select * from [dbo].[View_House] WHERE NR_PROCESSO LIKE '%" & txtPesquisaHouse.Text & "%'"
-        ElseIf ddlFiltroHouse.SelectedValue = 2 Then
-            dsHouse.SelectCommand = "select * from [dbo].[View_House] WHERE TIPO_ESTUFAGEM LIKE '%" & txtPesquisaHouse.Text & "%' "
-        ElseIf ddlFiltroHouse.SelectedValue = 3 Then
-            dsHouse.SelectCommand = "select * from [dbo].[View_House] WHERE PARCEIRO_CLIENTE LIKE '%" & txtPesquisaHouse.Text & "%' "
-        ElseIf ddlFiltroHouse.SelectedValue = 4 Then
-            dsHouse.SelectCommand = "select * from [dbo].[View_House] WHERE BL_MASTER LIKE '%" & txtPesquisaHouse.Text & "%'"
-        ElseIf ddlFiltroHouse.SelectedValue = 5 Then
-            dsHouse.SelectCommand = "select * from [dbo].[View_House] WHERE NR_BL LIKE '%" & txtPesquisaHouse.Text & "%'"
+
+        ElseIf ddlFiltroHouse.SelectedValue <> 7 And txtPesquisaHouse.Text = "" Then
+            dgvHouse.DataBind()
+
+        Else
+
+            Dim FILTRO As String
+            If ddlFiltroHouse.SelectedValue = 1 Then
+                FILTRO = " NR_PROCESSO LIKE '%" & txtPesquisaHouse.Text & "%'"
+            ElseIf ddlFiltroHouse.SelectedValue = 2 Then
+                FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisaHouse.Text & "%' "
+            ElseIf ddlFiltroHouse.SelectedValue = 3 Then
+                FILTRO = " PARCEIRO_CLIENTE LIKE '%" & txtPesquisaHouse.Text & "%' "
+            ElseIf ddlFiltroHouse.SelectedValue = 4 Then
+                FILTRO = " BL_MASTER LIKE '%" & txtPesquisaHouse.Text & "%'"
+            ElseIf ddlFiltroHouse.SelectedValue = 5 Then
+                FILTRO = " NR_BL LIKE '%" & txtPesquisaHouse.Text & "%'"
+            ElseIf ddlFiltroHouse.SelectedValue = 6 Then
+                FILTRO = " CONTAINER LIKE '%" & txtPesquisaHouse.Text.Replace("-", "").Replace(".", "").Replace("/", "") & "%' "
+            ElseIf ddlFiltroHouse.SelectedValue = 7 Then
+                If ddlDocConfHouse.SelectedValue = 1 Then
+                    FILTRO = " DOC_CONFERIDO = 'Sim' "
+                Else
+                    FILTRO = " DOC_CONFERIDO = 'Não' "
+                End If
+            End If
+
+            Dim sql As String = "SELECT * FROM [dbo].[View_House] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
+            dsHouse.SelectCommand = sql
+            dgvHouse.DataBind()
+
         End If
-        dgvHouse.DataBind()
 
     End Sub
 
@@ -297,6 +328,15 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
             dgvHouse.Rows(txtlinhaHouse.Text).CssClass = "selected1"
 
+        ElseIf e.CommandName = "DocConferido" Then
+
+            Dim ID As String = e.CommandArgument
+
+
+            dsDocConferidoHouse.SelectParameters("ID_BL").DefaultValue = ID
+            dgvDocConferidoHouse.DataBind()
+            ModalPopupExtender1.Show()
+
         End If
     End Sub
 
@@ -316,7 +356,14 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
                 divErroHouse.Visible = True
                 lblErroHouse.Text = "Selecione o registro que deseja editar!"
             Else
-                Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}"
+                Dim url As String = ""
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_SERVICO,0)ID_SERVICO FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text)
+                If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                    url = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}&s=A"
+                Else
+                    url = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}&s=M"
+                End If
+
                 url = String.Format(url, txtIDHouse.Text)
                 Response.Redirect(url)
             End If
@@ -324,7 +371,6 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
     End Sub
 
-    'ROTINA A SER DEFINIDA
     Private Sub lkRemoverHouse_Click(sender As Object, e As EventArgs) Handles lkRemoverHouse.Click
         divSuccessHouse.Visible = False
         divErroHouse.Visible = False
@@ -353,10 +399,7 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
     End Sub
 
-    'ROTINA A SER DEFINIDA
-    Private Sub lkCancelaHouse_Click(sender As Object, e As EventArgs) Handles lkCancelaHouse.Click
 
-    End Sub
 
     Private Sub lkDuplicarHouse_Click(sender As Object, e As EventArgs) Handles lkDuplicarHouse.Click
         divSuccessHouse.Visible = False
@@ -376,7 +419,6 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
                 lblErroHouse.Text = "Selecione o registro que deseja duplicar!"
             Else
                 DUPLICAR(txtIDHouse.Text, "HOUSE")
-                ' dgvHouse.DataBind()
                 GridHouse()
                 divSuccessHouse.Visible = True
                 lblSuccessHouse.Text = "Item duplicado com sucesso!"
@@ -396,7 +438,7 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(DT_CAMBIO)QTD FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ") 
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(DT_CAMBIO)QTD FROM [FN_TAXAS_BL_CALCULO](" & txtIDHouse.Text & ") 
 WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
             If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
                 divErroHouse.Visible = True
@@ -405,26 +447,25 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
 
             Else
 
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 = 
-(SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
-(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
-(SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text)
 
+                CalculaCLA(txtIDHouse.Text)
 
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 = (SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text & " ;
+UPDATE TB_BL SET VL_PESO_BRUTO =(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text & " ; 
+UPDATE TB_BL SET QT_MERCADORIA = (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text)
 
-                CalculoProfit()
+                Dim Calcula As New CalculaBL
+
+                Calcula.CalculoProfit(txtIDHouse.Text)
 
                 Dim i As Integer = 0
 
-                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ")")
-                ' Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,A.ID_BL_TAXA)ID_BL_TAXA FROM TB_BL_TAXA A WHERE ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND ID_BASE_CALCULO_TAXA <> 1 AND ID_MOEDA <> 0 AND A.ID_BL_MASTER IS NULL AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL AND ID_BL_TAXA IS NOT NULL)")
+                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL_CALCULO](" & txtIDHouse.Text & ")")
+
                 Dim IDs As String = "0"
                 If dsTaxa.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In dsTaxa.Tables(0).Rows
-
-                        Dim Calcula As New CalculaBL
                         Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
-
                         If retorno = "BL calculada com sucesso!" Then
                             lblSuccessHouse.Text = "BL calculada com sucesso!"
                             divSuccessHouse.Visible = True
@@ -453,159 +494,51 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
 
             End If
         End If
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
 
     End Sub
 
-    Sub CalculoProfit()
-        Dim Profit As String = ""
-        Dim x As Double
-        Dim y As Double
-        Dim z As Double
+    Sub CalculaCLA(ID_BL)
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim dsProfit As DataSet = Con.ExecutarQuery("Select ISNULL(ID_PROFIT_DIVISAO,0)ID_PROFIT_DIVISAO,ISNULL(VL_PROFIT_DIVISAO,0)VL_PROFIT_DIVISAO FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text)
-        If dsProfit.Tables(0).Rows.Count > 0 Then
-            If dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 1 Then
-                'VALOR FIXO A RECEBER
-                z = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+        Dim LCA As Decimal
+        Dim VL_M3 As Decimal
+        Dim PESO_BRUTO As Decimal
+        Dim PESO_TAXADO As Decimal
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT isnull(VL_PESO_TAXADO,0)VL_PESO_TAXADO, isnull(VL_M3,0)VL_M3, isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
+(isnull(D.QTD_CAIXA,0) * isnull(D.VL_COMPRIMENTO,0) * isnull(D.VL_ALTURA,0) * isnull(D.VL_LARGURA,0))/5988 AS LCA
+from TB_BL A 
+left join TB_CARGA_BL_DIMENSAO D ON D.ID_BL = A.ID_BL
+Where A.ID_BL = " & ID_BL)
+        PESO_BRUTO = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
+        VL_M3 = ds.Tables(0).Rows(0).Item("VL_M3")
+        For Each linha As DataRow In ds.Tables(0).Rows
+            LCA = LCA + linha.Item("LCA")
+        Next
 
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 2 Then
-                'VALOR FIXO A PAGAR
-                z = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 3 Then
-                'PERCENTUAL A RECEBER
-
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL((SELECT ISNULL(SUM(VL_TAXA_CALCULADO),0) FROM TB_BL_TAXA WHERE CD_PR = 'R' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & ") - (SELECT ISNULL(SUM(VL_TAXA_CALCULADO),0) FROM TB_BL_TAXA WHERE CD_PR = 'P' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & "),0) AS LUCRO")
-
-                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-                y = dsAuxiliar.Tables(0).Rows(0).Item("LUCRO")
-                y = y / 100
-                z = y * x
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 4 Then
-                'PERCENTUAL A PAGAR
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL((SELECT ISNULL(SUM(VL_TAXA_CALCULADO),0) FROM TB_BL_TAXA WHERE CD_PR = 'R' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & ") - (SELECT ISNULL(SUM(VL_TAXA_CALCULADO),0) FROM TB_BL_TAXA WHERE CD_PR = 'P' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & "),0) AS LUCRO")
-
-                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-                y = dsAuxiliar.Tables(0).Rows(0).Item("LUCRO")
-                y = y / 100
-                z = y * x
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 5 Then
-                'POR TEU A RECEBER
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT SUM(TEU)QTD FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER IN (Select ID_TIPO_CNTR FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & txtIDHouse.Text & ")")
-
-                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
-                z = y * x
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 6 Then
-                'POR TEU A PAGAR
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT SUM(TEU)QTD FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER IN (Select ID_TIPO_CNTR FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & txtIDHouse.Text & ")")
-
-                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
-                z = y * x
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 7 Then
-                'POR CONTEINER A RECEBER
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_AMR_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL = " & txtIDHouse.Text)
-
-                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
-                z = y * x
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 8 Then
-                'POR CONTEINER A PAGAR
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_AMR_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL = " & txtIDHouse.Text)
-
-                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
-                z = y * x
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 9 Then
-                'POR W/M A RECEBER
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_PESO_BRUTO,0)VL_PESO_BRUTO,ISNULL(VL_M3,0)VL_M3 FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text)
-
-                x = dsAuxiliar.Tables(0).Rows(0).Item("VL_M3")
-                y = dsAuxiliar.Tables(0).Rows(0).Item("VL_PESO_BRUTO") / 1000
-
-                If x > y Then
-                    x = x
-                Else
-                    x = y
-                End If
-
-                y = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-
-                z = y * x
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-
-
-            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 10 Then
-                'POR W/M A PAGAR
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_PESO_BRUTO,0)VL_PESO_BRUTO,ISNULL(VL_M3,0)VL_M3 FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text)
-
-                x = dsAuxiliar.Tables(0).Rows(0).Item("VL_M3")
-                y = dsAuxiliar.Tables(0).Rows(0).Item("VL_PESO_BRUTO") / 1000
-
-                If x > y Then
-                    x = x
-                Else
-                    x = y
-                End If
-
-                y = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
-
-                z = y * x
-                Profit = z.ToString
-                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
-
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
-
-            End If
+        If LCA = 0 Then
+            LCA = VL_M3
         End If
+
+        If LCA >= PESO_BRUTO Then
+            PESO_TAXADO = LCA
+        Else
+            PESO_TAXADO = PESO_BRUTO
+        End If
+
+
+        Dim LCAFinal As String = LCA.ToString
+        LCAFinal = LCAFinal.ToString.Replace(".", "")
+        LCAFinal = LCAFinal.ToString.Replace(",", ".")
+
+        Dim PESO_TAXADO_Final As String = PESO_TAXADO.ToString
+        PESO_TAXADO_Final = PESO_TAXADO_Final.ToString.Replace(".", "")
+        PESO_TAXADO_Final = PESO_TAXADO_Final.ToString.Replace(",", ".")
+        Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_M3 = " & LCAFinal & " WHERE ID_BL = " & ID_BL)
+        Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 = " & LCAFinal & " WHERE ID_BL = " & ID_BL)
+        Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & PESO_TAXADO_Final & " WHERE ID_BL = " & ID_BL)
     End Sub
+
     Private Sub dgvMaster_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvMaster.RowCommand
         divSuccessMaster.Visible = False
         divErroMaster.Visible = False
@@ -628,6 +561,16 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             Next
 
             dgvMaster.Rows(txtLinhaMaster.Text).CssClass = "selected1"
+
+        ElseIf e.CommandName = "DocConferido" Then
+
+            Dim ID As String = e.CommandArgument
+
+
+            dsDocConferidoMaster.SelectParameters("ID_BL").DefaultValue = ID
+            dgvDocConferidoMaster.DataBind()
+            ModalPopupExtender2.Show()
+
 
         End If
     End Sub
@@ -674,7 +617,13 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 divErroEmbarque.Visible = True
                 lblErroEmbarque.Text = "Selecione o registro que deseja editar!"
             Else
-                Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=e&id={0}"
+                Dim url As String = ""
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_SERVICO,0)ID_SERVICO FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Text)
+                If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                    url = "CadastrarEmbarqueHouse.aspx?tipo=e&id={0}&s=A"
+                Else
+                    url = "CadastrarEmbarqueHouse.aspx?tipo=e&id={0}&s=M"
+                End If
                 url = String.Format(url, txtID_Embarque.Text)
                 Response.Redirect(url)
             End If
@@ -698,7 +647,14 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 divErroMaster.Visible = True
                 lblErroMaster.Text = "Selecione o registro que deseja editar!"
             Else
-                Dim url As String = "CadastrarMaster.aspx?id={0}"
+                Dim url As String = ""
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_SERVICO,0)ID_SERVICO FROM TB_BL WHERE ID_BL = " & txtID_Master.Text)
+                If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                    url = "CadastrarMaster.aspx?id={0}&s=A"
+                Else
+                    url = "CadastrarMaster.aspx?id={0}&s=M"
+                End If
+
                 url = String.Format(url, txtID_Master.Text)
                 Response.Redirect(url)
             End If
@@ -735,11 +691,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisaEmbarque.Text & "%' "
             ElseIf ddlFiltroEmbarque.SelectedValue = 3 Then
                 FILTRO = " PARCEIRO_CLIENTE LIKE '%" & txtPesquisaEmbarque.Text & "%' "
-                'ElseIf ddlFiltroEmbarque.SelectedValue = 4 Then
-                '    FILTRO = " ID_BL_MASTER LIKE '%" & txtPesquisaEmbarque.Text & "%' "
             End If
 
-            Dim sql As String = "select * from [dbo].[View_Embarque] WHERE " & FILTRO
+            Dim sql As String = "SELECT * from [dbo].[View_Embarque] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
             dsEmbarque.SelectCommand = sql
             dgvEmbarque.DataBind()
 
@@ -747,23 +701,35 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
     End Sub
 
     Private Sub btnPesquisaMaster_Click(sender As Object, e As EventArgs) Handles btnPesquisaMaster.Click
-        If ddFiltroMaster.SelectedValue = 0 Or txtPesquisaMaster.Text = "" Then
+        If ddlFiltroMaster.SelectedValue = 0 Then
             dgvMaster.DataBind()
+
+        ElseIf ddlFiltroMaster.SelectedValue <> 6 And txtPesquisaMaster.Text = "" Then
+            dgvMaster.DataBind()
+
         Else
             Dim FILTRO As String
 
 
-            If ddFiltroMaster.SelectedValue = 1 Then
+            If ddlFiltroMaster.SelectedValue = 1 Then
                 FILTRO = " NR_BL LIKE '%" & txtPesquisaMaster.Text & "%' "
-            ElseIf ddFiltroMaster.SelectedValue = 2 Then
+            ElseIf ddlFiltroMaster.SelectedValue = 2 Then
                 FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisaMaster.Text & "%' "
-            ElseIf ddFiltroMaster.SelectedValue = 3 Then
+            ElseIf ddlFiltroMaster.SelectedValue = 3 Then
                 FILTRO = " Origem LIKE '%" & txtPesquisaMaster.Text & "%' "
-            ElseIf ddFiltroMaster.SelectedValue = 4 Then
+            ElseIf ddlFiltroMaster.SelectedValue = 4 Then
                 FILTRO = " Destino LIKE '%" & txtPesquisaMaster.Text & "%' "
+            ElseIf ddlFiltroMaster.SelectedValue = 5 Then
+                FILTRO = " CONTAINER LIKE '%" & txtPesquisaMaster.Text.Replace("-", "").Replace(".", "").Replace("/", "") & "%' "
+            ElseIf ddlFiltroMaster.SelectedValue = 6 Then
+                If ddlDocConfMaster.SelectedValue = 1 Then
+                    FILTRO = " DOC_CONFERIDO = 'Sim' "
+                Else
+                    FILTRO = " DOC_CONFERIDO = 'Não' "
+                End If
             End If
 
-            Dim sql As String = "select * from [dbo].[View_Master] WHERE " & FILTRO
+            Dim sql As String = "SELECT * FROM [dbo].[View_Master] WHERE " & FILTRO & " ORDER BY DT_ABERTURA DESC"
             dsMaster.SelectCommand = sql
             dgvMaster.DataBind()
 
@@ -771,7 +737,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
     End Sub
 
     Private Sub btnFiltrar_Embarque_Click(sender As Object, e As EventArgs) Handles btnFiltrar_Embarque.Click
-        Dim sql As String = "select * from [dbo].[View_Embarque] WHERE ID_BL_MASTER IS NULL AND"
+        Dim sql As String = "SELECT * FROM [dbo].[View_Embarque] WHERE ID_BL_MASTER IS NULL AND"
 
         If txtAgente_Embarque.Text = "" And
             txtExportador_Embarque.Text = "" And
@@ -855,7 +821,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
     Private Sub btnFiltrar_House_Click(sender As Object, e As EventArgs) Handles btnFiltrar_House.Click
 
-        Dim sql As String = "select * from [dbo].[View_House] WHERE ID_BL_MASTER IS NOT NULL "
+        Dim sql As String = "SELECT * FROM [dbo].[View_House] WHERE ID_BL_MASTER IS NOT NULL "
 
         If txtAgente_House.Text = "" And
             txtExportador_House.Text = "" And
@@ -1009,7 +975,6 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 lblErroMaster.Text = "Selecione o registro que deseja duplicar!"
             Else
                 DUPLICAR(txtID_Master.Text, "MASTER")
-                ' dgvMaster.DataBind()
                 GridMaster()
                 divSuccessMaster.Visible = True
                 lblSuccessMaster.Text = "Item duplicado com sucesso!"
@@ -1036,7 +1001,6 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 lblErroEmbarque.Text = "Selecione o registro que deseja duplicar!"
             Else
                 DUPLICAR(txtID_Embarque.Text, "EMBARQUE")
-                'dgvEmbarque.DataBind()
                 GridEmbarque()
                 divSuccessEmbarque.Visible = True
                 lblSuccessEmbarque.Text = "Item duplicado com sucesso!"
@@ -1053,9 +1017,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         divSuccessMaster.Visible = False
         divErroMaster.Visible = False
 
-        'Session("ID_BL") = 0
-        'Session("NR_BL") = 0
-        'Session("TRAKING_BL") = 0
+
         If txtID_Master.Text = "" Then
             divErroMaster.Visible = True
             lblErroMaster.Text = "Selecione o registro que deseja rastrear!"
@@ -1070,11 +1032,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
-                        'Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
-                        'Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
-                        'Session("ID_BL") = txtID_Master.Text
                         Response.Redirect("RastreioBL.aspx?id=" & txtID_Master.Text)
-
                     Else
                         divErroMaster.Visible = True
                         lblErroMaster.Text = "BL não cadastrada no Logcomex."
@@ -1248,7 +1206,6 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
             divErroHouse.Visible = True
             lblErroHouse.Text = "Selecione o registro que deseja consultar!"
         Else
-            ' window.open('Conferencia.aspx?bl=&id=' + ID + '&T=' + GRAU, '_blank');
             Response.Redirect("Conferencia.aspx?T=C&bl=" & txtIDHouse.Text)
         End If
     End Sub
@@ -1257,9 +1214,7 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
         divSuccessHouse.Visible = False
         divErroHouse.Visible = False
 
-        'Session("ID_BL") = 0
-        'Session("NR_BL") = 0
-        'Session("TRAKING_BL") = 0
+
         If txtIDHouse.Text = "" Then
             divErroHouse.Visible = True
             lblErroHouse.Text = "Selecione o registro que deseja rastrear!"
@@ -1275,12 +1230,7 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
                 Rastreio.trackingbl(txtIDHouse.Text)
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtIDHouse.Text)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
-                    'Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
-                    'Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
-                    'Session("ID_BL") = txtIDHouse.Text
-                    'Response.Redirect("RastreioHBL.aspx")
                     Response.Redirect("RastreioHBL.aspx?id=" & txtIDHouse.Text)
-
                 Else
                     divErroHouse.Visible = True
                     lblErroHouse.Text = "BL não cadastrada no Logcomex."
@@ -1291,6 +1241,84 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
                 divErroHouse.Visible = True
                 lblErroHouse.Text = "Tracking somente para o ano vigente!"
             End If
+        End If
+
+    End Sub
+
+    Private Sub ddlFiltroHouse_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFiltroHouse.SelectedIndexChanged
+        If ddlFiltroHouse.SelectedValue = 7 Then
+            txtPesquisaHouse.Visible = False
+            ddlDocConfHouse.Visible = True
+        Else
+            txtPesquisaHouse.Visible = True
+            ddlDocConfHouse.Visible = False
+        End If
+    End Sub
+
+    Private Sub ddlFiltroMaster_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFiltroMaster.SelectedIndexChanged
+        If ddlFiltroMaster.SelectedValue = 6 Then
+            txtPesquisaMaster.Visible = False
+            ddlDocConfMaster.Visible = True
+        Else
+            txtPesquisaMaster.Visible = True
+            ddlDocConfMaster.Visible = False
+        End If
+    End Sub
+
+    Private Sub dgvHouse_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvHouse.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim Status As Label = CType(e.Row.FindControl("lblTemHistorico"), Label)
+
+            Dim ImageButton As ImageButton = CType(e.Row.FindControl("ImageButton1"), ImageButton)
+
+
+
+            If Status.Text = "" Then
+
+                ImageButton.Visible = False
+
+            End If
+
+
+
+        End If
+    End Sub
+
+    Private Sub dgvMaster_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvMaster.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim Status As Label = CType(e.Row.FindControl("lblTemHistorico"), Label)
+
+            Dim ImageButton As ImageButton = CType(e.Row.FindControl("ImageButton1"), ImageButton)
+
+
+
+            If Status.Text = "" Then
+
+                ImageButton.Visible = False
+
+            End If
+
+
+
+        End If
+    End Sub
+
+    Private Sub lkReenviarSI_Click(sender As Object, e As EventArgs) Handles lkReenviarSI.Click
+        divSuccessEmbarque.Visible = False
+        divErroEmbarque.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtID_Embarque.Text = "" Then
+            divErroEmbarque.Visible = True
+            lblErroEmbarque.Text = "Selecione um registro!"
+        Else
+
+            Con.ExecutarQuery(" INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE) SELECT GETDATE(), CONVERT(DATETIME,GETDATE(),103), CASE WHEN ID_TIPO_ESTUFAGEM = 1 THEN 16 WHEN ID_TIPO_ESTUFAGEM = 2 THEN 15 ELSE 0 END IDTIPOAVISO, ID_BL , ID_PARCEIRO_CLIENTE FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Text)
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "SI()", True)
+
         End If
 
     End Sub

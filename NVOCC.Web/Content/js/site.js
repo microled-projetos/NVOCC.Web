@@ -1,6 +1,14 @@
 ﻿
 $(document).ready(function () {
 
+
+    $(".BL").on("keypress keyup blur", function (event) {
+        console.log("entrou")
+        return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9]/g) === null
+
+    }); 
+
+
     $(".inteiro").on("keypress keyup blur", function (event) {
         $(this).val($(this).val().replace(/[^\d].+/, ""));
         if ((event.which < 48 || event.which > 57)) {
@@ -8,7 +16,6 @@ $(document).ready(function () {
         }
     });  
 
-    $(".peso").mask('#0.000', { reverse: true });
 
     $(".moeda").mask('#.##0,00', { reverse: true });
 
@@ -37,6 +44,10 @@ $(document).ready(function () {
     $('.placa').mask('SSS-9A99');
 
     $('.competencia').mask('00/0000');
+
+    $(".medidas").mask('##0,00');
+
+    $(".peso").mask('#0,000', { reverse: true });
 
 });
 

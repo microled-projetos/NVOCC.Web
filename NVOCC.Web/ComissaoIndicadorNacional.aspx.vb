@@ -16,89 +16,77 @@
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
             Response.Redirect("Default.aspx")
-        Else
-            'If Not Page.IsPostBack Then
-            '    If Month(Now.AddMonths(-1)) <= 9 Then
-            '        txtCompetencia.Text = "0" & Month(Now.AddMonths(-1)) & "/" & Now.Year
-            '        lblCompetenciaCCProcesso.Text = txtCompetencia.Text
-            '        txtNovaCompetencia.Text = "0" & Now.Month & "/" & Now.Year
-            '    Else
-            '        txtCompetencia.Text = Month(Now.AddMonths(-1)) & "/" & Now.Year
-            '        lblCompetenciaCCProcesso.Text = txtCompetencia.Text
-            '        txtNovaCompetencia.Text = Now.Month & "/" & Now.Year
-            '    End If
-            'End If
 
         End If
         Con.Fechar()
     End Sub
 
-    Private Sub dgvComissoes_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvComissoes.RowCommand
-        divSuccess.Visible = False
-        divErro.Visible = False
+    '    Private Sub dgvComissoes_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvComissoes.RowCommand
+    '        divSuccess.Visible = False
+    '        divErro.Visible = False
 
 
-        If e.CommandName = "Selecionar" Then
-            If txtlinha.Text <> "" Then
-                dgvComissoes.Rows(txtlinha.Text).CssClass = "Normal"
+    '        If e.CommandName = "Selecionar" Then
+    '            If txtlinha.Text <> "" Then
+    '                dgvComissoes.Rows(txtlinha.Text).CssClass = "Normal"
 
-            End If
-            Dim ID As String = e.CommandArgument
-
-
-            txtID.Text = ID.Substring(0, ID.IndexOf("|"))
-
-            txtlinha.Text = ID.Substring(ID.IndexOf("|"))
-            txtlinha.Text = txtlinha.Text.Replace("|", "")
+    '            End If
+    '            Dim ID As String = e.CommandArgument
 
 
-            dgvComissoes.Rows(txtlinha.Text).CssClass = "selected1"
+    '            txtID.Text = ID.Substring(0, ID.IndexOf("|"))
 
-            lkAjustarComissao.Visible = True
-            Dim Con As New Conexao_sql
-            Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT DT_COMPETENCIA,NR_QUINZENA,A.ID_CABECALHO_COMISSAO_NACIONAL ,B.ID_DETALHE_COMISSAO_NACIONAL ,B.NR_PROCESSO,B.ID_PARCEIRO_INDICADOR,B.VL_COMISSAO,B.VL_TAXA,B.DT_LIQUIDACAO,B.ID_MOEDA,A.DT_EXPORTACAO
-FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
-                         dbo.TB_DETALHE_COMISSAO_NACIONAL AS B ON B.ID_CABECALHO_COMISSAO_NACIONAL = A.ID_CABECALHO_COMISSAO_NACIONAL
-						 WHERE B.ID_DETALHE_COMISSAO_NACIONAL = " & txtID.Text)
-            If ds.Tables(0).Rows.Count > 0 Then
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_DETALHE_COMISSAO_NACIONAL")) Then
-                    txtIDAjuste.Text = ds.Tables(0).Rows(0).Item("ID_DETALHE_COMISSAO_NACIONAL")
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
-                    txtAjusteProcesso.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICADOR")) Then
-                    ddlAjusteVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICADOR")
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MOEDA")) Then
-                    ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA")) Then
-                    txtAjusteBase.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
-                End If
+    '            txtlinha.Text = ID.Substring(ID.IndexOf("|"))
+    '            txtlinha.Text = txtlinha.Text.Replace("|", "")
 
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_LIQUIDACAO")) Then
-                    txtAjusteLiquidacao.Text = ds.Tables(0).Rows(0).Item("DT_LIQUIDACAO")
-                End If
 
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_EXPORTACAO")) Then
-                    lkAjustarComissao.Visible = False
-                Else
-                    lkAjustarComissao.Visible = True
-                End If
+    '            dgvComissoes.Rows(txtlinha.Text).CssClass = "selected1"
 
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_COMPETENCIA")) Then
-                    lblCompetenciaCCProcesso.Text = ds.Tables(0).Rows(0).Item("DT_COMPETENCIA")
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_QUINZENA")) Then
-                    lblQuinzena.Text = ds.Tables(0).Rows(0).Item("NR_QUINZENA")
-                End If
-            End If
-            Con.Fechar()
+    '            lkAjustarComissao.Visible = True
+    '            Dim Con As New Conexao_sql
+    '            Con.Conectar()
+    '            Dim ds As DataSet = Con.ExecutarQuery("SELECT DT_COMPETENCIA,NR_QUINZENA,A.ID_CABECALHO_COMISSAO_NACIONAL ,B.ID_DETALHE_COMISSAO_NACIONAL ,B.NR_PROCESSO,B.ID_PARCEIRO_INDICADOR,B.VL_COMISSAO,B.VL_TAXA,B.DT_LIQUIDACAO,B.ID_MOEDA,A.DT_EXPORTACAO
+    'FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
+    '                         dbo.TB_DETALHE_COMISSAO_NACIONAL AS B ON B.ID_CABECALHO_COMISSAO_NACIONAL = A.ID_CABECALHO_COMISSAO_NACIONAL
+    '						 WHERE B.ID_DETALHE_COMISSAO_NACIONAL = " & txtID.Text)
+    '            If ds.Tables(0).Rows.Count > 0 Then
+    '                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_DETALHE_COMISSAO_NACIONAL")) Then
+    '                    txtIDAjuste.Text = ds.Tables(0).Rows(0).Item("ID_DETALHE_COMISSAO_NACIONAL")
+    '                End If
+    '                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
+    '                    txtAjusteProcesso.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
+    '                End If
+    '                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICADOR")) Then
+    '                    ddlAjusteVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICADOR")
+    '                End If
+    '                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MOEDA")) Then
+    '                    ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
+    '                End If
+    '                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA")) Then
+    '                    txtAjusteBase.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
+    '                End If
 
-        End If
-    End Sub
+    '                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_LIQUIDACAO")) Then
+    '                    txtAjusteLiquidacao.Text = ds.Tables(0).Rows(0).Item("DT_LIQUIDACAO")
+    '                End If
+
+    '                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_EXPORTACAO")) Then
+    '                    lkAjustarComissao.Visible = False
+    '                Else
+    '                    lkAjustarComissao.Visible = True
+    '                End If
+
+    '                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_COMPETENCIA")) Then
+    '                    lblCompetenciaCCProcesso.Text = ds.Tables(0).Rows(0).Item("DT_COMPETENCIA")
+    '                End If
+    '                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_QUINZENA")) Then
+    '                    lblQuinzena.Text = ds.Tables(0).Rows(0).Item("NR_QUINZENA")
+    '                End If
+    '            End If
+    '            Con.Fechar()
+
+    '        End If
+    '    End Sub
 
     Private Sub btnPesquisar_Click(sender As Object, e As EventArgs) Handles btnPesquisar.Click
         CarregaGrid()
@@ -106,7 +94,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
 
     Sub CarregaGrid()
 
-        lkAjustarComissao.Visible = True
+        '  lkAjustarComissao.Visible = True
 
         txtID.Text = ""
         txtlinha.Text = ""
@@ -141,9 +129,9 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
         End If
     End Sub
     Private Sub lkCSV_Click(sender As Object, e As EventArgs) Handles lkCSV.Click
-        Dim SQL As String = "SELECT COMPETENCIA,NR_QUINZENA,NR_PROCESSO,PARCEIRO_INDICADOR,HBL,MBL,PARCEIRO_CLIENTE,TIPO_ESTUFAGEM,MOEDA,VL_TAXA,VL_CAMBIO,VL_COMISSAO,DT_LIQUIDACAO,PARCEIRO_IMPORTADOR,DT_EXPORTACAO FROM [dbo].[View_Comissao_Nacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' and NR_QUINZENA = '" & txtQuinzena.Text & "' " & filtro & " ORDER BY PARCEIRO_INDICADOR,NR_PROCESSO"
+        Dim SQL As String = "SELECT DT_BAIXA_NF_TOTVS AS BAIXA_TOTVS, NR_NF_TOTVS AS NF_TOTVS,COMPETENCIA,NR_QUINZENA,NR_PROCESSO,PARCEIRO_INDICADOR,HBL,MBL,PARCEIRO_CLIENTE,TIPO_ESTUFAGEM,MOEDA,VL_TAXA,VL_CAMBIO,VL_COMISSAO,DT_LIQUIDACAO,PARCEIRO_IMPORTADOR,DT_EXPORTACAO FROM [dbo].[View_Comissao_Nacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' and NR_QUINZENA = '" & txtQuinzena.Text & "' " & filtro & " ORDER BY PARCEIRO_INDICADOR,NR_PROCESSO"
 
-        Classes.Excel.exportaExcel(SQL, "NVOCC", "ComissaoNacional")
+        Classes.Excel.exportaExcel(SQL, "ComissaoNacional")
     End Sub
 
     Private Sub btnGerarComissao_Click(sender As Object, e As EventArgs) Handles btnGerarComissao.Click
@@ -157,9 +145,10 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
         Con.Conectar()
 
 
-        If txtNovaCompetencia.Text = "" Or txtLiquidacaoInicial.Text = "" Or txtLiquidacaoFinal.Text = "" And txtNovaQuinzena.Text = "" Then
+        If txtNovaCompetencia.Text = "" Or txtLiquidacaoInicial.Text = "" Or txtLiquidacaoFinal.Text = "" Or txtNovaQuinzena.Text = "" Then
             lblErroGerarComissao.Text = "Preencha os campos obrigatórios."
             divErroGerarComissao.Visible = True
+            ModalPopupExtender3.Show()
 
         Else
             'VerificaCompetencia()
@@ -167,11 +156,15 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                 lblErroGerarComissao.Text = "Usuário não tem permissão!"
                 divErroGerarComissao.Visible = True
+                ModalPopupExtender3.Show()
+
             Else
                 Dim dsQtd As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM FN_INDICADOR_NACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE DT_PAGAMENTO_EXP IS NULL ")
                 If dsQtd.Tables(0).Rows(0).Item("QTD") = 0 Then
                     lblErroGerarComissao.Text = "Não há processos em aberto para comissão nesse período!"
                     divErroGerarComissao.Visible = True
+                    ModalPopupExtender3.Show()
+
                 Else
 
                     If txtObs.Text = "" Then
@@ -194,8 +187,8 @@ IN (SELECT ID_CABECALHO_COMISSAO_NACIONAL FROM TB_CABECALHO_COMISSAO_NACIONAL WH
                         Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
                         Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
 
-                        divInfoGerarComissao.Visible = True
-                        lblInfoGerarComissao.Text = "Necessário exportar competência para a conta corrente do processo!"
+                        'divInfoGerarComissao.Visible = True
+                        'lblInfoGerarComissao.Text = "Necessário exportar competência para a conta corrente do processo!"
                     End If
 
 
@@ -207,26 +200,37 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
 
 
 
-                    divSuccessGerarComissao.Visible = True
-                    lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
-                    txtObs.Text = txtObs.Text.Replace("NULL", "")
-                    txtObs.Text = txtObs.Text.Replace("'", "")
                     CarregaGrid()
+                    lblmsgSuccess.Text = "Comissão gerada com sucesso!"
+                    divSuccess.Visible = True
+                    divInfoCCProcesso.Visible = False
+                    divAtencaoGerarComissao.Visible = False
+                    divSuccessGerarComissao.Visible = False
+                    divErroGerarComissao.Visible = False
+                    divInfoGerarComissao.Visible = False
+                    txtLiquidacaoInicial.Text = ""
+                    txtLiquidacaoFinal.Text = ""
+                    txtNovaCompetencia.Text = ""
+                    txtNovaQuinzena.Text = ""
+                    txtObs.Text = ""
+                    ModalPopupExtender3.Hide()
                     divErro.Visible = False
                 End If
             End If
 
         End If
+        divInfoCCProcesso.Visible = False
         btnGerarComissao.Visible = True
-        ModalPopupExtender3.Show()
-    End Sub
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
 
-    Private Sub txtNovaCompetencia_TextChanged(sender As Object, e As EventArgs) Handles txtNovaCompetencia.TextChanged
-        VerificaCompetencia()
     End Sub
 
     Private Sub txtNovaQuinzena_TextChanged(sender As Object, e As EventArgs) Handles txtNovaQuinzena.TextChanged
         VerificaCompetencia()
+        VerificaCCPRocesso()
+        If divInfoCCProcesso.Visible = True Then
+            divAtencaoGerarComissao.Visible = False
+        End If
     End Sub
     Sub VerificaCompetencia()
         Dim Con As New Conexao_sql
@@ -272,6 +276,7 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
 
     End Sub
     Private Sub btnFecharGerarComissao_Click(sender As Object, e As EventArgs) Handles btnFecharGerarComissao.Click
+        divInfoCCProcesso.Visible = False
         divAtencaoGerarComissao.Visible = False
         divSuccessGerarComissao.Visible = False
         divErroGerarComissao.Visible = False
@@ -447,7 +452,7 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
         Con.Conectar()
 
         'Verifica se a competencia já existe
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER FROM TB_CONTA_PAGAR_RECEBER WHERE TP_EXPORTACAO = 'CNAC' AND DT_COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA = '" & txtQuinzena.Text & "'")
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER FROM TB_CONTA_PAGAR_RECEBER WHERE TP_EXPORTACAO = 'CNAC' AND DT_COMPETENCIA = '" & txtNovaCompetencia.Text & "' AND NR_QUINZENA = '" & txtNovaQuinzena.Text & "'")
         If ds.Tables(0).Rows.Count > 0 Then
             divInfoCCProcesso.Visible = True
             lblInfoCCProcesso.Text = "COMPETENCIA JÁ EXPORTADA!<br/> Prosseguir com esta ação ocasionará a sobreposição dos dados."
@@ -456,11 +461,15 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
             lblContasReceber.Text = 0
             divInfoCCProcesso.Visible = False
         End If
-        ModalPopupExtender6.Show()
+        ModalPopupExtender3.Show()
     End Sub
 
     Private Sub txtLiquidacaoFinal_TextChanged(sender As Object, e As EventArgs) Handles txtLiquidacaoFinal.TextChanged
         VerificaCompetencia()
+        VerificaCCPRocesso()
+        If divInfoCCProcesso.Visible = True Then
+            divAtencaoGerarComissao.Visible = False
+        End If
     End Sub
 
     Private Sub btnFecharCCProcesso_Click(sender As Object, e As EventArgs) Handles btnFecharCCProcesso.Click
@@ -469,4 +478,35 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
         divInfoCCProcesso.Visible = False
         divErroCCProcesso.Visible = False
     End Sub
+
+    'Private Function GetSortDirection(ByVal column As String) As String
+    '    Dim sortDirection As String = "ASC"
+    '    Dim sortExpression As String = TryCast(ViewState("SortExpression"), String)
+
+    '    If sortExpression IsNot Nothing Then
+
+    '        If sortExpression = column Then
+    '            Dim lastDirection As String = TryCast(ViewState("SortDirection"), String)
+
+    '            If (lastDirection IsNot Nothing) AndAlso (lastDirection = "ASC") Then
+    '                sortDirection = "DESC"
+    '            End If
+    '        End If
+    '    End If
+
+    '    ViewState("SortDirection") = sortDirection
+    '    ViewState("SortExpression") = column
+    '    Return sortDirection
+    'End Function
+    'Private Sub dgvComissoes_Sorting(sender As Object, e As GridViewSortEventArgs) Handles dgvComissoes.Sorting
+    '    Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
+    '    CarregaGrid()
+    '    If dt IsNot Nothing Then
+    '        dt.DefaultView.Sort = e.SortExpression & " " + GetSortDirection(e.SortExpression)
+    '        Session("TaskTable") = dt
+    '        dgvComissoes.DataSource = Session("TaskTable")
+    '        CarregaGrid()
+    '        dgvComissoes.HeaderRow.TableSection = TableRowSection.TableHeader
+    '    End If
+    'End Sub
 End Class

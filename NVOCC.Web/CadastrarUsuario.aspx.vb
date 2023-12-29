@@ -148,7 +148,22 @@
 
 
                                         Con.Conectar()
-                                        Con.ExecutarQuery("INSERT INTO [dbo].[TB_USUARIO] (LOGIN, SENHA,NOME, EMAIL, TELEFONE,CPF,FL_ATIVO,DT_CADASTRO, FL_EXTERNO, CELULAR,FL_GRAVAR_MASTER_BASICO,FL_GRAVAR_MASTER_CONTAINER,FL_GRAVAR_MASTER_TAXAS,FL_GRAVAR_MASTER_VINCULAR,FL_GRAVAR_HOUSE_BASICO,FL_GRAVAR_HOUSE_CARGA,FL_GRAVAR_HOUSE_TAXAS) VALUES ('" & txtLogin.Text & "' ,'" & Senha & "','" & txtNome.Text & "','" & txtEmail.Text & "' , '" & txtTelefone.Text & "' ,'" & txtCPF.Text & "' , " & Ativo & ", GetDate(), '" & ckbExterno.Checked & "','" & txtCelular.Text & "','" & ckbMasterBasico.Checked & "','" & ckbMasterCNTR.Checked & "','" & ckbMasterTaxas.Checked & "','" & ckbMasterVinculo.Checked & "','" & ckbHouseBasico.Checked & "','" & ckbHouseCarga.Checked & "','" & ckbHouseTaxas.Checked & "'); SELECT CAST(SCOPE_IDENTITY() AS INT)")
+                                        ds = Con.ExecutarQuery("INSERT INTO [dbo].[TB_USUARIO] (LOGIN, SENHA,NOME, EMAIL, TELEFONE,CPF,FL_ATIVO,DT_CADASTRO, FL_EXTERNO, CELULAR,FL_GRAVAR_MASTER_BASICO,FL_GRAVAR_MASTER_CONTAINER,FL_GRAVAR_MASTER_TAXAS,FL_GRAVAR_MASTER_VINCULAR,FL_GRAVAR_HOUSE_BASICO,FL_GRAVAR_HOUSE_CARGA,FL_GRAVAR_HOUSE_TAXAS) VALUES ('" & txtLogin.Text & "' ,'" & Senha & "','" & txtNome.Text & "','" & txtEmail.Text & "' , '" & txtTelefone.Text & "' ,'" & txtCPF.Text & "' , " & Ativo & ", GetDate(), '" & ckbExterno.Checked & "','" & txtCelular.Text & "','" & ckbMasterBasico.Checked & "','" & ckbMasterCNTR.Checked & "','" & ckbMasterTaxas.Checked & "','" & ckbMasterVinculo.Checked & "','" & ckbHouseBasico.Checked & "','" & ckbHouseCarga.Checked & "','" & ckbHouseTaxas.Checked & "'); Select SCOPE_IDENTITY() as ID_USUARIO ")
+                                        If ds.Tables(0).Rows.Count > 0 Then
+                                            txtID.Text = ds.Tables(0).Rows(0).Item("ID_USUARIO")
+                                        End If
+
+                                        Dim Esquema As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString
+                                        Esquema = Esquema.Substring(Esquema.IndexOf("Catalog="))
+                                        Esquema = Esquema.Substring(0, Esquema.IndexOf(";User ID"))
+                                        Esquema = Esquema.Replace("Catalog=", "")
+
+                                        Con.CriaDeletaUsuario("USE master; 
+CREATE LOGIN [" & txtLogin.Text & "] WITH PASSWORD = N'gflcoablaolg!@2023', DEFAULT_DATABASE=[master], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF;
+USE " & Esquema & "; 
+CREATE USER [" & txtLogin.Text & "]FOR LOGIN [" & txtLogin.Text & "];
+ALTER ROLE [FCA_NVOCC_ROLE] ADD MEMBER [" & txtLogin.Text & "];
+")
                                         Con.Fechar()
                                         divmsg.Visible = True
                                         'Call Limpar(Me)
@@ -246,11 +261,6 @@
 
     End Sub
 
-    'Private Sub cbTipoUsuario_Load(sender As Object, e As EventArgs) Handles cbTipoUsuario.Load
-    '    cbTipoUsuario.Items.Insert(0, "Selecione o tipo de usuario")
-    '    cbTipoUsuario.SelectedIndex = 0
-    'End Sub
-
     Public Sub Limpar(ByVal controlP As Control)
 
         Dim ctl As Control
@@ -270,16 +280,28 @@
         Next
 
     End Sub
-    Private Sub dgvUsuariosGrupos_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvUsuarios.RowCommand
+    Private Sub dgvUsuarios_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvUsuarios.RowCommand
+        divmsg.Visible = False
+        diverro.Visible = False
         If e.CommandName = "Excluir" Then
             Dim ID As String = e.CommandArgument
+
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Con.ExecutarQuery("DELETE FROM [dbo].[TB_USUARIO] WHERE ID_TIPO_USUARIO =" & ID)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT LOGIN FROM [dbo].[TB_USUARIO] WHERE ID_USUARIO = " & ID)
+            If ds.Tables(0).Rows.Count > 0 Then
+                If ds.Tables(0).Rows(0).Item("LOGIN") <> "" Then
+                    Dim Esquema As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString
+                    Esquema = Esquema.Substring(Esquema.IndexOf("Catalog="))
+                    Esquema = Esquema.Substring(0, Esquema.IndexOf(";User ID"))
+                    Esquema = Esquema.Replace("Catalog=", "")
+                    Con.CriaDeletaUsuario("USE [master] DROP LOGIN [" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "] USE " & Esquema & "; DROP USER [" & ds.Tables(0).Rows(0).Item("LOGIN").ToString & "]")
+                End If
+            End If
+            Con.ExecutarQuery("DELETE FROM [dbo].[TB_USUARIO] WHERE ID_USUARIO =" & ID)
             Con.Fechar()
             dgvUsuarios.DataBind()
-            Response.Redirect("CadastrarUsuario.aspx")
-
+            divmsg.Visible = True
         End If
     End Sub
 

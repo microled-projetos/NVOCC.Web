@@ -24,8 +24,8 @@
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportDemonstrativoRateio" class="btn btn-primary" onclick="exportCSV('Invoice.csv')">Exportar Grid - CSV</button>
-                                        <button type="button" id="btnPrintDemonstrativoRateio" class="btn btn-primary" onclick="printDemonstrativoRateio()">Imprimir</button>
+                                        <button type="button" id="btnExportDemonstrativoRateio" class="btn btn-primary" onclick="demonstrativoRateioExc('Rateio.csv')">Exportar Rateio - CSV</button>
+                                        <!--<button type="button" id="btnPrintDemonstrativoRateio" class="btn btn-primary" onclick="printDemonstrativoRateio()">Imprimir</button>-->
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
@@ -67,6 +67,22 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="table-responsive fixedDoubleHead topMarg">
+            <table id="grdRateioPrint" class="table tablecont">
+                <thead>
+                    <tr>
+                        <th class="text-center" scope="col">NR BL</th>
+                        <th class="text-center" scope="col">PROCESSO</th>
+                        <th class="text-center" scope="col">CUBAGEM</th>
+                        <th class="text-center" scope="col">VALOR LIQUIDO</th>
+                        <th class="text-center" scope="col">ITEM</th>
+                    </tr>
+                </thead>
+                <tbody id="grdRateioPrintBody">
+
+                </tbody>
+            </table>
         </div>
     </div>
 </asp:Content>
@@ -163,6 +179,107 @@
         }
 
         function printDemonstrativoRateio() {
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/indiceItemDespesa",
+                data: '{blmaster: "' + id + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#grdRateioPrintBody").empty();
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    $("#grdRateioPrintBody").empty();
+                    if (dado != null) {
+                        for (let x = 0; x < dado.length; x++) {
+                            $("#grdRateioPrintBody").append("<tr><td class='text-center'></td>" +
+                                "</tr> ");
+                        }
+                        var sTable = document.getElementById('tableConferenciaProcesso').innerHTML;
+
+                        var win = window.open('', '', 'height=700', 'width=700');
+                        var style = "<style>";
+                        style = style + "table {width: 100%;font: 14px Calibri;}";
+                        style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+                        style = style + "padding: 2px 3px;text-align: center;}";
+                        style = style + "</style>";
+                        win.document.write('<html><head>');
+                        win.document.write('<title>PDF</title>');
+                        win.document.write(style);
+                        win.document.write('</head>');
+                        win.document.write('<body>');
+                        win.document.write(sTable);
+                        win.document.write('</body></html>');
+                        win.document.close();
+                        win.print();
+                    } else {
+
+                    }
+                }
+            });
+        }
+
+        function demonstrativoRateioExc(file) {
+            var rateionf = 0;
+            var rateioiss = 0;
+            var rateioliquido = 0;
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/imprimirDemonstrativoRateio",
+                data: '{blmaster: "' + id + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dados = dado.d;
+                    dados = $.parseJSON(dados);
+                    if (dados != null) {
+                        var rateio = [["NR_BL;PROCESSO;CUBAGEM;RATEIO_NF;RATEIO_ISS;RATEIO_LIQUIDO"]];
+                        for (let i = 0; i < dados.length; i++) {
+                            rateio.push([dados[i]]);
+                            /*rateioiss += rateioiss + parseFloat(dados[i]["RATEIO_ISS"].toString().replace(",", "."));
+                            rateionf += rateionf + parseFloat(dados[i]["RATEIO_NF"].toString().replace(",", "."));
+                            rateioliquido += rateioliquido + parseFloat(dados[i]["HBL"].toString().replace(",", "."));*/
+                        }
+                        console.log(rateioiss);
+                        console.log(rateio);
+                        downloadExcel(rateio.join("\n"), file)
+                    }
+                    else {
+                        $("#msgErrDespCli").fadeIn(500).delay(1000).fadeOut(500);
+                    }
+                }
+            })
+        }
+
+        function downloadExcel(csv, file) {
+            var csvFile;
+            var downloadLink;
+
+            // CSV file
+            csvFile = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+            // Download link
+            downloadLink = document.createElement("a");
+
+            // File name
+            downloadLink.download = file;
+
+            // Create a link to the file
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+
+            // Hide download link
+            downloadLink.style.display = "none";
+
+
+            // Add the link to DOM
+            document.body.appendChild(downloadLink);
+
+            // Click download link
+            downloadLink.click();
+        }
+
+        function printDemonstrativoRateios() {
             var lineIv = 26;
             var lineFv = 30;
             var lineIh = 10;
@@ -464,10 +581,10 @@
                                                 doc.text(data[k]["RATEIONF"].toFixed(2), fieldRateioNf, fieldIv + 0.5);
                                                 doc.text(data[k]["RATEIOISS"].toFixed(2), fieldRateioIss, fieldIv + 0.5);
                                                 doc.text(data[k]["NFLIQUIDO"].toFixed(2), fieldNfLiquido, fieldIv + 0.5);
-                                                totalRatTot = totalRatTot + parseFloat(data[k]["RATEIO_TOTAL"].toFixed(2));
-                                                totalRatNf = totalRatNf + parseFloat(data[k]["RATEIONF"].toFixed(2));
+                                                totalRatTot = totalRatTot + parseFloat(data[k]["RATEIO_TOTAL"].toFixed(2)) - parseFloat(data[k]["RATEIOISS"].toFixed(2));
+                                                totalRatNf = totalRatNf + parseFloat(data[k]["RATEIONF"].toFixed(2)) - parseFloat(data[k]["RATEIOISS"].toFixed(2));
                                                 totalRatIss = totalRatIss + parseFloat(data[k]["RATEIOISS"].toFixed(2));
-                                                totalRatLiq = totalRatLiq + parseFloat(data[k]["NFLIQUIDO"].toFixed(2));
+                                                totalRatLiq = totalRatLiq + parseFloat(data[k]["NFLIQUIDO"].toFixed(2)) - parseFloat(data[k]["RATEIOISS"].toFixed(2));
                                             }
                                             
                                             fieldIv = fieldIv + 5;

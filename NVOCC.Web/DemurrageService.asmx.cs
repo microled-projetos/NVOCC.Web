@@ -17,6 +17,8 @@ using System.Net.Mail;
 using ABAINFRA.Web.Classes;
 using System.Net;
 using Microsoft.Exchange.WebServices.Data;
+using System.Globalization;
+using Eudmarco;
 
 namespace ABAINFRA.Web
 {
@@ -30,7 +32,7 @@ namespace ABAINFRA.Web
     [System.Web.Script.Services.ScriptService]
     public class DemurrageService : System.Web.Services.WebService
     {
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarWeek()
         {
             string SQL;
@@ -46,7 +48,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listarweek);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string carregarArmador()
         {
             string SQL;
@@ -57,16 +59,17 @@ namespace ABAINFRA.Web
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarDemurrageContainer(string armador)
         {
             string SQL;
 
 
-            SQL = "SELECT ID_TABELA_DEMURRAGE, NM_TIPO_CONTAINER, FORMAT(DT_VALIDADE_INICIAL,'dd/MM/yyyy') AS DT_VALIDADE_INICIAL_FORMAT ";
-            SQL += "FROM TB_TABELA_DEMURRAGE ";
-            SQL += "JOIN TB_TIPO_CONTAINER ";
-            SQL += "ON dbo.TB_TABELA_DEMURRAGE.ID_TIPO_CONTAINER = dbo.TB_TIPO_CONTAINER.ID_TIPO_CONTAINER ";
+            SQL = "SELECT A.ID_TABELA_DEMURRAGE, CASE WHEN A.FL_CARGA_IMO = 1 THEN C.CD_TAMANHO_CONTAINER ELSE B.NM_TIPO_CONTAINER END AS TIPO_CONTAINER, FORMAT(DT_VALIDADE_INICIAL,'dd/MM/yyyy') AS DT_VALIDADE_INICIAL_FORMAT, ";
+            SQL += "CASE WHEN A.FL_CARGA_IMO = 1 THEN 'SIM' ELSE 'NAO' END AS CARGA_IMO ";
+            SQL += "FROM TB_TABELA_DEMURRAGE A ";
+            SQL += "LEFT JOIN TB_TIPO_CONTAINER B ON A.ID_TIPO_CONTAINER = B.ID_TIPO_CONTAINER ";
+            SQL += "LEFT JOIN TB_TAMANHO_CONTAINER C ON A.ID_TAMANHO_CONTAINER = C.ID_TAMANHO_CONTAINER ";
             if (armador != "")
             {
                 SQL += "WHERE ID_PARCEIRO_TRANSPORTADOR = '" + armador + "' ";
@@ -76,7 +79,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listarDemurrageContainer);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CadastrarDemurrageContainer(DemurragesCls dados)
         {
             int qtdfreetime = Convert.ToInt32(dados.QT_DIAS_FREETIME);
@@ -102,8 +105,13 @@ namespace ABAINFRA.Web
                 return "0";
             }
 
-            if (dados.ID_TIPO_CONTAINER.ToString() == "")
+            if (dados.ID_TIPO_CONTAINER.ToString() == "" && dados.FL_CARGA_IMO == "0")
             {
+                return "0";
+            }
+
+            if (dados.ID_TAMANHO_CONTAINER.ToString() == "" && dados.FL_CARGA_IMO == "1")
+			{
                 return "0";
             }
 
@@ -316,16 +324,16 @@ namespace ABAINFRA.Web
             string vlvenda08 = dados.VL_VENDA_08.ToString().Replace(',', '.');
             string SQL;
             SQL = "SELECT * FROM TB_TABELA_DEMURRAGE WHERE ID_PARCEIRO_TRANSPORTADOR = '" + dados.ID_PARCEIRO_TRANSPORTADOR + "' AND ";
-            SQL += "ID_TIPO_CONTAINER ='" + dados.ID_TIPO_CONTAINER + "' AND DT_VALIDADE_INICIAL = '" + dados.DT_VALIDADE_INICIAL + "' ";
+            SQL += "ID_TIPO_CONTAINER ='" + dados.ID_TIPO_CONTAINER + "' AND DT_VALIDADE_INICIAL = '" + dados.DT_VALIDADE_INICIAL + "' AND FL_CARGA_IMO = '"+dados.FL_CARGA_IMO+"' ";
             DataTable consulta = new DataTable();
             consulta = DBS.List(SQL);
             if (consulta == null)
             {
                 SQL = "insert into TB_TABELA_DEMURRAGE (ID_PARCEIRO_TRANSPORTADOR,ID_TIPO_CONTAINER,DT_VALIDADE_INICIAL,QT_DIAS_FREETIME, ";
-                SQL += "ID_MOEDA, FL_ESCALONADA, FL_INICIO_CHEGADA, QT_DIAS_01 ,VL_VENDA_01 ,QT_DIAS_02 ,VL_VENDA_02 ,QT_DIAS_03 ,VL_VENDA_03 ,QT_DIAS_04, ";
+                SQL += "ID_MOEDA, FL_ESCALONADA, FL_INICIO_CHEGADA, FL_CARGA_IMO, ID_TAMANHO_CONTAINER, QT_DIAS_01 ,VL_VENDA_01 ,QT_DIAS_02 ,VL_VENDA_02 ,QT_DIAS_03 ,VL_VENDA_03 ,QT_DIAS_04, ";
                 SQL += "VL_VENDA_04 ,QT_DIAS_05 ,VL_VENDA_05 ,QT_DIAS_06 ,VL_VENDA_06 ,QT_DIAS_07 ,VL_VENDA_07 ,QT_DIAS_08 ,VL_VENDA_08) ";
-                SQL += "VALUES( '" + dados.ID_PARCEIRO_TRANSPORTADOR + "','" + dados.ID_TIPO_CONTAINER + "', ";
-                SQL += "'" + dados.DT_VALIDADE_INICIAL + "','" + dados.QT_DIAS_FREETIME + "','" + dados.ID_MOEDA + "','" + dados.FL_ESCALONADA + "', '" + dados.FL_INICIO_CHEGADA + "', ";
+                SQL += "VALUES( '" + dados.ID_PARCEIRO_TRANSPORTADOR + "'," + (dados.ID_TIPO_CONTAINER == "" ? "NULL": dados.ID_TIPO_CONTAINER) + ", ";
+                SQL += "'" + dados.DT_VALIDADE_INICIAL + "','" + dados.QT_DIAS_FREETIME + "','" + dados.ID_MOEDA + "','" + dados.FL_ESCALONADA + "', '" + dados.FL_INICIO_CHEGADA + "', '"+dados.FL_CARGA_IMO+"', "+(dados.ID_TAMANHO_CONTAINER == "" ? "NULL":dados.ID_TAMANHO_CONTAINER)+", ";
                 SQL += "'" + qtdias01 + "','" + vlVenda01.ToString().Replace(',', '.') + "', '" + qtdias02 + "','" + vlVenda02.ToString().Replace(',', '.') + "', ";
                 SQL += "'" + qtdias03 + "','" + vlVenda03.ToString().Replace(',', '.') + "', '" + qtdias04 + "','" + vlVenda04.ToString().Replace(',', '.') + "', ";
                 SQL += "'" + qtdias05 + "','" + vlVenda05.ToString().Replace(',', '.') + "', '" + qtdias06 + "','" + vlVenda06.ToString().Replace(',', '.') + "', ";
@@ -340,13 +348,13 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string BuscarDemurrage(int Id)
         {
 
             string SQL;
-            SQL = "SELECT ID_TABELA_DEMURRAGE, ID_PARCEIRO_TRANSPORTADOR, ID_TIPO_CONTAINER, FORMAT(DT_VALIDADE_INICIAL,'yyyy-MM-dd') AS DT_VALIDADE_INICIAL_FORMAT, ";
-            SQL += "QT_DIAS_FREETIME, ID_MOEDA, FL_ESCALONADA, FL_INICIO_CHEGADA, QT_DIAS_01, VL_VENDA_01, QT_DIAS_02, VL_VENDA_02, QT_DIAS_03, VL_VENDA_03, ";
+            SQL = "SELECT ID_TABELA_DEMURRAGE, ID_PARCEIRO_TRANSPORTADOR, ID_TIPO_CONTAINER, ID_TAMANHO_CONTAINER, FORMAT(DT_VALIDADE_INICIAL,'yyyy-MM-dd') AS DT_VALIDADE_INICIAL_FORMAT, ";
+            SQL += "QT_DIAS_FREETIME, ID_MOEDA, FL_ESCALONADA, FL_INICIO_CHEGADA, FL_CARGA_IMO, QT_DIAS_01, VL_VENDA_01, QT_DIAS_02, VL_VENDA_02, QT_DIAS_03, VL_VENDA_03, ";
             SQL += "QT_DIAS_04, VL_VENDA_04, QT_DIAS_05, VL_VENDA_05, QT_DIAS_06, VL_VENDA_06, QT_DIAS_07, VL_VENDA_07, QT_DIAS_08, VL_VENDA_08 ";
             SQL += "FROM TB_TABELA_DEMURRAGE ";
             SQL += "WHERE ID_TABELA_DEMURRAGE = '" + Id + "'";
@@ -356,12 +364,13 @@ namespace ABAINFRA.Web
             DemurragesCls resultado = new DemurragesCls();
             resultado.ID_TABELA_DEMURRAGE = (int)carregarDados.Rows[0]["ID_TABELA_DEMURRAGE"];
             resultado.ID_PARCEIRO_TRANSPORTADOR = (int)carregarDados.Rows[0]["ID_PARCEIRO_TRANSPORTADOR"];
-            resultado.ID_TIPO_CONTAINER = (int)carregarDados.Rows[0]["ID_TIPO_CONTAINER"];
+            resultado.ID_TIPO_CONTAINER = carregarDados.Rows[0]["ID_TIPO_CONTAINER"].ToString();
             resultado.DT_VALIDADE_INICIAL = carregarDados.Rows[0]["DT_VALIDADE_INICIAL_FORMAT"].ToString();
             resultado.QT_DIAS_FREETIME = carregarDados.Rows[0]["QT_DIAS_FREETIME"].ToString();
             resultado.ID_MOEDA = (int)carregarDados.Rows[0]["ID_MOEDA"];
             resultado.FL_ESCALONADA = carregarDados.Rows[0]["FL_ESCALONADA"].ToString();
             resultado.FL_INICIO_CHEGADA = carregarDados.Rows[0]["FL_INICIO_CHEGADA"].ToString();
+            resultado.FL_CARGA_IMO = carregarDados.Rows[0]["FL_CARGA_IMO"].ToString();
             resultado.QT_DIAS_01 = carregarDados.Rows[0]["QT_DIAS_01"].ToString();
             resultado.VL_VENDA_01 = carregarDados.Rows[0]["VL_VENDA_01"].ToString();
             resultado.QT_DIAS_02 = carregarDados.Rows[0]["QT_DIAS_02"].ToString();
@@ -378,12 +387,13 @@ namespace ABAINFRA.Web
             resultado.VL_VENDA_07 = carregarDados.Rows[0]["VL_VENDA_07"].ToString();
             resultado.QT_DIAS_08 = carregarDados.Rows[0]["QT_DIAS_08"].ToString();
             resultado.VL_VENDA_08 = carregarDados.Rows[0]["VL_VENDA_08"].ToString();
+            resultado.ID_TAMANHO_CONTAINER = carregarDados.Rows[0]["ID_TAMANHO_CONTAINER"].ToString();
 
             return JsonConvert.SerializeObject(resultado);
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string DemurrageList()
         {
             string SQL;
@@ -395,7 +405,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(demurrageList);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EditarDemurrageContainer(DemurragesCls dadosEdit)
         {
             int qtdfreetime = Convert.ToInt32(dadosEdit.QT_DIAS_FREETIME);
@@ -406,7 +416,12 @@ namespace ABAINFRA.Web
                 return "0";
             }
 
-            if (dadosEdit.ID_TIPO_CONTAINER.ToString() == "")
+            if (dadosEdit.ID_TIPO_CONTAINER.ToString() == "" && dadosEdit.FL_CARGA_IMO == "0")
+            {
+                return "0";
+            }
+
+            if (dadosEdit.ID_TAMANHO_CONTAINER.ToString() == "" && dadosEdit.FL_CARGA_IMO == "1")
             {
                 return "0";
             }
@@ -445,9 +460,10 @@ namespace ABAINFRA.Web
             string vlvenda06 = dadosEdit.VL_VENDA_06.ToString().Replace(',', '.');
             string vlvenda07 = dadosEdit.VL_VENDA_07.ToString().Replace(',', '.');
             string vlvenda08 = dadosEdit.VL_VENDA_08.ToString().Replace(',', '.');
-            SQL = "UPDATE TB_TABELA_DEMURRAGE SET ID_PARCEIRO_TRANSPORTADOR = '" + dadosEdit.ID_PARCEIRO_TRANSPORTADOR + "' , ID_TIPO_CONTAINER = '" + dadosEdit.ID_TIPO_CONTAINER + "', ";
+            SQL = "UPDATE TB_TABELA_DEMURRAGE SET ID_PARCEIRO_TRANSPORTADOR = '" + dadosEdit.ID_PARCEIRO_TRANSPORTADOR + "' , ID_TIPO_CONTAINER = " + (dadosEdit.ID_TIPO_CONTAINER == "" ? "NULL":dadosEdit.ID_TIPO_CONTAINER)+ ", ";
             SQL += "DT_VALIDADE_INICIAL = '" + dadosEdit.DT_VALIDADE_INICIAL + "', QT_DIAS_FREETIME = '" + dadosEdit.QT_DIAS_FREETIME + "', ";
-            SQL += "ID_MOEDA = '" + dadosEdit.ID_MOEDA + "', FL_ESCALONADA ='" + dadosEdit.FL_ESCALONADA + "' , QT_DIAS_01 ='" + qtdias01 + "' , VL_VENDA_01 = '" + vlvenda01 + "', ";
+            SQL += "ID_MOEDA = '" + dadosEdit.ID_MOEDA + "', FL_ESCALONADA ='" + dadosEdit.FL_ESCALONADA + "', FL_CARGA_IMO = '" + dadosEdit.FL_CARGA_IMO + "', ID_TAMANHO_CONTAINER = "+ (dadosEdit.ID_TAMANHO_CONTAINER == "" ? "NULL":dadosEdit.ID_TAMANHO_CONTAINER)+ ", ";
+            SQL += "QT_DIAS_01 ='" + qtdias01 + "' , VL_VENDA_01 = '" + vlvenda01 + "', ";
             SQL += "QT_DIAS_02 = '" + dadosEdit.QT_DIAS_02 + "', VL_VENDA_02 = '" + vlvenda02 + "', ";
             SQL += "QT_DIAS_03 = '" + dadosEdit.QT_DIAS_03 + "', VL_VENDA_03 = '" + vlvenda03 + "', ";
             SQL += "QT_DIAS_04 = '" + dadosEdit.QT_DIAS_04 + "', VL_VENDA_04 = '" + vlvenda04 + "', QT_DIAS_05 = '" + dadosEdit.QT_DIAS_05 + "', ";
@@ -461,7 +477,7 @@ namespace ABAINFRA.Web
             return "1";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string DeletarDemurrage(int Id)
         {
             string SQL;
@@ -479,7 +495,7 @@ namespace ABAINFRA.Web
 
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTabela()
         {
             string SQL;
@@ -518,8 +534,9 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
-        public string filtrarTabela(string idFilter, string Filter, string Ativo, string Finalizado)
+        [WebMethod(EnableSession = true)]
+
+        public string filtrarTabela(string idFilter, string Filter, string Ativo, string Finalizado, string TarifaSpot)
         {
             string SQL;
             DataTable listTable = new DataTable();
@@ -547,6 +564,15 @@ namespace ABAINFRA.Web
                 default:
                     idFilter = "";
                     break;
+            }
+
+            if(TarifaSpot == "1")
+			{
+                TarifaSpot = " AND ISNULL(E.FL_TARIFA_SPOT, 0) <> 0 ";
+			}
+			else
+			{
+                TarifaSpot = " AND ISNULL(E.FL_TARIFA_SPOT, 0) = 0 ";
             }
 
             if (Ativo == "1" && Finalizado == "1")
@@ -579,8 +605,9 @@ namespace ABAINFRA.Web
                 }
             }
 
-            SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, B.NR_BL AS MBL, PFCL.NM_TIPO_CONTAINER, PFCL.NR_PROCESSO, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ";
+            SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, B.NR_BL AS MBL, PFCL.NM_TIPO_CONTAINER, ISNULL(TC.NM_TIPO_CARGA,'') AS NM_TIPO_CARGA, PFCL.NR_PROCESSO, ISNULL(P.NM_RAZAO,C.NM_RAZAO) AS CLIENTE, ";
             SQL += "ISNULL(P2.NM_RAZAO, '') AS TRANSPORTADOR, ISNULL(FORMAT(PFCL.DT_CHEGADA, 'dd/MM/yyyy'), '') AS DT_CHEGADA, ";
+            SQL += "CASE WHEN ISNULL(E.FL_TARIFA_SPOT,0) <> 0 THEN 'FRETE SPOT' ELSE '' END AS ACORDO_COMERCIAL, ";
             SQL += "ISNULL(CONVERT(VARCHAR,PFCL.QT_DIAS_FREETIME), '') AS QT_DIAS_FREETIME, ISNULL(CONVERT(VARCHAR,PFCL.QT_DIAS_FREETIME_CONFIRMA),'') AS QT_DIAS_FREETIME_CONFIRMA, ISNULL(FORMAT(DFCL.DT_FINAL_FREETIME, 'dd/MM/yyyy'), '') AS FINAL_FREETIME, ";
             SQL += "ISNULL(FORMAT(PFCL.DT_DEVOLUCAO_CNTR, 'dd/MM/yyyy'), '') AS DEVOLUCAO_CNTR, ";
             SQL += "DFCL.QT_DIAS_DEMURRAGE,ISNULL(DFCL.QT_DIAS_DEMURRAGE_COMPRA,'')QT_DIAS_DEMURRAGE_COMPRA, ";
@@ -598,21 +625,25 @@ namespace ABAINFRA.Web
             SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL AND PFCL.ID_BL = DFCL.ID_BL ";
             SQL += "INNER JOIN TB_BL B ON PFCL.ID_BL_MASTER = B.ID_BL ";
+            SQL += "INNER JOIN TB_COTACAO E ON PFCL.ID_COTACAO = E.ID_COTACAO ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_IMPORTADOR = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO C ON PFCL.ID_PARCEIRO_CLIENTE = C.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_STATUS_DEMURRAGE D ON PFCL.ID_STATUS_DEMURRAGE_COMPRA= D.ID_STATUS_DEMURRAGE ";
             SQL += "LEFT JOIN TB_STATUS_DEMURRAGE D1 ON PFCL.ID_STATUS_DEMURRAGE = D1.ID_STATUS_DEMURRAGE ";
+            SQL += "LEFT JOIN TB_TIPO_CARGA TC ON PFCL.ID_TIPO_CARGA = TC.ID_TIPO_CARGA ";
             SQL += "WHERE PFCL.DT_CHEGADA IS NOT NULL ";
             SQL += "" + idFilter + " ";
             SQL += "" + Ativo + " ";
             SQL += "" + Finalizado + " ";
+            SQL += "" + TarifaSpot + " ";
             SQL += "ORDER BY PFCL.DT_CHEGADA";
             listTable = DBS.List(SQL);
 
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string filtrarTabelaDetention(string idFilter, string Filter, string Ativo, string Finalizado)
         {
             string SQL;
@@ -707,11 +738,11 @@ namespace ABAINFRA.Web
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoContainer(int idCont)
         {
             string SQL;
-            SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, PFCL.NR_PROCESSO, P.NM_RAZAO AS CLIENTE, ";
+            /*SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, PFCL.NR_PROCESSO, P.NM_RAZAO AS CLIENTE, DFCL.QT_DIAS_DEMURRAGE, ";
             SQL += "PFCL.QT_DIAS_FREETIME,DFCL.QT_DIAS_DEMURRAGE_COMPRA, PFCL.QT_DIAS_FREETIME_CONFIRMA, PFCL.ID_STATUS_DEMURRAGE, DFCL.ID_DEMURRAGE_FATURA_PAGAR, DFCL.ID_DEMURRAGE_FATURA_RECEBER, PFCL.ID_STATUS_DEMURRAGE_COMPRA, FORMAT(PFCL.DT_STATUS_DEMURRAGE_COMPRA, 'yyyy-MM_dd') AS DATA_STATUS_DEMURRAGE_COMPRA, ";
             SQL += "FORMAT(PFCL.DT_STATUS_DEMURRAGE,'yyyy-MM-dd') AS DATA_STATUS_DEMURRAGE, ";
             SQL += "PFCL.DS_OBSERVACAO ";
@@ -719,14 +750,26 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
-            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "'";
+            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "'";*/
+
+            SQL = "SELECT C.NR_CNTR, A.NR_PROCESSO, D.NM_RAZAO AS CLIENTE, C.QT_DIAS_FREETIME, ";
+            SQL += "C.QT_DIAS_FREETIME_CONFIRMA, E.QT_DIAS_DEMURRAGE, E.QT_DIAS_DEMURRAGE_COMPRA, ";
+            SQL += "C.ID_STATUS_DEMURRAGE, FORMAT(C.DT_STATUS_DEMURRAGE, 'dd/MM/yyyy') AS DATA_STATUS_DEMURRAGE, ";
+            SQL += "C.ID_STATUS_DEMURRAGE_COMPRA, FORMAT(C.DT_STATUS_DEMURRAGE_COMPRA, 'dd/MM/yyyy') AS DATA_STATUS_DEMURRAGE_COMPRA, ";
+            SQL += "C.DS_OBSERVACAO ";
+            SQL += " FROM TB_BL A ";
+            SQL += "LEFT JOIN TB_AMR_CNTR_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "LEFT JOIN TB_CNTR_BL C ON B.ID_CNTR_BL = C.ID_CNTR_BL ";
+            SQL += "LEFT JOIN TB_PARCEIRO D ON A.ID_PARCEIRO_CLIENTE = D.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_CNTR_DEMURRAGE E ON C.ID_CNTR_BL = E.ID_CNTR_BL ";
+            SQL += "WHERE C.ID_CNTR_BL = "+idCont+" AND A.GRAU IN('C') AND A.DT_CANCELAMENTO IS NULL ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoContainerExp(int idCont)
         {
             string SQL;
@@ -745,7 +788,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoContainerDevolucao(int idCont)
         {
             string SQL;
@@ -764,7 +807,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoContainerDevolucaoExp(int idCont)
         {
             string SQL;
@@ -783,8 +826,8 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
-        public string atualizarContainer(int idCont, string dtStatus, int dsStatus, int qtDias, string dsObs, string qtDiasConfirm, string qtDiasDemurrageCompra, string dtStatusCompra, int dsStatusCompra)
+        [WebMethod(EnableSession = true)]
+        public string atualizarContainer(int idCont, string dtStatus, int dsStatus, int qtDias, string dsObs, string qtDiasConfirm, string qtDiasDemurrageCompra, string qtDiasDemurrageVenda, string dtStatusCompra, int dsStatusCompra)
         {
             if (dsStatus.ToString() != "" && dsStatusCompra.ToString() != "")
             {
@@ -826,7 +869,7 @@ namespace ABAINFRA.Web
                 }
 
                 SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + dsStatus + "', QT_DIAS_FREETIME = '" + qtDias + "', QT_DIAS_FREETIME_CONFIRMA = '" + qtDiasConfirm + "', ";
-                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', DS_OBSERVACAO = '" + dsObs + "', ID_STATUS_DEMURRAGE_COMPRA = '" + dsStatusCompra +"', DT_STATUS_DEMURRAGE_COMPRA = '"+dtStatusCompra+"' WHERE ID_CNTR_BL = '" + idCont + "' ;  UPDATE TB_CNTR_DEMURRAGE SET QT_DIAS_DEMURRAGE_COMPRA = '" + qtDiasDemurrageCompra + "' WHERE ID_CNTR_BL = '" + idCont + "'   ";
+                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', DS_OBSERVACAO = '" + dsObs + "', ID_STATUS_DEMURRAGE_COMPRA = '" + dsStatusCompra +"', DT_STATUS_DEMURRAGE_COMPRA = '"+dtStatusCompra+"' WHERE ID_CNTR_BL = '" + idCont + "' ;  UPDATE TB_CNTR_DEMURRAGE SET QT_DIAS_DEMURRAGE_COMPRA = '" + qtDiasDemurrageCompra + "', QT_DIAS_DEMURRAGE = '" +qtDiasDemurrageVenda+ "' WHERE ID_CNTR_BL = '" + idCont + "'   ";
                 string atualizarContainer = DBS.ExecuteScalar(SQL);
                 return "1";
 
@@ -838,7 +881,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string atualizarContainerExp(int idCont, string dtStatus, int dsStatus, int qtDias, string dsObs, string qtDiasConfirm, string qtDiasDemurrageCompra, string dtStatusCompra, int dsStatusCompra)
         {
             if (dsStatus.ToString() != "" && dsStatusCompra.ToString() != "")
@@ -893,7 +936,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCalculo(string idCont)
         {
             string SQL;
@@ -908,7 +951,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCalculoExp(string idCont)
         {
             string SQL;
@@ -923,7 +966,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarCalculoDemurrage(string nrProcesso, string tipoCalculo)
         {
 
@@ -958,7 +1001,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCalculoMarcadoVenda(string idCont)
         {
             string SQL;
@@ -975,12 +1018,18 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCalculoMarcadoVendaTaxa(string idCont)
         {
             string SQL;
             int somaDias;
             decimal vlTaxa = 0;
+
+            SQL = "SELECT ISNULL(B.ID_TIPO_CARGA,0) AS ID_TIPO_CARGA FROM TB_CNTR_BL A ";
+            SQL += "LEFT JOIN TB_CARGA_BL B ON A.ID_CNTR_BL=B.ID_CNTR_BL ";
+            SQL += "WHERE A.ID_CNTR_BL = "+idCont+" ";
+            string tipoCarga = DBS.ExecuteScalar(SQL);
+
             SQL = "SELECT PFCL.NR_CNTR, PFCL.NM_TIPO_CONTAINER, TBD.QT_DIAS_FREETIME as FreeTimeTab, PFCL.QT_DIAS_FREETIME, ";
             SQL += "DFCL.QT_DIAS_DEMURRAGE, P.NM_RAZAO AS TABELA, M.NM_MOEDA AS MOEDA, TBD.FL_ESCALONADA, CD.VL_TAXA_DEMURRAGE_VENDA, ";
             SQL += "TBD.QT_DIAS_01, TBD.QT_DIAS_02,TBD.QT_DIAS_03, TBD.QT_DIAS_04, ";
@@ -989,11 +1038,19 @@ namespace ABAINFRA.Web
             SQL += "TBD.VL_VENDA_05, TBD.VL_VENDA_06, TBD.VL_VENDA_07, TBD.VL_VENDA_08 ";
             SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
-            SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON PFCL.ID_TIPO_CNTR = TBD.ID_TIPO_CONTAINER ";
+            if(tipoCarga == "9")
+			{
+                SQL += "LEFT JOIN TB_TIPO_CONTAINER TPC ON PFCL.NM_TIPO_CONTAINER = TPC.NM_TIPO_CONTAINER ";
+                SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON TPC.ID_TAMANHO_CONTAINER = TBD.ID_TAMANHO_CONTAINER ";
+			}
+			else
+			{
+                SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON PFCL.ID_TIPO_CNTR = TBD.ID_TIPO_CONTAINER ";
+			}
             SQL += "LEFT JOIN TB_PARCEIRO P ON TBD.ID_PARCEIRO_TRANSPORTADOR = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_MOEDA M ON TBD.ID_MOEDA = M.ID_MOEDA ";
             SQL += "LEFT JOIN TB_CNTR_DEMURRAGE CD ON PFCL.ID_CNTR_BL = CD.ID_CNTR_BL ";
-            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "' ";
+            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont +"' "+ (tipoCarga == "9" ? "AND TBD.FL_CARGA_IMO = 1 ":"") +"  ";
             SQL += "AND TBD.ID_PARCEIRO_TRANSPORTADOR = 1 ";
             SQL += "AND PFCL.DT_DEVOLUCAO_CNTR >= TBD.DT_VALIDADE_INICIAL ";
 
@@ -1089,7 +1146,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCalculoMarcadoCompra(string idCont)
         {
             string SQL;
@@ -1107,12 +1164,18 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCalculoMarcadoCompraTaxa(string idCont, string transportador)
         {
             string SQL;
             int somaDias;
             decimal vlTaxa = 0;
+
+            SQL = "SELECT ISNULL(B.ID_TIPO_CARGA,0) AS ID_TIPO_CARGA FROM TB_CNTR_BL A ";
+            SQL += "LEFT JOIN TB_CARGA_BL B ON A.ID_CNTR_BL=B.ID_CNTR_BL ";
+            SQL += "WHERE A.ID_CNTR_BL = " + idCont + " ";
+            string tipoCarga = DBS.ExecuteScalar(SQL);
+
             SQL = "SELECT PFCL.NR_CNTR, PFCL.NM_TIPO_CONTAINER, TBD.QT_DIAS_FREETIME as FreeTimeTab, PFCL.QT_DIAS_FREETIME, ";
             SQL += "DFCL.QT_DIAS_DEMURRAGE,CONVERT(INT,ISNULL(DFCL.QT_DIAS_DEMURRAGE_COMPRA,DFCL.QT_DIAS_DEMURRAGE))QT_DIAS_DEMURRAGE_COMPRA, P.NM_RAZAO as TABELA, M.NM_MOEDA AS MOEDA, TBD.FL_ESCALONADA, CD.VL_TAXA_DEMURRAGE_COMPRA, ";
             SQL += "TBD.QT_DIAS_01, TBD.QT_DIAS_02,TBD.QT_DIAS_03, TBD.QT_DIAS_04, ";
@@ -1121,11 +1184,19 @@ namespace ABAINFRA.Web
             SQL += "TBD.VL_VENDA_05, TBD.VL_VENDA_06, TBD.VL_VENDA_07, TBD.VL_VENDA_08 ";
             SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
-            SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON PFCL.ID_TIPO_CNTR = TBD.ID_TIPO_CONTAINER ";
+            if (tipoCarga == "9")
+            {
+                SQL += "LEFT JOIN TB_TIPO_CONTAINER TPC ON PFCL.NM_TIPO_CONTAINER = TPC.NM_TIPO_CONTAINER ";
+                SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON TPC.ID_TAMANHO_CONTAINER = TBD.ID_TAMANHO_CONTAINER ";
+            }
+            else
+            {
+                SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON PFCL.ID_TIPO_CNTR = TBD.ID_TIPO_CONTAINER ";
+            }
             SQL += "LEFT JOIN TB_PARCEIRO P ON TBD.ID_PARCEIRO_TRANSPORTADOR = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_MOEDA M ON TBD.ID_MOEDA = M.ID_MOEDA ";
             SQL += "LEFT JOIN TB_CNTR_DEMURRAGE CD ON PFCL.ID_CNTR_BL = CD.ID_CNTR_BL ";
-            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "' ";
+            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "' " + (tipoCarga == "9" ? "AND TBD.FL_CARGA_IMO = 1 " : "") + "  ";
             SQL += "AND TBD.ID_PARCEIRO_TRANSPORTADOR = '" + transportador + "' ";
             SQL += "AND PFCL.DT_DEVOLUCAO_CNTR >= TBD.DT_VALIDADE_INICIAL ";
 
@@ -1217,7 +1288,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void zerarCalculoVenda(string idCont)
         {
             string SQL;
@@ -1237,7 +1308,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void zerarCalculoCompra(string idCont)
         {
             string SQL;
@@ -1257,7 +1328,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void calcularDemurrageVenda(string idCont, decimal vlTaxa, string idStatus, string dtStatus)
         {
             string SQL;
@@ -1397,7 +1468,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void calcularDemurrageCompra(string idCont, decimal vlTaxa, string transportador, string idStatus, string dtStatus)
         {
             string SQL;
@@ -1843,7 +1914,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarContainerDevolucao(string nrProcesso)
         {
             string SQL;
@@ -1861,7 +1932,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarContainerDevolucaoExp(string nrProcesso)
         {
             string SQL;
@@ -1879,7 +1950,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarFaturas(int check, string filtroFatura, string txtFiltro, string Ativo, string Finalizado)
         {
             DataTable listTable = new DataTable();
@@ -1966,7 +2037,8 @@ namespace ABAINFRA.Web
                 SQL += "ISNULL(FORMAT(C.DT_LIQUIDACAO, 'dd/MM/yyyy'), '') AS DT_LIQUIDACAO, ISNULL(FORMAT(C.DT_CANCELAMENTO, 'dd/MM/yyyy'), '') AS DT_CANCELAMENTO, ";
                 SQL += "(SELECT MAX(CASE WHEN E.DT_CAMBIO_DEMURRAGE_VENDA IS NULL THEN 1 ELSE 0 END) ";
                 SQL += "FROM TB_DEMURRAGE_FATURA_ITENS D INNER JOIN TB_CNTR_DEMURRAGE E ON E.ID_CNTR_DEMURRAGE = D.ID_CNTR_DEMURRAGE ";
-                SQL += "WHERE D.ID_DEMURRAGE_FATURA = C.ID_DEMURRAGE_FATURA) AS FALTA_ATUALIZACAO_CAMBIAL ";
+                SQL += "WHERE D.ID_DEMURRAGE_FATURA = C.ID_DEMURRAGE_FATURA) AS FALTA_ATUALIZACAO_CAMBIAL, ";
+                SQL += "(SELECT COUNT(*) FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA = C.ID_DEMURRAGE_FATURA) AS QT_PARCELAS ";
                 SQL += "FROM VW_DEMURRAGE_FATURA C ";
                 SQL += "JOIN TB_DEMURRAGE_FATURA B ON C.ID_DEMURRAGE_FATURA = B.ID_DEMURRAGE_FATURA ";
                 SQL += "WHERE B.CD_PR = 'R' ";
@@ -1989,7 +2061,8 @@ namespace ABAINFRA.Web
                 SQL += "ISNULL(FORMAT(C.DT_LIQUIDACAO, 'dd/MM/yyyy'), '') AS DT_LIQUIDACAO, ISNULL(FORMAT(C.DT_CANCELAMENTO, 'dd/MM/yyyy'), '') AS DT_CANCELAMENTO, ";
                 SQL += "(SELECT MAX(CASE WHEN E.DT_CAMBIO_DEMURRAGE_COMPRA IS NULL THEN 1 ELSE 0 END) ";
                 SQL += "FROM TB_DEMURRAGE_FATURA_ITENS D INNER JOIN TB_CNTR_DEMURRAGE E ON E.ID_CNTR_DEMURRAGE = D.ID_CNTR_DEMURRAGE ";
-                SQL += "WHERE D.ID_DEMURRAGE_FATURA = C.ID_DEMURRAGE_FATURA) AS FALTA_ATUALIZACAO_CAMBIAL ";
+                SQL += "WHERE D.ID_DEMURRAGE_FATURA = C.ID_DEMURRAGE_FATURA) AS FALTA_ATUALIZACAO_CAMBIAL, ";
+                SQL += "(SELECT COUNT(*) FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA = C.ID_DEMURRAGE_FATURA) AS QT_PARCELAS ";
                 SQL += "FROM VW_DEMURRAGE_FATURA C ";
                 SQL += "JOIN TB_DEMURRAGE_FATURA B ON C.ID_DEMURRAGE_FATURA = B.ID_DEMURRAGE_FATURA ";
                 SQL += "WHERE B.CD_PR = 'P' ";
@@ -2003,7 +2076,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string verificarProcesso(string processo)
         {
             string SQL;
@@ -2026,7 +2099,161 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
+        public string ListarProcessoTaxaAberta(string dataI, string dataF, string chkB, string chkE, string filter, string text)
+        {
+            string sqlFormattedDate;
+            string sqlFormattedDate2;
+            string SQL;
+
+            if (dataI != "")
+            {
+                string diaI = dataI.Substring(8, 2);
+                string mesI = dataI.Substring(5, 2);
+                string anoI = dataI.Substring(0, 4);
+                sqlFormattedDate = diaI + "/" + mesI + "/" + anoI;
+            }
+            else
+            {
+                sqlFormattedDate = "01/01/1900";
+            }
+
+            if (dataF != "")
+            {
+                string diaF = dataF.Substring(8, 2);
+                string mesF = dataF.Substring(5, 2);
+                string anoF = dataF.Substring(0, 4);
+                sqlFormattedDate2 = diaF + "/" + mesF + "/" + anoF;
+            }
+            else
+            {
+                sqlFormattedDate2 = "01/01/2900";
+            }
+
+            if (chkB == "1" && chkE == "1"){ chkB = ""; chkE = "";}
+            else{
+                switch (chkB)
+                {
+                    case "1":
+                        chkB = " AND A.ID_ORIGEM_PAGAMENTO = 1 ";
+                        break;
+                    default:
+                        chkB = "";
+                        break;
+                }
+
+                switch (chkE)
+                {
+                    case "1":
+                        chkE = " AND A.ID_ORIGEM_PAGAMENTO = 2 ";
+                        break;
+                    default:
+                        chkE = "";
+                        break;
+                }
+            }
+
+
+            SQL = "SELECT A.NR_PROCESSO, A.NM_ITEM_DESPESA, ISNULL(A.DESTINATARIO_COBRANCA,'') AS DESTINATARIO_COBRANCA, A.VL_TAXA, A.VL_TAXA_CALCULADO, ";
+            SQL += "A.SIGLA_MOEDA, A.TIPO, A.NM_TIPO_PAGAMENTO, A.NM_ORIGEM_PAGAMENTO, A.DT_CHEGADA ";
+            SQL += "FROM (";
+            SQL += "SELECT E.NR_PROCESSO, B.NM_ITEM_DESPESA, C.NM_RAZAO as DESTINATARIO_COBRANCA, A.VL_TAXA, A.VL_TAXA_CALCULADO,  ";
+            SQL += "D.SIGLA_MOEDA, CASE WHEN A.CD_PR = 'P' THEN 'PAGAR' ELSE 'RECEBER' END AS TIPO, F.NM_TIPO_PAGAMENTO, G.NM_ORIGEM_PAGAMENTO, ISNULL(FORMAT(E.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
+            SQL += "FROM TB_BL_TAXA A ";
+            SQL += "JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
+            SQL += "LEFT JOIN TB_PARCEIRO C ON A.ID_PARCEIRO_EMPRESA = C.ID_PARCEIRO ";
+            SQL += "JOIN TB_MOEDA D ON A.ID_MOEDA = D.ID_MOEDA ";
+            SQL += "JOIN TB_BL E ON A.ID_BL = E.ID_BL ";
+            SQL += "JOIN TB_TIPO_PAGAMENTO F ON A.ID_TIPO_PAGAMENTO = F.ID_TIPO_PAGAMENTO ";
+            SQL += "JOIN TB_ORIGEM_PAGAMENTO G ON A.ID_ORIGEM_PAGAMENTO = G.ID_ORIGEM_PAGAMENTO ";
+            SQL += "WHERE A.ID_BL_TAXA NOT IN(SELECT ISNULL(ID_BL_TAXA, 0) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) ";
+            SQL += "AND E.ID_BL_MASTER IS NOT NULL ";
+            SQL += "AND CONVERT(DATE, E.DT_ABERTURA,103) BETWEEN CONVERT(DATE, '"+sqlFormattedDate+"', 103)  ";
+            SQL += "AND CONVERT(DATE, '" + sqlFormattedDate2 + "', 103)  ";
+            SQL += "AND E.ID_BL IN(SELECT DISTINCT(A.ID_BL) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER ";
+            SQL += "WHERE B.DT_CANCELAMENTO IS NULL AND A.ID_ITEM_DESPESA = 14 AND CD_PR = 'P') ";
+            SQL += ""+ chkE + " "+ chkB+ " AND(A.FL_TAXA_INATIVA = 0 OR A.FL_TAXA_INATIVA IS NULL) AND A.VL_TAXA <> 0.00 ";
+            SQL += " ";
+            SQL += "UNION ";
+            SQL += " ";
+            SQL += "SELECT DISTINCT X.NR_PROCESSO, X.NM_ITEM_DESPESA, X.NM_RAZAO AS DESTINATARIO_COBRANCA, ABS(X.VL_ITEM_DESPESA) AS VL_TAXA, ";
+            SQL += "ABS(X.VL_ITEM_DESPESA) AS VL_TAXA_CALCULADO, X.SIGLA_MOEDA, X.TIPO AS TIPO, '------' AS NM_TIPO_PAGAMENTO, X.NM_ORIGEM_PAGAMENTO, X.DT_CHEGADA FROM( ";
+            SQL += "SELECT DISTINCT E.ID_BL, E.NR_PROCESSO, 'COMISSAO' AS NM_ITEM_DESPESA, G.SIGLA_MOEDA, H.NM_RAZAO, ";
+            SQL += "(SELECT ISNULL(VL_TAXA_CALCULADO, 0) AS VL_ITEM_DESPESA FROM FN_ACCOUNT_DEVOLUCAO_COMISSAO(E.ID_BL, 'C') ";
+            SQL += "WHERE VL_TAXA_CALCULADO IS NOT NULL AND VL_TAXA_CALCULADO != CONVERT(DECIMAL(15, 2), 0.00)) AS VL_ITEM_DESPESA, ";
+            SQL += "  (SELECT CASE WHEN ISNULL(VL_TAXA_CALCULADO, 0) < 0 THEN 'RECEBER' ELSE 'PAGAR' END AS TIPO FROM FN_ACCOUNT_DEVOLUCAO_COMISSAO(E.ID_BL, 'C') ";
+            SQL += "  WHERE VL_TAXA_CALCULADO IS NOT NULL AND VL_TAXA_CALCULADO != CONVERT(DECIMAL(15, 2), 0.00)) AS TIPO, ";
+            SQL += "I.NM_ORIGEM_PAGAMENTO, ISNULL(FORMAT(E.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
+            SQL += "FROM TB_BL_TAXA A ";
+            SQL += "JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
+            SQL += "LEFT JOIN TB_PARCEIRO C ON A.ID_PARCEIRO_EMPRESA = C.ID_PARCEIRO ";
+            SQL += "JOIN TB_MOEDA D ON A.ID_MOEDA = D.ID_MOEDA ";
+            SQL += "JOIN TB_BL E ON A.ID_BL = E.ID_BL ";
+            SQL += "JOIN TB_TIPO_PAGAMENTO F ON A.ID_TIPO_PAGAMENTO = F.ID_TIPO_PAGAMENTO ";
+            SQL += "JOIN TB_MOEDA G ON E.ID_MOEDA_FRETE = G.ID_MOEDA ";
+            SQL += "JOIN TB_PARCEIRO H ON E.ID_PARCEIRO_AGENTE_INTERNACIONAL = H.ID_PARCEIRO ";
+            SQL += "JOIN TB_ORIGEM_PAGAMENTO I ON A.ID_ORIGEM_PAGAMENTO = I.ID_ORIGEM_PAGAMENTO ";
+            SQL += "WHERE A.ID_BL_TAXA NOT IN(SELECT ISNULL(ID_BL_TAXA, 0) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) ";
+            SQL += "AND E.ID_BL_MASTER IS NOT NULL ";
+            SQL += "AND CONVERT(DATE, E.DT_ABERTURA,103) BETWEEN CONVERT(DATE, '" + sqlFormattedDate + "', 103)  ";
+            SQL += "AND CONVERT(DATE, '" + sqlFormattedDate2 + "', 103)  ";
+            SQL += "AND E.ID_BL IN(SELECT DISTINCT(A.ID_BL) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER ";
+            SQL += "WHERE B.DT_CANCELAMENTO IS NULL AND A.ID_ITEM_DESPESA = 14 AND CD_PR = 'P') ";
+            SQL += ") X ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER_ITENS Z ON X.ID_BL = Z.ID_BL ";
+            SQL += "WHERE VL_ITEM_DESPESA IS NOT NULL ";
+            SQL += "AND X.NR_PROCESSO IN(SELECT A.NR_PROCESSO FROM ( ";
+            SQL += "SELECT NR_PROCESSO, NM_ITEM_DESPESA, ";
+            SQL += "CASE WHEN VL_SALDO_RECEBER > 0.00 THEN VL_SALDO_RECEBER ";
+            SQL += "     WHEN VL_SALDO_PAGAR > 0.00 THEN VL_SALDO_PAGAR END AS VL_ITEM_DESPESA ";
+            SQL += "FROM FN_PREVISIBILIDADE_SALDO('01/01/1900', '01/01/2900', '') WHERE NM_ITEM_DESPESA = 'COMISSAO') A ";
+            SQL += "WHERE A.VL_ITEM_DESPESA IS NOT NULL)) A ";
+
+            /*SQL = "SELECT E.NR_PROCESSO, B.NM_ITEM_DESPESA, C.NM_RAZAO as DESTINATARIO_COBRANCA, A.VL_TAXA, A.VL_TAXA_CALCULADO, ";
+            SQL += "D.SIGLA_MOEDA, CASE WHEN A.CD_PR = 'P' THEN 'PAGAR' ELSE 'VENDER' END AS TIPO, F.NM_TIPO_PAGAMENTO ";
+            SQL += "FROM TB_BL_TAXA A ";
+            SQL += "JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
+            SQL += "LEFT JOIN TB_PARCEIRO C ON A.ID_PARCEIRO_EMPRESA = C.ID_PARCEIRO ";
+            SQL += "JOIN TB_MOEDA D ON A.ID_MOEDA = D.ID_MOEDA ";
+            SQL += "JOIN TB_BL E ON A.ID_BL = E.ID_BL ";
+            SQL += "JOIN TB_TIPO_PAGAMENTO F ON A.ID_TIPO_PAGAMENTO = F.ID_TIPO_PAGAMENTO ";
+            SQL += "WHERE A.ID_BL_TAXA NOT IN(SELECT ISNULL(ID_BL_TAXA, 0) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) ";
+            SQL += "AND E.ID_BL_MASTER IS NOT NULL ";
+            SQL += "AND CONVERT(DATE, E.DT_ABERTURA,103) BETWEEN CONVERT(DATE, '" + sqlFormattedDate + "', 103) ";
+            SQL += "AND CONVERT(DATE, '" + sqlFormattedDate2 + "', 103) ";
+            SQL += "AND E.ID_BL IN(SELECT DISTINCT(A.ID_BL) FROM TB_CONTA_PAGAR_RECEBER_ITENS A ";
+            SQL += "JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER ";
+            SQL += "WHERE B.DT_CANCELAMENTO IS NULL AND A.ID_ITEM_DESPESA = 14 AND CD_PR = 'P') ";
+            SQL += "AND A.ID_ORIGEM_PAGAMENTO = " + opt + " ";*/
+
+
+            switch (filter)
+            {
+                case "1":
+                    SQL += " WHERE DESTINATARIO_COBRANCA LIKE '" + text + "%' ORDER BY NR_PROCESSO ";
+                    break;
+                case "2":
+					SQL += " WHERE NR_PROCESSO LIKE '" + text + "%' ORDER BY NR_PROCESSO ";
+                    break;
+                default:
+                    SQL += " ORDER BY NR_PROCESSO ";
+                    break;
+            }
+
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+
+        }
+
+        [WebMethod(EnableSession = true)]
         public string listarProcessoFaturas(string processo, int check)
         {
             string SQL;
@@ -2094,7 +2321,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void processarFaturaItens(int idcntr, int check, int fatura)
         {
             DataTable localizarFatura = new DataTable();
@@ -2126,32 +2353,36 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoAtualizacao(int idFatura)
         {
             string SQL;
             DataTable listTable = new DataTable();
 
             SQL = "SELECT MIN(A.ID_DEMURRAGE_FATURA) AS ID_DEMURRAGE_FATURA , MIN(B.NR_PROCESSO) AS NR_PROCESSO, MIN(P.NM_RAZAO) as CLIENTE, ";
-            SQL += "ISNULL(CONVERT(VARCHAR,MIN(MF.VL_TXOFICIAL)),'') AS VL_TAXA, ISNULL(FORMAT(MIN(DT_CAMBIO),'dd/MM/yyyy'),'') AS DT_CAMBIO ";
+            SQL += "ISNULL(CONVERT(VARCHAR,MIN(MF.VL_TXOFICIAL)),'') AS VL_TAXA, ISNULL(FORMAT(MIN(DT_CAMBIO),'dd/MM/yyyy'),'') AS DT_CAMBIO, ";
+            SQL += "CASE WHEN A.CD_PR = 'R' THEN SUM(D.VL_DEMURRAGE_VENDA_BR) ELSE SUM(D.VL_DEMURRAGE_COMPRA_BR) END AS VL_DEMURRAGE_TOTAL_BR ";
             SQL += "FROM TB_DEMURRAGE_FATURA A ";
             SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON B.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_MOEDA_FRETE_ARMADOR MF ON B.ID_PARCEIRO_TRANSPORTADOR = MF.ID_ARMADOR ";
+            SQL += "LEFT JOIN TB_DEMURRAGE_FATURA_ITENS C ON A.ID_DEMURRAGE_FATURA = C.ID_DEMURRAGE_FATURA ";
+            SQL += "LEFT JOIN TB_CNTR_DEMURRAGE D ON D.ID_CNTR_DEMURRAGE = C.ID_CNTR_DEMURRAGE ";
             SQL += "WHERE A.ID_DEMURRAGE_FATURA = " + idFatura + " ";
+            SQL += "GROUP BY A.CD_PR ";
 
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarFaturasAtualizacaoCambial(int idFatura, int check)
         {
             string SQL;
             DataTable listTable = new DataTable();
             if (check == 1)
             {
-                SQL = "select D.ID_CNTR_BL, D.NR_CNTR, M.NM_MOEDA, REPLACE(FORMAT(E.VL_DEMURRAGE_VENDA,'C','PT-BR'),'R$','') AS VL_DEMURRAGE, ISNULL(REPLACE(FORMAT(E.VL_DESCONTO_DEMURRAGE_VENDA,'C','PT-BR'),'R$',''),0) AS DESCONTO from tb_demurrage_fatura_itens a ";
+                SQL = "select D.ID_CNTR_BL, D.NR_CNTR, M.NM_MOEDA, REPLACE(FORMAT(E.VL_DEMURRAGE_VENDA,'C','PT-BR'),'R$','') AS VL_DEMURRAGE, ISNULL(REPLACE(FORMAT(E.VL_DESCONTO_DEMURRAGE_VENDA,'C','PT-BR'),'R$',''),0) AS DESCONTO, ISNULL(REPLACE(FORMAT(E.VL_MULTA_DEMURRAGE_VENDA,'C','PT-BR'),'R$',''),0) AS MULTA from tb_demurrage_fatura_itens a ";
                 SQL += "LEFT join TB_DEMURRAGE_FATURA B ON B.ID_DEMURRAGE_FATURA = a.ID_DEMURRAGE_FATURA ";
                 SQL += "LEFT JOIN TB_CNTR_DEMURRAGE E ON E.ID_CNTR_DEMURRAGE = a.ID_CNTR_DEMURRAGE ";
                 SQL += "LEFT JOIN TB_CNTR_BL D ON E.ID_CNTR_BL = D.ID_CNTR_BL ";
@@ -2162,7 +2393,7 @@ namespace ABAINFRA.Web
             }
             else
             {
-                SQL = "select D.ID_CNTR_BL, D.NR_CNTR, M.NM_MOEDA, REPLACE(FORMAT(E.VL_DEMURRAGE_COMPRA,'C','PT-BR'),'R$','') AS VL_DEMURRAGE, ISNULL(REPLACE(FORMAT(E.VL_DESCONTO_DEMURRAGE_COMPRA,'C','PT-BR'),'R$',''),0) AS DESCONTO from tb_demurrage_fatura_itens a ";
+                SQL = "select D.ID_CNTR_BL, D.NR_CNTR, M.NM_MOEDA, REPLACE(FORMAT(E.VL_DEMURRAGE_COMPRA,'C','PT-BR'),'R$','') AS VL_DEMURRAGE, ISNULL(REPLACE(FORMAT(E.VL_DESCONTO_DEMURRAGE_COMPRA,'C','PT-BR'),'R$',''),0) AS DESCONTO, ISNULL(REPLACE(FORMAT(E.VL_MULTA_DEMURRAGE_COMPRA,'C','PT-BR'),'R$',''),0) AS MULTA from tb_demurrage_fatura_itens a ";
                 SQL += "LEFT join TB_DEMURRAGE_FATURA B ON B.ID_DEMURRAGE_FATURA = a.ID_DEMURRAGE_FATURA ";
                 SQL += "LEFT JOIN TB_CNTR_DEMURRAGE E ON E.ID_CNTR_DEMURRAGE = a.ID_CNTR_DEMURRAGE ";
                 SQL += "LEFT JOIN TB_CNTR_BL D ON E.ID_CNTR_BL = D.ID_CNTR_BL ";
@@ -2174,7 +2405,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string atualizacaoCambialFatura(int idFatura, string dtVencimento, string idContaBancaria)
         {
             string SQL;
@@ -2193,8 +2424,8 @@ namespace ABAINFRA.Web
             return Valor;
         }
 
-        [WebMethod]
-        public string atualizacaoCambialContainer(int idCntr, string vlDemurrage, string dtCambio, double vlCambio, string descontoBRL, int check)
+        [WebMethod(EnableSession = true)]
+        public string atualizacaoCambialContainer(int idCntr, string vlDemurrage, string dtCambio, double vlCambio, string descontoBRL, string multaBRL, int check)
         {
             string SQL;
             DataTable listTable = new DataTable();
@@ -2203,14 +2434,17 @@ namespace ABAINFRA.Web
             double vlDemu = Trunc2(vlDemuDolar) * vlCambio;
             string descontor = descontoBRL.Replace(".", "");
             double desconto = Convert.ToDouble(descontor);
-            double valorLiquido = Trunc2(vlDemu) - Trunc2(desconto);
+            string multar = multaBRL.Replace(".", "");
+            double multa = Convert.ToDouble(multar);
+            double valorLiquido = Trunc2(vlDemu) - Trunc2(desconto) + Trunc2(multa);
             double valorDemurrageConvertido = Trunc2(vlDemu) * vlCambio;
 
             if (check == 1)
             {
                 SQL = "UPDATE TB_CNTR_DEMURRAGE SET DT_CAMBIO_DEMURRAGE_VENDA = '" + dtCambio + "', ";
                 SQL += "VL_CAMBIO_DEMURRAGE_VENDA = '" + vlCambio.ToString().Replace(",", ".") + "', VL_DESCONTO_DEMURRAGE_VENDA = '" + descontoBRL.ToString().Replace(",", ".") + "', ";
-                SQL += "VL_DEMURRAGE_VENDA_BR = '" + Trunc2(vlDemu).ToString().Replace(",", ".") + "', VL_DEMURRAGE_LIQUIDO_VENDA = '" + Trunc2(valorLiquido).ToString().Replace(",", ".") + "' ";
+                SQL += "VL_DEMURRAGE_VENDA_BR = '" + Trunc2(vlDemu).ToString().Replace(",", ".") + "', VL_DEMURRAGE_LIQUIDO_VENDA = '" + Trunc2(valorLiquido).ToString().Replace(",", ".") + "', ";
+                SQL += "VL_MULTA_DEMURRAGE_VENDA = '" + multaBRL.ToString().Replace(",", ".") + "' ";
                 SQL += "WHERE ID_CNTR_BL = '" + idCntr + "' ";
                 string atualizarContainer = DBS.ExecuteScalar(SQL);
                 return "ok";
@@ -2219,7 +2453,8 @@ namespace ABAINFRA.Web
             {
                 SQL = "UPDATE TB_CNTR_DEMURRAGE SET DT_CAMBIO_DEMURRAGE_COMPRA = '" + dtCambio + "', ";
                 SQL += "VL_CAMBIO_DEMURRAGE_COMPRA = '" + vlCambio.ToString().Replace(",", ".") + "', VL_DESCONTO_DEMURRAGE_COMPRA = '" + descontoBRL.ToString().Replace(",", ".") + "', ";
-                SQL += "VL_DEMURRAGE_COMPRA_BR = '" + Trunc2(vlDemu).ToString().Replace(",", ".") + "', VL_DEMURRAGE_LIQUIDO_COMPRA = '" + Trunc2(valorLiquido).ToString().Replace(",", ".") + "' ";
+                SQL += "VL_DEMURRAGE_COMPRA_BR = '" + Trunc2(vlDemu).ToString().Replace(",", ".") + "', VL_DEMURRAGE_LIQUIDO_COMPRA = '" + Trunc2(valorLiquido).ToString().Replace(",", ".") + "', ";
+                SQL += "VL_MULTA_DEMURRAGE_COMPRA = '" + multaBRL.ToString().Replace(",", ".") + "' ";
                 SQL += "WHERE ID_CNTR_BL = '" + idCntr + "' ";
                 string atualizarContainer = DBS.ExecuteScalar(SQL);
                 return "ok";
@@ -2228,7 +2463,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoAtualizacaoCambial(int idFatura, int check)
         {
             string SQL;
@@ -2256,7 +2491,7 @@ namespace ABAINFRA.Web
             return "0";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoCancelar(int idFatura)
         {
             string SQL;
@@ -2286,13 +2521,28 @@ namespace ABAINFRA.Web
 
                 DataTable listTable = new DataTable();
                 listTable = DBS.List(SQL);
+
+                SQL = "SELECT ID_CONTA_PAGAR_RECEBER FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA = " + idFatura + "";
+                DataTable listTable2 = new DataTable();
+                listTable2 = DBS.List(SQL);
+
                 if (listTable != null)
                 {
-                    SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', ";
+                    SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"]: '3') + "', ";
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE DT_COMPETENCIA = '" + idFatura + "' ";
                     string deleteContaPagarReceber = DBS.ExecuteScalar(SQL);
 
-                    SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', DT_EXPORTACAO_DEMURRAGE = NULL ";
+
+                    for (int i = 0; i < listTable2.Rows.Count; i++)
+                    {
+                        SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
+                        SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_CONTA_PAGAR_RECEBER = '" + listTable2.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "' ";
+                        SQL += "UPDATE TB_FATURAMENTO SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
+                        SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_CONTA_PAGAR_RECEBER = '" + listTable2.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "' ";
+                        DBS.ExecuteScalar(SQL);
+                    }
+
+                    SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', DT_EXPORTACAO_DEMURRAGE = NULL, ";
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
                     string updateFatura = DBS.ExecuteScalar(SQL);
 
@@ -2322,13 +2572,27 @@ namespace ABAINFRA.Web
 
                 DataTable listTable = new DataTable();
                 listTable = DBS.List(SQL);
+
+                SQL = "SELECT ID_CONTA_PAGAR_RECEBER FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA = " + idFatura + "";
+                DataTable listTable2 = new DataTable();
+                listTable2 = DBS.List(SQL);
+
                 if (listTable != null)
                 {
-                    SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', ";
+                    SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE DT_COMPETENCIA = '" + idFatura + "' ";
                     string deleteContaPagarReceber = DBS.ExecuteScalar(SQL);
 
-                    SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', DT_EXPORTACAO_DEMURRAGE_COMPRA = NULL ";
+                    for (int i = 0; i < listTable2.Rows.Count; i++)
+                    {
+                        SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
+                        SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_CONTA_PAGAR_RECEBER = '" + listTable2.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "' ";
+                        SQL += "UPDATE TB_FATURAMENTO SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
+                        SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_CONTA_PAGAR_RECEBER = '" + listTable2.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "' ";
+                        DBS.ExecuteScalar(SQL);
+                    }
+
+                    SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', DT_EXPORTACAO_DEMURRAGE_COMPRA = NULL, ";
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
                     string updateFatura = DBS.ExecuteScalar(SQL);
 
@@ -2343,7 +2607,7 @@ namespace ABAINFRA.Web
                     SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = 1 WHERE ID_CNTR_BL = '" + cntrbl + "' ";
                     string atualizaStatus = DBS.ExecuteScalar(SQL);
 
-                    return JsonConvert.SerializeObject("ok"); ;
+                    return JsonConvert.SerializeObject("ok");
                 }
                 else
                 {
@@ -2352,7 +2616,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoExportCC(int idFatura)
         {
             string SQL;
@@ -2369,7 +2633,7 @@ namespace ABAINFRA.Web
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string infoExportFatura(int idFatura, int check)
         {
             string SQL;
@@ -2474,7 +2738,7 @@ namespace ABAINFRA.Web
                 SQL = "SELECT C.ID_CNTR_BL,C.ID_MOEDA_DEMURRAGE_VENDA, C.VL_DEMURRAGE_VENDA, D.ID_PARCEIRO_CLIENTE, ";
                 SQL += "FORMAT(C.DT_CAMBIO_DEMURRAGE_VENDA,'yyyy-MM-dd') AS DT_CAMBIO_DEMURRAGE_VENDA, ";
                 SQL += "C.VL_CAMBIO_DEMURRAGE_VENDA, C.VL_DEMURRAGE_VENDA_BR , ";
-                SQL += "C.VL_DESCONTO_DEMURRAGE_VENDA, C.VL_DEMURRAGE_LIQUIDO_VENDA ";
+                SQL += "C.VL_DESCONTO_DEMURRAGE_VENDA, C.VL_MULTA_DEMURRAGE_VENDA, C.VL_DEMURRAGE_LIQUIDO_VENDA ";
                 SQL += "FROM TB_DEMURRAGE_FATURA A ";
                 SQL += "INNER JOIN TB_DEMURRAGE_FATURA_ITENS B ON A.ID_DEMURRAGE_FATURA = B.ID_DEMURRAGE_FATURA ";
                 SQL += "INNER JOIN TB_CNTR_DEMURRAGE C ON B.ID_CNTR_DEMURRAGE = C.ID_CNTR_DEMURRAGE ";
@@ -2508,6 +2772,7 @@ namespace ABAINFRA.Web
                     string vlCambioDemuVenda = listarContainers.Rows[i]["VL_CAMBIO_DEMURRAGE_VENDA"].ToString().Replace(",", ".");
                     string vlDemuVendaBR = listarContainers.Rows[i]["VL_DEMURRAGE_VENDA_BR"].ToString().Replace(",", ".");
                     string vlDescDemuVenda = listarContainers.Rows[i]["VL_DESCONTO_DEMURRAGE_VENDA"].ToString().Replace(",", ".");
+                    string vlMultaDemuVenda = listarContainers.Rows[i]["VL_MULTA_DEMURRAGE_VENDA"].ToString().Replace(",", ".");
                     string vlDemuLiquidVenda = listarContainers.Rows[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].ToString().Replace(",", ".");
 
                     SQL = "SELECT ID_ITEM_DEMURRAGE FROM TB_PARAMETROS ";
@@ -2522,10 +2787,10 @@ namespace ABAINFRA.Web
                     string flIntegraPA = flIntegra.Rows[0]["FL_INTEGRA_PA"].ToString();
 
                     SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER, ID_BL, ID_ITEM_DESPESA, ID_DESTINATARIO_COBRANCA, ";
-                    SQL += "ID_MOEDA, ID_PARCEIRO_EMPRESA, VL_TAXA_CALCULADO, DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_DESCONTO,VL_LIQUIDO, FL_INTEGRA_PA) VALUES ";
+                    SQL += "ID_MOEDA, ID_PARCEIRO_EMPRESA, VL_TAXA_CALCULADO, DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_DESCONTO, VL_MULTA, VL_LIQUIDO, FL_INTEGRA_PA) VALUES ";
                     SQL += "('" + insertConta + "','" + idbl + "','" + idItemD + "','1','" + idMoedaVenda + "', ";
                     SQL += "'" + parceiroCliente + "','" + vlDemurrageVenda + "','" + dtCambioVenda + "','" + vlCambioDemuVenda + "','" + vlDemuVendaBR + "' ";
-                    SQL += ",'" + vlDescDemuVenda + "','" + vlDemuLiquidVenda + "','" + flIntegraPA + "') ";
+                    SQL += ",'" + vlDescDemuVenda + "', '"+vlMultaDemuVenda+ "','" + vlDemuLiquidVenda + "','" + flIntegraPA + "') ";
                     string insertContaPGI = DBS.ExecuteScalar(SQL);
 
                     SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = 10 WHERE ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "' ";
@@ -2577,6 +2842,205 @@ namespace ABAINFRA.Web
                     SQL = "SELECT ID_MOEDA_DEMURRAGE_COMPRA,VL_DEMURRAGE_COMPRA ";
                     SQL += ",ID_PARCEIRO_TRANSPORTADOR,FORMAT(DT_CAMBIO_DEMURRAGE_COMPRA,'yyyy-MM-dd') AS DT_CAMBIO_DEMURRAGE_COMPRA ";
                     SQL += ",VL_CAMBIO_DEMURRAGE_COMPRA,VL_DEMURRAGE_COMPRA_BR ";
+                    SQL += ",VL_DESCONTO_DEMURRAGE_COMPRA, VL_MULTA_DEMURRAGE_COMPRA, VL_DEMURRAGE_LIQUIDO_COMPRA ";
+                    SQL += "FROM TB_CNTR_DEMURRAGE A ";
+                    SQL += "LEFT JOIN TB_AMR_CNTR_BL B ON A.ID_CNTR_BL = B.ID_CNTR_BL ";
+                    SQL += "LEFT JOIN TB_BL C ON B.ID_BL = C.ID_BL ";
+                    SQL += "WHERE A.ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "'";
+                    DataTable vlDemurrage = new DataTable();
+                    vlDemurrage = DBS.List(SQL);
+                    int idMoedaCompra = (int)vlDemurrage.Rows[0]["ID_MOEDA_DEMURRAGE_COMPRA"];
+                    string vlDemurrageCompra = vlDemurrage.Rows[0]["VL_DEMURRAGE_COMPRA"].ToString().Replace(",", ".");
+                    int parceiroTransportador = (int)vlDemurrage.Rows[0]["ID_PARCEIRO_TRANSPORTADOR"];
+                    string dtCambioCompra = vlDemurrage.Rows[0]["DT_CAMBIO_DEMURRAGE_COMPRA"].ToString();
+                    string vlCambioDemuCompra = vlDemurrage.Rows[0]["VL_CAMBIO_DEMURRAGE_COMPRA"].ToString().Replace(",", ".");
+                    string vlDemuCompraBR = vlDemurrage.Rows[0]["VL_DEMURRAGE_COMPRA_BR"].ToString().Replace(",", ".");
+                    string vlDescDemuCompra = vlDemurrage.Rows[0]["VL_DESCONTO_DEMURRAGE_COMPRA"].ToString().Replace(",", ".");
+                    string vlDemuLiquidCompra = vlDemurrage.Rows[0]["VL_DEMURRAGE_LIQUIDO_COMPRA"].ToString().Replace(",", ".");
+                    string vlMultaDemuCompra = vlDemurrage.Rows[0]["VL_MULTA_DEMURRAGE_COMPRA"].ToString().Replace(",", ".");
+
+                    SQL = "SELECT ID_ITEM_DEMURRAGE FROM TB_PARAMETROS ";
+                    DataTable idItemDespesa = new DataTable();
+                    idItemDespesa = DBS.List(SQL);
+                    int idItemD = (int)idItemDespesa.Rows[0]["ID_ITEM_DEMURRAGE"];
+
+                    SQL = "SELECT FL_INTEGRA_PA FROM TB_ITEM_DESPESA ";
+                    SQL += "WHERE ID_ITEM_DESPESA = '" + idItemD + "' ";
+                    DataTable flIntegra = new DataTable();
+                    flIntegra = DBS.List(SQL);
+                    string flIntegraPA = flIntegra.Rows[0]["FL_INTEGRA_PA"].ToString();
+
+                    SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER, ID_BL, ID_ITEM_DESPESA, ID_DESTINATARIO_COBRANCA, ";
+                    SQL += "ID_MOEDA, ID_PARCEIRO_EMPRESA, VL_TAXA_CALCULADO, DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_DESCONTO, VL_MULTA, VL_LIQUIDO, FL_INTEGRA_PA) VALUES ";
+                    SQL += "('" + insertConta + "','" + idbl + "','" + idItemD + "','1','" + idMoedaCompra + "', ";
+                    SQL += "'" + parceiroTransportador + "','" + vlDemurrageCompra + "','" + dtCambioCompra + "','" + vlCambioDemuCompra + "','" + vlDemuCompraBR + "' ";
+                    SQL += ",'" + vlDescDemuCompra + "', '"+vlMultaDemuCompra+"', '" + vlDemuLiquidCompra + "','" + flIntegraPA + "') ";
+                    string insertContaPGI = DBS.ExecuteScalar(SQL);
+
+                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE_COMPRA = 10 WHERE ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "' ";
+                    string updtDsStatus = DBS.ExecuteScalar(SQL);
+                }
+                SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_EXPORTACAO_DEMURRAGE_COMPRA = '" + sqlFormattedDate + "', ID_USUARIO_EXPORTACAO_DEMURRAGE = '" + Session["ID_USUARIO"] + "', ID_CONTA_PAGAR_RECEBER = '" + insertConta + "' ";
+                SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
+                string updtDemurrageFatura = DBS.ExecuteScalar(SQL);
+
+                SQL = "SELECT ISNULL(CONVERT(VARCHAR,DFCL.ID_DEMURRAGE_FATURA_PAGAR),'') AS ID_DEMURRAGE_PAGAR, ";
+                SQL += "ISNULL(CONVERT(VARCHAR,DFCL.ID_DEMURRAGE_FATURA_RECEBER),'') AS ID_DEMURRAGE_RECEBER ";
+                SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
+                SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL AND PFCL.ID_BL = DFCL.ID_BL ";
+                SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+                SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
+                SQL += "WHERE PFCL.ID_CNTR_BL = '" + cntrBl + "' ";
+                DataTable faturas = new DataTable();
+                faturas = DBS.List(SQL);
+                string faturaCompra = faturas.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
+                string faturaVenda = faturas.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
+
+                
+            }
+            return JsonConvert.SerializeObject("OK");
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string RegistrarTaxa(int idFatura, int idFaturaParcela, int check)
+        {
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            string SQL;
+            int i;
+            SQL = "select cd_pr,FORMAT(dt_lancamento,'yyyy-MM-dd hh:mm:ss') AS DT_LANCAMENTO, ID_USUARIO_LANCAMENTO,FORMAT(dt_vencimento,'yyyy-MM-dd') as DT_VENCIMENTO, ID_CONTA_BANCARIA, ";
+            SQL += "DT_EXPORTACAO_DEMURRAGE, DT_CANCELAMENTO ";
+            SQL += "from tb_demurrage_fatura ";
+            SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "'";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            if (listTable.Rows[0]["ID_CONTA_BANCARIA"].ToString() == "")
+            {
+                return "null";
+            }
+            if (listTable.Rows[0]["DT_EXPORTACAO_DEMURRAGE"].ToString() != "" || listTable.Rows[0]["DT_CANCELAMENTO"] == null || listTable.Rows[0]["DT_CANCELAMENTO"].ToString() != "" || listTable.Rows[0]["DT_EXPORTACAO_DEMURRAGE"] == null)
+            {
+                return "null";
+            }
+
+
+            SQL = "SELECT ID_DEMURRAGE_FATURA_PARCELAS, ID_DEMURRAGE_FATURA, VL_DEMURRAGE_PARCELA, FORMAT(DT_VENCIMENTO_DEMURRAGE_PARCELA,'yyyy-MM-dd') as DT_VENCIMENTO_DEMURRAGE_PARCELA, ISNULL(VL_DEMURRAGE_PARCELA_JUROS,0.00) VL_DEMURRAGE_PARCELA_JUROS, ";
+            SQL += "FL_PAGO, ISNULL(ID_CONTA_PAGAR_RECEBER,0) AS IDCPR FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idFaturaParcela + "";
+
+            DataTable listaParcela = new DataTable();
+            listaParcela = DBS.List(SQL);
+
+
+
+
+            string cdpr = listTable.Rows[0]["cd_pr"].ToString();
+            string dtLancamento = listTable.Rows[0]["dt_lancamento"].ToString();
+            int idUsuario = (int)listTable.Rows[0]["ID_USUARIO_LANCAMENTO"];
+            string dtVencimento = listaParcela.Rows[0]["DT_VENCIMENTO_DEMURRAGE_PARCELA"].ToString();
+            int idConta = (int)listTable.Rows[0]["ID_CONTA_BANCARIA"];
+            int idCPR = (int)listaParcela.Rows[0]["IDCPR"];
+            string flagF;
+
+            if (idCPR > 0) { return JsonConvert.SerializeObject("2"); }
+
+            if (check == 1)
+            {
+                SQL = "SELECT ID_BL FROM TB_DEMURRAGE_FATURA ";
+                SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
+                DataTable listTable2 = new DataTable();
+                listTable2 = DBS.List(SQL);
+                int idbl = (int)listTable2.Rows[0]["ID_BL"];
+
+                SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA ";
+                SQL += ",ID_USUARIO_LANCAMENTO,CD_PR,DT_COMPETENCIA ";
+                SQL += ",TP_EXPORTACAO) VALUES('" + dtLancamento + "','" + dtVencimento + "','" + idConta + "', ";
+                SQL += "'" + idUsuario + "','" + cdpr + "','" + idFaturaParcela + "','DEM') SELECT SCOPE_IDENTITY()";
+                string insertConta = DBS.ExecuteScalar(SQL);
+
+                SQL = "SELECT C.ID_CNTR_BL,C.ID_MOEDA_DEMURRAGE_VENDA, C.VL_DEMURRAGE_VENDA, D.ID_PARCEIRO_CLIENTE, ";
+                SQL += "FORMAT(C.DT_CAMBIO_DEMURRAGE_VENDA,'yyyy-MM-dd') AS DT_CAMBIO_DEMURRAGE_VENDA, ";
+                SQL += "C.VL_CAMBIO_DEMURRAGE_VENDA, C.VL_DEMURRAGE_VENDA_BR , ";
+                SQL += "C.VL_DESCONTO_DEMURRAGE_VENDA, C.VL_DEMURRAGE_LIQUIDO_VENDA ";
+                SQL += "FROM TB_DEMURRAGE_FATURA A ";
+                SQL += "INNER JOIN TB_DEMURRAGE_FATURA_ITENS B ON A.ID_DEMURRAGE_FATURA = B.ID_DEMURRAGE_FATURA ";
+                SQL += "INNER JOIN TB_CNTR_DEMURRAGE C ON B.ID_CNTR_DEMURRAGE = C.ID_CNTR_DEMURRAGE ";
+                SQL += "LEFT  JOIN TB_BL D ON A.ID_BL = D.ID_BL ";
+                SQL += "WHERE A.ID_DEMURRAGE_FATURA =  '" + idFatura + "' ";
+
+                DataTable listarContainers = new DataTable();
+                listarContainers = DBS.List(SQL);
+                int qtdRows = listarContainers.Rows.Count;
+                int cntrBl = (int)listarContainers.Rows[0]["id_cntr_bl"];
+
+
+
+                double vlParcela = (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) + (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) * (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA_JUROS"]) / 100))) / qtdRows;
+
+
+                for (i = 0; i < qtdRows; i++)
+                {
+                    //string idMoedaVenda = listarContainers.Rows[i]["ID_MOEDA_DEMURRAGE_VENDA"].ToString();
+                    //string vlDemurrageVenda = listarContainers.Rows[i]["VL_DEMURRAGE_VENDA"].ToString().Replace(",", ".");
+                    int parceiroCliente = (int)listarContainers.Rows[i]["ID_PARCEIRO_CLIENTE"];
+                    string dtCambioVenda = listarContainers.Rows[i]["DT_CAMBIO_DEMURRAGE_VENDA"].ToString();
+                    string vlCambioDemuVenda = listarContainers.Rows[i]["VL_CAMBIO_DEMURRAGE_VENDA"].ToString().Replace(",", ".");
+                    string vlDemuVendaBR = listarContainers.Rows[i]["VL_DEMURRAGE_VENDA_BR"].ToString().Replace(",", ".");
+                    string vlDescDemuVenda = listarContainers.Rows[i]["VL_DESCONTO_DEMURRAGE_VENDA"].ToString().Replace(",", ".");
+                    string vlDemuLiquidVenda = listarContainers.Rows[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].ToString().Replace(",", ".");
+
+                    SQL = "SELECT ID_ITEM_DEMURRAGE FROM TB_PARAMETROS ";
+                    DataTable idItemDespesa = new DataTable();
+                    idItemDespesa = DBS.List(SQL);
+                    int idItemD = (int)idItemDespesa.Rows[0]["ID_ITEM_DEMURRAGE"];
+
+                    SQL = "SELECT FL_INTEGRA_PA FROM TB_ITEM_DESPESA ";
+                    SQL += "WHERE ID_ITEM_DESPESA = '" + idItemD + "' ";
+                    DataTable flIntegra = new DataTable();
+                    flIntegra = DBS.List(SQL);
+                    string flIntegraPA = flIntegra.Rows[0]["FL_INTEGRA_PA"].ToString();
+
+                    SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER, ID_BL, ID_ITEM_DESPESA, ID_DESTINATARIO_COBRANCA, ";
+                    SQL += "ID_MOEDA, ID_PARCEIRO_EMPRESA, VL_TAXA_CALCULADO, DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_DESCONTO,VL_LIQUIDO, FL_INTEGRA_PA) VALUES ";
+                    SQL += "('" + insertConta + "','" + idbl + "','" + idItemD + "','1',124, ";
+                    SQL += "'" + parceiroCliente + "','" + vlParcela.ToString().Replace(",", ".") + "','" + dtCambioVenda + "','" + vlCambioDemuVenda + "','" + vlParcela.ToString().Replace(",", ".") + "' ";
+                    SQL += ",NULL,'" + vlParcela.ToString().Replace(",", ".") + "','" + flIntegraPA + "') ";
+                    string insertContaPGI = DBS.ExecuteScalar(SQL);
+                }
+
+                SQL = "UPDATE TB_DEMURRAGE_FATURA_PARCELAS SET ID_CONTA_PAGAR_RECEBER = '" + insertConta + "' ";
+                SQL += "WHERE ID_DEMURRAGE_FATURA_PARCELAS = '" + idFaturaParcela + "' ";
+                DBS.ExecuteScalar(SQL);
+            }
+            else
+            {
+                SQL = "SELECT ID_BL FROM TB_DEMURRAGE_FATURA ";
+                SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
+                DataTable listTable2 = new DataTable();
+                listTable2 = DBS.List(SQL);
+                int idbl = (int)listTable2.Rows[0]["ID_BL"];
+
+                SQL = "SELECT * FROM TB_DEMURRAGE_FATURA A ";
+                SQL += "LEFT JOIN TB_DEMURRAGE_FATURA_ITENS B ON B.ID_DEMURRAGE_FATURA = A.ID_DEMURRAGE_FATURA ";
+                SQL += "LEFT JOIN TB_CNTR_DEMURRAGE C ON C.ID_CNTR_DEMURRAGE = B.ID_CNTR_DEMURRAGE ";
+                SQL += "WHERE A.ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
+                DataTable listarContainers = new DataTable();
+                listarContainers = DBS.List(SQL);
+                int qtdRows = listarContainers.Rows.Count;
+                int cntrBl = (int)listarContainers.Rows[0]["id_cntr_bl"];
+
+                double vlParcela = (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) + (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) * (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA_JUROS"]) / 100))) / qtdRows;
+
+                SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA ";
+                SQL += ",ID_USUARIO_LANCAMENTO,CD_PR,DT_COMPETENCIA ";
+                SQL += ",TP_EXPORTACAO) VALUES('" + dtLancamento + "','" + dtVencimento + "','" + idConta + "', ";
+                SQL += "'" + idUsuario + "','" + cdpr + "','" + idFatura + "','DEM') SELECT SCOPE_IDENTITY() ";
+                string insertConta = DBS.ExecuteScalar(SQL);
+
+                for (i = 0; i < qtdRows; i++)
+                {
+                    SQL = "SELECT ID_MOEDA_DEMURRAGE_COMPRA,VL_DEMURRAGE_COMPRA ";
+                    SQL += ",ID_PARCEIRO_TRANSPORTADOR,FORMAT(DT_CAMBIO_DEMURRAGE_COMPRA,'yyyy-MM-dd') AS DT_CAMBIO_DEMURRAGE_COMPRA ";
+                    SQL += ",VL_CAMBIO_DEMURRAGE_COMPRA,VL_DEMURRAGE_COMPRA_BR ";
                     SQL += ",VL_DESCONTO_DEMURRAGE_COMPRA,VL_DEMURRAGE_LIQUIDO_COMPRA ";
                     SQL += "FROM TB_CNTR_DEMURRAGE A ";
                     SQL += "LEFT JOIN TB_AMR_CNTR_BL B ON A.ID_CNTR_BL = B.ID_CNTR_BL ";
@@ -2606,36 +3070,214 @@ namespace ABAINFRA.Web
 
                     SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER, ID_BL, ID_ITEM_DESPESA, ID_DESTINATARIO_COBRANCA, ";
                     SQL += "ID_MOEDA, ID_PARCEIRO_EMPRESA, VL_TAXA_CALCULADO, DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_DESCONTO,VL_LIQUIDO, FL_INTEGRA_PA) VALUES ";
-                    SQL += "('" + insertConta + "','" + idbl + "','" + idItemD + "','1','" + idMoedaCompra + "', ";
-                    SQL += "'" + parceiroTransportador + "','" + vlDemurrageCompra + "','" + dtCambioCompra + "','" + vlCambioDemuCompra + "','" + vlDemuCompraBR + "' ";
-                    SQL += ",'" + vlDescDemuCompra + "','" + vlDemuLiquidCompra + "','" + flIntegraPA + "') ";
+                    SQL += "('" + insertConta + "','" + idbl + "','" + idItemD + "','1',124, ";
+                    SQL += "'" + parceiroTransportador + "','" + vlParcela.ToString().Replace(",", ".") + "','" + dtCambioCompra + "','" + vlCambioDemuCompra + "','" + vlParcela.ToString().Replace(",", ".") + "' ";
+                    SQL += ",NULL,'" + vlParcela.ToString().Replace(",", ".") + "','" + flIntegraPA + "') ";
                     string insertContaPGI = DBS.ExecuteScalar(SQL);
+                }
+                SQL = "UPDATE TB_DEMURRAGE_FATURA_PARCELAS SET ID_CONTA_PAGAR_RECEBER = '" + insertConta + "' ";
+                SQL += "WHERE ID_DEMURRAGE_FATURA_PARCELAS = '" + idFaturaParcela + "' ";
+                DBS.ExecuteScalar(SQL);
+            }
+
+            return JsonConvert.SerializeObject("OK");
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string exportarParcelaCC(int idFatura, int idFaturaParcela, string dtLiquidacao, int check)
+        {
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            string SQL;
+            int i;
+            SQL = "select cd_pr,FORMAT(dt_lancamento,'yyyy-MM-dd hh:mm:ss') AS DT_LANCAMENTO, ID_USUARIO_LANCAMENTO,FORMAT(dt_vencimento,'yyyy-MM-dd') as DT_VENCIMENTO, ID_CONTA_BANCARIA, ";
+            SQL += "DT_EXPORTACAO_DEMURRAGE, DT_CANCELAMENTO ";
+            SQL += "from tb_demurrage_fatura ";
+            SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "'";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            if (listTable.Rows[0]["ID_CONTA_BANCARIA"].ToString() == "")
+            {
+                return "null";
+            }
+            if (listTable.Rows[0]["DT_EXPORTACAO_DEMURRAGE"].ToString() != "" || listTable.Rows[0]["DT_CANCELAMENTO"] == null || listTable.Rows[0]["DT_CANCELAMENTO"].ToString() != "" || listTable.Rows[0]["DT_EXPORTACAO_DEMURRAGE"] == null)
+            {
+                return "null";
+            }
+            
+
+            SQL = "SELECT ID_DEMURRAGE_FATURA_PARCELAS, ID_DEMURRAGE_FATURA, VL_DEMURRAGE_PARCELA, FORMAT(DT_VENCIMENTO_DEMURRAGE_PARCELA,'yyyy-MM-dd') as DT_VENCIMENTO_DEMURRAGE_PARCELA, ISNULL(VL_DEMURRAGE_PARCELA_JUROS,0.00) VL_DEMURRAGE_PARCELA_JUROS, ";
+            SQL += "FL_PAGO, ISNULL(ID_CONTA_PAGAR_RECEBER,0) AS IDCPR FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idFaturaParcela + "";
+
+            DataTable listaParcela = new DataTable();
+            listaParcela = DBS.List(SQL);
+
+
+
+
+            string cdpr = listTable.Rows[0]["cd_pr"].ToString();
+            string dtLancamento = listTable.Rows[0]["dt_lancamento"].ToString();
+            int idUsuario = (int)listTable.Rows[0]["ID_USUARIO_LANCAMENTO"];
+            string dtVencimento = listaParcela.Rows[0]["DT_VENCIMENTO_DEMURRAGE_PARCELA"].ToString();
+            int idConta = (int)listTable.Rows[0]["ID_CONTA_BANCARIA"];
+            int idCPR = (int)listaParcela.Rows[0]["IDCPR"];
+            string flagF;
+
+            if (check == 1)
+            {
+                SQL = "SELECT ID_BL FROM TB_DEMURRAGE_FATURA ";
+                SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
+                DataTable listTable2 = new DataTable();
+                listTable2 = DBS.List(SQL);
+                int idbl = (int)listTable2.Rows[0]["ID_BL"];
+
+                SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_LIQUIDACAO = '" + dtLiquidacao + "',ID_USUARIO_LIQUIDACAO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "' WHERE ID_CONTA_PAGAR_RECEBER = "+idCPR+" ";
+                string insertConta = DBS.ExecuteScalar(SQL);
+
+                SQL = "SELECT C.ID_CNTR_BL,C.ID_MOEDA_DEMURRAGE_VENDA, C.VL_DEMURRAGE_VENDA, D.ID_PARCEIRO_CLIENTE, ";
+                SQL += "FORMAT(C.DT_CAMBIO_DEMURRAGE_VENDA,'yyyy-MM-dd') AS DT_CAMBIO_DEMURRAGE_VENDA, ";
+                SQL += "C.VL_CAMBIO_DEMURRAGE_VENDA, C.VL_DEMURRAGE_VENDA_BR , ";
+                SQL += "C.VL_DESCONTO_DEMURRAGE_VENDA, C.VL_DEMURRAGE_LIQUIDO_VENDA ";
+                SQL += "FROM TB_DEMURRAGE_FATURA A ";
+                SQL += "INNER JOIN TB_DEMURRAGE_FATURA_ITENS B ON A.ID_DEMURRAGE_FATURA = B.ID_DEMURRAGE_FATURA ";
+                SQL += "INNER JOIN TB_CNTR_DEMURRAGE C ON B.ID_CNTR_DEMURRAGE = C.ID_CNTR_DEMURRAGE ";
+                SQL += "LEFT  JOIN TB_BL D ON A.ID_BL = D.ID_BL ";
+                SQL += "WHERE A.ID_DEMURRAGE_FATURA =  '" + idFatura + "' ";
+
+                DataTable listarContainers = new DataTable();
+                listarContainers = DBS.List(SQL);
+                int qtdRows = listarContainers.Rows.Count;
+                int cntrBl = (int)listarContainers.Rows[0]["id_cntr_bl"];
+
+                
+
+                double vlParcela = (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) + (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) * (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA_JUROS"]) / 100)))/ qtdRows;
+                
+
+                for (i = 0; i < qtdRows; i++)
+                {
+                    //string idMoedaVenda = listarContainers.Rows[i]["ID_MOEDA_DEMURRAGE_VENDA"].ToString();
+                    //string vlDemurrageVenda = listarContainers.Rows[i]["VL_DEMURRAGE_VENDA"].ToString().Replace(",", ".");
+                    int parceiroCliente = (int)listarContainers.Rows[i]["ID_PARCEIRO_CLIENTE"];
+                    string dtCambioVenda = listarContainers.Rows[i]["DT_CAMBIO_DEMURRAGE_VENDA"].ToString();
+                    string vlCambioDemuVenda = listarContainers.Rows[i]["VL_CAMBIO_DEMURRAGE_VENDA"].ToString().Replace(",", ".");
+                    string vlDemuVendaBR = listarContainers.Rows[i]["VL_DEMURRAGE_VENDA_BR"].ToString().Replace(",", ".");
+                    string vlDescDemuVenda = listarContainers.Rows[i]["VL_DESCONTO_DEMURRAGE_VENDA"].ToString().Replace(",", ".");
+                    string vlDemuLiquidVenda = listarContainers.Rows[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].ToString().Replace(",", ".");
+
+                    SQL = "SELECT ID_ITEM_DEMURRAGE FROM TB_PARAMETROS ";
+                    DataTable idItemDespesa = new DataTable();
+                    idItemDespesa = DBS.List(SQL);
+                    int idItemD = (int)idItemDespesa.Rows[0]["ID_ITEM_DEMURRAGE"];
+
+                    SQL = "SELECT FL_INTEGRA_PA FROM TB_ITEM_DESPESA ";
+                    SQL += "WHERE ID_ITEM_DESPESA = '" + idItemD + "' ";
+                    DataTable flIntegra = new DataTable();
+                    flIntegra = DBS.List(SQL);
+                    string flIntegraPA = flIntegra.Rows[0]["FL_INTEGRA_PA"].ToString();
+
+                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = 10 WHERE ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "' ";
+                    string updtDsStatus = DBS.ExecuteScalar(SQL);
+                }
+                SQL = "UPDATE TB_DEMURRAGE_FATURA_PARCELAS SET DT_EXPORTACAO_PARCELA = '" + sqlFormattedDate + "', ID_USUARIO_EXPORTACAO_DEMURRAGE_PARCELA ='" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "' ";
+                SQL += "WHERE ID_DEMURRAGE_FATURA_PARCELAS = '" + idFaturaParcela + "' ";
+                string updtDemurrageFatura = DBS.ExecuteScalar(SQL);
+
+                SQL = "UPDATE TB_DEMURRAGE_FATURA_PARCELAS SET FL_PAGO = 1 WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idFaturaParcela + " ";
+
+                DBS.ExecuteScalar(SQL);
+            }
+            else
+            {
+                SQL = "SELECT ID_BL FROM TB_DEMURRAGE_FATURA ";
+                SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
+                DataTable listTable2 = new DataTable();
+                listTable2 = DBS.List(SQL);
+                int idbl = (int)listTable2.Rows[0]["ID_BL"];
+
+                SQL = "SELECT * FROM TB_DEMURRAGE_FATURA A ";
+                SQL += "LEFT JOIN TB_DEMURRAGE_FATURA_ITENS B ON B.ID_DEMURRAGE_FATURA = A.ID_DEMURRAGE_FATURA ";
+                SQL += "LEFT JOIN TB_CNTR_DEMURRAGE C ON C.ID_CNTR_DEMURRAGE = B.ID_CNTR_DEMURRAGE ";
+                SQL += "WHERE A.ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
+                DataTable listarContainers = new DataTable();
+                listarContainers = DBS.List(SQL);
+                int qtdRows = listarContainers.Rows.Count;
+                int cntrBl = (int)listarContainers.Rows[0]["id_cntr_bl"];
+
+                double vlParcela = (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) + (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA"]) * (Convert.ToDouble(listaParcela.Rows[0]["VL_DEMURRAGE_PARCELA_JUROS"]) / 100))) / qtdRows;
+
+                SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_LIQUIDACAO = '" + dtLiquidacao + "',ID_USUARIO_LIQUIDACAO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "' WHERE ID_CONTA_PAGAR_RECEBER = " + idCPR + " ";
+                DBS.ExecuteScalar(SQL);
+
+                for (i = 0; i < qtdRows; i++)
+                {
+                    SQL = "SELECT ID_MOEDA_DEMURRAGE_COMPRA,VL_DEMURRAGE_COMPRA ";
+                    SQL += ",ID_PARCEIRO_TRANSPORTADOR,FORMAT(DT_CAMBIO_DEMURRAGE_COMPRA,'yyyy-MM-dd') AS DT_CAMBIO_DEMURRAGE_COMPRA ";
+                    SQL += ",VL_CAMBIO_DEMURRAGE_COMPRA,VL_DEMURRAGE_COMPRA_BR ";
+                    SQL += ",VL_DESCONTO_DEMURRAGE_COMPRA,VL_DEMURRAGE_LIQUIDO_COMPRA ";
+                    SQL += "FROM TB_CNTR_DEMURRAGE A ";
+                    SQL += "LEFT JOIN TB_AMR_CNTR_BL B ON A.ID_CNTR_BL = B.ID_CNTR_BL ";
+                    SQL += "LEFT JOIN TB_BL C ON B.ID_BL = C.ID_BL ";
+                    SQL += "WHERE A.ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "'";
+                    DataTable vlDemurrage = new DataTable();
+                    vlDemurrage = DBS.List(SQL);
+                    int idMoedaCompra = (int)vlDemurrage.Rows[0]["ID_MOEDA_DEMURRAGE_COMPRA"];
+                    string vlDemurrageCompra = vlDemurrage.Rows[0]["VL_DEMURRAGE_COMPRA"].ToString().Replace(",", ".");
+                    int parceiroTransportador = (int)vlDemurrage.Rows[0]["ID_PARCEIRO_TRANSPORTADOR"];
+                    string dtCambioCompra = vlDemurrage.Rows[0]["DT_CAMBIO_DEMURRAGE_COMPRA"].ToString();
+                    string vlCambioDemuCompra = vlDemurrage.Rows[0]["VL_CAMBIO_DEMURRAGE_COMPRA"].ToString().Replace(",", ".");
+                    string vlDemuCompraBR = vlDemurrage.Rows[0]["VL_DEMURRAGE_COMPRA_BR"].ToString().Replace(",", ".");
+                    string vlDescDemuCompra = vlDemurrage.Rows[0]["VL_DESCONTO_DEMURRAGE_COMPRA"].ToString().Replace(",", ".");
+                    string vlDemuLiquidCompra = vlDemurrage.Rows[0]["VL_DEMURRAGE_LIQUIDO_COMPRA"].ToString().Replace(",", ".");
+
+                    SQL = "SELECT ID_ITEM_DEMURRAGE FROM TB_PARAMETROS ";
+                    DataTable idItemDespesa = new DataTable();
+                    idItemDespesa = DBS.List(SQL);
+                    int idItemD = (int)idItemDespesa.Rows[0]["ID_ITEM_DEMURRAGE"];
+
+                    SQL = "SELECT FL_INTEGRA_PA FROM TB_ITEM_DESPESA ";
+                    SQL += "WHERE ID_ITEM_DESPESA = '" + idItemD + "' ";
+                    DataTable flIntegra = new DataTable();
+                    flIntegra = DBS.List(SQL);
+                    string flIntegraPA = flIntegra.Rows[0]["FL_INTEGRA_PA"].ToString();
 
                     SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE_COMPRA = 10 WHERE ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "' ";
                     string updtDsStatus = DBS.ExecuteScalar(SQL);
                 }
-                SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_EXPORTACAO_DEMURRAGE_COMPRA = '" + sqlFormattedDate + "', ID_USUARIO_EXPORTACAO_DEMURRAGE = '" + Session["ID_USUARIO"] + "', ID_CONTA_PAGAR_RECEBER = '" + insertConta + "' ";
-                SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
+                SQL = "UPDATE TB_DEMURRAGE_FATURA_PARCELA SET DT_EXPORTACAO_PARCELA = '" + sqlFormattedDate + "', ID_USUARIO_EXPORTACAO_DEMURRAGE_PARCELA = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "' ";
+                SQL += "WHERE ID_DEMURRAGE_FATURA_PARCELAS = '" + idFaturaParcela + "' ";
                 string updtDemurrageFatura = DBS.ExecuteScalar(SQL);
 
-                SQL = "SELECT ISNULL(CONVERT(VARCHAR,DFCL.ID_DEMURRAGE_FATURA_PAGAR),'') AS ID_DEMURRAGE_PAGAR, ";
-                SQL += "ISNULL(CONVERT(VARCHAR,DFCL.ID_DEMURRAGE_FATURA_RECEBER),'') AS ID_DEMURRAGE_RECEBER ";
-                SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
-                SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL AND PFCL.ID_BL = DFCL.ID_BL ";
-                SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
-                SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
-                SQL += "WHERE PFCL.ID_CNTR_BL = '" + cntrBl + "' ";
-                DataTable faturas = new DataTable();
-                faturas = DBS.List(SQL);
-                string faturaCompra = faturas.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
-                string faturaVenda = faturas.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
+                SQL = "UPDATE TB_DEMURRAGE_FATURA_PARCELAS SET FL_PAGO = 1 WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idFaturaParcela + " ";
 
-                
+                DBS.ExecuteScalar(SQL);
+
             }
+
             return JsonConvert.SerializeObject("OK");
         }
 
-        [WebMethod]
+
+        [WebMethod(EnableSession = true)]
+        public string finalizarFaturaDemurrage(int idFatura, int check)
+		{
+            string SQL;
+            
+            if (check == 1)
+            {
+                SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_EXPORTACAO_DEMURRAGE = GETDATE() WHERE ID_DEMURRAGE_FATURA = " + idFatura + " ";
+                DBS.ExecuteScalar(SQL);
+            }
+            else
+            {
+                SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_EXPORTACAO_DEMURRAGE_COMPRA = GETDATE() WHERE ID_DEMURRAGE_FATURA = " + idFatura + " ";
+                DBS.ExecuteScalar(SQL);
+            }
+
+            return JsonConvert.SerializeObject("OK");
+        }
+
+        [WebMethod(EnableSession = true)]
         public string imprimirDadosCalc(string id)
         {
             string SQL;
@@ -2671,7 +3313,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(imprimirDados);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string imprimirDadosFatura(string idFatura)
         {
             string SQL;
@@ -2682,7 +3324,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(N.NM_NAVIO,'') AS NAVIO, ISNULL(M.NR_BL,'') AS MASTER, ISNULL(B.NR_BL,'') AS HOUSE ";
             SQL += "from TB_DEMURRAGE_FATURA A ";
             SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
-            SQL += "LEFT JOIN TB_PARCEIRO P1 ON B.ID_PARCEIRO_CLIENTE = P1.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P1 ON B.ID_PARCEIRO_IMPORTADOR = P1.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON B.ID_PARCEIRO_EXPORTADOR = P2.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_NAVIO N ON B.ID_NAVIO = N.ID_NAVIO ";
             SQL += "LEFT JOIN TB_PORTO ORIGEM ON B.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
@@ -2698,7 +3340,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(imprimirDados);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarContainerFaturaPrintVenda(string idFatura)
         {
             string SQL;
@@ -2724,7 +3366,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(B.VL_TAXA_DEMURRAGE_VENDA,0) AS VL_TAXA_DEMURRAGE_VENDA, ";
             SQL += "ISNULL(B.VL_CAMBIO_DEMURRAGE_VENDA,0) AS VL_CAMBIO_DEMURRAGE_VENDA, ";
             SQL += "ISNULL(B.VL_DEMURRAGE_LIQUIDO_VENDA,0) AS VL_DEMURRAGE_LIQUIDO_VENDA, ";
-            SQL += "ISNULL(B.VL_DESCONTO_DEMURRAGE_VENDA,0) AS VL_DESCONTO_DEMURRAGE_VENDA, ";
+            SQL += "ISNULL(CONVERT(DECIMAL(13,2),B.VL_DESCONTO_DEMURRAGE_VENDA) * -1 + CONVERT(DECIMAL(13,2),B.VL_MULTA_DEMURRAGE_VENDA),0) AS VL_DESCONTO_DEMURRAGE_VENDA, ";
             SQL += "ISNULL(B.VL_DEMURRAGE_VENDA_BR,0) AS VL_DEMURRAGE_VENDA_BR ";
             SQL += "FROM TB_DEMURRAGE_FATURA_ITENS DFI ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL B ON DFI.ID_CNTR_DEMURRAGE = B.ID_CNTR_DEMURRAGE ";
@@ -2739,7 +3381,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(imprimirDados);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarContainerFaturaPrintCompra(string idFatura)
         {
             string SQL;
@@ -2750,7 +3392,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(B.VL_TAXA_DEMURRAGE_COMPRA,0) AS VL_TAXA_DEMURRAGE_COMPRA, ";
             SQL += "ISNULL(B.VL_CAMBIO_DEMURRAGE_COMPRA,0) AS VL_CAMBIO_DEMURRAGE_COMPRA, ";
             SQL += "ISNULL(B.VL_DEMURRAGE_LIQUIDO_COMPRA,0) AS VL_DEMURRAGE_LIQUIDO_COMPRA, ";
-            SQL += "ISNULL(B.VL_DESCONTO_DEMURRAGE_COMPRA,0) AS VL_DESCONTO_DEMURRAGE_COMPRA, ";
+            SQL += "ISNULL(CONVERT(DECIMAL(13,2),B.VL_DESCONTO_DEMURRAGE_COMPRA) * -1 + CONVERT(DECIMAL(13,2),B.VL_MULTA_DEMURRAGE_COMPRA),0) AS VL_DESCONTO_DEMURRAGE_COMPRA, ";
             SQL += "ISNULL(B.VL_DEMURRAGE_COMPRA_BR,0) AS VL_DEMURRAGE_COMPRA_BR ";
             SQL += "FROM TB_DEMURRAGE_FATURA_ITENS DFI ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL B ON DFI.ID_CNTR_DEMURRAGE = B.ID_CNTR_DEMURRAGE ";
@@ -2765,7 +3407,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(imprimirDados);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarEstimativa()
         {
             int somaDias;
@@ -3311,11 +3953,11 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string excluirFatura(string idFatura, int check)
         {
             string SQL;
-            string flagF;
+            
             if (check == 1)
             {
                 SQL = "SELECT DT_EXPORTACAO_DEMURRAGE FROM TB_DEMURRAGE_FATURA WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
@@ -3345,14 +3987,37 @@ namespace ABAINFRA.Web
 
 
                         SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = 1 WHERE ID_CNTR_BL = '" + cntrbl + "' ";
-                        string atualizaStatus = DBS.ExecuteScalar(SQL);
+                        DBS.ExecuteScalar(SQL);
                     }
 
+                    SQL = "SELECT ID_CONTA_PAGAR_RECEBER FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA = " + idFatura + "";
+                    DataTable getId = new DataTable();
+                    getId = DBS.List(SQL);
+
+                    if (getId != null)
+                    {
+
+                        for (int i = 0; i < getId.Rows.Count; i++)
+                        {
+                            SQL = "DELETE FROM TB_FATURAMENTO WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
+                            DBS.ExecuteScalar(SQL);
+
+                            SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
+                            DBS.ExecuteScalar(SQL);
+
+                            SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
+                            DBS.ExecuteScalar(SQL);
+                        }
+                    }
+
+                    SQL = "DELETE FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA = " + idFatura + " ";
+                    DBS.ExecuteScalar(SQL);
+
                     SQL = "DELETE FROM TB_DEMURRAGE_FATURA_ITENS WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "'";
-                    string deleteitens = DBS.ExecuteScalar(SQL);
+                    DBS.ExecuteScalar(SQL);
 
                     SQL = "DELETE FROM TB_DEMURRAGE_FATURA WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "'";
-                    string deletefatura = DBS.ExecuteScalar(SQL);
+                    DBS.ExecuteScalar(SQL);                   
 
                     return JsonConvert.SerializeObject("1");
                 }
@@ -3390,14 +4055,38 @@ namespace ABAINFRA.Web
 
 
                         SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = 1 WHERE ID_CNTR_BL = '" + cntrbl + "' ";
-                        string atualizaStatus = DBS.ExecuteScalar(SQL);
+                        DBS.ExecuteScalar(SQL);
                     }
 
+                    SQL = "SELECT ID_CONTA_PAGAR_RECEBER FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA = " + idFatura + "";
+                    DataTable getId = new DataTable();
+                    getId = DBS.List(SQL);
+
+                    if (getId != null)
+                    {
+                        for (int i = 0; i < getId.Rows.Count; i++)
+                        {
+                            SQL = "DELETE FROM TB_FATURAMENTO WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
+                            DBS.ExecuteScalar(SQL);
+
+                            SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
+                            DBS.ExecuteScalar(SQL);
+
+                            SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = '" + getId.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "'";
+                            DBS.ExecuteScalar(SQL);
+                        }
+                    }
+
+                    SQL = "DELETE FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA = " + idFatura + " ";
+                    DBS.ExecuteScalar(SQL);
+
                     SQL = "DELETE FROM TB_DEMURRAGE_FATURA_ITENS WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "'";
-                    string deleteitens = DBS.ExecuteScalar(SQL);
+                    DBS.ExecuteScalar(SQL);
 
                     SQL = "DELETE FROM TB_DEMURRAGE_FATURA WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "'";
-                    string deletefatura = DBS.ExecuteScalar(SQL);
+                    DBS.ExecuteScalar(SQL);
+
+                    
 
                     return JsonConvert.SerializeObject("1");
                 }
@@ -3408,7 +4097,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string atualizarDevolucao(string idCont, string dtStatus, string dsStatus, string dtDevolucao)
         {
             string SQL;
@@ -3453,8 +4142,11 @@ namespace ABAINFRA.Web
                     }
                 }
 
+                
+
                 SQL = "UPDATE TB_CNTR_BL SET DT_DEVOLUCAO_CNTR = " + dtDevolucao + ", ID_STATUS_DEMURRAGE = '" + dsStatus + "', ";
                 SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "' ";
+                if (dsStatus == "2") { SQL += ", ID_STATUS_DEMURRAGE_COMPRA = '" + dsStatus + "' "; }
                 SQL += "WHERE ID_CNTR_BL in (" + idCont + ") ";
             }
 
@@ -3490,13 +4182,14 @@ namespace ABAINFRA.Web
 
                 SQL = "UPDATE TB_CNTR_BL SET DT_DEVOLUCAO_CNTR = '" + dtDevolucao + "', ID_STATUS_DEMURRAGE = '" + dsStatus + "', ";
                 SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "' ";
+                if (dsStatus == "2") { SQL += ", ID_STATUS_DEMURRAGE_COMPRA = '" + dsStatus + "' "; }
                 SQL += "WHERE ID_CNTR_BL in (" + idCont + ") ";
             }
             string attDevolu = DBS.ExecuteScalar(SQL);
             return "1";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string atualizarDevolucaoExp(string idCont, string dtStatus, string dsStatus, string dtDevolucao)
         {
             string SQL;
@@ -3584,7 +4277,7 @@ namespace ABAINFRA.Web
             return "1";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string consultarProcesso(string nrProcesso)
         {
             string SQL;
@@ -3606,7 +4299,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string consultarNumeroContainer(string nrContainer, string nrProcesso)
         {
             string SQL;
@@ -3628,7 +4321,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string exportExcel()
         {
             string SQL;
@@ -3657,7 +4350,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarContainerCalculoPrint(string idprocess)
         {
             string SQL;
@@ -3689,7 +4382,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(imprimirDados);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string exportExcelFiltrada(string inicial, string final, string regExpo, string regNExpo)
         {
             string SQL;
@@ -4032,7 +4725,7 @@ namespace ABAINFRA.Web
                 }
             }
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string atualizarBaseFCA(DemurrageControl dadosEdit)
         {
             string SQL;
@@ -4105,7 +4798,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarDemurrageVenda()
         {
             string SQL;
@@ -4128,11 +4821,169 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
+        public string parcelarDemurrage(int idfatura, string vlDemurrageParcela, int qtDemurrageParcela, string dtPeriodoInicial)
+        {
+            string SQL;
+
+            string cultureName = "pt-BR";
+
+            CultureInfo culture = new CultureInfo(cultureName);
+
+            DateTime dtVencimento = Convert.ToDateTime(dtPeriodoInicial, culture);
+
+            for (int i = 0; i < qtDemurrageParcela; i++)
+            {
+                SQL = "EXEC insert_demurrage_parcelas " + idfatura + ", '" + vlDemurrageParcela.Replace(",", ".") + "', '" + dtVencimento + "',null, 0, null, null, null";
+
+                DBS.ExecuteScalar(SQL);
+
+                dtVencimento = dtVencimento.AddMonths(1);
+            }
+
+            
+
+            return JsonConvert.SerializeObject("OK");
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarParcelamentoDemurrage(int fatura)
+        {
+            string SQL;
+
+            SQL = "SELECT ID_DEMURRAGE_FATURA_PARCELAS, VL_DEMURRAGE_PARCELA, ";
+            SQL += "FORMAT(DT_VENCIMENTO_DEMURRAGE_PARCELA, 'dd/MM/yyyy') AS DT_VENCIMENTO, ";
+            SQL += "ISNULL(VL_DEMURRAGE_PARCELA_JUROS,0) AS VL_DEMURRAGE_PARCELA_JUROS, CASE WHEN FL_PAGO=1 THEN 'PAGO' ELSE 'PENDENTE' END AS FL_PAGO, A.ID_CONTA_PAGAR_RECEBER, ";
+            SQL += "FORMAT(B.DT_ENVIO_FATURAMENTO,'dd/MM/yyyy') AS DT_ENVIO_FATURAMENTO ";
+            SQL += "FROM TB_DEMURRAGE_FATURA_PARCELAS A ";
+            SQL += "LEFT JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER ";
+            SQL += "WHERE A.ID_DEMURRAGE_FATURA = "+fatura+" ";
+            
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string infoParcela(int idParcela)
+        {
+            string SQL;
+
+            SQL = "SELECT ID_DEMURRAGE_FATURA_PARCELAS, VL_DEMURRAGE_PARCELA, FORMAT(DT_VENCIMENTO_DEMURRAGE_PARCELA, 'yyyy-MM-dd') AS DT_VENCIMENTO_DEMURRAGE_PARCELA, ";
+            SQL += "VL_DEMURRAGE_PARCELA_JUROS, FL_PAGO ";
+            SQL += "FROM TB_DEMURRAGE_FATURA_PARCELAS ";
+            SQL += "WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idParcela + " ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string editarParcela(int idParcela, string vencimento, string vlParcela, string vlParcelaJuros, string vlJuros, string pago)
+        {
+            string SQL;
+
+            SQL = "UPDATE TB_DEMURRAGE_FATURA_PARCELAS SET VL_DEMURRAGE_PARCELA ='"+vlParcela.Replace(",",".")+"', DT_VENCIMENTO_DEMURRAGE_PARCELA='"+vencimento+"', VL_DEMURRAGE_PARCELA_JUROS='"+vlJuros.Replace(",",".")+"', FL_PAGO="+pago+" WHERE ID_DEMURRAGE_FATURA_PARCELAS = "+idParcela+" ";
+
+            DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject("Success");
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string deletarParcela(int idParcela)
+        {
+            string SQL;
+
+            SQL = "SELECT ID_CONTA_PAGAR_RECEBER FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idParcela + " ";
+            string idCPR = DBS.ExecuteScalar(SQL);
+
+            if (idCPR != "" && idCPR != "null")
+            {
+                SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " + idCPR + " ";
+                DBS.ExecuteScalar(SQL);
+
+                SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " + idCPR + " ";
+                DBS.ExecuteScalar(SQL);
+            }
+
+            SQL = "DELETE FROM TB_FATURAMENTO WHERE ID_CONTA_PAGAR_RECEBER = " + idCPR + " ";
+            DBS.ExecuteScalar(SQL);
+
+            SQL = "DELETE FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idParcela + " ";
+                DBS.ExecuteScalar(SQL);
+
+            return JsonConvert.SerializeObject("1");
+ 
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string cancelarExportarParcelaCC(int idParcela)
+        {
+            string SQL;
+
+            SQL = "SELECT ID_CONTA_PAGAR_RECEBER FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idParcela + " ";
+            string idCPR = DBS.ExecuteScalar(SQL);
+
+            if (idCPR != "" && idCPR != "null")
+            {
+                SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_LIQUIDACAO = NULL, ID_USUARIO_LIQUIDACAO = NULL WHERE ID_CONTA_PAGAR_RECEBER = " + idCPR + " ";
+                DBS.ExecuteScalar(SQL);
+            }
+
+            SQL = "UPDATE TB_DEMURRAGE_FATURA_PARCELAS SET DT_EXPORTACAO_PARCELA = NULL, ID_USUARIO_EXPORTACAO_DEMURRAGE_PARCELA = NULL, FL_PAGO = 0 WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idParcela + " ";
+            DBS.ExecuteScalar(SQL);
+
+            return JsonConvert.SerializeObject("1");
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string EnviarFaturamento(int idParcela)
+        {
+            string SQL;
+
+            SQL = "SELECT ID_CONTA_PAGAR_RECEBER, ID_DEMURRAGE_FATURA, VL_DEMURRAGE_PARCELA, ISNULL(VL_DEMURRAGE_PARCELA_JUROS,0) as VL_DEMURRAGE_PARCELA_JUROS FROM TB_DEMURRAGE_FATURA_PARCELAS WHERE ID_DEMURRAGE_FATURA_PARCELAS = " + idParcela + " ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            string vlDemurrageParcela = listTable.Rows[0]["VL_DEMURRAGE_PARCELA"].ToString();
+            string vlDemurrageParcelaJuros = listTable.Rows[0]["VL_DEMURRAGE_PARCELA_JUROS"].ToString();
+            string idcpr = listTable.Rows[0]["ID_CONTA_PAGAR_RECEBER"].ToString();
+            string idfat = listTable.Rows[0]["ID_DEMURRAGE_FATURA"].ToString();
+
+            double vlNota = Convert.ToDouble(vlDemurrageParcela) + (Convert.ToDouble(vlDemurrageParcela) * (Convert.ToDouble(vlDemurrageParcelaJuros) / 100));
+
+            SQL = "SELECT B.ID_PARCEIRO_CLIENTE, C.NM_RAZAO, C.CNPJ, ISNULL(C.INSCR_ESTADUAL,'') AS INSCR_ESTADUAL, ISNULL(C.INSCR_MUNICIPAL,'') AS INSCR_MUNICIPAL, ";
+            SQL += "ISNULL(C.ENDERECO,'') AS ENDERECO, C.NR_ENDERECO, C.COMPL_ENDERECO, C.BAIRRO, C.CEP, D.NM_CIDADE, E.NM_ESTADO ";
+            SQL += "FROM VW_PROCESSO_DEMURRAGE_FCL A ";
+            SQL += "JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "JOIN TB_PARCEIRO C ON B.ID_PARCEIRO_CLIENTE = C.ID_PARCEIRO ";
+            SQL += "JOIN TB_CIDADE D ON C.ID_CIDADE = D.ID_CIDADE ";
+            SQL += "JOIN TB_ESTADO E ON D.ID_ESTADO = E.ID_ESTADO ";
+            SQL += "WHERE(ID_DEMURRAGE_FATURA_PAGAR = " + idfat + " OR ID_DEMURRAGE_FATURA_RECEBER = " + idfat + ") ";
+
+            DataTable InfoCliente = new DataTable();
+            InfoCliente = DBS.List(SQL);
+
+            SQL = "INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER, VL_NOTA, ID_PARCEIRO_CLIENTE, NM_CLIENTE, CNPJ, INSCR_ESTADUAL, INSCR_MUNICIPAL, ENDERECO, NR_ENDERECO, COMPL_ENDERECO, BAIRRO, CEP, CIDADE, ESTADO) VALUES (" + idcpr + ", " + vlNota.ToString().Replace(",",".") + "," + InfoCliente.Rows[0]["ID_PARCEIRO_CLIENTE"] + ", '" + InfoCliente.Rows[0]["NM_RAZAO"] + "','" + InfoCliente.Rows[0]["CNPJ"] + "', '" + InfoCliente.Rows[0]["INSCR_ESTADUAL"] + "','" + InfoCliente.Rows[0]["INSCR_MUNICIPAL"] + "', '" + InfoCliente.Rows[0]["ENDERECO"] + "','" + InfoCliente.Rows[0]["NR_ENDERECO"] + "', '" + InfoCliente.Rows[0]["COMPL_ENDERECO"] + "','" + InfoCliente.Rows[0]["BAIRRO"] + "', '" + InfoCliente.Rows[0]["CEP"] + "','" + InfoCliente.Rows[0]["NM_CIDADE"] + "', '" + InfoCliente.Rows[0]["NM_ESTADO"] + "') ";
+
+            DBS.ExecuteScalar(SQL);
+
+            SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = GETDATE() WHERE ID_CONTA_PAGAR_RECEBER = "+idcpr+" ";
+
+            DBS.ExecuteScalar(SQL);
+
+            return JsonConvert.SerializeObject("1");
+
+        }
+
+        [WebMethod(EnableSession = true)]
         public string listarCourrierFilter(Filtro dados)
         {
             string SQL;
             SQL = "WHERE SUBSTRING(BL.NR_PROCESSO,10,2)>= '18' ";
+            SQL += "AND LEFT(BL.NR_PROCESSO,1) = 'M' ";
 
             if (dados.BLHOUSE != "")
             {
@@ -4140,9 +4991,9 @@ namespace ABAINFRA.Web
 
             }
 
-            if (dados.DTRECEBIMENTOMBLINICIO != "")
+            if (dados.DTRECEBIMENTOMBLINICIO != "" && dados.DTRECEBIMENTOMBLINICIO != null)
             {
-                if (dados.DTRECEBIMENTOMBLFIM != "")
+                if (dados.DTRECEBIMENTOMBLFIM != "" && dados.DTRECEBIMENTOMBLFIM != null)
                 {
                     SQL += "AND M.DT_RECEBIMENTO_MBL >= '" + dados.DTRECEBIMENTOMBLINICIO + "' AND M.DT_RECEBIMENTO_MBL <= '" + dados.DTRECEBIMENTOMBLFIM + "' ";
                 }
@@ -4153,15 +5004,15 @@ namespace ABAINFRA.Web
             }
             else
             {
-                if (dados.DTRECEBIMENTOMBLFIM != "")
+                if (dados.DTRECEBIMENTOMBLFIM != "" && dados.DTRECEBIMENTOMBLFIM != null)
                 {
                     SQL += "AND M.DT_RECEBIMENTO_MBL >= '" + dados.DTRECEBIMENTOMBLFIM + "' ";
                 }
             }
 
-            if (dados.DTRECEBIMENTOHBLINICIO != "")
+            if (dados.DTRECEBIMENTOHBLINICIO != "" && dados.DTRECEBIMENTOHBLINICIO != null)
             {
-                if (dados.DTRECEBIMENTOHBLFIM != "")
+                if (dados.DTRECEBIMENTOHBLFIM != "" && dados.DTRECEBIMENTOHBLFIM != null)
                 {
                     SQL += "AND BL.DT_RECEBIMENTO_HBL >= '" + dados.DTRECEBIMENTOHBLINICIO + "' AND BL.DT_RECEBIMENTO_HBL <= '" + dados.DTRECEBIMENTOHBLFIM + "' ";
                 }
@@ -4172,34 +5023,15 @@ namespace ABAINFRA.Web
             }
             else
             {
-                if (dados.DTRECEBIMENTOHBLFIM != "")
+                if (dados.DTRECEBIMENTOHBLFIM != "" && dados.DTRECEBIMENTOHBLFIM != null)
                 {
                     SQL += "AND BL.DT_RECEBIMENTO_HBL >= '" + dados.DTRECEBIMENTOHBLFIM + "' ";
                 }
             }
 
-            if (dados.DTRETIRADAINICIO != "")
+            if (dados.PREVISAOCHEGADAINICIO != "" && dados.PREVISAOCHEGADAINICIO != null)
             {
-                if (dados.DTRETIRADAFIM != "")
-                {
-                    SQL += "AND BL.DT_RETIRADA_COURRIER >= '" + dados.DTRETIRADAINICIO + "' AND BL.DT_RETIRADA_COURRIER <= '" + dados.DTRETIRADAFIM + "' ";
-                }
-                else
-                {
-                    SQL += "AND BL.DT_RETIRADA_COURRIER >= '" + dados.DTRETIRADAINICIO + "' ";
-                }
-            }
-            else
-            {
-                if (dados.DTRETIRADAFIM != "")
-                {
-                    SQL += "AND BL.DT_RETIRADA_COURRIER >= '" + dados.DTRETIRADAFIM + "' ";
-                }
-            }
-
-            if (dados.PREVISAOCHEGADAINICIO != "")
-            {
-                if (dados.PREVISAOCHEGADAFIM != "")
+                if (dados.PREVISAOCHEGADAFIM != "" && dados.PREVISAOCHEGADAFIM != null)
                 {
                     SQL += "AND BL.DT_PREVISAO_CHEGADA >= '" + dados.PREVISAOCHEGADAINICIO + "' AND BL.DT_PREVISAO_CHEGADA <= '" + dados.PREVISAOCHEGADAFIM + "' ";
                 }
@@ -4210,17 +5042,17 @@ namespace ABAINFRA.Web
             }
             else
             {
-                if (dados.PREVISAOCHEGADAFIM != "")
+                if (dados.PREVISAOCHEGADAFIM != "" && dados.PREVISAOCHEGADAFIM != null)
                 {
                     SQL += "AND BL.DT_PREVISAO_CHEGADA >= '" + dados.PREVISAOCHEGADAFIM + "' ";
                 }
             }
 
-            if (dados.DTCHEGADAINICIO != "")
+            if (dados.DTCHEGADAINICIO != "" && dados.DTCHEGADAINICIO != null)
             {
-                if (dados.DTCHEGADAFIM != "")
+                if (dados.DTCHEGADAFIM != "" && dados.DTCHEGADAFIM != null)
                 {
-                    SQL += "AND BL.DT_CHEGADA >= '" + dados.DTCHEGADAINICIO + "' AND BL.DT_CHEGADAL <= '" + dados.DTCHEGADAFIM + "' ";
+                    SQL += "AND BL.DT_CHEGADA >= '" + dados.DTCHEGADAINICIO + "' AND BL.DT_CHEGADA <= '" + dados.DTCHEGADAFIM + "' ";
                 }
                 else
                 {
@@ -4229,15 +5061,15 @@ namespace ABAINFRA.Web
             }
             else
             {
-                if (dados.DTCHEGADAFIM != "")
+                if (dados.DTCHEGADAFIM != "" && dados.DTCHEGADAFIM != null)
                 {
                     SQL += "AND BL.DT_CHEGADA >= '" + dados.DTCHEGADAFIM + "' ";
                 }
             }
 
-            if (dados.DTRETIRADAPEROSNALINICIO != "")
+            if (dados.DTRETIRADAPEROSNALINICIO != "" && dados.DTRETIRADAPEROSNALINICIO != null)
             {
-                if (dados.DTRETIRADAPEROSNALFIM != "")
+                if (dados.DTRETIRADAPEROSNALFIM != "" && dados.DTRETIRADAPEROSNALFIM != null)
                 {
                     SQL += "AND M.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALINICIO + "' AND BL.DT_RETIRADA_PERSONAL <= '" + dados.DTRETIRADAPEROSNALFIM + "' ";
                 }
@@ -4248,7 +5080,7 @@ namespace ABAINFRA.Web
             }
             else
             {
-                if (dados.DTRETIRADAPEROSNALFIM != "")
+                if (dados.DTRETIRADAPEROSNALFIM != "" && dados.DTRETIRADAPEROSNALFIM != null)
                 {
                     SQL += "AND M.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALFIM + "' ";
                 }
@@ -4269,11 +5101,6 @@ namespace ABAINFRA.Web
                 SQL += "AND M.CD_RASTREAMENTO_MBL LIKE '" + dados.CDRASTREAMENTOMBL + "%' ";
             }
 
-            if (dados.RETIRADOPOR != "")
-            {
-                SQL += "AND BL.NM_RETIRADO_POR_COURRIER LIKE '" + dados.RETIRADOPOR + "%' ";
-            }
-
             if (dados.FATURA != "")
             {
                 SQL += "AND BL.NR_FATURA_COURRIER LIKE '" + dados.RETIRADOPOR + "%' ";
@@ -4282,9 +5109,10 @@ namespace ABAINFRA.Web
             return SQL;
         }
 
-        [WebMethod]
-        public string listarCourrier(string idFilter, string Filter, string tipo, Filtro dados)
+        [WebMethod(EnableSession = true)]
+        public string listarCourrier(string idFilter, string Filter, string filter_fcl, string filter_lcl, string filter_dtsaida, string filter_dtsaidan, string filter_branco, string filter_freehand, Filtro dados)
         {
+            string filter = "";
             string SQL;
             switch (idFilter)
             {
@@ -4295,13 +5123,131 @@ namespace ABAINFRA.Web
                     idFilter = "AND M.NR_BL LIKE '" + Filter + "%' ";
                     break;
                 case "3":
-                    idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
+                    idFilter = "AND BL.NR_BL LIKE '" + Filter + "%' ";
                     break;
                 case "4":
-                    idFilter = "AND N.NM_NAVIO LIKE '" + Filter + "%' ";
+                    idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
                     break;
                 case "5":
                     idFilter = "AND BL.CD_RASTREAMENTO_HBL LIKE '" + Filter + "%' OR M.CD_RASTREAMENTO_MBL LIKE '" + Filter + "%' ";
+                    break;
+                default:
+                    idFilter = "";
+                    break;
+            }
+
+            if ((filter_fcl == "1" && filter_lcl == "1") || (filter_fcl == "0" && filter_lcl == "0"))
+            {
+                filter += "";
+            }
+            else if (filter_fcl == "1")
+            {
+                filter += "AND BL.ID_TIPO_ESTUFAGEM = 1 ";
+            }
+            else if (filter_lcl == "1")
+            {
+                filter += "AND BL.ID_TIPO_ESTUFAGEM = 2 ";
+            }
+            else
+            {
+                filter += "";
+            }
+
+            if ((filter_dtsaida == "1" && filter_dtsaidan == "1") || (filter_dtsaida == "0" && filter_dtsaidan == "0"))
+            {
+                filter += "";
+            }
+            else if (filter_dtsaida == "1")
+            {
+                filter += "AND BL.DT_EMBARQUE IS NOT NULL ";
+            }
+            else if (filter_dtsaidan == "1")
+            {
+                filter += "AND BL.DT_EMBARQUE IS NULL ";
+            }
+            else
+            {
+                filter += "";
+            }
+
+            if (filter_branco == "1")
+            {
+                filter += "AND (BL.CD_RASTREAMENTO_HBL IS NULL OR BL.CD_RASTREAMENTO_HBL = '') ";
+
+            }
+
+            if (filter_freehand == "1")
+            {
+                filter += "AND BL.FL_FREE_HAND = 1 ";
+
+            }
+            else
+            {
+                filter += "AND BL.FL_FREE_HAND = 0 ";
+
+            }
+
+
+
+            SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(M.NR_BL,'') as MASTER, ";
+            SQL += "ISNULL(BL.NR_BL,'') AS HOUSE, ";
+            SQL += "BL.ID_BL, ";
+            SQL += "ISNULL(P.NM_RAZAO,'') AS CLIENTE, ";
+            SQL += "ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+            SQL += "ISNULL(P3.NM_RAZAO,'') AS CLIENTE_FINAL, ";
+            SQL += "ISNULL(P4.NM_RAZAO, '') AS IMPORTADOR, ";
+            SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ";
+            SQL += "ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+            SQL += "ISNULL(FORMAT(M.DT_RETIRADA_PERSONAL,'dd/MM/yyyy'),'') AS DT_RETIRADA_PERSONAL, ";
+            SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ";
+            SQL += "ISNULL(P2.NM_RAZAO,'') AS AGENTE, ";
+            SQL += "ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ";
+            SQL += "ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ";
+            SQL += "ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+            SQL += "ISNULL(BL.FL_TROCA,0) FL_TROCA, ";
+            SQL += "ISNULL(BL.FL_ENVIO_AGENTE_INTERNACIONAL,0) FL_ENVIO_AGENTE_INTERNACIONAL, ";
+            SQL += "ISNULL(BL.OBS_COURRIER,'') AS OBS_COURRIER, ";
+            SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ";
+            SQL += "ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
+            SQL += "FROM TB_BL BL ";
+            SQL += "LEFT JOIN TB_COTACAO B ON BL.ID_COTACAO=B.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_CLIENTE_FINAL C ON B.ID_CLIENTE_FINAL = C.ID_CLIENTE_FINAL ";
+            SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE_INTERNACIONAL = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P3 ON BL.ID_PARCEIRO_IMPORTADOR = P3.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P4 ON C.ID_PARCEIRO = P4.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
+            SQL += "JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
+            SQL += "" + listarCourrierFilter(dados) + " ";
+            SQL += "" + idFilter + "";
+            SQL += "" + filter + "";
+            SQL += "AND BL.GRAU IN ('C') ";
+            SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
+            SQL += "AND (BL.DT_CHEGADA IS NULL OR M.DT_CHEGADA IS NULL) ";
+            //SQL += "OR (M.DT_RETIRADA_PERSONAL IS NULL OR BL.DT_RETIRADA_PERSONAL IS NOT NULL)) ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarCourrierRetirada(string idFilter, string Filter, string tipo, Filtro dados)
+        {
+            string SQL;
+            switch (idFilter)
+            {
+                case "1":
+                    idFilter = "AND BL.NR_PROCESSO LIKE '" + Filter + "%' ";
+                    break;
+                case "2":
+                    idFilter = "AND BL.NR_BL LIKE '" + Filter + "%' ";
+                    break;
+                case "3":
+                    idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
                     break;
                 default:
                     idFilter = "";
@@ -4317,30 +5263,210 @@ namespace ABAINFRA.Web
                     tipo = "AND TP.ID_TIPO_ESTUFAGEM = 2 ";
                     break;
             }
-
-            SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(M.NR_BL,'') as MASTER, ISNULL(BL.NR_BL,'') AS HOUSE, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
-            SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ISNULL(FORMAT(M.DT_RETIRADA_PERSONAL,'dd/MM/yyyy'),'') AS DT_RETIRADA_PERSONAL, ";
-            SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P2.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, BL.FL_TROCA, ";
-            SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
+            SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(BL.NR_BL,'') AS HOUSE, ";
+            SQL += "ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ";
+            SQL += "ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+            SQL += "BL.ID_BL, ";
+            SQL += "ISNULL(P.NM_RAZAO,'') AS CLIENTE,";
+            SQL += "ISNULL(P3.NM_RAZAO,'') AS CLIENTE_FINAL, ";
+            SQL += "ISNULL(P4.NM_RAZAO, '') AS IMPORTADOR, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RETIRADA_PERSONAL, 'dd/MM/yyyy'),'') AS DT_RETIRADA_PERSONAL, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+            SQL += "BL.FL_TROCA, ";
+            SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ";
+            SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER,";
+            SQL += "ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
             SQL += "FROM TB_BL BL ";
+            SQL += "LEFT JOIN TB_COTACAO B ON BL.ID_COTACAO=B.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_CLIENTE_FINAL C ON B.ID_CLIENTE_FINAL = C.ID_CLIENTE_FINAL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE_INTERNACIONAL = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P3 ON BL.ID_PARCEIRO_IMPORTADOR = P3.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P4 ON C.ID_PARCEIRO = P4.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
             SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
             SQL += "LEFT JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
             SQL += "" + listarCourrierFilter(dados) + " ";
             SQL += "" + idFilter + "";
             SQL += "" + tipo + "";
+            SQL += "AND BL.CD_RASTREAMENTO_HBL <> 'ORIGEM' AND BL.CD_RASTREAMENTO_HBL <> '' ";
+            SQL += "AND BL.DT_CHEGADA IS NOT NULL AND M.DT_CHEGADA IS NOT NULL ";
+            SQL += "AND (M.DT_RETIRADA_PERSONAL IS NOT NULL AND BL.DT_RETIRADA_PERSONAL IS NOT NULL) ";
+            SQL += "AND BL.GRAU IN ('C') ";
+            SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
+        public string listarCourrierLiberacao(string idFilter, string Filter, string tipo, Filtro dados)
+        {
+            string SQL;
+            switch (idFilter)
+            {
+                case "1":
+                    idFilter = "AND BL.NR_PROCESSO LIKE '" + Filter + "%' ";
+                    break;
+                case "2":
+                    idFilter = "AND BL.NR_BL LIKE '" + Filter + "%' ";
+                    break;
+                case "3":
+                    idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
+                    break;
+                default:
+                    idFilter = "";
+                    break;
+            }
+
+            switch (tipo)
+            {
+                case "1":
+                    tipo = "AND TP.ID_TIPO_ESTUFAGEM = 1 ";
+                    break;
+                case "0":
+                    tipo = "AND TP.ID_TIPO_ESTUFAGEM = 2 ";
+                    break;
+            }
+            SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(M.NR_BL,'') AS MASTER, ";
+            SQL += "ISNULL(BL.NR_BL,'') AS HOUSE, ";
+            SQL += "ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+            SQL += "BL.ID_BL, ";
+            SQL += "ISNULL(P.NM_RAZAO,'') AS CLIENTE,";
+            SQL += "ISNULL(P3.NM_RAZAO,'') AS CLIENTE_FINAL, ";
+            SQL += "ISNULL(P4.NM_RAZAO, '') AS IMPORTADOR, ";
+            SQL += "ISNULL(BL.FL_TROCA,0) AS FL_TROCA, ";
+            SQL += "ISNULL(BL.DS_TERMO,'') TERMO, ";
+            SQL += "ISNULL(BL.FL_BLOQUEIO_DOCUMENTAL,0) AS FL_BLOQUEIO_DOCUMENTAL, ";
+            SQL += "ISNULL(BL.OBS_COURRIER,'') OBS_COURRIER, ";
+            SQL += "ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ";
+            SQL += "ISNULL(BL.FL_HBL_DIGITAL,0) AS HBL_DIGITAL ";
+            SQL += "FROM TB_BL BL ";
+            SQL += "LEFT JOIN TB_COTACAO B ON BL.ID_COTACAO=B.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_CLIENTE_FINAL C ON B.ID_CLIENTE_FINAL = C.ID_CLIENTE_FINAL ";
+            SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE_INTERNACIONAL = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P3 ON BL.ID_PARCEIRO_IMPORTADOR = P3.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P4 ON C.ID_PARCEIRO = P4.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
+            SQL += "" + listarCourrierFilter(dados) + " ";
+            SQL += "" + idFilter + "";
+            SQL += "" + tipo + "";
+            SQL += "AND BL.CD_RASTREAMENTO_HBL <> 'ORIGEM' AND BL.CD_RASTREAMENTO_HBL <> '' ";
+            SQL += "AND BL.DT_CHEGADA IS NOT NULL AND M.DT_CHEGADA IS NOT NULL ";
+            SQL += "AND (M.DT_RETIRADA_PERSONAL IS NOT NULL AND BL.DT_RETIRADA_PERSONAL IS NOT NULL) ";
+            SQL += "AND BL.GRAU IN ('C') ";
+            SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
+            SQL += "AND ((BL.DS_TERMO IS NULL OR BL.DS_TERMO = '') ";
+            SQL += "OR BL.FL_BLOQUEIO_DOCUMENTAL = 1) ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            listTable.Columns.Add("LOTE");
+            for (int x = 0; x < listTable.Rows.Count; x++)
+            {
+                SQL = "SELECT AUTONUM FROM TB_BL WHERE NUMERO = '" + listTable.Rows[x]["HOUSE"] + "' ";
+                listTable.Rows[x]["LOTE"] = DBE.ExecuteScalar(SQL);
+            }
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarCourrierConcluido(string idFilter, string Filter, string tipo, Filtro dados)
+        {
+            string SQL;
+            switch (idFilter)
+            {
+                case "1":
+                    idFilter = "AND BL.NR_PROCESSO LIKE '" + Filter + "%' ";
+                    break;
+                case "2":
+                    idFilter = "AND BL.NR_BL LIKE '" + Filter + "%' ";
+                    break;
+                case "3":
+                    idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
+                    break;
+                default:
+                    idFilter = "";
+                    break;
+            }
+
+            switch (tipo)
+            {
+                case "1":
+                    tipo = "AND TP.ID_TIPO_ESTUFAGEM = 1 ";
+                    break;
+                case "0":
+                    tipo = "AND TP.ID_TIPO_ESTUFAGEM = 2 ";
+                    break;
+            }
+            SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(M.NR_BL,'') AS MASTER, ";
+            SQL += "ISNULL(BL.NR_BL,'') AS HOUSE, ";
+            SQL += "ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ";
+            SQL += "ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RETIRADA_PERSONAL,'dd/MM/yyyy'),'') AS DT_RETIRADA_PERSONAL, ";
+            SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ";
+            SQL += "BL.ID_BL, ";
+            SQL += "ISNULL(P.NM_RAZAO,'') AS CLIENTE,";
+            SQL += "ISNULL(P3.NM_RAZAO,'') AS CLIENTE_FINAL, ";
+            SQL += "ISNULL(P4.NM_RAZAO, '') AS IMPORTADOR, ";
+            SQL += "ISNULL(P2.NM_RAZAO, '') AS AGENTE, ";
+            SQL += "BL.FL_TROCA, ";
+            SQL += "ISNULL(BL.ID_WEEK,0) AS ID_WEEK, ";
+            SQL += "ISNULL(BL.NR_FATURA_COURRIER, '') AS FATURA, ";
+            SQL += "ISNULL(BL.DS_TERMO,'') TERMO, ";
+            SQL += "ISNULL(BL.FL_BLOQUEIO_DOCUMENTAL,0) AS FL_BLOQUEIO_DOCUMENTAL, ";
+            SQL += "ISNULL(BL.OBS_COURRIER,'') OBS_COURRIER, ";
+            SQL += "ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ";
+            SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ";
+            SQL += "ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL, 'dd/MM;yyyy'),'') AS DT_RECEBIMENTO_HBL, ";
+            SQL += "ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL, 'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL ";
+            SQL += "FROM TB_BL BL ";
+            SQL += "LEFT JOIN TB_COTACAO B ON BL.ID_COTACAO=B.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_CLIENTE_FINAL C ON B.ID_CLIENTE_FINAL = C.ID_CLIENTE_FINAL ";
+            SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE_INTERNACIONAL = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P3 ON BL.ID_PARCEIRO_IMPORTADOR = P3.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P4 ON C.ID_PARCEIRO = P4.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
+            SQL += "" + listarCourrierFilter(dados) + " ";
+            SQL += "" + idFilter + "";
+            SQL += "" + tipo + "";
+            SQL += "AND BL.CD_RASTREAMENTO_HBL <> 'ORIGEM' AND BL.CD_RASTREAMENTO_HBL <> '' ";
+            SQL += "AND BL.DT_CHEGADA IS NOT NULL AND M.DT_CHEGADA IS NOT NULL ";
+            SQL += "AND (M.DT_RETIRADA_PERSONAL IS NOT NULL AND BL.DT_RETIRADA_PERSONAL IS NOT NULL) ";
+            SQL += "AND BL.GRAU IN ('C') ";
+            SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
+            SQL += "AND ((BL.DS_TERMO IS NOT NULL OR BL.DS_TERMO <> '') ";
+            SQL += "AND BL.FL_BLOQUEIO_DOCUMENTAL = 0) ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            if (listTable != null)
+            {
+                listTable.Columns.Add("LOTE");
+                for (int x = 0; x < listTable.Rows.Count; x++)
+                {
+                    SQL = "SELECT AUTONUM FROM TB_BL WHERE NUMERO = '" + listTable.Rows[x]["HOUSE"] + "' ";
+                    listTable.Rows[x]["LOTE"] = DBE.ExecuteScalar(SQL);
+                }
+            }
+            return JsonConvert.SerializeObject(listTable);
+        }
+        
+        [WebMethod(EnableSession = true)]
         public string listarCourrierFilterTeste(Filtro dados)
         {
             string SQL;
             SQL = "WHERE SUBSTRING(BL.NR_PROCESSO,10,2)>= '18' ";
+            SQL += "AND LEFT(BL.NR_PROCESSO,1) = 'M' ";
+            SQL += "AND BL.ID_BL_MASTER IS NOT NULL ";
 
             if (dados.BLHOUSE != "")
             {
@@ -4490,7 +5616,7 @@ namespace ABAINFRA.Web
             return SQL;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarCourrierTeste(string idFilter, string Filter, string tipo, Filtro dados)
         {
             string SQL;
@@ -4546,20 +5672,22 @@ namespace ABAINFRA.Web
 
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string BuscarCourrier(int id)
         {
             string SQL;
             SQL = "SELECT BL.NR_PROCESSO, M.NR_BL AS MASTER, BL.NR_BL AS HOUSE, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'yyyy-MM-dd') AS DT_RECEBIMENTO_MBL, ";
             SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'yyyy-MM-dd') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'yyyy-MM-dd') AS DT_RETIRADA_COURRIER, FORMAT(M.DT_RETIRADA_PERSONAL,'yyyy-MM-dd') AS DT_RETIRADA_PERSONAL, ";
             SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'yyyy-MM-dd') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'yyyy-MM-dd') AS DT_CHEGADA, BL.FL_TROCA, ";
-            SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
+            SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM, BL.OBS_COURRIER ";
             SQL += "FROM TB_BL BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
             SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
             SQL += "JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
             SQL += "WHERE BL.ID_BL = '" + id + "' ";
+            SQL += "AND BL.GRAU IN ('C') ";
+            SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
 
             DataTable carregarDados = new DataTable();
             carregarDados = DBS.List(SQL);
@@ -4580,29 +5708,240 @@ namespace ABAINFRA.Web
                 resultado.NR_FATURA_COURRIER = carregarDados.Rows[0]["NR_FATURA_COURRIER"].ToString();
                 resultado.DT_RETIRADA_PERSONAL = carregarDados.Rows[0]["DT_RETIRADA_PERSONAL"].ToString();
                 resultado.FL_TROCA = carregarDados.Rows[0]["FL_TROCA"].ToString();
+                resultado.OBS_COURRIER = carregarDados.Rows[0]["OBS_COURRIER"].ToString();
 
                 return JsonConvert.SerializeObject(resultado);
-			}
-			else
-			{
+            }
+            else
+            {
                 return JsonConvert.SerializeObject("erro");
-			}
+            }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
+        public string TrocaCourrier(int id)
+        {
+            string SQL;
+            SQL = "SELECT NR_PROCESSO, ID_PARCEIRO_CLIENTE, ID_TIPO_ESTUFAGEM FROM TB_BL WHERE ID_BL = " + id + "";
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+
+            SQL = "SELECT ASSUNTO, CORPO FROM TB_ASSUNTO_CORPO_AVISOS WHERE IDTIPOAVISO = 21";
+            DataTable carregarInformativo = new DataTable();
+            carregarInformativo = DBS.List(SQL);
+
+            if (carregarDados != null)
+            {
+                SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, IDTIPOESTUFAGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),21," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_CLIENTE"] + ",'OP', "+ carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"] + ") ";
+
+                bool status = DBS.BeginTransaction(SQL);
+
+
+
+                return JsonConvert.SerializeObject(status);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject("erro");
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string DisponibilidadeCourrier(int id)
+        {
+            string SQL;
+            SQL = "SELECT NR_PROCESSO, ID_PARCEIRO_CLIENTE, ID_TIPO_ESTUFAGEM FROM TB_BL WHERE ID_BL = " + id + "";
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+
+            SQL = "SELECT ASSUNTO, CORPO FROM TB_ASSUNTO_CORPO_AVISOS WHERE IDTIPOAVISO = 22";
+            DataTable carregarInformativo = new DataTable();
+            carregarInformativo = DBS.List(SQL);
+
+            if (carregarDados != null)
+            {
+                SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, IDTIPOESTUFAGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),22," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_CLIENTE"] + ",'OP', " + carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"] + ") ";
+
+                bool status = DBS.BeginTransaction(SQL);
+
+
+
+                return JsonConvert.SerializeObject(status);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject("erro");
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string SolicitarDocumentoAgenteInternacional(int id)
+        {
+            string SQL;
+            bool status = false;
+            SQL = "SELECT NR_PROCESSO, ID_PARCEIRO_AGENTE_INTERNACIONAL, ID_TIPO_ESTUFAGEM, FL_FREE_HAND FROM TB_BL WHERE ID_BL = " + id + "";
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+
+            if (carregarDados.Rows[0]["FL_FREE_HAND"].ToString() != "1")
+            {
+                SQL = "SELECT ASSUNTO, CORPO FROM TB_ASSUNTO_CORPO_AVISOS WHERE IDTIPOAVISO = 23";
+                DataTable carregarInformativo = new DataTable();
+                carregarInformativo = DBS.List(SQL);
+
+                if (carregarDados != null)
+                {
+                    SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, IDTIPOESTUFAGEM) ";
+                    SQL += "VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),23," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_AGENTE_INTERNACIONAL"] + ",'OP', " + carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"] + "); ";
+                    SQL += "UPDATE TB_BL SET FL_ENVIO_AGENTE_INTERNACIONAL = 1 WHERE ID_BL = " + id + ";";
+                    status = DBS.BeginTransaction(SQL);
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject("erro");
+                }
+            }
+
+            if (carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"].ToString() == "1")
+            {
+                SQL = "SELECT ASSUNTO, CORPO FROM TB_ASSUNTO_CORPO_AVISOS WHERE IDTIPOAVISO = 24";
+                DataTable carregarInformativo = new DataTable();
+                carregarInformativo = DBS.List(SQL);
+
+                if (carregarDados != null)
+                {
+                    SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, IDTIPOESTUFAGEM) VALUES ('" + carregarDados.Rows[0]["NR_PROCESSO"] + " - " + carregarInformativo.Rows[0]["ASSUNTO"] + "','" + carregarInformativo.Rows[0]["CORPO"] + "',GETDATE(),GETDATE(),24," + id + "," + carregarDados.Rows[0]["ID_PARCEIRO_CLIENTE"] + ",'OP', " + carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"] + ") ";
+                    status = DBS.BeginTransaction(SQL);
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject("erro");
+                }
+            }
+            return JsonConvert.SerializeObject(status);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string BloquearDocumento(int lote, int idbl)
+        {
+            string SQL;
+            try
+            {
+                string motivo = "44";
+                string motivoLib = "0";
+                string acao = "B";
+                string usuario = (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : "3").ToString();
+                DBE.ExecuteProcedureWithOutParameter(lote, motivo, motivoLib, acao, usuario);
+
+                SQL = "SELECT STATUS FROM SGIPA.TB_HIST_BLOQUEIO WHERE AUTONUM = (SELECT NVL(MAX(AUTONUM), 0)AUTONUM FROM SGIPA.TB_HIST_BLOQUEIO ";
+                SQL += "WHERE BL = " + lote + " AND COD_MOTIVO_BLOQUEIO = 44) ";
+                string status = DBE.ExecuteScalar(SQL);
+
+
+                SQL = "EXEC dbo.PR_BLOQUEIO_DOCUMENTAL @IDBL = " + idbl + ", @STATUS = '" + status + "' ";
+                DBS.ExecuteScalar(SQL);
+
+                return "1";
+            }
+            catch (Exception e)
+            {
+                return "2";
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string DesbloquearDocumento(int lote, int idbl)
+        {
+            string SQL;
+            try
+            {
+                string motivo = "44";
+                string motivoLib = "45";
+                string acao = "L";
+                string usuario = (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : "3").ToString();
+                DBE.ExecuteProcedureWithOutParameter(lote, motivo, motivoLib, acao, usuario);
+
+                SQL = "SELECT STATUS FROM SGIPA.TB_HIST_BLOQUEIO WHERE AUTONUM = (SELECT NVL(MAX(AUTONUM), 0)AUTONUM FROM SGIPA.TB_HIST_BLOQUEIO ";
+                SQL += "WHERE BL = " + lote + " AND COD_MOTIVO_BLOQUEIO = 44) ";
+                string status = DBE.ExecuteScalar(SQL);
+
+
+                SQL = "EXEC dbo.PR_BLOQUEIO_DOCUMENTAL @IDBL = " + idbl + ", @STATUS = '" + status + "' ";
+                DBS.ExecuteScalar(SQL);
+
+                return "1";
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
         public string editarCourrier(CourrierInfo dadosEdit)
         {
             string SQL;
             SQL = "UPDATE TB_BL SET ";
-            if (dadosEdit.DT_RECEBIMENTO_HBL == "")
-            {
-                SQL += "DT_RECEBIMENTO_HBL = NULL, ";
-            }
-            else
-            {
-                SQL += "DT_RECEBIMENTO_HBL = '" + dadosEdit.DT_RECEBIMENTO_HBL + "', ";
-            }
-            SQL += "CD_RASTREAMENTO_HBL = '" + dadosEdit.CD_RASTREAMENTO_HBL + "', ";
+            if (dadosEdit.DT_RECEBIMENTO_HBL == "" || dadosEdit.DT_RECEBIMENTO_HBL == null) { SQL += "DT_RECEBIMENTO_HBL = NULL, "; } else { SQL += "DT_RECEBIMENTO_HBL = '" + dadosEdit.DT_RECEBIMENTO_HBL + "', "; }
+            if (dadosEdit.CD_RASTREAMENTO_HBL == "" || dadosEdit.CD_RASTREAMENTO_HBL == null) { SQL += "CD_RASTREAMENTO_HBL = NULL, "; } else { SQL += "CD_RASTREAMENTO_HBL = '" + dadosEdit.CD_RASTREAMENTO_HBL + "', "; }
+            if (dadosEdit.DT_RETIRADA_PERSONAL == "" || dadosEdit.DT_RETIRADA_PERSONAL == null) { SQL += "DT_RETIRADA_PERSONAL = NULL, "; } else { SQL += "DT_RETIRADA_PERSONAL = '" + dadosEdit.DT_RETIRADA_PERSONAL + "', "; }
+            if (dadosEdit.NR_FATURA_COURRIER == "" || dadosEdit.NR_FATURA_COURRIER == null) { SQL += "NR_FATURA_COURRIER = NULL, "; } else { SQL += "NR_FATURA_COURRIER = '" + dadosEdit.NR_FATURA_COURRIER + "', "; }
+            if (dadosEdit.OBS_COURRIER == "" || dadosEdit.OBS_COURRIER == null) { SQL += "OBS_COURRIER = '', "; } else { SQL += "OBS_COURRIER = '" + dadosEdit.OBS_COURRIER + "', "; }
+            SQL += "FL_TROCA = " + dadosEdit.FL_TROCA + " ";
+            SQL += "WHERE ID_BL = '" + dadosEdit.ID_BL + "' ";
+
+            DBS.ExecuteScalar(SQL);
+
+            SQL = "SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = '" + dadosEdit.ID_BL + "' ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string idblmaster = listTable.Rows[0]["ID_BL_MASTER"].ToString();
+
+            SQL = "UPDATE TB_BL SET ";
+            if (dadosEdit.DT_RECEBIMENTO_MBL == "" || dadosEdit.DT_RECEBIMENTO_MBL == null) { SQL += "DT_RECEBIMENTO_MBL = NULL, "; } else { SQL += "DT_RECEBIMENTO_MBL = '" + dadosEdit.DT_RECEBIMENTO_MBL + "', "; }
+            if (dadosEdit.DT_RETIRADA_PERSONAL == "" || dadosEdit.DT_RETIRADA_PERSONAL == null) { SQL += "DT_RETIRADA_PERSONAL = NULL, "; } else { SQL += "DT_RETIRADA_PERSONAL = '" + dadosEdit.DT_RETIRADA_PERSONAL + "', "; }
+            if (dadosEdit.CD_RASTREAMENTO_MBL == "" || dadosEdit.CD_RASTREAMENTO_MBL == null) { SQL += "CD_RASTREAMENTO_MBL = NULL "; } else { SQL += "CD_RASTREAMENTO_MBL = '" + dadosEdit.CD_RASTREAMENTO_MBL + "' "; }
+            SQL += "WHERE ID_BL = '" + idblmaster + "' ";
+
+            DBS.ExecuteScalar(SQL);
+
+            return "1";
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string editarCourrierRetirada(CourrierInfo dadosEdit)
+        {
+            string SQL;
+            SQL = "UPDATE TB_BL SET ";
+            if (dadosEdit.DT_RETIRADA_COURRIER == "" || dadosEdit.DT_RETIRADA_COURRIER == null) { SQL += "DT_RETIRADA_COURRIER = NULL, "; } else { SQL += "DT_RETIRADA_COURRIER = '" + dadosEdit.DT_RETIRADA_COURRIER + "', "; }
+            if (dadosEdit.NM_RETIRADO_POR_COURRIER == "" || dadosEdit.NM_RETIRADO_POR_COURRIER == null) { SQL += "NM_RETIRADO_POR_COURRIER = NULL, "; } else { SQL += "NM_RETIRADO_POR_COURRIER = '" + dadosEdit.NM_RETIRADO_POR_COURRIER + "', "; }
+            if (dadosEdit.OBS_COURRIER == "" || dadosEdit.OBS_COURRIER == null) { SQL += "OBS_COURRIER = '' "; } else { SQL += "OBS_COURRIER = '" + dadosEdit.OBS_COURRIER + "' "; }
+            //SQL += "FL_TROCA = " + dadosEdit.FL_TROCA + " ";
+            SQL += "WHERE ID_BL = '" + dadosEdit.ID_BL + "' ";
+
+            DBS.ExecuteScalar(SQL);
+            return "1";
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string editarCourrierLiberacao(CourrierInfo dadosEdit)
+        {
+            string SQL;
+            SQL = "UPDATE TB_BL SET ";
+            if (dadosEdit.OBS_COURRIER == "" || dadosEdit.OBS_COURRIER == null) { SQL += "OBS_COURRIER = '' "; } else { SQL += "OBS_COURRIER = '" + dadosEdit.OBS_COURRIER + "' "; }
+            //SQL += "FL_TROCA = " + dadosEdit.FL_TROCA + " ";
+            SQL += "WHERE ID_BL = '" + dadosEdit.ID_BL + "' ";
+
+            DBS.ExecuteScalar(SQL);
+            return "1";
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string editarCourrierPersonal(CourrierInfo dadosEdit)
+        {
+            string SQL;
+            SQL = "UPDATE TB_BL SET ";
             if (dadosEdit.DT_RETIRADA_COURRIER == "")
             {
                 SQL += "DT_RETIRADA_COURRIER = NULL, ";
@@ -4611,47 +5950,10 @@ namespace ABAINFRA.Web
             {
                 SQL += "DT_RETIRADA_COURRIER = '" + dadosEdit.DT_RETIRADA_COURRIER + "', ";
             }
-            if (dadosEdit.DT_RETIRADA_PERSONAL == "")
-            {
-                SQL += "DT_RETIRADA_PERSONAL = NULL, ";
-            }
-            else
-            {
-                SQL += "DT_RETIRADA_PERSONAL = '" + dadosEdit.DT_RETIRADA_PERSONAL + "', ";
-            }
-            SQL += "NM_RETIRADO_POR_COURRIER = '" + dadosEdit.NM_RETIRADO_POR_COURRIER + "', ";
-            SQL += "NR_FATURA_COURRIER = '" + dadosEdit.NR_FATURA_COURRIER + "', ";
-            SQL += "FL_TROCA = '" + dadosEdit.FL_TROCA + "' ";
+            SQL += "NM_RETIRADO_POR_COURRIER = '" + dadosEdit.NM_RETIRADO_POR_COURRIER + "' ";
             SQL += "WHERE ID_BL = '" + dadosEdit.ID_BL + "' ";
 
             string editCourrier = DBS.ExecuteScalar(SQL);
-
-            SQL = "SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = '" + dadosEdit.ID_BL + "' ";
-            DataTable listTable = new DataTable();
-            listTable = DBS.List(SQL);
-            string idblmaster = listTable.Rows[0]["ID_BL_MASTER"].ToString();
-
-            SQL = "UPDATE TB_BL SET ";
-            if (dadosEdit.DT_RECEBIMENTO_MBL == "")
-            {
-                SQL += "DT_RECEBIMENTO_MBL = NULL, ";
-            }
-            else
-            {
-                SQL += "DT_RECEBIMENTO_MBL = '" + dadosEdit.DT_RECEBIMENTO_MBL + "', ";
-            }
-            if (dadosEdit.DT_RETIRADA_PERSONAL == "")
-            {
-                SQL += "DT_RETIRADA_PERSONAL = NULL, ";
-            }
-            else
-            {
-                SQL += "DT_RETIRADA_PERSONAL = '" + dadosEdit.DT_RETIRADA_PERSONAL + "', ";
-            }
-            SQL += "CD_RASTREAMENTO_MBL = '" + dadosEdit.CD_RASTREAMENTO_MBL + "' ";
-            SQL += "WHERE ID_BL = '" + idblmaster + "' ";
-
-            string editCourrierMaster = DBS.ExecuteScalar(SQL);
 
             return "1";
 
@@ -4659,7 +5961,7 @@ namespace ABAINFRA.Web
 
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarInvoices(string dataI, string dataF, string nota, string filter)
         {
             string SQL;
@@ -4723,7 +6025,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarInvoicesQuitadas(string dataI, string dataF, string nota, string filter)
         {
             string SQL;
@@ -4757,7 +6059,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string imprimirInvoice(string dataI, string dataF, string[] invoices)
         {
             string SQL;
@@ -4862,7 +6164,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string imprimirInvoiceExp(string dataI, string dataF, string[] invoices)
         {
             string SQL;
@@ -4993,7 +6295,7 @@ namespace ABAINFRA.Web
 
         
 
-[WebMethod]
+[WebMethod(EnableSession = true)]
         public string listarDemonstrativoRateio(string text, string filter)
         {
             string SQL;
@@ -5023,7 +6325,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string indiceItemDespesa(string blmaster)
         {
             string SQL;
@@ -5042,21 +6344,75 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
-        public string imprimirDemonstrativoRateio(string blmaster)
+        [WebMethod(EnableSession = true)]
+        public string FCADebitCreditInvoice(string dataI, string dataF, string filter, string text) 
         {
             string SQL;
+            string diaI;
+            string mesI;
+            string anoI;
+            string diaF;
+            string mesF;
+            string anoF;
 
-            SQL = "SELECT B.NR_BL, A.NR_PROCESSO AS PROCESSO, CONVERT(DECIMAL(13,3),A.VL_M3) AS CUBAGEM, CONVERT(DECIMAL(13,2),C.VL_LIQUIDO) AS HBL, D.NM_ITEM_DESPESA AS ITEM, D.ID_ITEM_DESPESA AS ITEMID FROM TB_BL A ";
-            SQL += "INNER JOIN TB_BL B ON A.ID_BL_MASTER = B.ID_BL ";
-            SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS C ON A.ID_BL = C.ID_BL ";
-            SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER E ON C.ID_CONTA_PAGAR_RECEBER = E.ID_CONTA_PAGAR_RECEBER ";
-            SQL += "LEFT JOIN TB_ITEM_DESPESA D ON C.ID_ITEM_DESPESA = D.ID_ITEM_DESPESA ";
-            SQL += "WHERE E.DT_CANCELAMENTO IS NULL AND E.CD_PR = 'P' ";
-            SQL += "AND B.ID_BL = '" + blmaster + "' AND ISNULL(E.TP_EXPORTACAO ,'') = '' ";
-            SQL += "GROUP BY D.NM_ITEM_DESPESA, A.ID_BL_MASTER, A.NR_PROCESSO, A.VL_M3, C.VL_LIQUIDO, B.NR_BL, D.ID_ITEM_DESPESA ";
-            SQL += "ORDER BY D.NM_ITEM_DESPESA ";
+            if (dataI != "")
+            {
+                diaI = dataI.Substring(8, 2);
+                mesI = dataI.Substring(5, 2);
+                anoI = dataI.Substring(0, 4);
+                dataI = diaI + '-' + mesI + '-' + anoI;
+            }
+            else
+            {
+                dataI = "01-01-1900";
+            }
 
+            if (dataF != "")
+            {
+                diaF = dataF.Substring(8, 2);
+                mesF = dataF.Substring(5, 2);
+                anoF = dataF.Substring(0, 4);
+                dataF = diaF + '-' + mesF + '-' + anoF;
+            }
+            else
+            {
+                dataF = "01-01-2900";
+            }
+
+            switch (filter)
+            {
+                case "1":
+                    text = " AND F.NM_RAZAO LIKE '%" + text + "%' ";
+                    break;
+                case "2":
+                    text = " AND C.NR_BL LIKE '%" + text + "%' ";
+                    break;
+                case "3":
+                    text = " AND C.NR_PROCESSO LIKE '" + text + "%' ";
+                    break;
+                case "4":
+                    text = " AND B.NR_INVOICE LIKE '%" + text + "%' ";
+                    break;
+                default:
+                    text = "";
+                    break;
+            }
+
+            SQL = "SELECT B.NR_INVOICE, G.NM_ACCOUNT_TIPO_INVOICE, D.NM_ACCOUNT_TIPO_EMISSOR, ";
+            SQL += "FORMAT(B.DT_INVOICE,'dd/MM/yyyy') AS DT_INVOICE, FORMAT(B.DT_VENCIMENTO,'dd/MM/yyyy') AS DT_VENCIMENTO, C.NR_PROCESSO , C.NR_BL, F.NM_RAZAO, ";
+            SQL += "E.NM_ACCOUNT_TIPO_FATURA, A.VL_TAXA, H.SIGLA_MOEDA ";
+            SQL += "FROM TB_ACCOUNT_INVOICE_ITENS A ";
+            SQL += "JOIN TB_ACCOUNT_INVOICE B ON A.ID_ACCOUNT_INVOICE = B.ID_ACCOUNT_INVOICE ";
+            SQL += "JOIN TB_BL C ON B.ID_BL = C.ID_BL ";
+            SQL += "JOIN TB_ACCOUNT_TIPO_EMISSOR D ON B.ID_ACCOUNT_TIPO_EMISSOR = D.ID_ACCOUNT_TIPO_EMISSOR ";
+            SQL += "JOIN TB_ACCOUNT_TIPO_FATURA E ON B.ID_ACCOUNT_TIPO_FATURA = E.ID_ACCOUNT_TIPO_FATURA ";
+            SQL += "JOIN TB_PARCEIRO F ON B.ID_PARCEIRO_AGENTE = F.ID_PARCEIRO ";
+            SQL += "JOIN TB_ACCOUNT_TIPO_INVOICE G ON B.ID_ACCOUNT_TIPO_INVOICE = G.ID_ACCOUNT_TIPO_INVOICE ";
+            SQL += "JOIN TB_MOEDA H ON B.ID_MOEDA=H.ID_MOEDA ";
+            SQL += "WHERE B.ID_ACCOUNT_TIPO_EMISSOR = 2 ";
+            SQL += "AND CONVERT(DATE,B.DT_VENCIMENTO,103) BETWEEN CONVERT(DATE,'"+dataI+"',103) AND CONVERT(DATE,'"+dataF+"',103) ";
+            SQL += "AND B.ID_ACCOUNT_INVOICE NOT IN (SELECT ID_ACCOUNT_INVOICE FROM TB_ACCOUNT_FECHAMENTO_ITENS) ";
+            SQL += "" + text + "";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -5064,7 +6420,59 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
+        public string imprimirDemonstrativoRateio(string blmaster)
+        {
+            string SQL;
+
+            SQL = "SELECT ID_TIPO_ESTUFAGEM FROM TB_BL WHERE ID_BL = '" + blmaster + "' ";
+            string tpestufagem = DBS.ExecuteScalar(SQL);
+
+            SQL = "SELECT B.NR_BL, A.NR_PROCESSO AS PROCESSO, CONVERT(DECIMAL(13,3),A.VL_M3) AS CUBAGEM, ";
+            SQL += "SUM(C.VL_LIQUIDO) + SUM(C.VL_ISS) AS RATEIO_NF, SUM(C.VL_ISS) AS RATEIO_ISS, ";
+            SQL += "SUM(CONVERT(DECIMAL(13,2),C.VL_LIQUIDO)) AS HBL FROM TB_BL A ";
+            SQL += "INNER JOIN TB_BL B ON A.ID_BL_MASTER = B.ID_BL ";
+            SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS C ON A.ID_BL = C.ID_BL ";
+            SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER E ON C.ID_CONTA_PAGAR_RECEBER = E.ID_CONTA_PAGAR_RECEBER ";
+            SQL += "LEFT JOIN TB_ITEM_DESPESA D ON C.ID_ITEM_DESPESA = D.ID_ITEM_DESPESA ";
+            SQL += "WHERE E.DT_CANCELAMENTO IS NULL AND E.CD_PR = 'P' ";
+            if(tpestufagem == "1")
+			{
+                SQL += "AND B.ID_BL = '" + blmaster + "' AND C.FL_ABATER_ISS = 1 ";
+			}
+			else
+			{
+                SQL += "AND B.ID_BL = '" + blmaster + "' AND C.FL_ABATER_ISS = 0 ";
+            }
+            SQL += "AND ISNULL(E.TP_EXPORTACAO ,'') = '' ";
+            SQL += "GROUP BY A.ID_BL_MASTER, A.NR_PROCESSO, A.VL_M3, B.NR_BL ";
+            SQL += "ORDER BY A.NR_PROCESSO ";
+
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            if (listTable != null)
+            {
+                string[] rateio = new string[listTable.Rows.Count];
+                for (int i = 0; i < listTable.Rows.Count; i++)
+                {
+                    rateio[i] += listTable.Rows[i]["NR_BL"].ToString() +";";
+                    rateio[i] += listTable.Rows[i]["PROCESSO"].ToString() + ";";
+                    rateio[i] += listTable.Rows[i]["CUBAGEM"].ToString() + ";";
+                    rateio[i] += listTable.Rows[i]["RATEIO_NF"].ToString() + ";";
+                    rateio[i] += listTable.Rows[i]["RATEIO_ISS"].ToString() + ";";
+                    rateio[i] += listTable.Rows[i]["HBL"].ToString() + ";";
+                }
+                return JsonConvert.SerializeObject(rateio);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject(null);
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
         public string imprimirDemonstrativoRateioTotal(string blmaster)
         {
             string SQL;
@@ -5078,7 +6486,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void OutlookService(string destinatario)
         {
             MailMessage email = new MailMessage();
@@ -5096,7 +6504,7 @@ namespace ABAINFRA.Web
             smtp.Send(email);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ZerarExportTOTVSDespesa(string dataI, string dataF, string value)
         {
             string diaI = dataI.Substring(8, 2);
@@ -5117,7 +6525,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSNotaDespesa(string dataI, string dataF, string situacao, string nota)
         {
             switch (situacao)
@@ -5141,7 +6549,7 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
-            SQL = "SELECT ID_CONTA_PAGAR_RECEBER, ISNULL(NR_NOTA,'') AS NR_NOTA, TP_NOTA, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, VL_NOTA, ";
+            SQL = "SELECT DISTINCT ID_CONTA_PAGAR_RECEBER, ISNULL(NR_NOTA,'') AS NR_NOTA, TP_NOTA, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, VL_NOTA, ";
             SQL += "NM_PARCEIRO, ISNULL(FORMAT(DT_VENCIMENTO,'dd/MM/yyyy'),'') AS DT_VENCIMENTO, ISNULL(FORMAT(DT_EXPORTACAO_TOTVS_DESPESA,'dd/MM/yyyy'),'') AS DT_EXPORTACAO_TOTVS_DESPESA, ";
             SQL += "NR_PROCESSO, ISNULL(NR_REFERENCIA_CLIENTE,'') AS NR_REFERENCIA_CLIENTE ";
             SQL += "FROM dbo.FN_NOTA_DESPESA(";
@@ -5168,7 +6576,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string integrarTOTVSDespesa(string dataI, string dataF, string situacao, string nota, string values)
         {
             DateTime myDateTime = DateTime.Now;
@@ -5195,7 +6603,7 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
-            SQL = "SELECT ID_CONTA_PAGAR_RECEBER ";
+            SQL = "SELECT DISTINCT ID_CONTA_PAGAR_RECEBER, NR_NOTA ";
             SQL += "FROM dbo.FN_NOTA_DESPESA(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
@@ -5259,7 +6667,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSNotaDespesaCLI(string dataI, string dataF, string situacao, string values)
         {
             switch (situacao)
@@ -5343,7 +6751,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSNotaDespesaREC(string dataI, string dataF, string situacao, string values)
         {
             switch (situacao)
@@ -5425,7 +6833,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ZerarExportTOTVSServico(string dataI, string dataF, string value)
         {
             string diaI = dataI.Substring(8, 2);
@@ -5446,7 +6854,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSNotaServico(string dataI, string dataF, string situacao, string notai, string notaf)
         {
 
@@ -5500,7 +6908,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSNotaServicoIntegra(string dataI, string dataF, string situacao, string values)
         {
             switch (situacao)
@@ -5547,7 +6955,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string integrarTOTVSServico(string dataI, string dataF, string situacao, string dado)
         {
             DateTime myDateTime = DateTime.Now;
@@ -5625,7 +7033,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSNotaServicoCLI(string dataI, string dataF, string situacao, string values)
         {
             switch (situacao)
@@ -5726,7 +7134,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSNotaServicoNOTA(string dataI, string dataF, string situacao, string values)
         {
             switch (situacao)
@@ -5839,7 +7247,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSNotaServicoNOTITE(string dataI, string dataF, string situacao, string values)
         {
             switch (situacao)
@@ -5947,7 +7355,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSNotaServicoREC(string dataI, string dataF, string situacao, string values)
         {
             switch (situacao)
@@ -6026,7 +7434,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ZerarExportTOTVSCredit(string dataI, string dataF, string value)
         {
             string diaI = dataI.Substring(8, 2);
@@ -6047,7 +7455,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSInvCredit(string dataI, string dataF, string situacao, string nota)
         {
             switch (situacao)
@@ -6098,7 +7506,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string integrarTOTVSCredit(string dataI, string dataF, string situacao, string nota)
         {
             DateTime myDateTime = DateTime.Now;
@@ -6180,7 +7588,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSInvCreditCLI(string dataI, string dataF, string situacao)
         {
             switch (situacao)
@@ -6255,7 +7663,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSInvCreditREC(string dataI, string dataF, string situacao)
         {
             switch (situacao)
@@ -6328,7 +7736,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ZerarExportTOTVSDebit(string dataI, string dataF, string value)
         {
             string diaI = dataI.Substring(8, 2);
@@ -6349,7 +7757,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSInvDebit(string dataI, string dataF, string situacao, string nota, string filter)
         {
             switch (situacao)
@@ -6415,7 +7823,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string integrarTOTVSDebit(string dataI, string dataF, string situacao, string nota, string filter)
         {
             DateTime myDateTime = DateTime.Now;
@@ -6512,7 +7920,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSInvDebitFornec(string dataI, string dataF, string situacao)
         {
             switch (situacao)
@@ -6584,7 +7992,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSInvDebitREC(string dataI, string dataF, string situacao)
         {
             switch (situacao)
@@ -6611,7 +8019,7 @@ namespace ABAINFRA.Web
 
             SQL = "SELECT FILIAL, PREFIXO, NUM, PARCELA, TIPO, FORNECE, LOJA, NATUREZ, ISNULL(FORMAT(EMISSAO,'dd/MM/yyyy'),'') AS EMISSAO, ";
             SQL += "ISNULL(FORMAT(VENCTO,'dd/MM/yyyy'),'') AS VENCTO, ISNULL(FORMAT(VENCREA,'dd/MM/yyyy'),'') AS VENCREA, ";
-            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA ";
+            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA, MASTER ";
             SQL += "FROM dbo.FN_INV_DEBIT_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -6644,6 +8052,7 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs(listTable.Rows[i]["USERS"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
                     rec[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["MASTER"].ToString(), 30);
 
                 }
                 return JsonConvert.SerializeObject(rec);
@@ -6654,7 +8063,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSPA(string dataI, string dataF, string situacao, string nota, string filter)
         {
             switch (situacao)
@@ -6718,7 +8127,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ZerarExportTOTVSPA(string dataI, string dataF, string value)
         {
             string diaI = dataI.Substring(8, 2);
@@ -6739,8 +8148,8 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
-        public string integrarTOTVSPA(string dataI, string dataF, string situacao, string nota, string filter)
+        [WebMethod(EnableSession = true)]
+        public string integrarTOTVSPA(string dataI, string dataF, string situacao, string nota, string filter, string values)
         {
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -6784,18 +8193,28 @@ namespace ABAINFRA.Web
             SQL += "FROM dbo.FN_PA(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
-            if (situacao != "")
+            if (nota != "")
             {
-                SQL += "WHERE " + situacao + " ";
-                if (nota != "")
-                {
-                    SQL += "AND " + nota + " ";
+                SQL += "WHERE NR_NOTA LIKE '" + nota + "%' ";
 
+                if (situacao != "")
+                {
+                    SQL += "AND " + situacao + " ";
+                    SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
+                }
+                else
+                {
+                    SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
                 }
             }
-            else if (nota != "")
+            else if (situacao != "")
             {
-                SQL += "WHERE " + nota + " ";
+                SQL += "WHERE " + situacao + " ";
+                SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
+            }
+            else
+            {
+                SQL += " WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             SQL += "ORDER BY DT_PAGAMENTO, NR_PROCESSO ";
 
@@ -6834,8 +8253,8 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
-        public string listarTOTVSPAFORNEC(string dataI, string dataF, string situacao)
+        [WebMethod(EnableSession = true)]
+        public string listarTOTVSPAFORNEC(string dataI, string dataF, string situacao, string values)
         {
             switch (situacao)
             {
@@ -6867,7 +8286,12 @@ namespace ABAINFRA.Web
             if (situacao != "")
             {
                 SQL += " WHERE " + situacao + " ";
+                /*SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";*/
             }
+			/*else
+			{
+                SQL += "WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
+            }*/
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -6906,8 +8330,8 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
-        public string listarTOTVSPAREC(string dataI, string dataF, string situacao)
+        [WebMethod(EnableSession = true)]
+        public string listarTOTVSPAREC(string dataI, string dataF, string situacao, string values)
         {
             switch (situacao)
             {
@@ -6930,15 +8354,23 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
+            SQL = "EXECUTE DBO.PR_PA_NEGATIVO '" + dataI + "','" + dataF + "' ";
+            DBS.ExecuteScalar(SQL);
+
 
             SQL = "SELECT FILIAL, PREFIXO, NUM, PARCELA, TIPO, FORNECE, LOJA, NATUREZ, EMISSAO, VENCTO, VENCREA, ";
-            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA ";
+            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA, MASTER ";
             SQL += "FROM dbo.FN_PA_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
             if (situacao != "")
             {
                 SQL += " WHERE " + situacao + " ";
+                SQL += "AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
+			}
+			else
+			{
+                SQL += "WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             SQL += "ORDER BY ITEMCTA ";
 
@@ -6967,6 +8399,7 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs(listTable.Rows[i]["USERS"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
                     rec[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["MASTER"].ToString(), 30);
                 }
                 return JsonConvert.SerializeObject(rec);
             }
@@ -6976,7 +8409,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSDemurrage(string dataI, string dataF, string situacao, string nota, string filter)
         {
             switch (situacao)
@@ -7045,7 +8478,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string integrarTOTVSDemurragePA(string dataI, string dataF, string situacao, string nota, string filter)
         {
             DateTime myDateTime = DateTime.Now;
@@ -7140,7 +8573,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSDemurragePAFORNEC(string dataI, string dataF, string situacao)
         {
             switch (situacao)
@@ -7166,7 +8599,7 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT XGRUPO, COD, LOJA, NOME, NREDUZ, END1, BAIRRO, EST, ";
             SQL += "COD_MUN, CEP, TIPO, CGC, TEL, INSCR, INSCRM, EMAIL, DDD, NATUREZ, ";
-            SQL += "CODPAIS, CONTATO, SIMPNAC ";
+            SQL += "CODPAIS, CONTATO, SIMPNAC, PAIS ";
             SQL += "FROM DBO.FN_DEMURRAGE_PA_FORNEC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -7203,6 +8636,7 @@ namespace ABAINFRA.Web
                     fornec[i] += fmtTotvs(listTable.Rows[i]["CODPAIS"].ToString(), 5);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["SIMPNAC"].ToString(), 1);
+                    fornec[i] += fmtTotvs(listTable.Rows[i]["PAIS"].ToString(), 3);
                 }
                 return JsonConvert.SerializeObject(fornec);
             }
@@ -7212,7 +8646,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSDemurragePAREC(string dataI, string dataF, string situacao)
         {
             switch (situacao)
@@ -7238,7 +8672,7 @@ namespace ABAINFRA.Web
             string SQL;
 
             SQL = "SELECT FILIAL, PREFIXO, NUM, PARCELA, TIPO, FORNECE, LOJA, NATUREZ, EMISSAO, VENCTO, VENCREA, ";
-            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA ";
+            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA, VLCRUZ ";
             SQL += "FROM dbo.FN_DEMURRAGE_PA_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -7273,7 +8707,7 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs(listTable.Rows[i]["USERS"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
                     rec[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
-
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["VLCRUZ"].ToString(), 16, 2);
                 }
                 return JsonConvert.SerializeObject(rec);
             }
@@ -7283,7 +8717,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSDemurrageRA(string dataI, string dataF, string situacao, string nota)
         {
             switch (situacao)
@@ -7334,7 +8768,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string integrarTOTVSDemurrageRA(string dataI, string dataF, string situacao, string nota)
         {
             DateTime myDateTime = DateTime.Now;
@@ -7415,7 +8849,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSDemurrageRACLI(string dataI, string dataF, string situacao)
         {
             switch (situacao)
@@ -7441,7 +8875,7 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT COD, LOJA, NOME, NREDUZ, PESSOA, TIPO, ENDER, ";
             SQL += "EST, COD_MUN, MUN, NATUREZ, BAIRRO, CEP, ATVDA, TEL, TELEX, FAX, CONTATO, ";
-            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT ";
+            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT, PAIS ";
             SQL += "FROM dbo.FN_DEMURRAGE_RA_CLI(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -7481,6 +8915,7 @@ namespace ABAINFRA.Web
                     cli[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CONT"].ToString(), 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["PAIS"].ToString(), 3);
                 }
                 return JsonConvert.SerializeObject(cli);
             }
@@ -7492,7 +8927,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTOTVSDemurrageRAREC(string dataI, string dataF, string situacao)
         {
             switch (situacao)
@@ -7602,9 +9037,11 @@ namespace ABAINFRA.Web
             SQL = "select ISNULL(FORMAT(DT_SOLICITACAO,'dd/MM/yyyy'),'') AS SOLICITACAO, ISNULL(INSIDE,'') AS INSIDE, ";
             SQL += "ISNULL(NR_COTACAO, '') AS NR_COTACAO, ISNULL(MODAL, '') AS MODAL, ISNULL(CD_INCOTERM, '') AS INCOTERM, ";
             SQL += "ISNULL(NM_CLIENTE, '') AS CLIENTE, ISNULL(NM_SUB_CLIENTE, '') AS SUB_CLIENTE, ISNULL(NM_ORIGEM, '') AS  ORIGEM, ";
-            SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ISNULL(NM_STATUS_COTACAO, '') AS STATUS_COTACAO, ";
+            SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,SOLICITACAO,103),'') AS SOLICITACAO, ISNULL(CONVERT(VARCHAR,ANALISE,103),'') AS ANALISE, ISNULL(CONVERT(VARCHAR,INFO_PEND,103),'') AS INFO_PEND, ISNULL(CONVERT(VARCHAR,LIBERADA_INSIDE,103),'') AS LIBERADA_INSIDE, ISNULL(CONVERT(VARCHAR,RENEG,103),'') AS RENEG, ISNULL(CONVERT(VARCHAR,AGUARD_APROV,103),'') AS AGUARD_APROV, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,CANCELADA,103),'') AS CANCELADA, ISNULL(CONVERT(VARCHAR,REJEITADA,103),'') AS REJEITADA, ISNULL(CONVERT(VARCHAR,APROVADA,103),'') AS APROVADA, ISNULL(CONVERT(VARCHAR,EM_UPDATE,103),'') AS EM_UPDATE, ISNULL(CONVERT(VARCHAR,DECLINADA,103),'') AS DECLINADA, ISNULL(CONVERT(VARCHAR,FINALIZADA_PAG,103),'') AS FINALIZADA_PAG, ISNULL(CONVERT(VARCHAR,EM_FUP,103),'') AS EM_FUP, ISNULL(CONVERT(VARCHAR,APROV_EDIT,103),'') AS APROV_EDIT, ";
             SQL += "ISNULL(NM_MOTIVO_CANCELAMENTO,'') AS MOTIVO, ISNULL(OB_MOTIVO_CANCELAMENTO,'') AS OBS_MOTIVO ";
-            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "', "+Session["ID_USUARIO"]+") ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','3') ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
             SQL += "ORDER BY DT_SOLICITACAO ";
@@ -7613,6 +9050,519 @@ namespace ABAINFRA.Web
 
             return JsonConvert.SerializeObject(listTable);
         }
+
+        [WebMethod(EnableSession = true)]
+        public string listarStatusCotacao(string dataI, string dataF, string filter, string nota)
+        {
+            string SQL;
+            string SQL2;
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    filter = " AND NM_VENDEDOR LIKE '%" + nota + "%' ";
+                    break;
+                case "2":
+                    filter = " AND INSIDE LIKE '%" + nota + "%' ";
+                    break;
+                case "3":
+                    filter = " AND NM_CLIENTE LIKE '%" + nota + "%' ";
+                    break;
+                case "4":
+                    filter = " AND NM_STATUS_COTACAO LIKE '%" + nota + "%' ";
+                    break;
+                default:
+                    filter = "";
+                    break;
+            }
+
+            SQL = "select NM_STATUS_COTACAO, COUNT(NR_COTACAO) as QUANTIDADE ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
+            SQL += " " + filter + "";
+            SQL += "GROUP BY NM_STATUS_COTACAO ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarModalCotacao(string dataI, string dataF, string filter, string nota)
+        {
+            string SQL;
+            string SQL2;
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    filter = " AND NM_VENDEDOR LIKE '%" + nota + "%' ";
+                    break;
+                case "2":
+                    filter = " AND INSIDE LIKE '%" + nota + "%' ";
+                    break;
+                case "3":
+                    filter = " AND NM_CLIENTE LIKE '%" + nota + "%' ";
+                    break;
+                case "4":
+                    filter = " AND NM_STATUS_COTACAO LIKE '%" + nota + "%' ";
+                    break;
+                default:
+                    filter = "";
+                    break;
+            }
+
+            SQL = "select MODAL, COUNT(NR_COTACAO) AS QUANTIDADE ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
+            SQL += " " + filter + "";
+            SQL += "GROUP BY MODAL ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarIncotermCotacao(string dataI, string dataF, string filter, string nota)
+        {
+            string SQL;
+            string SQL2;
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    filter = " AND NM_VENDEDOR LIKE '%" + nota + "%' ";
+                    break;
+                case "2":
+                    filter = " AND INSIDE LIKE '%" + nota + "%' ";
+                    break;
+                case "3":
+                    filter = " AND NM_CLIENTE LIKE '%" + nota + "%' ";
+                    break;
+                case "4":
+                    filter = " AND NM_STATUS_COTACAO LIKE '%" + nota + "%' ";
+                    break;
+                default:
+                    filter = "";
+                    break;
+            }
+
+            SQL = "select CD_INCOTERM, COUNT(NR_COTACAO) AS QUANTIDADE ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
+            SQL += " " + filter + "";
+            SQL += "GROUP BY CD_INCOTERM ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarVendedorCotacao(string dataI, string dataF, string filter, string nota)
+        {
+            string SQL;
+            string SQL2;
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    filter = " AND NM_VENDEDOR LIKE '%" + nota + "%' ";
+                    break;
+                case "2":
+                    filter = " AND INSIDE LIKE '%" + nota + "%' ";
+                    break;
+                case "3":
+                    filter = " AND NM_CLIENTE LIKE '%" + nota + "%' ";
+                    break;
+                case "4":
+                    filter = " AND NM_STATUS_COTACAO LIKE '%" + nota + "%' ";
+                    break;
+                default:
+                    filter = "";
+                    break;
+            }
+
+            SQL = "select NM_VENDEDOR, COUNT(NR_COTACAO) AS QUANTIDADE ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
+            SQL += " " + filter + "";
+            SQL += "GROUP BY NM_VENDEDOR ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarInsideCotacao(string dataI, string dataF, string filter, string nota)
+        {
+            string SQL;
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    filter = " AND NM_VENDEDOR LIKE '%" + nota + "%' ";
+                    break;
+                case "2":
+                    filter = " AND INSIDE LIKE '%" + nota + "%' ";
+                    break;
+                case "3":
+                    filter = " AND NM_CLIENTE LIKE '%" + nota + "%' ";
+                    break;
+                case "4":
+                    filter = " AND NM_STATUS_COTACAO LIKE '%" + nota + "%' ";
+                    break;
+                default:
+                    filter = "";
+                    break;
+            }
+
+            SQL = "select INSIDE, COUNT(NR_COTACAO) AS QUANTIDADE ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','" + Session["ID_USUARIO"] + "') ";
+            SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
+            SQL += " " + filter + "";
+            SQL += "GROUP BY INSIDE ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        /*[WebMethod(EnableSession = true)]
+        public string ProcessosPorAgente(string dataI, string dataF, string nota, string filter)
+        {
+            string SQL;
+            string diaI;
+            string mesI;
+            string anoI;
+            string diaF;
+            string mesF;
+            string anoF;
+
+            if (dataI != "")
+            {
+                diaI = dataI.Substring(8, 2);
+                mesI = dataI.Substring(5, 2);
+                anoI = dataI.Substring(0, 4);
+                dataI = diaI + '-' + mesI + '-' + anoI;
+            }
+            else
+            {
+                dataI = "01-01-1900";
+            }
+
+            if (dataF != "")
+            {
+                diaF = dataF.Substring(8, 2);
+                mesF = dataF.Substring(5, 2);
+                anoF = dataF.Substring(0, 4);
+                dataF = diaF + '-' + mesF + '-' + anoF;
+            }
+            else
+            {
+                dataF = "01-01-2900";
+            }
+
+
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND B.NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND D.NM_RAZAO LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            SQL = "SELECT B.NR_PROCESSO, ";
+            SQL += "D.NM_RAZAO, ";
+            SQL += "ISNULL(FORMAT(CONVERT(DATE, B.DT_EMBARQUE, 103),'dd/MM/yyyy'),'') AS DATA_EMBARQUE, ";
+            SQL += "ISNULL(FORMAT(CONVERT(DATE, B.DT_CHEGADA, 103),'dd/MM/yyyy'),'') AS DATA_CHEGADA, ";
+            SQL += "M.NR_BL AS NR_MASTER, ";
+            SQL += "B.NR_BL AS NR_HOUSE, ";
+            SQL += "E.SIGLA_MOEDA, ";
+            SQL += "SUM(A.VL_TAXA_CALCULADO) AS VALOR_CALCULADO, ";
+            SQL += "CASE WHEN A.CD_PR='P' THEN 'PAGAR' ELSE 'RECEBER' END AS TIPO ";
+            SQL += "FROM TB_BL_TAXA A ";
+            SQL += "JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "JOIN TB_BL M ON B.ID_BL_MASTER = M.ID_BL ";
+            SQL += "JOIN TB_PARCEIRO D ON B.ID_PARCEIRO_AGENTE_INTERNACIONAL = D.ID_PARCEIRO ";
+            SQL += "JOIN TB_MOEDA E ON A.ID_MOEDA = E.ID_MOEDA ";
+            SQL += "WHERE A.FL_DECLARADO = 1 AND A.ID_ORIGEM_PAGAMENTO = 2 ";
+            SQL += "AND B.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE) ";
+            SQL += "AND A.ID_ITEM_DESPESA NOT IN(71) ";
+            SQL += " "+nota+" ";
+            SQL += "GROUP BY B.NR_PROCESSO, A.CD_PR, D.NM_RAZAO, CONVERT(DATE, B.DT_EMBARQUE, 103), CONVERT(DATE, B.DT_CHEGADA, 103), M.NR_BL, B.NR_BL, E.SIGLA_MOEDA ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }*/
+
+        [WebMethod(EnableSession = true)]
+        public string ProcessosPorAgente(string dataI, string dataF, string nota, string filter)
+        {
+            string SQL;
+            string diaI;
+            string mesI;
+            string anoI;
+            string diaF;
+            string mesF;
+            string anoF;
+
+            if (dataI != "")
+            {
+                diaI = dataI.Substring(8, 2);
+                mesI = dataI.Substring(5, 2);
+                anoI = dataI.Substring(0, 4);
+                dataI = diaI + '-' + mesI + '-' + anoI;
+            }
+            else
+            {
+                dataI = "01-01-1900";
+            }
+
+            if (dataF != "")
+            {
+                diaF = dataF.Substring(8, 2);
+                mesF = dataF.Substring(5, 2);
+                anoF = dataF.Substring(0, 4);
+                dataF = diaF + '-' + mesF + '-' + anoF;
+            }
+            else
+            {
+                dataF = "01-01-2900";
+            }
+
+
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND NM_RAZAO LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            SQL = "SELECT NR_PROCESSO, NR_HOUSE, NR_MASTER, NM_RAZAO, DT_CHEGADA, DT_PREVISAO_CHEGADA, ";
+            SQL += "DT_EMBARQUE, DT_PREVISAO_EMBARQUE, ";
+            SQL += "SUM(VL_TAXA_CALCULADO) AS VALOR, SIGLA_MOEDA, TIPO_MOVIMENTO ";
+            SQL += "FROM VW_ACCOUNT_TAXAS_ABERTA ";
+            SQL += "WHERE CONVERT(DATE, DT_EMBARQUE, 103) BETWEEN CONVERT(DATE,'" + dataI + "',103) ";
+            SQL += "AND CONVERT(DATE,'" + dataF + "',103) ";
+            SQL += "" + nota + " ";
+            SQL += "GROUP BY NR_PROCESSO, NR_HOUSE, NR_MASTER, NM_RAZAO, ";
+            SQL += "DT_CHEGADA, DT_PREVISAO_CHEGADA, DT_EMBARQUE, DT_PREVISAO_EMBARQUE, SIGLA_MOEDA, TIPO_MOVIMENTO ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+
+
+        /*[WebMethod(EnableSession = true)]
+        public string TaxaProcesso(string dataI, string dataF, string nota, string filter)
+        {
+            string SQL;
+            string diaI;
+            string mesI;
+            string anoI;
+            string diaF;
+            string mesF;
+            string anoF;
+
+            if (dataI != "")
+            {
+                diaI = dataI.Substring(8, 2);
+                mesI = dataI.Substring(5, 2);
+                anoI = dataI.Substring(0, 4);
+                dataI = diaI + '-' + mesI + '-' + anoI;
+            }
+            else
+            {
+                dataI = "01-01-1900";
+            }
+
+            if (dataF != "")
+            {
+                diaF = dataF.Substring(8, 2);
+                mesF = dataF.Substring(5, 2);
+                anoF = dataF.Substring(0, 4);
+                dataF = diaF + '-' + mesF + '-' + anoF;
+            }
+            else
+            {
+                dataF = "01-01-2900";
+            }
+
+
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND B.NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND D.NM_RAZAO LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            SQL = "SELECT B.NR_PROCESSO, ";
+            SQL += "D.NM_RAZAO, ";
+            SQL += "ISNULL(FORMAT(CONVERT(DATE, B.DT_EMBARQUE, 103),'dd/MM/yyyy'),'') AS DATA_EMBARQUE, ";
+            SQL += "ISNULL(FORMAT(CONVERT(DATE, B.DT_CHEGADA, 103),'dd/MM/yyyy'),'') AS DATA_CHEGADA, ";
+            SQL += "M.NR_BL AS NR_MASTER, ";
+            SQL += "B.NR_BL AS NR_HOUSE, ";
+            SQL += "C.NM_ITEM_DESPESA, ";
+            SQL += "E.SIGLA_MOEDA, ";
+            SQL += "A.VL_TAXA_CALCULADO AS VALOR_CALCULADO, ";
+            SQL += "CASE WHEN A.CD_PR='P' THEN 'PAGAR' ELSE 'RECEBER' END AS TIPO ";
+            SQL += "FROM TB_BL_TAXA A ";
+            SQL += "JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "JOIN TB_BL M ON B.ID_BL_MASTER = M.ID_BL ";
+            SQL += "JOIN TB_ITEM_DESPESA C ON A.ID_ITEM_DESPESA = C.ID_ITEM_DESPESA ";
+            SQL += "JOIN TB_PARCEIRO D ON B.ID_PARCEIRO_AGENTE_INTERNACIONAL = D.ID_PARCEIRO ";
+            SQL += "JOIN TB_MOEDA E ON A.ID_MOEDA = E.ID_MOEDA ";
+            SQL += "WHERE A.FL_DECLARADO = 1 AND A.ID_ORIGEM_PAGAMENTO = 2 ";
+            SQL += "AND B.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE) ";
+            SQL += "AND C.ID_ITEM_DESPESA NOT IN(71) ";
+            SQL += "AND CONVERT(DATE,B.DT_EMBARQUE,103) BETWEEN CONVERT(DATE,'" + dataI + "',103) AND CONVERT(DATE,'" + dataF + "',103) ";
+            SQL += " " + nota + " ";
+            SQL += "ORDER BY B.NR_PROCESSO ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }*/
+
+        [WebMethod(EnableSession = true)]
+        public string TaxaProcesso(string dataI, string dataF, string nota, string filter)
+        {
+            string SQL;
+            string diaI;
+            string mesI;
+            string anoI;
+            string diaF;
+            string mesF;
+            string anoF;
+
+            if (dataI != "")
+            {
+                diaI = dataI.Substring(8, 2);
+                mesI = dataI.Substring(5, 2);
+                anoI = dataI.Substring(0, 4);
+                dataI = diaI + '-' + mesI + '-' + anoI;
+            }
+            else
+            {
+                dataI = "01-01-1900";
+            }
+
+            if (dataF != "")
+            {
+                diaF = dataF.Substring(8, 2);
+                mesF = dataF.Substring(5, 2);
+                anoF = dataF.Substring(0, 4);
+                dataF = diaF + '-' + mesF + '-' + anoF;
+            }
+            else
+            {
+                dataF = "01-01-2900";
+            }
+
+
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND NM_RAZAO LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            SQL = "SELECT NR_PROCESSO, NR_HOUSE, NR_MASTER, ";
+            SQL += "NM_RAZAO, PARCEIRO_TAXA, DT_CHEGADA, DT_PREVISAO_CHEGADA, ";
+            SQL += "DT_EMBARQUE, DT_PREVISAO_EMBARQUE, ";
+            SQL += "NM_ITEM_DESPESA, VL_TAXA_CALCULADO, SIGLA_MOEDA, TIPO_MOVIMENTO ";
+            SQL += "FROM VW_ACCOUNT_TAXAS_ABERTA ";
+            SQL += "WHERE CONVERT(DATE,DT_EMBARQUE,103) BETWEEN CONVERT(DATE,'" + dataI + "',103) AND CONVERT(DATE,'" + dataF + "',103) ";
+            SQL += " " + nota + " ";
+            SQL += "ORDER BY NR_PROCESSO ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
 
         [WebMethod(EnableSession = true)]
         public string listarConferenciaContaCorrente(string dataI, string dataF, string filter, string nota)
@@ -7849,7 +9799,7 @@ namespace ABAINFRA.Web
             return campo.Substring(0, tam) + ";";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarContasRecebidasPagas(string dataI, string dataF, string nota, string filter)
         {
             string SQL;
@@ -7903,11 +9853,13 @@ namespace ABAINFRA.Web
             }
 
             SQL = "SELECT ISNULL(NR_PROCESSO,'') AS NR_PROCESSO,  ISNULL(NR_BL_MASTER, '') AS MBL, ";
+            SQL += "ISNULL(CASE WHEN VL_DIFERENCA > 0.00 THEN VL_DIFERENCA END,0) AS ACRESCIMO, ";
+            SQL += "ISNULL(CASE WHEN VL_DIFERENCA < 0.00 THEN VL_DIFERENCA END,0) AS DECRESCIMO, VL_ITEM_DESPESA_BR + ISNULL(VL_DIFERENCA,0) AS TOTAL, ";
             SQL += "ISNULL(NM_ITEM_DESPESA, '') AS NM_ITEM_DESPESA, ISNULL(FORMAT(DT_LIQUIDACAO, 'dd/MM/yyyy'), '') AS DT_LIQUIDACAO, ";
             SQL += "ISNULL(NM_PARCEIRO, '') AS NM_PARCEIRO, ISNULL(TP_MOVIMENTO,'') AS TIPO, ISNULL(CONVERT(VARCHAR, VL_ITEM_DESPESA), '') AS VALOR, ";
             SQL += "ISNULL(MOEDA,'') AS MOEDA, ISNULL(VL_CAMBIO,0) AS CAMBIO, ISNULL(CONVERT(VARCHAR, VL_ITEM_DESPESA_BR), '') AS VALOR_BR, ";
             SQL += "ISNULL(FORMAT(DT_CAMBIO, 'dd/MM/yyyy'), '') AS DT_CAMBIO ";
-            SQL += "FROM FN_PREVISIBILIDADE_CONTA_CORRENTE('01/01/1900', '01/01/2900') ";
+            SQL += "FROM FN_PREVISIBILIDADE_CONTA_CORRENTE_TESTE('01/01/1900', '01/01/2900') ";
             SQL += "WHERE CONVERT(DATE, DT_LIQUIDACAO,103) BETWEEN CONVERT(DATE, '" + dataI + "',103) AND CONVERT(DATE, '" + dataF + "',103) ";
             SQL += "" + nota + "";
             SQL += "ORDER BY NR_PROCESSO, NM_ITEM_DESPESA ";
@@ -7917,7 +9869,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarRelatorioContasRecebidasPagas(string dataI, string dataF)
         {
             string SQL;
@@ -7988,8 +9940,8 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
-        public string listarContasAReceberAPagar(string dataI, string dataF, string nota, string filter)
+        [WebMethod(EnableSession = true)]
+        public string listarContasAReceberAPagar(string dataI, string dataF, string nota, string filter, string origem, string chkConfSim, string chkConfNao)
         {
             string SQL;
 
@@ -8009,10 +9961,10 @@ namespace ABAINFRA.Web
                     nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
                     break;
                 case "2":
-                    nota = "AND NM_CLIENTE_REC LIKE '" + nota + "%' ";
+                    nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
                     break;
                 case "3":
-                    nota = "AND NM_FORNECEDOR_PAG LIKE '" + nota + "%' ";
+                    nota = "AND NM_FORNECEDOR LIKE '" + nota + "%' ";
                     break;
                 case "4":
                     nota = "AND NR_BL_MASTER LIKE '" + nota + "%' ";
@@ -8021,6 +9973,48 @@ namespace ABAINFRA.Web
                     nota = "";
                     break;
             }
+
+            switch (origem)
+            {
+                case "1":
+                    origem = "AND ID_ORIGEM_PAGAMENTO = " + origem + " ";
+                    break;
+                case "2":
+                    origem = "AND ID_ORIGEM_PAGAMENTO = " + origem + " ";
+                    break;
+                default:
+                    origem = "";
+                    break;
+            }
+
+            if (chkConfSim == "1" && chkConfNao == "1")
+            {
+                chkConfSim = "";
+                chkConfNao = "";
+            }
+            else
+            {
+                switch (chkConfNao)
+                {
+                    case "1":
+                        chkConfNao = " AND (ISNULL(DOC_CONFERIDO_HOUSE,0)=0 AND ISNULL(DOC_CONFERIDO_MASTER,0)=0) ";
+                        break;
+                    default:
+                        chkConfNao = "";
+                        break;
+                }
+
+                switch (chkConfSim)
+                {
+                    case "1":
+                        chkConfSim = " AND (DOC_CONFERIDO_HOUSE != 0 OR DOC_CONFERIDO_MASTER != 0) ";
+                        break;
+                    default:
+                        chkConfSim = "";
+                        break;
+                }
+            }
+
             SQL = "SELECT ISNULL(NR_PROCESSO,'') AS PROCESSO, ";
             SQL += "ISNULL(NR_BL_MASTER, '') AS MBL, ";
             SQL += "ISNULL(TP_SERVICO, '') AS SERVICO, ";
@@ -8036,27 +10030,70 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(MOEDA_SALDO_PAGAR, '') AS MOEDA_PAG, ";
             SQL += "ISNULL(VL_CAMBIO_SALDO_PAGAR, 0) AS CAMBIO_PAGAR, ";
             SQL += "ISNULL(FORMAT(DT_CAMBIO_SALDO_PAGAR, 'dd/MM/yyyy'), '') AS DT_CAMBIO_PAG, ";
-            SQL += "ISNULL(VL_SALDO_PAGAR_BR, 0) AS PAGAR ";
-            SQL += "FROM dbo.FN_PREVISIBILIDADE_SALDO('" + dataI + "','" + dataF + "','') "; 
+            SQL += "ISNULL(VL_SALDO_PAGAR_BR, 0) AS PAGAR, ";
+            SQL += "ISNULL(FORMAT(DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ";
+            SQL += "ISNULL(TP_ESTUFAGEM,'') AS ESTUFAGEM, ";
+            SQL += "ISNULL(TP_FATURAMENTO,'') AS FATURAMENTO, ";
+            SQL += "CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE, 0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, ";
+            SQL += "CASE WHEN ISNULL(DOC_CONFERIDO_MASTER, 0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER ";
+            SQL += "FROM dbo.FN_PREVISIBILIDADE_SALDO_TESTE('" + dataI + "','" + dataF + "','') ";
             SQL += "WHERE RIGHT(NR_PROCESSO,2) >= 18 ";
             SQL += "" + nota + "";
+            SQL += "" + origem + "";
+            SQL += "" + chkConfSim + "";
+            SQL += "" + chkConfNao + "";
             SQL += "ORDER BY NR_PROCESSO, NM_ITEM_DESPESA ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
+
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
-        public string ContaPrevisibilidadeProcesso()
+        [WebMethod(EnableSession = true)]
+        public string ExportContaPrevisibilidadeProcesso(string dataI, string dataF, string nota, string filter, string chkConfSim, string chkConfNao)
         {
+
             string dtembarque;
             string dtprevisaochegada;
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.AddDays(1).ToString("dd/MM/yyyy");
             string sqlFormattedDate2 = myDateTime.AddDays(90).ToString("dd/MM/yyyy");
             string SQL;
-            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, DT_EMBARQUE AS DTEMBARQUE, DT_PREVISAO_CHEGADA as DTPREVISAOCHEGADA, ISNULL(NM_CLIENTE,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,ISNULL(VL_RECEBER,0) AS ARECEBERBR, ISNULL(VL_PAGAR,0) AS APAGARBR, ISNULL(VL_SALDO,0) AS SALDOBR FROM FN_PREVISIBILIDADE_PROCESSO('"+ sqlFormattedDate + "','"+sqlFormattedDate2+"') ORDER BY NR_PROCESSO";
+
+            if (chkConfSim == "1" && chkConfNao == "1")
+            {
+                chkConfSim = "";
+                chkConfNao = "";
+            }
+            else
+            {
+                switch (chkConfNao)
+                {
+                    case "1":
+                        chkConfNao = " AND (ISNULL(DOC_CONFERIDO_HOUSE,0)=0 AND ISNULL(DOC_CONFERIDO_MASTER,0)=0) ";
+                        break;
+                    default:
+                        chkConfNao = "";
+                        break;
+                }
+
+                switch (chkConfSim)
+                {
+                    case "1":
+                        chkConfSim = " AND (DOC_CONFERIDO_HOUSE != 0 OR DOC_CONFERIDO_MASTER != 0) ";
+                        break;
+                    default:
+                        chkConfSim = "";
+                        break;
+                }
+            }
+
+            SQL = "SELECT CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, CASE WHEN ISNULL(DOC_CONFERIDO_MASTER,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER, ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, DT_EMBARQUE AS DTEMBARQUE, DT_PREVISAO_CHEGADA as DTPREVISAOCHEGADA, ISNULL(NM_CLIENTE,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,ISNULL(VL_RECEBER,0) AS ARECEBERBR, ISNULL(VL_PAGAR,0) AS APAGARBR, ISNULL(VL_SALDO,0) AS SALDOBR FROM FN_PREVISIBILIDADE_PROCESSO('" + sqlFormattedDate + "','" + sqlFormattedDate2 + "') ";
+            SQL += "WHERE RIGHT(NR_PROCESSO,2) > 18 ";
+            SQL += "" + chkConfSim + "";
+            SQL += "" + chkConfNao + "";
+            SQL += "ORDER BY NR_PROCESSO ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -8082,6 +10119,8 @@ namespace ABAINFRA.Web
                     {
                         dtprevisaochegada = listTable.Rows[i]["DTPREVISAOCHEGADA"].ToString();
                     }
+                    previ[i] += listTable.Rows[i]["DOC_CONFERIDO_HOUSE"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["DOC_CONFERIDO_MASTER"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["PROCESSO"].ToString() + ";";
                     previ[i] += fmtTotvs2(listTable.Rows[i]["MASTER"].ToString());
                     previ[i] += fmtTotvs2(listTable.Rows[i]["HOUSE"].ToString());
@@ -8104,14 +10143,248 @@ namespace ABAINFRA.Web
                     previ[i] += listTable.Rows[i]["SALDOBR"].ToString() + ";";
                 }
                 return JsonConvert.SerializeObject(previ);
-			}
-			else
-			{
+            }
+            else
+            {
                 return JsonConvert.SerializeObject(null);
-			}
+            }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
+        public string ContaPrevisibilidadeProcesso(string dataI, string dataF, string nota, string filter, string chkConfSim, string chkConfNao)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
+                    break;
+                case "3":
+                    nota = "AND NM_FORNECEDOR LIKE '" + nota + "%' ";
+                    break;
+                case "4":
+                    nota = "AND NR_BL_MASTER LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            if (chkConfSim == "1" && chkConfNao == "1")
+            {
+                chkConfSim = "";
+                chkConfNao = "";
+            }
+            else
+            {
+                switch (chkConfNao)
+                {
+                    case "1":
+                        chkConfNao = " AND (ISNULL(DOC_CONFERIDO_HOUSE,0)=0 AND ISNULL(DOC_CONFERIDO_MASTER,0)=0) ";
+                        break;
+                    default:
+                        chkConfNao = "";
+                        break;
+                }
+
+                switch (chkConfSim)
+                {
+                    case "1":
+                        chkConfSim = " AND (DOC_CONFERIDO_HOUSE != 0 OR DOC_CONFERIDO_MASTER != 0) ";
+                        break;
+                    default:
+                        chkConfSim = "";
+                        break;
+                }
+            }
+
+            SQL = "SELECT CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, ";
+            SQL += "CASE WHEN ISNULL(DOC_CONFERIDO_MASTER,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER, ";
+            SQL += "ISNULL(NR_PROCESSO,'') AS PROCESSO, ";
+            SQL += "ISNULL(NR_BL_MASTER,'') MASTER, ";
+            SQL += "ISNULL(NR_BL_HOUSE,'') AS HOUSE, ";
+            SQL += "ISNULL(TP_SERVICO,'') TPSERVICO, ";
+            SQL += "ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ";
+            SQL += "ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ";
+            SQL += "ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ";
+            SQL += "ISNULL(QT_CNTR_20,0) AS CNTR20, ";
+            SQL += "ISNULL(QT_CNTR_40,0) AS CNTR40, ";
+            SQL += "ISNULL(ORIGEM,'') AS ORIGEM, ";
+            SQL += "ISNULL(DESTINO,'') AS DESTINO, ";
+            SQL += "FORMAT(DT_EMBARQUE,'dd/MM/yyyy') AS DTEMBARQUE, ";
+            SQL += "FORMAT(DT_PREVISAO_CHEGADA,'dd/MM/yyyy') as DTPREVISAOCHEGADA, ";
+            SQL += "ISNULL(NM_CLIENTE,'') AS PARCEIRO, ";
+            SQL += "ISNULL(CNEE,'') AS CNEE, ";
+            SQL += "ISNULL(INDICADOR,'') AS INDICADOR, ";
+            SQL += "ISNULL(AGENTE,'') AS AGENTE, ";
+            SQL += "CONVERT(DECIMAL(18,2),ISNULL(VL_RECEBER,0)) AS ARECEBERBR, ";
+            SQL += "CONVERT(DECIMAL(18,2),ISNULL(VL_PAGAR,0)) AS APAGARBR, ";
+            SQL += "ISNULL(TIPO_FATURAMENTO,0) AS TIPO_FATURAMENTO, ";
+            SQL += "ISNULL(DIAS_FATURADOS,0) AS DIAS_FATURADOS, ";
+            SQL += "CONVERT(DECIMAL(18,2),ISNULL(VL_SALDO,0)) AS SALDOBR, ";
+            SQL += "ISNULL(ORIGEM_COMPRA,'') AS ORIGEM_COMPRA, ";
+            SQL += "ISNULL(ORIGEM_VENDA, '') AS ORIGEM_VENDA, ";
+            SQL += "ISNULL(NM_ITEM_DESPESA,'') AS NM_ITEM_DESPESA ";
+            SQL += "FROM FN_PREVISIBILIDADE_PROCESSO('" + dataI + "','" + dataF + "') ";
+            SQL += "WHERE RIGHT(NR_PROCESSO,2) > 18 ";
+            SQL += "" + chkConfSim + "";
+            SQL += "" + chkConfNao + "";
+            SQL += "" + nota + "";
+            SQL += "ORDER BY NR_PROCESSO ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string CSVContaPrevisibilidadeProcesso(string dataI, string dataF, string nota, string filter, string chkConfSim, string chkConfNao)
+        {
+            string dtembarque;
+            string dtprevisaochegada;
+
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
+                    break;
+                case "3":
+                    nota = "AND NM_FORNECEDOR LIKE '" + nota + "%' ";
+                    break;
+                case "4":
+                    nota = "AND NR_BL_MASTER LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            if (chkConfSim == "1" && chkConfNao == "1")
+            {
+                chkConfSim = "";
+                chkConfNao = "";
+            }
+            else
+            {
+                switch (chkConfNao)
+                {
+                    case "1":
+                        chkConfNao = " AND (ISNULL(DOC_CONFERIDO_HOUSE,0)=0 AND ISNULL(DOC_CONFERIDO_MASTER,0)=0) ";
+                        break;
+                    default:
+                        chkConfNao = "";
+                        break;
+                }
+
+                switch (chkConfSim)
+                {
+                    case "1":
+                        chkConfSim = " AND (DOC_CONFERIDO_HOUSE != 0 OR DOC_CONFERIDO_MASTER != 0) ";
+                        break;
+                    default:
+                        chkConfSim = "";
+                        break;
+                }
+            }
+
+            SQL = "SELECT CASE WHEN ISNULL(DOC_CONFERIDO_HOUSE,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_HOUSE, CASE WHEN ISNULL(DOC_CONFERIDO_MASTER,0) = 0 THEN 'NÃO' ELSE 'SIM' END AS DOC_CONFERIDO_MASTER, ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, ISNULL(FORMAT(DT_EMBARQUE,'dd/MM/yyyy'),'') AS DTEMBARQUE, ISNULL(FORMAT(DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') as DTPREVISAOCHEGADA, ISNULL(NM_CLIENTE,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,CONVERT(DECIMAL(18,2),ISNULL(VL_RECEBER,0)) AS ARECEBERBR, CONVERT(DECIMAL(18,2),ISNULL(VL_PAGAR,0)) AS APAGARBR, ISNULL(TIPO_FATURAMENTO,0) AS TIPO_FATURAMENTO, ISNULL(DIAS_FATURADOS,0) AS DIAS_FATURADOS, CONVERT(DECIMAL(18,2),ISNULL(VL_SALDO,0)) AS SALDOBR, ISNULL(ORIGEM_COMPRA,'') AS ORIGEM_COMPRA, ISNULL(ORIGEM_VENDA, '') AS ORIGEM_VENDA FROM FN_PREVISIBILIDADE_PROCESSO('" + dataI + "','" + dataF + "') ";
+            SQL += "WHERE RIGHT(NR_PROCESSO,2) > 18 ";
+            SQL += "" + chkConfSim + "";
+            SQL += "" + chkConfNao + "";
+            SQL += "" + nota + "";
+            SQL += "ORDER BY NR_PROCESSO ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            if (listTable != null)
+            {
+                string[] previ = new string[listTable.Rows.Count];
+                for (int i = 0; i < listTable.Rows.Count; i++)
+                {
+                    if (listTable.Rows[i]["DTEMBARQUE"] == null)
+                    {
+                        dtembarque = "";
+                    }
+                    else
+                    {
+                        dtembarque = listTable.Rows[i]["DTEMBARQUE"].ToString();
+                    }
+
+                    if (listTable.Rows[i]["DTPREVISAOCHEGADA"] == null)
+                    {
+                        dtprevisaochegada = "";
+                    }
+                    else
+                    {
+                        dtprevisaochegada = listTable.Rows[i]["DTPREVISAOCHEGADA"].ToString();
+                    }
+                    previ[i] += listTable.Rows[i]["DOC_CONFERIDO_HOUSE"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["DOC_CONFERIDO_MASTER"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["PROCESSO"].ToString() + ";";
+                    previ[i] += fmtTotvs2(listTable.Rows[i]["MASTER"].ToString());
+                    previ[i] += fmtTotvs2(listTable.Rows[i]["HOUSE"].ToString());
+                    previ[i] += listTable.Rows[i]["TPSERVICO"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["TPESTUFAGEM"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["TPPAGAMENTOHOUSE"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["TPPAGAMENTOMASTER"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["CNTR20"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["CNTR40"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["ORIGEM"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["DESTINO"].ToString() + ";";
+                    previ[i] += dtembarque + ";";
+                    previ[i] += dtprevisaochegada + ";";
+                    previ[i] += listTable.Rows[i]["PARCEIRO"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["CNEE"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["INDICADOR"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["AGENTE"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["TIPO_FATURAMENTO"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["DIAS_FATURADOS"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["ORIGEM_COMPRA"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["ORIGEM_VENDA"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["ARECEBERBR"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["APAGARBR"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["SALDOBR"].ToString() + ";";
+                }
+                return JsonConvert.SerializeObject(previ);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject(null);
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
         public string ContaConferenciaProcesso()
         {
             string SQL;
@@ -8149,7 +10422,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarSaldo(string nota, string filter, string dataI, string dataF)
         {   
             string sqlFormattedDate;
@@ -8221,7 +10494,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarConferencia(string nota, string filter)
         {
             DateTime myDateTime = DateTime.Now;
@@ -8266,7 +10539,7 @@ namespace ABAINFRA.Web
                 return JsonConvert.SerializeObject(null);
             }
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarProcessoFinalizado(string dataI, string dataF, string fcl, string lcl, string filter, string text)
 		{
             string sqlFormattedDate;
@@ -8348,6 +10621,332 @@ namespace ABAINFRA.Web
 
         }
 
+        [WebMethod(EnableSession = true)]
+        public string listarRelatorioConsolidada(string dataI, string dataF, string dataC, string dataE)
+        {
+            string sqlFormattedDate = "";
+            string sqlFormattedDate2 = "";
+            string sqlFormattedDate3 = "";
+            string sqlFormattedDate4 = "";
+            string SQL;
+            string filter = "";
+
+            if (dataI != "")
+            {
+                string diaI = dataI.Substring(8, 2);
+                string mesI = dataI.Substring(5, 2);
+                string anoI = dataI.Substring(0, 4);
+                sqlFormattedDate = diaI + "/" + mesI + "/" + anoI;
+            }
+
+            if (dataF != "")
+            {
+                string diaF = dataF.Substring(8, 2);
+                string mesF = dataF.Substring(5, 2);
+                string anoF = dataF.Substring(0, 4);
+                sqlFormattedDate2 = diaF + "/" + mesF + "/" + anoF;
+            }
+
+            if (dataC != "")
+            {
+                string diaC = dataC.Substring(8, 2);
+                string mesC = dataC.Substring(5, 2);
+                string anoC = dataC.Substring(0, 4);
+                sqlFormattedDate3 = diaC + "/" + mesC + "/" + anoC;
+			}
+			
+            if (dataE != "")
+            {
+                string diaE = dataE.Substring(8, 2);
+                string mesE = dataE.Substring(5, 2);
+                string anoE = dataE.Substring(0, 4);
+                sqlFormattedDate4 = diaE + "/" + mesE + "/" + anoE;
+			}
+
+
+            if (sqlFormattedDate != "")
+            {
+                filter += "AND CONVERT(DATE, X.DT_PREVISAO_CHEGADA, 103) >= CONVERT(DATE,'" + sqlFormattedDate + "',103) ";
+            }
+
+            if (sqlFormattedDate2 != "")
+            {
+                filter += "AND CONVERT(DATE, X.DT_PREVISAO_CHEGADA, 103) <= CONVERT(DATE, '" + sqlFormattedDate2 + "',103) ";
+            }
+
+            if (sqlFormattedDate3 != "")
+			{
+                filter += "AND X.DT_CHEGADA = CONVERT(DATE,'" + sqlFormattedDate3 + "',103) ";
+			}
+
+            if(sqlFormattedDate4 != "")
+			{
+                filter += "AND X.DT_EMBARQUE = CONVERT(DATE, '" + sqlFormattedDate4 + "',103) ";
+			}
+
+
+            SQL = "SELECT X.NM_NAVIO, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,FORMAT(MAX(X.DT_CHEGADA), 'dd/MM/yyyy'),103),'') AS CHEGADA, ";
+            SQL += "TC.NM_TIPO_CONTAINER as TIPO_CNTR, ";
+            SQL += "FORMAT(MAX(X.DT_PREVISAO_CHEGADA), 'dd/MM/yyyy') AS PREVISAO_CHEGADA, ";
+            SQL += "FORMAT(MAX(X.DT_EMBARQUE), 'dd/MM/yyyy') AS EMBARQUE, ";
+            SQL += "X.NR_CNTR, ";
+            SQL += "X.NM_TIPO_CARGA, ";
+            SQL += "X.NM_TIPO_ESTUFAGEM, ";
+            SQL += "COUNT(X.NR_BL) AS BL, ";
+            SQL += "X.NM_PORTO AS PORTO_ORIGEM, ";
+            SQL += "convert(decimal(13, 3), SUM(X.VL_M3)) AS METRAGEM, ";
+            SQL += "convert(decimal(13, 3), SUM(X.VL_PESO_BRUTO)) AS PESO, ";
+            SQL += "(SELECT COUNT(A.ID_BL) FROM TB_BL A ";
+            SQL += "JOIN TB_AMR_CNTR_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "JOIN TB_CNTR_BL C ON B.ID_CNTR_BL = C.ID_CNTR_BL ";
+            SQL += "WHERE A.ID_TIPO_CARGA = 9 AND C.NR_CNTR = X.NR_CNTR) AS IMO, ";
+            SQL += "(SELECT COUNT(A.ID_COTACAO) FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "JOIN TB_AMR_CNTR_BL C ON B.ID_BL = C.ID_BL ";
+            SQL += "JOIN TB_CNTR_BL D ON C.ID_CNTR_BL = D.ID_CNTR_BL ";
+            SQL += "WHERE A.FL_LTL = 1 AND D.NR_CNTR = X.NR_CNTR) AS LTL, ";
+            SQL += "(SELECT COUNT(A.ID_COTACAO) FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "JOIN TB_AMR_CNTR_BL C ON B.ID_BL = C.ID_BL ";
+            SQL += "JOIN TB_CNTR_BL D ON C.ID_CNTR_BL = D.ID_CNTR_BL ";
+            SQL += "WHERE A.FL_DTA_HUB = 1 AND D.NR_CNTR = X.NR_CNTR) AS DTA_HUB, ";
+            SQL += "(SELECT COUNT(A.ID_COTACAO) FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "JOIN TB_AMR_CNTR_BL C ON B.ID_BL = C.ID_BL ";
+            SQL += "JOIN TB_CNTR_BL D ON C.ID_CNTR_BL = D.ID_CNTR_BL ";
+            SQL += "WHERE A.FL_FREE_HAND = 1 AND D.NR_CNTR = X.NR_CNTR) AS FREEHAND ";
+            SQL += "FROM(SELECT A.NR_PROCESSO, TPC.ID_TIPO_CONTAINER, C.NR_CNTR, A.NR_BL, CONVERT(DATE, M.DT_PREVISAO_CHEGADA, 103) AS DT_PREVISAO_CHEGADA, ";
+            SQL += "CONVERT(DATE, M.DT_CHEGADA, 103) AS DT_CHEGADA, ";
+            SQL += "CONVERT(DATE, M.DT_EMBARQUE, 103) AS DT_EMBARQUE, D.NM_NAVIO, E.NM_TIPO_CARGA, F.NM_TIPO_ESTUFAGEM, G.NM_PORTO, A.VL_M3, A.VL_PESO_BRUTO ";
+            SQL += "FROM TB_BL A JOIN TB_AMR_CNTR_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "JOIN TB_CNTR_BL C ON B.ID_CNTR_BL = C.ID_CNTR_BL ";
+            SQL += "JOIN TB_TIPO_CONTAINER TPC ON C.ID_TIPO_CNTR = TPC.ID_TIPO_CONTAINER ";
+            SQL += "JOIN TB_BL M ON A.ID_BL_MASTER = M.ID_BL ";
+            SQL += "JOIN TB_NAVIO D ON A.ID_NAVIO = D.ID_NAVIO ";
+            SQL += "JOIN TB_TIPO_CARGA E ON A.ID_TIPO_CARGA = E.ID_TIPO_CARGA ";
+            SQL += "JOIN TB_TIPO_ESTUFAGEM F ON A.ID_TIPO_ESTUFAGEM = F.ID_TIPO_ESTUFAGEM ";
+            SQL += "JOIN TB_PORTO G ON M.ID_PORTO_ORIGEM = G.ID_PORTO ";
+            SQL += "WHERE A.ID_TIPO_ESTUFAGEM = 2) X ";
+            SQL += "JOIN TB_TIPO_CONTAINER TC ON X.ID_TIPO_CONTAINER = TC.ID_TIPO_CONTAINER ";
+            SQL += "WHERE X.NM_NAVIO <> '' ";
+            SQL += " " + filter + " ";
+            SQL += "GROUP BY X.NR_CNTR, X.NM_NAVIO, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM, X.NM_PORTO, TC.NM_TIPO_CONTAINER ";
+
+            /*SQL = "SELECT X.NM_NAVIO, FORMAT(MAX(X.DT_PREVISAO_CHEGADA),'dd/MM/yyyy') AS PREVISAO_CHEGADA, ";
+            SQL += "FORMAT(MAX(X.DT_EMBARQUE),'dd/MM/yyyy') AS EMBARQUE, ";
+            SQL += "X.NR_CNTR, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM,COUNT(X.NR_BL) AS BL, ";
+            SQL += "X.NM_PORTO AS PORTO_ORIGEM, convert(decimal(13,3),SUM(X.VL_M3)) AS METRAGEM, ";
+            SQL += "convert(decimal(13,3),SUM(X.VL_PESO_BRUTO)) AS PESO ";
+            SQL += "FROM(SELECT C.NR_CNTR, A.NR_BL, ";
+            SQL += "CONVERT(DATE, M.DT_PREVISAO_CHEGADA, 103) AS DT_PREVISAO_CHEGADA, ";
+            SQL += "CONVERT(DATE, M.DT_EMBARQUE, 103) AS DT_EMBARQUE, ";
+            SQL += "D.NM_NAVIO, ";
+            SQL += "E.NM_TIPO_CARGA, ";
+            SQL += "F.NM_TIPO_ESTUFAGEM, ";
+            SQL += "G.NM_PORTO, ";
+            SQL += "A.VL_M3, ";
+            SQL += "A.VL_PESO_BRUTO ";
+            SQL += "FROM TB_BL A ";
+            SQL += "JOIN TB_AMR_CNTR_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "JOIN TB_CNTR_BL C ON B.ID_CNTR_BL = C.ID_CNTR_BL ";
+            SQL += "JOIN TB_BL M ON A.ID_BL_MASTER=M.ID_BL ";
+            SQL += "JOIN TB_NAVIO D ON A.ID_NAVIO = D.ID_NAVIO ";
+            SQL += "JOIN TB_TIPO_CARGA E ON  A.ID_TIPO_CARGA = E.ID_TIPO_CARGA ";
+            SQL += "JOIN TB_TIPO_ESTUFAGEM F ON A.ID_TIPO_ESTUFAGEM = F.ID_TIPO_ESTUFAGEM ";
+            SQL += "JOIN TB_PORTO G ON M.ID_PORTO_ORIGEM=G.ID_PORTO ";
+            SQL += "WHERE A.ID_TIPO_ESTUFAGEM = 2 ";
+            SQL += "AND CONVERT(DATE, A.DT_PREVISAO_CHEGADA, 103) ";
+            SQL += "BETWEEN CONVERT(DATE,'" + sqlFormattedDate + "',103) AND  CONVERT(DATE,'" + sqlFormattedDate2 + "',103)) X ";
+            SQL += "GROUP BY X.NR_CNTR, X.NM_NAVIO, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM, X.NM_PORTO ";*/
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarRelatorioConsolidadaAnalitico(string dataI, string dataF, string dataC, string dataE, int ltl, int dtahub, int transp, int ltln, int dtahubn, int transpn)
+        {
+            string sqlFormattedDate = "";
+            string sqlFormattedDate2 = "";
+            string sqlFormattedDate3 = "";
+            string sqlFormattedDate4 = "";
+            string SQL;
+            string filter = "";
+
+            if (dataI != "")
+            {
+                string diaI = dataI.Substring(8, 2);
+                string mesI = dataI.Substring(5, 2);
+                string anoI = dataI.Substring(0, 4);
+                sqlFormattedDate = diaI + "/" + mesI + "/" + anoI;
+            }
+
+            if (dataF != "")
+            {
+                string diaF = dataF.Substring(8, 2);
+                string mesF = dataF.Substring(5, 2);
+                string anoF = dataF.Substring(0, 4);
+                sqlFormattedDate2 = diaF + "/" + mesF + "/" + anoF;
+            }
+
+            if (dataC != "")
+            {
+                string diaC = dataC.Substring(8, 2);
+                string mesC = dataC.Substring(5, 2);
+                string anoC = dataC.Substring(0, 4);
+                sqlFormattedDate3 = diaC + "/" + mesC + "/" + anoC;
+            }
+
+            if (dataE != "")
+            {
+                string diaE = dataE.Substring(8, 2);
+                string mesE = dataE.Substring(5, 2);
+                string anoE = dataE.Substring(0, 4);
+                sqlFormattedDate4 = diaE + "/" + mesE + "/" + anoE;
+            }
+
+
+            if (sqlFormattedDate != "")
+            {
+                filter += "AND CONVERT(DATE, X.DT_PREVISAO_CHEGADA, 103) >= CONVERT(DATE,'" + sqlFormattedDate + "',103) ";
+            }
+
+            if (sqlFormattedDate2 != "")
+            {
+                filter += "AND CONVERT(DATE, X.DT_PREVISAO_CHEGADA, 103) <= CONVERT(DATE, '" + sqlFormattedDate2 + "',103) ";
+            }
+
+            if (sqlFormattedDate3 != "")
+            {
+                filter += "AND X.DT_CHEGADA = CONVERT(DATE,'" + sqlFormattedDate3 + "',103) ";
+            }
+
+            if (sqlFormattedDate4 != "")
+            {
+                filter += "AND X.DT_EMBARQUE = CONVERT(DATE, '" + sqlFormattedDate4 + "',103) ";
+            }
+
+            if ((ltl == 1 && ltln == 1) || (ltl == 0 && ltln == 0))
+            {
+                filter += "";
+            }
+            else if (ltl == 1)
+            {
+                filter += "AND (SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE A.FL_LTL = 1 AND B.ID_BL = X.ID_BL) = 'SIM' ";
+            }
+            else if (ltln == 1)
+            {
+                filter += "AND (SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE A.FL_LTL = 1 AND B.ID_BL = X.ID_BL) = 'NAO' ";
+            }
+            else
+            {
+                filter += "";
+            }
+
+
+            if ((dtahub == 1 && dtahubn == 1) || (dtahub == 0 && dtahubn == 0))
+            {
+                filter += "";
+            }
+            else if (dtahub == 1)
+            {
+                filter += "AND (SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE A.FL_DTA_HUB = 1 AND B.ID_BL = X.ID_BL) = 'SIM' ";
+            }
+            else if (dtahubn == 1)
+            {
+                filter += "AND (SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE A.FL_DTA_HUB = 1 AND B.ID_BL = X.ID_BL) = 'NAO' ";
+            }
+            else
+            {
+                filter += "";
+            }
+
+
+            if ((transp == 1 && transpn == 1) || (transp == 0 && transpn == 0))
+            {
+                filter += "";
+            }
+            else if (transp == 1)
+            {
+                filter += "AND (SELECT CASE WHEN A.FL_TRANSP_DEDICADO = 1 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_BL = X.ID_BL) = 'SIM' ";
+            }
+            else if (transp == 1)
+            {
+                filter += "AND (SELECT CASE WHEN A.FL_TRANSP_DEDICADO = 1 THEN 'SIM' ELSE 'NAO' END FROM TB_COTACAO A JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_BL = X.ID_BL) = 'NAO' ";
+            }
+            else
+            {
+                filter += "";
+            }
+
+
+            SQL = "SELECT X.NM_NAVIO, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,FORMAT(MAX(X.DT_CHEGADA), 'dd/MM/yyyy'),103),'') AS CHEGADA, ";
+            SQL += "FORMAT(MAX(X.DT_PREVISAO_CHEGADA), 'dd/MM/yyyy') AS PREVISAO_CHEGADA, ";
+            SQL += "FORMAT(MAX(X.DT_EMBARQUE), 'dd/MM/yyyy') AS EMBARQUE,  ";
+            SQL += "X.NM_TIPO_CARGA, ";
+            SQL += "X.NM_TIPO_ESTUFAGEM, ";
+            SQL += "X.NM_PORTO AS PORTO_ORIGEM, ";
+            SQL += "X.NR_PROCESSO,";
+            SQL += "X.TRANSPORTADORA,";
+            SQL += "convert(decimal(13, 3), SUM(X.VL_M3)) AS METRAGEM, ";
+            SQL += "convert(decimal(13, 3), SUM(X.VL_PESO_BRUTO)) AS PESO, ";
+            SQL += "(SELECT CASE WHEN A.FL_TRANSP_DEDICADO = 1 THEN 'SIM' ELSE 'NAO' END ";
+            SQL += "FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "WHERE B.ID_BL = X.ID_BL) AS TRANSP, ";
+            SQL += "(SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END ";
+            SQL += "FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "WHERE A.FL_LTL = 1 AND B.ID_BL = X.ID_BL) AS LTL, ";
+            SQL += "(SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END ";
+            SQL += "FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "WHERE A.FL_DTA_HUB = 1 AND B.ID_BL = X.ID_BL) AS DTA_HUB, ";
+            SQL += "(SELECT CASE WHEN COUNT(A.ID_COTACAO) > 0 THEN 'SIM' ELSE 'NAO' END ";
+            SQL += "FROM TB_COTACAO A ";
+            SQL += "JOIN TB_BL B ON A.ID_COTACAO = B.ID_COTACAO ";
+            SQL += "WHERE A.FL_FREE_HAND = 1 AND B.ID_BL = X.ID_BL) AS FREEHAND ";
+            SQL += "FROM(SELECT A.ID_BL, A.NR_PROCESSO, TPC.ID_TIPO_CONTAINER, C.NR_CNTR, A.NR_BL, CONVERT(DATE, M.DT_PREVISAO_CHEGADA, 103) AS DT_PREVISAO_CHEGADA, ";
+            SQL += "CONVERT(DATE, M.DT_CHEGADA, 103) AS DT_CHEGADA, ISNULL(H.NM_RAZAO,'') AS TRANSPORTADORA, ";
+            SQL += "CONVERT(DATE, M.DT_EMBARQUE, 103) AS DT_EMBARQUE, D.NM_NAVIO, E.NM_TIPO_CARGA, F.NM_TIPO_ESTUFAGEM, G.NM_PORTO, A.VL_M3, A.VL_PESO_BRUTO ";
+            SQL += "FROM TB_BL A JOIN TB_AMR_CNTR_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "LEFT JOIN TB_CNTR_BL C ON B.ID_CNTR_BL = C.ID_CNTR_BL ";
+            SQL += "LEFT JOIN TB_TIPO_CONTAINER TPC ON C.ID_TIPO_CNTR = TPC.ID_TIPO_CONTAINER ";
+            SQL += "LEFT JOIN TB_BL M ON A.ID_BL_MASTER = M.ID_BL ";
+            SQL += "LEFT JOIN TB_NAVIO D ON A.ID_NAVIO = D.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_TIPO_CARGA E ON A.ID_TIPO_CARGA = E.ID_TIPO_CARGA ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM F ON A.ID_TIPO_ESTUFAGEM = F.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_PORTO G ON M.ID_PORTO_ORIGEM = G.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PARCEIRO H ON A.ID_PARCEIRO_RODOVIARIO=H.ID_PARCEIRO ";
+            SQL += "WHERE A.ID_TIPO_ESTUFAGEM = 2 AND A.DT_CANCELAMENTO IS NULL) X ";
+            SQL += "WHERE X.NM_NAVIO <> '' ";
+            SQL += "" + filter + " ";
+            SQL += "GROUP BY X.NR_PROCESSO, X.NR_CNTR, X.ID_BL, X.NM_NAVIO, X.NM_TIPO_CARGA, X.NM_TIPO_ESTUFAGEM, X.NM_PORTO, X.TRANSPORTADORA ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+            [WebMethod(EnableSession = true)]
+        public string listarReportOCR()
+        {
+            string SQL;
+            SQL = "SELECT Data, [Tipo Mov.] as TP_MOV, [Nr. Aut.] AS NR_AUT, [Veículo Lanç.] AS VEIC_LANC, NUMBER, [Usuário] AS USUARIO, [Balança] BALANCE, MOTIVO, ERRO_OCR, SIM, NAO, TOTAL FROM VW_REPORT_EXPORT_OCR ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+
+        }
+
         public static string fmtTotvs2(string campo)
         {
             if (string.IsNullOrEmpty(campo)) { return ";"; }
@@ -8367,7 +10966,7 @@ namespace ABAINFRA.Web
             return "'" + campo.Substring(0, tam) + "';";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarComissao()
         {
             string SQL;
@@ -8379,7 +10978,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarComissaoNacional()
         {
             string SQL;
@@ -8391,7 +10990,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarComissaoInternacional()
         {
             string SQL;
@@ -8403,7 +11002,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarTaxasAbertas(string dataI, string dataF, string nota, string filter)
         {
             string SQL;
@@ -8439,6 +11038,696 @@ namespace ABAINFRA.Web
             listTable = DBS.List(SQL);
 
             return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarTaxasInativas(FiltrosTaxasInativas dados)
+        {
+            string SQL;
+            string Filtro = "";
+
+            string diaI = dados.DATAINICIAL.Substring(8, 2);
+            string mesI = dados.DATAINICIAL.Substring(5, 2);
+            string anoI = dados.DATAINICIAL.Substring(0, 4);
+
+            string diaF = dados.DATAFINAL.Substring(8, 2);
+            string mesF = dados.DATAFINAL.Substring(5, 2);
+            string anoF = dados.DATAFINAL.Substring(0, 4);
+            dados.DATAINICIAL = diaI + '/' + mesI + '/' + anoI;
+            dados.DATAFINAL = diaF + '/' + mesF + '/' + anoF;
+
+            if (dados.PROCESSO != "") { Filtro += "AND A.NR_PROCESSO LIKE '"+dados.PROCESSO+"%' " ; }
+            if (dados.FORNECEDOR != "") { Filtro += "AND E1.ID_PARCEIRO = '" + dados.FORNECEDOR + "' "; }
+            if (dados.ESTUFAGEM != "") { Filtro += "AND C.ID_TIPO_ESTUFAGEM = '" + dados.ESTUFAGEM+ "' "; }
+            if (dados.MODAL != "") { Filtro += "AND D1.ID_VIATRANSPORTE = '" + dados.MODAL+ "' "; }
+            if (dados.SERVICO != "") { Filtro += "AND D.ID_SERVICO = '" + dados.SERVICO+ "' "; }
+            if (dados.AGENTEINTER != "") { Filtro += "AND E2.ID_PARCEIRO = '" + dados.AGENTEINTER+ "' "; }
+            if (dados.CLIENTE != "") { Filtro += "AND E3.ID_PARCEIRO = '" + dados.CLIENTE + "' "; }
+            if (dados.TPMOVIMENTO != "") { Filtro += "AND B.CD_PR = '" + dados.TPMOVIMENTO + "' "; }
+            if (dados.ITEMDESPESA != "") { Filtro += "AND F.ID_ITEM_DESPESA = '" + dados.ITEMDESPESA + "' "; }
+            if (dados.MOEDA != "") { Filtro += "AND G.ID_MOEDA = '" + dados.MOEDA + "' "; }
+            if (dados.BASECALCULO != "") { Filtro += "AND H.ID_BASE_CALCULO_TAXA = '" + dados.BASECALCULO + "' "; }
+            if (dados.USUARIO != "") { Filtro += "AND J.ID_USUARIO = '" + dados.USUARIO+ "' "; }
+
+            SQL = "SELECT A.NR_PROCESSO, E1.NM_RAZAO AS FORNECEDOR, C.NM_TIPO_ESTUFAGEM, D1.NM_VIATRANSPORTE, ";
+            SQL += "D.TP_SERVICO, E2.NM_RAZAO AS AGENTE, E3.NM_RAZAO AS CLIENTE, ";
+            SQL += "CASE WHEN B.CD_PR = 'P' THEN 'PAGAR' ELSE 'RECEBER' END AS TIPO_MOVIMENTO, F.NM_ITEM_DESPESA, ";
+            SQL += "G.SIGLA_MOEDA, B.VL_TAXA, H.NM_BASE_CALCULO_TAXA, ISNULL(J.NOME,'') AS USUARIO_INATIVACAO, ISNULL(FORMAT(I.DT_INATIVACAO,'dd/MM/yyyy'),'') AS DATA_INATIVACAO, CONCAT(NM_MOTIVO_INATIVACAO ,ISNULL(' - ' + DS_MOTIVO_INATIVACAO,'')) AS MOTIVO_INATIVACAO ";
+            SQL += "FROM TB_BL A ";
+            SQL += "JOIN TB_BL_TAXA B ON A.ID_BL = B.ID_BL ";
+            SQL += "JOIN TB_TIPO_ESTUFAGEM C ON A.ID_TIPO_ESTUFAGEM = C.ID_TIPO_ESTUFAGEM ";
+            SQL += "JOIN TB_SERVICO D ON A.ID_SERVICO = D.ID_SERVICO ";
+            SQL += "JOIN TB_VIATRANSPORTE D1 ON D.ID_VIATRANSPORTE = D1.ID_VIATRANSPORTE ";
+            SQL += "LEFT JOIN TB_PARCEIRO E1 ON A.ID_PARCEIRO_IMPORTADOR = E1.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO E2 ON A.ID_PARCEIRO_AGENTE_INTERNACIONAL = E2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO E3 ON A.ID_PARCEIRO_CLIENTE = E3.ID_PARCEIRO ";
+            SQL += "JOIN TB_ITEM_DESPESA F ON B.ID_ITEM_DESPESA = F.ID_ITEM_DESPESA ";
+            SQL += "JOIN TB_MOEDA G ON B.ID_MOEDA = G.ID_MOEDA ";
+            SQL += "JOIN TB_BASE_CALCULO_TAXA H ON B.ID_BASE_CALCULO_TAXA = H.ID_BASE_CALCULO_TAXA ";
+            SQL += "LEFT JOIN TB_INATIVACAO_TAXAS I ON B.ID_BL_TAXA=I.ID_BL_TAXA ";
+            SQL += "LEFT JOIN TB_USUARIO J ON I.ID_USUARIO_INATIVACAO=J.ID_USUARIO ";
+            SQL += "LEFT JOIN TB_MOTIVO_INATIVACAO K ON I.ID_MOTIVO_INATIVACAO = K.ID_MOTIVO_INATIVACAO ";
+            SQL += "WHERE B.FL_TAXA_INATIVA = 1 ";
+            SQL += "AND CONVERT(DATE,A.DT_EMBARQUE,103) BETWEEN CONVERT(DATE,'" + dados.DATAINICIAL + "',103) AND CONVERT(DATE,'" + dados.DATAFINAL+ "' ,103) ";
+            SQL += "" + Filtro + "";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string getHomePage()
+        {
+            string SQL;
+
+            SQL = "SELECT NM_LINK_BI FROM TB_VINCULO_USUARIO A ";
+            SQL += "JOIN TB_POWER_BI B ON A.ID_TIPO_USUARIO = B.ID_GRUPO_USUARIO ";
+            SQL += "WHERE ID_USUARIO = 3 ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarEmpresas()
+        {
+            string SQL;
+
+            SQL = "SELECT NM_EMPRESA, ID_EMPRESA FROM TB_EMPRESA ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarAplicacoes(int idEmpresa)
+        {
+            string SQL;
+
+            SQL = "SELECT NM_EMPRESA, DS_URL FROM TB_APLICACAO_EMPRESA ";
+            SQL += "WHERE ID_EMPRESA = " + idEmpresa + "";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+	}
+	
+        [WebMethod(EnableSession = true)]
+        public string BuscaClienteParceiro(int Id)
+        {
+            if (Id != 0)
+            {
+                string SQL;
+                SQL = "SELECT ISNULL(A.ID_TIPO_ESTUFAGEM,0) AS ID_TIPO_ESTUFAGEM, ISNULL(A.ID_TIPO_COMEX,0) AS ID_TIPO_COMEX, ISNULL(A.ID_VIATRANSPORTE,0) AS ID_VIATRANSPORTE, A.OB_TAXAS, B.ID_ITEM_DESPESA, A.ID_BASE_CALCULO_TAXA, VL_TAXA_COMPRA, ISNULL(A.ID_PORTO_DESCARGA,0) AS ID_PORTO_DESCARGA, ISNULL(A.ID_TIPO_COBRANCA,0) AS ID_TIPO_COBRANCA, ";
+                SQL += "ISNULL(ID_MOEDA_COMPRA,'') AS MOEDA_COMPRA, VL_TAXA_VENDA, ISNULL(ID_MOEDA_VENDA,'') AS MOEDA_VENDA, A.FL_DECLARADO, A.FL_DIVISAO_PROFIT, ";
+                SQL += "A.ID_DESTINATARIO_COBRANCA, A.ID_TIPO_PAGAMENTO, A.ID_ORIGEM_PAGAMENTO, ";
+                SQL += "ISNULL(A.ID_PORTO_RECEBIMENTO,0) RECEBIMENTO, ISNULL(A.ID_PORTO_CARREGAMENTO,0) AS CARREGAMENTO, ISNULL(A.ID_INCOTERM,0) AS INCOTERM, A.ID_TIPO_PAGAMENTO, A.ID_ORIGEM_PAGAMENTO, ";
+                SQL += "A.ID_ITEM_DESPESA, FL_TAXA_TRANSPORTADOR, isnull(A.VL_TARIFA_MINIMA,0) as VL_TARIFA_MINIMA, isnull(A.VL_TARIFA_MINIMA_COMPRA,0) as VL_TARIFA_MINIMA_COMPRA ";
+                SQL += "FROM TB_TAXA_CLIENTE A ";
+                SQL += "INNER JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
+                SQL += "LEFT JOIN TB_BASE_CALCULO_TAXA C ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
+                SQL += "LEFT JOIN TB_MOEDA D ON A.ID_MOEDA_VENDA = D.CD_MOEDA ";
+                SQL += "WHERE ID_TAXA_CLIENTE = '" + Id + "'";
+
+                DataTable carregarDados = new DataTable();
+                carregarDados = DBS.List(SQL);
+                TaxasPrestador resultado = new TaxasPrestador();
+                resultado.ID_TAXA_CLIENTE = Id.ToString();
+                resultado.ID_ITEM_DESPESA = carregarDados.Rows[0]["ID_ITEM_DESPESA"].ToString();
+                resultado.ID_BASE_CALCULO_TAXA = carregarDados.Rows[0]["ID_BASE_CALCULO_TAXA"].ToString();
+                resultado.VL_TARIFA_MINIMA = carregarDados.Rows[0]["VL_TARIFA_MINIMA"].ToString();
+                resultado.VL_TARIFA_MINIMA_COMPRA = carregarDados.Rows[0]["VL_TARIFA_MINIMA_COMPRA"].ToString();
+                resultado.VL_TAXA_COMPRA = carregarDados.Rows[0]["VL_TAXA_COMPRA"].ToString();
+                resultado.ID_MOEDA_COMPRA = carregarDados.Rows[0]["MOEDA_COMPRA"].ToString();
+                resultado.VL_TAXA_VENDA = carregarDados.Rows[0]["VL_TAXA_VENDA"].ToString();
+                resultado.ID_MOEDA_VENDA = carregarDados.Rows[0]["MOEDA_VENDA"].ToString();
+                resultado.ID_TIPO_ESTUFAGEM = carregarDados.Rows[0]["ID_TIPO_ESTUFAGEM"].ToString();
+                resultado.ID_TIPO_COMEX = carregarDados.Rows[0]["ID_TIPO_COMEX"].ToString();
+                resultado.ID_PORTO_DESCARGA = carregarDados.Rows[0]["ID_PORTO_DESCARGA"].ToString();
+                resultado.ID_PORTO_RECEBIMENTO = carregarDados.Rows[0]["RECEBIMENTO"].ToString();
+                resultado.ID_PORTO_CARREGAMENTO = carregarDados.Rows[0]["CARREGAMENTO"].ToString();
+                resultado.ID_INCOTERM = carregarDados.Rows[0]["INCOTERM"].ToString();
+                resultado.ID_TIPO_COBRANCA = carregarDados.Rows[0]["ID_TIPO_COBRANCA"].ToString();
+                resultado.ID_VIATRANSPORTE = carregarDados.Rows[0]["ID_VIATRANSPORTE"].ToString();
+                if (carregarDados.Rows[0]["FL_DECLARADO"].ToString() == "True")
+                {
+                    resultado.FL_DECLARADO = "1";
+                }
+                else
+                {
+                    resultado.FL_DECLARADO = "0";
+                }
+                if (carregarDados.Rows[0]["FL_DIVISAO_PROFIT"].ToString() == "True")
+                {
+                    resultado.FL_DIVISAO_PROFIT = "1";
+                }
+                else
+                {
+                    resultado.FL_DIVISAO_PROFIT = "0";
+                }
+                if (carregarDados.Rows[0]["FL_TAXA_TRANSPORTADOR"].ToString() == "True")
+                {
+                    resultado.FL_TAXA_TRANSPORTADOR = "1";
+                }
+                else
+                {
+                    resultado.FL_TAXA_TRANSPORTADOR = "0";
+                }
+                resultado.ID_DESTINATARIO_COBRANCA = carregarDados.Rows[0]["ID_DESTINATARIO_COBRANCA"].ToString();
+                resultado.ID_TIPO_PAGAMENTO = carregarDados.Rows[0]["ID_TIPO_PAGAMENTO"].ToString();
+                resultado.ID_ORIGEM_PAGAMENTO = carregarDados.Rows[0]["ID_ORIGEM_PAGAMENTO"].ToString();
+                resultado.OB_TAXAS = carregarDados.Rows[0]["OB_TAXAS"].ToString();
+
+
+
+                return JsonConvert.SerializeObject(resultado);
+            }
+            else
+            {
+                return "selecione outro valor";
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public void CopiarTaxa(int Id)
+        {
+            string SQL;
+
+            try
+            {
+                SQL = "INSERT INTO TB_TAXA_CLIENTE ";
+                SQL += "SELECT ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_TIPO_PAGAMENTO, ID_ORIGEM_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_RECEBIMENTO, ID_PORTO_CARREGAMENTO, ID_PORTO_DESCARGA, ID_INCOTERM, ID_TIPO_COBRANCA FROM TB_TAXA_CLIENTE WHERE ID_TAXA_CLIENTE = " + Id + " SELECT SCOPE_IDENTITY()";
+                string newTaxa = DBS.ExecuteScalar(SQL);
+
+                SQL = "SELECT * FROM TB_TAXA_CLIENTE_VARIACAO WHERE ID_TAXA_CLIENTE = " + Id + "";
+                DataTable carregarDados = new DataTable();
+                carregarDados = DBS.List(SQL);
+
+                if (carregarDados != null)
+                {
+                    SQL = "INSERT INTO TB_TAXA_CLIENTE_VARIACAO ";
+                    SQL += "SELECT " + newTaxa + ", ID_CALCULO_VARIACAO, QT_ITEM, QT_ITEM_INICIAL, QT_ITEM_FINAL, ID_MOEDA, VL_COMPRA FROM TB_TAXA_CLIENTE_VARIACAO WHERE ID_TAXA_CLIENTE = " + Id + " ";
+                    DBS.ExecuteScalar(SQL);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string getObs(int Id)
+        {
+            string SQL;
+            SQL = "SELECT OBS_GERAL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " + Id + "";
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+            Taxas obs = new Taxas();
+
+            obs.DS_OBSERVACAO_GERAL = carregarDados.Rows[0]["OBS_GERAL"].ToString();
+            return JsonConvert.SerializeObject(carregarDados);
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public void UpdateObs(int Id, string obsGeral)
+        {
+            string SQL;
+            SQL = "UPDATE TB_PARCEIRO SET OBS_GERAL = '" + obsGeral + "' WHERE ID_PARCEIRO = " + Id + "";
+            DBS.ExecuteScalar(SQL);
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public void CadastrarRegra([FromBody] List<Variacao> dados)
+        {
+            string SQL;
+            try
+            {
+                for (int i = 0; i < dados.Count; i++)
+                {
+                    string idBaseCalculoVariacao = dados[i].idBaseCalculoVariacao;
+                    string idTaxaCliente = dados[i].idTaxaCliente;
+                    string qtinicial = dados[i].qtInicial;
+                    string qtfinal = dados[i].qtFinal;
+                    string moedac = dados[i].moedaC;
+                    string valorc = dados[i].valorC;
+                    string idVariacao = dados[i].idVariacao;
+
+                    if (idVariacao != "")
+                    {
+                        SQL = "UPDATE TB_TAXA_CLIENTE_VARIACAO SET ID_CALCULO_VARIACAO = " + idBaseCalculoVariacao + ", QT_ITEM_INICIAL = '" + qtinicial + "', QT_ITEM_FINAL = '" + qtfinal + "', ID_MOEDA= '" + moedac + "', VL_COMPRA = '" + valorc + "' ";
+                        SQL += "WHERE ID_TAXA_CLIENTE_VARIACAO = '" + idVariacao + "' ";
+                        DBS.ExecuteScalar(SQL);
+                    }
+                    else
+                    {
+                        SQL = "INSERT INTO TB_TAXA_CLIENTE_VARIACAO (ID_CALCULO_VARIACAO, ID_TAXA_CLIENTE, QT_ITEM_INICIAL, QT_ITEM_FINAL, ID_MOEDA, VL_COMPRA) ";
+                        SQL += "VALUES (" + idBaseCalculoVariacao + "," + idTaxaCliente + ",'" + qtinicial + "', '" + qtfinal + "', '" + moedac + "', '" + valorc + "') ";
+                        DBS.ExecuteScalar(SQL);
+                    }
+                }
+                return;
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string CarregarMoeda()
+        {
+            string SQL;
+
+            SQL = "SELECT ID_MOEDA, NM_MOEDA FROM TB_MOEDA ";
+
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(carregarDados);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string CadastrarTaxaPrestador(TaxasPrestador dados)
+        {
+            string tarifaV;
+            string tarifaC;
+
+
+            if (dados.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
+            if (dados.ID_TIPO_COMEX.ToString() == "") { dados.ID_TIPO_COMEX = "null"; }
+            if (dados.ID_TIPO_ESTUFAGEM.ToString() == "") { dados.ID_TIPO_ESTUFAGEM = "null"; }
+            if (dados.ID_VIATRANSPORTE.ToString() == "") { dados.ID_VIATRANSPORTE = "null"; }
+            if (dados.ID_INCOTERM.ToString() == "") { dados.ID_INCOTERM = "null"; }
+            if (dados.ID_PORTO_RECEBIMENTO.ToString() == "") { dados.ID_PORTO_RECEBIMENTO = "null"; }
+            if (dados.ID_PORTO_DESCARGA.ToString() == "") { dados.ID_PORTO_DESCARGA = "null"; };
+            if (dados.ID_PORTO_CARREGAMENTO.ToString() == "") { dados.ID_PORTO_CARREGAMENTO = "null"; }
+            if (dados.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
+            if ((dados.ID_BASE_CALCULO_TAXA == "6" || dados.ID_BASE_CALCULO_TAXA == "7" || dados.ID_BASE_CALCULO_TAXA == "13" || dados.ID_BASE_CALCULO_TAXA == "14" || dados.ID_BASE_CALCULO_TAXA == "37") && dados.VL_TARIFA_MINIMA.ToString() == "")
+            {
+                return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
+            }
+
+            if (dados.ID_MOEDA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Compra" }); }
+            if (dados.VL_TAXA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Compra" }); }
+            if (Double.Parse(dados.VL_TAXA_COMPRA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Compra menor ou igual a 0" }); }
+            if (dados.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
+            {
+                tarifaC = "0.00";
+            }
+            else
+            {
+                tarifaC = dados.VL_TARIFA_MINIMA_COMPRA.ToString();
+            }
+
+            if (dados.ID_MOEDA_VENDA.ToString() == "") { dados.ID_MOEDA_VENDA = "null"; }
+            if (dados.VL_TAXA_VENDA.ToString() == "") { dados.VL_TAXA_VENDA = "0.00"; }
+            if (dados.VL_TARIFA_MINIMA.ToString() == "")
+            {
+                tarifaV = "0.00";
+            }
+            else
+            {
+                tarifaV = dados.VL_TARIFA_MINIMA.ToString();
+            }
+
+            if (dados.FL_DECLARADO.ToString() == "") { dados.FL_DECLARADO = "0"; }
+            if (dados.FL_DIVISAO_PROFIT.ToString() == "") { dados.FL_DIVISAO_PROFIT = "0"; }
+            if (dados.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
+            if (dados.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
+            if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
+            if (dados.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
+
+
+            string SQL;
+            string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
+            string vlTaxaCompra = dados.VL_TAXA_COMPRA.ToString().Replace(',', '.');
+
+
+            SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
+            SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA,";
+            SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_DESCARGA, ID_TIPO_COBRANCA, ID_PORTO_CARREGAMENTO, ID_PORTO_RECEBIMENTO, ID_INCOTERM) ";
+            SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
+            SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "'," + dados.ID_MOEDA_COMPRA + ",'" + vlTaxaCompra + "'," + dados.ID_MOEDA_VENDA + ", ";
+            SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "'," + dados.ID_DESTINATARIO_COBRANCA + ", ";
+            SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
+            SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + ", ";
+            SQL += "" + dados.ID_TIPO_ESTUFAGEM + "," + dados.ID_ORIGEM_PAGAMENTO + "," + dados.ID_TIPO_PAGAMENTO + ", ";
+            SQL += "'" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "', ";
+            SQL += "'" + tarifaC.ToString().Replace(',', '.') + "'," + dados.ID_PORTO_DESCARGA + ", ";
+            SQL += "" + dados.ID_TIPO_COBRANCA.ToString() + ", " + dados.ID_PORTO_CARREGAMENTO + ", ";
+            SQL += "" + dados.ID_PORTO_RECEBIMENTO + ", " + dados.ID_INCOTERM + ") ";
+            string taxa = DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string CarregarTaxaParceiro(string Id, string comex, string via, string estufagem)
+        {
+
+            string SQL;
+            string filter = "";
+            if (comex != "0") { filter += " AND (A.ID_TIPO_COMEX = '" + comex + "' OR A.ID_TIPO_COMEX IS NULL) "; }
+            if (via != "0") { filter += " AND (A.ID_VIATRANSPORTE = '" + via + "'  OR A.ID_VIATRANSPORTE  IS NULL) "; }
+            if (estufagem != "0") { filter += " AND (A.ID_TIPO_ESTUFAGEM= '" + estufagem + "' OR A.ID_TIPO_ESTUFAGEM IS NULL) "; }
+
+            SQL = "SELECT ID_TAXA_CLIENTE, B.NM_ITEM_DESPESA as ITEM, ISNULL(H1.NM_PORTO,'TODOS') AS DESCARGA, ISNULL(H2.NM_PORTO,'') AS RECEBIMENTO, ISNULL(H3.NM_PORTO,'TODOS') AS CARREGAMENTO, ISNULL(NM_INCOTERM,'TODOS') AS INCOTERM, CD_INCOTERM, C.NM_BASE_CALCULO_TAXA, ISNULL(D.NM_MOEDA,'') AS NM_MOEDA, ISNULL(D1.NM_MOEDA,'') AS NM_MOEDA_COMPRA, VL_TAXA_VENDA, VL_TAXA_COMPRA, ISNULL(E.NM_TIPO_ESTUFAGEM,'TODOS') AS NM_TIPO_ESTUFAGEM, ISNULL(F.NM_TIPO_COMEX,'TODOS') AS NM_TIPO_COMEX, ISNULL(G.NM_VIATRANSPORTE,'TODOS') AS NM_VIATRANSPORTE, ISNULL(I.NM_TIPO_COBRANCA,'') AS NM_TIPO_COBRANCA ";
+            SQL += "FROM TB_TAXA_CLIENTE A ";
+            SQL += "INNER JOIN TB_ITEM_DESPESA B ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
+            SQL += "LEFT JOIN TB_BASE_CALCULO_TAXA C ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
+            SQL += "LEFT JOIN TB_MOEDA D ON A.ID_MOEDA_VENDA= D.CD_MOEDA ";
+            SQL += "LEFT JOIN TB_MOEDA D1 ON A.ID_MOEDA_COMPRA = D1.CD_MOEDA ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM E ON A.ID_TIPO_ESTUFAGEM = E.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_TIPO_COMEX F ON A.ID_TIPO_COMEX = F.ID_TIPO_COMEX ";
+            SQL += "LEFT JOIN TB_VIATRANSPORTE G ON A.ID_VIATRANSPORTE = G.ID_VIATRANSPORTE ";
+            SQL += "LEFT JOIN TB_PORTO H1 ON A.ID_PORTO_DESCARGA= H1.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PORTO H2 ON A.ID_PORTO_RECEBIMENTO= H2.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PORTO H3 ON A.ID_PORTO_CARREGAMENTO= H3.ID_PORTO ";
+            SQL += "LEFT JOIN TB_INCOTERM J ON A.ID_INCOTERM = J.ID_INCOTERM ";
+            SQL += "LEFT JOIN TB_TIPO_COBRANCA I ON A.ID_TIPO_COBRANCA= I.ID_TIPO_COBRANCA ";
+            SQL += "WHERE A.ID_PARCEIRO = '" + Id + "' ";
+            SQL += filter;
+            SQL += " ORDER BY B.NM_ITEM_DESPESA ASC ";
+
+            DataTable fclimpo = new DataTable();
+
+            fclimpo = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(fclimpo);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string ListarTaxaCliente(int Id, string comex, string via, string estufagem)
+        {
+            string SQL;
+            string filter = "";
+            if (comex != "0") { filter += " AND A.ID_TIPO_COMEX = '" + comex + "' "; }
+            if (via != "0") { filter += " AND A.ID_VIATRANSPORTE = '" + via + "' "; }
+            if (estufagem != "0") { filter += " AND A.ID_TIPO_ESTUFAGEM= '" + estufagem + "' "; }
+
+
+            SQL = "SELECT ID_TAXA_CLIENTE, B.NM_ITEM_DESPESA,A.ID_ITEM_DESPESA, NM_BASE_CALCULO_TAXA, NM_ITEM_DESPESA + ' (' + NM_BASE_CALCULO_TAXA + ')' AS DataField ";
+            SQL += "FROM TB_TAXA_CLIENTE A ";
+            SQL += "JOIN TB_ITEM_DESPESA B ";
+            SQL += "ON A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA ";
+            SQL += "JOIN TB_BASE_CALCULO_TAXA C ";
+            SQL += "ON A.ID_BASE_CALCULO_TAXA = C.ID_BASE_CALCULO_TAXA ";
+            SQL += "WHERE A.ID_PARCEIRO = '" + Id + "' ";
+            SQL += filter;
+            SQL += "ORDER BY ID_TAXA_CLIENTE ASC ";
+
+            DataTable taxaClienteFCLexpo = new DataTable();
+            taxaClienteFCLexpo = DBS.List(SQL);
+            return JsonConvert.SerializeObject(taxaClienteFCLexpo);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string BuscarRegraAvancada(string idTaxa)
+        {
+            string SQL;
+
+            SQL = "SELECT ID_TAXA_CLIENTE_VARIACAO, ID_CALCULO_VARIACAO, QT_ITEM, QT_ITEM_INICIAL, QT_ITEM_FINAL, ID_MOEDA, VL_COMPRA FROM TB_TAXA_CLIENTE_VARIACAO ";
+            SQL += "WHERE ID_TAXA_CLIENTE = " + idTaxa + " ";
+
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(carregarDados);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string EditarTaxaPrestador(TaxasPrestador dadosEdit)
+        {
+            string tarifaV;
+            string tarifaC;
+
+
+            if (dadosEdit.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
+            if (dadosEdit.ID_TIPO_COMEX.ToString() == "") { dadosEdit.ID_TIPO_COMEX = "null"; }
+            if (dadosEdit.ID_TIPO_ESTUFAGEM.ToString() == "") { dadosEdit.ID_TIPO_ESTUFAGEM = "null"; }
+            if (dadosEdit.ID_VIATRANSPORTE.ToString() == "") { dadosEdit.ID_VIATRANSPORTE = "null"; }
+            if (dadosEdit.ID_INCOTERM.ToString() == "") { dadosEdit.ID_INCOTERM = "null"; }
+            if (dadosEdit.ID_PORTO_RECEBIMENTO.ToString() == "") { dadosEdit.ID_PORTO_RECEBIMENTO = "null"; }
+            if (dadosEdit.ID_PORTO_DESCARGA.ToString() == "") { dadosEdit.ID_PORTO_DESCARGA = "null"; };
+            if (dadosEdit.ID_PORTO_CARREGAMENTO.ToString() == "") { dadosEdit.ID_PORTO_CARREGAMENTO = "null"; }
+            if (dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
+            if ((dadosEdit.ID_BASE_CALCULO_TAXA == "6" || dadosEdit.ID_BASE_CALCULO_TAXA == "7" || dadosEdit.ID_BASE_CALCULO_TAXA == "13" || dadosEdit.ID_BASE_CALCULO_TAXA == "14" || dadosEdit.ID_BASE_CALCULO_TAXA == "37") && dadosEdit.VL_TARIFA_MINIMA.ToString() == "")
+            {
+                return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
+            }
+
+            if (dadosEdit.ID_MOEDA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Compra" }); }
+            if (dadosEdit.VL_TAXA_COMPRA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Compra" }); }
+            if (Double.Parse(dadosEdit.VL_TAXA_COMPRA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Compra menor ou igual a 0" }); }
+            if (dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
+            {
+                tarifaC = "0.00";
+            }
+            else
+            {
+                tarifaC = dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString();
+            }
+
+            if (dadosEdit.ID_MOEDA_VENDA.ToString() == "") { dadosEdit.ID_MOEDA_VENDA = "null"; }
+            if (dadosEdit.VL_TAXA_VENDA.ToString() == "") { dadosEdit.VL_TAXA_VENDA = "0.00"; }
+
+            if (dadosEdit.VL_TARIFA_MINIMA.ToString() == "")
+            {
+                tarifaV = "0.00";
+            }
+            else
+            {
+                tarifaV = dadosEdit.VL_TARIFA_MINIMA.ToString();
+            }
+
+            if (dadosEdit.FL_DECLARADO.ToString() == "") { dadosEdit.FL_DECLARADO = "0"; }
+            if (dadosEdit.FL_DIVISAO_PROFIT.ToString() == "") { dadosEdit.FL_DIVISAO_PROFIT = "0"; }
+            if (dadosEdit.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
+            if (dadosEdit.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
+            if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
+            if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
+
+
+            string SQL;
+            string vlTaxaVenda = dadosEdit.VL_TAXA_VENDA.ToString().Replace(',', '.');
+            string vlTaxaCompra = dadosEdit.VL_TAXA_COMPRA.ToString().Replace(',', '.');
+            SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
+            SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
+            SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = " + dadosEdit.ID_MOEDA_VENDA + ", ";
+            SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
+            SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
+            SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', FL_TAXA_TRANSPORTADOR = '" + dadosEdit.FL_TAXA_TRANSPORTADOR + "', VL_TARIFA_MINIMA = '" + tarifaV + "', VL_TARIFA_MINIMA_COMPRA = " + tarifaC + ",  ";
+            SQL += "ID_TIPO_ESTUFAGEM =" + dadosEdit.ID_TIPO_ESTUFAGEM + ", ";
+            SQL += "ID_TIPO_COMEX =" + dadosEdit.ID_TIPO_COMEX + ", ";
+            SQL += "ID_VIATRANSPORTE =" + dadosEdit.ID_VIATRANSPORTE + ", ";
+            SQL += "ID_TIPO_COBRANCA ='" + dadosEdit.ID_TIPO_COBRANCA + "', ";
+            SQL += "ID_PORTO_DESCARGA =" + dadosEdit.ID_PORTO_DESCARGA + ", ";
+            SQL += "ID_PORTO_CARREGAMENTO =" + dadosEdit.ID_PORTO_CARREGAMENTO + ", ";
+            SQL += "ID_PORTO_RECEBIMENTO =" + dadosEdit.ID_PORTO_RECEBIMENTO + ", ";
+            SQL += "ID_INCOTERM =" + dadosEdit.ID_INCOTERM + " ";
+            SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
+
+            string editTaxa = DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
+        }
+
+        [WebMethod(EnableSession = true)]
+        public void DeletarTaxa(int Id)
+        {
+            string SQL;
+            SQL = "DELETE FROM TB_TAXA_CLIENTE WHERE ID_TAXA_CLIENTE = '" + Id + "' ";
+
+            string deleteTaxa = DBS.ExecuteScalar(SQL);
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public void DeletarTaxaVariacao(int Id)
+        {
+            string SQL;
+            SQL = "DELETE FROM TB_TAXA_CLIENTE_VARIACAO WHERE ID_TAXA_CLIENTE_VARIACAO = '" + Id + "' ";
+
+            string deleteTaxa = DBS.ExecuteScalar(SQL);
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string ListarPortoAeroporto(string via)
+        {
+            string SQL;
+
+
+            SQL = "SELECT ID_PORTO, NM_PORTO, CD_PORTO FROM TB_PORTO ";
+            if (via != "")
+            {
+                SQL += "WHERE ID_VIATRANSPORTE = " + via + " ORDER BY NM_PORTO";
+            }
+            else
+            {
+                SQL += "ORDER BY NM_PORTO";
+
+            }
+            DataTable carregarDados = new DataTable();
+            carregarDados = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(carregarDados);
+        }
+
+
+        [WebMethod(EnableSession = true)]
+        public string CadastrarTaxaAgenteInternacional(TaxasPrestador dados)
+        {
+            string tarifaV;
+            string tarifaC;
+
+            if (dados.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
+            if (dados.ID_TIPO_COMEX.ToString() == "") { dados.ID_TIPO_COMEX = "null"; }
+            if (dados.ID_TIPO_ESTUFAGEM.ToString() == "") { dados.ID_TIPO_ESTUFAGEM = "null"; }
+            if (dados.ID_VIATRANSPORTE.ToString() == "") { dados.ID_VIATRANSPORTE = "null"; }
+            if (dados.ID_INCOTERM.ToString() == "") { dados.ID_INCOTERM = "null"; }
+            if (dados.ID_PORTO_RECEBIMENTO.ToString() == "") { dados.ID_PORTO_RECEBIMENTO = "null"; }
+            if (dados.ID_PORTO_DESCARGA.ToString() == "") { dados.ID_PORTO_DESCARGA = "null"; };
+            if (dados.ID_PORTO_CARREGAMENTO.ToString() == "") { dados.ID_PORTO_CARREGAMENTO = "null"; }
+            if (dados.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
+            if ((dados.ID_BASE_CALCULO_TAXA == "6" || dados.ID_BASE_CALCULO_TAXA == "7" || dados.ID_BASE_CALCULO_TAXA == "13" || dados.ID_BASE_CALCULO_TAXA == "14" || dados.ID_BASE_CALCULO_TAXA == "37") && (dados.VL_TARIFA_MINIMA.ToString() == "" || Double.Parse(dados.VL_TARIFA_MINIMA.ToString()) <= 0.00))
+            {
+                return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
+            }
+
+            if (dados.ID_MOEDA_COMPRA.ToString() == "") { dados.ID_MOEDA_COMPRA = "null"; }
+            if (dados.VL_TAXA_COMPRA.ToString() == "") { dados.VL_TAXA_COMPRA = "0.00"; }
+            if (dados.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
+            {
+                tarifaC = "0.00";
+            }
+            else
+            {
+                tarifaC = dados.VL_TARIFA_MINIMA_COMPRA.ToString();
+            }
+
+            if (dados.ID_MOEDA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Venda" }); }
+            if (dados.VL_TAXA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Venda" }); }
+            if (Double.Parse(dados.VL_TAXA_VENDA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Venda menor ou igual a 0" }); }
+
+            if (dados.FL_DECLARADO.ToString() == "") { dados.FL_DECLARADO = "0"; }
+            if (dados.FL_DIVISAO_PROFIT.ToString() == "") { dados.FL_DIVISAO_PROFIT = "0"; }
+            if (dados.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
+            if (dados.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
+            if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
+            if (dados.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
+
+
+            string SQL;
+            string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
+            string vlTaxaCompra = dados.VL_TAXA_COMPRA.ToString().Replace(',', '.');
+            if (dados.VL_TARIFA_MINIMA.ToString() == "" || Double.Parse(dados.VL_TARIFA_MINIMA) <= 0.00)
+            {
+                tarifaV = "0.00";
+            }
+            else
+            {
+                tarifaV = dados.VL_TARIFA_MINIMA.ToString();
+            }
+
+            SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
+            SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA,";
+            SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO, ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO, FL_TAXA_TRANSPORTADOR, VL_TARIFA_MINIMA, VL_TARIFA_MINIMA_COMPRA, ID_PORTO_DESCARGA, ID_TIPO_COBRANCA, ID_PORTO_CARREGAMENTO, ID_PORTO_RECEBIMENTO, ID_INCOTERM) ";
+            SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
+            SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "'," + dados.ID_MOEDA_COMPRA + ",'" + vlTaxaCompra + "'," + dados.ID_MOEDA_VENDA + ", ";
+            SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "'," + dados.ID_DESTINATARIO_COBRANCA + ", ";
+            SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
+            SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "'," + dados.ID_VIATRANSPORTE + "," + dados.ID_TIPO_COMEX + ", ";
+            SQL += "" + dados.ID_TIPO_ESTUFAGEM + "," + dados.ID_ORIGEM_PAGAMENTO + "," + dados.ID_TIPO_PAGAMENTO + ", ";
+            SQL += "'" + dados.FL_TAXA_TRANSPORTADOR + "', '" + tarifaV.ToString().Replace(',', '.') + "', ";
+            SQL += "'" + tarifaC.ToString().Replace(',', '.') + "'," + dados.ID_PORTO_DESCARGA + ", ";
+            SQL += "" + dados.ID_TIPO_COBRANCA.ToString() + ", " + dados.ID_PORTO_CARREGAMENTO + ", ";
+            SQL += "" + dados.ID_PORTO_RECEBIMENTO + ", " + dados.ID_INCOTERM + ") ";
+            string taxa = DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string EditarTaxaAgenteInternacional(TaxasPrestador dadosEdit)
+        {
+
+            string tarifaV;
+            string tarifaC;
+            if (dadosEdit.ID_ITEM_DESPESA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Item Despesa" }); }
+            if (dadosEdit.ID_TIPO_COMEX.ToString() == "") { dadosEdit.ID_TIPO_COMEX = "null"; }
+            if (dadosEdit.ID_TIPO_ESTUFAGEM.ToString() == "") { dadosEdit.ID_TIPO_ESTUFAGEM = "null"; }
+            if (dadosEdit.ID_VIATRANSPORTE.ToString() == "") { dadosEdit.ID_VIATRANSPORTE = "null"; }
+            if (dadosEdit.ID_INCOTERM.ToString() == "") { dadosEdit.ID_INCOTERM = "null"; }
+            if (dadosEdit.ID_PORTO_RECEBIMENTO.ToString() == "") { dadosEdit.ID_PORTO_RECEBIMENTO = "null"; }
+            if (dadosEdit.ID_PORTO_DESCARGA.ToString() == "") { dadosEdit.ID_PORTO_DESCARGA = "null"; };
+            if (dadosEdit.ID_PORTO_CARREGAMENTO.ToString() == "") { dadosEdit.ID_PORTO_CARREGAMENTO = "null"; }
+            if (dadosEdit.ID_BASE_CALCULO_TAXA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Calculo" }); }
+            if ((dadosEdit.ID_BASE_CALCULO_TAXA == "6" || dadosEdit.ID_BASE_CALCULO_TAXA == "7" || dadosEdit.ID_BASE_CALCULO_TAXA == "13" || dadosEdit.ID_BASE_CALCULO_TAXA == "14" || dadosEdit.ID_BASE_CALCULO_TAXA == "37") && (dadosEdit.VL_TARIFA_MINIMA.ToString() == "" || Double.Parse(dadosEdit.VL_TARIFA_MINIMA.ToString()) <= 0.00))
+            {
+                return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tarifa Minima Venda" });
+            }
+
+            if (dadosEdit.ID_MOEDA_COMPRA.ToString() == "") { dadosEdit.ID_MOEDA_COMPRA = "null"; }
+            if (dadosEdit.VL_TAXA_COMPRA.ToString() == "") { dadosEdit.VL_TAXA_COMPRA = "0.00"; }
+            if (dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString() == "")
+            {
+                tarifaC = "0.00";
+            }
+            else
+            {
+                tarifaC = dadosEdit.VL_TARIFA_MINIMA_COMPRA.ToString();
+            }
+
+            if (dadosEdit.ID_MOEDA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Moeda Venda" }); }
+            if (dadosEdit.VL_TAXA_VENDA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Base Venda" }); }
+            if (Double.Parse(dadosEdit.VL_TAXA_VENDA) <= 0.00) { return JsonConvert.SerializeObject(new { success = false, message = "Campo Base Venda menor ou igual a 0" }); }
+
+            if (dadosEdit.VL_TARIFA_MINIMA.ToString() == "" || Double.Parse(dadosEdit.VL_TARIFA_MINIMA) <= 0.00)
+            {
+                tarifaV = "0.00";
+            }
+            else
+            {
+                tarifaV = dadosEdit.VL_TARIFA_MINIMA.ToString();
+            }
+
+            if (dadosEdit.FL_DECLARADO.ToString() == "") { dadosEdit.FL_DECLARADO = "0"; }
+            if (dadosEdit.FL_DIVISAO_PROFIT.ToString() == "") { dadosEdit.FL_DIVISAO_PROFIT = "0"; }
+            if (dadosEdit.ID_TIPO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo de Cobrança" }); }
+            if (dadosEdit.ID_DESTINATARIO_COBRANCA.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Cobrar do:" }); }
+            if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Origem" }); }
+            if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "") { return JsonConvert.SerializeObject(new { success = false, message = "Preencha o campo Tipo Pagamento" }); }
+
+
+            string SQL;
+            string vlTaxaVenda = dadosEdit.VL_TAXA_VENDA.ToString().Replace(',', '.');
+            string vlTaxaCompra = dadosEdit.VL_TAXA_COMPRA.ToString().Replace(',', '.');
+            SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
+            SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
+            SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = " + dadosEdit.ID_MOEDA_VENDA + ", ";
+            SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
+            SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
+            SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', FL_TAXA_TRANSPORTADOR = '" + dadosEdit.FL_TAXA_TRANSPORTADOR + "', VL_TARIFA_MINIMA = '" + tarifaV + "', VL_TARIFA_MINIMA_COMPRA = " + tarifaC + ",  ";
+            SQL += "ID_TIPO_ESTUFAGEM =" + dadosEdit.ID_TIPO_ESTUFAGEM + ", ";
+            SQL += "ID_TIPO_COMEX =" + dadosEdit.ID_TIPO_COMEX + ", ";
+            SQL += "ID_VIATRANSPORTE =" + dadosEdit.ID_VIATRANSPORTE + ", ";
+            SQL += "ID_TIPO_COBRANCA ='" + dadosEdit.ID_TIPO_COBRANCA + "', ";
+            SQL += "ID_PORTO_DESCARGA =" + dadosEdit.ID_PORTO_DESCARGA + ", ";
+            SQL += "ID_PORTO_CARREGAMENTO =" + dadosEdit.ID_PORTO_CARREGAMENTO + ", ";
+            SQL += "ID_PORTO_RECEBIMENTO =" + dadosEdit.ID_PORTO_RECEBIMENTO + ", ";
+            SQL += "ID_INCOTERM =" + dadosEdit.ID_INCOTERM + " ";
+            SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
+
+            string editTaxa = DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
         }
     }
 }

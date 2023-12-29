@@ -45,7 +45,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-       <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;margin-top: 30px;max-width:770px">
+       <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;margin-top: 30px;max-width:770px" runat="server">
                
         <table border="1">
             <tr>
@@ -53,15 +53,19 @@
                     <center>
     <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br /></center>
                     <div style="text-align: center;">
-                        R QUINZE DE NOVEMBRO, 46/48 - CENTRO<br />
+                       <%-- R QUINZE DE NOVEMBRO, 46/48 - CENTRO<br />
                         SANTOS - SÃO PAULO - BRASIL - CEP:11010150<br />
                         FONE:+55 13 3797-7850 - FAX:<br />
-                        CNPJ:00.639.367/0003-11  &nbsp;&nbsp;&nbsp;I.E: 633.672.235.110
+                        CNPJ:00.639.367/0003-11  &nbsp;&nbsp;&nbsp;I.E: 633.672.235.110--%>
+                        <asp:Label ID="lblEnderecoFCA" runat="server" /><br />
+                        <asp:Label ID="lblEnderecoFCA2" runat="server" /><br />
+                        <asp:Label ID="lblContatoFCA" runat="server" /><br />
+                        <asp:Label ID="lblDocFCA" runat="server" /><br />
                     </div>
                 </td>
                 <td>
                     <center>
-    <img src="Content/imagens/FCA-Log - Copia.png" /><br />
+    <img src="Content/imagens/Logo_FCA_Deitado1.png" /><br />
     <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>&nbsp;<br /></center>
 
                 </td>
@@ -225,7 +229,13 @@
             <strong>No aguardo do seu contato,&nbsp;<asp:Label ID="lblUsuario" runat="server" /></strong>
             <div style="float: right;">Impresso &nbsp;<asp:Label ID="lblDataImpressao" runat="server" /></div>
         </div>
-
+    <br /><br /><br /><br /><br /><br /><br /><br />
+    <strong>Dados Bancários: <br/>
+    <asp:Label ID="lblAgenciaBancaria" runat="server" /><asp:Label ID="lblContaBancaria" runat="server" /><br/>                                       
+    <asp:Label ID="lblCnpjContaBancaria" runat="server" /><br/>
+    <asp:Label ID="lblRazaoContaBancaria" runat="server" /><br/><br/>
+    <asp:Label ID="lblPix" runat="server" /><br/>
+  </strong> 
 
     </div>
     </form>

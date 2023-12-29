@@ -147,6 +147,9 @@
                                                         </thead>
                                                         <tbody id="tblIndicadorProcImpoBody">
                                                         </tbody>
+                                                        <tfoot id="grdIndicadorProcImpoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+
+                                                        </tfoot>
                                                     </table>
                                                 </div>
                                             </div>
@@ -162,6 +165,9 @@
                                                         </thead>
                                                         <tbody id="tblIndicadorTeusImpoBody">
                                                         </tbody>
+                                                        <tfoot id="grdIndicadorTeusImpoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+
+                                                        </tfoot>
                                                     </table>
                                                 </div>
                                             </div>
@@ -177,6 +183,9 @@
                                                         </thead>
                                                         <tbody id="tblIndicadorCNTRImpoBody">
                                                         </tbody>
+                                                        <tfoot id="grdIndicadorCNTRImpoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+
+                                                        </tfoot>
                                                     </table>
                                                 </div>
                                             </div>
@@ -195,6 +204,9 @@
                                                         </thead>
                                                         <tbody id="tblIndicadorProcExpoBody">
                                                         </tbody>
+                                                        <tfoot id="grdIndicadorProcExpoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+
+                                                        </tfoot>
                                                     </table>
                                                 </div>
                                             </div>
@@ -210,6 +222,9 @@
                                                         </thead>
                                                         <tbody id="tblIndicadorTeusExpoBody">
                                                         </tbody>
+                                                        <tfoot id="grdIndicadorTeusExpoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+
+                                                        </tfoot>
                                                     </table>
                                                 </div>
                                             </div>
@@ -225,11 +240,14 @@
                                                         </thead>
                                                         <tbody id="tblIndicadorCNTRExpoBody">
                                                         </tbody>
+                                                        <tfoot id="grdIndicadorCNTRExpoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+
+                                                        </tfoot>
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
-                                        <h3>Aéreo</h3>
+                                        <h3>Aéreo - Importação</h3>
                                         <div class="boxAereo">
                                             <div>
                                                 <div class="table-responsive tableFixHead"  style="max-height: 300px">
@@ -237,12 +255,15 @@
                                                         <thead>
                                                             <tr>
                                                                 <th class="text-center" scope="col">Vendedor</th>
-                                                                <th class="text-center" scope="col">Qtd. CNTR</th>
+                                                                <th class="text-center" scope="col">Processos</th>
                                                                 <th class="text-center" scope="col">% Partc</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tblIndicadorProcAereoBody">
                                                         </tbody>
+                                                        <tfoot id="grdIndicadorProcAereoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+
+                                                        </tfoot>
                                                     </table>
                                                 </div>
                                             </div>
@@ -343,6 +364,20 @@
             var pctTE;
             var pctCE;
             var pctPA;
+            var totalImpProc = 0;
+            var totalImpTeus = 0;
+            var totalImpCntr = 0;
+            var totalExpProc = 0;
+            var totalExpTeus = 0;
+            var totalExpCntr = 0;
+            var totalAerProc = 0;
+            var totalImpProcPct = 0;
+            var totalImpTeusPct = 0;
+            var totalImpCntrPct = 0;
+            var totalExpProcPct = 0;
+            var totalExpTeusPct = 0;
+            var totalExpCntrPct = 0;
+            var totalAerProcPct = 0;
             var instrEmbarque = document.getElementById("MainContent_chkInstrEmbarque");
             if (instrEmbarque.checked) {
                 instrEmbarque = "1";
@@ -365,6 +400,13 @@
                     $("#tblIndicadorCNTRExpoBody").empty();
                     $("#tblIndicadorTeusExpoBody").empty();
                     $("#tblIndicadorProcAereoBody").empty();
+                    $("#grdIndicadorProcImpoFooter").empty();
+                    $("#grdIndicadorCNTRImpoFooter").empty();
+                    $("#grdIndicadorTeusImpoFooter").empty();
+                    $("#grdIndicadorProcExpoFooter").empty();
+                    $("#grdIndicadorCNTRExpoFooter").empty();
+                    $("#grdIndicadorTeusExpoFooter").empty();
+                    $("#grdIndicadorProcAereoFooter").empty();
                     if (data != null) {
                         
                         for (var i = 0; i < data.length; i++) {
@@ -433,7 +475,44 @@
                             $("#tblIndicadorProcAereoBody").append("<tr style='padding: 5px 10px !important;'><td class='text-center' title='" + data[i]["VENDEDOR"] +"' style='max-width: 10ch'> " + data[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["PROC_AR"] + "</td>" +
                                 "<td class='text-center'>" + pctPA + " %</td></tr>");
+
+                            totalImpProc += data[i]["PROC_IMP"];
+                            totalImpTeus += data[i]["CNTR_IMP"];
+                            totalImpCntr += data[i]["TEUS_IMP"];
+                            totalExpProc += data[i]["PROC_EXP"];
+                            totalExpTeus += data[i]["CNTR_EXP"];
+                            totalExpCntr += data[i]["TEUS_EXP"];
+                            totalAerProc += data[i]["PROC_AR"];
+
+                            totalImpProcPct += parseFloat(pctPI.toString().replace(",", "."));
+                            totalImpTeusPct += parseFloat(pctTI.toString().replace(",", "."));
+                            totalImpCntrPct += parseFloat(pctCI.toString().replace(",", "."));
+                            totalExpProcPct += parseFloat(pctPE.toString().replace(",", "."));
+                            totalExpTeusPct += parseFloat(pctTE.toString().replace(",", "."));
+                            totalExpCntrPct += parseFloat(pctCE.toString().replace(",", "."));
+                            totalAerProcPct += parseFloat(pctPA.toString().replace(",", "."));
                         }
+                        $("#grdIndicadorProcAereoFooter").append("<tr><th class='text-center' scope='col'>Total</th>" +
+                            "<th class='text-center' scope='col'>" + totalAerProc+"</th>" +
+                            "<th class='text-center' scope='col'>" + Math.round(totalAerProcPct) + " %</th></tr>")
+                        $("#grdIndicadorProcImpoFooter").append("<tr><th class='text-center' scope='col'>Total</th>" +
+                            "<th class='text-center' scope='col'>" + totalImpProc+"</th>" +
+                            "<th class='text-center' scope='col'>" + Math.round(totalImpProcPct) + " %</th></tr>");
+                        $("#grdIndicadorCNTRImpoFooter").append("<tr><th class='text-center' scope='col'>Total</th>" +
+                            "<th class='text-center' scope='col'>" + totalImpTeus+"</th>" +
+                            "<th class='text-center' scope='col'>" + Math.round(totalImpTeusPct) + " %</th></tr>");
+                        $("#grdIndicadorTeusImpoFooter").append("<tr><th class='text-center' scope='col'>Total</th>" +
+                            "<th class='text-center' scope='col'>" + totalImpCntr+"</th>" +
+                            "<th class='text-center' scope='col'>" + Math.round(totalImpCntrPct) + " %</th></tr>");
+                        $("#grdIndicadorProcExpoFooter").append("<tr><th class='text-center' scope='col'>Total</th>" +
+                            "<th class='text-center' scope='col'>" + totalExpProc+"</th>" +
+                            "<th class='text-center' scope='col'>" + Math.round(totalExpProcPct) + " %</th></tr>");
+                        $("#grdIndicadorCNTRExpoFooter").append("<tr><th class='text-center' scope='col'>Total</th>" +
+                            "<th class='text-center' scope='col'>" + totalExpTeus+"</th>" +
+                            "<th class='text-center' scope='col'>" + Math.round(totalExpTeusPct) + " %</th></tr>");
+                        $("#grdIndicadorTeusExpoFooter").append("<tr><th class='text-center' scope='col'>Total</th>" +
+                            "<th class='text-center' scope='col'>" + totalExpCntr+"</th>" +
+                            "<th class='text-center' scope='col'>" + Math.round(totalExpCntrPct) + " %</th></tr>");
                     }
                     else {
                         $("#tblIndicadorProcImpoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='3' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");

@@ -14,19 +14,18 @@
 <html lang="en">
 <head runat="server">
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv='cache-control' content='no-cache'/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv='cache-control' content='no-cache' />
     <meta http-equiv='expires' content='0' />
-    <meta http-equiv='pragma' content='no-cache'/>
+    <meta http-equiv='pragma' content='no-cache' />
     <title>NVOCC - Agenciamento</title>
 
     <link href="Content/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Content/css/fontawesome-all.css" rel="stylesheet" />
     <link href="Content/css/toastr.css" rel="stylesheet" />
-    <%--    <link href="Content/css/site.css?id=123" rel="stylesheet" />--%>
     <link href="Content/Site.css" rel="stylesheet" />
     <link href="Content/css/traking.css" rel="stylesheet" />
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link href="Content/css/smart_wizard.css" rel="stylesheet" />
     <link href="Content/css/smart_wizard_theme_dots.css" rel="stylesheet" />
     <link href="Content/css/select2.css" rel="stylesheet" />
@@ -51,7 +50,7 @@
         <img class="fundo" id="imgFundo" src="Content/imagens/Logo-Background.png" />
     </div>
     <nav class="menu1 navbar navbar-default navbar-fixed-top navbar-custom">
-        
+
         <div class="container-fluid" style="background-color: #003663;">
             <div class="navbar-header">
 
@@ -73,7 +72,7 @@
                     <img src="Content/imagens/Logo-Menu.png" />
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="Default.aspx" style="color: white"><i class="fa fa-home"></i>&nbsp;Início</a></li>
+                    <li class="active"><a href="HomePage.aspx" style="color: white; background-color:#003663"><i class="fa fa-home"></i>&nbsp;Início</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav">
@@ -124,20 +123,21 @@
                             <li>
                                 <a href="CotacaoComercial.aspx" runat="server" id="mnCotacaoComercial">Cotação Comercial</a>
                             </li>
-                             <li>
+                            <li>
                                 <a href="#" id="MenuComissoes2" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" >                                  
+                                <ul class="dropdown-sub">
                                     <li><a style="font-size: 13px;" href="ComissaoVendedor.aspx" runat="server" id="mnComissaoVendedor">Vendedor</a></li>
-                                     <li><a style="font-size: 13px;" href="RelatorioComissaoVendedores.aspx" runat="server" id="mnRelComissaoVendedor">Vendedores Total CC</a></li>     
+                                    <li><a style="font-size: 13px;" href="ComissaoInsideSales.aspx" runat="server" id="mnComissaoInside">Inside Sales</a></li>
+                                    <li><a style="font-size: 13px;" href="RelatorioComissaoVendedores.aspx" runat="server" id="mnRelComissaoVendedor">Vendedores Total CC</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="#" id="MenuRelatoriosComercial" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Relatórios&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" >                                  
-                                    <li><a style="font-size: 13px;" href="RelacaoCotacao.aspx" runat="server" id="mnRelacaoCotacao">Relação das Cotações</a></li>                              
+                                <ul class="dropdown-sub">
+                                    <li><a style="font-size: 13px;" href="RelacaoCotacao.aspx" runat="server" id="mnRelacaoCotacao">Relação das Cotações</a></li>
                                 </ul>
                             </li>
-                             <li>
+                            <li>
                                 <a href="AtendimentoNegado.aspx" runat="server" id="mnAtendimentoNegado">Atendimentos Rejeitados</a>
                             </li>
                         </ul>
@@ -146,10 +146,15 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" id="MenuOperacao" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs"></i>&nbsp;Operação<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu">                          
                             <li>
-                                <a href="ListagemBL.aspx" runat="server" id="mnOperacionalListagemBL">Módulo Operacional</a>
-                            </li>                            
+                                <a href="#" id="A2" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Módulo Operacional&nbsp;<i class="fa fa-caret-right"></i></a>
+                                <ul class="dropdown-sub" style="min-width: 230px !important">
+                                    <li><a href="ListagemBL.aspx" runat="server" id="mnOperacionalListagemBL" >Módulo Operacional</a></li>
+                                    <li><a href="InativacaoTaxas.aspx" runat="server" id="mnInativacaoTaxas">Inativação/Ativação de Taxas</a></li>
+                                </ul>
+                            </li>
+
                             <li>
                                 <a href="ConsultarWeek.aspx" runat="server" id="mnConsultarWeek">Consultar Week</a>
                             </li>
@@ -162,7 +167,7 @@
                         </ul>
                     </li>
                 </ul>
-                
+
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" id="MenuFinanceiro" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-calculator"></i>&nbsp;Financeiro<span class="caret"></span></a>
@@ -170,53 +175,61 @@
                             <li>
                                 <a href="Financeiro.aspx" runat="server" id="mnFinanceiro">Módulo Financeiro</a>
                             </li>
-                          
+
                             <li>
                                 <a href="ModuloDemurrage.aspx" runat="server" id="mnModuloDemurrage">Demurrage</a>
-                            </li>                       
+                            </li>
                             <li>
                                 <a href="#" id="MenuAccount" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub">                                  
+                                <ul class="dropdown-sub" style="min-width: 230px !important">
                                     <li><a id="mnAccount" style="font-size: 13px;" runat="server" href="Account.aspx">Invoices</a></li>
-                                     <li><a id="mnFechamentoCambio" style="font-size: 13px;" runat="server" href="FechamentoCambio.aspx">Fechamento de Câmbio</a></li>
+                                    <li><a id="mnFechamentoCambio" style="font-size: 13px;" runat="server" href="FechamentoCambio.aspx">Fechamento de Câmbio</a></li>
+                                    <li><a id="mnRelatorioDebitCredit" style="font-size: 13px;" runat="server" href="RelatorioDebitCredit.aspx">Relatório debit/credit-Emissão FCA</a></li>
+                                    <li><a id="mnRelatorioAccountDeclarada" style="font-size: 13px;" runat="server" href="RelatorioAccountDeclarado.aspx">Contas pagar/receber</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="#" id="MenuComissoes" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" style="min-width:210px !important">                                  
+                                <ul class="dropdown-sub" style="min-width: 210px !important">
                                     <li><a id="mnComissaoIndicadorNacional" style="font-size: 13px;" runat="server" href="ComissaoIndicadorNacional.aspx">Indicador Nacional</a></li>
-                                     <li><a style="font-size: 13px;" href="RelatorioComissaoNacional.aspx" runat="server" id="mnRelComissaoIndicadorNacional">Indicador Nacional Total CC</a></li>
-                                     <li><a id="mnComissaoIndicadorInternacional" style="font-size: 13px;" runat="server" href="ComissaoIndicadorInternacional.aspx">Indicador Internacional</a></li>
-                                     <li><a style="font-size: 13px;" href="RelatorioComissaoInternacional.aspx" runat="server" id="mnRelComissaoIndicadorInternacional">Indicador Internacional Total CC</a></li>
-                                     <li><a id="mnComissaoTransportadora" style="font-size: 13px;" runat="server" href="ComissaoTransportadora.aspx">Transportadoras</a></li>
+                                    <li><a style="font-size: 13px;" href="RelatorioComissaoNacional.aspx" runat="server" id="mnRelComissaoIndicadorNacional">Indicador Nacional Total CC</a></li>
+                                    <li><a id="mnComissaoIndicadorInternacional" style="font-size: 13px;" runat="server" href="ComissaoIndicadorInternacional.aspx">Indicador Internacional</a></li>
+                                    <li><a style="font-size: 13px;" href="RelatorioComissaoInternacional.aspx" runat="server" id="mnRelComissaoIndicadorInternacional">Indicador Internacional Total CC</a></li>
+                                    <li><a id="mnComissaoTransportadora" style="font-size: 13px;" runat="server" href="ComissaoTransportadora.aspx">Transportadoras</a></li>
                                 </ul>
                             </li>
-                             <li>
+                            <li>
                                 <a href="#" id="MenuTotvs" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">TOTVS&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" >                                  
-                                     <li><a id="mnTOTVSDespesa" runat="server" href="integracaoTOTVSDespesa.aspx">Nota de Despesa</a></li>
-                                       <li><a id="mnTOTVSPA" runat="server" href="integracaoTOTVSPA.aspx">PA</a></li>
-                                       <li><a id="mnTOTVSDebit" runat="server" href="integracaoTOTVSDebit.aspx">Invoice Debit</a></li>
-                                       <li><a id="mnTOTVSCredit"  runat="server" href="integracaoTOTVSCredit.aspx">Invoice Credit</a></li>
-                                       <li><a id="mnTOTVSDemurrageRA"  runat="server" href="integracaoTOTVSDemurrageRA.aspx">Demurrage RA</a></li>
-                                       <li><a id="mnTOTVSDemurragePA"  runat="server" href="integracaoTOTVSDemurrage.aspx">Demurrage PA</a></li>
+                                <ul class="dropdown-sub">
+									<li id="liTOTVSDespesa" runat="server"><a id="mnTOTVSDespesa" runat="server" href="integracaoTOTVSDespesa.aspx">Nota de Despesa</a></li>
+                                    <li id="liTOTVSPA" runat="server"><a id="mnTOTVSPA" runat="server" href="integracaoTOTVSPA.aspx">PA</a></li>
+                                    <li id="liTOTVSDebit" runat="server"><a id="mnTOTVSDebit" runat="server" href="integracaoTOTVSDebit.aspx">Invoice Debit</a></li>
+                                    <li id="liTOTVSCredit" runat="server"><a id="mnTOTVSCredit" runat="server" href="integracaoTOTVSCredit.aspx">Invoice Credit</a></li>
+                                    <li id="liTOTVSDemurrageRA" runat="server"><a id="mnTOTVSDemurrageRA" runat="server" href="integracaoTOTVSDemurrageRA.aspx">Demurrage RA</a></li>
+                                    <li id="liTOTVSDemurragePA" runat="server"><a id="mnTOTVSDemurragePA" runat="server" href="integracaoTOTVSDemurrage.aspx">Demurrage PA</a></li>
+                                    <li id="liConsultaIntegracaoTOTVS" runat="server"><a id="mnConsultaIntegracaoTOTVS" runat="server" href="ConsultaIntegracaoTOTVS.aspx">Consulta Integração</a></li>                                
                                 </ul>
                             </li>
                             <li>
                                 <a href="#" id="MenuRelatoriosFinanceiros" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Relatórios&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" style="min-width:220px !important" > 
-                                    <li><a style="font-size: 13px;" href="ContaPagarReceber.aspx" runat="server" id="mnContaPagarReceber">Contas Pagar e Receber</a></li> 
-                                    <li runat="server"  visible="false"><a style="font-size: 13px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber">Estimativa Contas a Pagar/Receber</a></li>
-                                    <li><a style="font-size: 13px;" href="RelatorioInvoice.aspx" runat="server" id="mnRelatorioInvoice">Aviso de Embarque</a></li>     
+                                <ul class="dropdown-sub" style="min-width: 230px !important">
+                                    <li><a style="font-size: 13px;" href="ContaPagarReceber.aspx" runat="server" id="mnContaPagarReceber">Contas Pagar e Receber</a></li>
+                                    <li runat="server" visible="false"><a style="font-size: 13px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber">Estimativa Contas a Pagar/Receber</a></li>
+                                    <li><a style="font-size: 13px;" href="RelatorioInvoice.aspx" runat="server" id="mnRelatorioInvoice">Aviso de Embarque</a></li>
                                     <li><a style="font-size: 13px;" href="InvoiceQuitada.aspx" runat="server" id="mnInvoiceQuitada">Invoice Quitada</a></li>
-                                    <li><a style="font-size: 13px;" href="DemonstrativoRateio.aspx" runat="server" id="mnDemonstrativoRateio">Demonstrativo Rateio</a></li> 
+                                    <li><a style="font-size: 13px;" href="DemonstrativoRateio.aspx" runat="server" id="mnDemonstrativoRateio">Demonstrativo Rateio</a></li>
                                     <li><a style="font-size: 13px;" href="Premiacao.aspx" runat="server" id="mnPremiacao">Premiação Nacional - Rateamento</a></li>
                                     <li><a style="font-size: 13px;" href="RelatorioProcessos.aspx" runat="server" id="mnRelatorioProcessos">Relatório Processos</a></li>
+                                    <li><a style="font-size: 13px;" href="TaxasAberto.aspx" runat="server" id="mnTaxasAberto">Processos pagos-Taxas em aberto</a></li>
+                                    <li><a style="font-size: 13px;" href="PrevisibilidadeContas.aspx" runat="server" id="mnPrevisibilidadeContas">Previsibilidade Contas</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="CaixaSaida.aspx" runat="server" id="mnCaixaSaida">Caixa de Saida</a>
-                            </li>  
+                            </li>
+                            <li>
+                                <a href="ModuloDetention.aspx" runat="server" id="mnDetention">Detention</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -226,18 +239,18 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="Faturamento.aspx" runat="server" id="mnFaturamento">Faturamento</a>
-                            </li>                           
-                          
-                             <li>
+                            </li>
+
+                            <li>
                                 <a href="#" id="MenuTotvs2" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Integração TOTVS&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub">                                  
+                                <ul class="dropdown-sub">
                                     <li><a id="mnTOTVSServico" runat="server" href="integracaoTOTVSServico.aspx">Nota de Serviço</a></li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
                 </ul>
-                 <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" id="MenuGerencial" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-chart-bar"></i>&nbsp;Gerencial<span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -250,18 +263,44 @@
                             <li>
                                 <a href="GerencialMaster.aspx" runat="server" id="mnGerencialMaster">Gerencial Master</a>
                             </li>
-                             <li>
+                            <li>
                                 <a href="DashBoard.aspx" runat="server" id="mnDashBoard">DashBoard</a>
                             </li>
-                           
+                            <li>
+                                <a style="font-size: 13px;" href="TaxasInativas.aspx" runat="server" id="mnRelTaxasInativas">Relatório de Taxas Inativadas</a>
+                            </li>
+                            <li>
+                                <a style="font-size: 13px;" href="PowerBIGerencial.aspx" runat="server" id="mnPowerBIGerencial">Power BI Gerencial</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
-
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" id="MenuRelatorios" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Relatórios<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="RelatorioConsolidada.aspx" runat="server" id="mnRelatorioConsolidada">Relatório Consolidada</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" id="MenuServicos" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-tasks"></i>&nbsp;Serviços<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="CourrierPersonal.aspx" runat="server" id="mnCourrierPersonal">Courrier Personal</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
                 <ul class="header-box-menu nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Olá,
-                            <asp:Label runat="server" ID="lbllogin" /> - <asp:Label runat="server" ID="lblEmpresa" />
+                            <asp:Label runat="server" ID="lbllogin" />
+                            -
+                            <asp:Label runat="server" ID="lblEmpresa" />
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu menu2">
                             <li><a runat="server" href="TrocarSenha.aspx">Trocar Senha</a></li>
@@ -270,7 +309,7 @@
                         </ul>
                     </li>
                 </ul>
-               
+
             </div>
 
         </div>
@@ -278,7 +317,8 @@
 
     <div class="container-fluid">
         <form runat="server" aria-expanded="true">
-            <asp:ScriptManager runat="server" AsyncPostBackTimeout="360000" > <%-- AllowCustomErrorsRedirect="true" OnAsyncPostBackError="Unnamed_AsyncPostBackError"--%>
+            <asp:ScriptManager runat="server" AsyncPostBackTimeout="360000" >
+                <%-- AllowCustomErrorsRedirect="true" OnAsyncPostBackError="Unnamed_AsyncPostBackError"--%>
                 <Scripts>
                     <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
                     <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
@@ -297,14 +337,17 @@
     </div>
 
     <div id="footer" class="container">
-        <nav class="navbar navbar-inverse navbar-fixed-bottom navbar-custom">
+        <nav class="navbar navbar-inverse navbar-fixed-bottom navbar-custom" style="background-color: #e77817;">
             <div>
-                <div class="float-right text-center" style="background-color: #e77817;">
+                <div style="float: left; padding-left: 100px"">
                     NVOCC 1.0.0
                     <asp:Label CssClass="control-label" runat="server" ID="lblVersion" Visible="false" />
                     - <%= DateTime.Now.Year %>
                 </div>
+                <div style="float: right; padding-right: 100px">
+                    <asp:Label CssClass="control-label" runat="server" ID="lblEsquema" />
 
+                </div>
             </div>
         </nav>
     </div>

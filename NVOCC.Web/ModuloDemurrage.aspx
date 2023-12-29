@@ -75,6 +75,11 @@
                                 <asp:CheckBox ID="chkAtivo" runat="server" CssClass="form-control noborder" Checked="true" Text="&nbsp;Ativos"></asp:CheckBox>
                             </div>
                         </div>
+                        <div class="form-group" style="display:flex;align-items:center; margin-bottom: 0px; margin-left: 10px;">
+                            <div>
+                                <asp:CheckBox ID="chkTarifaSpot" runat="server" CssClass="form-control noborder" Text="&nbsp;Tarifa Spot"></asp:CheckBox>
+                            </div>
+                        </div>
                     </div>
                     <div class="row topMarg">
                         
@@ -146,20 +151,26 @@
                                     <div class="row topMarg">
                                         <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label class="control-label">Quantidade Dias de FreeTime</label>
+                                                <label class="control-label">Quant. Dias de FreeTime</label>
                                                 <input id="qtDiasFreeTime" class="form-control" type="text"/>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label class="control-label">Quantidade Dias de FreeTime Confirmado</label>
+                                                <label class="control-label">Quant. Dias de FreeTime Confirmado</label>
                                                 <input id="qtDiasFreeTimeConfirm" class="form-control" type="text"/>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3 col-sm-offset-1" id="divDemurrageCompra">
+                                        <div class="col-sm-3" id="divDemurrageCompra">
                                             <div class="form-group">
                                                 <label class="control-label">Quant. Dias de Demurrage Compra</label>
                                                 <input id="qtDiasDemurrageCompra" class="form-control" type="text"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3" id="divDemurrageVenda">
+                                            <div class="form-group">
+                                                <label class="control-label">Quant. Dias de Demurrage Venda</label>
+                                                <input id="qtDiasDemurrageVenda" class="form-control" type="text"/>
                                             </div>
                                         </div>
                                     </div>
@@ -451,6 +462,7 @@
                                                 <tr>
                                                     <th class="text-center" scope="col">Tipo Container</th>
                                                     <th class="text-center" scope="col">Data de Validade Inicial</th>
+                                                    <th class="text-center" scope="col">Carga IMO</th>
                                                     <th class="text-center" scope="col"></th>
                                                 </tr>
                                             </thead>
@@ -518,12 +530,24 @@
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Tamanho Container <span class="required">*</span></label>
+                                                <asp:DropDownList ID="ddlTamanhoContainer" runat="server" CssClass="form-control" DataTextField="CD_TAMANHO_CONTAINER" DataValueField="ID_TAMANHO_CONTAINER" Enabled="false"></asp:DropDownList>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-2">
                                             <div class="form-group dflex">
                                                 <label class="control-label">&nbsp;</label>
                                                 <asp:CheckBox ID="checkEsc" runat="server" CssClass="form-control noborder" Text="&nbsp;&nbsp;Escalonada"></asp:CheckBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group dflex">
+                                                <label class="control-label">&nbsp;</label>
+                                                <asp:CheckBox ID="checkIMO" runat="server" CssClass="form-control noborder" Text="&nbsp;&nbsp;Carga IMO"></asp:CheckBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -835,6 +859,12 @@
                                         <div class="alert alert-danger text-center" id="msgErrExportDadoConta">
                                             Selecione uma Conta Bancária na aba Atualização Cambial
                                         </div>
+                                        <div class="alert alert-success text-center" id="msgSuccessUploadArquivo">
+                                            Fatura Exportada com Sucesso.
+                                        </div>
+                                        <div class="alert alert-danger text-center" id="msgErrUploadArquivo">
+                                            Fatura já Exportada.
+                                        </div>
                                     </div>
                                      <div class="functionFaturaBar">
                                         <div>
@@ -852,6 +882,7 @@
                                                 <button type="button" id="btnImprimirFatura" class="btn btn-primary" onclick="imprimirFatura()">Imprimir Fatura</button>                
                                                 <button type="button" id="btnExportarContaCorrente" class="btn btn-primary" onclick="exportarCC()">Exportar Conta Corrente</button>
                                                 <button type="button" id="btnImprimirRecibo" class="btn btn-primary" onclick="ImprimirRecibo()">Imprimir Recibo</button>
+                                                <button type="button" id="btnParcelarDemurrage" class="btn btn-primary" onclick="ParcelarDemurrage()">Parcelar Demurrage</button>
                                             </div>
                                         </div>
                                     </div>
@@ -894,6 +925,7 @@
                                                     <th class="text-center" scope="col">Data Exportação</th>
                                                     <th class="text-center" scope="col">Data Liquidação</th>
                                                     <th class="text-center" scope="col">Data Cancelamento</th>
+                                                    <th class="text-center" scope="col">Parcelas</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="grdFaturaBody">
@@ -1096,6 +1128,7 @@
                                                     <th class="text-center" scope="col">Moeda</th>
                                                     <th class="text-center" scope="col">Valor Demurrage</th>
                                                     <th class="text-center" scope="col">Desconto</th>
+                                                    <th class="text-center" scope="col">Juros / Multas</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="grdAtualizacaoCambialBody">
@@ -1116,10 +1149,291 @@
                                                 <button type="button" id="btnAplicarDesconto" onclick="aplicarDesconto()" class="btn btn-primary btn-ok">Aplicar</button>
                                             </div>
                                         </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Juros / Multa</label>
+                                                <input id="vlMultaBr" class="form-control" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label class="control-label">&nbsp</label>
+                                            <div class="form-group">
+                                                <button type="button" id="btnAplicarMulta" onclick="aplicarMulta()" class="btn btn-primary btn-ok">Aplicar</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" id="btnAtualizarCambio" onclick='atualizacaoCambial()' class="btn btn-primary btn-ok">Atualizar</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade bd-example-modal-lg" id="modalParcelamentoDemurrage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title modalTitle" id="modalParcelamentoDemurrageTitle">Parcelamento Demurrage</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-success text-center msg" id="msgSuccessParcela">
+                                        Registro cadastrado/atualizado com sucesso.
+                                    </div>
+                                    <div class="alert alert-success text-center msg" id="msgErrParcela">
+                                        Erro ao atualizar
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">ID Fatura</label>
+                                                <input id="idFaturaParcelamentoDemurrage" class="form-control nobox" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Processo</label>
+                                                <input id="nrProcessoFaturaParcelamentoDemurrage" class="form-control nobox" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Cliente</label>
+                                                <input id="nmClienteFaturaParcelamentoDemurrage" class="form-control nobox" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Data Vencimento</label>
+                                                <input id="dtVencimentoParcelamentoDemurrage" class="form-control" type="date"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Data Cambio</label>
+                                                <input id="dtCambioParcelamentoDemurrage" class="form-control" type="date"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Valor Câmbio</label>
+                                                <input id="vlCambioParcelamentoDemurrage" class="form-control" type="text"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Conta Bancária</label>
+                                                <asp:DropDownList ID="ddlContaBancariaParcelamentoDemurrage" runat="server" CssClass="form-control" DataTextField="NM_CONTA_BANCARIA" DataValueField="ID_CONTA_BANCARIA"></asp:DropDownList>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Valor Parcela</label>
+                                                <input id="vlParcelamentoDemurrage" class="form-control" type="text"/>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Valor Total Demurrage</label>
+                                                <input id="vlRecebidoParcelamentoDemurrage" class="form-control" type="text" value="0.00"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Nº Parcelas</label>
+                                                <input id="qtNumeroParcelas" class="form-control" type="text" value="1"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Data 1ª Parcela</label>
+                                                <input id="dtInicialParcelamentoDemurrage" class="form-control" type="date"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive tableFixHead">
+                                        <table id="grdParcelamentoDemurrage" class="table tablecont">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" scope="col">#</th>
+                                                    <th class="text-center" scope="col">Nº Parcela</th>
+                                                    <th class="text-center" scope="col">Data Vencimento</th>
+                                                    <th class="text-center" scope="col">Valor Parcela</th>
+                                                    <th class="text-center" scope="col">Juros</th>
+                                                    <th class="text-center" scope="col">Valor Parcela Juros</th>
+                                                    <th class="text-center" scope="col">Pago</th>
+                                                    <th class="text-center" scope="col">#</th>
+                                                    <th class="text-center" scope="col">#</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="grdParcelamentoDemurrageBody">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnParcelamentoDemurrage" onclick='ParcelamentoDemurrage()' class="btn btn-primary btn-ok">Gerar Parcela</button>
+                                    <button type="button" id="btnFinalizarParcelamentoDemurrage" onclick='finalizarFaturaDemurrage()' class="btn btn-primary btn-ok">Finalizar Demurrage</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade bd-example-modal-sm" id="modalInfoParcela" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <asp:HiddenField id="idParcela" runat="server"/>
+                                    <h5 class="modal-title modalTitle">Dados Parcela</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Valor Parcela</label>
+                                                <input id="vlParcelaEdit" class="form-control" type="text"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Data Vencimento</label>
+                                                <input id="dtVencimentoEdit" class="form-control" type="date"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Juros %</label>
+                                                <input id="vlJurosEdit" class="form-control" type="text" value="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                            <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Valor Parcela Juro</label>
+                                                <input id="vlParcelaJurosEdit" class="form-control" type="text"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input type="checkbox" id="checkPago" name="Pago"/>
+                                                <label for="checkTroca">Pago</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnVincular" onclick="editarParcela()" data-dismiss="modal" class="btn btn-primary btn-ok">Salvar</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade bd-example-modal-lg" id="modalDeleteParcela" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title modalTitle" id="modalExcluirParcelaTitle">Excluir Parcela - <span id="idParcelaDelete"></span></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h3>Tem certeza que deseja excluir a parcela?</h3>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnExcluirP" onclick="excluirParcela()" class="btn btn-primary btn-ok">Sim</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade bd-example-modal-lg" id="modalExportarParcelaContaCorrente" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title modalTitle" id="modalExportarParcelaContaCorrenteTitle">Exportar Conta Corrente</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-danger text-center msg" id="msgErrExportParcelaDado">
+                                        Preencha todos os Dados Obrigatórios
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">ID Fatura</label>
+                                                <input id="idFaturaContaCorrenteParcela" class="form-control nobox" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">ID Fatura Parcela</label>
+                                                <input id="idFaturaParcelaContaCorrente" class="form-control nobox" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Processo</label>
+                                                <input id="nrProcessoFaturaParcelaContaCorrente" class="form-control nobox" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Cliente</label>
+                                                <input id="nmClienteFaturaParcelaContaCorrente" class="form-control nobox" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Data Liquidação</label>
+                                                <input id="dtLiquidacaoFaturaParcelaContaCorrente" class="form-control" type="date"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnFaturaParcelaExportarContaCorrente" onclick="exportarParcelaConta()" class="btn btn-primary btn-ok">Exportar</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade bd-example-modal-lg" id="modalDialogParcela" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title modalTitle" id="modalDialogParcelaTitle"></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Tem certeza que deseja cancelar a exportação da parcela?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnConfirm" onclick="exportarParcelaConta()" class="btn btn-primary btn-ok">Exportar</button>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
                                 </div>
                             </div>
@@ -1214,6 +1528,7 @@
                                                 <tr>
                                                     <th class="text-center" scope="col">Nº Processo</th>
                                                     <th class="text-center" scope="col">Nº CNTR</th>
+                                                    <th class="text-center" scope="col">Tipo Carga</th>
                                                     <th class="text-center" scope="col">Tipo CNTR</th>
                                                     <th class="text-center" scope="col">MBL</th>
                                                     <th class="text-center" scope="col">Cliente</th>
@@ -1278,12 +1593,14 @@
                                     <th class="text-center" scope="col">#</th>
                                     <th class="text-center" scope="col">Nº Processo</th>
                                     <th class="text-center" scope="col">Tipo Container</th>
+                                    <th class="text-center" scope="col">Tipo Carga</th>
                                     <th class="text-center" scope="col">Nº Container</th>
                                     <th class="text-center" scope="col">MBL</th>
                                     <th class="text-center" scope="col">Cliente</th>
                                     <th class="text-center" scope="col">Transportador</th>
                                     <th class="text-center" scope="col">Data Chegada</th>
                                     <th class="text-center" scope="col">Data Limite Chegada</th>
+                                    <th class="text-center" scope="col">Acordo Comercial</th>
                                     <th class="text-center" scope="col">FreeTime</th>
                                     <th class="text-center" scope="col">FreeTime Confirmado</th>
                                     <th class="text-center" scope="col">Data Devolução</th>
@@ -1310,7 +1627,6 @@
             </div>
         </div>
     </div>
-    <p>versão 19/07/2021 08:29</p>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
@@ -1318,6 +1634,7 @@
     <script src="Content/js/papaparse.min.js"></script>    
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script> 
 </script>
     <script>
@@ -1352,6 +1669,21 @@
             consultaFiltrada();
             insertListaArmador()
         });
+
+        $("#MainContent_checkIMO").change(function () {
+            var checkboxIMO = document.getElementById("MainContent_checkIMO");
+            var listTamanhoContainer = document.getElementById("MainContent_ddlTamanhoContainer");
+            var listTipoContainer = document.getElementById("MainContent_ddlTipoContainer");
+            if (checkboxIMO.checked) {
+                listTamanhoContainer.removeAttribute("Disabled");
+                $(listTipoContainer).attr("disabled", "true");
+                listTipoContainer.value = "";
+            } else {
+                $(listTamanhoContainer).attr("disabled", "true");
+                listTipoContainer.removeAttribute("Disabled");
+                listTamanhoContainer.value = "";
+            }
+        })
 
         $("#ddlfiltroTabelaDemu").change(function () {
             armadorT = document.getElementById("ddlfiltroTabelaDemu").value;
@@ -1408,7 +1740,7 @@
                     if (dado != null) {
                         $("#grdDemurrageContainer").empty();
                         for (let i = 0; i < dado.length; i++) {
-                            $("#grdDemurrageContainer").append("<tr><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td><td class='text-center'>" + dado[i]["DT_VALIDADE_INICIAL_FORMAT"] + "</td>" +
+                            $("#grdDemurrageContainer").append("<tr><td class='text-center'>" + dado[i]["TIPO_CONTAINER"] + "</td><td class='text-center'>" + dado[i]["DT_VALIDADE_INICIAL_FORMAT"] + "</td><td class='text-center'>" + dado[i]["CARGA_IMO"] + "</td>" +
                                 "<td class='text-center'> <div class='btn btn-primary pad' data-toggle='modal' data-target='#modalDemurrage' onclick='BuscarDemurrage(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-eye'></i></div>" +
                                 "<div class='deleteDemurrage btn btn-primary pad' data-id='" + dado[i]["ID_TABELA_DEMURRAGE"] + "' onclick='SetIdDelete(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-trash'></i></div></td></tr>");
                         }
@@ -1460,6 +1792,12 @@
                     else {
                         $("#MainContent_checkEsc").prop('checked', false);
                     }
+                    if (data.FL_CARGA_IMO == "True") {
+                        $("#MainContent_checkIMO").prop('checked', true);
+                    }
+                    else {
+                        $("#MainContent_checkIMO").prop('checked', false);
+                    }
                     if (data.FL_INICIO_CHEGADA == "True") {
                         $("#MainContent_checkInicioFreetime").prop('checked', true);
                     }
@@ -1488,6 +1826,7 @@
                     document.getElementById("vlDemurrage7").value = data.VL_VENDA_07;
                     document.getElementById("dtDemurrage8").value = data.QT_DIAS_08;
                     document.getElementById("vlDemurrage8").value = data.VL_VENDA_08;
+                    document.getElementById("MainContent_ddlTamanhoContainer").value = data.ID_TAMANHO_CONTAINER;
 
 
                     var forms = ['MainContent_ddlParceiroTransportador',
@@ -1496,7 +1835,9 @@
                         'qtFreetime',
                         'MainContent_ddlMoeda',
                         'MainContent_checkEsc',
+                        'MainContent_checkIMO',
                         'MainContent_checkInicioFreetime',
+                        'MainContent_ddlTamanhoContainer',
                         'dtDemurrage1',
                         'vlDemurrage1',
                         'dtDemurrage2',
@@ -1534,6 +1875,7 @@
                 'qtFreetime',
                 'MainContent_ddlMoeda',
                 'MainContent_checkEsc',
+                'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
                 'dtDemurrage1',
                 'vlDemurrage1',
@@ -1557,6 +1899,7 @@
             }
             var formsempty = ['MainContent_ddlParceiroTransportador',
                 'MainContent_ddlTipoContainer',
+                'MainContent_ddlTamanhoContainer',
                 'dtValidade',
                 'qtFreetime',
                 'MainContent_ddlMoeda',
@@ -1597,7 +1940,9 @@
                 'qtFreetime',
                 'MainContent_ddlMoeda',
                 'MainContent_checkEsc',
+                'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
+                'MainContent_ddlTamanhoContainer',
                 'dtDemurrage1',
                 'vlDemurrage1',
                 'dtDemurrage2',
@@ -1629,7 +1974,9 @@
                 'qtFreetime',
                 'MainContent_ddlMoeda',
                 'MainContent_checkEsc',
+                'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
+                'MainContent_ddlTamanhoContainer',
                 'dtDemurrage1',
                 'vlDemurrage1',
                 'dtDemurrage2',
@@ -1655,6 +2002,8 @@
         function EditarDemurrage() {
             var checkbox = document.getElementById("MainContent_checkEsc");
             var checkboxvalue;
+            var checkboxIMO = document.getElementById("MainContent_checkIMO");
+            var checkboxIMOvalue;
             var checkboxfreetime = document.getElementById("MainContent_checkInicioFreetime");
             var checkboxfreetimevalue;
             if (checkbox.checked) {
@@ -1669,6 +2018,12 @@
             else {
                 checkboxfreetimevalue = "0";
             }
+            if (checkboxIMO.checked) {
+                checkboxIMOvalue = "1";
+            } else {
+                checkboxIMOvalue = "0";
+            }
+
             var dadosEdit = {
                 "ID_TABELA_DEMURRAGE": document.getElementById("ddlDemurrage").value,
                 "ID_PARCEIRO_TRANSPORTADOR": document.getElementById("MainContent_ddlParceiroTransportador").value,
@@ -1678,6 +2033,7 @@
                 "ID_MOEDA": document.getElementById("MainContent_ddlMoeda").value,
                 "FL_ESCALONADA": checkboxvalue,
                 "FL_INICIO_CHEGADA": checkboxfreetimevalue,
+                "FL_CARGA_IMO": checkboxIMOvalue,
                 "QT_DIAS_01": document.getElementById("dtDemurrage1").value,
                 "VL_VENDA_01": document.getElementById("vlDemurrage1").value,
                 "QT_DIAS_02": document.getElementById("dtDemurrage2").value,
@@ -1693,7 +2049,8 @@
                 "QT_DIAS_07": document.getElementById("dtDemurrage7").value,
                 "VL_VENDA_07": document.getElementById("vlDemurrage7").value,
                 "QT_DIAS_08": document.getElementById("dtDemurrage8").value,
-                "VL_VENDA_08": document.getElementById("vlDemurrage8").value
+                "VL_VENDA_08": document.getElementById("vlDemurrage8").value,
+                "ID_TAMANHO_CONTAINER": document.getElementById("MainContent_ddlTamanhoContainer").value
             }
             $.ajax({
                 type: "POST",
@@ -1807,62 +2164,62 @@
             var dtDevolucao = document.getElementById('dtDevolucao').value;
             if (dsStatus != "") {
                 if (values.length > 0) {
-                    
-                        $("#modalDevolucao").modal("hide");
-                        $.ajax({
-                            type: "POST",
-                            url: "DemurrageService.asmx/atualizarDevolucao",
-                            data: '{idCont:"' + values + '",dtStatus:"' + dtStatus + '",dsStatus:"' + dsStatus + '",dtDevolucao:"' + dtDevolucao + '" }',
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (dado) {
-                                $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
-                                $.ajax({
-                                    type: "POST",
-                                    url: "DemurrageService.asmx/infoContainerDevolucao",
-                                    data: '{idCont:"' + id + '" }',
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    success: function (dado) {
-                                        var dado = dado.d;
-                                        dado = $.parseJSON(dado);
-                                        if (dado != null) {
-                                            document.getElementById('nrProcessoDevolucao').value = dado[0]['NR_PROCESSO'];
-                                            document.getElementById('nmClienteDevolucao').value = dado[0]['CLIENTE'];
-                                            document.getElementById('dtStatusDevolucao').value = dataAtual = ano + '-' + mes + '-' + dia;
-                                            if (dado[0]['DT_DEVOLUCAO_CNTR'] == null) {
-                                                dado[0]['DT_DEVOLUCAO_CNTR'] = "";
-                                            }
-                                            $.ajax({
-                                                type: "POST",
-                                                url: "DemurrageService.asmx/listarContainerDevolucao",
-                                                data: '{nrProcesso:"' + dado[0]['NR_PROCESSO'] + '" }',
-                                                contentType: "application/json; charset=utf-8",
-                                                dataType: "json",
-                                                beforeSend: function () {
-                                                    $("#grdDevolucaoContainerBody").empty();
-                                                    $("#grdDevolucaoContainerBody").append("<tr><td colspan='5'><div class='loader'></div></td></tr>");
-                                                },
-                                                success: function (dado) {
-                                                    var dado = dado.d;
-                                                    dado = $.parseJSON(dado);
-                                                    $("#grdDevolucaoContainerBody").empty();
-                                                    if (dado != null) {
-                                                        for (let i = 0; i < dado.length; i++) {
-                                                            $("#grdDevolucaoContainerBody").append("<tr><td class='text-center'><div><input type='checkbox' class='cntr' value='" + dado[i]["ID_CNTR"] + "' name='cntr'/></div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
-                                                                "<td class='text-center'>" + dado[i]["DT_DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                                                "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td></tr>");
-                                                        }
+
+                    $("#modalDevolucao").modal("hide");
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/atualizarDevolucao",
+                        data: '{idCont:"' + values + '",dtStatus:"' + dtStatus + '",dsStatus:"' + dsStatus + '",dtDevolucao:"' + dtDevolucao + '" }',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (dado) {
+                            $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
+                            $.ajax({
+                                type: "POST",
+                                url: "DemurrageService.asmx/infoContainerDevolucao",
+                                data: '{idCont:"' + id + '" }',
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (dado) {
+                                    var dado = dado.d;
+                                    dado = $.parseJSON(dado);
+                                    if (dado != null) {
+                                        document.getElementById('nrProcessoDevolucao').value = dado[0]['NR_PROCESSO'];
+                                        document.getElementById('nmClienteDevolucao').value = dado[0]['CLIENTE'];
+                                        document.getElementById('dtStatusDevolucao').value = dataAtual = ano + '-' + mes + '-' + dia;
+                                        if (dado[0]['DT_DEVOLUCAO_CNTR'] == null) {
+                                            dado[0]['DT_DEVOLUCAO_CNTR'] = "";
+                                        }
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "DemurrageService.asmx/listarContainerDevolucao",
+                                            data: '{nrProcesso:"' + dado[0]['NR_PROCESSO'] + '" }',
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            beforeSend: function () {
+                                                $("#grdDevolucaoContainerBody").empty();
+                                                $("#grdDevolucaoContainerBody").append("<tr><td colspan='5'><div class='loader'></div></td></tr>");
+                                            },
+                                            success: function (dado) {
+                                                var dado = dado.d;
+                                                dado = $.parseJSON(dado);
+                                                $("#grdDevolucaoContainerBody").empty();
+                                                if (dado != null) {
+                                                    for (let i = 0; i < dado.length; i++) {
+                                                        $("#grdDevolucaoContainerBody").append("<tr><td class='text-center'><div><input type='checkbox' class='cntr' value='" + dado[i]["ID_CNTR"] + "' name='cntr'/></div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
+                                                            "<td class='text-center'>" + dado[i]["DT_DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
+                                                            "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td></tr>");
                                                     }
                                                 }
-                                            })
-                                        }
+                                            }
+                                        })
                                     }
-                                })
-                                consultaFiltrada();
-                            }
-                        })
-                    
+                                }
+                            })
+                            consultaFiltrada();
+                        }
+                    })
+
                 }
                 else {
                     values = [];
@@ -1897,10 +2254,17 @@
                             document.getElementById('qtDiasFreeTime').value = dado[0]['QT_DIAS_FREETIME'];
                             document.getElementById('qtDiasFreeTimeConfirm').value = dado[0]['QT_DIAS_FREETIME_CONFIRMA'];
                             document.getElementById('qtDiasDemurrageCompra').value = dado[0]['QT_DIAS_DEMURRAGE_COMPRA'];
+                            document.getElementById('qtDiasDemurrageVenda').value = dado[0]['QT_DIAS_DEMURRAGE'];
                             if (dado[0]['QT_DIAS_DEMURRAGE_COMPRA'] == null) {
                                 document.getElementById('divDemurrageCompra').style = 'display:none';
                             } else {
                                 document.getElementById('divDemurrageCompra').style = 'display:block';
+                            }
+
+                            if (dado[0]['QT_DIAS_DEMURRAGE'] == null) {
+                                document.getElementById('divDemurrageVenda').style = 'display:none';
+                            } else {
+                                document.getElementById('divDemurrageVenda').style = 'display:block';
                             }
 
                             if (dado[0]['DS_OBSERVACAO'] == null) {
@@ -1935,11 +2299,12 @@
             var obsInfoCont = document.getElementById("obsInfoCont").value;
             var qtDiasFreeTimeConfirm = document.getElementById("qtDiasFreeTimeConfirm").value;
             var qtDiasDemurrageCompra = document.getElementById("qtDiasDemurrageCompra").value;
+            var qtDiasDemurrageVenda = document.getElementById("qtDiasDemurrageVenda").value;
             if (dsStatus != "") {
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/atualizarContainer",
-                    data: '{idCont:"' + id + '",dtStatus:"' + dtStatus + '",qtDias:"' + qtDiasFreeTime + '",dsStatus: "' + dsStatus + '" ,dsObs:"' + obsInfoCont + '", qtDiasConfirm:"' + qtDiasFreeTimeConfirm + '", qtDiasDemurrageCompra: "' + qtDiasDemurrageCompra + '", dtStatusCompra: "' + dtStatusCompra + '", dsStatusCompra: "' + dsStatusCompra+ '" }',
+                    data: '{idCont:"' + id + '",dtStatus:"' + dtStatus + '",qtDias:"' + qtDiasFreeTime + '",dsStatus: "' + dsStatus + '" ,dsObs:"' + obsInfoCont + '", qtDiasConfirm:"' + qtDiasFreeTimeConfirm + '", qtDiasDemurrageCompra: "' + qtDiasDemurrageCompra + '", qtDiasDemurrageVenda: "' + qtDiasDemurrageVenda + '", dtStatusCompra: "' + dtStatusCompra + '", dsStatusCompra: "' + dsStatusCompra + '" }',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (dado) {
@@ -2922,7 +3287,7 @@
                             $("#grdFaturaBody").append("<tr data-id='" + dado[i]["ID_DEMURRAGE_FATURA"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setIdFatura(" + dado[i]["ID_DEMURRAGE_FATURA"] + "," + dado[i]["FALTA_ATUALIZACAO_CAMBIAL"] + ")'>Selecionar</div></td>" +
                                 "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_FATURA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' style='max-width: 14ch;' title='" + dado[i]["NM_CLIENTE"] + "'>" + dado[i]["NM_CLIENTE"] + "</td>" +
                                 "<td class='text-center' style='max-width: 20ch;' title='" + dado[i]["NM_TRANSPORTADOR"] + "'>" + dado[i]["NM_TRANSPORTADOR"] + "</td><td class='text-center'>" + dado[i]["DT_EXPORTACAO_DEMURRAGE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td><td class='text-center'>" + dado[i]["DT_CANCELAMENTO"] + "</td></tr> ");
+                                "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td><td class='text-center'>" + dado[i]["DT_CANCELAMENTO"] + "</td><td class='text-center'>" + dado[i]["QT_PARCELAS"] + "</td></tr> ");
                         }
                     }
                     else {
@@ -2981,7 +3346,7 @@
                             $("#grdFaturaBody").append("<tr data-id='" + dado[i]["ID_DEMURRAGE_FATURA"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setIdFatura(" + dado[i]["ID_DEMURRAGE_FATURA"] + "," + dado[i]["FALTA_ATUALIZACAO_CAMBIAL"] + ")'>Selecionar</div></td>" +
                                 "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_FATURA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' style='max-width: 14ch;' title='" + dado[i]["NM_CLIENTE"] + "'>" + dado[i]["NM_CLIENTE"] + "</td>" +
                                 "<td class='text-center' style='max-width: 20ch;' title='" + dado[i]["NM_TRANSPORTADOR"] + "'>" + dado[i]["NM_TRANSPORTADOR"] + "</td><td class='text-center'>" + dado[i]["DT_EXPORTACAO_DEMURRAGE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td><td class='text-center'>" + dado[i]["DT_CANCELAMENTO"] + "</td></tr> ");
+                                "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td><td class='text-center'>" + dado[i]["DT_CANCELAMENTO"] + "</td><td class='text-center'>" + dado[i]["QT_PARCELAS"] + "</td></tr>");
                         }
                     }
                     else {
@@ -3070,7 +3435,7 @@
                             $.ajax({
                                 type: "POST",
                                 url: "DemurrageService.asmx/processarFaturaItens",
-                                data: '{idcntr:"' + faturaV[x] + '",check: "' + vlCheck + '",processo: "' + processoFatura + '", fatura: "'+dado+'"}',
+                                data: '{idcntr:"' + faturaV[x] + '",check: "' + vlCheck + '",processo: "' + processoFatura + '", fatura: "' + dado + '"}',
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (dado) {
@@ -3206,7 +3571,7 @@
                                 doc.addImage(bg, 'png', 128, 82, 78, 4);
                                 doc.text(dado[0]["VL_PESO_BRUTO"].toString().replace(".", ","), 129, 85);
                                 doc.addImage(bg, 'png', 128, 87, 78, 4);
-                                doc.text(dado[0]["VL_INDICE_VOLUMETRICO"].toString().replace(".",","), 129, 90);
+                                doc.text(dado[0]["VL_INDICE_VOLUMETRICO"].toString().replace(".", ","), 129, 90);
                                 doc.addImage(bg, 'png', 128, 92, 78, 4);
                                 doc.text(dado[0]["VL_M3"].toString().replace(".", ","), 129, 95);
 
@@ -3542,12 +3907,9 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/excluirFatura",
-                data: '{idFatura:"' + idFatura + '", check:"' + vlCheck+'"}',
+                data: '{idFatura:"' + idFatura + '", check:"' + vlCheck + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                beforeSend: function () {
-
-                },
                 success: function (dado) {
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
@@ -3579,7 +3941,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/cancelarFatura",
-                data: '{idFatura:"' + idFatura + '", motivoCancelamento: "' + motivoCancelamento + '", check:"'+vlCheck+'"}',
+                data: '{idFatura:"' + idFatura + '", motivoCancelamento: "' + motivoCancelamento + '", check:"' + vlCheck + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -3642,7 +4004,8 @@
                                                     for (let i = 0; i < dado.length; i++) {
                                                         $("#grdAtualizacaoCambialBody").append("<tr id='r" + dado[i]["ID_CNTR_BL"] + "s' data-id='" + dado[i]["ID_CNTR_BL"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setIdFaturaItens(" + dado[i]["ID_CNTR_BL"] + ")'>Selecionar</div></td>" +
                                                             "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_MOEDA"] + "</td><td class='text-center vlDemurrage'>" + dado[i]["VL_DEMURRAGE"] + "</td>" +
-                                                            "<td class='text-center desconto'>" + dado[i]["DESCONTO"] + "</td></tr> ");
+                                                            "<td class='text-center desconto'>" + dado[i]["DESCONTO"] + "</td>" +
+                                                            "<td class='text-center multa'>" + dado[i]["MULTA"] + "</td></tr > ");
                                                     }
                                                 }
                                                 else {
@@ -3661,11 +4024,281 @@
                         }
                     }
                 })
-                
-        }else {
-            $("#msgSelectErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+
+            } else {
+                $("#msgSelectErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+            }
         }
-    }
+
+        function ParcelarDemurrage() {
+            if (idFatura != 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/infoExportFatura",
+                    data: '{idFatura:"' + idFatura + '", check: "' + vlCheck + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        if (dado == "0") {
+                            if (atualizaCambio != 1) {
+                                $("#modalParcelamentoDemurrage").modal("show");
+                                listarParcelas();
+                                $.ajax({
+                                    type: "POST",
+                                    url: "DemurrageService.asmx/infoAtualizacao",
+                                    data: '{idFatura: "' + idFatura + '"}',
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (dado) {
+                                        var dado = dado.d;
+                                        dado = $.parseJSON(dado);
+                                        if (dado != null) {
+                                            document.getElementById("idFaturaParcelamentoDemurrage").value = dado[0]["ID_DEMURRAGE_FATURA"];
+                                            document.getElementById("nrProcessoFaturaParcelamentoDemurrage").value = dado[0]["NR_PROCESSO"];
+                                            document.getElementById("nmClienteFaturaParcelamentoDemurrage").value = dado[0]["CLIENTE"];
+                                            document.getElementById("vlRecebidoParcelamentoDemurrage").value = dado[0]["VL_DEMURRAGE_TOTAL_BR"];
+                                            document.getElementById("vlParcelamentoDemurrage").value = document.getElementById("vlRecebidoParcelamentoDemurrage").value / document.getElementById("qtNumeroParcelas").value;
+                                        } else {
+                                            $("#msgExportErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+                                        }
+                                    }
+                                })
+                            } else {
+                                $("#msgCambioErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+                            }
+                        } else if (dado == "1") {
+                            $("#msgCambioErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+                        } else if (dado == "2") {
+                            $("#msgExportErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+                        } else {
+                            $("#msgDemuFinalErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+                        }
+                    }
+                })
+            } else {
+                $("#msgSelectErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+            }
+        }
+
+        $("#qtNumeroParcelas").change(function () {
+            
+            var vlTotalDem = document.getElementById("vlRecebidoParcelamentoDemurrage").value;
+            var qtParcelas = document.getElementById("qtNumeroParcelas").value;
+
+            if (qtParcelas == "") {
+                qtParcelas = 1;
+            }
+
+            document.getElementById("vlParcelamentoDemurrage").value = (vlTotalDem / qtParcelas).toFixed(2);
+        })
+
+        $("#vlRecebidoParcelamentoDemurrage").change(function () {
+            var vlTotalDem = document.getElementById("vlRecebidoParcelamentoDemurrage").value;
+            var qtParcelas = document.getElementById("qtNumeroParcelas").value;
+
+            document.getElementById("vlParcelamentoDemurrage").value = (vlTotalDem / qtParcelas).toFixed(2);
+        })
+
+        function ParcelamentoDemurrage() {
+            var vlParcelamentoDemurrage = document.getElementById("vlParcelamentoDemurrage").value;
+            var vlRecebidoParcelamentoDemurrage = document.getElementById("vlRecebidoParcelamentoDemurrage").value;
+            var qtNumeroParcelas = document.getElementById("qtNumeroParcelas").value;
+            var dtInicialParcelamentoDemurrage = document.getElementById("dtInicialParcelamentoDemurrage").value;
+            console.log(dtInicialParcelamentoDemurrage)
+            if (dtInicialParcelamentoDemurrage == "") {
+                return $("#msgDeleteErr").fadeIn(500).delay(1000).fadeOut(500);;
+            }
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/parcelarDemurrage",
+                data: '{idfatura: "' + idFatura + '", vlDemurrageParcela:"' + vlParcelamentoDemurrage + '", vlDemurrageTotal: "' + vlRecebidoParcelamentoDemurrage + '", qtDemurrageParcela: "' + qtNumeroParcelas + '", dtPeriodoInicial: "' + dtInicialParcelamentoDemurrage + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado == "OK") {
+                        listarParcelas();
+                    } else {
+                        listarParcelas();
+                    }
+                },
+                error: function (err) {
+                    $("#msgDeleteErr").fadeIn(500).delay(1000).fadeOut(500);
+                    listarFatura();
+                    $("#modalExcluirFatura").modal('hide');
+                    consultaFiltrada();
+                }
+
+            })
+        }
+
+        function listarParcelas() {
+            console.log("Fatura " + idFatura)
+            var vlParcelaJuros = 0;
+            var result;
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/listarParcelamentoDemurrage",
+                data: '{fatura: "' + idFatura + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#grdParcelamentoDemurrageBody").empty();
+                    $("#grdParcelamentoDemurrageBody").append("<tr><td colspan='6'><div class='loader'></div></td></tr>");
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    $("#grdParcelamentoDemurrageBody").empty();
+                    if (dado != null) {
+                        for (let i = 0; i < dado.length; i++) {
+                            vlParcelaJuros = dado[i]["VL_DEMURRAGE_PARCELA"] + (dado[i]["VL_DEMURRAGE_PARCELA"] * (dado[i]["VL_DEMURRAGE_PARCELA_JUROS"] / 100));
+
+                            result = "<tr>";
+                            result += dado[i]["ID_CONTA_PAGAR_RECEBER"] == null ? "<td class='text-center'><div class='btn btn-primary' onclick='BuscarParcela(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'><i class='fas fa-edit'></i></div>" :"<td class='text-center'>";
+                            result += "<div class='btn btn-primary' style='margin-left: 5px;' onclick='DeletarParcelaModal(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'><i class='fas fa-trash'></i></div></td>";
+                            result += "<td class='text-center' > " + parseFloat(i + 1) + "</td >";
+                            result += "<td class='text-center'>" + dado[i]["DT_VENCIMENTO"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_PARCELA"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_PARCELA_JUROS"] + "</td>";
+                            result += "<td class='text-center'>" + vlParcelaJuros.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["FL_PAGO"] + "</td>";
+                            result += dado[i]["ID_CONTA_PAGAR_RECEBER"] == null ? "<td class='text-center'><div class='btn btn-primary' onclick='RegistrarTaxa(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'>Registrar Taxa</div></td>" : dado[i]["ID_CONTA_PAGAR_RECEBER"] !== null && dado[i]["FL_PAGO"].toString() == 'PENDENTE' ? "<td class='text-center'><div class='btn btn-primary' onclick='ExportarParcelaCC(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'>Exportar CC</div></td>" : "<td class='text-center'><div class='btn btn-primary' onclick='CancelarExportarParcelaCC(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'>Cancelar Exportação</div></td>";
+                            result += dado[i]["ID_CONTA_PAGAR_RECEBER"] == null ? "<td></td>" : dado[i]["DT_ENVIO_FATURAMENTO"] == null ? "<td class='text-center'><div class='btn btn-primary' onclick='EnviarFaturamento(" + dado[i]["ID_DEMURRAGE_FATURA_PARCELAS"] + ")'>Enviar Faturamento</div></td>" : "<td class='text-center'>Faturamento - " + dado[i]["DT_ENVIO_FATURAMENTO"] + "</td>";
+                            result += "</tr>";
+                            $("#grdParcelamentoDemurrageBody").append(result);
+                        }
+                    } else {
+                        $("#grdParcelamentoDemurrageBody").append("<tr><td class='text-center' colspan='6'>Não há parcelas</td></tr>");
+                    }
+                },
+                error: function (err) {
+                    
+                }
+
+            })
+        }
+
+        function BuscarParcela(idParcela) {
+            var btn = document.getElementById("btnVincular");
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/infoParcela",
+                data: '{idParcela: "' + idParcela + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#modalInfoParcela").modal("show");
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado != null) {
+                        vlParcelaJuros = dado[0]["VL_DEMURRAGE_PARCELA"] + (dado[0]["VL_DEMURRAGE_PARCELA"] * (dado[0]["VL_DEMURRAGE_PARCELA_JUROS"] / 100))
+                        document.getElementById("vlParcelaEdit").value = dado[0]["VL_DEMURRAGE_PARCELA"];
+                        document.getElementById("vlParcelaJurosEdit").value = vlParcelaJuros;
+                        document.getElementById("vlJurosEdit").value = dado[0]["VL_DEMURRAGE_PARCELA_JUROS"] != null ? dado[0]["VL_DEMURRAGE_PARCELA_JUROS"] : 0;
+                        document.getElementById("dtVencimentoEdit").value = dado[0]["DT_VENCIMENTO_DEMURRAGE_PARCELA"];
+                        document.getElementById("checkPago").checked = dado[0]["FL_PAGO"];
+                        document.getElementById("MainContent_idParcela").value = dado[0]["ID_DEMURRAGE_FATURA_PARCELAS"];
+                        console.log(dado[0]["DT_VENCIMENTO_DEMURRAGE_PARCELA"]);
+                    } else {
+                        
+                    }
+                },
+                error: function (err) {
+
+                }
+
+            })
+        }
+
+        $("#vlJurosEdit").change(function () {
+            var parcelaJuros = document.getElementById("vlParcelaJurosEdit");
+            var vlParcela = document.getElementById("vlParcelaEdit");
+            var vlJuros = document.getElementById("vlJurosEdit");
+
+            parcelaJuros.value = (parseFloat(vlParcela.value) + (parseFloat(vlParcela.value) * (parseFloat(vlJuros.value) / 100))).toFixed(2);
+        })
+
+        function editarParcela() {
+            var vlParcela = document.getElementById("vlParcelaEdit").value;
+            var vlParcelaJuros = document.getElementById("vlParcelaJurosEdit").value;
+            var juros = document.getElementById("vlJurosEdit").value;
+            var vencimento = document.getElementById("dtVencimentoEdit").value;
+            var pago = document.getElementById("checkPago").checked ? 1 : 0;
+            var idParcela = document.getElementById("MainContent_idParcela").value
+            
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/editarParcela",
+                data: '{idParcela: "' + idParcela + '", vlParcela: "' + vlParcela + '", vlJuros: "' + juros + '", vlParcelaJuros: "' + vlParcelaJuros + '", vencimento: "' + vencimento+'", pago: "'+pago+'"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado == "Success") {
+                        $("#modalInfoParcela").modal("hide");
+                        $("#msgSuccessParcela").fadeIn(500).delay(1000).fadeOut(500);
+                        listarParcelas();
+                    } else {
+                        $("#modalInfoParcela").modal("hide");
+                        $("#msgErrParcela").fadeIn(500).delay(1000).fadeOut(500);
+                        listarParcelas();
+                    }
+                },
+                error: function (err) {
+
+                }
+
+            })
+        }
+
+        function DeletarParcelaModal(idParcelaDelete) {
+            Swal.fire({
+                title: 'Você tem certeza?',
+                text: "Você não poderá reverter essa ação!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, deletar!',
+                customClass: 'swal-wide'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/deletarParcela",
+                        data: '{idParcela:"' + idParcelaDelete + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        beforeSend: function () {
+                        },
+                        success: function (dado) {
+                            var dado = dado.d;
+                            dado = $.parseJSON(dado);
+                            if (dado == "1") {
+                                $("#modalDeleteParcela").modal("hide");
+                                $("#modalParcelamentoDemurrage").modal("hide");
+                                $("#msgExportSuccess").fadeIn(500).delay(1000).fadeOut(500);
+                                listarParcelas();
+                            }
+                            else {
+                                $("#modalDeleteParcela").modal("hide");
+                                $("#modalParcelamentoDemurrage").modal("hide");
+                                $("#msgErrExportDadoConta").fadeIn(500).delay(1000).fadeOut(500);
+                                listarParcelas();
+                            }
+                        }
+                    })
+                }
+            })
+        }
 
         function atualizacaoCambial() {
             if (idFatura != 0) {
@@ -3676,6 +4309,7 @@
                 var idContaBancaria = document.getElementById("MainContent_ddlContaBancaria").value;
                 var linhas = document.querySelectorAll(".desconto");
                 var linhas2 = document.querySelectorAll(".vlDemurrage");
+                var multa = document.querySelectorAll(".multa");
                 var desc = document.querySelectorAll("#grdAtualizacaoCambialBody tr");
                 var valorCambio = new String(vlCambio);
                 var vcambio = valorCambio.replace(",", ".");
@@ -3689,10 +4323,11 @@
                         for (var ind = 0; ind < linhas.length; ind++) {
                             var vlDemurrage = linhas2[ind].textContent.toString();
                             var descontoBRL = linhas[ind].textContent.toString();
+                            var multaBRL = multa[ind].textContent.toString();
                             $.ajax({
                                 type: "POST",
                                 url: "DemurrageService.asmx/atualizacaoCambialContainer",
-                                data: '{idCntr:"' + desc[ind].attributes[1].value + '",dtCambio: "' + dtCambio + '", vlCambio: "' + vcambio + '",vlDemurrage:"' + vlDemurrage + '" ,descontoBRL: "' + descontoBRL + '",check:"' + vlCheck + '"}',
+                                data: '{idCntr:"' + desc[ind].attributes[1].value + '",dtCambio: "' + dtCambio + '", vlCambio: "' + vcambio + '",vlDemurrage:"' + vlDemurrage + '" ,descontoBRL: "' + descontoBRL + '", multaBRL: "' + multaBRL+'", check:"' + vlCheck + '"}',
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function () {
@@ -3713,6 +4348,16 @@
             if (idFaturaItens != "") {
                 var desc = document.querySelector("#r" + idFaturaItens + "s td:nth-child(5)");
                 desc.textContent = document.getElementById("vlDescontoBr").value;
+            }
+            else {
+                $("#msgSelectErrFaturaItens").fadeIn(500).delay(1000).fadeOut(500);
+            }
+        }
+
+        function aplicarMulta() {
+            if (idFaturaItens != "") {
+                var desc2 = document.querySelector("#r" + idFaturaItens + "s td:nth-child(6)");
+                desc2.textContent = document.getElementById("vlMultaBr").value;
             }
             else {
                 $("#msgSelectErrFaturaItens").fadeIn(500).delay(1000).fadeOut(500);
@@ -3772,36 +4417,319 @@
             }
         }
 
+        function ExportarParcelaCC(idParcela) {
+            if (idFatura != 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/infoExportFatura",
+                    data: '{idFatura:"' + idFatura + '", check: "' + vlCheck + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        if (dado == "0") {
+                            if (atualizaCambio != 1) {
+                                $("#modalExportarParcelaContaCorrente").modal("show");
+                                $.ajax({
+                                    type: "POST",
+                                    url: "DemurrageService.asmx/infoExportCC",
+                                    data: '{idFatura:"' + idFatura + '"}',
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (dado) {
+                                        var dado = dado.d;
+                                        dado = $.parseJSON(dado);
+                                        if (dado != null) {
+                                            document.getElementById("idFaturaContaCorrenteParcela").value = dado[0]["ID_DEMURRAGE_FATURA"];
+                                            document.getElementById("idFaturaParcelaContaCorrente").value = idParcela;
+                                            document.getElementById("nrProcessoFaturaParcelaContaCorrente").value = dado[0]["NR_PROCESSO"];
+                                            document.getElementById("nmClienteFaturaParcelaContaCorrente").value = dado[0]["CLIENTE"];
+                                            document.getElementById("dtLiquidacaoFaturaParcelaContaCorrente").value = dataAtual = ano + '-' + mes + '-' + dia;
+                                            document.getElementById("MainContent_ddlStatusFaturaParcela ContaCorrente").value = 5;
+                                            document.getElementById("dtStatusFaturaParcelaContaCorrente").value = dataAtual = ano + '-' + mes + '-' + dia;
+                                        }
+                                        else {
+
+                                        }
+                                    }
+                                })
+                            } else {
+                                $("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);
+                            }
+                        } else if (dado == "1") {
+                            $("#msgCambioErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+                        } else if (dado == "2") {
+                            $("#msgExportErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+                        } else {
+                            $("#msgDemuFinalErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+                        }
+                    }
+                })
+            }
+            else {
+                $("#msgSelectErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+            }
+        }
+
+        function EnviarFaturamento(idParcela) {
+            Swal.fire({
+                title: 'Deseja enviar para faturamento?',
+                text: "Você não poderá reverter essa ação!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim',
+                customClass: 'swal-wide'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/EnviarFaturamento",
+                        data: '{idParcela: "' + idParcela + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        beforeSend: function () {
+                        },
+                        success: function (dado) {
+                            var dado = dado.d;
+                            dado = $.parseJSON(dado);
+                            if (dado != "2") {
+                                Swal.fire('Saved!', '', 'success')
+                                //$("#modalDialogParcela").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
+                                /*$("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
+                                //listarFatura();
+                                //consultaFiltrada();
+                                listarParcelas();
+                            }
+                            else {
+                                Swal.fire('Changes are not saved', '', 'info')
+                                //$("#modalDialogParcela").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
+                                /*$("#msgErrUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
+                                //listarFatura();
+                                //consultaFiltrada();
+                                listarParcelas();
+                            }
+                        }
+                    })
+                }
+            })
+        }
+
         function exportarConta() {
             var dtLiquidacao = document.getElementById("dtLiquidacaoFaturaContaCorrente").value;
             var dsStatus = 0;
 
             console.log(vlCheck);
-            
-                $.ajax({
-                    type: "POST",
-                    url: "DemurrageService.asmx/exportarCC",
-                    data: '{idFatura:"' + idFatura + '",dtLiquidacao: "' + dtLiquidacao + '", check: "' + vlCheck + '"}',
-                    contentType: "application/json; charset=utf-8",
-                    beforeSend: function () {
-                    },
-                    success: function (dado) {
-                        var dado = dado.d;
-                        dado = $.parseJSON(dado);
-                        if (dado != "null" && dado != null) {
-                            $("#modalExportarContaCorrente").modal("hide");
-                            $("#msgExportSuccess").fadeIn(500).delay(1000).fadeOut(500);
-                            listarFatura();
-                            consultaFiltrada();
-                        }
-                        else {
-                            $("#modalExportarContaCorrente").modal("hide");
-                            $("#msgErrExportDadoConta").fadeIn(500).delay(1000).fadeOut(500);
-                            listarFatura();
-                            consultaFiltrada();
-                        }
+
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/exportarCC",
+                data: '{idFatura:"' + idFatura + '",dtLiquidacao: "' + dtLiquidacao + '", check: "' + vlCheck + '"}',
+                contentType: "application/json; charset=utf-8",
+                beforeSend: function () {
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado != "null" && dado != null) {
+                        $("#modalExportarContaCorrente").modal("hide");
+                        $("#msgExportSuccess").fadeIn(500).delay(1000).fadeOut(500);
+                        listarFatura();
+                        consultaFiltrada();
                     }
-                })
+                    else {
+                        $("#modalExportarContaCorrente").modal("hide");
+                        $("#msgErrExportDadoConta").fadeIn(500).delay(1000).fadeOut(500);
+                        listarFatura();
+                        consultaFiltrada();
+                    }
+                }
+            })
+        }
+
+        function finalizarFaturaDemurrage() {
+            Swal.fire({
+                title: 'Você tem certeza?',
+                text: "Você não poderá reverter essa ação!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, finalizar!',
+                customClass: 'swal-wide'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/finalizarFaturaDemurrage",
+                        data: '{idFatura:"' + idFatura + '", check: "' + vlCheck + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        beforeSend: function () {
+                        },
+                        success: function (dado) {
+                            var dado = dado.d;
+                            dado = $.parseJSON(dado);
+                            if (dado == "OK") {
+                                $("#modalParcelamentoDemurrage").modal("hide");
+                                listarFatura();
+                                consultaFiltrada();
+                            }
+                            else {
+                                $("#modalParcelamentoDemurrage").modal("hide");
+                                listarFatura();
+                                consultaFiltrada();
+                            }
+                        }
+                    })
+                }
+            })
+        }
+
+        function RegistrarTaxa(idParcela) {
+            var faturaParcela = document.getElementById("idFaturaParcelaContaCorrente").value;
+            var dsStatus = 0;
+
+            console.log(vlCheck);
+            Swal.fire({
+                title: 'Você tem certeza?',
+                text: "Você não poderá reverter essa ação!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim',
+                customClass: 'swal-wide'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/RegistrarTaxa",
+                        data: '{idFatura:"' + idFatura + '", idFaturaParcela: "' + idParcela + '", check: "' + vlCheck + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        beforeSend: function () {
+                        },
+                        success: function (dado) {
+                            var dado = dado.d;
+                            dado = $.parseJSON(dado);
+                            if (dado != "2") {
+                                Swal.fire('Saved!', '', 'success')
+                                //$("#modalExportarParcelaContaCorrente").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
+                                listarParcelas();
+                            }
+                            else {
+                                Swal.fire('Changes are not saved', '', 'info')
+                                //$("#modalExportarParcelaContaCorrente").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
+                                listarParcelas();
+                            }
+                        }
+                    })
+                }
+            })
+        }
+        $('#modalParcelamentoDemurrage').on('hidden.bs.modal', function () {
+            listarFatura();
+            consultaFiltrada();
+        })
+
+        function exportarParcelaConta() {
+            var dtLiquidacao = document.getElementById("dtLiquidacaoFaturaParcelaContaCorrente").value;
+            var faturaParcela = document.getElementById("idFaturaParcelaContaCorrente").value;
+            var dsStatus = 0;
+
+            console.log(vlCheck);
+            Swal.fire({
+                title: 'Você tem certeza?',
+                text: "Você não poderá reverter essa ação!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim',
+                customClass: 'swal-wide'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/exportarParcelaCC",
+                        data: '{idFatura:"' + idFatura + '", idFaturaParcela: "' + faturaParcela + '", dtLiquidacao: "' + dtLiquidacao + '", check: "' + vlCheck + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        beforeSend: function () {
+                        },
+                        success: function (dado) {
+                            var dado = dado.d;
+                            dado = $.parseJSON(dado);
+                            if (dado != "2") {
+                                Swal.fire('Saved!', '', 'success')
+                                $("#modalExportarParcelaContaCorrente").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
+                                /*$("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
+                                //listarFatura();
+                                //consultaFiltrada();
+                                listarParcelas();
+                            }
+                            else {
+                                Swal.fire('Changes are not saved', '', 'info')
+                                $("#modalExportarParcelaContaCorrente").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
+                                /*$("#msgErrUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
+                               // listarFatura();
+                                //consultaFiltrada();
+                                listarParcelas();
+                            }
+                        }
+                    })
+                }
+            })
+        }
+
+        function CancelarExportarParcelaCC(idParcela) {
+            Swal.fire({
+                title: 'Você tem certeza?',
+                text: "Você não poderá reverter essa ação!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim',
+                customClass: 'swal-wide'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/cancelarExportarParcelaCC",
+                        data: '{idParcela: "' + idParcela + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        beforeSend: function () {
+                        },
+                        success: function (dado) {
+                            var dado = dado.d;
+                            dado = $.parseJSON(dado);
+                            if (dado != "2") {
+                                Swal.fire('Saved!', '', 'success')
+                                //$("#modalDialogParcela").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
+                                /*$("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
+                                //listarFatura();
+                                //consultaFiltrada();
+                                listarParcelas();
+                            }
+                            else {
+                                Swal.fire('Changes are not saved', '', 'info')
+                                //$("#modalDialogParcela").modal("hide");
+                                //$("#modalParcelamentoDemurrage").modal("hide");
+                                /*$("#msgErrUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);*/
+                                //listarFatura();
+                                //consultaFiltrada();
+                                listarParcelas();
+                            }
+                        }
+                    })
+                }
+            })
         }
 
         function estimativaCV() {
@@ -3939,6 +4867,7 @@
                 'qtFreetime',
                 'MainContent_ddlMoeda',
                 'MainContent_checkEsc',
+                'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
                 'dtDemurrage1',
                 'vlDemurrage1',
@@ -3995,6 +4924,8 @@
         function CadastrarDemurrageContainer() {
             var checkbox = document.getElementById("MainContent_checkEsc");
             var checkboxvalue;
+            var checkboxIMO = document.getElementById("MainContent_checkIMO");
+            var checkboxIMOvalue;
             var checkboxfreetime = document.getElementById("MainContent_checkInicioFreetime");
             var checkboxfreetimevalue;
             if (checkbox.checked) {
@@ -4009,6 +4940,11 @@
             else {
                 checkboxfreetimevalue = "0";
             }
+            if (checkboxIMO.checked) {
+                checkboxIMOvalue = "1";
+            } else {
+                checkboxIMOvalue = "0";
+            }
             var dado = {
                 "ID_PARCEIRO_TRANSPORTADOR": document.getElementById("MainContent_ddlParceiroTransportador").value,
                 "ID_TIPO_CONTAINER": document.getElementById("MainContent_ddlTipoContainer").value,
@@ -4016,6 +4952,7 @@
                 "QT_DIAS_FREETIME": document.getElementById("qtFreetime").value,
                 "ID_MOEDA": document.getElementById("MainContent_ddlMoeda").value,
                 "FL_ESCALONADA": checkboxvalue,
+                "FL_CARGA_IMO": checkboxIMOvalue,
                 "FL_INICIO_CHEGADA": checkboxfreetimevalue,
                 "QT_DIAS_01": document.getElementById("dtDemurrage1").value,
                 "VL_VENDA_01": document.getElementById("vlDemurrage1").value,
@@ -4032,7 +4969,8 @@
                 "QT_DIAS_07": document.getElementById("dtDemurrage7").value,
                 "VL_VENDA_07": document.getElementById("vlDemurrage7").value,
                 "QT_DIAS_08": document.getElementById("dtDemurrage8").value,
-                "VL_VENDA_08": document.getElementById("vlDemurrage8").value
+                "VL_VENDA_08": document.getElementById("vlDemurrage8").value,
+                "ID_TAMANHO_CONTAINER": document.getElementById("MainContent_ddlTamanhoContainer").value
             }
             $.ajax({
                 type: "POST",
@@ -4072,6 +5010,7 @@
                 'qtFreetime',
                 'MainContent_ddlMoeda',
                 'MainContent_checkEsc',
+                'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
                 'dtDemurrage1',
                 'vlDemurrage1',
@@ -4104,6 +5043,7 @@
                 'qtFreetime',
                 'MainContent_ddlMoeda',
                 'MainContent_checkEsc',
+                'MainContent_checkIMO',
                 'MainContent_checkInicioFreetime',
                 'dtDemurrage1',
                 'vlDemurrage1',
@@ -4174,6 +5114,8 @@
             var finalizadoValue;
             var ativo = document.getElementById("MainContent_chkAtivo");
             var ativoValue;
+            var tarifaSpot = document.getElementById("MainContent_chkTarifaSpot");
+            var tarifaSpotValue;
             var freetime = "";
             if (ativo.checked) {
                 ativoValue = "1";
@@ -4188,10 +5130,17 @@
             else {
                 finalizadoValue = "0";
             }
+
+            if (tarifaSpot.checked) {
+                tarifaSpotValue = "1";
+            }
+            else {
+                tarifaSpotValue = "0";
+            }
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/filtrarTabela",
-                data: '{idFilter:"' + idFiltro + '", Filter:"' + stringConsulta + '", Finalizado: "' + finalizadoValue + '",Ativo: "' + ativoValue + '" }',
+                data: '{idFilter:"' + idFiltro + '", Filter:"' + stringConsulta + '", Finalizado: "' + finalizadoValue + '",Ativo: "' + ativoValue + '", TarifaSpot: "' + tarifaSpotValue+'" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
@@ -4215,18 +5164,20 @@
                                     "<td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CARGA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ACORDO_COMERCIAL"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     freetime +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE_COMPRA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["DS_OBSERVACAO"] + "' style='max-width: 14ch;'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +
@@ -4244,18 +5195,20 @@
                                     "<td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CARGA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ACORDO_COMERCIAL"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     freetime +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE_COMPRA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["DS_OBSERVACAO"] + "' style='max-width: 14ch;'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +
@@ -4272,18 +5225,20 @@
                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CARGA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ACORDO_COMERCIAL"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     freetime +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE_COMPRA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["DS_OBSERVACAO"] + "' style='max-width: 14ch;'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +

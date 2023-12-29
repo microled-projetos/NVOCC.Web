@@ -60,15 +60,19 @@
                     <center>
     <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br /></center>
                     <div style="text-align: center;">
-                        R QUINZE DE NOVEMBRO, 46/48 - CENTRO<br />
+                        <%--R QUINZE DE NOVEMBRO, 46/48 - CENTRO<br />
                         SANTOS - SÃO PAULO - BRASIL - CEP:11010150<br />
                         FONE:+55 13 3797-7850 - FAX:<br />
-                        CNPJ:00.639.367/0003-11  &nbsp;&nbsp;&nbsp;I.E: 633.672.235.110
+                        CNPJ:00.639.367/0003-11  &nbsp;&nbsp;&nbsp;I.E: 633.672.235.110--%>
+                        <asp:Label ID="lblEnderecoFCA" runat="server" /><br />
+                        <asp:Label ID="lblEnderecoFCA2" runat="server" /><br />
+                        <asp:Label ID="lblContatoFCA" runat="server" /><br />
+                        <asp:Label ID="lblDocFCA" runat="server" /><br />
                     </div>
                 </td>
                 <td>
                     <center>
-    <img src="Content/imagens/FCA-Log - Copia.png" /><br />
+    <img src="Content/imagens/Logo_FCA_Deitado1.png" /><br />
     <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>&nbsp;<br /></center>
 
                 </td>

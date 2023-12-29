@@ -10,10 +10,17 @@
 
 
         If Not Page.IsPostBack Then
-            If Request.QueryString("p") <> "" Then
+            If Request.QueryString("p") <> "" And Request.QueryString("id") <> "" Then
+                Dim ID_Parceiro As String = Request.QueryString("p")
+                Dim ID As String = Request.QueryString("id")
+                CarregaDados(ID_Parceiro, ID)
+                ddlEmpresa.Enabled = False
+
+            ElseIf Request.QueryString("p") <> "" Then
                 Dim ID_Parceiro As String = Request.QueryString("p")
                 CarregaDados(ID_Parceiro, 0)
                 ddlEmpresa.Enabled = False
+
             ElseIf Request.QueryString("id") <> "" Then
                 Dim ID As String = Request.QueryString("id")
                 CarregaDados(0, ID)
@@ -41,7 +48,7 @@
         Dim Con As New Conexao_sql
         Dim ds As DataSet
         Con.Conectar()
-        If ID_Parceiro <> 0 Then
+        If ID_Parceiro <> 0 And ID <> 0 Then
             ds = Con.ExecutarQuery("SELECT NM_RAZAO,NM_FANTASIA,CNPJ, FL_EXPORTADOR FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID_Parceiro)
             If ds.Tables(0).Rows.Count > 0 Then
                 lblRazaoSocial.Text = "<strong>Razão Social:</strong>" & ds.Tables(0).Rows(0).Item("NM_RAZAO").ToString()
@@ -49,6 +56,31 @@
                 lblCNPJ.Text = "<strong>CNPJ: </strong>" & ds.Tables(0).Rows(0).Item("CNPJ").ToString()
                 ddlEmpresa.SelectedValue = ID_Parceiro
             End If
+            ds = Con.ExecutarQuery("
+SELECT ID_PARCEIRO,NM_RAZAO,NM_FANTASIA,CNPJ,B.ID_TERMINAL,B.ID_EVENTO,B.ENDERECOS FROM [dbo].[TB_PARCEIRO] A
+LEFT JOIN TB_AMR_PESSOA_EVENTO B ON B.ID_PESSOA = A.ID_PARCEIRO
+WHERE B.ID = " & ID)
+            If ds.Tables(0).Rows.Count > 0 Then
+                lblRazaoSocial.Text = "<strong>Razão Social:</strong>" & ds.Tables(0).Rows(0).Item("NM_RAZAO").ToString()
+                lblNomeFantasia.Text = "<strong>Nome Fantasia: </strong>" & ds.Tables(0).Rows(0).Item("NM_FANTASIA").ToString()
+                lblCNPJ.Text = "<strong>CNPJ: </strong>" & ds.Tables(0).Rows(0).Item("CNPJ").ToString()
+                ddlEmpresa.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO")
+                txtEmail.Text = ds.Tables(0).Rows(0).Item("ENDERECOS").ToString()
+                ddlPorto.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TERMINAL").ToString()
+                ddlEvento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_EVENTO").ToString()
+                txtID.Text = ID
+            End If
+
+        ElseIf ID_Parceiro <> 0 Then
+            ds = Con.ExecutarQuery("SELECT NM_RAZAO,NM_FANTASIA,CNPJ, FL_EXPORTADOR FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID_Parceiro)
+            If ds.Tables(0).Rows.Count > 0 Then
+                lblRazaoSocial.Text = "<strong>Razão Social:</strong>" & ds.Tables(0).Rows(0).Item("NM_RAZAO").ToString()
+                lblNomeFantasia.Text = "<strong>Nome Fantasia: </strong>" & ds.Tables(0).Rows(0).Item("NM_FANTASIA").ToString()
+                lblCNPJ.Text = "<strong>CNPJ: </strong>" & ds.Tables(0).Rows(0).Item("CNPJ").ToString()
+                ddlEmpresa.SelectedValue = ID_Parceiro
+            End If
+
+
         ElseIf ID <> 0 Then
             ds = Con.ExecutarQuery("
 SELECT ID_PARCEIRO,NM_RAZAO,NM_FANTASIA,CNPJ,B.ID_TERMINAL,B.ID_EVENTO,B.ENDERECOS FROM [dbo].[TB_PARCEIRO] A
@@ -125,7 +157,7 @@ WHERE B.ID = " & ID)
                 Dim TIPO_PESSOA As String = ""
 
                 'Verifica qual o tipo de pessoa
-                ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & ddlEmpresa.SelectedValue)
+                ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco, fl_agente_internacional FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & ddlEmpresa.SelectedValue)
                 If ds.Tables(0).Rows.Count > 0 Then
                     If ds.Tables(0).Rows(0).Item("fl_armazem_atracacao").ToString = True Then
                         TIPO_PESSOA = "T"
@@ -134,6 +166,8 @@ WHERE B.ID = " & ID)
                     ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_desembaraco").ToString = True Then
                         TIPO_PESSOA = "T"
                     ElseIf ds.Tables(0).Rows(0).Item("fl_prestador").ToString = True Then
+                        TIPO_PESSOA = "P"
+                    ElseIf ds.Tables(0).Rows(0).Item("fl_agente_internacional").ToString = True Then
                         TIPO_PESSOA = "P"
                     Else
                         TIPO_PESSOA = "C"
@@ -175,7 +209,7 @@ WHERE B.ID = " & ID)
                 Dim TIPO_PESSOA As String = ""
 
                 'Verifica qual o tipo de pessoa
-                ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & ID_PESSOA)
+                ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco, fl_agente_internacional FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & ID_PESSOA)
                 If ds.Tables(0).Rows.Count > 0 Then
                     If ds.Tables(0).Rows(0).Item("fl_armazem_atracacao").ToString = True Then
                         TIPO_PESSOA = "T"
@@ -184,6 +218,8 @@ WHERE B.ID = " & ID)
                     ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_desembaraco").ToString = True Then
                         TIPO_PESSOA = "T"
                     ElseIf ds.Tables(0).Rows(0).Item("fl_prestador").ToString = True Then
+                        TIPO_PESSOA = "P"
+                    ElseIf ds.Tables(0).Rows(0).Item("fl_agente_internacional").ToString = True Then
                         TIPO_PESSOA = "P"
                     Else
                         TIPO_PESSOA = "C"
@@ -220,7 +256,7 @@ WHERE B.ID = " & ID)
                             Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
 
                             'insere emails
-                            Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & ddlEmpresa.SelectedValue & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
+                            Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & ddlEmpresa.SelectedValue & ",'" & TIPO & "','" & TIPO_PESSOA & "',  LOWER('" & Email & "'))")
 
                         Next
 

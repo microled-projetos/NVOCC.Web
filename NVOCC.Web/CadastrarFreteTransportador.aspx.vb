@@ -156,6 +156,7 @@
                     txtID_FreteTransportador.Text = Session("ID_FRETE_TRANSPORTADOR")
                     txtFreteTransportadorTarifario.Text = Session("ID_FRETE_TRANSPORTADOR")
                     txtFreteTransportadorTaxa.Text = Session("ID_FRETE_TRANSPORTADOR")
+                    Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID_FreteTransportador.Text & ",'LANÇAMENTO'," & Session("ID_USUARIO") & ", GETDATE()) ")
 
                     Con.Fechar()
 
@@ -185,6 +186,7 @@
                     'REALIZA UPDATE DO FRETE TRANSPORTADOR
                     Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR  SET  ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & ", ID_AGENTE = " & ddlAgente.SelectedValue & ", ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " , ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & ", ID_PORTO_ESCALA = " & ddlEscala1.SelectedValue & ", ID_PORTO_ESCALA2 = " & ddlEscala2.SelectedValue & ",ID_PORTO_ESCALA3 = " & ddlEscala3.SelectedValue & ", ID_MOEDA_FRETE =" & ddlMoeda.SelectedValue & ", ID_TIPO_CARGA = " & ddlTipoCarga.SelectedValue & ", ID_VIA_ROTA =  " & ddlRota.SelectedValue & ", ID_TIPO_COMEX = " & ddlComex.SelectedValue & ", QT_DIAS_TRANSITTIME_INICIAL =  " & txtTransittimeInicial.Text & ", QT_DIAS_TRANSITTIME_FINAL = " & txtTransittimeFinal.Text & ", QT_DIAS_TRANSITTIME_MEDIA = '" & TTMedia & "', ID_TIPO_FREQUENCIA = " & ddlFrequencia.SelectedValue & ", NM_TAXAS_INCLUDED =  " & TaxasIncluded & ", FL_ATIVO = '" & ckbAtivo.Checked & "',ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & ", ID_ORIGEM_PAGAMENTO = " & ddlOrigem_Pagamento.SelectedValue & " WHERE ID_FRETE_TRANSPORTADOR = " & txtID_FreteTransportador.Text)
 
+                    Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID_FreteTransportador.Text & ",'EDIÇÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
 
                     If txtValidadeFinal.Enabled = True And txtValidadeFinal.Text <> "" Then
                         Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR SET DT_VALIDADE_FINAL = CONVERT(DATE,'" & txtValidadeFinal.Text & "',103) WHERE ID_FRETE_TRANSPORTADOR  = " & txtID_FreteTransportador.Text)
@@ -299,6 +301,8 @@
                 lblMsgExcluir.Text = "Registro deletado!"
                 divMsgExcluir.Visible = True
                 dgvFreteTarifario.DataBind()
+                Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID_FreteTransportador.Text & ",'EXCLUSÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+
             End If
 
         ElseIf e.CommandName = "visualizar" Then
@@ -365,6 +369,8 @@ WHERE B.ID_TARIFARIO_FRETE_TRANSPORTADOR = " & ID)
                 lblDeleteTaxas.Text = "Registro deletado!"
                 divDeleteTaxas.Visible = True
                 dgvTaxas.DataBind()
+                Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID_FreteTransportador.Text & ",'EXCLUSÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+
             End If
 
 
@@ -455,7 +461,9 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
     Private Sub btnFecharTaxa_Click(sender As Object, e As EventArgs) Handles btnFecharTaxa.Click
         divSuccessTaxa.Visible = False
         divErroTaxa.Visible = False
-
+        txtValorTaxaVenda.Enabled = True
+        txtValorTaxaVendaMin.Enabled = True
+        ddlMoedaVenda.Enabled = True
         txtIDTaxa.Text = ""
         ddlItemDespesa.SelectedValue = 0
         ddlOrigemPagamento.SelectedValue = 0
@@ -677,6 +685,8 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
                     End If
                     Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR SET DT_VALIDADE_FINAL = (SELECT MAX(DT_VALIDADE_FINAL) FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR  = " & txtFreteTransportadorTarifario.Text & ") WHERE ID_FRETE_TRANSPORTADOR  = " & txtFreteTransportadorTarifario.Text)
 
+                    Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID_FreteTransportador.Text & ",'EDIÇÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+
                     dgvFreteTarifario.DataBind()
                     divSuccessTarifario.Visible = True
                     Con.Fechar()
@@ -708,13 +718,33 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
             txtQtdBaseCalculo.Text = 0
         End If
 
+        If txtValorTaxaCompra.Text = "" Then
+            txtValorTaxaCompra.Text = 0
+        End If
+
+        If txtValorTaxaCompraMin.Text = "" Then
+            txtValorTaxaCompraMin.Text = 0
+        End If
+
+        If txtValorTaxaVenda.Text = "" Then
+            txtValorTaxaVenda.Text = 0
+        End If
+
+        If txtValorTaxaVendaMin.Text = "" Then
+            txtValorTaxaVendaMin.Text = 0
+        End If
+
         If txtFreteTransportadorTaxa.Text = "" Then
 
             lblErroTaxa.Text = "Antes de inserir Taxa é necessario cadastrar Frete Transportador na Aba de Informações Basicas"
             divErroTaxa.Visible = True
 
-        ElseIf ddlItemDespesa.SelectedValue = 0 Or ddlOrigemPagamento.SelectedValue = 0 Or ddlBaseCalculoTaxa.SelectedValue = 0 Or ddlMoedaCompra.SelectedValue = 0 Or txtValorTaxaCompra.Text = "" Or ddlEstufagemTaxa.SelectedValue = 0 Then
+        ElseIf ddlItemDespesa.SelectedValue = 0 Or ddlOrigemPagamento.SelectedValue = 0 Or ddlBaseCalculoTaxa.SelectedValue = 0 Or ddlMoedaCompra.SelectedValue = 0 Or txtValorTaxaCompra.Text = 0 Or ddlEstufagemTaxa.SelectedValue = 0 Then
             lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
+            divErroTaxa.Visible = True
+
+        ElseIf ddlItemDespesa.SelectedValue = 71 And (txtValorTaxaVenda.Text <> 0 Or txtValorTaxaVendamin.Text <> 0) Then
+            lblErroTaxa.Text = "Não é possivel cadastrar taxa de venda de premiação!"
             divErroTaxa.Visible = True
 
         ElseIf (ddlBaseCalculoTaxa.SelectedValue = 38 Or ddlBaseCalculoTaxa.SelectedValue = 40 Or ddlBaseCalculoTaxa.SelectedValue = 41) And txtQtdBaseCalculo.Text = 0 Then
@@ -722,6 +752,8 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
             divErroTaxa.Visible = True
 
         Else
+
+
 
 
             txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace(".", "")
@@ -736,26 +768,24 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
             txtValorTaxaCompraMin.Text = txtValorTaxaCompraMin.Text.Replace(".", "")
             txtValorTaxaCompraMin.Text = txtValorTaxaCompraMin.Text.Replace(",", ".")
 
-            If ddlMoedaVenda.SelectedValue = 0 Then
+
+
+            If ddlMoedaVenda.SelectedValue = 0 And ddlItemDespesa.SelectedValue <> 71 Then
                 ddlMoedaVenda.SelectedValue = ddlMoedaCompra.SelectedValue
             End If
 
-            If txtValorTaxaVenda.Text = "" Then
+            If txtValorTaxaVenda.Text = 0 And ddlItemDespesa.SelectedValue <> 71 Then
                 txtValorTaxaVenda.Text = txtValorTaxaCompra.Text
-            Else
-                txtValorTaxaVenda.Text = "" & txtValorTaxaVenda.Text & ""
             End If
 
-            If txtValorTaxaVendaMin.Text = "" Then
-                txtValorTaxaVendaMin.Text = "NULL"
-            Else
-                txtValorTaxaVendaMin.Text = "" & txtValorTaxaVendaMin.Text & ""
+            If txtValorTaxaVendaMin.Text = 0 And ddlItemDespesa.SelectedValue <> 71 Then
+                txtValorTaxaVendaMin.Text = 0
             End If
 
-            If txtValorTaxaCompraMin.Text = "" Then
-                txtValorTaxaCompraMin.Text = "NULL"
-            Else
-                txtValorTaxaCompraMin.Text = "" & txtValorTaxaCompraMin.Text & ""
+            If ddlItemDespesa.SelectedValue = 71 Then
+                txtValorTaxaVenda.Text = "0"
+                txtValorTaxaVendaMin.Text = "0"
+                ddlMoedaVenda.SelectedValue = 0
             End If
 
 
@@ -805,6 +835,8 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
 
                     'ALTERA TAXAS
                     ds = Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET ID_FRETE_TRANSPORTADOR =  " & txtFreteTransportadorTaxa.Text & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagemTaxa.SelectedValue & ", ID_ITEM_DESPESA =  " & ddlItemDespesa.SelectedValue & " , ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento.SelectedValue & ",ID_BASE_CALCULO_TAXA =  " & ddlBaseCalculoTaxa.SelectedValue & " ,ID_MOEDA_COMPRA =  " & ddlMoedaCompra.SelectedValue & ",VL_TAXA_COMPRA = " & txtValorTaxaCompra.Text & ",ID_MOEDA_VENDA = " & ddlMoedaVenda.SelectedValue & ",VL_TAXA_VENDA = " & txtValorTaxaVenda.Text & ", VL_TAXA_VENDA_MIN = " & txtValorTaxaVendaMin.Text & ",VL_TAXA_COMPRA_MIN = " & txtValorTaxaCompraMin.Text & ",QTD_BASE_CALCULO = " & txtQtdBaseCalculo.Text & "  WHERE ID_TABELA_FRETE_TAXA = " & txtIDTaxa.Text)
+
+                    Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID_FreteTransportador.Text & ",'EDIÇÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
 
                     divSuccessTaxa.Visible = True
                     Con.Fechar()
@@ -945,6 +977,8 @@ SELECT " & txtID_FreteTransportador.Text & ", ID_ITEM_DESPESA, VL_TAXA_LOCAL_COM
             lblDeleteTaxas.Text = "Registros deletados!"
             divDeleteTaxas.Visible = True
             dgvTaxas.DataBind()
+            Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR_HIST (ID_FRETE_TRANSPORTADOR,ACAO,ID_USUARIO,DATA) VALUES (" & txtID_FreteTransportador.Text & ",'EXCLUSÃO'," & Session("ID_USUARIO") & ", GETDATE()) ")
+
         End If
     End Sub
 
@@ -954,6 +988,21 @@ SELECT " & txtID_FreteTransportador.Text & ", ID_ITEM_DESPESA, VL_TAXA_LOCAL_COM
         Else
             txtQtdBaseCalculo.Enabled = False
             txtQtdBaseCalculo.Text = ""
+        End If
+    End Sub
+
+    Private Sub ddlItemDespesa_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlItemDespesa.SelectedIndexChanged
+        If ddlItemDespesa.SelectedValue = 71 Then
+            txtValorTaxaVenda.Enabled = False
+            txtValorTaxaVenda.Text = 0
+            txtValorTaxaVendaMin.Enabled = False
+            txtValorTaxaVendaMin.Text = 0
+            ddlMoedaVenda.Enabled = False
+            ddlMoedaVenda.SelectedValue = 0
+        Else
+            txtValorTaxaVenda.Enabled = True
+            txtValorTaxaVendaMin.Enabled = True
+            ddlMoedaVenda.Enabled = True
         End If
     End Sub
 End Class

@@ -118,6 +118,9 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div id="ntFiscal" style="margin-left: 20px;margin-top: 20px;">
+                                   
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -225,18 +228,21 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSNotaServico",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", notai: "' + notai +'", notaf: "' + notafi +'"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", notai: "' + notai + '", notaf: "' + notafi + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
                     $("#grdServicoBody").empty();
                     $("#grdServicoBody").append("<tr><td colspan='9'><div class='loader'></div></td></tr>");
+                    $("#ntFiscal").empty();
                 },
                 success: function (dado) {
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
+                    $("#ntFiscal").append("<span style='background-color: bisque;padding: 10px;'><b>" + dado.length + "</b> Notas Fiscais</span>");
                     $("#grdServicoBody").empty();
-                    if (dado != null) {
+                    if (dado != null) 
+					{$("#ntFiscal").append("<span style='background-color: bisque;padding: 10px;'><b>" + dado.length + "</b> Notas Fiscais</span>");
                         for (let i = 0; i < dado.length; i++) {
                             $("#grdServicoBody").append("<tr><td class='text-center'><input type='checkbox' value='" + dado[i]["ID_CONTA_PAGAR_RECEBER"] + "' name='export' class='check'></td><td class='text-center'> " + dado[i]["NR_NOTA"] + "</td><td class='text-center'>" + dado[i]["TP_NOTA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_EMISSAO"] + "</td><td class='text-center'>" + dado[i]["VL_NOTA"] + "</td><td class='text-center'>" + dado[i]["NM_PARCEIRO"] + "</td>" +
@@ -247,6 +253,7 @@
                     else {
                         $("#grdServicoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='9' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
                     }
+                    
                 }
             })
         }

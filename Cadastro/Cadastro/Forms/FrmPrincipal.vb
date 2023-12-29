@@ -117,7 +117,7 @@ where NM_OBJETO = '" & NomeMenu & "' AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN( 
     End Sub
 
     Private Sub FrmPrincipal_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Text = "FCA - Log :: Cadastro - Versão: 23.03.2022.1" '& Application.ProductVersion.ToString()
+        Text = "FCA - Log :: Cadastro - Versão: 19.09.2022.1" '& Application.ProductVersion.ToString()
         Dim enumerator As IEnumerator = Nothing
 
         Try

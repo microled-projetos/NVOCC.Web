@@ -187,6 +187,7 @@
                                             <asp:BoundField DataField="ID_BL" HeaderText="#" Visible="false" />
                                             <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
                                             <asp:BoundField DataField="NR_BL_MASTER" HeaderText="MBL" SortExpression="NR_BL_MASTER" />
+                                            <asp:BoundField DataField="DT_EMBARQUE_MASTER" HeaderText="Embarque" SortExpression="DT_EMBARQUE_MASTER" />
                                             <asp:BoundField DataField="DT_CHEGADA_MASTER" HeaderText="Chegada" SortExpression="DT_CHEGADA_MASTER" />
                                             <asp:BoundField DataField="NM_PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="NM_PARCEIRO_CLIENTE" />
                                             <asp:BoundField DataField="NM_CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="NM_CLIENTE_FINAL" />

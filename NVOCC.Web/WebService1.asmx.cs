@@ -28,7 +28,7 @@ namespace ABAINFRA.Web
     public class WebService1 : System.Web.Services.WebService
     {
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarTaxaClienteFCLimpo(string Id)
         {
             
@@ -54,7 +54,7 @@ namespace ABAINFRA.Web
                 
                 return JsonConvert.SerializeObject(fclimpo);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarTaxaClienteLCLimpo(string Id)
         {
             string SQL;
@@ -76,7 +76,7 @@ namespace ABAINFRA.Web
             lclimpo = DBS.List(SQL);
             return JsonConvert.SerializeObject(lclimpo);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarTaxaClienteFCLexpo(string Id)
         {
             string SQL;
@@ -100,7 +100,7 @@ namespace ABAINFRA.Web
 
             return JsonConvert.SerializeObject(fclexpo);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarTaxaClienteLCLexpo(string Id)
         {
             string SQL;
@@ -124,7 +124,7 @@ namespace ABAINFRA.Web
 
             return JsonConvert.SerializeObject(lclexpo);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarTaxaClienteAereoImpo(string Id)
         {
             string SQL;
@@ -147,7 +147,7 @@ namespace ABAINFRA.Web
 
             return JsonConvert.SerializeObject(aereoImpo);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CarregarTaxaClienteAereoExpo(string Id)
         {
             string SQL;
@@ -171,7 +171,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(aereoExpo);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string BuscaCliente(int Id)
         {
             if (Id != 0)
@@ -248,7 +248,7 @@ namespace ABAINFRA.Web
             return numero = numero.Replace(',', '.');
         }
         
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CadastrarTaxaFCLimpo(Taxas dados)
         {
             string tarifaV;
@@ -347,7 +347,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CadastrarTaxaLCLimpo(Taxas dados)
         {
             string tarifaV;
@@ -448,7 +448,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CadastrarTaxaFCLexpo(Taxas dados)
         {
             string tarifaC;
@@ -549,7 +549,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CadastrarTaxaLCLexpo(Taxas dados)
         {
             string tarifaC;
@@ -649,7 +649,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CadastrarTaxaAereoImpo(Taxas dados)
         {
             string tarifaV;
@@ -749,7 +749,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CadastrarTaxaAereoExpo(Taxas dados)
         {
             string tarifaC;
@@ -849,7 +849,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EditarTaxaFCLimpo(Taxas dadosEdit)
         {
             string tarifaV;
@@ -951,7 +951,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EditarTaxaLCLimpo(Taxas dadosEdit)
         {
             string tarifaC;
@@ -1052,7 +1052,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EditarTaxaFCLexpo(Taxas dadosEdit)
         {
             string tarifaC;
@@ -1153,7 +1153,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EditarTaxaLCLexpo(Taxas dadosEdit)
         {
             string tarifaC;
@@ -1254,7 +1254,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EditarTaxaAereoImpo(Taxas dadosEdit)
         {
             string tarifaC;
@@ -1359,7 +1359,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EditarTaxaAereoExpo(Taxas dadosEdit)
         {
             string tarifaV;
@@ -1468,7 +1468,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarTaxaClienteFCLimpo(int Id)
         {
             string SQL;
@@ -1488,7 +1488,7 @@ namespace ABAINFRA.Web
             taxaClienteFCLexpo = DBS.List(SQL);
             return JsonConvert.SerializeObject(taxaClienteFCLexpo);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarTaxaClienteLCLimpo(int Id)
         {
             string SQL;
@@ -1508,7 +1508,7 @@ namespace ABAINFRA.Web
             taxaClienteLCLimpo = DBS.List(SQL);
             return JsonConvert.SerializeObject(taxaClienteLCLimpo);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarTaxaClienteFCLexpo(int Id)
         {
             string SQL;
@@ -1528,7 +1528,7 @@ namespace ABAINFRA.Web
             taxaClienteFCLexpo = DBS.List(SQL);
             return JsonConvert.SerializeObject(taxaClienteFCLexpo);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarTaxaClienteLCLexpo(int Id)
         {
             string SQL;
@@ -1548,7 +1548,7 @@ namespace ABAINFRA.Web
             taxaClienteLCLexpo = DBS.List(SQL);
             return JsonConvert.SerializeObject(taxaClienteLCLexpo);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarTaxaClienteAereoImpo(int Id)
         {
             string SQL;
@@ -1567,7 +1567,7 @@ namespace ABAINFRA.Web
             taxaClienteAereoImpo = DBS.List(SQL);
             return JsonConvert.SerializeObject(taxaClienteAereoImpo);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarTaxaClienteAereoExpo(int Id)
         {
             string SQL;
@@ -1587,7 +1587,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(taxaClienteAereoExpo);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarContainerInsideWeek(int Id)
         {
             string SQL;
@@ -1596,7 +1596,7 @@ namespace ABAINFRA.Web
             containerInsideWeek = DBS.List(SQL);
             return JsonConvert.SerializeObject(containerInsideWeek);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarWeek()
         {
             string SQL;
@@ -1611,7 +1611,7 @@ namespace ABAINFRA.Web
             listarweek = DBS.List(SQL);
             return JsonConvert.SerializeObject(listarweek);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarContainerWeek(int Id)
         {
             string SQL;
@@ -1624,7 +1624,7 @@ namespace ABAINFRA.Web
             listarcontainerweek = DBS.List(SQL);
             return JsonConvert.SerializeObject(listarcontainerweek);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CadastrarWeek(Week dados)
         {
             string SQL;
@@ -1697,7 +1697,7 @@ namespace ABAINFRA.Web
             return "1";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CadastrarContainer(string nrCont, string tipo)
         {
             if (tipo.ToString() == "" || tipo.ToString() == "0")
@@ -1712,7 +1712,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject("ok");
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string BuscaWeek(string Id)
         {
                 string SQL;
@@ -1741,7 +1741,7 @@ namespace ABAINFRA.Web
                 return JsonConvert.SerializeObject(resultado);
 
         }
-        /*[WebMethod]
+        /*[WebMethod(EnableSession = true)]
         public string BuscaContainer(int Id)
         {
             string SQL;
@@ -1762,7 +1762,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(resultado);
 
         }*/
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarIdWeek()
         {
             string SQL;
@@ -1774,7 +1774,7 @@ namespace ABAINFRA.Web
             weekList = DBS.List(SQL);
             return JsonConvert.SerializeObject(weekList);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarIdContainer(int week)
         {
             string SQL;
@@ -1786,7 +1786,7 @@ namespace ABAINFRA.Web
             weekList = DBS.List(SQL);
             return JsonConvert.SerializeObject(weekList);
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarWeekList()
         {
             string SQL;
@@ -1802,7 +1802,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(weekList);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EditarWeek(Week dadosEdit)
         {
             if (dadosEdit.ID_PARCEIRO.ToString() == "")
@@ -1878,7 +1878,7 @@ namespace ABAINFRA.Web
             string editTaxa = DBS.ExecuteScalar(SQL);
             return "1";
         }
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EditarContainer(Week dadosEdit)
         {
             string SQL;
@@ -1907,7 +1907,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string CadastrarContainerWeek(string nrContainer, string tipo)
         {
             if(tipo.ToString() == "" || tipo.ToString() == "0")
@@ -1922,7 +1922,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject("ok");
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarContainer(string week)
         {
 
@@ -1939,7 +1939,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(container);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarWeekInside(string week)
         {
             string SQL;
@@ -1997,7 +1997,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarProcessoContainer(string cntr, string week)
         {
             string SQL;
@@ -2055,7 +2055,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string limitesContainer(string cntr)
         {
             string SQL;
@@ -2069,7 +2069,7 @@ namespace ABAINFRA.Web
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string RemoverProcessoContainer(string processo, string cntr)
         {
             string SQL;
@@ -2081,7 +2081,7 @@ namespace ABAINFRA.Web
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string VincularProcessoWeek(string processo, string week)
         {
             string SQL;
@@ -2099,7 +2099,7 @@ namespace ABAINFRA.Web
             
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarProcessos(int week)
         {
             string SQL;
@@ -2114,7 +2114,6 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_AMR_CNTR_BL D ON A.ID_BL = D.ID_BL ";
             SQL += "LEFT JOIN TB_WEEK E ON A.ID_WEEK = E.ID_WEEK ";
             SQL += "WHERE GRAU = 'C' AND C.ID_VIATRANSPORTE = 1";
-            SQL += "AND A.ID_BL_MASTER IS NULL ";
             SQL += "AND A.ID_PARCEIRO_AGENTE_INTERNACIONAL = '" + agentei + "' ";
             SQL += "AND D.ID_CNTR_BL IS NULL ";
             SQL += "AND (A.ID_WEEK IS NULL OR A.ID_WEEK = 0)"; 
@@ -2124,7 +2123,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(processo);
         }
         
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string BuscarBLFCA(int processo)
         {
             string SQL;
@@ -2139,7 +2138,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(blfca);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string RemoverProcessoWeek(int processo)
         {
             string SQL;
@@ -2151,7 +2150,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject("ok");
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EditarBLFCA(string vendedor, string agente, string importador, string exportador, string pesobruto, string m3, string qtmercadoria, string processo)
         {
             if(vendedor == "" || vendedor == "0")
@@ -2226,7 +2225,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject("ok"); 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string vincularContainer(string cntr, string bl)
         {
             string SQL;
@@ -2235,7 +2234,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject("ok");
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string BuscarBLParceiro(int processo)
         {
             string SQL;
@@ -2254,7 +2253,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(blfca);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EditarBLPartner(string pesobrutoagente, string m3agente, string pcsagente, string packaging, string incoterm, string cargoreadydate, string deliveryforecastwh, string datearrivewh, string draftcutoff, string processo)
         {
             if (pesobrutoagente == "")
@@ -2347,7 +2346,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject("ok");
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string PesagemMax(int Id, int IdCont)
         {
             string SQL;
@@ -2360,7 +2359,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(pesagem);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarSomaProcessosBL(int Id, int IdCont)
         {
             string SQL;
@@ -2376,7 +2375,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(processoSomaBl);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string ListarSomaProcessosBLPartner(int Id, int IdCont)
         {
             string SQL;
@@ -2392,7 +2391,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(processoSomaBl);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string BuscarInfoProcessoPartner(int Id)
         {
             string SQL;
@@ -2427,7 +2426,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(resultado);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string BuscarInfoProcessoFCA(int Id)
         {
             string SQL;
@@ -2446,7 +2445,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(resultado);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string EditarProcessoPartner(Processos dadosEdit)
         {
             string SQL;
@@ -2473,7 +2472,7 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void EditarProcessoFCA(Processos dadosEdit)
         {
             string SQL;
@@ -2483,7 +2482,7 @@ namespace ABAINFRA.Web
             string editProcessos = DBS.ExecuteScalar(SQL);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void DeletarTaxa(int Id, int IdTaxa)
         {
             string SQL;
@@ -2493,7 +2492,7 @@ namespace ABAINFRA.Web
             
         }
 
-       /* [WebMethod]
+       /* [WebMethod(EnableSession = true)]
         public void EnviarEmail()
         {
             string SQL;

@@ -188,7 +188,7 @@ DT_VALIDADE_INICIAL
 FROM TB_SUB_VENDEDOR B "></asp:SqlDataSource>
      <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA] WHERE ID_BASE_CALCULO_TAXA IN (34,32)
-union SELECT  0, 'Selecione' ORDER BY ID_BASE_CALCULO_TAXA">
+union SELECT  0, '    Selecione' ORDER BY NM_BASE_CALCULO_TAXA">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id , NM_RAZAO RazaoSocial FROM TB_PARCEIRO WHERE (FL_VENDEDOR = 1 OR FL_VENDEDOR_DIRETO = 1)

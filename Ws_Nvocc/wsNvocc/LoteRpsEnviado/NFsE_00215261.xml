@@ -1,0 +1,71 @@
+<EnviarLoteRpsEnvio xmlns="http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd">
+  <LoteRps Id="_10215261">
+    <NumeroLote xmlns="http://www.ginfes.com.br/tipos_v03.xsd">10215261</NumeroLote>
+    <Cnpj xmlns="http://www.ginfes.com.br/tipos_v03.xsd">00639367000311</Cnpj>
+    <InscricaoMunicipal xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1831854</InscricaoMunicipal>
+    <QuantidadeRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1</QuantidadeRps>
+    <ListaRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">
+      <Rps>
+        <InfRps Id="_20215261">
+          <IdentificacaoRps>
+            <Numero>120941</Numero>
+            <Serie>E</Serie>
+            <Tipo>1</Tipo>
+          </IdentificacaoRps>
+          <DataEmissao>2023-07-14T11:21:04</DataEmissao>
+          <NaturezaOperacao>1</NaturezaOperacao>
+          <OptanteSimplesNacional>2</OptanteSimplesNacional>
+          <IncentivadorCultural>2</IncentivadorCultural>
+          <Status>1</Status>
+          <RpsSubstituido>
+            <Numero>120835</Numero>
+            <Serie>E</Serie>
+            <Tipo>1</Tipo>
+          </RpsSubstituido>
+          <Servico>
+            <Valores>
+              <ValorServicos>830.23</ValorServicos>
+              <ValorPis>0.00</ValorPis>
+              <ValorCofins>0.00</ValorCofins>
+              <ValorInss>0.00</ValorInss>
+              <ValorIr>12.45</ValorIr>
+              <ValorCsll>0.00</ValorCsll>
+              <IssRetido>1</IssRetido>
+              <ValorIss>24.91</ValorIss>
+              <ValorIssRetido>24.91</ValorIssRetido>
+              <BaseCalculo>830.23</BaseCalculo>
+              <Aliquota>0.03</Aliquota>
+              <ValorLiquidoNfse>792.87</ValorLiquidoNfse>
+            </Valores>
+            <ItemListaServico>1005</ItemListaServico>
+            <CodigoTributacaoMunicipio>5250803</CodigoTributacaoMunicipio>
+            <Discriminacao>***Valor que levamos a debito, conforme nossa Fatura n 120941 | Processo: T0001-00/00 | S/Ref:  | MASTER: COMISSAO | HOUSE: 0 | SENDO:  COMISSAO - R$ 830,23  Valor aproximado dos tributos R$ 114,16 (12,25%) conforme LEI 12741/2012 \n \n OC: 142252 </Discriminacao>
+            <CodigoMunicipio>3548500</CodigoMunicipio>
+          </Servico>
+          <Prestador>
+            <Cnpj>00639367000311</Cnpj>
+            <InscricaoMunicipal>1831854</InscricaoMunicipal>
+          </Prestador>
+          <Tomador>
+            <IdentificacaoTomador>
+              <CpfCnpj>
+                <Cnpj>02805610000279</Cnpj>
+              </CpfCnpj>
+              <InscricaoMunicipal>1705731</InscricaoMunicipal>
+            </IdentificacaoTomador>
+            <RazaoSocial>EMBRAPORT EMPRESA BRAS. DE TERM. PORTUARUARIOS SA</RazaoSocial>
+            <Endereco>
+              <Endereco>ESTRADA PARTICULAR DA CODESP</Endereco>
+              <Numero>S/N</Numero>
+              <Bairro>ILHA BARNABE</Bairro>
+              <CodigoMunicipio>3548500</CodigoMunicipio>
+              <Uf>SP</Uf>
+              <Cep>11095700</Cep>
+            </Endereco>
+            <Contato />
+          </Tomador>
+        </InfRps>
+      </Rps>
+    </ListaRps>
+  </LoteRps>
+</EnviarLoteRpsEnvio>

@@ -60,14 +60,18 @@
     <div style="text-align: center;">
         <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br />
                     
-                        R QUINZE DE NOVEMBRO, 46/48 - CENTRO<br />
+                      <%--  R QUINZE DE NOVEMBRO, 46/48 - CENTRO<br />
                         SANTOS - SÃO PAULO - BRASIL - CEP:11010150<br />
                         FONE:+55 13 3797-7850 - FAX:<br />
-                        CNPJ:00.639.367/0003-11  &nbsp;&nbsp;&nbsp;I.E: 633.672.235.110
+                        CNPJ:00.639.367/0003-11  &nbsp;&nbsp;&nbsp;I.E: 633.672.235.110--%>
+                        <asp:Label ID="lblEnderecoFCA" runat="server" /><br />
+                        <asp:Label ID="lblEnderecoFCA2" runat="server" /><br />
+                        <asp:Label ID="lblContatoFCA" runat="server" /><br />
+                        <asp:Label ID="lblDocFCA" runat="server" /><br />
                     </div>
                 </td>
                 <td>
-                   <div style="text-align: center;"> <img src="Content/imagens/FCA-Log - Copia.png" /><br />
+                   <div style="text-align: center;"> <img src="Content/imagens/Logo_FCA_Deitado1.png" /><br />
     <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>&nbsp;<br /></div>
 
                 </td>
@@ -139,7 +143,7 @@
         <table style="border-style:solid;border-width: thin;">
             <tr>
                 <td>
-                    <strong>EXPORTADOR</strong>&nbsp;<asp:Label ID="lblExportador" runat="server" />
+                    <strong>EXPORTADOR:</strong>&nbsp;<asp:Label ID="lblExportador" runat="server" />
                     <br />
                 </td>
                 <td>
@@ -147,21 +151,33 @@
                     <br />
                 </td>
             </tr>
-            <tr>
+             <tr>
                 <td>
                     <strong>FRETE:</strong>&nbsp;<asp:Label ID="lblFrete" runat="server" /><asp:Label ID="Label7" runat="server" />
                     <br />
                 </td>
                 <td>
-                    <strong>NAVIO:</strong>&nbsp;<asp:Label ID="lblNavio" runat="server" />
+                    <strong>REF. SHIPPER:</strong>&nbsp;<asp:Label ID="lblRefShipper" runat="server" />
+                    <br />
+                </td>
+            </tr>
+             <tr>
+                 <td>
+                    <strong>CONHECIMENTO:</strong>&nbsp;<asp:Label ID="lblConhecimento" runat="server" />
+                    <br />
+                </td>
+                <td>
+                    <strong>REF. AUXILIAR:</strong>&nbsp;<asp:Label ID="lblRefAux" runat="server" />
                     <br />
                 </td>
             </tr>
             <tr>
+                
                 <td>
-                    <strong>CONHECIMENTO:</strong>&nbsp;<asp:Label ID="lblConhecimento" runat="server" />
+                    <strong>NAVIO:</strong>&nbsp;<asp:Label ID="lblNavio" runat="server" />
                     <br />
                 </td>
+               
                 <td>
                     <strong>HOUSE:</strong>&nbsp;<asp:Label ID="lblHouse" runat="server" />
                     <br />

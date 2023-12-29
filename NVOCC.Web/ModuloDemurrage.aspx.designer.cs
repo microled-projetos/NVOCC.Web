@@ -42,6 +42,15 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.CheckBox chkAtivo;
 
 		/// <summary>
+		/// Controle chkTarifaSpot.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.CheckBox chkTarifaSpot;
+
+		/// <summary>
 		/// Controle dsStatus.
 		/// </summary>
 		/// <remarks>
@@ -123,6 +132,15 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.DropDownList ddlMoeda;
 
 		/// <summary>
+		/// Controle ddlTamanhoContainer.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.DropDownList ddlTamanhoContainer;
+
+		/// <summary>
 		/// Controle checkEsc.
 		/// </summary>
 		/// <remarks>
@@ -130,6 +148,15 @@ namespace ABAINFRA.Web
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.CheckBox checkEsc;
+
+		/// <summary>
+		/// Controle checkIMO.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.CheckBox checkIMO;
 
 		/// <summary>
 		/// Controle checkInicioFreetime.
@@ -175,6 +202,24 @@ namespace ABAINFRA.Web
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.DropDownList ddlContaBancaria;
+
+		/// <summary>
+		/// Controle ddlContaBancariaParcelamentoDemurrage.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.DropDownList ddlContaBancariaParcelamentoDemurrage;
+
+		/// <summary>
+		/// Controle idParcela.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.HiddenField idParcela;
 
 		/// <summary>
 		/// Controle DropDownList1.

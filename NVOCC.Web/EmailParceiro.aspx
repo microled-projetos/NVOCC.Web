@@ -176,7 +176,7 @@
                                         <asp:BoundField DataField="ENDERECOS" Visible="false" HeaderText="ENDERECOS" SortExpression="ENDERECOS" />                                       
                                         <asp:TemplateField HeaderText="" >
                                             <ItemTemplate>
-                                                <a href="EmailParceiro.aspx?id=<%# Eval("Id") %>" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></a>
+                                                <a href="EmailParceiro.aspx?p=<%# Eval("ID_PESSOA") %>&id=<%# Eval("Id") %>" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></a>
                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>

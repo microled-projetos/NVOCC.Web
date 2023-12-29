@@ -140,6 +140,15 @@ Partial Public Class ListagemBL
     Protected WithEvents lkCancelarEmbarque As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''Controle lkReenviarSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkReenviarSI As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''Controle Label4.
     '''</summary>
     '''<remarks>
@@ -590,13 +599,13 @@ Partial Public Class ListagemBL
     Protected WithEvents Label6 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle ddFiltroMaster.
+    '''Controle ddlFiltroMaster.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddFiltroMaster As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlFiltroMaster As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtPesquisaMaster.
@@ -606,6 +615,15 @@ Partial Public Class ListagemBL
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtPesquisaMaster As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlDocConfMaster.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlDocConfMaster As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle btnPesquisaMaster.
@@ -660,6 +678,51 @@ Partial Public Class ListagemBL
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvMaster As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle Button3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button3 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle ModalPopupExtender2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ModalPopupExtender2 As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle Panel3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Panel3 As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle dgvDocConferidoMaster.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvDocConferidoMaster As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnFecharHistoricoMaster.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharHistoricoMaster As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle UpdatePanel3.
@@ -858,6 +921,15 @@ Partial Public Class ListagemBL
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtPesquisaHouse As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlDocConfHouse.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlDocConfHouse As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle btnPesquisaHouse.
@@ -1121,6 +1193,51 @@ Partial Public Class ListagemBL
     Protected WithEvents btnFechar_House As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle Button2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button2 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle ModalPopupExtender1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ModalPopupExtender1 As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle Panel4.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Panel4 As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle dgvDocConferidoHouse.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvDocConferidoHouse As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnFecharHistoricoHouse.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharHistoricoHouse As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle Button1.
     '''</summary>
     '''<remarks>
@@ -1155,4 +1272,22 @@ Partial Public Class ListagemBL
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsEmbarque As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsDocConferidoMaster.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsDocConferidoMaster As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsDocConferidoHouse.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsDocConferidoHouse As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

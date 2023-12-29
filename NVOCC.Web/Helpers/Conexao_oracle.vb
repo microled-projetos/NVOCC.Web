@@ -53,7 +53,7 @@ Public Class Conexao_oracle
     End Function
 
     Public Function ConnectionString() As String
-        Dim STR As String = ConfigurationManager.ConnectionStrings("StringConexaoOracle").ConnectionString
+        Dim STR As String = ConfigurationManager.ConnectionStrings("StringConexaoEud").ConnectionString
         Return STR
     End Function
 

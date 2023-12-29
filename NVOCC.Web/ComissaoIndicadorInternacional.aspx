@@ -47,13 +47,12 @@
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <asp:Label ID="Label2" runat="server">Filtro</asp:Label><br />
-
                                             <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
                                                 <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
                                                 <asp:ListItem Value="1">Indicador</asp:ListItem>
                                                 <asp:ListItem Value="2">Número do processo</asp:ListItem>
-                                                <asp:ListItem Value="2">MBL</asp:ListItem>
-                                                <asp:ListItem Value="2">HBL</asp:ListItem>
+                                                <asp:ListItem Value="3">MBL</asp:ListItem>
+                                                <asp:ListItem Value="4">HBL</asp:ListItem>
                                             </asp:DropDownList>
                                         </div>
 
@@ -606,9 +605,6 @@
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
      <asp:SqlDataSource ID="dsComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Comissao_Internacional] ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO">
-       <%-- <SelectParameters>
-            <asp:ControlParameter Name="COMPETENCIA" Type="string" ControlID="txtCompetencia" />
-        </SelectParameters>--%>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"

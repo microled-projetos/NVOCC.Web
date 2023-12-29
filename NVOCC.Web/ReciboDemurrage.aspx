@@ -1,38 +1,57 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="ReciboDemurrage.aspx.vb" Inherits="NVOCC.Web.ReciboDemurrage" %>
+﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="ReciboDemurrage.aspx.vb" Inherits="NVOCC.Web.ReciboDemurrage" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <style>
-        #DivImpressao, #imgFundo {
-            display: none;
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>ReciboDemurrage</title>
+     <script src="Content/js/jquery.min.js"></script>
+    <script>             
+    $(window).load(function () {
+        window.print();
+    });
+    </script>
+  <style>
+        table{
+            width:770px;
         }
-        @media print {
+            td{
+                padding-left:10px;
+                padding-right:10px;
+            }
+            th{
+                font-weight:bold;
+                text-align:left;
+                padding-left:10px;
+            }
+            #DivImpressao{
+                display: none;
+            }
+            
+            @media print {
 
             @page {
             }
 
-            #imgFundo {
-                display: none;
-            }
-
-            #DivImpressao {
+           
+            #DivImpressao{
                 display: block;
+                font-family:Arial;
             }
-             td,th,tr{
-                padding-left:10px;
-                padding-right:10px;
-
-            }
-
+           
         }
     </style>
-    <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">
+</head>
+<body>
+  <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">
         <table border="1">
             <tr>
                 <td>
                     <table>
                         <tr>
                             <td>
-                                <img src="Content/imagens/FCA-Log - Copia.png" /><br />
+                                <img src="Content/imagens/Logo_FCA_Deitado1.png" /><br />
                             </td>
                         </tr>
                     </table>
@@ -126,12 +145,5 @@
         </table>
 
     </div>
-
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
-    <script>             
-        $(window).load(function () {
-            window.print();
-        });
-    </script>
-</asp:Content>
+</body>
+</html>

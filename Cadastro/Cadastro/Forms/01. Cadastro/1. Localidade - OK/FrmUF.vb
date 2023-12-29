@@ -120,9 +120,14 @@ Public Class FrmUF
 
         Dim Tela As Control = Me
         Geral.FundoTextBox(Tela)
-        Dim TipoUsuario As Integer = Banco.TipoUsuario
+        Dim UsuarioSistema As Integer = Banco.UsuarioSistema
         Dim Ds As DataTable = New DataTable()
-        Ds = Banco.List("SELECT FL_EXCLUIR,FL_ATUALIZAR,FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 14 AND ID_TIPO_USUARIO = " & Conversions.ToString(TipoUsuario))
+        ' Ds = Banco.List("SELECT FL_EXCLUIR,FL_ATUALIZAR,FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 14 AND ID_TIPO_USUARIO = " & Conversions.ToString(TipoUsuario))
+        Ds = Banco.List("SELECT 
+MAX(CONVERT(VARCHAR, FL_EXCLUIR))FL_EXCLUIR ,
+MAX(CONVERT(VARCHAR,FL_ATUALIZAR))FL_ATUALIZAR,
+MAX(CONVERT(VARCHAR,FL_CADASTRAR))FL_CADASTRAR
+FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 14 AND ID_TIPO_USUARIO IN( SELECT distinct ID_TIPO_USUARIO from TB_VINCULO_USUARIO where ID_USUARIO = " & Conversions.ToString(UsuarioSistema) & ")  ")
 
         If Ds.Rows.Count > 0 Then
 

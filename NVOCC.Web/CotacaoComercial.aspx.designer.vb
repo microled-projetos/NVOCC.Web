@@ -68,7 +68,92 @@ Partial Public Class CotacaoComercial
     Protected WithEvents lblmsgErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+<<<<<<< HEAD
     '''lkInserir control.
+=======
+    '''Controle txtData.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtData As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlServico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlServico As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlEstufagem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlEstufagem As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlIncoterm.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlIncoterm As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlOrigem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlOrigem As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlDestino.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlDestino As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtCBM.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCBM As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtPeso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtPeso As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle btnPesquisaRepetidas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnPesquisaRepetidas As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle lkInserir.
+>>>>>>> devjuliane
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
@@ -185,7 +270,38 @@ Partial Public Class CotacaoComercial
     Protected WithEvents divPesquisa As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
+<<<<<<< HEAD
     '''Label1 control.
+=======
+    '''Controle rdTRansporte.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents rdTRansporte As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''Controle rdEstufagem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents rdEstufagem As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''Controle rdServico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents rdServico As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''Controle Label1.
+>>>>>>> devjuliane
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
@@ -221,6 +337,7 @@ Partial Public Class CotacaoComercial
     Protected WithEvents bntPesquisar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+<<<<<<< HEAD
     '''Button1 control.
     '''</summary>
     '''<remarks>
@@ -231,6 +348,9 @@ Partial Public Class CotacaoComercial
 
     '''<summary>
     '''mpeImprimir control.
+=======
+    '''Controle mpeImprimir.
+>>>>>>> devjuliane
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
@@ -239,13 +359,17 @@ Partial Public Class CotacaoComercial
     Protected WithEvents mpeImprimir As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
+<<<<<<< HEAD
     '''Panel1 control.
+=======
+    '''Controle PanelImprimir.
+>>>>>>> devjuliane
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Panel1 As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents PanelImprimir As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
     '''Label2 control.
@@ -293,7 +417,164 @@ Partial Public Class CotacaoComercial
     Protected WithEvents btnEnviar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+<<<<<<< HEAD
     '''updPainel1 control.
+=======
+    '''Controle btnAuxiliarStatus.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnAuxiliarStatus As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeStatus.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeStatus As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle PanelStatus.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents PanelStatus As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle dgvHistoricoStatus.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvHistoricoStatus As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnFecharStatus.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharStatus As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnAuxiliarRepetida.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnAuxiliarRepetida As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeRepetida.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeRepetida As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle PanelRepetida.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents PanelRepetida As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle btnInserirRepetida.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnInserirRepetida As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnFecharRepetida.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharRepetida As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnAuxiliarEnvioSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnAuxiliarEnvioSI As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeEnvioSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeEnvioSI As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnlEnvioSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlEnvioSI As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle lblAgenteSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblAgenteSI As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblPortoOrigemSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblPortoOrigemSI As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle btnConfirmaEnviarSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnConfirmaEnviarSI As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnCancelaEnvioSI.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnCancelaEnvioSI As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle updPainel1.
+>>>>>>> devjuliane
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
@@ -408,4 +689,49 @@ Partial Public Class CotacaoComercial
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle dsHistoricoStatus.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsHistoricoStatus As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsIncoterm.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsIncoterm As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsEstufagem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsEstufagem As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsPorto.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsPorto As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsServico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsServico As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

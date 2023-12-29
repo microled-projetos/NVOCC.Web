@@ -23,6 +23,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents lblMaster_Titulo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle UpdatePanel19.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel19 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
     '''Controle divSuccess_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -59,6 +68,24 @@ Partial Public Class CadastrarMaster
     Protected WithEvents lblErro_BasicoMaritimo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle divinfo_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divinfo_BasicoMaritimo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblmsginfo_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblmsginfo_BasicoMaritimo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle txtID_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -93,6 +120,24 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlServico_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ckTrakingAutomaticoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckTrakingAutomaticoMaritimo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckDocConferidosMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckDocConferidosMaritimo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle ddlTransportador_BasicoMaritimo.
@@ -248,6 +293,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents txtPrevisaoEmbarque_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle imgPrevisaoEmbarque_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents imgPrevisaoEmbarque_BasicoMaritimo As Global.System.Web.UI.WebControls.ImageButton
+
+    '''<summary>
     '''Controle txtEmbarque_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -255,6 +309,15 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtEmbarque_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle imgEmbarque_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents imgEmbarque_BasicoMaritimo As Global.System.Web.UI.WebControls.ImageButton
 
     '''<summary>
     '''Controle txtPrevisaoChegada_BasicoMaritimo.
@@ -266,6 +329,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents txtPrevisaoChegada_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle imgPrevisaoChegada_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents imgPrevisaoChegada_BasicoMaritimo As Global.System.Web.UI.WebControls.ImageButton
+
+    '''<summary>
     '''Controle txtChegada_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -273,6 +345,15 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtChegada_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle imgChegada_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents imgChegada_BasicoMaritimo As Global.System.Web.UI.WebControls.ImageButton
 
     '''<summary>
     '''Controle ddlNavio_BasicoMaritimo.
@@ -545,6 +626,24 @@ Partial Public Class CadastrarMaster
     Protected WithEvents UpdatePanel15 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle divErroNavio1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroNavio1 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroNavio1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroNavio1 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle Label3.
     '''</summary>
     '''<remarks>
@@ -615,6 +714,24 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents UpdatePanel12 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
+    '''Controle divErroNavio2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroNavio2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroNavio2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroNavio2 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle Label2.
@@ -689,6 +806,24 @@ Partial Public Class CadastrarMaster
     Protected WithEvents UpdatePanel10 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle divErroNavio3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroNavio3 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroNavio3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroNavio3 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle Label4.
     '''</summary>
     '''<remarks>
@@ -732,6 +867,78 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnSalvarNavio3 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle Button3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button3 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeHistoricoDatasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeHistoricoDatasMaritimo As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnlHistoricoDatasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlHistoricoDatasMaritimo As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle lblTipoHistoricoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTipoHistoricoMaritimo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtTipoDataMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtTipoDataMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle dgvHistoricoDatasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvHistoricoDatasMaritimo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnCSVHistoricoDatasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnCSVHistoricoDatasMaritimo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnFecharHistoricoDatasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharHistoricoDatasMaritimo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle UpdatePanel13.
@@ -977,6 +1184,33 @@ Partial Public Class CadastrarMaster
     Protected WithEvents btnNovaTaxasMaritimo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle btnImportarTaxasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnImportarTaxasMaritimo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnSelecionarTudoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnSelecionarTudoMaritimo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnDeletarTaxasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnDeletarTaxasMaritimo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle UpdatePanel6.
     '''</summary>
     '''<remarks>
@@ -1029,6 +1263,51 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvTaxasMaritimo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle Button1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeHistoricoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeHistoricoMaritimo As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnHistoricoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnHistoricoMaritimo As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle dgvHistoricoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvHistoricoMaritimo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnFecharHistoricoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharHistoricoMaritimo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle mpeTaxasMaritimo.
@@ -1110,6 +1389,15 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlDespesa_TaxasMaritimo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ckbProfit_TaxasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbProfit_TaxasMaritimo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle ckbPremiacao_TaxasMaritimo.
@@ -1247,6 +1535,114 @@ Partial Public Class CadastrarMaster
     Protected WithEvents btnFechar_TaxasMaritimo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle divErroUploadMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroUploadMaritimo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroUploadMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroUploadMaritimo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divSuccessUploadMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divSuccessUploadMaritimo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblSuccessUploadMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblSuccessUploadMaritimo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle ddlTipoArquivoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoArquivoMaritimo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle FileUploadMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents FileUploadMaritimo As Global.System.Web.UI.WebControls.FileUpload
+
+    '''<summary>
+    '''Controle UpdatePanel17.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel17 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
+    '''Controle txtUPMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtUPMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtArquivoSelecionadoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtArquivoSelecionadoMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle dgvArquivosMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvArquivosMaritimo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnLimparUploadMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnLimparUploadMaritimo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnUploadMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnUploadMaritimo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle UpdatePanel9.
     '''</summary>
     '''<remarks>
@@ -1382,6 +1778,24 @@ Partial Public Class CadastrarMaster
     Protected WithEvents lblErro_BasicoAereo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle divinfo_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divinfo_BasicoAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblmsginfo_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblmsginfo_BasicoAereo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle txtID_BasicoAereo.
     '''</summary>
     '''<remarks>
@@ -1416,6 +1830,24 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlEstufagem_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ckTrakingAutomaticoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckTrakingAutomaticoAereo As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckDocConferidosAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckDocConferidosAereo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle txtNumeroVoo_BasicoAereo.
@@ -1544,6 +1976,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents txtPrevisaoEmbarque_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle imgPrevisaoEmbarque_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents imgPrevisaoEmbarque_BasicoAereo As Global.System.Web.UI.WebControls.ImageButton
+
+    '''<summary>
     '''Controle txtEmbarque_BasicoAereo.
     '''</summary>
     '''<remarks>
@@ -1551,6 +1992,15 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtEmbarque_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle imgEmbarque_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents imgEmbarque_BasicoAereo As Global.System.Web.UI.WebControls.ImageButton
 
     '''<summary>
     '''Controle txtPrevisaoChegada_BasicoAereo.
@@ -1562,6 +2012,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents txtPrevisaoChegada_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle imgPrevisaoChegada_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents imgPrevisaoChegada_BasicoAereo As Global.System.Web.UI.WebControls.ImageButton
+
+    '''<summary>
     '''Controle txtChegada_BasicoAereo.
     '''</summary>
     '''<remarks>
@@ -1569,6 +2028,15 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtChegada_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle imgChegada_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents imgChegada_BasicoAereo As Global.System.Web.UI.WebControls.ImageButton
 
     '''<summary>
     '''Controle ddlAeroporto1_BasicoAereo.
@@ -1670,6 +2138,78 @@ Partial Public Class CadastrarMaster
     Protected WithEvents btnGravar_BasicoAereo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle Button4.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button4 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeHistoricoDatasAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeHistoricoDatasAereo As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnlHistoricoDatasAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlHistoricoDatasAereo As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle lblTipoHistoricoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTipoHistoricoAereo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtTipoDataAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtTipoDataAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle dgvHistoricoDatasAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvHistoricoDatasAereo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnCSVHistoricoDatasAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnCSVHistoricoDatasAereo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnFecharHistoricoDatasAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharHistoricoDatasAereo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle UpdatePanel8.
     '''</summary>
     '''<remarks>
@@ -1686,6 +2226,33 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnNovaTaxaAereo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnImportarTaxasAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnImportarTaxasAereo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnSelecionarTudoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnSelecionarTudoAereo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnDeletarTaxasAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnDeletarTaxasAereo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle UpdatePanel7.
@@ -1740,6 +2307,51 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvTaxasAereo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle Button2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button2 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeHistoricoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeHistoricoAereo As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnHistoricoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnHistoricoAereo As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle dgvHistoricoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvHistoricoAereo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnFecharHistoricoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharHistoricoAereo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle mpeTaxaAereo.
@@ -1821,6 +2433,15 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlDespesa_TaxaAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ckbProfit_TaxasAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbProfit_TaxasAereo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle ckbPremiacao_TaxaAereo.
@@ -1956,6 +2577,114 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnFechar_TaxaAereo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle divErroUploadAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroUploadAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroUploadAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroUploadAereo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divSuccessUploadAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divSuccessUploadAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblSuccessUploadAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblSuccessUploadAereo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle ddlTipoArquivoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoArquivoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle FileUploadAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents FileUploadAereo As Global.System.Web.UI.WebControls.FileUpload
+
+    '''<summary>
+    '''Controle UpdatePanel18.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel18 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
+    '''Controle txtUPAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtUPAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtArquivoSelecionadoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtArquivoSelecionadoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle dgvArquivosAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvArquivosAereo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnLimparUploadAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnLimparUploadAereo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnUploadAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnUploadAereo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle UpdatePanel16.
@@ -2343,4 +3072,49 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsStatusFreteAgente As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsUploadsMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsUploadsMaritimo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsUploadsAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsUploadsAereo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTipoArquivo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTipoArquivo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsHistorico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsHistorico As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsHistoricoDatas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsHistoricoDatas As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

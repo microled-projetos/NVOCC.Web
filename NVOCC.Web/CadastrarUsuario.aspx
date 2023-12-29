@@ -34,9 +34,8 @@
                                     <br />
                                     <asp:ValidationSummary ID="Validacoes" runat="server" ShowModelStateErrors="true" CssClass="alert alert-danger" />
 
-
                                     <div class="alert alert-success" id="divmsg" runat="server" visible="false">
-                                        Registro cadastrado/atualizado com sucesso!
+                                        Ação realizada com sucesso!
                                     </div>
                                     <div class="alert alert-danger" id="diverro" runat="server" visible="false">
                                         <asp:Label ID="lblerro" runat="server" />
@@ -195,7 +194,7 @@
                                      </div>
                                 <div class="col-sm-1">
                                     <div class="form-group">
-                                         <label class="control-label" style="color:white">Empresa:</label>
+                                         <label class="control-label" style="color:white;font-size: 8px;">Empresa:</label>
                                         <asp:ImageButton ID="ImageButton1" src="Content/imagens/plus.png" runat="server" Width="50%" />
                                     </div>
                                 </div>
@@ -263,18 +262,20 @@
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
-                                                <%--    <asp:TemplateField HeaderText="">
+                                                    <asp:TemplateField HeaderText="">
                                             <ItemTemplate>
-                                                <a href="CadastrarUsuario.aspx?id=<%# Eval("Id") %>" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>
+                                                <%--<a href="CadastrarUsuario.aspx?id=<%# Eval("Id") %>" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>--%>
+                                                <asp:LinkButton runat="server" Text="Excluir" ID="ButtonExcluir" CommandName="Excluir" CommandArgument='<%# Eval("ID") %>' class="btn btn-danger btn-sm" OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"><i class="fa fa-trash" style="font-size: large"></i> </asp:LinkButton>
                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                        </asp:TemplateField>--%>
+                                        </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
                                     </ContentTemplate>
-                                    <Triggers>
-                                        <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvUsuarios" />
+                                    <Triggers> 
+<%--                                        <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvUsuarios" />--%>
+                                        <asp:PostBackTrigger  ControlID="dgvUsuarios" />
                                     </Triggers>
                                 </asp:UpdatePanel>
                             </div>
@@ -341,27 +342,27 @@ WHERE A.ID_USUARIO = @ID_USUARIO">
     <script src="Content/js/jquery.dataTables.min.js"></script>
 
     <script>
-        $(document).ready(function () {
+       <%-- $(document).ready(function () {
 
             $('#<%= dgvUsuarios.ClientID %>').DataTable({
                 "language": {
                     "url": "Content/js/pt-br.json"
                 }
             });
-        });
+        });--%>
 
-        function divexpandcollapse(div1) {
+        //function divexpandcollapse(div1) {
 
-            var div = document.getElementById(div1);
-            var img = document.getElementById('imgdiv1');
+        //    var div = document.getElementById(div1);
+        //    var img = document.getElementById('imgdiv1');
 
-            if (div.style.display === "none") {
-                div.style.display = "inline";
-                img.src = "Content/imagens/minus.png";
-            } else {
-                div.style.display = "none";
-                img.src = "Content/imagens/plus.png";
-            }
-        }
+        //    if (div.style.display === "none") {
+        //        div.style.display = "inline";
+        //        img.src = "Content/imagens/minus.png";
+        //    } else {
+        //        div.style.display = "none";
+        //        img.src = "Content/imagens/plus.png";
+        //    }
+        //}
     </script>
 </asp:Content>

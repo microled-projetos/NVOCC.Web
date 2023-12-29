@@ -16,18 +16,7 @@
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
             Response.Redirect("Default.aspx")
-        Else
-            'If Not Page.IsPostBack Then
-            '    'If Month(Now.AddMonths(-1)) <= 9 Then
-            '    '    txtCompetencia.Text = "0" & Month(Now.AddMonths(-1)) & "/" & Now.Year
-            '    '    lblCompetenciaCCProcesso.Text = txtCompetencia.Text
-            '    '    txtNovaCompetencia.Text = "0" & Now.Month & "/" & Now.Year
-            '    'Else
-            '    '    txtCompetencia.Text = Month(Now.AddMonths(-1)) & "/" & Now.Year
-            '    '    lblCompetenciaCCProcesso.Text = txtCompetencia.Text
-            '    '    txtNovaCompetencia.Text = Now.Month & "/" & Now.Year
-            '    'End If
-            'End If
+
 
         End If
         Con.Fechar()
@@ -196,7 +185,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
                     ddlVendedorTabela.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_VENDEDOR").ToString()
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MOEDA")) Then
-                    ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA").ToString()
+                    ddlMoedaTabela.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA").ToString()
                 End If
             End If
 
@@ -266,7 +255,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
     Private Sub lkCSV_Click(sender As Object, e As EventArgs) Handles lkCSV.Click
         Dim SQL As String = "SELECT COMPETENCIA,NR_QUINZENA,NR_PROCESSO,PARCEIRO_VENDEDOR AS PARCEIRO_INDICADOR  ,PARCEIRO_CLIENTE,MBL,HBL,TIPO_ESTUFAGEM,QT_CNTR,MOEDA,VL_TAXA,VL_COMISSAO,PARCEIRO_AGENTE_INTERNACIONAL,[DT_EMBARQUE(ETD)],[DT_CHEGADA(ETA)],DT_LIQUIDACAO,DT_EXPORTACAO FROM [dbo].[View_Comissao_Internacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA ='" & txtQuinzena.Text & "'  " & filtro & " ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
 
-        Classes.Excel.exportaExcel(SQL, "NVOCC", "ComissaoInternacional")
+        Classes.Excel.exportaExcel(SQL, "ComissaoInternacional")
     End Sub
 
     Private Sub btnGerarComissao_Click(sender As Object, e As EventArgs) Handles btnGerarComissao.Click
@@ -289,7 +278,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
         End If
 
 
-        If txtNovaCompetencia.Text = "" Or txtLiquidacaoInicial.Text = "" Or txtLiquidacaoFinal.Text = "" And txtNovaQuinzena.Text = "" Then
+        If txtNovaCompetencia.Text = "" Or txtLiquidacaoInicial.Text = "" Or txtLiquidacaoFinal.Text = "" Or txtNovaQuinzena.Text = "" Then
             lblErroGerarComissao.Text = "Preencha os campos obrigatórios."
             divErroGerarComissao.Visible = True
 
@@ -307,7 +296,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
                 Else
 
                     dsQtd = Con.ExecutarQuery("SELECT ID_PARCEIRO_VENDEDOR,(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_PARCEIRO_VENDEDOR)NM_RAZAO,
-CASE WHEN (SELECT ID_TAXA_COMISSAO_INDICADOR FROM TB_TAXA_COMISSAO_INDICADOR WHERE ID_PARCEIRO_VENDEDOR = A.ID_PARCEIRO_VENDEDOR AND DT_VALIDADE_INICIAL <= GETDATE()) IS NULL THEN '0' ELSE 1 END TAXA
+CASE WHEN (SELECT ID_TAXA_COMISSAO_INDICADOR FROM [FN_TAXA_COMISSAO_INDICADOR](A.ID_PARCEIRO_VENDEDOR,A.DT_LIQUIDACAO) )IS NULL THEN '0' ELSE 1 END TAXA
 FROM FN_INDICADOR_INTERNACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') A ")
                     If dsQtd.Tables(0).Rows.Count = 0 Then
                         lblErroGerarComissao.Text = "Não há taxa cadastrada para os indicadores!"
@@ -368,8 +357,8 @@ IN (SELECT ID_CABECALHO_COMISSAO_INTERNACIONAL FROM TB_CABECALHO_COMISSAO_INTERN
 SELECT " & cabecalho & ",A.ID_BL,A.NR_PROCESSO,A.ID_PARCEIRO_VENDEDOR,QT_CNTR,C.ID_MOEDA,C.VL_TAXA,
 QT_CNTR* C.VL_TAXA AS VL_COMISSAO, DT_LIQUIDACAO 
 FROM FN_INDICADOR_INTERNACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') A
-LEFT JOIN TB_TAXA_COMISSAO_INDICADOR C ON C.ID_PARCEIRO_VENDEDOR = A.ID_PARCEIRO_VENDEDOR 
-WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_TAXA > 0")
+OUTER APPLY [FN_TAXA_COMISSAO_INDICADOR](A.ID_PARCEIRO_VENDEDOR,A.DT_LIQUIDACAO) C  
+WHERE DT_PAGAMENTO_EXP IS NULL AND A.VL_TAXA > 0")
 
                     divSuccessGerarComissao.Visible = True
                     lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
@@ -552,8 +541,6 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_T
 
     Private Sub btnFecharBaixa_Click(sender As Object, e As EventArgs) Handles btnFecharBaixa.Click
         CarregaGrid()
-        'lblCompetencia.Text = ""
-        'lblQuinzena.Text = ""
         txtIDBaixa.Text = ""
         txtContrato.Text = ""
         txtLiquidacao.Text = ""
