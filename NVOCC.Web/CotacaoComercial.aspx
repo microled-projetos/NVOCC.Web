@@ -132,9 +132,9 @@
                                                 <div class="form-group">
                                                     <center><label class="control-label">Via Transporte:</label></center>
                                                     <asp:RadioButtonList ID="rdTRansporte" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
-                                                        <asp:ListItem Value="1" Selected="True">&nbsp;Marítimo</asp:ListItem>
+                                                        <asp:ListItem Value="1">&nbsp;Marítimo</asp:ListItem>
                                                         <asp:ListItem Value="4">&nbsp;Aéreo</asp:ListItem>
-                                                        <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
+                                                        <asp:ListItem Value="0" Selected="True">&nbsp;Ambos</asp:ListItem>
                                                     </asp:RadioButtonList>
                                                 </div>
                                             </div>                                       
@@ -142,9 +142,9 @@
                                                 <div class="form-group">
                                                     <center><label class="control-label">Estufagem:</label></center>
                                                     <asp:RadioButtonList ID="rdEstufagem" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
-                                                        <asp:ListItem Value="1" Selected="True">&nbsp;FCL</asp:ListItem>
+                                                        <asp:ListItem Value="1">&nbsp;FCL</asp:ListItem>
                                                         <asp:ListItem Value="2">&nbsp;LCL</asp:ListItem>
-                                                        <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
+                                                        <asp:ListItem Value="0" Selected="True">&nbsp;Ambos</asp:ListItem>
                                                     </asp:RadioButtonList>
                                                 </div>
                                             </div>
@@ -152,9 +152,9 @@
                                                 <div class="form-group">
                                                     <center><label class="control-label">Serviço:</label></center>
                                                     <asp:RadioButtonList ID="rdServico" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
-                                                        <asp:ListItem Value="1" Selected="True">&nbsp;Importação</asp:ListItem>
+                                                        <asp:ListItem Value="1">&nbsp;Importação</asp:ListItem>
                                                         <asp:ListItem Value="2">&nbsp;Exportação</asp:ListItem>
-                                                        <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
+                                                        <asp:ListItem Value="0" Selected="True">&nbsp;Ambos</asp:ListItem>
                                                     </asp:RadioButtonList>
                                                 </div>
                                             </div>
@@ -457,13 +457,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
 
 
     <script type="text/javascript">
-<<<<<<< HEAD
-     function SalvaPosicao() {
-         var posicao = document.getElementById('DivGrid').scrollTop;         
-=======
         function SalvaPosicao() {
             var posicao = document.getElementById('DivGrid').scrollTop;
->>>>>>> devjuliane
             if (posicao) {
                 document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
                 console.log('if:' + posicao);

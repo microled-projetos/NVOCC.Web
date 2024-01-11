@@ -527,112 +527,292 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ckbCOFINS As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
-    '''Controle txtMaritimoImpoFCL.
+    '''Controle txtSpreadImpoFCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtMaritimoImpoFCL As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtSpreadImpoFCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlAcordoCambioMaritimoImpoFCL.
+    '''Controle ddlAcordoCambioImpoFCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlAcordoCambioMaritimoImpoFCL As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlAcordoCambioImpoFCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtMaritimoImpoLCL.
+    '''Controle txtQtdFaturamentoImpoFCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtMaritimoImpoLCL As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtQtdFaturamentoImpoFCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlAcordoCambioMaritimoImpoLCL.
+    '''Controle ddlTipoFaturamentoImpoFCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlAcordoCambioMaritimoImpoLCL As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoFaturamentoImpoFCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtMaritimoExpoFCL.
+    '''Controle txtSpreadImpoLCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtMaritimoExpoFCL As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtSpreadImpoLCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlAcordoCambioMaritimoExpoFCL.
+    '''Controle ddlAcordoCambioImpoLCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlAcordoCambioMaritimoExpoFCL As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlAcordoCambioImpoLCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtMaritimoExpoLCL.
+    '''Controle txtQtdFaturamentoImpoLCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtMaritimoExpoLCL As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtQtdFaturamentoImpoLCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlAcordoCambioMaritimoExpoLCL.
+    '''Controle ddlTipoFaturamentoImpoLCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlAcordoCambioMaritimoExpoLCL As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoFaturamentoImpoLCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtAereoImpo.
+    '''Controle txtSpreadImpoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtAereoImpo As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtSpreadImpoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlAcordoCambioAereoIMPO.
+    '''Controle ddlAcordoCambioImpoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlAcordoCambioAereoIMPO As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlAcordoCambioImpoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtAereoExpo.
+    '''Controle txtQtdFaturamentoImpoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtAereoExpo As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtQtdFaturamentoImpoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlAcordoCambioAereoEXPO.
+    '''Controle ddlTipoFaturamentoImpoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlAcordoCambioAereoEXPO As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoFaturamentoImpoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtSpreadImpoFree.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtSpreadImpoFree As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlAcordoCambioImpoFree.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAcordoCambioImpoFree As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtQtdFaturamentoImpoFree.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtQtdFaturamentoImpoFree As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlTipoFaturamentoImpoFree.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoFaturamentoImpoFree As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtSpreadExpoFCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtSpreadExpoFCL As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlAcordoCambioExpoFCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAcordoCambioExpoFCL As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtQtdFaturamentoExpoFCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtQtdFaturamentoExpoFCL As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlTipoFaturamentoExpoFCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoFaturamentoExpoFCL As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtSpreadExpoLCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtSpreadExpoLCL As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlAcordoCambioExpoLCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAcordoCambioExpoLCL As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtQtdFaturamentoExpoLCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtQtdFaturamentoExpoLCL As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlTipoFaturamentoExpoLCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoFaturamentoExpoLCL As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtSpreadExpoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtSpreadExpoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlAcordoCambioExpoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAcordoCambioExpoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtQtdFaturamentoExpoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtQtdFaturamentoExpoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlTipoFaturamentoExpoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoFaturamentoExpoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtSpreadExpoFree.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtSpreadExpoFree As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlAcordoCambioExpoFree.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAcordoCambioExpoFree As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtQtdFaturamentoExpoFree.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtQtdFaturamentoExpoFree As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlTipoFaturamentoExpoFree.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoFaturamentoExpoFree As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle lblRed.
@@ -651,24 +831,6 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtEmailNF As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtQtdFaturamento.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtQtdFaturamento As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle ddlTipoFaturamento.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlTipoFaturamento As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlRegraAtualizacao.
@@ -1299,4 +1461,22 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsTipoFaturamento As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTimeProspeccao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTimeProspeccao As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsIndicacaoInterna.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsIndicacaoInterna As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

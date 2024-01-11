@@ -1998,7 +1998,7 @@ WHERE ID_CARGA_BL = " & ID)
         txtID_CargaAereo.Text = ""
         txtGrupoNCM_CargaAereo.Text = ""
         txtQtdVolume_CargaAereo.Text = ""
-        'btnAdicionarMedidasAereo.Visible = False
+        btnAdicionarMedidasAereo.Visible = False
         txtAlturaMercadoriaAereo.Text = ""
         txtLarguraMercadoriaAereo.Text = ""
         txtComprimentoMercadoriaAereo.Text = ""
@@ -5180,13 +5180,7 @@ WHERE ID_BL = " & ID_BL & " GROUP BY B.NM_MOEDA "
         Dim ds As DataSet
 
 
-<<<<<<< HEAD
-
-
-        sumMedidasAereo(txtID_BasicoAereo.Text)
-=======
         sumMedidasAereo(txtID_CargaAereo.Text)
->>>>>>> devjuliane
 
         If txtID_BasicoAereo.Text = "" Then
             lblErro_CargaAereo2.Text = "Necessário inserir dados basicos do processo."
@@ -5215,32 +5209,7 @@ WHERE ID_BL = " & ID_BL & " GROUP BY B.NM_MOEDA "
             CalculaCLA()
             sumMedidasAereo(txtID_CargaAereo.Text)
 
-<<<<<<< HEAD
-            sumMedidasAereo(txtID_BasicoAereo.Text)
-
-
-            If ddlServico_BasicoAereo.SelectedValue = 2 AndAlso ddlServico_BasicoAereo.SelectedValue <> 5 Then
-
-
-                ds = Con.ExecutarQuery("SELECT 	  
-                      Sum(convert(decimal(18,2), VL_LARGURA * VL_ALTURA * VL_COMPRIMENTO/6000 * QTD_CAIXA)) as VL_PESO_CUBADO 
-                    FROM TB_CARGA_BL_DIMENSAO
-                    WHERE ID_BL = " & txtID_BasicoAereo.Text & "") 
-
-                Dim ptx As String = ds.Tables(0).Rows(0).Item("VL_PESO_CUBADO").ToString()
-                Dim pbr As String = txtPesoBruto_CargaAereo.Text
-
-                If Convert.ToDecimal(ds.Tables(0).Rows(0).Item("VL_PESO_CUBADO")) > Convert.ToDecimal(txtPesoBruto_CargaAereo.Text) Then
-                    Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & ptx.Replace(",", ".") & " WHERE ID_BL = " & Request.QueryString("id"))
-                Else
-                    Con.ExecutarQuery("UPDATE TB_BL SET VL_PESO_TAXADO = " & pbr.Replace(",", ".") & " WHERE ID_BL = " & Request.QueryString("id"))
-                End If
-
-            End If
-
-=======
             txtPesoTaxado_CargaAereo.Text = ArredondarPesoTaxado(txtID_BasicoAereo.Text)
->>>>>>> devjuliane
             dgvMedidasAereo.DataBind()
             txtAlturaMercadoriaAereo.Text = ""
             txtLarguraMercadoriaAereo.Text = ""

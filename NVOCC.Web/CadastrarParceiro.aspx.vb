@@ -11,7 +11,7 @@ Public Class CadastrarParceiro
         divmsg.Visible = False
 
         If Not Page.IsPostBack Then
-            ddlTipoFaturamento.SelectedValue = 1
+            ddlTipoFaturamentoImpoLCL.SelectedValue = 1
             CarregaCampos()
         End If
 
@@ -88,28 +88,50 @@ FL_ATIVO,
 FL_INDICADOR,
 PC_CAMBIAL_AEREO,
 PC_CAMBIAL_MARITIMO,
-SPREAD_MARITIMO_IMPO_FCL,
-SPREAD_MARITIMO_IMPO_LCL,
-SPREAD_MARITIMO_EXPO_FCL,
-SPREAD_MARITIMO_EXPO_LCL,
-SPREAD_AEREO_IMPO,
-SPREAD_AEREO_EXPO,
-ISNULL(ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL,0)ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL,
-ISNULL(ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,0)ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,
-ISNULL(ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,0)ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,
-ISNULL(ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,0)ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,
-ISNULL(ID_ACORDO_CAMBIO_AEREO_IMPO,0)ID_ACORDO_CAMBIO_AEREO_IMPO,
-ISNULL(ID_ACORDO_CAMBIO_AEREO_EXPO,0)ID_ACORDO_CAMBIO_AEREO_EXPO,
-ISNULL(QT_DIAS_FATURAMENTO,0)QT_DIAS_FATURAMENTO,
-ISNULL(ID_TIPO_FATURAMENTO,0)ID_TIPO_FATURAMENTO,
+ISNULL(ID_TIPO_FATURAMENTO_EXPO_AEREO,0)ID_TIPO_FATURAMENTO_EXPO_AEREO ,
+ISNULL(ID_TIPO_FATURAMENTO_EXPO_LCL,0)ID_TIPO_FATURAMENTO_EXPO_LCL ,
+ISNULL(ID_TIPO_FATURAMENTO_EXPO_FREE,0)ID_TIPO_FATURAMENTO_EXPO_FREE ,
+ISNULL(ID_TIPO_FATURAMENTO_EXPO_FCL,0)ID_TIPO_FATURAMENTO_EXPO_FCL ,
+ISNULL(ID_TIPO_FATURAMENTO_IMPO_FREE,0)ID_TIPO_FATURAMENTO_IMPO_FREE ,
+ISNULL(ID_TIPO_FATURAMENTO_IMPO_AEREO,0)ID_TIPO_FATURAMENTO_IMPO_AEREO ,
+ISNULL(ID_TIPO_FATURAMENTO_IMPO_LCL,0)ID_TIPO_FATURAMENTO_IMPO_LCL ,
+ISNULL(ID_TIPO_FATURAMENTO_IMPO_FCL,0)ID_TIPO_FATURAMENTO_IMPO_FCL ,
+ISNULL(QT_DIAS_FATURAMENTO_EXPO_FREE,0)QT_DIAS_FATURAMENTO_EXPO_FREE ,
+ISNULL(QT_DIAS_FATURAMENTO_EXPO_AEREO,0)QT_DIAS_FATURAMENTO_EXPO_AEREO ,
+ISNULL(QT_DIAS_FATURAMENTO_EXPO_LCL,0)QT_DIAS_FATURAMENTO_EXPO_LCL ,
+ISNULL(QT_DIAS_FATURAMENTO_EXPO_FCL,0)QT_DIAS_FATURAMENTO_EXPO_FCL ,
+ISNULL(QT_DIAS_FATURAMENTO_IMPO_FREE,0)QT_DIAS_FATURAMENTO_IMPO_FREE ,
+ISNULL(QT_DIAS_FATURAMENTO_IMPO_AEREO,0)QT_DIAS_FATURAMENTO_IMPO_AEREO ,
+ISNULL(QT_DIAS_FATURAMENTO_IMPO_LCL,0)QT_DIAS_FATURAMENTO_IMPO_LCL ,
+ISNULL(QT_DIAS_FATURAMENTO_IMPO_FCL,0)QT_DIAS_FATURAMENTO_IMPO_FCL ,
+ISNULL(ID_ACORDO_CAMBIO_EXPO_FREE,0)ID_ACORDO_CAMBIO_EXPO_FREE ,
+ISNULL(ID_ACORDO_CAMBIO_EXPO_AEREO,0)ID_ACORDO_CAMBIO_EXPO_AEREO ,
+ISNULL(ID_ACORDO_CAMBIO_EXPO_LCL,0)ID_ACORDO_CAMBIO_EXPO_LCL ,
+ISNULL(ID_ACORDO_CAMBIO_EXPO_FCL,0)ID_ACORDO_CAMBIO_EXPO_FCL ,
+ISNULL(ID_ACORDO_CAMBIO_IMPO_FREE,0)ID_ACORDO_CAMBIO_IMPO_FREE ,
+ISNULL(ID_ACORDO_CAMBIO_IMPO_AEREO,0)ID_ACORDO_CAMBIO_IMPO_AEREO ,
+ISNULL(ID_ACORDO_CAMBIO_IMPO_LCL,0)ID_ACORDO_CAMBIO_IMPO_LCL ,
+ISNULL(ID_ACORDO_CAMBIO_IMPO_FCL,0)ID_ACORDO_CAMBIO_IMPO_FCL ,
+ISNULL(SPREAD_EXPO_FREEHAND,0)SPREAD_EXPO_FREEHAND ,
+ISNULL(SPREAD_EXPO_AEREO,0)SPREAD_EXPO_AEREO ,
+ISNULL(SPREAD_EXPO_LCL,0)SPREAD_EXPO_LCL ,
+ISNULL(SPREAD_EXPO_FCL,0)SPREAD_EXPO_FCL ,
+ISNULL(SPREAD_IMPO_FREEHAND,0)SPREAD_IMPO_FREEHAND ,
+ISNULL(SPREAD_IMPO_AEREO,0)SPREAD_IMPO_AEREO ,
+ISNULL(SPREAD_IMPO_LCL,0)SPREAD_IMPO_LCL ,
+ISNULL(SPREAD_IMPO_FCL,0)SPREAD_IMPO_FCL, 
 FL_VENDEDOR_DIRETO,
 FL_EQUIPE_INSIDE_SALES,
 FL_SHIPPER,
 FL_CNEE,
 FL_RODOVIARIO,
 OB_COMPLEMENTARES,
-ISNULL(REGRA_ATUALIZACAO,0)REGRA_ATUALIZACAO 
-FROM TB_PARCEIRO 
+ISNULL(REGRA_ATUALIZACAO,0)REGRA_ATUALIZACAO,
+ISNULL(FL_PROSPECCAO,0)FL_PROSPECCAO,
+ISNULL(ID_VENDEDOR_PROSPECCAO,0)ID_VENDEDOR_PROSPECCAO,
+ISNULL(FL_INDICACAO_INTERNA,0)FL_INDICACAO_INTERNA,
+ISNULL(ID_PARCEIRO_INDICACAO_INTERNA ,0)ID_PARCEIRO_INDICACAO_INTERNA 
+FROM TB_PARCEIRO
 WHERE ID_PARCEIRO =" & ID)
             If ds.Tables(0).Rows.Count > 0 Then
                 txtID.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO").ToString()
@@ -198,21 +220,57 @@ WHERE ID_PARCEIRO =" & ID)
                 ckbISS.Checked = ds.Tables(0).Rows(0).Item("FL_ISENTO_ISS")
                 ckbPIS.Checked = ds.Tables(0).Rows(0).Item("FL_ISENTO_PIS")
                 ckbCOFINS.Checked = ds.Tables(0).Rows(0).Item("FL_ISENTO_COFINS")
-                txtMaritimoImpoFCL.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_IMPO_FCL")
-                txtMaritimoImpoLCL.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_IMPO_LCL")
-                txtMaritimoExpoFCL.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_FCL")
-                txtMaritimoExpoLCL.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_LCL")
-                txtAereoImpo.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_IMPO")
-                txtAereoExpo.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_EXPO")
-                ddlAcordoCambioAereoIMPO.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO_IMPO")
-                ddlAcordoCambioAereoEXPO.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO_EXPO")
-                ddlAcordoCambioMaritimoImpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL")
-                ddlAcordoCambioMaritimoImpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL")
-                ddlAcordoCambioMaritimoExpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL")
-                ddlAcordoCambioMaritimoExpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL")
+
+                '-------------------------------------------------------IMPO----------------------------------------------------------
+                txtSpreadImpoFCL.Text = ds.Tables(0).Rows(0).Item("SPREAD_IMPO_FCL")
+                txtSpreadImpoLCL.Text = ds.Tables(0).Rows(0).Item("SPREAD_IMPO_LCL")
+                txtSpreadImpoAereo.Text = ds.Tables(0).Rows(0).Item("SPREAD_IMPO_AEREO")
+                txtSpreadImpoFree.Text = ds.Tables(0).Rows(0).Item("SPREAD_IMPO_FREEHAND")
+
+                ddlAcordoCambioImpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_IMPO_FCL")
+                ddlAcordoCambioImpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_IMPO_LCL")
+                ddlAcordoCambioImpoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_IMPO_AEREO")
+                ddlAcordoCambioImpoFree.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_IMPO_FREE")
+
+                txtQtdFaturamentoImpoFCL.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO_IMPO_FCL")
+                txtQtdFaturamentoImpoLCL.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO_IMPO_LCL")
+                txtQtdFaturamentoImpoAereo.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO_IMPO_AEREO")
+                txtQtdFaturamentoImpoFree.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO_IMPO_FREE")
+
+                ddlTipoFaturamentoImpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_IMPO_FCL")
+                ddlTipoFaturamentoImpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_IMPO_LCL")
+                ddlTipoFaturamentoImpoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_IMPO_AEREO")
+                ddlTipoFaturamentoImpoFree.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_IMPO_FREE")
+
+                '------------------------------------------------------EXPO----------------------------------------------------------
+                txtSpreadExpoFCL.Text = ds.Tables(0).Rows(0).Item("SPREAD_EXPO_FCL")
+                txtSpreadExpoLCL.Text = ds.Tables(0).Rows(0).Item("SPREAD_EXPO_LCL")
+                txtSpreadExpoAereo.Text = ds.Tables(0).Rows(0).Item("SPREAD_EXPO_AEREO")
+                txtSpreadExpoFree.Text = ds.Tables(0).Rows(0).Item("SPREAD_EXPO_FREEHAND")
+
+
+                ddlAcordoCambioExpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_EXPO_FCL")
+                ddlAcordoCambioExpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_EXPO_LCL")
+                ddlAcordoCambioExpoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_EXPO_AEREO")
+                ddlAcordoCambioExpoFree.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_EXPO_FREE")
+
+                txtQtdFaturamentoExpoFCL.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO_EXPO_FCL")
+                txtQtdFaturamentoExpoLCL.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO_EXPO_LCL")
+                txtQtdFaturamentoExpoAereo.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO_EXPO_AEREO")
+                txtQtdFaturamentoExpoFree.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO_EXPO_FREE")
+
+
+                ddlTipoFaturamentoExpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_EXPO_FCL")
+                ddlTipoFaturamentoExpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_EXPO_LCL")
+                ddlTipoFaturamentoExpoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_EXPO_AEREO")
+                ddlTipoFaturamentoExpoFree.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO_EXPO_FREE")
+
+                '-------------------------
+
+
+
                 ddlRegraAtualizacao.SelectedValue = ds.Tables(0).Rows(0).Item("REGRA_ATUALIZACAO")
-                txtQtdFaturamento.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO")
-                ddlTipoFaturamento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")
+
 
                 ckbVendedorDireto.Checked = ds.Tables(0).Rows(0).Item("FL_VENDEDOR_DIRETO")
                 ckbEquipeInsideSales.Checked = ds.Tables(0).Rows(0).Item("FL_EQUIPE_INSIDE_SALES")
@@ -233,6 +291,11 @@ WHERE ID_PARCEIRO =" & ID)
                 ckbSimplesNacional.Checked = ds.Tables(0).Rows(0).Item("FL_SIMPLES_NACIONAL")
                 ckbAtivo.Checked = ds.Tables(0).Rows(0).Item("FL_ATIVO")
                 ckbIndicador.Checked = ds.Tables(0).Rows(0).Item("FL_INDICADOR")
+
+                ckbProspeccao.Checked = ds.Tables(0).Rows(0).Item("FL_PROSPECCAO")
+                ckbIndicacaoInterna.Checked = ds.Tables(0).Rows(0).Item("FL_INDICACAO_INTERNA")
+                ddlTimeProspeccao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR_PROSPECCAO")
+                ddlIndicacaoInterna.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICACAO_INTERNA")
 
                 VerificaChecks()
 
@@ -277,8 +340,8 @@ WHERE ID_PARCEIRO =" & ID)
             UF = dsUf.Tables(0).Rows(0).Item("UF")
         End If
 
-        If txtQtdFaturamento.Text = "" Then
-            txtQtdFaturamento.Text = 0
+        If txtQtdFaturamentoImpoFCL.Text = "" Then
+            txtQtdFaturamentoImpoFCL.Text = 0
         End If
 
         If txtRazaoSocial.Text = "" Then
@@ -364,12 +427,17 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf (ckbImportador.Checked = True Or ckbExportador.Checked = True Or ckbAgente.Checked = True Or ckbComissaria.Checked = True Or ckbAgenteInternacional.Checked = True Or ckbIndicador.Checked = True Or ckbShipper.Checked = True Or ckbCNEE.Checked = True Or ckbTranspRodoviario.Checked = True) And ddlTipoFaturamento.SelectedValue = 0 Then
+        ElseIf (ckbImportador.Checked = True Or ckbExportador.Checked = True Or ckbAgente.Checked = True Or ckbComissaria.Checked = True Or ckbAgenteInternacional.Checked = True Or ckbIndicador.Checked = True Or ckbShipper.Checked = True Or ckbCNEE.Checked = True Or ckbTranspRodoviario.Checked = True) And ddlTipoFaturamentoImpoLCL.SelectedValue = 0 Then
             msgErro.Text = "Informe o tipo de faturamento na aba de Inf. Adicionais!"
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf ddlTipoFaturamento.SelectedValue = 2 And txtQtdFaturamento.Text = 0 Then
+        ElseIf (ddlTipoFaturamentoImpoFCL.SelectedValue = 2 And txtQtdFaturamentoImpoFCL.Text = 0) Or (ddlTipoFaturamentoImpoLCL.SelectedValue = 2 And txtQtdFaturamentoImpoLCL.Text = 0) Or (ddlTipoFaturamentoImpoAereo.SelectedValue = 2 And txtQtdFaturamentoImpoAereo.Text = 0) Or (ddlTipoFaturamentoImpoFree.SelectedValue = 2 And txtQtdFaturamentoImpoFree.Text = 0) Then
+            msgErro.Text = "Informe a quantidade de dias de faturamento na aba de Inf. Adicionais!"
+            divmsg1.Visible = True
+            msgErro.Visible = True
+
+        ElseIf (ddlTipoFaturamentoExpoFCL.SelectedValue = 2 And txtQtdFaturamentoExpoFCL.Text = 0) Or (ddlTipoFaturamentoExpoLCL.SelectedValue = 2 And txtQtdFaturamentoExpoLCL.Text = 0) Or (ddlTipoFaturamentoExpoAereo.SelectedValue = 2 And txtQtdFaturamentoExpoAereo.Text = 0) Or (ddlTipoFaturamentoExpoFree.SelectedValue = 2 And txtQtdFaturamentoExpoFree.Text = 0) Then
             msgErro.Text = "Informe a quantidade de dias de faturamento na aba de Inf. Adicionais!"
             divmsg1.Visible = True
             msgErro.Visible = True
@@ -432,51 +500,97 @@ WHERE ID_PARCEIRO =" & ID)
                 AliquotaCOFINS = AliquotaCOFINS.Replace("R", String.Empty).Replace("$", String.Empty).Replace(".", String.Empty).Replace(",", ".")
             End If
 
-            Dim MaritimoImpoFCL = txtMaritimoImpoFCL.Text
-            If MaritimoImpoFCL = "" Then
-                MaritimoImpoFCL = "0"
+
+
+            Dim SpreadImpoFCL = txtSpreadImpoFCL.Text
+            If SpreadImpoFCL = "" Then
+                SpreadImpoFCL = "0"
             Else
-                MaritimoImpoFCL = MaritimoImpoFCL.Replace(".", String.Empty).Replace(",", ".")
+                SpreadImpoFCL = SpreadImpoFCL.Replace(".", String.Empty).Replace(",", ".")
             End If
 
-            Dim MaritimoImpoLCL = txtMaritimoImpoLCL.Text
-            If MaritimoImpoLCL = "" Then
-                MaritimoImpoLCL = "0"
+            Dim SpreadImpoLCL = txtSpreadImpoLCL.Text
+            If SpreadImpoLCL = "" Then
+                SpreadImpoLCL = "0"
             Else
-                MaritimoImpoLCL = MaritimoImpoLCL.Replace(".", String.Empty).Replace(",", ".")
+                SpreadImpoLCL = SpreadImpoLCL.Replace(".", String.Empty).Replace(",", ".")
             End If
 
-            Dim MaritimoExpoFCL = txtMaritimoExpoFCL.Text
-            If MaritimoExpoFCL = "" Then
-                MaritimoExpoFCL = "0"
+            Dim SpreadImpoAereo = txtSpreadImpoAereo.Text
+            If SpreadImpoAereo = "" Then
+                SpreadImpoAereo = "0"
             Else
-                MaritimoExpoFCL = MaritimoExpoFCL.Replace(".", String.Empty).Replace(",", ".")
+                SpreadImpoAereo = SpreadImpoAereo.Replace(".", String.Empty).Replace(",", ".")
             End If
 
-            Dim MaritimoExpoLCL = txtMaritimoExpoLCL.Text
-            If MaritimoExpoLCL = "" Then
-                MaritimoExpoLCL = "0"
+            Dim SpreadImpoFree = txtSpreadImpoFree.Text
+            If SpreadImpoFree = "" Then
+                SpreadImpoFree = "0"
             Else
-                MaritimoExpoLCL = MaritimoExpoLCL.Replace(".", String.Empty).Replace(",", ".")
+                SpreadImpoFree = SpreadImpoFree.Replace(".", String.Empty).Replace(",", ".")
             End If
 
-            Dim AereoImpo = txtAereoImpo.Text
-            If AereoImpo = "" Then
-                AereoImpo = "0"
+
+
+
+            Dim SpreadExpoFCL = txtSpreadExpoFCL.Text
+            If SpreadExpoFCL = "" Then
+                SpreadExpoFCL = "0"
             Else
-                AereoImpo = AereoImpo.Replace(".", String.Empty).Replace(",", ".")
+                SpreadExpoFCL = SpreadExpoFCL.Replace(".", String.Empty).Replace(",", ".")
             End If
 
-            Dim AereoExpo = txtAereoExpo.Text
-            If AereoExpo = "" Then
-                AereoExpo = "0"
+            Dim SpreadExpoLCL = txtSpreadExpoLCL.Text
+            If SpreadExpoLCL = "" Then
+                SpreadExpoLCL = "0"
             Else
-                AereoExpo = AereoExpo.Replace(".", String.Empty).Replace(",", ".")
+                SpreadExpoLCL = SpreadExpoLCL.Replace(".", String.Empty).Replace(",", ".")
             End If
 
-            If txtQtdFaturamento.Text = "" Then
-                txtQtdFaturamento.Text = 0
+            Dim SpreadExpoAereo = txtSpreadExpoAereo.Text
+            If SpreadExpoAereo = "" Then
+                SpreadExpoAereo = "0"
+            Else
+                SpreadExpoAereo = SpreadExpoAereo.Replace(".", String.Empty).Replace(",", ".")
             End If
+
+            Dim SpreadExpoFree = txtSpreadExpoFree.Text
+            If SpreadExpoFree = "" Then
+                SpreadExpoFree = "0"
+            Else
+                SpreadExpoFree = SpreadExpoFree.Replace(".", String.Empty).Replace(",", ".")
+            End If
+
+
+
+
+            If txtQtdFaturamentoImpoFCL.Text = "" Then
+                txtQtdFaturamentoImpoFCL.Text = 0
+            End If
+            If txtQtdFaturamentoImpoLCL.Text = "" Then
+                txtQtdFaturamentoImpoLCL.Text = 0
+            End If
+            If txtQtdFaturamentoImpoAereo.Text = "" Then
+                txtQtdFaturamentoImpoAereo.Text = 0
+            End If
+            If txtQtdFaturamentoImpoFree.Text = "" Then
+                txtQtdFaturamentoImpoFree.Text = 0
+            End If
+
+
+            If txtQtdFaturamentoExpoFCL.Text = "" Then
+                txtQtdFaturamentoExpoFCL.Text = 0
+            End If
+            If txtQtdFaturamentoExpoLCL.Text = "" Then
+                txtQtdFaturamentoExpoLCL.Text = 0
+            End If
+            If txtQtdFaturamentoExpoAereo.Text = "" Then
+                txtQtdFaturamentoExpoAereo.Text = 0
+            End If
+            If txtQtdFaturamentoExpoFree.Text = "" Then
+                txtQtdFaturamentoExpoFree.Text = 0
+            End If
+
 
             Dim Razao = txtRazaoSocial.Text
             Razao = Razao.Replace("'", "''")
@@ -640,20 +754,49 @@ WHERE ID_PARCEIRO =" & ID)
             FL_SIMPLES_NACIONAL,
             FL_ATIVO,
             FL_INDICADOR,
-            SPREAD_MARITIMO_IMPO_FCL,
-            SPREAD_MARITIMO_IMPO_LCL,
-            SPREAD_MARITIMO_EXPO_FCL,
-            SPREAD_MARITIMO_EXPO_LCL,
-            SPREAD_AEREO_IMPO,
-            SPREAD_AEREO_EXPO,
-            ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL,
-            ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,
-            ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,
-            ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,
-            ID_ACORDO_CAMBIO_AEREO_IMPO,
-            ID_ACORDO_CAMBIO_AEREO_EXPO,
-            QT_DIAS_FATURAMENTO,
-            ID_TIPO_FATURAMENTO,
+            
+
+            ID_TIPO_FATURAMENTO_EXPO_FREE,
+            ID_TIPO_FATURAMENTO_EXPO_AEREO,
+            ID_TIPO_FATURAMENTO_EXPO_LCL,
+            ID_TIPO_FATURAMENTO_EXPO_FCL,
+         
+            ID_TIPO_FATURAMENTO_IMPO_FREE,
+            ID_TIPO_FATURAMENTO_IMPO_AEREO,
+            ID_TIPO_FATURAMENTO_IMPO_LCL,
+            ID_TIPO_FATURAMENTO_IMPO_FCL,
+          
+            QT_DIAS_FATURAMENTO_EXPO_FREE,
+            QT_DIAS_FATURAMENTO_EXPO_AEREO,
+            QT_DIAS_FATURAMENTO_EXPO_LCL,
+            QT_DIAS_FATURAMENTO_EXPO_FCL,
+           
+            QT_DIAS_FATURAMENTO_IMPO_FREE,
+            QT_DIAS_FATURAMENTO_IMPO_AEREO,
+            QT_DIAS_FATURAMENTO_IMPO_LCL,
+            QT_DIAS_FATURAMENTO_IMPO_FCL,
+           
+            ID_ACORDO_CAMBIO_EXPO_FREE,
+            ID_ACORDO_CAMBIO_EXPO_AEREO,
+            ID_ACORDO_CAMBIO_EXPO_LCL,
+            ID_ACORDO_CAMBIO_EXPO_FCL,
+           
+            ID_ACORDO_CAMBIO_IMPO_FREE,
+            ID_ACORDO_CAMBIO_IMPO_AEREO,
+            ID_ACORDO_CAMBIO_IMPO_LCL,
+            ID_ACORDO_CAMBIO_IMPO_FCL,
+           
+            SPREAD_EXPO_FREEHAND,
+            SPREAD_EXPO_AEREO,
+            SPREAD_EXPO_LCL,
+            SPREAD_EXPO_FCL,
+           
+            SPREAD_IMPO_FREEHAND,
+            SPREAD_IMPO_AEREO,
+            SPREAD_IMPO_LCL,
+            SPREAD_IMPO_FCL,
+
+
             EMAIL,
             FL_VENDEDOR_DIRETO,
             FL_EQUIPE_INSIDE_SALES,
@@ -663,7 +806,11 @@ WHERE ID_PARCEIRO =" & ID)
             REGRA_ATUALIZACAO,
             ID_PAIS,
             ID_USUARIO,
-            CREATED_AT
+            CREATED_AT,
+            FL_PROSPECCAO,
+            ID_VENDEDOR_PROSPECCAO,
+            FL_INDICACAO_INTERNA,
+            ID_PARCEIRO_INDICACAO_INTERNA
             ) 
             VALUES ( 
             '" & ckbImportador.Checked & "',
@@ -711,20 +858,49 @@ WHERE ID_PARCEIRO =" & ID)
             '" & ckbSimplesNacional.Checked & "',
             '" & ckbAtivo.Checked & "',
             '" & ckbIndicador.Checked & "',
-             '" & MaritimoImpoFCL & "',
-            '" & MaritimoImpoLCL & "',
-            '" & MaritimoExpoFCL & "',
-            '" & MaritimoExpoLCL & "',
-            '" & AereoImpo & "',
-            '" & AereoExpo & "',
-            " & ddlAcordoCambioMaritimoImpoFCL.SelectedValue & ",
-            " & ddlAcordoCambioMaritimoImpoLCL.SelectedValue & ",
-            " & ddlAcordoCambioMaritimoExpoFCL.SelectedValue & ",
-            " & ddlAcordoCambioMaritimoExpoLCL.SelectedValue & ",
-            " & ddlAcordoCambioAereoIMPO.SelectedValue & ",
-            " & ddlAcordoCambioAereoEXPO.SelectedValue & ",
-            " & txtQtdFaturamento.Text & ",
-            " & ddlTipoFaturamento.SelectedValue & ",
+           
+
+            " & ddlTipoFaturamentoExpoFree.SelectedValue & ",
+            " & ddlTipoFaturamentoExpoAereo.SelectedValue & ",
+            " & ddlTipoFaturamentoExpoLCL.SelectedValue & ",
+            " & ddlTipoFaturamentoExpoFCL.SelectedValue & ",
+         
+            " & ddlTipoFaturamentoImpoFree.SelectedValue & ",
+            " & ddlTipoFaturamentoImpoAereo.SelectedValue & ",
+            " & ddlTipoFaturamentoImpoLCL.SelectedValue & ",
+            " & ddlTipoFaturamentoImpoFCL.SelectedValue & ",
+          
+            " & txtQtdFaturamentoExpoFree.Text & ",
+            " & txtQtdFaturamentoExpoAereo.Text & ",
+            " & txtQtdFaturamentoExpoLCL.Text & ",
+            " & txtQtdFaturamentoExpoFCL.Text & ",
+           
+            " & txtQtdFaturamentoImpoFree.Text & ",
+            " & txtQtdFaturamentoImpoAereo.Text & ",
+            " & txtQtdFaturamentoImpoLCL.Text & ",
+            " & txtQtdFaturamentoImpoFCL.Text & ",
+           
+            " & ddlAcordoCambioExpoFree.SelectedValue & ",
+            " & ddlAcordoCambioExpoAereo.SelectedValue & ",
+            " & ddlAcordoCambioExpoLCL.SelectedValue & ",
+            " & ddlAcordoCambioExpoFCL.SelectedValue & ",
+           
+            " & ddlAcordoCambioImpoFree.SelectedValue & ",
+            " & ddlAcordoCambioImpoAereo.SelectedValue & ",
+            " & ddlAcordoCambioImpoLCL.SelectedValue & ",
+            " & ddlAcordoCambioImpoFCL.SelectedValue & ",
+           
+            '" & SpreadExpoFree & "',
+            '" & SpreadExpoAereo & "',
+            '" & SpreadExpoLCL & "',
+            '" & SpreadExpoFCL & "',
+           
+            '" & SpreadImpoFree & "',
+            '" & SpreadImpoAereo & "',
+            '" & SpreadImpoLCL & "',
+            '" & SpreadImpoFCL & "',
+
+
             " & EmailParceiro & ",
             '" & ckbVendedorDireto.Checked & "',
             '" & ckbEquipeInsideSales.Checked & "',
@@ -734,7 +910,11 @@ WHERE ID_PARCEIRO =" & ID)
             " & ddlRegraAtualizacao.SelectedValue & ",
             " & ddlPais.SelectedValue & " ,
             " & Session("ID_USUARIO") & ",
-             getdate() 
+             getdate() ,
+            '" & ckbProspeccao.Checked & "',
+            " & ddlTimeProspeccao.SelectedValue & ",
+            '" & ckbIndicacaoInterna.Checked & "',
+            " & ddlIndicacaoInterna.SelectedValue & " 
             ) Select SCOPE_IDENTITY() as ID_PARCEIRO "
 
 
@@ -829,20 +1009,48 @@ WHERE ID_PARCEIRO =" & ID)
             FL_SIMPLES_NACIONAL='" & ckbSimplesNacional.Checked & "',
             FL_ATIVO = '" & ckbAtivo.Checked & "', 
             FL_INDICADOR = '" & ckbIndicador.Checked & "',
-            SPREAD_MARITIMO_IMPO_FCL = '" & MaritimoImpoFCL & "',
-            SPREAD_MARITIMO_IMPO_LCL = '" & MaritimoImpoLCL & "',
-            SPREAD_MARITIMO_EXPO_FCL = '" & MaritimoExpoFCL & "',
-            SPREAD_MARITIMO_EXPO_LCL = '" & MaritimoExpoLCL & "',
-            SPREAD_AEREO_IMPO = '" & AereoImpo & "',
-            SPREAD_AEREO_EXPO = '" & AereoExpo & "',
-            ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL = " & ddlAcordoCambioMaritimoImpoFCL.SelectedValue & ",
-            ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL = " & ddlAcordoCambioMaritimoImpoLCL.SelectedValue & ",
-            ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL = " & ddlAcordoCambioMaritimoExpoFCL.SelectedValue & ",
-            ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL = " & ddlAcordoCambioMaritimoExpoLCL.SelectedValue & ",
-            ID_ACORDO_CAMBIO_AEREO_IMPO = " & ddlAcordoCambioAereoIMPO.SelectedValue & ",
-            ID_ACORDO_CAMBIO_AEREO_EXPO = " & ddlAcordoCambioAereoEXPO.SelectedValue & ",
-            QT_DIAS_FATURAMENTO =  " & txtQtdFaturamento.Text & ",
-            ID_TIPO_FATURAMENTO = " & ddlTipoFaturamento.SelectedValue & ",
+          
+
+            ID_TIPO_FATURAMENTO_EXPO_FREE = " & ddlTipoFaturamentoExpoFree.SelectedValue & ",
+            ID_TIPO_FATURAMENTO_EXPO_AEREO = " & ddlTipoFaturamentoExpoAereo.SelectedValue & ",
+            ID_TIPO_FATURAMENTO_EXPO_LCL = " & ddlTipoFaturamentoExpoLCL.SelectedValue & ",
+            ID_TIPO_FATURAMENTO_EXPO_FCL = " & ddlTipoFaturamentoExpoFCL.SelectedValue & ",
+         
+            ID_TIPO_FATURAMENTO_IMPO_FREE = " & ddlTipoFaturamentoImpoFree.SelectedValue & ",
+            ID_TIPO_FATURAMENTO_IMPO_AEREO = " & ddlTipoFaturamentoImpoAereo.SelectedValue & ",
+            ID_TIPO_FATURAMENTO_IMPO_LCL = " & ddlTipoFaturamentoImpoLCL.SelectedValue & ",
+            ID_TIPO_FATURAMENTO_IMPO_FCL = " & ddlTipoFaturamentoImpoFCL.SelectedValue & ",
+          
+            QT_DIAS_FATURAMENTO_EXPO_FREE = " & txtQtdFaturamentoExpoFree.Text & ",
+            QT_DIAS_FATURAMENTO_EXPO_AEREO = " & txtQtdFaturamentoExpoAereo.Text & ",
+            QT_DIAS_FATURAMENTO_EXPO_LCL = " & txtQtdFaturamentoExpoLCL.Text & ",
+            QT_DIAS_FATURAMENTO_EXPO_FCL = " & txtQtdFaturamentoExpoFCL.Text & ",
+           
+            QT_DIAS_FATURAMENTO_IMPO_FREE = " & txtQtdFaturamentoImpoFree.Text & ",
+            QT_DIAS_FATURAMENTO_IMPO_AEREO = " & txtQtdFaturamentoImpoAereo.Text & ",
+            QT_DIAS_FATURAMENTO_IMPO_LCL = " & txtQtdFaturamentoImpoLCL.Text & ",
+            QT_DIAS_FATURAMENTO_IMPO_FCL = " & txtQtdFaturamentoImpoFCL.Text & ",
+           
+            ID_ACORDO_CAMBIO_EXPO_FREE = " & ddlAcordoCambioExpoFree.SelectedValue & ",
+            ID_ACORDO_CAMBIO_EXPO_AEREO = " & ddlAcordoCambioExpoAereo.SelectedValue & ",
+            ID_ACORDO_CAMBIO_EXPO_LCL = " & ddlAcordoCambioExpoLCL.SelectedValue & ",
+            ID_ACORDO_CAMBIO_EXPO_FCL = " & ddlAcordoCambioExpoFCL.SelectedValue & ",
+           
+            ID_ACORDO_CAMBIO_IMPO_FREE = " & ddlAcordoCambioImpoFree.SelectedValue & ",
+            ID_ACORDO_CAMBIO_IMPO_AEREO = " & ddlAcordoCambioImpoAereo.SelectedValue & ",
+            ID_ACORDO_CAMBIO_IMPO_LCL = " & ddlAcordoCambioImpoLCL.SelectedValue & ",
+            ID_ACORDO_CAMBIO_IMPO_FCL = " & ddlAcordoCambioImpoFCL.SelectedValue & ",
+           
+            SPREAD_EXPO_FREEHAND = '" & SpreadExpoFree & "',
+            SPREAD_EXPO_AEREO = '" & SpreadExpoAereo & "',
+            SPREAD_EXPO_LCL = '" & SpreadExpoLCL & "',
+            SPREAD_EXPO_FCL = '" & SpreadExpoFCL & "',
+           
+            SPREAD_IMPO_FREEHAND = '" & SpreadImpoFree & "',
+            SPREAD_IMPO_AEREO = '" & SpreadImpoAereo & "',
+            SPREAD_IMPO_LCL = '" & SpreadImpoLCL & "',
+            SPREAD_IMPO_FCL	= '" & SpreadImpoFCL & "',
+
             EMAIL =  " & EmailParceiro & ",
             FL_EQUIPE_INSIDE_SALES ='" & ckbEquipeInsideSales.Checked & "',
             FL_VENDEDOR_DIRETO ='" & ckbVendedorDireto.Checked & "',
@@ -852,8 +1060,12 @@ WHERE ID_PARCEIRO =" & ID)
             REGRA_ATUALIZACAO = " & ddlRegraAtualizacao.SelectedValue & " ,
             ID_PAIS=" & ddlPais.SelectedValue & ",
             ID_USUARIO = " & Session("ID_USUARIO") & ",
-            UPDATED_AT = GETDATE() 
-            where ID_PARCEIRO = " & ID
+            UPDATED_AT = GETDATE() , 
+            FL_PROSPECCAO =  '" & ckbProspeccao.Checked & "',
+            ID_VENDEDOR_PROSPECCAO =  " & ddlTimeProspeccao.SelectedValue & ",
+            FL_INDICACAO_INTERNA=  '" & ckbIndicacaoInterna.Checked & "',
+            ID_PARCEIRO_INDICACAO_INTERNA =  " & ddlIndicacaoInterna.SelectedValue & " 
+            WHERE ID_PARCEIRO = " & ID
 
                             Session("ID_Parceiro") = ID
 
