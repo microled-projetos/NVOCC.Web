@@ -457,8 +457,13 @@ union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
 
 
     <script type="text/javascript">
+<<<<<<< HEAD
+     function SalvaPosicao() {
+         var posicao = document.getElementById('DivGrid').scrollTop;         
+=======
         function SalvaPosicao() {
             var posicao = document.getElementById('DivGrid').scrollTop;
+>>>>>>> devjuliane
             if (posicao) {
                 document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
                 console.log('if:' + posicao);
