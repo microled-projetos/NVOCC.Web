@@ -676,7 +676,7 @@
                                      </div>
                                                                  </div>
                                                                  <div class="col-sm-6">  
-                      <div class="linha-colorida">Data de Emissão</div>
+                      <div class="linha-colorida">Data de Emissão/Competência</div>
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
