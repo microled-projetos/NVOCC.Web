@@ -4365,15 +4365,39 @@ Where A.ID_COTACAO = " & txtID.Text)
             ddlDestinatarioCobrancaTaxa.Enabled = True
         End If
 
+        Dim Sb = New StringBuilder()
 
-        ds = Con.ExecutarQuery("SELECT FL_PREMIACAO FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & ddlItemDespesaTaxa.SelectedValue)
+        Sb.AppendLine("SELECT isnull(FL_PREMIACAO,0) as FL_PREMIACAO FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & ddlItemDespesaTaxa.SelectedValue)
+
+        ds = Con.ExecutarQuery(Sb.ToString)
         '
-        If ds.Tables(0).Rows(0).Item("FL_PREMIACAO") = 1 Then
-            ddlMoedaVendaTaxa.Enabled = False
-            txtValorTaxaVenda.Enabled = False
-            txtValorTaxaVendaMin.Enabled = False
-            txtValorTaxaVendaCalc.Enabled = False
-        End If
+        Try
+            If ds.Tables(0).Rows.Count > 0 Then
+                If ds.Tables(0).Rows(0).Item("FL_PREMIACAO") = True Then
+                    ddlMoedaVendaTaxa.Enabled = False
+                    txtValorTaxaVenda.Enabled = False
+                    txtValorTaxaVendaMin.Enabled = False
+                    txtValorTaxaVendaCalc.Enabled = False
+                    ddlMoedaCompraTaxa.Enabled = True
+                    txtValorTaxaCompra.Enabled = True
+                    txtValorTaxaCompraCalc.Enabled = True
+                    txtValorTaxaCompraMin.Enabled = True
+                Else
+                    ddlMoedaVendaTaxa.Enabled = True
+                    txtValorTaxaVenda.Enabled = True
+                    txtValorTaxaVendaMin.Enabled = True
+                    txtValorTaxaVendaCalc.Enabled = True
+                    ddlMoedaCompraTaxa.Enabled = False
+                    txtValorTaxaCompra.Enabled = False
+                    txtValorTaxaCompraCalc.Enabled = False
+                    txtValorTaxaCompraMin.Enabled = False
+
+                End If
+            End If
+
+        Catch ex As Exception
+            Throw ex
+        End Try
 
 
     End Sub
