@@ -154,7 +154,7 @@
                                                         <asp:TextBox ID="txtHBL_BasicoMaritimo" runat="server" CssClass="form-control BL"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Serviço:</label><label runat="server" style="color: red">*</label>
                                                         <asp:DropDownList ID="ddlServico_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServicoMaritimo" DataValueField="ID_SERVICO"></asp:DropDownList>
@@ -164,6 +164,13 @@
                                                     <div class="form-group">
                                                         <label class="control-label">Número do MBL:</label>
                                                         <asp:TextBox ID="txtMBL_BasicoMaritimo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">                                                        
+                                                        <label class="control-label"></label>
+                                                        <asp:CheckBox ID="ckCargaNEmpihlavel" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Carga Não Empilhável"></asp:CheckBox>                                                        
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">

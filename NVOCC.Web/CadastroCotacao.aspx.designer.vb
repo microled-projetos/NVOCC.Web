@@ -1733,6 +1733,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtValorCargaMercadoria As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ckCargaNEmpihlavel.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckCargaNEmpihlavel As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle divMedidasMaritimo.
     '''</summary>
     '''<remarks>

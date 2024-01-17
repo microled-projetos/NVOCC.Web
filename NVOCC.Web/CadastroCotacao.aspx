@@ -1122,6 +1122,12 @@
                                                                         <asp:TextBox ID="txtValorCargaMercadoria" runat="server" CssClass="form-control valores " MaxLength="100"></asp:TextBox>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                         <label class="control-label"></label>
+                                                                        <asp:CheckBox ID="ckCargaNEmpihlavel" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Carga Não Empilhável"></asp:CheckBox>
+                                                                    </div>
+                                                                </div>
                                                             </div>
 
 

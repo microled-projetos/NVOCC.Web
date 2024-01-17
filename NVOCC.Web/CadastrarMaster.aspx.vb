@@ -1584,6 +1584,36 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
                 Else
 
+                    If (Not String.IsNullOrEmpty(txtChegada_BasicoMaritimo.Text)) Then
+                        Dim sb = New StringBuilder
+
+                        Dim ID_BL As Integer = Convert.ToInt32(txtID_BasicoMaritimo.Text)
+                        Dim cotacao_Id As Integer = Convert.ToInt32(txtCotacao_BasicoMaritimo.Text)
+
+                        sb.AppendLine(" select  ")
+                        sb.AppendLine(" c.ID_STATUS_COTACAO ")
+                        sb.AppendLine(" from  ")
+                        sb.AppendLine(" TB_BL a  ")
+                        sb.AppendLine(" inner Join TB_COTACAO b on a.ID_COTACAO  = b.ID_COTACAO ")
+                        sb.AppendLine(" inner Join TB_STATUS_COTACAO c on c.ID_STATUS_COTACAO = b.ID_STATUS_COTACAO ")
+                        sb.AppendLine(" where  ")
+                        sb.AppendLine(" a.ID_COTACAO =  " & cotacao_Id)
+                        sb.AppendLine(" and  ")
+                        sb.AppendLine(" a.ID_BL = " & ID_BL)
+
+                        Dim dsLote As DataSet = Con.ExecutarQuery(sb.ToString)
+                        Dim ID_STATUS_COTACAO As Integer = dsLote.Tables(0).Rows(0).Item("ID_STATUS_COTACAO")
+
+                        If (ID_STATUS_COTACAO = 10) Then
+                            sb.Clear()
+
+                            sb.AppendLine(" update tb_cotacao set id_status_cotacao = 15 where id_cotacao  = " & cotacao_Id)
+
+                            Con.ExecutarQuery(sb.ToString)
+
+                        End If
+
+                    End If
 
                     'REALIZA UPDATE 
                     Con.ExecutarQuery("UPDATE TB_BL SET GRAU = 'M',NR_BL = " & txtNumeroBL_BasicoAereo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddltransportador_BasicoAereo.SelectedValue & ",ID_PORTO_ORIGEM = " & ddlOrigem_BasicoAereo.SelectedValue & ",ID_PORTO_DESTINO = " & ddlDestino_BasicoAereo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",NR_VIAGEM = " & txtNumeroVoo_BasicoAereo.Text & ",NR_VIAGEM_1T = " & txtVoo1_BasicoAereo.Text & ",NR_VIAGEM_2T = " & txtVoo2_BasicoAereo.Text & ",NR_VIAGEM_3T = " & txtVoo3_BasicoAereo.Text & ", DT_1T = " & txtDataPrevista1_BasicoAereo.Text & ", DT_2T = " & txtDataPrevista2_BasicoAereo.Text & ", DT_3T = " & txtDataPrevista3_BasicoAereo.Text & ", ID_PORTO_1T =" & ddlAeroporto1_BasicoAereo.SelectedValue & ",ID_PORTO_3T =" & ddlAeroporto3_BasicoAereo.SelectedValue & ",ID_PORTO_2T =" & ddlAeroporto2_BasicoAereo.SelectedValue & ",ID_MOEDA_FRETE = " & ddlMoedaFrete_BasicoAereo.SelectedValue & ", DT_PREVISAO_EMBARQUE =  " & txtPrevisaoEmbarque_BasicoAereo.Text & ",DT_PREVISAO_CHEGADA =" & txtPrevisaoChegada_BasicoAereo.Text & ",DT_CHEGADA =  " & txtChegada_BasicoAereo.Text & ",DT_EMBARQUE =  " & txtEmbarque_BasicoAereo.Text & ",DT_EMISSAO_CONHECIMENTO = " & txtDataConhecimento_BasicoAereo.Text & ",VL_TARIFA_MASTER =  " & txtTarifaMaster_BasicoAereo.Text & ",ID_SERVICO = " & ddlServico_BasicoAereo.SelectedValue & ",ID_STATUS_FRETE_AGENTE =  " & ddlStatusFreteAgente_BasicoAereo.SelectedValue & ",VL_M3 =  " & txtM3_BasicoAereo.Text & ", FL_TRAKING_AUTOMATICO = '" & ckTrakingAutomaticoAereo.Checked & "', ID_USUARIO_ULTIMA_ALTERACAO = " & Session("ID_USUARIO") & "  WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
