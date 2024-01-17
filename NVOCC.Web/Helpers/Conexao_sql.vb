@@ -45,7 +45,7 @@ Public Class Conexao_sql
         Try
             ObjCommand = ObjCon.CreateCommand
             ObjCommand.CommandText = Command
-
+            ObjCommand.CommandTimeout = 180
             ObjDataAdapter = New SqlClient.SqlDataAdapter(ObjCommand)
             ObjDataAdapter.Fill(ds)
 
@@ -87,7 +87,7 @@ Public Class Conexao_sql
                 Cmd.Connection = Con
                 Cmd.CommandType = CommandType.Text
                 Cmd.CommandText = SQL
-
+                Cmd.CommandTimeout = 180
                 Using Adp As SqlDataAdapter = New SqlDataAdapter(Cmd)
                     Adp.Fill(Ds)
 

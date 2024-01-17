@@ -41,7 +41,20 @@ Module Inicio
 
             ''ROTINA QUE ATUALIZA DATA DA BAIXA TOTVS NAS COMISSOES NACIONAIS - CHAMADO 3505
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 42 - Proc_Comissoes_Nacional_Totvs ")
-            Con.ExecutarQuery("EXEC [dbo].[Proc_Comissoes_Nacional_Totvs]")
+            ' Con.ExecutarQuery("EXEC [dbo].[Proc_Comissoes_Nacional_Totvs]")
+
+            Dim cn As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString
+            Dim dsProc As DataSet = New DataSet()
+
+            Using myConnection As SqlConnection = New SqlConnection(cn)
+                Dim dataadapter As SqlDataAdapter = New SqlDataAdapter("[dbo].[Proc_Comissoes_Nacional_Totvs]", myConnection)
+                dataadapter.SelectCommand.CommandTimeout = 180
+                myConnection.Open()
+                dataadapter.Fill(dsProc, "Authors_table")
+            End Using
+
+
+
 
 
             ''ROTINA QUE DELETA ARQUIVOC DE UPLOAD DO GLOBAL SYS - CHAMADO 33531  
@@ -74,8 +87,12 @@ INNER JOIN TB_TIPO_ARQUIVO B ON A.ID_TIPO_ARQUIVO = B.ID_TIPO_ARQUIVO
 WHERE B.FL_EXPIRA = 1 AND DATEDIFF( DAY , DT_UPLOAD,GETDATE()) >= (SELECT QT_DIAS_EXPURGO FROM TB_PARAMETROS)")
         If ds.Tables(0).Rows.Count > 0 Then
             For Each linha As DataRow In ds.Tables(0).Rows
+                WriteToFile($"{DateTime.Now.ToString()} - DeletaArquivos: linha 90 ")
                 Con.ExecutarQuery("DELETE FROM TB_UPLOADS WHERE ID_ARQUIVO = " & linha.Item("ID_ARQUIVO"))
-                File.Delete(linha.Item("CAMINHO_ARQUIVO"))
+                If Directory.Exists(linha.Item("CAMINHO_ARQUIVO")) Then
+                    WriteToFile($"{DateTime.Now.ToString()} - DeletaArquivos: linha 93 ")
+                    File.Delete(linha.Item("CAMINHO_ARQUIVO"))
+                End If
             Next
             WriteToFile($"{DateTime.Now.ToString()} - DeletaArquivos: linha 80 ")
 
