@@ -1958,24 +1958,6 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlEstufagem_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtDataCE_BasicoAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtDataCE_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtNumeroCE_BasicoAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtNumeroCE_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle ddlIncoterm_BasicoAereo.
     '''</summary>
     '''<remarks>
@@ -2075,13 +2057,22 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlFinalDestination_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtValorCarga_BasicoAereo.
+    '''Controle txtDataCE_BasicoAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtValorCarga_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtDataCE_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNumeroCE_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNumeroCE_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlStatusFreteAgente_BasicoAereo.
@@ -2091,6 +2082,15 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlStatusFreteAgente_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtValorCarga_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValorCarga_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlArmazem_BasicoAereo.

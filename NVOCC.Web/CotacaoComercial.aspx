@@ -22,7 +22,7 @@
         th {
             position: sticky !important;
             top: 0;
-            e background-color: #e6eefa;
+            background-color: #e6eefa;
             text-align: center;
         }
     </style>
@@ -53,7 +53,7 @@
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label">Data:</label><br />
-                                            <asp:TextBox ID="txtData" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                              <asp:TextBox ID="txtData" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
@@ -128,70 +128,68 @@
                                 </div>
                                 <br />
                                 <div class="row linhabotao" runat="server" id="divPesquisa" visible="false">
-                                    <div class="col-sm-2" style="border: ridge 1px; margin-left: 10px">
-                                        <div class="form-group">
-                                            <center><label class="control-label">Via Transporte:</label></center>
-                                            <asp:RadioButtonList ID="rdTRansporte" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
-                                                <asp:ListItem Value="1" Selected="True">&nbsp;Marítimo</asp:ListItem>
-                                                <asp:ListItem Value="4">&nbsp;Aéreo</asp:ListItem>
-                                                <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
-                                            </asp:RadioButtonList>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2" style="border: ridge 1px; margin-left: 10px">
-                                        <div class="form-group">
-                                            <center><label class="control-label">Estufagem:</label></center>
-                                            <asp:RadioButtonList ID="rdEstufagem" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
-                                                <asp:ListItem Value="1" Selected="True">&nbsp;FCL</asp:ListItem>
-                                                <asp:ListItem Value="2">&nbsp;LCL</asp:ListItem>
-                                                <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
-                                            </asp:RadioButtonList>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2" style="border: ridge 1px; margin-left: 10px">
-                                        <div class="form-group">
-                                            <center><label class="control-label">Serviço:</label></center>
-                                            <asp:RadioButtonList ID="rdServico" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
-                                                <asp:ListItem Value="1" Selected="True">&nbsp;Importação</asp:ListItem>
-                                                <asp:ListItem Value="2">&nbsp;Exportação</asp:ListItem>
-                                                <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
-                                            </asp:RadioButtonList>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-2" style="border: ridge 1px;margin-left: 10px">
+                                                <div class="form-group">
+                                                    <center><label class="control-label">Via Transporte:</label></center>
+                                                    <asp:RadioButtonList ID="rdTRansporte" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
+                                                        <asp:ListItem Value="1" Selected="True">&nbsp;Marítimo</asp:ListItem>
+                                                        <asp:ListItem Value="4">&nbsp;Aéreo</asp:ListItem>
+                                                        <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
+                                                    </asp:RadioButtonList>
+                                                </div>
+                                            </div>                                       
+                                        <div class="col-sm-2" style="border: ridge 1px; margin-left: 10px">
+                                                <div class="form-group">
+                                                    <center><label class="control-label">Estufagem:</label></center>
+                                                    <asp:RadioButtonList ID="rdEstufagem" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
+                                                        <asp:ListItem Value="1" Selected="True">&nbsp;FCL</asp:ListItem>
+                                                        <asp:ListItem Value="2">&nbsp;LCL</asp:ListItem>
+                                                        <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
+                                                    </asp:RadioButtonList>
+                                                </div>
+                                            </div>
+                                     <div class="col-sm-2" style="border: ridge 1px; margin-left: 10px">
+                                                <div class="form-group">
+                                                    <center><label class="control-label">Serviço:</label></center>
+                                                    <asp:RadioButtonList ID="rdServico" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
+                                                        <asp:ListItem Value="1" Selected="True">&nbsp;Importação</asp:ListItem>
+                                                        <asp:ListItem Value="2">&nbsp;Exportação</asp:ListItem>
+                                                        <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
+                                                    </asp:RadioButtonList>
+                                                </div>
+                                            </div>
+                                        <div class="col-sm-2">                                    
 
-                                        <div class="form-group">
-                                            <asp:Label ID="Label1" Style="padding-left: 18px" runat="server">Filtro:</asp:Label>
-                                            <asp:DropDownList ID="ddlConsultas" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
-                                                <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
-                                                <asp:ListItem Value="1">Número da cotação</asp:ListItem>
-                                                <asp:ListItem Value="2">Status da cotação</asp:ListItem>
-                                                <asp:ListItem Value="3">Cliente</asp:ListItem>
-                                                <asp:ListItem Value="4">Origem</asp:ListItem>
-                                                <asp:ListItem Value="5">Destino</asp:ListItem>
-                                                <asp:ListItem Value="6">Nome do Agente</asp:ListItem>
-                                                <asp:ListItem Value="18">Nome do Exportador</asp:ListItem>
-                                                <asp:ListItem Value="7">Nome do Vendedor</asp:ListItem>
-                                                <asp:ListItem Value="8">Número Processo</asp:ListItem>
-                                                <asp:ListItem Value="10">Cliente Final</asp:ListItem>
-                                                <asp:ListItem Value="11">Via Transporte</asp:ListItem>
-                                                <asp:ListItem Value="12">Estufagem</asp:ListItem>
-                                                <asp:ListItem Value="13">Incoterm</asp:ListItem>
-                                                <asp:ListItem Value="14">Armador</asp:ListItem>
-                                                <asp:ListItem Value="15">Analista Inside</asp:ListItem>
-                                                <asp:ListItem Value="16">Analista Pricing</asp:ListItem>
-                                                <asp:ListItem Value="17">Serviço</asp:ListItem>
-                                            </asp:DropDownList>
+                                            <div class="form-group"><asp:Label ID="Label1" Style="padding-left: 18px" runat="server">Filtro:</asp:Label>
+                                                <asp:DropDownList ID="ddlConsultas" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
+                                                    <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
+                                                    <asp:ListItem Value="1">Número da cotação</asp:ListItem>
+                                                    <asp:ListItem Value="2">Status da cotação</asp:ListItem>
+                                                    <asp:ListItem Value="3">Cliente</asp:ListItem>
+                                                    <asp:ListItem Value="4">Origem</asp:ListItem>
+                                                    <asp:ListItem Value="5">Destino</asp:ListItem>
+                                                    <asp:ListItem Value="6">Nome do Agente</asp:ListItem>
+                                                    <asp:ListItem Value="18">Nome do Exportador</asp:ListItem>
+                                                    <asp:ListItem Value="7">Nome do Vendedor</asp:ListItem>
+                                                    <asp:ListItem Value="8">Número Processo</asp:ListItem>
+                                                    <asp:ListItem Value="10">Cliente Final</asp:ListItem>
+                                                    <asp:ListItem Value="11">Via Transporte</asp:ListItem>
+                                                    <asp:ListItem Value="12">Estufagem</asp:ListItem>
+                                                    <asp:ListItem Value="13">Incoterm</asp:ListItem>
+                                                    <asp:ListItem Value="14">Armador</asp:ListItem>
+                                                    <asp:ListItem Value="15">Analista Inside</asp:ListItem>
+                                                    <asp:ListItem Value="16">Analista Pricing</asp:ListItem>
+                                                    <asp:ListItem Value="17">Serviço</asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <br />
-                                            <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control"></asp:TextBox>
+                                        <div class="col-sm-2">
+                                            <div class="form-group"><br />
+                                                <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control" ></asp:TextBox>
+                                            </div>
                                         </div>
-                                    </div>
                                     <br />
-                                    <asp:Button runat="server" Text="Pesquisar" ID="bntPesquisar" CssClass="btn btn-success" OnClientClick="MouseWait(); return true;" />
+                                        <asp:Button runat="server" Text="Pesquisar" ID="bntPesquisar" CssClass="btn btn-success" OnClientClick="MouseWait(); return true;"/>
                                 </div>
 
 
@@ -449,7 +447,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsServico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO WHERE ISNULL(TP_VIA,'') <> '' AND ID_SERVICO in (1,4) 
 union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
-
+ 
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
@@ -460,7 +458,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
 
     <script type="text/javascript">
         function SalvaPosicao() {
-
             var posicao = document.getElementById('DivGrid').scrollTop;
             if (posicao) {
                 document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
@@ -543,11 +540,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
         function MouseDefaultSI() {
             document.getElementById('<%= btnConfirmaEnviarSI.ClientID %>').style.display = 'block';
             document.getElementById('<%= btnCancelaEnvioSI.ClientID %>').style.display = 'block';
-            console.log("default");
-            document.body.style.cursor = "default";
-        };
+             console.log("default");
+             document.body.style.cursor = "default";
+         };
 
 
-
+        
     </script>
 </asp:Content>

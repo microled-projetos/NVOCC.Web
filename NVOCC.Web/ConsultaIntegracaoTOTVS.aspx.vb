@@ -82,8 +82,4 @@
         ViewState("SortExpression") = column
         Return sortDirection
     End Function
-
-    Private Sub dsConsulta_Selecting(sender As Object, e As SqlDataSourceSelectingEventArgs) Handles dsConsulta.Selecting
-        e.Command.CommandTimeout = 0
-    End Sub
 End Class

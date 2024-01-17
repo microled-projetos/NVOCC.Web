@@ -1042,50 +1042,6 @@
                                                             <HeaderStyle CssClass="headerStyle" />
                                                         </asp:GridView>
 
-<<<<<<< HEAD
-VENDAS:
-                                                        <asp:GridView ID="dgvTaxaMaritimoVendas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasMaritimoVendas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
-                                                            <Columns>
-                                                                <asp:BoundField DataField="ITEM_DESPESA" HeaderText="DESPESA" SortExpression="ITEM_DESPESA" />
-                                                                <asp:BoundField DataField="PARCEIRO_EMPRESA" HeaderText="PARCEIRO" SortExpression="PARCEIRO_EMPRESA" />
-                                                                <asp:BoundField DataField="MOEDA" HeaderText="MOEDA" SortExpression="MOEDA" />
-                                                                <asp:BoundField DataField="VL_TAXA" HeaderText="VALOR" SortExpression="VL_TAXA" />
-                                                                <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="VALOR CALCULADO" SortExpression="VL_TAXA_CALCULADO" />
-                                                                <asp:BoundField DataField="BASE_CALCULO" HeaderText="BASE DE CALCULO" SortExpression="BASE_CALCULO" />
-                                                                <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
-                                                                <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
-                                                                <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
-                                                                <asp:BoundField DataField="PROFIT" HeaderText="PROFIT" SortExpression="PROFIT" />
-                                                                <asp:TemplateField HeaderText="ORIGEM" SortExpression="ORIGEM" >
-                    <ItemTemplate>                     
-                         <asp:Label ID="lblORIGEM"  runat="server" Text='<%# Eval("ORIGEM") %>'  />
-                    </ItemTemplate>
-                </asp:TemplateField>
-                                                                <asp:TemplateField HeaderText="">
-                                                                    <ItemTemplate>
-                                                                        <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
-                                                                            Text="Visualizar" CssClass="btn btn-info btn-sm"><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></div></asp:LinkButton>
-                                                                    </ItemTemplate>
-                                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                </asp:TemplateField>
-                                                                <asp:TemplateField HeaderText="">
-                                                                    <ItemTemplate>
-                                                                        <asp:LinkButton ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
-                                                                            Text="Visualizar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i></div></asp:LinkButton>
-                                                                    </ItemTemplate>
-                                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                </asp:TemplateField>
-                                                                <asp:TemplateField HeaderText="">
-                                                                    <ItemTemplate>
-                                                                        <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
-                                                                            OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_BL_TAXA") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                                                    </ItemTemplate>
-                                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                                </asp:TemplateField>
-                                                            </Columns>
-                                                            <HeaderStyle CssClass="headerStyle" />
-                                                        </asp:GridView>
-=======
 
 
 
@@ -1093,7 +1049,6 @@ VENDAS:
                                                             <asp:Label ID="lblDiferencaMaritimo" runat="server" Style="color: blue"></asp:Label>
                                                         </div>
 
->>>>>>> devjuliane
                                                     </div>
                                                 </ContentTemplate>
                                                 <Triggers>
@@ -2347,36 +2302,6 @@ VENDAS:
                                                                         <asp:ImageButton ID="btnAdicionarMedidasAereo" src="Content/imagens/plus.png" runat="server" Visible="false" />
                                                                     </div>
                                                                 </div>
-<<<<<<< HEAD
-                                                       <div class="col-sm-12"> 
-                                                                    <div class="table-responsive tableFixHead" Style="max-height: 200px">
-                                                                    <asp:GridView ID="dgvMedidasAereo" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="Id" DataSourceID="dsMedidasAereo" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false">
-                                            <Columns>
-                                                <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" visible="false"/>
-                                                <asp:BoundField DataField="QTD_CAIXA" HeaderText="Qtd. Caixas" ItemStyle-HorizontalAlign="Center"/>
-                                                <asp:BoundField DataField="VL_COMPRIMENTO" HeaderText="Comprimento" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" />
-                                                <asp:BoundField DataField="VL_LARGURA" HeaderText="Largura" ItemStyle-HorizontalAlign="Center"/>
-                                                <asp:BoundField DataField="VL_ALTURA" HeaderText="Altura" ItemStyle-HorizontalAlign="Center"/>
-                                                <asp:TemplateField HeaderText="Peso Cubado" ControlStyle-Width="150">
-                                                    <ItemTemplate>                                                     
-                                                        <asp:Label runat="server" Text='<%# Eval("PESO_CUBADO") %>' ID="peso_cubado"  />
-                                                    </ItemTemplate>
-                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="">
-                                                    <ItemTemplate>                                                     
-                                                        <asp:LinkButton runat="server" Text="Excluir" ID="ButtonExcluir" CommandName="Excluir" CommandArgument='<%# Eval("ID") %>' OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  />
-                                                    </ItemTemplate>
-                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                </asp:TemplateField>                                              
-                                            </Columns>
-                                             <HeaderStyle HorizontalAlign="Center"/>
-                                        </asp:GridView>
-                                        </div>
-                                           </div>
-                                              </div>  
-                                                            <div class="row"  id="divMercadoriaCNTR_Aereo" runat="server" style="display:block">
-=======
                                                                 <div class="col-sm-12">
                                                                     <div class="table-responsive tableFixHead" style="max-height: 200px">
                                                                         <asp:GridView ID="dgvMedidasAereo" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="Id" DataSourceID="dsMedidasAereo" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false">
@@ -2399,7 +2324,6 @@ VENDAS:
                                                                 </div>
                                                             </div>
                                                             <div class="row" id="divMercadoriaCNTR_Aereo" runat="server" style="display: block">
->>>>>>> devjuliane
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Descrição da Mercadoria:</label>
@@ -3537,7 +3461,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT"></asp:SqlDataSourc
       ,VL_LARGURA
       ,VL_ALTURA
       ,VL_COMPRIMENTO
-      ,convert(decimal(18,2), VL_LARGURA * VL_ALTURA * VL_COMPRIMENTO/6000 * QTD_CAIXA) as PESO_CUBADO
   FROM TB_CARGA_BL_DIMENSAO 
     WHERE ID_CARGA_BL = @ID_CARGA_BL ORDER BY ID DESC ">
         <SelectParameters>
