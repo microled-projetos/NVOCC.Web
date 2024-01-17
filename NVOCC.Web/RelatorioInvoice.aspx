@@ -66,20 +66,21 @@
                                     <table id="grdInvoice" class="table tablecont">
                                         <thead>
                                             <tr>
-                                                <th class="text-center" scope="col">Nº INVOICE</th>
-                                                <th class="text-center" scope="col">TIPO</th>
-                                                <th class="text-center" scope="col">EMISSOR</th>
-                                                <th class="text-center" scope="col">DATA INVOICE</th>
-                                                <th class="text-center" scope="col">DATA VENCIMENTO</th>
                                                 <th class="text-center" scope="col">PROCESSO</th>
-                                                <th class="text-center" scope="col">Nº BL</th>
+                                                <th class="text-center" scope="col">Nº INVOICE</th>
                                                 <th class="text-center" scope="col">AGENTE</th>
-                                                <th class="text-center" scope="col">CONFERIDO</th>
-                                                <th class="text-center" scope="col">TIPO FATURA</th>
-                                                <th class="text-center" scope="col">MOEDA</th>
-                                                <th class="text-center" scope="col">VALOR</th>
-                                                <th class="text-center" scope="col">DATA FECHAMENTO</th>
-                                                <th class="text-center" scope="col">OBSERVAÇÕES</th>
+                                                <th class="text-center" scope="col">DATA REC</th>
+                                                <th class="text-center" scope="col">TAXA REC</th>
+                                                <th class="text-center" scope="col">MBL</th>
+                                                <th class="text-center" scope="col">FRETE MBL</th>
+                                                <th class="text-center" scope="col">HBL</th>
+                                                <th class="text-center" scope="col">FRETE HBL</th>
+                                                <th class="text-center" scope="col">ESTUFAGEM</th>
+                                                <th class="text-center" scope="col">ORIGEM</th>
+                                                <th class="text-center" scope="col">DESTINO</th>
+                                                <th class="text-center" scope="col">EMBARQUE</th>
+                                                <th class="text-center" scope="col">PREVISAO CHEGADA</th>
+                                                <th class="text-center" scope="col">CHEGADA</th>
                                             </tr>
                                         </thead>
                                         <tbody id="grdInvoiceBody">
@@ -154,7 +155,7 @@
             var dtFinal = document.getElementById("txtDtFinalVencimentoInvoice").value;
             var nota = document.getElementById("txtInvoice").value;
             var filter = document.getElementById("ddlFilterInvoice").value;
-            arrayInvoice = [];
+            let result = "";
             if (dtInicial != "" && dtFinal != "") {
                 $.ajax({
                     type: "POST",
@@ -172,13 +173,26 @@
                         $("#grdInvoiceBody").empty();
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
-                                arrayInvoice.push(dado[i]["ID_ACCOUNT_INVOICE"])
-                                $("#grdInvoiceBody").append("<tr><td class='text-center'> " + dado[i]["NR_INVOICE"] + "</td><td class='text-center'>" + dado[i]["TIPO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NM_ACCOUNT_TIPO_EMISSOR"] + "</td><td class='text-center'>" + dado[i]["DT_INVOICE"] + "</td><td class='text-center'>" + dado[i]["DT_VENCIMENTO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NR_BL"] + "</td><td class='text-center'>" + dado[i]["NM_RAZAO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["CONFERIDO"] + "</td><td class='text-center'>" + dado[i]["NM_ACCOUNT_TIPO_FATURA"] + "</td><td class='text-center'>" + dado[i]["SIGLA_MOEDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VALOR"] + "</td><td class='text-center'>" + dado[i]["DT_FECHAMENTO"] + "</td><td class='text-center'>" + dado[i]["OBS"] + "</td></tr>");
+                                result += "<tr>";
+                                result += "<td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["NR_INVOICE"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["AGENTE"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["VL_CAMBIO"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["MBL"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["FRETE_MASTER"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["HBL"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["FRETE_HOUSE"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["ESTUFAGEM"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["ORIGEM"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["DESTINO"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["DT_EMBARQUE"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td>";
+                                result += "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>";
+                                result += "</tr>";
+
                             }
+                            $("#grdInvoiceBody").append(result);
                         }
                         else {
                             $("#grdInvoiceBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='14' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
@@ -189,6 +203,9 @@
 
             }
         }
+
+
+
 
 
         
@@ -268,8 +285,8 @@
             var datetime = new Date().toLocaleString('pt-BR');
             $.ajax({
                 type: "POST",
-                url: "DemurrageService.asmx/imprimirInvoice",
-                data: JSON.stringify({ dataI: (dtInicial), dataF: (dtFinal), invoices: (arrayInvoice) }),
+                url: "DemurrageService.asmx/listarInvoices",
+                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -285,7 +302,7 @@
                         doc.setFontSize(18);
                         doc.text("EMBARQUE POR PERÍODO", 115, 13);
                         doc.setFontSize(11);
-                        doc.text("AGENTE: "+dado[0]["AGENTE"], 3, 27);
+                        doc.text("AGENTE: " + dado[0]["AGENTE"], 3, 27);
                         doc.setFontSize(8);
                         doc.text("INVOICES ENTRE: " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 3, 31);
                         doc.addImage(imgData, 'png', 10, 5, 60, 15);
@@ -385,14 +402,14 @@
                                 doc.text("EMBARQUE", 246, 37);
                                 doc.text("P.CHEGADA", 263, 37);
                                 doc.text("CHEGADA", 281, 37);
-                                position = 37+5;
-                                positionv = 38+5;
+                                position = 37 + 5;
+                                positionv = 38 + 5;
                                 doc.setFontStyle("normal");
                                 doc.line(3, positionv, 296, positionv);
                                 doc.text(dado[i]["NR_PROCESSO"], 4, position);
                                 doc.text(dado[i]["NR_INVOICE"], 21, position);
                                 doc.text(dado[i]["DT_LIQUIDACAO"], 68, position);
-                                doc.text(dado[i]["VL_TAXA_CAMBIO"], 85, position);
+                                doc.text(dado[i]["VL_CAMBIO"], 85, position);
                                 doc.text(dado[i]["MBL"], 98, position);
                                 doc.text(dado[i]["FRETE_MASTER"], 128, position);
                                 doc.text(dado[i]["HBL"], 146, position);
@@ -411,7 +428,7 @@
                                 doc.text(dado[i]["NR_PROCESSO"], 4, position);
                                 doc.text(dado[i]["NR_INVOICE"], 21, position);
                                 doc.text(dado[i]["DT_LIQUIDACAO"], 68, position);
-                                doc.text(dado[i]["VL_TAXA_CAMBIO"], 85, position);
+                                doc.text(dado[i]["VL_CAMBIO"], 85, position);
                                 doc.text(dado[i]["MBL"], 98, position);
                                 doc.text(dado[i]["FRETE_MASTER"], 128, position);
                                 doc.text(dado[i]["HBL"], 146, position);
@@ -450,6 +467,10 @@
             })
 
         }
+
+
+
+
 
 
 
