@@ -415,7 +415,7 @@
 
 
     <asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT top 500 * FROM View_Cotacao WHERE ID_SERVICO = 1  AND ID_TIPO_ESTUFAGEM = 1 AND ID_VIATRANSPORTE = 1 ORDER BY DT_ABERTURA DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT top 500 * FROM View_Cotacao WHERE ID_SERVICO IN(1,2) AND ID_TIPO_ESTUFAGEM IN(1,2) AND ID_VIATRANSPORTE IN(1,2) ORDER BY DT_ABERTURA DESC"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
