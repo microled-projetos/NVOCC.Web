@@ -4395,13 +4395,20 @@ Where A.ID_COTACAO = " & txtID.Text)
         Try
             If ds.Tables(0).Rows.Count > 0 Then
                 If ds.Tables(0).Rows(0).Item("FL_PREMIACAO") = True Then
-                    ddlMoedaVendaTaxa.Enabled = False
                     txtValorTaxaVenda.Enabled = False
+                    txtValorTaxaVenda.Text = 0
                     txtValorTaxaVendaMin.Enabled = False
+                    txtValorTaxaVendaMin.Text = 0
+                    ddlMoedaVendaTaxa.Enabled = False
+                    ddlMoedaVendaTaxa.SelectedValue = 0
+                    ddlDestinatarioCobrancaTaxa.Enabled = False
+                    ddlDestinatarioCobrancaTaxa.SelectedValue = 3
+                    ddlFornecedor.SelectedValue = ddlIndicador.SelectedValue
                 Else
-                    ddlMoedaVendaTaxa.Enabled = True
                     txtValorTaxaVenda.Enabled = True
                     txtValorTaxaVendaMin.Enabled = True
+                    ddlMoedaVendaTaxa.Enabled = True
+                    ddlDestinatarioCobrancaTaxa.Enabled = True
                 End If
             End If
 

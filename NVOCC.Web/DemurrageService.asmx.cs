@@ -6088,13 +6088,9 @@ namespace ABAINFRA.Web
             dataI = anoI + '-' + mesI + '-' + diaI;
             dataF = anoF + '-' + mesF + '-' + diaF;
 
-<<<<<<< HEAD
-            SQL = "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(REPLACE(CONVERT(VARCHAR,G.VL_TAXA_CAMBIO,103),'.',','),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(G.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO,  ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
-=======
 
             SQL = "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(REPLACE(CONVERT(VARCHAR,G.VL_TAXA_CAMBIO,103),'.',','),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(G.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO,  ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
 
->>>>>>> devjuliane
             SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ISNULL(AGENTE.NM_RAZAO,'') AS AGENTE, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = M.ID_BL),'') AS FRETE_MASTER, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = C.ID_BL),'') AS FRETE_HOUSE, ";
@@ -6116,13 +6112,10 @@ namespace ABAINFRA.Web
             SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS F ON AI.ID_ACCOUNT_INVOICE = F.ID_ACCOUNT_INVOICE ";
             SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO G ON F.ID_ACCOUNT_FECHAMENTO = G.ID_ACCOUNT_FECHAMENTO ";
             SQL += " LEFT JOIN TB_TIPO_ESTUFAGEM H ON C.ID_TIPO_ESTUFAGEM=H.ID_TIPO_ESTUFAGEM ";
-<<<<<<< HEAD
-=======
 
             SQL += " WHERE ID_ACCOUNT_TIPO_INVOICE = 1 ";
             SQL += " AND AI.ID_ACCOUNT_INVOICE IN ( ";
 
->>>>>>> devjuliane
             for (int i = 0; i < invoices.Length; i++)
             {
                 if (i == invoices.Length - 1)
@@ -6136,10 +6129,7 @@ namespace ABAINFRA.Web
             }
             SQL += " ) UNION ";
             SQL += "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(REPLACE(CONVERT(VARCHAR,G.VL_TAXA_CAMBIO,103),'.',','),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(G.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
-<<<<<<< HEAD
-=======
 
->>>>>>> devjuliane
             SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ISNULL(AGENTE.NM_RAZAO,'') AS AGENTE, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = M.ID_BL),'') AS FRETE_MASTER, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = C.ID_BL),'') AS FRETE_HOUSE, ";
@@ -6161,11 +6151,8 @@ namespace ABAINFRA.Web
             SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS F ON AI.ID_ACCOUNT_INVOICE = F.ID_ACCOUNT_INVOICE ";
             SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO G ON F.ID_ACCOUNT_FECHAMENTO = G.ID_ACCOUNT_FECHAMENTO ";
             SQL += " LEFT JOIN TB_TIPO_ESTUFAGEM H ON C.ID_TIPO_ESTUFAGEM=H.ID_TIPO_ESTUFAGEM ";
-<<<<<<< HEAD
-=======
             SQL += " WHERE ID_ACCOUNT_TIPO_INVOICE = 2 ";
             SQL += " AND AI.ID_ACCOUNT_INVOICE IN ( ";
->>>>>>> devjuliane
             for (int i = 0; i < invoices.Length; i++)
             {
                 if (i == invoices.Length - 1)
@@ -6179,10 +6166,7 @@ namespace ABAINFRA.Web
             }
             SQL += " ) UNION ";
             SQL += "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(REPLACE(CONVERT(VARCHAR,G.VL_TAXA_CAMBIO,103),'.',','),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(G.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
-<<<<<<< HEAD
-=======
 
->>>>>>> devjuliane
             SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ISNULL(AGENTE.NM_RAZAO,'') AS AGENTE, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = M.ID_BL),'') AS FRETE_MASTER, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = C.ID_BL),'') AS FRETE_HOUSE, ";
@@ -6204,11 +6188,8 @@ namespace ABAINFRA.Web
             SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS F ON AI.ID_ACCOUNT_INVOICE = F.ID_ACCOUNT_INVOICE ";
             SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO G ON F.ID_ACCOUNT_FECHAMENTO = G.ID_ACCOUNT_FECHAMENTO ";
             SQL += " LEFT JOIN TB_TIPO_ESTUFAGEM H ON C.ID_TIPO_ESTUFAGEM=H.ID_TIPO_ESTUFAGEM ";
-<<<<<<< HEAD
-=======
             SQL += " WHERE ID_ACCOUNT_TIPO_INVOICE = 1 ";
             SQL += " AND AI.ID_ACCOUNT_INVOICE IN ( ";
->>>>>>> devjuliane
             for (int i = 0; i < invoices.Length; i++)
             {
                 if (i == invoices.Length - 1)
@@ -6244,13 +6225,9 @@ namespace ABAINFRA.Web
             dataI = anoI + '-' + mesI + '-' + diaI;
             dataF = anoF + '-' + mesF + '-' + diaF;
 
-<<<<<<< HEAD
-            SQL = "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(CONVERT(VARCHAR,G.VL_TAXA_CAMBIO,103),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(G.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO,  ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
-=======
 
             SQL = "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(CONVERT(VARCHAR,G.VL_TAXA_CAMBIO,103),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(G.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO,  ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
 
->>>>>>> devjuliane
             SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ISNULL(AGENTE.NM_RAZAO,'') AS AGENTE, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = M.ID_BL),'') AS FRETE_MASTER, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = C.ID_BL),'') AS FRETE_HOUSE, ";
@@ -6269,17 +6246,11 @@ namespace ABAINFRA.Web
             SQL += " JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
             SQL += " JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
             SQL += " JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
-<<<<<<< HEAD
-            SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS F ON AI.ID_ACCOUNT_INVOICE = F.ID_ACCOUNT_INVOICE ";
-            SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO G ON F.ID_ACCOUNT_FECHAMENTO = G.ID_ACCOUNT_FECHAMENTO ";
-            SQL += " LEFT JOIN TB_TIPO_ESTUFAGEM H ON C.ID_TIPO_ESTUFAGEM=H.ID_TIPO_ESTUFAGEM ";
-=======
 
             SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS F ON AI.ID_ACCOUNT_INVOICE = F.ID_ACCOUNT_INVOICE ";
             SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO G ON F.ID_ACCOUNT_FECHAMENTO = G.ID_ACCOUNT_FECHAMENTO ";
             SQL += " LEFT JOIN TB_TIPO_ESTUFAGEM H ON C.ID_TIPO_ESTUFAGEM=H.ID_TIPO_ESTUFAGEM ";
 
->>>>>>> devjuliane
             for (int i = 0; i < invoices.Length; i++)
             {
                 if (i == 0)
@@ -6293,10 +6264,7 @@ namespace ABAINFRA.Web
             }
             SQL += " ) UNION ";
             SQL += "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(CONVERT(VARCHAR,G.VL_TAXA_CAMBIO,103),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(G.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
-<<<<<<< HEAD
-=======
 
->>>>>>> devjuliane
             SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ISNULL(AGENTE.NM_RAZAO,'') AS AGENTE, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = M.ID_BL),'') AS FRETE_MASTER, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = C.ID_BL),'') AS FRETE_HOUSE, ";
@@ -6315,17 +6283,11 @@ namespace ABAINFRA.Web
             SQL += " JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
             SQL += " JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
             SQL += " JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
-<<<<<<< HEAD
-            SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS F ON AI.ID_ACCOUNT_INVOICE = F.ID_ACCOUNT_INVOICE ";
-            SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO G ON F.ID_ACCOUNT_FECHAMENTO = G.ID_ACCOUNT_FECHAMENTO ";
-            SQL += " LEFT JOIN TB_TIPO_ESTUFAGEM H ON C.ID_TIPO_ESTUFAGEM=H.ID_TIPO_ESTUFAGEM ";
-=======
 
             SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS F ON AI.ID_ACCOUNT_INVOICE = F.ID_ACCOUNT_INVOICE ";
             SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO G ON F.ID_ACCOUNT_FECHAMENTO = G.ID_ACCOUNT_FECHAMENTO ";
             SQL += " LEFT JOIN TB_TIPO_ESTUFAGEM H ON C.ID_TIPO_ESTUFAGEM=H.ID_TIPO_ESTUFAGEM ";
 
->>>>>>> devjuliane
             for (int i = 0; i < invoices.Length; i++)
             {
                 if (i == 0)
@@ -6338,13 +6300,9 @@ namespace ABAINFRA.Web
                 }
             }
             SQL += " ) UNION ";
-<<<<<<< HEAD
-            SQL += "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(CONVERT(VARCHAR,G.VL_TAXA_CAMBIO,103),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(G.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
-=======
 
             SQL += "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(CONVERT(VARCHAR,G.VL_TAXA_CAMBIO,103),'') VL_TAXA_CAMBIO, ISNULL(FORMAT(G.DT_LIQUIDACAO,'dd/MM/yyyy'),'') DT_LIQUIDACAO, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
 
->>>>>>> devjuliane
             SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ISNULL(AGENTE.NM_RAZAO,'') AS AGENTE, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = M.ID_BL),'') AS FRETE_MASTER, ";
             SQL += "ISNULL((SELECT ISNULL(B.NM_TIPO_PAGAMENTO,'') NM_TIPO_PAGAMENTO FROM TB_BL A JOIN TB_TIPO_PAGAMENTO B ON A.ID_TIPO_PAGAMENTO = B.ID_TIPO_PAGAMENTO WHERE A.ID_BL = C.ID_BL),'') AS FRETE_HOUSE, ";
@@ -6363,17 +6321,11 @@ namespace ABAINFRA.Web
             SQL += " JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
             SQL += " JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
             SQL += " JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
-<<<<<<< HEAD
-            SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS F ON AI.ID_ACCOUNT_INVOICE = F.ID_ACCOUNT_INVOICE ";
-            SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO G ON F.ID_ACCOUNT_FECHAMENTO = G.ID_ACCOUNT_FECHAMENTO ";
-            SQL += " LEFT JOIN TB_TIPO_ESTUFAGEM H ON C.ID_TIPO_ESTUFAGEM=H.ID_TIPO_ESTUFAGEM ";
-=======
 
             SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS F ON AI.ID_ACCOUNT_INVOICE = F.ID_ACCOUNT_INVOICE ";
             SQL += " LEFT JOIN TB_ACCOUNT_FECHAMENTO G ON F.ID_ACCOUNT_FECHAMENTO = G.ID_ACCOUNT_FECHAMENTO ";
             SQL += " LEFT JOIN TB_TIPO_ESTUFAGEM H ON C.ID_TIPO_ESTUFAGEM=H.ID_TIPO_ESTUFAGEM ";
 
->>>>>>> devjuliane
             for (int i = 0; i < invoices.Length; i++)
             {
                 if (i == 0)
@@ -6395,10 +6347,7 @@ namespace ABAINFRA.Web
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
                     conf[i] += listTable.Rows[i]["NR_PROCESSO"].ToString() + ";";
-<<<<<<< HEAD
-=======
 
->>>>>>> devjuliane
                     conf[i] += listTable.Rows[i]["NR_INVOICE"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["DT_LIQUIDACAO"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["VL_TAXA_CAMBIO"].ToString().Replace(".",",") + ";";
@@ -6407,10 +6356,7 @@ namespace ABAINFRA.Web
                     conf[i] += listTable.Rows[i]["HBL"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["FRETE_HOUSE"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["ESTUFAGEM"].ToString() + ";";
-<<<<<<< HEAD
-=======
 
->>>>>>> devjuliane
                     conf[i] += listTable.Rows[i]["ORIGEM"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["DESTINO"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["DT_EMBARQUE"].ToString() + ";";
@@ -9167,13 +9113,37 @@ namespace ABAINFRA.Web
                     break;
             }
 
-            SQL = "select ISNULL(FORMAT(DT_SOLICITACAO,'dd/MM/yyyy'),'') AS SOLICITACAO, ISNULL(INSIDE,'') AS INSIDE, ";
-            SQL += "ISNULL(NR_COTACAO, '') AS NR_COTACAO, ISNULL(MODAL, '') AS MODAL, ISNULL(CD_INCOTERM, '') AS INCOTERM, ";
-            SQL += "ISNULL(NM_CLIENTE, '') AS CLIENTE, ISNULL(NM_SUB_CLIENTE, '') AS SUB_CLIENTE, ISNULL(NM_ORIGEM, '') AS  ORIGEM, ";
-            SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ";
-            SQL += "ISNULL(CONVERT(VARCHAR,SOLICITACAO,103),'') AS SOLICITACAO, ISNULL(CONVERT(VARCHAR,ANALISE,103),'') AS ANALISE, ISNULL(CONVERT(VARCHAR,INFO_PEND,103),'') AS INFO_PEND, ISNULL(CONVERT(VARCHAR,LIBERADA_INSIDE,103),'') AS LIBERADA_INSIDE, ISNULL(CONVERT(VARCHAR,RENEG,103),'') AS RENEG, ISNULL(CONVERT(VARCHAR,AGUARD_APROV,103),'') AS AGUARD_APROV, ";
-            SQL += "ISNULL(CONVERT(VARCHAR,CANCELADA,103),'') AS CANCELADA, ISNULL(CONVERT(VARCHAR,REJEITADA,103),'') AS REJEITADA, ISNULL(CONVERT(VARCHAR,APROVADA,103),'') AS APROVADA, ISNULL(CONVERT(VARCHAR,EM_UPDATE,103),'') AS EM_UPDATE, ISNULL(CONVERT(VARCHAR,DECLINADA,103),'') AS DECLINADA, ISNULL(CONVERT(VARCHAR,FINALIZADA_PAG,103),'') AS FINALIZADA_PAG, ISNULL(CONVERT(VARCHAR,EM_FUP,103),'') AS EM_FUP, ISNULL(CONVERT(VARCHAR,APROV_EDIT,103),'') AS APROV_EDIT, ";
-            SQL += "ISNULL(NM_MOTIVO_CANCELAMENTO,'') AS MOTIVO, ISNULL(OB_MOTIVO_CANCELAMENTO,'') AS OBS_MOTIVO ";
+            SQL = "SELECT ISNULL(FORMAT(DT_SOLICITACAO,'dd/MM/yyyy'),'') AS SOLICITACAO, ";
+            SQL += "NR_PROCESSO, ";
+            SQL += "ISNULL(INSIDE,'') AS INSIDE, ";
+            SQL += "ISNULL(NR_COTACAO, '') AS NR_COTACAO, ";
+            SQL += "ISNULL(MODAL, '') AS MODAL, ";
+            SQL += "ISNULL(CD_INCOTERM, '') AS INCOTERM, ";
+            SQL += "ISNULL(NM_CLIENTE, '') AS CLIENTE, ";
+            SQL += "ISNULL(NM_SUB_CLIENTE, '') AS SUB_CLIENTE, ";
+            SQL += "ISNULL(NM_STATUS_COTACAO, '') AS STATUS_COTACAO, ";
+            SQL += "ISNULL(NM_ORIGEM, '') AS  ORIGEM, ";
+            SQL += "FREE_HAND, ";
+            SQL += "DTA_HUB, ";
+            SQL += "LTL, ";
+            SQL += "TRANSP_DEDICADO, ";
+            SQL += "MERCADORIA, ";
+            SQL += "TIPO_CONTAINER, ";
+            SQL += "QT_CONTAINER, ";
+            SQL += "VL_PESO_BRUTO, ";
+            SQL += "FRETE_COMPRA_UNIT, ";
+            SQL += "FRETE_COMPRA, ";
+            SQL += "FRETE_VENDA_UNIT, ";
+            SQL += "FRETE_VENDA, ";
+            SQL += "QT_MERCADORIA, ";
+            SQL += "VL_M3, ";
+            SQL += "VL_PESO_TAXADO, ";
+            SQL += "TRANSPORTADOR, ";
+            SQL += "FREETIME," ;
+            SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ";
+            SQL += "ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ";
+            SQL += "ISNULL(NM_MOTIVO_CANCELAMENTO,'') AS MOTIVO, ";
+            SQL += "ISNULL(OB_MOTIVO_CANCELAMENTO,'') AS OBS_MOTIVO ";
             SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "','3') ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
@@ -11878,6 +11848,140 @@ namespace ABAINFRA.Web
 
             string editTaxa = DBS.ExecuteScalar(SQL);
             return JsonConvert.SerializeObject(new { success = true, message = "Cadastrado com sucesso" });
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarPorto(Porto dados)
+        {
+            string SQL;
+            string filter = "";
+
+            if(dados.NM_CIDADE != null && dados.NM_CIDADE.ToString() != "" && dados.NM_CIDADE != "0")
+            {
+                filter += "AND B.ID_CIDADE = '" + dados.NM_CIDADE + "' ";
+            }
+
+            if (dados.NM_PAIS != null && dados.NM_PAIS.ToString() != "" && dados.NM_PAIS != "0")
+            {
+                filter += "AND D.ID_PAIS = '" + dados.NM_PAIS + "' ";
+            }
+
+            if(dados.CD_SIGLA != null && dados.CD_SIGLA.ToString() != "" && dados.CD_SIGLA != "0")
+            {
+                filter += "AND A.CD_SIGLA = '" + dados.CD_SIGLA + "' ";
+            }
+
+            if(dados.NM_PORTO != null && dados.NM_PORTO.ToString() != "" && dados.NM_PORTO != "0")
+            {
+                filter += "AND A.ID_PORTO = '" + dados.NM_PORTO + "' ";
+            }
+
+            if(dados.NM_VIATRANSPORTE != null && dados.NM_VIATRANSPORTE.ToString() != "" && dados.NM_VIATRANSPORTE != "0")
+            {
+                filter += "AND C.ID_VIATRANSPORTE = '"+dados.NM_VIATRANSPORTE+"' ";
+            }
+
+
+            SQL = "SELECT A.ID_PORTO, A.NM_PORTO, ISNULL(A.CD_SIGLA,'') CD_SIGLA, ISNULL(D.NM_PAIS,'') NM_PAIS, ISNULL(C.NM_VIATRANSPORTE,'') VIATRANSPORTE, "; 
+            SQL += "ISNULL(B.NM_CIDADE,'') NM_CIDADE, A.FL_ATIVO FROM TB_PORTO A ";
+            SQL += "LEFT JOIN TB_CIDADE B ON A.ID_CIDADE = B.ID_CIDADE ";
+            SQL += "LEFT JOIN TB_VIATRANSPORTE C ON A.ID_VIATRANSPORTE = C.ID_VIATRANSPORTE ";
+            SQL += "LEFT JOIN TB_PAIS D ON B.ID_PAIS = D.ID_PAIS ";
+            SQL += "WHERE A.ID_PORTO IS NOT NULL ";
+            SQL += ""+filter+"";
+
+            
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string BuscarPorto(int idPorto)
+        {
+            string SQL;
+
+            SQL = "SELECT ID_PORTO, NM_PORTO, CD_SIGLA, ISNULL(ID_VIATRANSPORTE,0) ID_VIATRANSPORTE, isnull(ID_CIDADE,0) ID_CIDADE ";
+            SQL += "FROM TB_PORTO A ";
+            SQL += "WHERE A.ID_PORTO = "+idPorto+"";
+
+
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public object CadastrarPorto(Porto dados)
+        {
+            string SQL;
+
+            try
+            {
+                // Verificar se os campos obrigatórios estão preenchidos
+                if (string.IsNullOrEmpty(dados.NM_CIDADE) ||
+                    string.IsNullOrEmpty(dados.CD_SIGLA) ||
+                    string.IsNullOrEmpty(dados.NM_VIATRANSPORTE) ||
+                    string.IsNullOrEmpty(dados.NM_PORTO))
+                {
+                    return new { success = false, message = "Campos obrigatórios não preenchidos." };
+                }
+
+                // Construir a consulta SQL para atualização
+                SQL = $"INSERT INTO TB_PORTO (ID_CIDADE, ID_VIATRANSPORTE, CD_SIGLA, NM_PORTO, FL_ATIVO) VALUES ('{dados.NM_CIDADE}', " +
+                      $"'{dados.NM_VIATRANSPORTE}', " +
+                      $"'{dados.CD_SIGLA}', " +
+                      $"'{dados.NM_PORTO}', 1) ";
+
+                // Executar a consulta SQL
+                DBS.ExecuteScalar(SQL);
+
+                return new { success = true, message = "Atualização bem-sucedida." };
+            }
+            catch (Exception ex)
+            {
+                // Tratar exceções, logar ou retornar uma mensagem de erro adequada
+                return new { success = false, message = $"Erro durante a atualização: {ex.Message}" };
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public object EditarPorto(Porto dadosEdit)
+        {
+            string SQL;
+
+            try
+            {
+                // Verificar se os campos obrigatórios estão preenchidos
+                if (string.IsNullOrEmpty(dadosEdit.NM_CIDADE) ||
+                    string.IsNullOrEmpty(dadosEdit.CD_SIGLA) ||
+                    string.IsNullOrEmpty(dadosEdit.NM_VIATRANSPORTE) ||
+                    string.IsNullOrEmpty(dadosEdit.NM_PORTO))
+                {
+                    return new { success = false, message = "Campos obrigatórios não preenchidos." };
+                }
+
+                // Construir a consulta SQL para atualização
+                SQL = $"UPDATE TB_PORTO SET ID_CIDADE = '{dadosEdit.NM_CIDADE}', " +
+                      $"CD_SIGLA = '{dadosEdit.CD_SIGLA}', " +
+                      $"ID_VIATRANSPORTE = '{dadosEdit.NM_VIATRANSPORTE}', " +
+                      $"NM_PORTO = '{dadosEdit.NM_PORTO}' " +
+                      $"WHERE ID_PORTO = '{dadosEdit.ID_PORTO}'";
+
+                // Executar a consulta SQL
+                DBS.ExecuteScalar(SQL);
+
+                return new { success = true, message = "Atualização bem-sucedida." };
+            }
+            catch (Exception ex)
+            {
+                // Tratar exceções, logar ou retornar uma mensagem de erro adequada
+                return new { success = false, message = $"Erro durante a atualização: {ex.Message}" };
+            }
         }
     }
 }
