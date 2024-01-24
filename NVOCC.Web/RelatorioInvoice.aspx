@@ -179,7 +179,7 @@
                                 result += "<td class='text-center'>" + dado[i]["AGENTE"] + "</td>";
                                 result += "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td>";
                                 result += "<td class='text-center'>" + dado[i]["VL_CAMBIO"] + "</td>";
-                                result += "<td class='text-center'>" + dado[i]["MBL"] + "</td>";                                    
+                                result += "<td class='text-center'>" + dado[i]["MBL"] + "</td>";
                                 result += "<td class='text-center'>" + dado[i]["FRETE_MASTER"] + "</td>";
                                 result += "<td class='text-center'>" + dado[i]["HBL"] + "</td>";
                                 result += "<td class='text-center'>" + dado[i]["FRETE_HOUSE"] + "</td>";
@@ -190,7 +190,7 @@
                                 result += "<td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td>";
                                 result += "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>";
                                 result += "</tr>";
-                              
+
                             }
                             $("#grdInvoiceBody").append(result);
                         }
@@ -203,6 +203,9 @@
 
             }
         }
+
+
+
 
 
         
@@ -299,7 +302,7 @@
                         doc.setFontSize(18);
                         doc.text("EMBARQUE POR PERÍODO", 115, 13);
                         doc.setFontSize(11);
-                        doc.text("AGENTE: "+dado[0]["AGENTE"], 3, 27);
+                        doc.text("AGENTE: " + dado[0]["AGENTE"], 3, 27);
                         doc.setFontSize(8);
                         doc.text("INVOICES ENTRE: " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 3, 31);
                         doc.addImage(imgData, 'png', 10, 5, 60, 15);
@@ -399,8 +402,8 @@
                                 doc.text("EMBARQUE", 246, 37);
                                 doc.text("P.CHEGADA", 263, 37);
                                 doc.text("CHEGADA", 281, 37);
-                                position = 37+5;
-                                positionv = 38+5;
+                                position = 37 + 5;
+                                positionv = 38 + 5;
                                 doc.setFontStyle("normal");
                                 doc.line(3, positionv, 296, positionv);
                                 doc.text(dado[i]["NR_PROCESSO"], 4, position);
@@ -464,6 +467,10 @@
             })
 
         }
+
+
+
+
 
 
 

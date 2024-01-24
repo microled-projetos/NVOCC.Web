@@ -1779,33 +1779,53 @@ namespace ABAINFRA.Web
             string refCliente = "";
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");
-            SQL = "SELECT A.NR_BL, A.NR_PROCESSO, ORIGEM.NM_PORTO AS ORIGEM, DESTINO.NM_PORTO AS DESTINO,ID_PARCEIRO_CLIENTE, CLIENTE.NM_RAZAO AS CLIENTE, ";
-            SQL += "CLIENTE.CNPJ, IMPORTADOR.NM_RAZAO AS IMPORTADOR, C.NM_VIATRANSPORTE as VIA, ";
-            SQL += "A.ID_TIPO_ESTUFAGEM AS TPESTUFAGEM ";
+
+            SQL = "SELECT A.NR_PROCESSO, A.NR_BL AS NR_BL_HOUSE, A1.NR_BL AS NR_BL_MASTER, B.NM_NAVIO, C.NM_RAZAO AS NM_TRANSPORTADOR, D.CD_SIGLA AS SIGLA_ORIGEM, D1.CD_SIGLA AS SIGLA_DESTINO, ";
+            SQL += "A1.NR_VIAGEM, D.NM_PORTO AS NM_PORTO_ORIGEM, D1.NM_PORTO AS NM_PORTO_DESTINO, A1.DT_CHEGADA, A.ID_PARCEIRO_CLIENTE, ";
+            SQL += "C1.NM_RAZAO AS NM_CLIENTE, C1.CNPJ AS CNPJ_CLIENTE, ISNULL(C1.QT_DIAS_FATURAMENTO, 0) AS QT_DIAS_FATURAMENTO, E.CD_VIA, ";
+            SQL += "A1.DT_PREVISAO_EMBARQUE, A1.DT_EMBARQUE, A1.DT_PREVISAO_CHEGADA, A1.NR_VIAGEM_1T, A1.NR_VIAGEM_2T, A1.NR_VIAGEM_3T, ";
+            SQL += "A1.DT_1T, A1.DT_2T, A1.DT_3T, F1.NM_PORTO AS NM_PORTO_1T, F2.NM_PORTO AS NM_PORTO_2T, F3.NM_PORTO AS NM_PORTO_3T, ";
+            SQL += "B1.NM_NAVIO AS NM_NAVIO_1T, B2.NM_NAVIO AS NM_NAVIO_2T, B3.NM_NAVIO AS NM_NAVIO_3T, A.NR_CE, I.NM_CLIENTE_FINAL, ";
+            SQL += "C2.NM_RAZAO AS NM_ARMAZEM_ATRACACAO, C3.NM_RAZAO AS NM_ARMAZEM_DESCARGA, G.ID_TIPO_ESTUFAGEM AS TPESTUFAGEM, C4.NM_RAZAO AS NM_IMPORTADOR ";
             SQL += "FROM TB_BL A ";
-            SQL += "LEFT JOIN TB_PORTO ORIGEM ON A.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
-            SQL += "LEFT JOIN TB_PORTO DESTINO ON A.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
-            SQL += "LEFT JOIN TB_PARCEIRO CLIENTE ON A.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
-            SQL += "LEFT JOIN TB_PARCEIRO IMPORTADOR ON A.ID_PARCEIRO_IMPORTADOR = IMPORTADOR.ID_PARCEIRO ";
-            SQL += "LEFT JOIN TB_SERVICO B ON A.ID_SERVICO = B.ID_SERVICO ";
-            SQL += "LEFT JOIN TB_VIATRANSPORTE C ON B.ID_VIATRANSPORTE = C.ID_VIATRANSPORTE ";
+            SQL += "LEFT JOIN TB_BL A1 ON A.ID_BL_MASTER = A1.ID_BL ";
+            SQL += "LEFT JOIN TB_NAVIO B ON A1.ID_NAVIO = B.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_NAVIO B1 ON A1.ID_NAVIO_1T = B1.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_NAVIO B2 ON A1.ID_NAVIO_2T = B2.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_NAVIO B3 ON A1.ID_NAVIO_3T = B2.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_PARCEIRO C ON A1.ID_PARCEIRO_TRANSPORTADOR = C.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO C1 ON A.ID_PARCEIRO_CLIENTE = C1.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO C2 ON A1.ID_PARCEIRO_ARMAZEM_ATRACACAO=C2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO C3 ON A.ID_PARCEIRO_ARMAZEM_DESCARGA=C3.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO C4 ON A.ID_PARCEIRO_IMPORTADOR=C4.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PORTO D ON A1.ID_PORTO_ORIGEM = D.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PORTO D1 ON A1.ID_PORTO_DESTINO = D1.ID_PORTO ";
+            SQL += "LEFT JOIN TB_SERVICO E ON A.ID_SERVICO=E.ID_SERVICO ";
+            SQL += "LEFT JOIN TB_PORTO F1 ON A1.ID_PORTO_1T=F1.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PORTO F2 ON A1.ID_PORTO_2T=F2.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PORTO F3 ON A1.ID_PORTO_3T=F3.ID_PORTO ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM G ON A.ID_TIPO_ESTUFAGEM=G.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_COTACAO H ON A.ID_COTACAO = H.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_CLIENTE_FINAL I ON H.ID_CLIENTE_FINAL = I.ID_CLIENTE_FINAL ";
             SQL += "WHERE A.ID_BL = '" + house + "' ";
 
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
-            string nmCliente = listTable.Rows[0]["CLIENTE"].ToString();
-            string nrHouse = listTable.Rows[0]["NR_BL"].ToString();
+            string nmCliente = listTable.Rows[0]["NM_CLIENTE"].ToString();
+            string nrHouse = listTable.Rows[0]["NR_BL_HOUSE"].ToString();
             string nrProcesso = listTable.Rows[0]["NR_PROCESSO"].ToString();
-            string origemP = listTable.Rows[0]["ORIGEM"].ToString();
-            string destinoP = listTable.Rows[0]["DESTINO"].ToString();
-            string cnpj = listTable.Rows[0]["CNPJ"].ToString();
-            string nmVia = listTable.Rows[0]["VIA"].ToString();
+            string origemP = listTable.Rows[0]["NM_PORTO_ORIGEM"].ToString();
+            string destinoP = listTable.Rows[0]["NM_PORTO_DESTINO"].ToString();
+            string cnpj = listTable.Rows[0]["CNPJ_CLIENTE"].ToString();
+            string nmVia = listTable.Rows[0]["CD_VIA"].ToString();
             string idCliente = listTable.Rows[0]["ID_PARCEIRO_CLIENTE"].ToString();
-            string nmImportador = listTable.Rows[0]["IMPORTADOR"].ToString();
+            string nmImportador = listTable.Rows[0]["NM_IMPORTADOR"].ToString();
             string tpestufagem = listTable.Rows[0]["TPESTUFAGEM"].ToString();
+            string cliente_final = listTable.Rows[0]["NM_CLIENTE_FINAL"].ToString();
 
-            if (nmVia == "MARÍTIMA")
+
+            if (nmVia == "M")
             {
                 SQL = "SELECT ID_DESTINATARIO_MAR, ORIGEM FROM TB_TIPOAVISO WHERE IDTIPOAVISO = 12";
                 DataTable listTable2 = new DataTable();
@@ -1815,7 +1835,7 @@ namespace ABAINFRA.Web
             }
             else
             {
-                if (nmVia == "AÉREA")
+                if (nmVia == "A")
                 {
                     SQL = "SELECT ID_DESTINATARIO_AER, ORIGEM FROM TB_TIPOAVISO WHERE IDTIPOAVISO = 12";
                     DataTable listTable3 = new DataTable();
@@ -1825,14 +1845,34 @@ namespace ABAINFRA.Web
                 }
             }
 
+            string[] cliente = nmCliente.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (cliente.Length >= 2) { nmCliente = cliente[0] + " " + cliente[1]; };
+
+            string[] clienteFinal = cliente_final.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (clienteFinal.Length >= 2) { cliente_final = clienteFinal[0] + " " + clienteFinal[1]; }
+
+            string[] importador = nmImportador.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (importador.Length >= 2) { nmImportador = importador[0] + " " + importador[1]; }
+
             refCliente = DBS.ExecuteScalar("SELECT dbo.FN_REFERENCIA_CLIENTE(" + house + ")");
-            if (!string.IsNullOrEmpty(nmImportador))
-            {
-                nmImportador = "- IMPORTADOR: " + nmImportador + " - ";
-            }
+
             SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, ID_DESTINATARIO, IDTIPOESTUFAGEM) ";
-            SQL += "VALUES ('" + nrProcesso + " - COMUNICADO - " + origemP + " X " + destinoP + " - HBL: " + nrHouse + "<br>" + nmCliente + " - " + cnpj + "<br>"+ nmImportador + refCliente + "<br>', ";
-            SQL += "'" + corpo + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "',12,'" + house + "','" + idCliente + "','" + origem + "','" + destinatario + "', '"+ tpestufagem + "') ";
+            SQL += "VALUES ('" + nrProcesso + " - COMUNICADO - " + origemP + " X " + destinoP + " - HBL: " + nrHouse + "<br> - CLIENTE: " + nmCliente +
+                    (!string.IsNullOrEmpty(nmImportador) ? " (" + nmImportador + ")" : (!string.IsNullOrEmpty(cliente_final) ? " (" + cliente_final + ")" : ""));
+
+
+            if (!string.IsNullOrEmpty(refCliente))
+            {
+                refCliente = refCliente.Replace(",", " / ");
+                SQL += " - REF: " + refCliente + "<br>', ";
+            }
+            else
+            {
+                SQL += "', ";
+            }
+
+            SQL += "'" + corpo + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "',12,'" + house + "','" + idCliente + "','" + origem + "','" + destinatario + "', '" + tpestufagem + "') ";
+
             string gerarEmail = DBS.ExecuteScalar(SQL);
 
             return "ok";
