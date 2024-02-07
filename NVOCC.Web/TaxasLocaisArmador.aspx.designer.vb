@@ -941,6 +941,60 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents ddlConsulta As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle divItemFiltroDespesa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divItemFiltroDespesa As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtItemDespesa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtItemDespesa As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divDataInicial.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divDataInicial As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtDataInicial.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDataInicial As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divDataFinal.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divDataFinal As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtDataFinal.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDataFinal As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle divPesquisa.
     '''</summary>
     '''<remarks>
@@ -975,6 +1029,15 @@ Partial Public Class TaxasLocaisArmador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnNovo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnGerarCSV.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnGerarCSV As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle UpdatePanel3.

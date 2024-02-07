@@ -2592,7 +2592,6 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
             lblErroTaxa.Text = "Necessário informar quantidade para base de calculo selecionada!"
             divErroTaxa.Visible = True
 
-
         ElseIf ddlEstufagem.SelectedValue = 1 And (ddlOrigemPagamentoTaxa.SelectedValue = 0 Or ddlBaseCalculoTaxa.SelectedValue = 0 Or ddlMoedaCompraTaxa.SelectedValue = 0 Or txtValorTaxaCompra.Text = "" Or ddlTipoPagamentoTaxa.SelectedValue = 0) Then
 
             lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
@@ -4388,7 +4387,9 @@ Where A.ID_COTACAO = " & txtID.Text)
 
         Dim Sb = New StringBuilder()
 
-        Sb.AppendLine("SELECT isnull(FL_PREMIACAO,0) as FL_PREMIACAO FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & ddlItemDespesaTaxa.SelectedValue)
+        Dim idDespesa As Integer = Convert.ToInt32(ddlItemDespesaTaxa.SelectedValue)
+
+        Sb.AppendLine("SELECT isnull(FL_PREMIACAO,0) as FL_PREMIACAO FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & idDespesa)
 
         ds = Con.ExecutarQuery(Sb.ToString)
 
@@ -4404,6 +4405,17 @@ Where A.ID_COTACAO = " & txtID.Text)
                     txtValorTaxaVendaMin.Enabled = True
                 End If
             End If
+
+            If idDespesa = 550 Then
+                ddlMoedaCompraTaxa.Enabled = False
+                txtValorTaxaCompra.Enabled = False
+                txtValorTaxaCompraMin.Enabled = False
+            Else
+                ddlMoedaCompraTaxa.Enabled = True
+                txtValorTaxaCompra.Enabled = True
+                txtValorTaxaCompraMin.Enabled = True
+            End If
+
 
         Catch ex As Exception
             Throw ex

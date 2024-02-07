@@ -302,28 +302,65 @@ INNER JOIN TB_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRA
         Else
 
             If ddlConsulta.SelectedValue = 1 Then
-                FILTRO = " And NM_PORTO Like '%" & txtConsulta.Text & "%' "
+                FILTRO = FILTRO & " And NM_PORTO Like '%" & txtConsulta.Text & "%' "
             ElseIf ddlConsulta.SelectedValue = 2 Then
-                FILTRO = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
+                FILTRO = FILTRO & " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
             End If
 
-            dsTaxas.SelectCommand = "SELECT A.ID_TAXA_LOCAL_TRANSPORTADOR,
-A.ID_TRANSPORTADOR,
-A.ID_PORTO, CASE WHEN A.ID_PORTO = 0 THEN 'TODOS' ELSE B.NM_PORTO END NM_PORTO,
-A.ID_TIPO_COMEX, D.NM_TIPO_COMEX,
-A.ID_VIATRANSPORTE, C.NM_VIATRANSPORTE,
-A.ID_ITEM_DESPESA, F.NM_ITEM_DESPESA,
-A.VL_TAXA_LOCAL_COMPRA,
-A.DT_VALIDADE_INICIAL, E.NM_BASE_CALCULO_TAXA, G.SIGLA_MOEDA
-FROM
-            TB_TAXA_LOCAL_TRANSPORTADOR A 
-LEFT JOIN TB_PORTO B ON B.ID_PORTO = A.ID_PORTO
-LEFT JOIN TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
-LEFT JOIN TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX
-LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
-LEFT JOIN TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO
-LEFT JOIN TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA_COMPRA     
-        WHERE a.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue & " AND ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO & " ORDER BY B.NM_PORTO"
+            If Not String.IsNullOrEmpty(txtItemDespesa.Text) Then
+                FILTRO = FILTRO & "  AND F.NM_ITEM_DESPESA like '%" & txtItemDespesa.Text & "%'"
+            End If
+
+            If Not String.IsNullOrEmpty(txtDataInicial.Text) Then
+                FILTRO = FILTRO & " AND A.DT_VALIDADE_INICIAL BETWEEN Convert(Datetime, '" & txtDataInicial.Text & "',103) and Convert(Datetime, '" & txtDataFinal.Text & "', 103) "
+            End If
+
+            Dim sb As New StringBuilder()
+
+            sb.Clear()
+
+            sb.AppendLine(" SELECT A.ID_TAXA_LOCAL_TRANSPORTADOR, ")
+            sb.AppendLine(" A.ID_TRANSPORTADOR,  ")
+            sb.AppendLine(" A.ID_PORTO, CASE WHEN A.ID_PORTO = 0 THEN 'TODOS' ELSE B.NM_PORTO END NM_PORTO,  ")
+            sb.AppendLine(" A.ID_TIPO_COMEX, D.NM_TIPO_COMEX,  ")
+            sb.AppendLine(" A.ID_VIATRANSPORTE, C.NM_VIATRANSPORTE,  ")
+            sb.AppendLine(" A.ID_ITEM_DESPESA, F.NM_ITEM_DESPESA,  ")
+            sb.AppendLine(" A.VL_TAXA_LOCAL_COMPRA,  ")
+            sb.AppendLine(" A.DT_VALIDADE_INICIAL, E.NM_BASE_CALCULO_TAXA, G.SIGLA_MOEDA  ")
+            sb.AppendLine(" FROM  ")
+            sb.AppendLine(" TB_TAXA_LOCAL_TRANSPORTADOR A   ")
+            sb.AppendLine(" LEFT JOIN TB_PORTO B ON B.ID_PORTO = A.ID_PORTO  ")
+            sb.AppendLine(" LEFT JOIN TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE  ")
+            sb.AppendLine(" LEFT JOIN TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX  ")
+            sb.AppendLine(" LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA  ")
+            sb.AppendLine(" LEFT JOIN TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO   ")
+            sb.AppendLine(" LEFT JOIN TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA_COMPRA    ")
+            sb.AppendLine(" WHERE ")
+            sb.AppendLine(" a.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue)
+            sb.AppendLine(" AND ID_TRANSPORTADOR =  " & Request.QueryString("id"))
+            sb.AppendLine(FILTRO)
+            sb.AppendLine(" ORDER BY B.NM_PORTO ")
+
+            '            dsTaxas.SelectCommand = "SELECT A.ID_TAXA_LOCAL_TRANSPORTADOR,
+            'A.ID_TRANSPORTADOR,
+            'A.ID_PORTO, CASE WHEN A.ID_PORTO = 0 THEN 'TODOS' ELSE B.NM_PORTO END NM_PORTO,
+            'A.ID_TIPO_COMEX, D.NM_TIPO_COMEX,
+            'A.ID_VIATRANSPORTE, C.NM_VIATRANSPORTE,
+            'A.ID_ITEM_DESPESA, F.NM_ITEM_DESPESA,
+            'A.VL_TAXA_LOCAL_COMPRA,
+            'A.DT_VALIDADE_INICIAL, E.NM_BASE_CALCULO_TAXA, G.SIGLA_MOEDA
+            'FROM
+            '            TB_TAXA_LOCAL_TRANSPORTADOR A 
+            'LEFT JOIN TB_PORTO B ON B.ID_PORTO = A.ID_PORTO
+            'LEFT JOIN TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
+            'LEFT JOIN TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX
+            'LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
+            'LEFT JOIN TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO
+            'LEFT JOIN TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA_COMPRA     
+            '        WHERE a.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue & " AND ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO & " ORDER BY B.NM_PORTO"
+
+
+            dsTaxas.SelectCommand = sb.ToString
             dgvTaxas.DataBind()
         End If
 
@@ -1117,4 +1154,61 @@ INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_STATUS_COTACAO
     Private Sub ddlConsulta_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlConsulta.SelectedIndexChanged
         Pesquisa()
     End Sub
+
+    Private Sub btnGerarCSV_Click(sender As Object, e As EventArgs) Handles btnGerarCSV.Click
+
+        Try
+            Dim FILTRO As String = ""
+
+            If txtConsulta.Text <> "" Then
+
+                If ddlConsulta.SelectedValue = 1 Then
+                    FILTRO = FILTRO & " And NM_PORTO Like '%" & txtConsulta.Text & "%' "
+                ElseIf ddlConsulta.SelectedValue = 2 Then
+                    FILTRO = FILTRO & " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
+                End If
+
+                If Not String.IsNullOrEmpty(txtItemDespesa.Text) Then
+                    FILTRO = FILTRO & "  AND F.NM_ITEM_DESPESA like '%" & txtItemDespesa.Text & "%'"
+                End If
+
+                If Not String.IsNullOrEmpty(txtDataInicial.Text) Then
+                    FILTRO = FILTRO & " AND A.DT_VALIDADE_INICIAL BETWEEN Convert(Datetime, '" & txtDataInicial.Text & "',103) and Convert(Datetime, '" & txtDataFinal.Text & "', 103) "
+                End If
+
+                Dim sb As New StringBuilder
+
+                sb.Clear()
+
+                sb.AppendLine(" SELECT A.ID_TAXA_LOCAL_TRANSPORTADOR, ")
+                sb.AppendLine(" A.ID_TRANSPORTADOR,  ")
+                sb.AppendLine(" A.ID_PORTO, CASE WHEN A.ID_PORTO = 0 THEN 'TODOS' ELSE B.NM_PORTO END NM_PORTO,  ")
+                sb.AppendLine(" A.ID_TIPO_COMEX, D.NM_TIPO_COMEX,  ")
+                sb.AppendLine(" A.ID_VIATRANSPORTE, C.NM_VIATRANSPORTE,  ")
+                sb.AppendLine(" A.ID_ITEM_DESPESA, F.NM_ITEM_DESPESA,  ")
+                sb.AppendLine(" A.VL_TAXA_LOCAL_COMPRA,  ")
+                sb.AppendLine(" A.DT_VALIDADE_INICIAL, E.NM_BASE_CALCULO_TAXA, G.SIGLA_MOEDA  ")
+                sb.AppendLine(" FROM  ")
+                sb.AppendLine(" TB_TAXA_LOCAL_TRANSPORTADOR A   ")
+                sb.AppendLine(" LEFT JOIN TB_PORTO B ON B.ID_PORTO = A.ID_PORTO  ")
+                sb.AppendLine(" LEFT JOIN TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE  ")
+                sb.AppendLine(" LEFT JOIN TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX  ")
+                sb.AppendLine(" LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA  ")
+                sb.AppendLine(" LEFT JOIN TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO   ")
+                sb.AppendLine(" LEFT JOIN TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA_COMPRA    ")
+                sb.AppendLine(" WHERE ")
+                sb.AppendLine(" a.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue)
+                sb.AppendLine(" AND ID_TRANSPORTADOR =  " & Request.QueryString("id"))
+                sb.AppendLine(FILTRO)
+                sb.AppendLine(" ORDER BY B.NM_PORTO ")
+
+                Classes.Excel.exportaExcel(sb.ToString, "Taxas_Locais_Armador")
+            End If
+        Catch ex As Exception
+            Throw ex
+        End Try
+
+    End Sub
+
+
 End Class

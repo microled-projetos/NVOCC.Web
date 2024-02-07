@@ -544,7 +544,30 @@
                                     </div>
                                 </div>
                                 
-                                <div class="col-sm-2" id="divPesquisa" runat="server">
+                               
+
+                                <div class="col-sm-2" id="divItemFiltroDespesa" runat="server">
+                                    <div class="form-group">   
+                                        <label class="control-label">Filtrar item despesa </label>
+                                        <asp:TextBox ID="txtItemDespesa" runat="server" CssClass="form-control"></asp:TextBox>                                        
+                                    </div>                                   
+                                </div>
+
+                                <div class="col-sm-2" id="divDataInicial" runat="server">
+                                    <div class="form-group">   
+                                        <label class="control-label">Data Inicial:  </label>
+                                        <asp:TextBox ID="txtDataInicial" runat="server" CssClass="form-control data"></asp:TextBox>                                        
+                                    </div>                                   
+                                </div>
+
+                                <div class="col-sm-2" id="divDataFinal" runat="server">
+                                    <div class="form-group">   
+                                        <label class="control-label">Data Final:  </label>
+                                        <asp:TextBox ID="txtDataFinal" runat="server" CssClass="form-control data"></asp:TextBox>                                        
+                                    </div>                                   
+                                </div>
+                                
+                                 <div class="col-sm-2" id="divPesquisa" runat="server">
                                     <div class="form-group">   
                                         <label class="control-label">Pesquisar</label>
                                         <asp:TextBox ID="txtConsulta" runat="server" autopostback="true" CssClass="form-control"></asp:TextBox>
@@ -557,11 +580,13 @@
                             <br />
                              <div class="row">
                                      
-                                  <div class="col-sm-4"">
-                                                    <div class="form-group">
-                                                        <asp:button runat="server" Text="Nova Taxa" id="btnNovo" CssClass="btn btn-primary" />
-                                                    </div>
-                                                </div>
+                                  <div class="col-sm-5">
+                                        <div class="form-group">
+                                            <asp:button runat="server" Text="Nova Taxa" id="btnNovo" CssClass="btn btn-primary" />
+                                            <asp:button runat="server" Text="Exportar Grid - CSV" id="btnGerarCSV" CssClass="btn btn-primary" />
+                                        </div>
+                                   </div>
+
                             </div>
                                 
                                     <br /> 
@@ -625,13 +650,14 @@
                             </div>        
          </ContentTemplate>
  <Triggers>
-       <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvTaxas" />
-       <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
-                    <asp:AsyncPostBackTrigger  ControlID="btnSalvar" />
-                               <asp:AsyncPostBackTrigger  ControlID="btnSalvarNovo" />
-                                    <asp:AsyncPostBackTrigger  ControlID="txtConsulta" />
-       <asp:AsyncPostBackTrigger  ControlID="ddlConsulta" />
+     <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvTaxas" />
+     <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
+     <asp:AsyncPostBackTrigger  ControlID="btnSalvar" />
+     <asp:AsyncPostBackTrigger  ControlID="btnSalvarNovo" />
+     <asp:AsyncPostBackTrigger  ControlID="txtConsulta" />
+     <asp:AsyncPostBackTrigger  ControlID="ddlConsulta" />
      <asp:AsyncPostBackTrigger  ControlID="ddlComexConsulta" />
+     <asp:PostBackTrigger ControlID="btnGerarCSV" />
 </Triggers>
    </asp:UpdatePanel>
   
