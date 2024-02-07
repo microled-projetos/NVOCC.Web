@@ -103,6 +103,10 @@ namespace ABAINFRA.Web
             ddlBaseCalculo.DataSource = Session["TaskTableBaseCalc"];
             ddlBaseCalculo.DataBind();
             ddlBaseCalculo.Items.Insert(0, new ListItem("Selecione", ""));
+
+            ddlBaseCalculoCompra.DataSource = Session["TaskTableBaseCalc"];
+            ddlBaseCalculoCompra.DataBind();
+            ddlBaseCalculoCompra.Items.Insert(0, new ListItem("Selecione", ""));
         }
         private void CarregarItemDespesa()
         {
@@ -126,6 +130,9 @@ namespace ABAINFRA.Web
             ddlCobranca.DataBind();
             ddlCobranca.Items.Insert(0, new ListItem("Selecione", ""));
 
+            ddlPagarPara.DataSource = Session["TaskTableCobranca"];
+            ddlPagarPara.DataBind();
+            ddlPagarPara.Items.Insert(0, new ListItem("Selecione", ""));
         }
         private void CarregarTipoPagamento()
         {
@@ -137,6 +144,10 @@ namespace ABAINFRA.Web
             ddlTipoPagamento.DataSource = Session["TaskTableTipoPagamento"];
             ddlTipoPagamento.DataBind();
             ddlTipoPagamento.Items.Insert(0, new ListItem("Selecione", ""));
+
+            ddlTipoPagamentoCompra.DataSource = Session["TaskTableTipoPagamento"];
+            ddlTipoPagamentoCompra.DataBind();
+            ddlTipoPagamentoCompra.Items.Insert(0, new ListItem("Selecione", ""));
         }
         private void CarregarTipoEstufagem()
         {
@@ -160,6 +171,10 @@ namespace ABAINFRA.Web
             ddlOrigemServico.DataSource = Session["TaskTableOrigem"];
             ddlOrigemServico.DataBind();
             ddlOrigemServico.Items.Insert(0, new ListItem("Selecione", ""));
+
+            ddlOrigemServicoCompra.DataSource = Session["TaskTableOrigem"];
+            ddlOrigemServicoCompra.DataBind();
+            ddlOrigemServicoCompra.Items.Insert(0, new ListItem("Selecione", ""));
         }
         private void CarregarComex()
         {
@@ -220,7 +235,7 @@ namespace ABAINFRA.Web
 
         }
 
-        private void CarregarVariacoes()
+        private void CarregarVariacoes() 
         {
             SQL = "SELECT ID_BASE_CALCULO_VARIACAO, NM_BASE_CALCULO_VARIACAO FROM TB_BASE_CALCULO_VARIACAO";
 
@@ -230,8 +245,6 @@ namespace ABAINFRA.Web
             ddlBaseCalculoVariacao.DataSource = Session["TaskTableBaseCalc"];
             ddlBaseCalculoVariacao.DataBind();
             ddlBaseCalculoVariacao.Items.Insert(0, new ListItem("Selecione", ""));
-
-
         }
 
         public static string decBD(string numero)

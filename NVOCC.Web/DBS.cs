@@ -96,10 +96,9 @@ namespace ABAINFRA.Web
 
                     using (SqlDataAdapter Adp = new SqlDataAdapter(Cmd))
                     {
-
                         //try
                         //{
-                        
+
                         Adp.Fill(Ds);
                         //}
                         //catch (Exception ex)
@@ -191,7 +190,7 @@ namespace ABAINFRA.Web
             }
             else
             {
-                      return ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString;
+                return ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString;
             }
         }
     }

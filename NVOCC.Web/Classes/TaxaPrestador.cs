@@ -44,6 +44,14 @@ namespace ABAINFRA.Web
         private string id_tipo_comex;
         private string id_tipo_estufagem;
 
+        private string ob_taxas_compra;
+        private string fl_declarado_compra;
+        private string fl_divisao_profit_compra;
+        private string id_base_calculo_taxa_compra;
+        private string id_destinatario_pagamento;
+        private string id_tipo_pagamento_compra;
+        private string id_origem_pagamento_compra;
+
         public string ID_TAXA_CLIENTE { get => id_taxa_cliente; set => id_taxa_cliente = value; }
         public string ID_ITEM_DESPESA { get => id_item_despesa; set => id_item_despesa = value; }
         public string ID_BASE_CALCULO_TAXA { get => id_base_calculo_taxa; set => id_base_calculo_taxa = value; }
@@ -75,5 +83,14 @@ namespace ABAINFRA.Web
         public string ID_TIPO_ESTUFAGEM { get => id_tipo_estufagem; set => id_tipo_estufagem = value; }
         public string ID_TIPO_COMEX { get => id_tipo_comex; set => id_tipo_comex = value; }
         public string ID_VIATRANSPORTE { get => id_viatransporte; set => id_viatransporte = value; }
+
+        public string OB_TAXAS_COMPRA { get => ob_taxas_compra; set => ob_taxas_compra = value; }
+        public string FL_DECLARADO_COMPRA { get => fl_declarado_compra; set => fl_declarado_compra = value; }
+        public string FL_DIVISAO_PROFIT_COMPRA { get => fl_divisao_profit_compra; set => fl_divisao_profit_compra = value; }
+        public string ID_BASE_CALCULO_TAXA_COMPRA { get => id_base_calculo_taxa_compra; set => id_base_calculo_taxa_compra = value; }
+        public string ID_DESTINATARIO_PAGAMENTO { get => id_destinatario_pagamento; set => id_destinatario_pagamento = value; }
+        public string ID_TIPO_PAGAMENTO_COMPRA { get => id_tipo_pagamento_compra; set => id_tipo_pagamento_compra = value; }
+        public string ID_ORIGEM_PAGAMENTO_COMPRA { get => id_origem_pagamento_compra; set => id_origem_pagamento_compra = value; }
+        
     }
 }

@@ -156,9 +156,9 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="row flex" id="listTaxa">
-                                                <div class="text-center col-sm-6 col-sm-offset-3">
-                                                    <label class="control-label text-center" style="font-size: 14px;">Cód. Taxa</label><br>
+                                            <div class="row" style="display:flex; justify-content: center;" id="listTaxa">
+                                                <div class="col-sm-6 mx-auto">
+                                                    <label class= "control-label text-center" style="font-size: 14px; display:flex; justify-content:center;">Cód. Taxa</label><br>
                                                     <select id="ddlTaxaCliente" onchange="Buscar(this.value)" class="labelTaxa form-control">
                                                     </select>
                                                 </div>
@@ -244,20 +244,31 @@
                                                 </div>
                                                 
                                             </div>
-                                            <div class="row" style="display: flex; align-items: flex-end;">
-                                                <div class="col-sm-6">
+
+                                            <div class="row" style="display: flex; align-items:center;">
+                                                <div class="col-sm-3" style="margin-top: 25px;">
                                                     <div class="form-group">
-                                                        <label class="control-label">Base Cálculo</label><label runat="server" style="color: red">*</label>
-                                                        <asp:DropDownList ID="ddlBaseCalculo" runat="server" CssClass="form-control" DataTextField="NM_BASE_CALCULO_TAXA" DataValueField="ID_BASE_CALCULO_TAXA" alt="Esse campo serve para saber quem é o parceiro">
+                                                        <div>
+                                                            <asp:CheckBox ID="chkTaxaTransportador" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                 <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Tipo de Cobrança:</label><label runat="server" style="color: red">*</label>
+                                                        <asp:DropDownList ID="ddlTipoCobranca" runat="server" CssClass="form-control" DataTextField="NM_TIPO_COBRANCA" DataValueField="ID_TIPO_COBRANCA">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
+
                                             </div>
-                                            <div class="row">
+                                            <hr style="width:100%; border: 1px solid black; ">
+                                            <div class="row" style="display: flex; align-items: flex-end;">
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Moeda Compra</label>
-                                                        <asp:TextBox ID="txtMoedaCompra" runat="server" onkeyup="MostrarMoedaCompra(this)" CssClass="form-control" TextMode="Number"></asp:TextBox>
+                                                        <asp:TextBox ID="txtMoedaCompra" runat="server" onkeyup="MostrarMoedaCompra(this)" CssClass="form-control" TextMode="Number" ReadOnly></asp:TextBox>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
@@ -282,47 +293,10 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <div>
-                                                            <asp:CheckBox ID="chkTaxaTransportador" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Moeda Venda</label><label runat="server" style="color: red">*</label>
-                                                        <asp:TextBox ID="txtMoedaVenda" runat="server" onkeyup="MostrarMoedaVenda(this)" CssClass="form-control" TextMode="Number"></asp:TextBox>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">&nbsp</label><label runat="server" style="color: red">*</label>
-                                                        <asp:DropDownList ID="ddlTipoMoedaVenda" runat="server" onchange="cd_moeda_venda(this)" CssClass="form-control" DataTextField="NM_MOEDA" DataValueField="CD_MOEDA">
-                                                        </asp:DropDownList>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Base Venda</label><label runat="server" style="color: red">*</label>
-                                                        <asp:TextBox ID="baseVenda" runat="server" CssClass="form-control numero"></asp:TextBox>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
-                                                        <asp:TextBox ID="txtTarifaMinVenda" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
-                                                        </asp:TextBox>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">Declarado:</label><label runat="server" style="color: red">*</label>
-                                                        <asp:DropDownList ID="ddlDeclarado" runat="server" CssClass="form-control">
+                                                        <label class="control-label">Declarado:</label>
+                                                        <asp:DropDownList ID="ddlDeclaradoCompra" runat="server" CssClass="form-control">
                                                             <asp:ListItem Value="">Selecione</asp:ListItem>
                                                             <asp:ListItem Value="1">Sim</asp:ListItem>
                                                             <asp:ListItem Value="0">Não</asp:ListItem>
@@ -331,7 +305,99 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">Profit:</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Profit:</label>
+                                                        <asp:DropDownList ID="ddlProfitCompra" runat="server" CssClass="form-control">
+                                                            <asp:ListItem Value="">Selecione</asp:ListItem>
+                                                            <asp:ListItem Value="1">Sim</asp:ListItem>
+                                                            <asp:ListItem Value="0">Não</asp:ListItem>
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                </div>
+                                                 <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Base Cálculo</label>
+                                                        <asp:DropDownList ID="ddlBaseCalculoCompra" runat="server" CssClass="form-control" DataTextField="NM_BASE_CALCULO_TAXA" DataValueField="ID_BASE_CALCULO_TAXA" alt="Esse campo serve para saber quem é o parceiro">
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Pagar para:</label>
+                                                        <asp:DropDownList ID="ddlPagarPara" runat="server" CssClass="form-control" DataTextField="NM_DESTINATARIO_COBRANCA" DataValueField="ID_DESTINATARIO_COBRANCA">
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Tipo Pagamento</label>
+                                                        <asp:DropDownList ID="ddlTipoPagamentoCompra" runat="server" CssClass="form-control" DataTextField="NM_TIPO_PAGAMENTO" DataValueField="ID_TIPO_PAGAMENTO">
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Origem de Pagamento</label>
+                                                        <asp:DropDownList ID="ddlOrigemServicoCompra" runat="server" CssClass="form-control" DataTextField="NM_ORIGEM_PAGAMENTO" DataValueField="ID_ORIGEM_PAGAMENTO">
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Observação Taxa</label>
+                                                        <asp:TextBox ID="txtObsTaxaCompra" runat="server" CssClass="form-control"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr style="width:100%; border: 1px solid black; ">
+                                            <div class="row">
+                                                 <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Moeda Venda</label>
+                                                        <asp:TextBox ID="txtMoedaVenda" runat="server" onkeyup="MostrarMoedaVenda(this)" CssClass="form-control" TextMode="Number" ReadOnly></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">&nbsp</label>
+                                                        <asp:DropDownList ID="ddlTipoMoedaVenda" runat="server" onchange="cd_moeda_venda(this)" CssClass="form-control" DataTextField="NM_MOEDA" DataValueField="CD_MOEDA">
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Base Venda</label>
+                                                        <asp:TextBox ID="baseVenda" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Tarífa Mínima Venda</label>
+                                                        <asp:TextBox ID="txtTarifaMinVenda" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                        </asp:TextBox>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Declarado:</label>
+                                                        <asp:DropDownList ID="ddlDeclarado" runat="server" CssClass="form-control">
+                                                            <asp:ListItem Value="">Selecione</asp:ListItem>
+                                                            <asp:ListItem Value="1">Sim</asp:ListItem>
+                                                            <asp:ListItem Value="0">Não</asp:ListItem>
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                </div>
+                                                 <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Profit:</label>
                                                         <asp:DropDownList ID="ddlProfit" runat="server" CssClass="form-control">
                                                             <asp:ListItem Value="">Selecione</asp:ListItem>
                                                             <asp:ListItem Value="1">Sim</asp:ListItem>
@@ -341,8 +407,8 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">Tipo de Cobrança:</label><label runat="server" style="color: red">*</label>
-                                                        <asp:DropDownList ID="ddlTipoCobranca" runat="server" CssClass="form-control" DataTextField="NM_TIPO_COBRANCA" DataValueField="ID_TIPO_COBRANCA">
+                                                        <label class="control-label">Base Cálculo</label>
+                                                        <asp:DropDownList ID="ddlBaseCalculo" runat="server" CssClass="form-control" DataTextField="NM_BASE_CALCULO_TAXA" DataValueField="ID_BASE_CALCULO_TAXA" alt="Esse campo serve para saber quem é o parceiro">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -350,21 +416,22 @@
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">Cobrar do:</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Cobrar do:</label>
                                                         <asp:DropDownList ID="ddlCobranca" runat="server" CssClass="form-control" DataTextField="NM_DESTINATARIO_COBRANCA" DataValueField="ID_DESTINATARIO_COBRANCA">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">Tipo Pagamento</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Tipo Pagamento</label>
                                                         <asp:DropDownList ID="ddlTipoPagamento" runat="server" CssClass="form-control" DataTextField="NM_TIPO_PAGAMENTO" DataValueField="ID_TIPO_PAGAMENTO">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
+
+                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">Origem</label><label runat="server" style="color: red">*</label>
+                                                        <label class="control-label">Origem de Pagamento</label>
                                                         <asp:DropDownList ID="ddlOrigemServico" runat="server" CssClass="form-control" DataTextField="NM_ORIGEM_PAGAMENTO" DataValueField="ID_ORIGEM_PAGAMENTO">
                                                         </asp:DropDownList>
                                                     </div>
@@ -437,8 +504,144 @@
         }
 
         $("#MainContent_ddlViaTransporte").change(function () {
-            appendList()
+            appendList();
         });
+
+        $("#MainContent_ddlDeclaradoCompra").change(function () {
+            var declaradoCompra = $('#MainContent_ddlDeclaradoCompra').val();
+
+            if (declaradoCompra == '1') {
+                $('#MainContent_ddlTipoPagamentoCompra').val('2');
+                $('#MainContent_ddlOrigemServicoCompra').val('2');
+            } else{
+                $('#MainContent_ddlTipoPagamentoCompra').val('');
+                $('#MainContent_ddlOrigemServicoCompra').val('');
+            }
+        });
+
+        $("#MainContent_ddlDeclarado").change(function () {
+            var declaradoVenda = $('#MainContent_ddlDeclarado').val();
+
+            if (declaradoVenda == '1') {
+                $('#MainContent_ddlTipoPagamento').val('1');
+                $('#MainContent_ddlOrigemServico').val('1');
+            } else {
+                $('#MainContent_ddlTipoPagamento').val('');
+                $('#MainContent_ddlOrigemServico').val('');
+            }
+        });
+
+        $("#MainContent_ddlTipoMoedaCompra").change(function () {
+            var tipoMoedaCompra = $("#MainContent_ddlTipoMoedaCompra").val();
+
+            if (tipoMoedaCompra != "") {
+                DesbloquearCampos("Compra");
+            } else {
+                LimparCampos("Compra");
+                BloquearCampos("Compra");
+            }
+
+        });
+
+        $("#MainContent_ddlTipoMoedaVenda").change(function () {
+            var tipoMoedaVenda = $("#MainContent_ddlTipoMoedaVenda").val();
+
+            if (tipoMoedaVenda != "") {
+                DesbloquearCampos("Venda");
+            } else {
+                LimparCampos("Venda");
+                BloquearCampos("Venda");
+            }
+        });
+
+        function BloquearCampos(param) {
+            var forms;
+
+            if (param == "Compra") {
+                forms = ['MainContent_baseCompra',
+                    'MainContent_txtTarifaMin',
+                    'MainContent_txtObsTaxaCompra',
+                    'MainContent_ddlDeclaradoCompra',
+                    'MainContent_ddlProfitCompra',
+                    'MainContent_ddlPagarPara',
+                    'MainContent_ddlBaseCalculoCompra',
+                    'MainContent_ddlTipoPagamentoCompra',
+                    'MainContent_ddlOrigemServicoCompra'];
+            }
+            else if (param == "Venda") {
+                forms = ['MainContent_ddlBaseCalculo',
+                    'MainContent_txtTarifaMinVenda',
+                    'MainContent_baseVenda',
+                    'MainContent_ddlDeclarado',
+                    'MainContent_ddlProfit',
+                    'MainContent_ddlCobranca',
+                    'MainContent_txtObsTaxa',
+                    'MainContent_ddlTipoPagamento',
+                    'MainContent_ddlOrigemServico'];
+            }
+            for (let i = 0; i < forms.length; i++) {
+                var aux = document.getElementById(forms[i]);
+                $(aux).attr("disabled", "true");
+            }
+        }
+
+        function DesbloquearCampos(param) {
+            if (param == "Compra") {
+                var forms = ['MainContent_baseCompra',
+                    'MainContent_txtTarifaMin',
+                    'MainContent_txtObsTaxaCompra',
+                    'MainContent_ddlDeclaradoCompra',
+                    'MainContent_ddlProfitCompra',
+                    'MainContent_ddlPagarPara',
+                    'MainContent_ddlBaseCalculoCompra',
+                    'MainContent_ddlTipoPagamentoCompra',
+                    'MainContent_ddlOrigemServicoCompra'];
+            } else if (param == "Venda") {
+                var forms = ['MainContent_ddlBaseCalculo',
+                    'MainContent_txtTarifaMinVenda',
+                    'MainContent_baseVenda',
+                    'MainContent_ddlDeclarado',
+                    'MainContent_ddlProfit',
+                    'MainContent_ddlCobranca',
+                    'MainContent_txtObsTaxa',
+                    'MainContent_ddlTipoPagamento',
+                    'MainContent_ddlOrigemServico'];
+            }
+            for (let i = 0; i < forms.length; i++) {
+
+                var aux = document.getElementById(forms[i]);
+                $(aux).removeAttr("disabled");
+            }
+        }
+
+        function LimparCampos(param) {
+            if (param == "Compra") {
+                var forms = ['MainContent_baseCompra',
+                    'MainContent_txtTarifaMin',
+                    'MainContent_txtObsTaxaCompra',
+                    'MainContent_ddlDeclaradoCompra',
+                    'MainContent_ddlProfitCompra',
+                    'MainContent_ddlPagarPara',
+                    'MainContent_ddlBaseCalculoCompra',
+                    'MainContent_ddlTipoPagamentoCompra',
+                    'MainContent_ddlOrigemServicoCompra'];
+            } else if (param == "Venda") {
+                var forms = ['MainContent_ddlBaseCalculo',
+                    'MainContent_txtTarifaMinVenda',
+                    'MainContent_baseVenda',
+                    'MainContent_ddlDeclarado',
+                    'MainContent_ddlProfit',
+                    'MainContent_ddlCobranca',
+                    'MainContent_txtObsTaxa',
+                    'MainContent_ddlTipoPagamento',
+                    'MainContent_ddlOrigemServico'];
+            }
+            for (let i = 0; i < forms.length; i++) {
+
+                var aux = document.getElementById(forms[i]);
+                $(aux).val("");
+            }
+        }
 
         function MostrarValor(selecionado) {
 
@@ -493,6 +696,7 @@
                 success: function (data) {
                     var data = data.d;
                     data = $.parseJSON(data);
+
                     document.getElementById('ddlTaxaCliente').value = Id;
                     document.getElementById("MainContent_ddlViaTransporte").value = data.ID_VIATRANSPORTE == "0" ? "" : data.ID_VIATRANSPORTE;
                     document.getElementById('ddlTaxaCliente').value = Id;
@@ -521,6 +725,13 @@
                     document.getElementById('MainContent_ddlOrigemServico').value = data.ID_ORIGEM_PAGAMENTO;
                     document.getElementById('MainContent_ddlTipoPagamento').value = data.ID_TIPO_PAGAMENTO;
                     document.getElementById('MainContent_chkTaxaTransportador').value = data.FL_TAXA_TRANSPORTADOR;
+                    document.getElementById('MainContent_txtObsTaxaCompra').value = data.OB_TAXAS_COMPRA;
+                    document.getElementById('MainContent_ddlDeclaradoCompra').value = data.FL_DECLARADO_COMPRA;
+                    document.getElementById('MainContent_ddlProfitCompra').value = data.FL_DIVISAO_PROFIT_COMPRA;
+                    document.getElementById('MainContent_ddlBaseCalculoCompra').value = data.ID_BASE_CALCULO_TAXA_COMPRA;
+                    document.getElementById('MainContent_ddlPagarPara').value = data.ID_DESTINATARIO_PAGAMENTO;
+                    document.getElementById('MainContent_ddlTipoPagamentoCompra').value = data.ID_TIPO_PAGAMENTO_COMPRA;
+                    document.getElementById('MainContent_ddlOrigemServicoCompra').value = data.ID_ORIGEM_PAGAMENTO_COMPRA;                   
 
                     var forms = ['MainContent_ddlPortoDescarga',
                         'MainContent_ddlTipoCobranca',
@@ -538,15 +749,22 @@
                         'MainContent_txtMoedaVenda',
                         'MainContent_ddlTipoMoedaVenda',
                         'MainContent_baseVenda',
+                        'MainContent_txtObsTaxaCompra',
                         'MainContent_ddlDeclarado',
+                        'MainContent_ddlDeclaradoCompra',
                         'MainContent_ddlProfit',
                         'MainContent_ddlCobranca',
+                        'MainContent_ddlProfitCompra',
                         'MainContent_txtObsTaxa',
                         'MainContent_ddlTipoPagamento',
+                        'MainContent_ddlPagarPara',
+                        'MainContent_ddlBaseCalculoCompra',
                         'MainContent_ddlOrigemServico',
                         'MainContent_chkTaxaTransportador',
                         'MainContent_ddlPortoRecebimento',
+                        'MainContent_ddlTipoPagamentoCompra',
                         'MainContent_ddlPortoCarregamento',
+                        'MainContent_ddlOrigemServicoCompra',
                         'MainContent_ddlPortoDescarga',
                         'MainContent_ddlIncoterm'];
                     for (let i = 0; i < forms.length; i++) {
@@ -697,142 +915,6 @@
         }
 
 
-        /*function EnviarDados() {
-            const qtdinicial = document.getElementsByName("qtdinicial");
-            const qtdfinal = document.getElementsByName("qtdfinal");
-            const moeda = document.getElementsByName("moeda");
-            const valor = document.getElementsByName("valor");
-            const idVariacao = document.getElementsByName("idVariacao");
-            const idBaseCalculoVariacao = document.getElementById("MainContent_ddlBaseCalculoVariacao");
-            const values = [];
-
-            for (let i = 0; i < qtdinicial.length; i++) {
-                values.push({
-                    idBaseCalculoVariacao: `${idBaseCalculoVariacao.value}`,
-                    idVariacao: `${idVariacao[i].value}`,
-                    idTaxaCliente: idTaxa,
-                    qtInicial: `${qtdinicial[i].value}`,
-                    qtFinal: `${qtdfinal[i].value}`,
-                    moedaC: `${moeda[i].value}`,
-                    valorC: `${valor[i].value}`
-                });
-            }
-
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/CadastrarRegra",
-                data: JSON.stringify({ dados: (values) }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function () {
-                    Toastify({
-                        text: "Cadastrado com Sucesso",
-                        close: true,
-                        gravity: "bottom",
-                        style: {
-                            color: "#3c763d",
-                            background: "#dff0d8",
-                            border: "#d6e9c6",
-                            borderRadius: "4px",
-                            width: "500px",
-                            height: "100px",
-                            display: "flex",
-                            alignItems: "center",
-                            fontSize: "18px"
-                        }
-                    }).showToast();
-                    
-                },
-                error: function () {
-                    Toastify({
-                        text: "Erro ao cadastrar",
-                        close: true,
-                        gravity: "bottom",
-                        style: {
-                            color: "#a94442",
-                            background: "#f2dede",
-                            border: "#ebccd1",
-                            borderRadius: "4px",
-                            width: "500px",
-                            height: "100px",
-                            alignItems: "center",
-                            fontSize: "18px"
-                        }
-                    }).showToast();
-                    RegraAvancada()
-                }
-            });
-        }*/
-
-        /*function duplicarCampos() {
-            const moeda = [];
-            var result = "";
-            let option = "";
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/CarregarMoeda",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        for (let i = 0; i < dado.length; i++) {
-                            moeda.push({
-                                value: dado[i]["ID_MOEDA"],
-                                name: dado[i]["NM_MOEDA"]
-                            })
-                        }
-                        result += "<div class='row'>";
-                        result += "<div class='col-sm-3' style='display: none;'> ";
-                        result += "<div class='form-group'> ";
-                        result += "<label class='control-label'></label> ";
-                        result += "<input type='text' class='form-control' name='idVariacao'/> ";
-                        result += "</div>";
-                        result += "</div>";
-                        result += "<div class='col-sm-3'>";
-                        result += "<div class='form-group'>";
-                        result += "<label class='control-label'>Quantidade inicial</label>";
-                        result += "<input type='text' class='form-control' name='qtdinicial'/>";
-                        result += "</div>";
-                        result += "</div>";
-                        result += "<div class='col-sm-3'>";
-                        result += "<div class='form-group'>";
-                        result += "<label class='control-label'>Quantidade Final</label>";
-                        result += "<input type='text' class='form-control' name='qtdfinal'/>";
-                        result += "</div>";
-                        result += "</div>";
-                        result += "<div class='col-sm-3'>";
-                        result += "<div class='form-group'>";
-                        result += "<label class='control-label'>Valor</label>";
-                        result += "<input type='text' class='form-control' name='valor'/>";
-                        result += "</div>";
-                        result += "</div>";
-                        result += "<div class='col-sm-3'>";
-                        result += "<div class='form-group'>";
-                        result += "<label class='control-label'>Moeda</label>";
-                        result += "<select class='form-control' name='moeda'>";
-                        for (let i = 0; i < moeda.length; i++) {
-                            console.log(moeda[i].value);
-                            result += "<option value='" + moeda[i].value + "'>" + moeda[i].name + "</option>"
-                        }
-                        result += "</select>";
-                        result += "</div>";
-                        result += "</div>";
-                        result += "</div>";
-                        $("#rows-variacao").append(result);
-                    }
-                },
-                error: function () {
-                }
-            });
-        }*/
-
-        /*function removerCampos(id) {
-            var node1 = document.getElementById('modalRegraInfo');
-            node1.removeChild(node1.childNodes[0]);
-        }*/
-
         var url = window.location.search.replace("?", "");
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
@@ -844,9 +926,6 @@
             flagTaxa = 0;
         }
         $("#btnSalvar").click(function () {
-            if (document.getElementById("MainContent_baseCompra").value == "") {
-                document.getElementById("MainContent_baseCompra").value = 0;
-            }
             var dado = {
                 "ID_PORTO_RECEBIMENTO": document.getElementById("MainContent_ddlPortoRecebimento").value,
                 "ID_PORTO_CARREGAMENTO": document.getElementById("MainContent_ddlPortoCarregamento").value,
@@ -869,7 +948,13 @@
                 "ID_DESTINATARIO_COBRANCA": document.getElementById("MainContent_ddlCobranca").value,
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxa").value,
                 "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServico').value,
-                "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamento').value,
+                "OB_TAXAS_COMPRA": document.getElementById('MainContent_txtObsTaxaCompra').value,
+                "FL_DECLARADO_COMPRA": document.getElementById('MainContent_ddlDeclaradoCompra').value,
+                "FL_DIVISAO_PROFIT_COMPRA": document.getElementById('MainContent_ddlProfitCompra').value,
+                "ID_BASE_CALCULO_TAXA_COMPRA": document.getElementById('MainContent_ddlBaseCalculoCompra').value,
+                "ID_DESTINATARIO_PAGAMENTO": document.getElementById('MainContent_ddlPagarPara').value,
+                "ID_TIPO_PAGAMENTO_COMPRA": document.getElementById('MainContent_ddlTipoPagamentoCompra').value,
+                "ID_ORIGEM_PAGAMENTO_COMPRA": document.getElementById('MainContent_ddlOrigemServicoCompra').value,
                 "FL_TAXA_TRANSPORTADOR": flagTaxa,
                 "ID_PARCEIRO": id
             }
@@ -1036,232 +1121,6 @@
             });
         }
 
-
-        /*function RegraAvancada() {
-            let result = "";
-            const moeda = [];
-            const idBaseCalculoVariacao = document.getElementById("MainContent_ddlBaseCalculoVariacao");
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/CarregarMoeda",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        for (let k = 0; k < dado.length; k++) {
-                            moeda.push({
-                                value: dado[k]["ID_MOEDA"],
-                                name: dado[k]["NM_MOEDA"]
-                            })
-                        }
-                        $.ajax({
-                            type: "POST",
-                            url: "DemurrageService.asmx/BuscarRegraAvancada",
-                            data: '{idTaxa:"' + idTaxa + '"}',
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (data) {
-                                var data = data.d;
-                                data = $.parseJSON(data);
-                                $("#rows-variacao").empty();
-                                if (data != null) {
-                                    console.log(data[0]["ID_CALCULO_VARIACAO"]);
-                                    idBaseCalculoVariacao.value = data[0]["ID_CALCULO_VARIACAO"];
-                                    for (let i = 0; i < data.length; i++) {
-                                        result += "<div class='row'> ";
-                                        result += "<div class='col-sm-3' style='display: none;'> ";
-                                        result += "<div class='form-group'> ";
-                                        result += "<label class='control-label'>Quantidade inicial</label> ";
-                                        result += "<input type='text' class='form-control' name='idVariacao' value='" + data[i]["ID_TAXA_CLIENTE_VARIACAO"] + "'/> ";
-                                        result += "</div>";
-                                        result += "</div>";
-                                        result += "<div class='col-sm-3'> ";
-                                        result += "<div class='form-group'> ";
-                                        result += "<label class='control-label'>Quantidade inicial</label> ";
-                                        result += "<input type='text' class='form-control' name='qtdinicial' value='" + data[i]["QT_ITEM_INICIAL"] + "'/> ";
-                                        result += "</div>";
-                                        result += "</div>";
-                                        result += "<div class='col-sm-3'> ";
-                                        result += "<div class='form-group'> ";
-                                        result += "<label class='control-label'>Quantidade Final</label> ";
-                                        result += "<input type='text' class='form-control' name='qtdfinal' value='" + data[i]["QT_ITEM_FINAL"] + "'/> ";
-                                        result += "</div> ";
-                                        result += "</div> ";
-                                        result += "<div class='col-sm-3'> ";
-                                        result += "<div class='form-group'> ";
-                                        result += "<label class='control-label'>Valor</label> ";
-                                        result += "<input type='text' class='form-control' name='valor' value='" + data[i]["VL_COMPRA"] + "'/> ";
-                                        result += "</div> ";
-                                        result += "</div> ";
-                                        result += "<div class='col-sm-3'> ";
-                                        result += "<div class='form-group' style='display: flex;align-items:flex-end;'> ";
-                                        result += "<div>";
-                                        result += "<label class='control-label'>Moeda</label>";
-                                        result += "<select class='form-control' name='moeda'>";
-                                        for (let j = 0; j < moeda.length; j++) {
-                                            if (moeda[j].value == data[i]["ID_MOEDA"]) {
-                                                result += "<option value='" + moeda[j].value + "' selected>" + moeda[j].name + "</option>"
-                                            } else {
-                                                result += "<option value='" + moeda[j].value + "'>" + moeda[j].name + "</option>"
-                                            }
-                                        }
-                                        result += "</select>";
-                                        *//*result += "<input type='text' class='form-control' name='moeda' value='" + dado[i]["ID_MOEDA"] + "'/> ";*//*
-        result += "</div>";
-        result += "<div class='deleteTaxaVariacao btn btn-primary' style='margin-left: 10px;' name='id_variacao' data-toggle='modal' data-target='#modalDeleteTaxaVariacao' data-value='" + data[i]["ID_TAXA_CLIENTE_VARIACAO"] + "'> ";
-        result += "<i class='fas fa-trash'></i>";
-        result += "</div> ";
-        result += "</div> ";
-        result += "</div>";
-        result += "</div>";
-    }
-    $("#rows-variacao").append(result);
-}
-else {
-    result += "<div class='row'>";
-    result += "<div class='col-sm-3' style='display: none;'> ";
-    result += "<div class='form-group'> ";
-    result += "<label class='control-label'>Quantidade inicial</label> ";
-    result += "<input type='text' class='form-control' name='idVariacao'/> ";
-    result += "</div>";
-    result += "</div>";
-    result += "<div class='col-sm-3'>";
-    result += "<div class='form-group'>";
-    result += "<label class='control-label'>Quantidade inicial</label>";
-    result += "<input type='text' class='form-control' name='qtdinicial'/>";
-    result += "</div>";
-    result += "</div>";
-    result += "<div class='col-sm-3'>";
-    result += "<div class='form-group'>";
-    result += "<label class='control-label'>Quantidade Final</label>";
-    result += "<input type='text' class='form-control' name='qtdfinal'/>";
-    result += "</div>";
-    result += "</div>";
-    result += "<div class='col-sm-3'>";
-    result += "<div class='form-group'>";
-    result += "<label class='control-label'>Valor</label>";
-    result += "<input type='text' class='form-control' name='valor'/>";
-    result += "</div>";
-    result += "</div>";
-    result += "<div class='col-sm-3'>";
-    result += "<div class='form-group'>";
-    result += "<label class='control-label'>Moeda</label>";
-    result += "<select class='form-control' name='moeda'>";
-    for (let i = 0; i < moeda.length; i++) {
-        result += "<option value='" + moeda[i].value + "'>" + moeda[i].name + "</option>"
-    }
-    result += "</select>";
-    result += "</div>";
-    result += "</div>";
-    result += "</div>";
-    $("#rows-variacao").append(result);
-}
-},
-error: function () {
-$("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
-}
-});
-}
-},
-error: function () {
-}
-});
-}*/
-
-
-        /*function RegraAvancada() {
-            let result = "";
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/BuscarRegraAvancada",
-                data: '{idTaxa:"' + idTaxa + '"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    $("#rows-variacao").empty();
-                    if (dado != null) {
-                        for (let i = 0; i < dado.length; i++) {
-                            result += "<div class='row'> ";
-                            result += "<div class='col-sm-3' style='display: none;'> ";
-                            result += "<div class='form-group'> ";
-                            result += "<label class='control-label'>Quantidade inicial</label> ";
-                            result += "<input type='text' class='form-control' name='idVariacao' value='" + dado[i]["ID_TAXA_CLIENTE_VARIACAO"] + "'/> ";
-                            result += "</div>";
-                            result += "</div>";
-                            result += "<div class='col-sm-3'> ";
-                            result += "<div class='form-group'> ";
-                            result += "<label class='control-label'>Quantidade inicial</label> ";
-                            result += "<input type='text' class='form-control' name='qtdinicial' value='" + dado[i]["QT_ITEM_INICIAL"] + "'/> ";
-                            result += "</div>";
-                            result += "</div>";
-                            result += "<div class='col-sm-3'> ";
-                            result += "<div class='form-group'> ";
-                            result += "<label class='control-label'>Quantidade Final</label> ";
-                            result += "<input type='text' class='form-control' name='qtdfinal' value='" + dado[i]["QT_ITEM_FINAL"] + "'/> ";
-                            result += "</div> ";
-                            result += "</div> ";
-                            result += "<div class='col-sm-3'> ";
-                            result += "<div class='form-group'> ";
-                            result += "<label class='control-label'>Valor</label> ";
-                            result += "<input type='text' class='form-control' name='valor' value='" + dado[i]["VL_COMPRA"] + "'/> ";
-                            result += "</div> ";
-                            result += "</div> ";
-                            result += "<div class='col-sm-3'> ";
-                            result += "<div class='form-group' style='display: flex;align-items:flex-end;'> ";
-                            result += "<div>";
-                            result += "<label class='control-label'>Moeda</label>";
-
-                            *//*result += "<input type='text' class='form-control' name='moeda' value='" + dado[i]["ID_MOEDA"] + "'/> ";*//*
-result += "</div>";
-result += "<div class='deleteTaxaVariacao btn btn-primary' style='margin-left: 10px;' name='id_variacao' data-toggle='modal' data-target='#modalDeleteTaxaVariacao' data-value='" + dado[i]["ID_TAXA_CLIENTE_VARIACAO"] + "'> ";
-result += "<i class='fas fa-trash'></i>";
-result += "</div> ";
-result += "</div> ";
-result += "</div>";
-result += "</div>";
-}
-$("#rows-variacao").append(result);
-}
-else {
-result += "<div class='row'>";
-result += "<div class='col-sm-3'>";
-result += "<div class='form-group'>";
-result += "<label class='control-label'>Quantidade inicial</label>";
-result += "<input type='text' class='form-control' name='qtdinicial'/>";
-result += "</div>";
-result += "</div>";
-result += "<div class='col-sm-3'>";
-result += "<div class='form-group'>";
-result += "<label class='control-label'>Quantidade Final</label>";
-result += "<input type='text' class='form-control' name='qtdfinal'/>";
-result += "</div>";
-result += "</div>";
-result += "<div class='col-sm-3'>";
-result += "<div class='form-group'>";
-result += "<label class='control-label'>Valor</label>";
-result += "<input type='text' class='form-control' name='valor'/>";
-result += "</div>";
-result += "</div>";
-result += "<div class='col-sm-3'>";
-result += "<div class='form-group'>";
-result += "<label class='control-label'>Moeda</label>";
-result += "<input type='text' class='form-control' name='moeda'/>";
-result += "</div>";
-result += "</div>";
-result += "</div>";
-$("#rows-variacao").append(result);
-}
-},
-error: function () {
-$("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
-}
-});
-}*/
-
         var url = window.location.search.replace("?", "");
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
@@ -1300,6 +1159,13 @@ $("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
                 "ID_TAXA_CLIENTE": document.getElementById("ddlTaxaCliente").value,
                 "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServico').value,
                 "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamento').value,
+                "OB_TAXAS_COMPRA": document.getElementById('MainContent_txtObsTaxaCompra').value,
+                "FL_DECLARADO_COMPRA": document.getElementById('MainContent_ddlDeclaradoCompra').value,
+                "FL_DIVISAO_PROFIT_COMPRA": document.getElementById('MainContent_ddlProfitCompra').value,
+                "ID_BASE_CALCULO_TAXA_COMPRA": document.getElementById('MainContent_ddlBaseCalculoCompra').value,
+                "ID_DESTINATARIO_PAGAMENTO": document.getElementById('MainContent_ddlPagarPara').value,
+                "ID_TIPO_PAGAMENTO_COMPRA": document.getElementById('MainContent_ddlTipoPagamentoCompra').value,
+                "ID_ORIGEM_PAGAMENTO_COMPRA": document.getElementById('MainContent_ddlOrigemServicoCompra').value,
                 "FL_TAXA_TRANSPORTADOR": flagTaxa,
                 "ID_PARCEIRO": id
             }
@@ -1391,17 +1257,24 @@ $("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
                 'MainContent_txtTarifaMinVenda',
                 'MainContent_txtMoedaCompra',
                 'MainContent_ddlTipoMoedaCompra',
+                'MainContent_txtObsTaxaCompra',
                 'MainContent_txtMoedaVenda',
                 'MainContent_ddlTipoMoedaVenda',
+                'MainContent_ddlDeclaradoCompra',
                 'MainContent_baseVenda',
                 'MainContent_ddlDeclarado',
                 'MainContent_ddlProfit',
+                'MainContent_ddlProfitCompra',
                 'MainContent_ddlCobranca',
                 'MainContent_txtObsTaxa',
+                'MainContent_ddlPagarPara',
                 'MainContent_ddlTipoPagamento',
                 'MainContent_ddlOrigemServico',
                 'MainContent_chkTaxaTransportador',
+                'MainContent_ddlBaseCalculoCompra',
+                'MainContent_ddlTipoPagamentoCompra',
                 'MainContent_ddlPortoRecebimento',
+                'MainContent_ddlOrigemServicoCompra',
                 'MainContent_ddlPortoCarregamento',
                 'MainContent_ddlPortoDescarga',
                 'MainContent_ddlIncoterm'];
@@ -1433,14 +1306,21 @@ $("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
                 'MainContent_ddlTipoMoedaCompra',
                 'MainContent_txtMoedaVenda',
                 'MainContent_ddlTipoMoedaVenda',
+                'MainContent_txtObsTaxaCompra',
                 'MainContent_baseVenda',
                 'MainContent_ddlDeclarado',
+                'MainContent_ddlPagarPara',
+                'MainContent_ddlDeclaradoCompra',
                 'MainContent_ddlProfit',
+                'MainContent_ddlProfitCompra',
                 'MainContent_ddlCobranca',
                 'MainContent_txtObsTaxa',
                 'MainContent_ddlTipoPagamento',
+                'MainContent_ddlBaseCalculoCompra',
                 'MainContent_ddlOrigemServico',
                 'MainContent_chkTaxaTransportador',
+                'MainContent_ddlTipoPagamentoCompra',
+                'MainContent_ddlOrigemServicoCompra',
                 'MainContent_ddlPortoRecebimento',
                 'MainContent_ddlPortoCarregamento',
                 'MainContent_ddlIncoterm'];
@@ -1467,16 +1347,23 @@ $("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
                 'MainContent_txtTarifaMinVenda',
                 'MainContent_txtMoedaCompra',
                 'MainContent_ddlTipoMoedaCompra',
+                'MainContent_ddlDeclaradoCompra',
                 'MainContent_txtMoedaVenda',
                 'MainContent_ddlTipoMoedaVenda',
                 'MainContent_baseVenda',
+                'MainContent_ddlPagarPara',
                 'MainContent_ddlDeclarado',
+                'MainContent_txtObsTaxaCompra',
                 'MainContent_ddlProfit',
+                'MainContent_ddlProfitCompra',
                 'MainContent_ddlCobranca',
                 'MainContent_txtObsTaxa',
                 'MainContent_ddlTipoPagamento',
+                'MainContent_ddlBaseCalculoCompra',
                 'MainContent_ddlOrigemServico',
+                'MainContent_ddlTipoPagamentoCompra',
                 'MainContent_chkTaxaTransportador',
+                'MainContent_ddlOrigemServicoCompra',
                 'MainContent_ddlPortoRecebimento',
                 'MainContent_ddlPortoCarregamento',
                 'MainContent_ddlIncoterm'];
@@ -1491,32 +1378,19 @@ $("#msgErr").fadeIn(500).delay(3500).fadeOut(500);
             $("#btnEditar").hide();
             $("#btnCancel").hide();
             $("#listTaxa").hide();
+
+            LimparCampos("Compra");
+            LimparCampos("Venda");
+            BloquearCampos("Compra");
+            BloquearCampos("Venda");
+            
             var forms = ['MainContent_ddlPortoDescarga',
                 'MainContent_ddlTipoCobranca',
                 'MainContent_ddlTipoComex',
                 'MainContent_ddlViaTransporte',
                 'MainContent_ddlTipoEstufagem',
                 'MainContent_txtCodigoTipoItem',
-                'MainContent_ddlTipoItem',
-                'MainContent_ddlBaseCalculo',
-                'MainContent_baseCompra',
-                'MainContent_txtTarifaMin',
-                'MainContent_txtTarifaMinVenda',
-                'MainContent_txtMoedaCompra',
-                'MainContent_ddlTipoMoedaCompra',
-                'MainContent_txtMoedaVenda',
-                'MainContent_ddlTipoMoedaVenda',
-                'MainContent_baseVenda',
-                'MainContent_ddlDeclarado',
-                'MainContent_ddlProfit',
-                'MainContent_ddlCobranca',
-                'MainContent_txtObsTaxa',
-                'MainContent_ddlTipoPagamento',
-                'MainContent_ddlOrigemServico',
-                'MainContent_chkTaxaTransportador',
-                'MainContent_ddlPortoRecebimento',
-                'MainContent_ddlPortoCarregamento',
-                'MainContent_ddlIncoterm'];
+                'MainContent_ddlTipoItem'];
             for (let i = 0; i < forms.length; i++) {
                 var aux = document.getElementById(forms[i]);
                 aux.removeAttribute("disabled");
