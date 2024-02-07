@@ -73,36 +73,30 @@
                                     <table id="grdRelacaoCotacao" class="table tablecont">
                                         <thead>
                                             <tr>
-                                                <th class="text-center" scope="col">SOLICITAÇÃO</th>
-                                                <th class="text-center" scope="col">INSIDE</th>
-                                                <th class="text-center" scope="col">NR COTAÇÃO</th>
+                                                <th class="text-center" scope="col">STATUS</th>
+                                                <th class="text-center" scope="col">COTAÇÃO</th>
+                                                <th class="text-center" scope="col">PROCESSO</th>
+                                                <th class="text-center" scope="col">FREEHAND</th>
+                                                <th class="text-center" scope="col">DTA_HUB</th>
+                                                <th class="text-center" scope="col">LTL</th>
+                                                <th class="text-center" scope="col">TRANSP_DEDICADO</th>
+                                                <th class="text-center" scope="col">TRANSPORTADOR</th>
+                                                <th class="text-center" scope="col">MERCADORIA</th>
+                                                <th class="text-center" scope="col">FRETE_COMPRA</th>
+                                                <th class="text-center" scope="col">FRETE_VENDA</th>
+                                                <th class="text-center" scope="col">QUANTIDADE MERCADORIA</th>
+                                                <th class="text-center" scope="col">PESO BRUTO</th>
+                                                <th class="text-center" scope="col">M3</th>
+                                                <th class="text-center" scope="col">PESO TAXADO</th>
+                                                <th class="text-center" scope="col">TIPO CONTAINER</th>
+                                                <th class="text-center" scope="col">QUANTIDADE CONTAINER</th>
+                                                <th class="text-center" scope="col">FREETIME</th>
                                                 <th class="text-center" scope="col">MODAL</th>
-                                                <th class="text-center" scope="col">INCOTERM</th>
-                                                <th class="text-center" scope="col">CLIENTE</th>
-                                                <th class="text-center" scope="col">SUB CLIENTE</th>
-                                                <th class="text-center" scope="col">ORIGEM</th>
-                                                <th class="text-center" scope="col">DESTINO</th>
-                                                <th class="text-center" scope="col">VENDEDOR</th>
-                                                <th class="text-center" scope="col">SOLICITACAO/PRICING</th>
-                                                <th class="text-center" scope="col">ANALISE</th>
-                                                <th class="text-center" scope="col">INFORMAÇÕES PENDENTES</th>
-                                                <th class="text-center" scope="col">LIBERADA INSIDE</th>
-                                                <th class="text-center" scope="col">RENEGOCIAÇÃO</th>
-                                                <th class="text-center" scope="col">AGUARDANDO APROVAÇÃO</th>
-                                                <th class="text-center" scope="col">CANCELADA</th>
-                                                <th class="text-center" scope="col">REJEITADA</th>
-                                                <th class="text-center" scope="col">APROVADA</th>
-                                                <th class="text-center" scope="col">EM UPDATE</th>
-                                                <th class="text-center" scope="col">DECLINADA</th>
-                                                <th class="text-center" scope="col">FINALIZADA COM PAGAMENTO</th>
-                                                <th class="text-center" scope="col">EM FUP</th>
-                                                <th class="text-center" scope="col">APROVADA COM EDIÇÃO</th>
                                                 <th class="text-center" scope="col">MOTIVO CANCELAMENTO</th>
                                                 <th class="text-center" scope="col">OBS MOTIVO CANCELAMENTO</th>
                                             </tr>
                                         </thead>
                                         <tbody id="grdRelacaoCotacaoBody">
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -282,30 +276,25 @@
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
                                 $("#grdRelacaoCotacaoBody").append("<tr style='word-break: break-word'>" +
-                                    "<td class='text-center'> " + dado[i]["SOLICITACAO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["INSIDE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_COTACAO"] + "</td>" +
+                                    "<td class='text-center'> " + dado[i]["STATUS_COTACAO"] + "</td>" +
+                                    "<td class='text-center'> " + dado[i]["NR_COTACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["FREE_HAND"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DTA_HUB"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["LTL"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["TRANSP_DEDICADO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["MERCADORIA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["FRETE_COMPRA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["FRETE_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_MERCADORIA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_PESO_BRUTO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_M3"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_PESO_TAXADO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["FREETIME"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MODAL"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["INCOTERM"] + "</td>" +
-                                    "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["CLIENTE"] + "'>" + dado[i]["CLIENTE"] + "</td>" +
-                                    "<td class='text-center' style='max-width: 14ch;' title='" + dado[i]["SUB_CLIENTE"] + "'>" + dado[i]["SUB_CLIENTE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["ORIGEM"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VENDEDOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["SOLICITACAO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["ANALISE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["INFO_PEND"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["LIBERADA_INSIDE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["RENEG"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["AGUARD_APROV"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["CANCELADA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["REJEITADA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["APROVADA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["EM_UPDATE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DECLINADA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["FINALIZADA_PAG"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["EM_FUP"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["APROV_EDIT"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MOTIVO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["OBS_MOTIVO"] + "</td></tr > ");
                             }

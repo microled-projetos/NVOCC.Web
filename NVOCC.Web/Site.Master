@@ -107,7 +107,9 @@
                             <li>
                                 <a href="TextoCotacao.aspx" runat="server" id="A1">Texto Cotação</a>
                             </li>
-
+                             <li>
+                                <a href="CadastroGerencial.aspx" runat="server" id="A3">Porto/Aeroporto</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
