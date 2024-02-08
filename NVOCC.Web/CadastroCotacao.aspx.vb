@@ -430,17 +430,17 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
         End If
     End Sub
 
-    Protected Sub dgvHistoricoFrete_Sorting(ByVal sender As Object, ByVal e As GridViewSortEventArgs)
-        Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
+    'Protected Sub dgvHistoricoFrete_Sorting(ByVal sender As Object, ByVal e As GridViewSortEventArgs)
+    '    Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
 
-        If dt IsNot Nothing Then
-            dt.DefaultView.Sort = e.SortExpression & " " + GetSortDirection(e.SortExpression)
-            Session("TaskTable") = dt
-            dgvHistoricoFrete.DataSource = Session("TaskTable")
-            dgvHistoricoFrete.DataBind()
-            dgvHistoricoFrete.HeaderRow.TableSection = TableRowSection.TableHeader
-        End If
-    End Sub
+    '    If dt IsNot Nothing Then
+    '        dt.DefaultView.Sort = e.SortExpression & " " + GetSortDirection(e.SortExpression)
+    '        Session("TaskTable") = dt
+    '        dgvHistoricoFrete.DataSource = Session("TaskTable")
+    '        dgvHistoricoFrete.DataBind()
+    '        dgvHistoricoFrete.HeaderRow.TableSection = TableRowSection.TableHeader
+    '    End If
+    'End Sub
 
     Protected Sub dgvFrete_Sorting(ByVal sender As Object, ByVal e As GridViewSortEventArgs)
         Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
@@ -625,31 +625,31 @@ FROM TB_COTACAO A where ID_CLIENTE = " & Session("ID_CLIENTE") & " AND ID_TIPO_E
 
         dgvHistoricoCotacao.DataBind()
     End Sub
-    Sub GridHistoricoFrete()
-        Try
+    'Sub GridHistoricoFrete()
+    '    Try
 
-            Dim Con As New Conexao_sql
-            Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT CNPJ FROM TB_PARCEIRO  WHERE ID_PARCEIRO = " & Session("ID_CLIENTE"))
+    '        Dim Con As New Conexao_sql
+    '        Con.Conectar()
+    '        Dim ds As DataSet = Con.ExecutarQuery("SELECT CNPJ FROM TB_PARCEIRO  WHERE ID_PARCEIRO = " & Session("ID_CLIENTE"))
 
-            If ds.Tables(0).Rows.Count > 0 Then
-                txtcnpj.Text = ds.Tables(0).Rows(0).Item("CNPJ").ToString()
-            Else
-                txtcnpj.Text = 0
+    '        If ds.Tables(0).Rows.Count > 0 Then
+    '            txtcnpj.Text = ds.Tables(0).Rows(0).Item("CNPJ").ToString()
+    '        Else
+    '            txtcnpj.Text = 0
 
-            End If
+    '        End If
 
-            dsHistoricoFrete.SelectCommand = "SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= " & txtQtd.Text & " and cnpj = '" & txtcnpj.Text & "' "
-            dgvHistoricoFrete.DataBind()
+    '        dsHistoricoFrete.SelectCommand = "SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= " & txtQtd.Text & " and cnpj = '" & txtcnpj.Text & "' "
+    '        dgvHistoricoFrete.DataBind()
 
-            dsHistoricoFrete.SelectParameters("cnpj").DefaultValue = txtcnpj.Text
-            dgvHistoricoFrete.DataBind()
+    '        dsHistoricoFrete.SelectParameters("cnpj").DefaultValue = txtcnpj.Text
+    '        dgvHistoricoFrete.DataBind()
 
-        Catch ex As Exception
-            Session("erro") = ex.ToString
-            Response.Redirect("Erro.aspx")
-        End Try
-    End Sub
+    '    Catch ex As Exception
+    '        Session("erro") = ex.ToString
+    '        Response.Redirect("Erro.aspx")
+    '    End Try
+    'End Sub
     Private Sub dgvFrete_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvFrete.RowCommand
         Dim Con As New Conexao_sql
         Dim ds As DataSet
@@ -1453,8 +1453,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                         divsuccess.Visible = True
                         dgvFrete.DataBind()
-                        dgvHistoricoFrete.DataBind()
-                        dgvHistoricoCotacao.DataBind()
+                    ' dgvHistoricoFrete.DataBind()
+                    dgvHistoricoCotacao.DataBind()
 
                         VerificaRepetida()
                         AtualizaPortoAgenteSI()
@@ -1600,8 +1600,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                         divsuccess.Visible = True
 
                         dgvFrete.DataBind()
-                        dgvHistoricoFrete.DataBind()
-                        dgvHistoricoCotacao.DataBind()
+                    'dgvHistoricoFrete.DataBind()
+                    dgvHistoricoCotacao.DataBind()
 
                         VerificaRepetida()
                         AtualizaPortoAgenteSI()
