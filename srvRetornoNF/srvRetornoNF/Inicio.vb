@@ -14,10 +14,32 @@ Module Inicio
 
         Try
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 10 ")
-
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE ISNULL(NR_RPS,0) <> 0 AND ISNULL(NR_LOTE,0) <> 0 AND ISNULL(STATUS_NFE,0) = 4 AND ISNULL(CANCELA_NFE,0) = 0 AND NR_NOTA_FISCAL IS NULL ")
+            Dim CNPJEmissor As String = "00.639.367/0003-11"  'ConfigurationManager.AppSettings("CNPJEmissor").ToString() 
+
+            'Process.Start("E:\PDF_NFe\EXEC\TST.exe", "17975 BS7DPDPTI 00.639.367/0003-11 0")
+            Dim dsDados1 As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_NOTA_FISCAL,COD_VER_NFSE FROM TB_FATURAMENTO WHERE ID_CONTA_PAGAR_RECEBER in (208381,208275,208274) ")
+            If dsDados1.Tables(0).Rows.Count > 0 Then
+                Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 11 ")
+                For Each linhaDados1 As DataRow In dsDados1.Tables(0).Rows
+                    Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 12 ")
+                    Dim arg As String = linhaDados1.Item("NR_NOTA_FISCAL") & " " & linhaDados1.Item("COD_VER_NFSE") & " " & CNPJEmissor & " " & linhaDados1.Item("ID_FATURAMENTO")
+                    Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 13 " & arg)
+                    Process.Start("E:\PDF_NFe\EXEC\TST.exe ", arg)
+                    Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 14 ")
+                    Dim contador As Integer = 0
+                    While File.Exists("E:\PDF_NFe\undefined.PDF") = True Or contador > 100000
+                        contador = contador + 1
+                    End While
+                    System.Threading.Thread.Sleep(9000)
+                Next
+            End If
+
+            Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 15 ")
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE ISNULL(NR_RPS,0) <> 0 AND ISNULL(NR_LOTE,0) <> 0 AND ISNULL(STATUS_NFE,0) = 4 AND ISNULL(CANCELA_NFE,0) = 0 AND NR_NOTA_FISCAL IS NULL AND DT_CANCELAMENTO IS NULL ")
+
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 17 ")
@@ -33,8 +55,19 @@ Module Inicio
                     End Using
 
                     Con.ExecutarQuery("UPDATE TB_FATURAMENTO SET FL_SRV_RETORNO_NF =  1 WHERE ID_FATURAMENTO =  " & linhads.Item("ID_FATURAMENTO").ToString())
+
+                    Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: Busca informação e chama robô do Patrick ")
+
+                    Dim dsDados As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_NOTA_FISCAL,COD_VER_NFSE,CNPJ FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())
+                    If dsDados.Tables(0).Rows.Count > 0 Then
+                        Process.Start("E:\PDF_NFe\EXEC\TST.exe ", dsDados.Tables(0).Rows(0).Item("NR_NOTA_FISCAL") & " " & dsDados.Tables(0).Rows(0).Item("COD_VER_NFSE") & " " & dsDados.Tables(0).Rows(0).Item("CNPJ") & " " & dsDados.Tables(0).Rows(0).Item("ID_FATURAMENTO"))
+                    End If
+
+
                 Next
+
                 Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 30 ")
+
 
             End If
 
@@ -42,7 +75,6 @@ Module Inicio
 
             ''ROTINA QUE ATUALIZA DATA DA BAIXA TOTVS NAS COMISSOES NACIONAIS - CHAMADO 3505
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: linha 42 - Proc_Comissoes_Nacional_Totvs ")
-            'Con.ExecutarQuery("EXEC [dbo].[Proc_Comissoes_Nacional_Totvs]")
             Dim cn As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString
             Dim dsProc As DataSet = New DataSet()
 
@@ -86,7 +118,10 @@ WHERE B.FL_EXPIRA = 1 AND DATEDIFF( DAY , DT_UPLOAD,GETDATE()) >= (SELECT QT_DIA
         If ds.Tables(0).Rows.Count > 0 Then
             For Each linha As DataRow In ds.Tables(0).Rows
                 Con.ExecutarQuery("DELETE FROM TB_UPLOADS WHERE ID_ARQUIVO = " & linha.Item("ID_ARQUIVO"))
-                File.Delete(linha.Item("CAMINHO_ARQUIVO"))
+                If Directory.Exists(linha.Item("CAMINHO_ARQUIVO")) Then
+                    WriteToFile($"{DateTime.Now.ToString()} - DeletaArquivos: linha 73 ")
+                    File.Delete(linha.Item("CAMINHO_ARQUIVO"))
+                End If
             Next
             WriteToFile($"{DateTime.Now.ToString()} - DeletaArquivos: linha 80 ")
 
@@ -101,10 +136,13 @@ WHERE B.FL_EXPIRA = 1 AND DATEDIFF( DAY , DT_UPLOAD,GETDATE()) >= (SELECT QT_DIA
 
         For Each pastas As DirectoryInfo In di.GetDirectories
             If pastas.LastAccessTime < DateTime.Now.AddDays(-1) Then
+                WriteToFile($"{DateTime.Now.ToString()} - DeletaArquivos: linha 90 ")
                 For Each file As FileInfo In pastas.GetFiles()
+                    WriteToFile($"{DateTime.Now.ToString()} - DeletaArquivos: linha 93 ")
                     file.Delete()
                 Next
                 pastas.Delete()
+                WriteToFile($"{DateTime.Now.ToString()} - DeletaArquivos: linha 95 ")
             End If
             WriteToFile($"{DateTime.Now.ToString()} - DeletaArquivos: linha 98 ")
         Next

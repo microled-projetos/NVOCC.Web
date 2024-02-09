@@ -2399,24 +2399,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents dgvHistoricoCotacao As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle UpdatePanel8.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents UpdatePanel8 As Global.System.Web.UI.UpdatePanel
-
-    '''<summary>
-    '''Controle dgvHistoricoFrete.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dgvHistoricoFrete As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
     '''Controle UpdatePanel9.
     '''</summary>
     '''<remarks>
@@ -3000,15 +2982,6 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsStatusFreteAgente As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsHistoricoFrete.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsHistoricoFrete As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsFinalDestination.

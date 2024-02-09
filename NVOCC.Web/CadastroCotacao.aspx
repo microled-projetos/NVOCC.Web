@@ -1669,11 +1669,11 @@
                                         <i class="fa fa-edit" style="padding-right: 8px;"></i>Histórico Cotações FCA
                                     </a>
                                 </li>
-                                <li>
+                                <%--<li>
                                     <a href="#HistoricoFrete" role="tab" data-toggle="tab">
                                         <i class="fa fa-edit" style="padding-right: 8px;"></i>Histórico Valores de Frete
                                     </a>
-                                </li>
+                                </li>--%>
 
                             </ul>
                             <div class="tab-content">
@@ -1714,7 +1714,7 @@
                                         </asp:UpdatePanel>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="HistoricoFrete">
+<%--                                <div class="tab-pane fade" id="HistoricoFrete">
                                     <br />
                                     <div class="table-responsive">
                                         <asp:UpdatePanel ID="UpdatePanel8" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
@@ -1740,7 +1740,7 @@
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </div>
-                                </div>
+                                </div>--%>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="doc">
@@ -2219,12 +2219,13 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_PAGAMENTO"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsStatusFreteAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_STATUS_FRETE_AGENTE, NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENTE 
 union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE_AGENTE"></asp:SqlDataSource>
-    <asp:SqlDataSource ID="dsHistoricoFrete" runat="server" ConnectionString="<%$ ConnectionStrings:StringConexaoOracle %>" ProviderName="<%$ConnectionStrings:StringConexaoOracle.ProviderName %> "
+
+<%--    <asp:SqlDataSource ID="dsHistoricoFrete" runat="server" ConnectionString="<%$ ConnectionStrings:StringConexaoOracle %>" ProviderName="<%$ConnectionStrings:StringConexaoOracle.ProviderName %> "
         SelectCommand="SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= 10 and cnpj = '@cnpj'">
         <SelectParameters>
             <asp:Parameter Name="cnpj" Type="string" />
         </SelectParameters>
-    </asp:SqlDataSource>
+    </asp:SqlDataSource>--%>
 
     <asp:SqlDataSource ID="dsFinalDestination" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CIDADE,upper( NM_CIDADE) + ' - ' + (SELECT SIGLA_ESTADO FROM TB_ESTADO B WHERE B.ID_ESTADO = A.ID_ESTADO) AS NM_CIDADE FROM [dbo].[TB_CIDADE] A  union SELECT  0 as Id, '  Selecione' as Descricao FROM [dbo].[TB_CIDADE] A Order by NM_CIDADE"></asp:SqlDataSource>
@@ -2234,7 +2235,6 @@ union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE
         <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO_RODOVIARIO" Type="Int32" ControlID="txtCodTranspRodoviario" DefaultValue="0" />
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeTranspRodoviario" DefaultValue="NULL" />
-
         </SelectParameters>
     </asp:SqlDataSource>
 

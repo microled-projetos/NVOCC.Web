@@ -12,6 +12,7 @@ Public Class Service1
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 12")
             tmr = New Timers.Timer()
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 14")
+            Inicio.RetornoNF()
             tmr.Interval = 1000 * 60 * Val(ConfigurationManager.AppSettings("Minutos").ToString())
             Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 16")
             AddHandler tmr.Elapsed, AddressOf TimerTick

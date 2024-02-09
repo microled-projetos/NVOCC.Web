@@ -1647,7 +1647,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             End If
 
         End If
-        mpeRPS.Show()
+        mpeDemonstrativos.Show()
 
     End Sub
 

@@ -132,9 +132,9 @@
                                                 <div class="form-group">
                                                     <center><label class="control-label">Via Transporte:</label></center>
                                                     <asp:RadioButtonList ID="rdTRansporte" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
-                                                        <asp:ListItem Value="1" Selected="True">&nbsp;Marítimo</asp:ListItem>
+                                                        <asp:ListItem Value="1">&nbsp;Marítimo</asp:ListItem>
                                                         <asp:ListItem Value="4">&nbsp;Aéreo</asp:ListItem>
-                                                        <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
+                                                        <asp:ListItem Value="0" Selected="True">&nbsp;Ambos</asp:ListItem>
                                                     </asp:RadioButtonList>
                                                 </div>
                                             </div>                                       
@@ -142,9 +142,9 @@
                                                 <div class="form-group">
                                                     <center><label class="control-label">Estufagem:</label></center>
                                                     <asp:RadioButtonList ID="rdEstufagem" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
-                                                        <asp:ListItem Value="1" Selected="True">&nbsp;FCL</asp:ListItem>
+                                                        <asp:ListItem Value="1">&nbsp;FCL</asp:ListItem>
                                                         <asp:ListItem Value="2">&nbsp;LCL</asp:ListItem>
-                                                        <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
+                                                        <asp:ListItem Value="0" Selected="True">&nbsp;Ambos</asp:ListItem>
                                                     </asp:RadioButtonList>
                                                 </div>
                                             </div>
@@ -152,9 +152,9 @@
                                                 <div class="form-group">
                                                     <center><label class="control-label">Serviço:</label></center>
                                                     <asp:RadioButtonList ID="rdServico" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Font-Size="12px">
-                                                        <asp:ListItem Value="1" Selected="True">&nbsp;Importação</asp:ListItem>
+                                                        <asp:ListItem Value="1">&nbsp;Importação</asp:ListItem>
                                                         <asp:ListItem Value="2">&nbsp;Exportação</asp:ListItem>
-                                                        <asp:ListItem Value="0">&nbsp;Ambos</asp:ListItem>
+                                                        <asp:ListItem Value="0" Selected="True">&nbsp;Ambos</asp:ListItem>
                                                     </asp:RadioButtonList>
                                                 </div>
                                             </div>
@@ -415,7 +415,7 @@
 
 
     <asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT top 500 * FROM View_Cotacao WHERE ID_SERVICO = 1  AND ID_TIPO_ESTUFAGEM = 1 AND ID_VIATRANSPORTE = 1 ORDER BY DT_ABERTURA DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT top 500 * FROM View_Cotacao WHERE ID_SERVICO IN(1,2) AND ID_TIPO_ESTUFAGEM IN(1,2) AND ID_VIATRANSPORTE IN(1,4) ORDER BY DT_ABERTURA DESC"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
