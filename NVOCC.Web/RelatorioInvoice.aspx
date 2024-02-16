@@ -208,34 +208,48 @@
         }
 
 
-
-
-
-        
-
-
         function expRelatorioInvoice(file) {
             var dtInicial = document.getElementById("txtDtInicialVencimentoInvoice").value;
             var dtFinal = document.getElementById("txtDtFinalVencimentoInvoice").value;
+            var nota = document.getElementById("txtInvoice").value;
+            var filter = document.getElementById("ddlFilterInvoice").value;
             $.ajax({
                 type: "POST",
-                url: "DemurrageService.asmx/imprimirInvoiceExp",
-                data: JSON.stringify({ dataI: (dtInicial), dataF: (dtFinal), invoices: (arrayInvoice) }),
+                url: "DemurrageService.asmx/listarInvoices",
+                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
+                    console.log(dado);
                     if (dado != null) {
                         var invoices = [["PROCESSO;INVOICE;DT REC;TX REC;MBL;FRETE MBL;HBL;FRETE HBL;ESTUFAGEM;ORIGEM;DESTINO;EMBARQUE;PREVISÃO CHEGADA;CHEGADA"]];
+                        console.log(dado);
                         for (let i = 0; i < dado.length; i++) {
-                            invoices.push([dado[i]])
+                            var processo = dado[i].NR_PROCESSO;
+                            var invoice = dado[i].NR_INVOICE;
+                            var dtLiquidacao = dado[i].DT_LIQUIDACAO;
+                            var vlTaxaCambio = dado[i].VL_CAMBIO.replace(/\./g, ',');
+                            var mbl = dado[i].MBL;
+                            var freteMbl = dado[i].FRETE_MASTER;
+                            var hbl = dado[i].HBL;
+                            var freteHbl = dado[i].FRETE_HOUSE;
+                            var estufagem = dado[i].ESTUFAGEM;
+                            var origem = dado[i].ORIGEM;
+                            var destino = dado[i].DESTINO;
+                            var embarque = dado[i].DT_EMBARQUE;
+                            var previsaoChegada = dado[i].DT_PREVISAO_CHEGADA;
+                            var chegada = dado[i].DT_CHEGADA;
+
+                            invoices.push([processo, invoice, dtLiquidacao, vlTaxaCambio, mbl, freteMbl, hbl, freteHbl, estufagem, origem, destino, embarque, previsaoChegada, chegada].join(";"));
                         }
                         exportar(file, invoices.join("\n"));
                     }
                 }
             })
         }
+
 
         function exportar(file, array) {
             var csvFile;
