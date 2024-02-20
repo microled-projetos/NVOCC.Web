@@ -210,7 +210,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="control-label">Status<span class="required">*</span></label>
-                                                <asp:DropDownList ID="ddlStatusDevolucao" runat="server" class="form-control" type="text" DataValueField="ID_STATUS_Detention" DataTextField="DS_STATUS_Detention"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlStatusDevolucao" runat="server" class="form-control" type="text" DataValueField="ID_STATUS_DETENTION" DataTextField="DS_STATUS_DETENTION"></asp:DropDownList>
                                             </div>
                                         </div>
                                          <div class="col-sm-3">

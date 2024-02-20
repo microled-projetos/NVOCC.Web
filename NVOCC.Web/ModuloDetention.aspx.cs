@@ -10,11 +10,11 @@ using System.Web.UI.WebControls;
 
 namespace ABAINFRA.Web
 {
-    public partial class ModuloDetention : System.Web.UI.Page
-    {
+	public partial class ModuloDetention : System.Web.UI.Page
+	{
         string SQL;
-        protected void Page_Load(object sender, EventArgs e)
-        {
+		protected void Page_Load(object sender, EventArgs e)
+		{
             if (!IsPostBack)
             {
                 CarregarListaFiltros();
@@ -60,10 +60,10 @@ namespace ABAINFRA.Web
         protected void CarregarTipoContainer()
         {
             SQL = "SELECT * FROM tb_tipo_container ORDER BY SUBSTRING(NM_TIPO_CONTAINER,0,2)";
-            DataTable tipoContainerDETENTION = new DataTable();
-            tipoContainerDETENTION = DBS.List(SQL);
-            Session["TaskTableTipoContainerDETENTION"] = tipoContainerDETENTION;
-            ddlTipoContainer.DataSource = Session["TaskTableTipoContainerDETENTION"];
+            DataTable tipoContainerDemurrage = new DataTable();
+            tipoContainerDemurrage = DBS.List(SQL);
+            Session["TaskTableTipoContainerDemurrage"] = tipoContainerDemurrage;
+            ddlTipoContainer.DataSource = Session["TaskTableTipoContainerDemurrage"];
             ddlTipoContainer.DataBind();
             ddlTipoContainer.Items.Insert(0, new ListItem("Selecione", ""));
         }
@@ -73,8 +73,8 @@ namespace ABAINFRA.Web
             SQL = "SELECT ID_PARCEIRO, NM_RAZAO FROM tb_parceiro where FL_TRANSPORTADOR = 1";
             DataTable parceiroTransportador = new DataTable();
             parceiroTransportador = DBS.List(SQL);
-            Session["TaskTableMoedaDETENTION"] = parceiroTransportador;
-            ddlfiltroTabelaDemu.DataSource = Session["TaskTableMoedaDETENTION"];
+            Session["TaskTableMoedaDemurrage"] = parceiroTransportador;
+            ddlfiltroTabelaDemu.DataSource = Session["TaskTableMoedaDemurrage"];
             ddlfiltroTabelaDemu.DataBind();
             ddlfiltroTabelaDemu.Items.Insert(0, new ListItem("Selecione", ""));
         }*/
@@ -82,10 +82,10 @@ namespace ABAINFRA.Web
         protected void CarregarMoeda()
         {
             SQL = "SELECT * FROM TB_MOEDA";
-            DataTable moedaDETENTION = new DataTable();
-            moedaDETENTION = DBS.List(SQL);
-            Session["TaskTableMoedaDETENTION"] = moedaDETENTION;
-            ddlMoeda.DataSource = Session["TaskTableMoedaDETENTION"];
+            DataTable moedaDemurrage = new DataTable();
+            moedaDemurrage = DBS.List(SQL);
+            Session["TaskTableMoedaDemurrage"] = moedaDemurrage;
+            ddlMoeda.DataSource = Session["TaskTableMoedaDemurrage"];
             ddlMoeda.DataBind();
             ddlMoeda.Items.Insert(0, new ListItem("Selecione", ""));
         }
@@ -101,60 +101,60 @@ namespace ABAINFRA.Web
         }
         protected void CarregarStatus()
         {
-            DataTable statusDETENTION = new DataTable();
+            DataTable statusDemurrage = new DataTable();
 
             //SELECT DE DROP DE EDIÇÃO DE CNTR
             SQL = "SELECT * FROM TB_STATUS_DETENTION ";
-            statusDETENTION = DBS.List(SQL);
-            Session["statusDETENTION"] = statusDETENTION;
-            dsStatus.DataSource = Session["statusDETENTION"];
+            statusDemurrage = DBS.List(SQL);
+            Session["statusDemurrage"] = statusDemurrage;
+            dsStatus.DataSource = Session["statusDemurrage"];
             dsStatus.DataBind();
             dsStatus.Items.Insert(0, new ListItem("Selecione", ""));
-            dsStatusCompra.DataSource = Session["statusDETENTION"];
+            dsStatusCompra.DataSource = Session["statusDemurrage"];
             dsStatusCompra.DataBind();
             dsStatusCompra.Items.Insert(0, new ListItem("Selecione", ""));
-            ddlStatusDevolucao.DataSource = Session["statusDETENTION"];
+            ddlStatusDevolucao.DataSource = Session["statusDemurrage"];
             ddlStatusDevolucao.DataBind();
             ddlStatusDevolucao.Items.Insert(0, new ListItem("Selecione", ""));
-            ddlStatusCalculoSelecionado.DataSource = Session["statusDETENTION"];
+            ddlStatusCalculoSelecionado.DataSource = Session["statusDemurrage"];
             ddlStatusCalculoSelecionado.DataBind();
             ddlStatusCalculoSelecionado.Items.Insert(0, new ListItem("Selecione", ""));
-            ddlStatusCalculoSelecionadoCompra.DataSource = Session["statusDETENTION"];
+            ddlStatusCalculoSelecionadoCompra.DataSource = Session["statusDemurrage"];
             ddlStatusCalculoSelecionadoCompra.DataBind();
             ddlStatusCalculoSelecionadoCompra.Items.Insert(0, new ListItem("Selecione", ""));
             //SELECT DE DROP DE DEVOLUCAO
 
 
             //SELECT DE DROP DE CALCULO VENDA
-            /*SQL = "SELECT * FROM TB_STATUS_DETENTION WHERE FL_VENDA = 1 AND FL_ATIVO = 1 ";
-            statusDETENTION = DBS.List(SQL);
-            Session["statusDETENTION"] = statusDETENTION;
-            ddlStatusCalculoSelecionado.DataSource = Session["statusDETENTION"];
+            /*SQL = "SELECT * FROM TB_STATUS_DEMURRAGE WHERE FL_VENDA = 1 AND FL_ATIVO = 1 ";
+            statusDemurrage = DBS.List(SQL);
+            Session["statusDemurrage"] = statusDemurrage;
+            ddlStatusCalculoSelecionado.DataSource = Session["statusDemurrage"];
             ddlStatusCalculoSelecionado.DataBind();
             ddlStatusCalculoSelecionado.Items.Insert(0, new ListItem("Selecione", ""));*/
 
             //SELECT DE DROP DE CALCULO COMPRA
-            /*SQL = "SELECT * FROM TB_STATUS_DETENTION WHERE FL_COMPRA = 1 AND FL_ATIVO = 1 ";
-            statusDETENTION = DBS.List(SQL);
-            Session["statusDETENTION"] = statusDETENTION;
-            ddlStatusCalculoSelecionadoCompra.DataSource = Session["statusDETENTION"];
+            /*SQL = "SELECT * FROM TB_STATUS_DEMURRAGE WHERE FL_COMPRA = 1 AND FL_ATIVO = 1 ";
+            statusDemurrage = DBS.List(SQL);
+            Session["statusDemurrage"] = statusDemurrage;
+            ddlStatusCalculoSelecionadoCompra.DataSource = Session["statusDemurrage"];
             ddlStatusCalculoSelecionadoCompra.DataBind();
             ddlStatusCalculoSelecionadoCompra.Items.Insert(0, new ListItem("Selecione", ""));*/
 
 
             //SELECT DE DROP DE ENVIO PARA CONTA CORRENTE VENDA
-            //SQL = "SELECT * FROM TB_STATUS_DETENTION WHERE FL_VENDA = 1 AND FL_ATIVO = 1 ";
-            //statusDETENTION = DBS.List(SQL);
-            //Session["statusDETENTION"] = statusDETENTION;
-            //ddlStatusFaturaContaCorrente.DataSource = Session["statusDETENTION"];
+            //SQL = "SELECT * FROM TB_STATUS_DEMURRAGE WHERE FL_VENDA = 1 AND FL_ATIVO = 1 ";
+            //statusDemurrage = DBS.List(SQL);
+            //Session["statusDemurrage"] = statusDemurrage;
+            //ddlStatusFaturaContaCorrente.DataSource = Session["statusDemurrage"];
             //ddlStatusFaturaContaCorrente.DataBind();
             //ddlStatusFaturaContaCorrente.Items.Insert(0, new ListItem("Selecione", ""));
 
             //SELECT DE DROP DE ENVIO PARA CONTA CORRENTE COMPRA
-            //SQL = "SELECT * FROM TB_STATUS_DETENTION WHERE FL_COMPRA = 1 AND FL_ATIVO = 1 ";
-            //statusDETENTION = DBS.List(SQL);
-            //Session["statusDETENTION"] = statusDETENTION;
-            //ddlStatusFaturaContaCorrenteCompra.DataSource = Session["statusDETENTION"];
+            //SQL = "SELECT * FROM TB_STATUS_DEMURRAGE WHERE FL_COMPRA = 1 AND FL_ATIVO = 1 ";
+            //statusDemurrage = DBS.List(SQL);
+            //Session["statusDemurrage"] = statusDemurrage;
+            //ddlStatusFaturaContaCorrenteCompra.DataSource = Session["statusDemurrage"];
             //ddlStatusFaturaContaCorrenteCompra.DataBind();
             //ddlStatusFaturaContaCorrenteCompra.Items.Insert(0, new ListItem("Selecione", ""));
 

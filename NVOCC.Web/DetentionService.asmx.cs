@@ -569,7 +569,7 @@ namespace ABAINFRA.Web
                 switch (Ativo)
                 {
                     case "1":
-                        Ativo = " AND (D.FL_FINALIZA_DETENTION != 1 OR D1.FL_FINALIZA_DETENTION != 1) ";
+                        Ativo = " AND ((D.FL_FINALIZA_DETENTION != 1 OR D1.FL_FINALIZA_DETENTION != 1)  OR (D.FL_FINALIZA_DETENTION IS NULL OR D1.FL_FINALIZA_DETENTION IS NULL)) ";
 
 
                         break;
@@ -584,8 +584,8 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(CONVERT(VARCHAR,PFCL.QT_DIAS_FREETIME), '') AS QT_DIAS_FREETIME, ISNULL(CONVERT(VARCHAR,PFCL.QT_DIAS_FREETIME_CONFIRMA),'') AS QT_DIAS_FREETIME_CONFIRMA, ISNULL(FORMAT(DFCL.DT_FINAL_FREETIME, 'dd/MM/yyyy'), '') AS FINAL_FREETIME, ";
             SQL += "ISNULL(FORMAT(PFCL.DT_DEVOLUCAO_CNTR, 'dd/MM/yyyy'), '') AS DEVOLUCAO_CNTR, ";
             SQL += "DFCL.QT_DIAS_DETENTION,ISNULL(DFCL.QT_DIAS_DETENTION_COMPRA,'')QT_DIAS_DETENTION_COMPRA, ";
-            SQL += "FORMAT(PFCL.DT_STATUS_DETENTION, 'dd/MM/yyyy') AS DATA_STATUS_DETENTION, PFCL.DS_STATUS_DETENTION, ";
-            SQL += "FORMAT(PFCL.DT_STATUS_DETENTION, 'dd/MM/yyyy') AS DATA_STATUS_DETENTION_COMPRA, PFCL.DS_STATUS_DETENTION_COMPRA, ";
+            SQL += "FORMAT(PFCL.DT_STATUS_DETENTION, 'dd/MM/yyyy') AS DATA_STATUS_DETENTION, ISNULL(PFCL.DS_STATUS_DETENTION,'') DS_STATUS_DETENTION, ";
+            SQL += "FORMAT(PFCL.DT_STATUS_DETENTION, 'dd/MM/yyyy') AS DATA_STATUS_DETENTION_COMPRA, ISNULL(PFCL.DS_STATUS_DETENTION_COMPRA,'') DS_STATUS_DETENTION_COMPRA, ";
             SQL += "ISNULL(PFCL.DS_OBSERVACAO, '') AS DS_OBSERVACAO, ";
             SQL += "ISNULL(CONVERT(VARCHAR,DFCL.ID_DETENTION_FATURA_PAGAR),'') AS ID_DETENTION_PAGAR, ";
             SQL += "ISNULL(REPLACE(CONVERT(VARCHAR, FORMAT(DFCL.VL_DETENTION_COMPRA, 'c', 'pt-br')), 'R$', ''), '') AS VL_DETENTION_COMPRA, ";
@@ -604,11 +604,11 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_STATUS_DETENTION D ON PFCL.ID_STATUS_DETENTION_COMPRA= D.ID_STATUS_DETENTION ";
             SQL += "LEFT JOIN TB_STATUS_DETENTION D1 ON PFCL.ID_STATUS_DETENTION = D1.ID_STATUS_DETENTION ";
             SQL += "LEFT JOIN TB_TIPO_CARGA TC ON PFCL.ID_TIPO_CARGA = TC.ID_TIPO_CARGA ";
-            SQL += "WHERE PFCL.DT_CHEGADA IS NOT NULL ";
+            SQL += "WHERE PFCL.DT_EMBARQUE IS NOT NULL ";
             SQL += "" + idFilter + " ";
             SQL += "" + Ativo + " ";
             SQL += "" + Finalizado + " ";
-            SQL += "ORDER BY PFCL.DT_CHEGADA";
+            SQL += "ORDER BY PFCL.DT_EMBARQUE";
             listTable = DBS.List(SQL);
 
             return JsonConvert.SerializeObject(listTable);
@@ -952,7 +952,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN VW_PROCESSO_DETENTION_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
             SQL += "LEFT JOIN TB_MOEDA M ON DFCL.ID_MOEDA_DETENTION_VENDA = M.ID_MOEDA ";
             SQL += "LEFT JOIN TB_MOEDA M2 ON DFCL.ID_MOEDA_DETENTION_COMPRA = M2.ID_MOEDA ";
-            SQL += "WHERE PFCL.NR_PROCESSO = '" + nrProcesso + "' AND (PFCL.DT_CHEGADA IS NOT NULL OR PFCL.DT_CHEGADA != '') ";
+            SQL += "WHERE PFCL.NR_PROCESSO = '" + nrProcesso + "' AND (PFCL.DT_EMBARQUE IS NOT NULL OR PFCL.DT_EMBARQUE != '') ";
             SQL += "AND (PFCL.QT_DIAS_FREETIME IS NOT NULL OR PFCL.QT_DIAS_FREETIME != '') ";
             SQL += "AND (PFCL.DT_DEVOLUCAO_CNTR IS NOT NULL OR PFCL.DT_DEVOLUCAO_CNTR != '') ";
             if (tipoCalculo == "1")
@@ -2307,7 +2307,7 @@ namespace ABAINFRA.Web
                 int idcntrDETENTION = (int)localizarFatura.Rows[0]["ID_CNTR_DETENTION"];
 
                 SQL = "INSERT INTO TB_DETENTION_FATURA_ITENS (ID_DETENTION_FATURA, ID_CNTR_DETENTION) ";
-                SQL += "VALUES (" + fatura + ",'" + idcntrDETENTION + "') ";
+                SQL += "VALUES (" + fatura + "," + idcntrDETENTION + ") ";
                 string processarFatura = DBS.ExecuteScalar(SQL);
             }
             else

@@ -73,17 +73,30 @@
                                     <table id="grdRelacaoCotacao" class="table tablecont">
                                         <thead>
                                             <tr>
-                                                <th class="text-center" scope="col">STATUS</th>
-                                                <th class="text-center" scope="col">COTAÇÃO</th>
+                                                <th class="text-center" scope="col">SOLICITACAO</th>
+                                                <th class="text-center" scope="col">INSIDE</th>
+                                                <th class="text-center" scope="col">NR COTAÇÂO</th>
                                                 <th class="text-center" scope="col">PROCESSO</th>
+                                                <th class="text-center" scope="col">STATUS</th>
+                                                <th class="text-center" scope="col">MODAL</th>
+                                                <th class="text-center" scope="col">INCOTERM</th>
+                                                <th class="text-center" scope="col">CLIENTE</th>
+                                                <th class="text-center" scope="col">CLIENTE FINAL</th>
+                                                <th class="text-center" scope="col">ORIGEM</th>
+                                                <th class="text-center" scope="col">DESTINO</th>
+                                                <th class="text-center" scope="col">VENDEDOR</th>
+                                                <th class="text-center" scope="col">EXPORTADOR</th>
+                                                <th class="text-center" scope="col">IMPORTADOR</th>
+                                                <th class="text-center" scope="col">AGENTE INTERNACIONAL</th>
                                                 <th class="text-center" scope="col">FREEHAND</th>
-                                                <th class="text-center" scope="col">DTA_HUB</th>
+                                                <th class="text-center" scope="col">DTA HUB</th>
                                                 <th class="text-center" scope="col">LTL</th>
-                                                <th class="text-center" scope="col">TRANSP_DEDICADO</th>
+                                                <th class="text-center" scope="col">TRANSPORTE DEDICADO</th>
                                                 <th class="text-center" scope="col">TRANSPORTADOR</th>
-                                                <th class="text-center" scope="col">MERCADORIA</th>
-                                                <th class="text-center" scope="col">FRETE_COMPRA</th>
-                                                <th class="text-center" scope="col">FRETE_VENDA</th>
+                                                <th class="text-center" scope="col">EMBALAGEM</th>
+                                                <th class="text-center" scope="col">MOEDA FRETE</th>
+                                                <th class="text-center" scope="col">FRETE COMPRA</th>
+                                                <th class="text-center" scope="col">FRETE VENDA</th>
                                                 <th class="text-center" scope="col">QUANTIDADE MERCADORIA</th>
                                                 <th class="text-center" scope="col">PESO BRUTO</th>
                                                 <th class="text-center" scope="col">M3</th>
@@ -91,7 +104,7 @@
                                                 <th class="text-center" scope="col">TIPO CONTAINER</th>
                                                 <th class="text-center" scope="col">QUANTIDADE CONTAINER</th>
                                                 <th class="text-center" scope="col">FREETIME</th>
-                                                <th class="text-center" scope="col">MODAL</th>
+                                                <th class="text-center" scope="col">ESTUFAGEM</th>
                                                 <th class="text-center" scope="col">MOTIVO CANCELAMENTO</th>
                                                 <th class="text-center" scope="col">OBS MOTIVO CANCELAMENTO</th>
                                             </tr>
@@ -275,28 +288,82 @@
                         $("#grdRelacaoCotacaoBody").empty();
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
+
+                                var freehand = dado[i]["FREE_HAND"] === true ? "SIM" : "NÃO";
+                                var dataHub = dado[i]["DTA_HUB"] === true ? "SIM" : "NÃO";
+                                var ltl = dado[i]["LTL"] === true ? "SIM" : "NÃO";
+                                var transporteDedicado = dado[i]["TRANSPORTE_DEDICADO"] === true ? "SIM" : "NÃO";
+
                                 $("#grdRelacaoCotacaoBody").append("<tr style='word-break: break-word'>" +
-                                    "<td class='text-center'> " + dado[i]["STATUS_COTACAO"] + "</td>" +
+
+                                    "<td class='text-center'> " + dado[i]["SOLICITACAO"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["INSIDE"] + "</td>" +
+
                                     "<td class='text-center'> " + dado[i]["NR_COTACAO"] + "</td>" +
+
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["FREE_HAND"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DTA_HUB"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["LTL"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["TRANSP_DEDICADO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["MERCADORIA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["FRETE_COMPRA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["FRETE_VENDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["QT_MERCADORIA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_PESO_BRUTO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_M3"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_PESO_TAXADO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["TIPO_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["QT_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["FREETIME"] + "</td>" +
+
+                                    "<td class='text-center'> " + dado[i]["STATUS_COTACAO"] + "</td>" +
+
                                     "<td class='text-center'>" + dado[i]["MODAL"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["INCOTERM"] + "</td>" +
+
+                                    "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["CLIENTE"] + "'>" + dado[i]["CLIENTE"] + "</td>" +
+
+                                    "<td class='text-center' style='max-width: 14ch;' title='" + dado[i]["SUB_CLIENTE"] + "'>" + dado[i]["SUB_CLIENTE"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["ORIGEM"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["VENDEDOR"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["EXPORTADOR"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["IMPORTADOR"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["AGENTE_INTERNACIONAL"] + "</td>" +
+
+                                    "<td class='text-center'>" + freehand + "</td>" +
+
+                                    "<td class='text-center'>" + dataHub + "</td>" +
+
+                                    "<td class='text-center'>" + ltl + "</td>" +
+
+                                    "<td class='text-center'>" + transporteDedicado + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["EMBALAGEM"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["MOEDA_FRETE"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["VL_TOTAL_FRETE_COMPRA"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["VL_TOTAL_FRETE_VENDA"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["QTD_MERCADORIA"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["PESO_BRUTO"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["VL_TOTAL_M3"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["VL_PESO_TAXADO"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["TIPO_CONTAINER"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["QTD_CONTAINER"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["FREETIME"] + "</td>" +
+
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>" +
+
                                     "<td class='text-center'>" + dado[i]["MOTIVO"] + "</td>" +
+
                                     "<td class='text-center'>" + dado[i]["OBS_MOTIVO"] + "</td></tr > ");
+
                             }
                         }
                         else {
