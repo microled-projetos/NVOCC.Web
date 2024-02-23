@@ -1696,60 +1696,66 @@ WHERE B.ID = " & ID)
                     divErroEvento.Visible = True
                     lblErroEvento.Text = "Usuário não tem permissão para realizar novos cadastros"
                 Else
+                    ds = Con.ExecutarQuery("SELECT COUNT(ID)QTD FROM [TB_AMR_PESSOA_EVENTO] WHERE ID_EVENTO = " & ddlEvento.SelectedValue & " AND ID_TERMINAL = " & ddlPorto.SelectedValue & " AND ID_PESSOA = " & txtID.Text & " ")
+                    If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-                    Dim Email As String = txtEmail.Text
-                    Dim TIPO As String = "E"
-                    Dim TIPO_PESSOA As String = ""
+                        Dim Email As String = txtEmail.Text
+                        Dim TIPO As String = "E"
+                        Dim TIPO_PESSOA As String = ""
 
-                    'VERIFICA QUAL O TIPO DE PESSOA
-                    ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco, fl_agente_internacional FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & txtID.Text)
-                    If ds.Tables(0).Rows.Count > 0 Then
-                        If ds.Tables(0).Rows(0).Item("fl_armazem_atracacao").ToString = True Then
-                            TIPO_PESSOA = "T"
-                        ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_descarga").ToString = True Then
-                            TIPO_PESSOA = "T"
-                        ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_desembaraco").ToString = True Then
-                            TIPO_PESSOA = "T"
-                        ElseIf ds.Tables(0).Rows(0).Item("fl_prestador").ToString = True Then
-                            TIPO_PESSOA = "P"
-                        ElseIf ds.Tables(0).Rows(0).Item("fl_agente_internacional").ToString = True Then
-                            TIPO_PESSOA = "P"
-                        Else
-                            TIPO_PESSOA = "C"
-                        End If
-                    End If
-
-
-
-                    'INSERE INFORMAÇOES NO BANCO
-                    Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ddlEvento.SelectedValue & "," & ddlPorto.SelectedValue & "," & txtID.Text & ",'" & TIPO & "','" & TIPO_PESSOA & "', LOWER('" & Email & "'))")
-
-
-                    'REPLICA EMAILS
-                    If ckbReplica.Checked = True Then
-
-                        ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
+                        'VERIFICA QUAL O TIPO DE PESSOA
+                        ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco, fl_agente_internacional FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & txtID.Text)
                         If ds.Tables(0).Rows.Count > 0 Then
-                            For Each linha As DataRow In ds.Tables(0).Rows
-                                Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
-
-                                'insere emails
-                                Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & txtID.Text & ",'" & TIPO & "','" & TIPO_PESSOA & "',  LOWER('" & Email & "'))")
-
-                            Next
-
+                            If ds.Tables(0).Rows(0).Item("fl_armazem_atracacao").ToString = True Then
+                                TIPO_PESSOA = "T"
+                            ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_descarga").ToString = True Then
+                                TIPO_PESSOA = "T"
+                            ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_desembaraco").ToString = True Then
+                                TIPO_PESSOA = "T"
+                            ElseIf ds.Tables(0).Rows(0).Item("fl_prestador").ToString = True Then
+                                TIPO_PESSOA = "P"
+                            ElseIf ds.Tables(0).Rows(0).Item("fl_agente_internacional").ToString = True Then
+                                TIPO_PESSOA = "P"
+                            Else
+                                TIPO_PESSOA = "C"
+                            End If
                         End If
+
+
+
+                        'INSERE INFORMAÇOES NO BANCO
+                        Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ddlEvento.SelectedValue & "," & ddlPorto.SelectedValue & "," & txtID.Text & ",'" & TIPO & "','" & TIPO_PESSOA & "', LOWER('" & Email & "'))")
+
+
+                        'REPLICA EMAILS
+                        If ckbReplica.Checked = True Then
+
+                            ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
+                            If ds.Tables(0).Rows.Count > 0 Then
+                                For Each linha As DataRow In ds.Tables(0).Rows
+                                    Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
+
+                                    'insere emails
+                                    Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & txtID.Text & ",'" & TIPO & "','" & TIPO_PESSOA & "',  LOWER('" & Email & "'))")
+
+                                Next
+
+                            End If
+                        End If
+
+
+                        ddlPorto.SelectedValue = 0
+                        ddlEvento.SelectedValue = 0
+                        txtEmail.Text = ""
+                        dgvEmailEvento.DataBind()
+                        divSuccessEvento.Visible = True
+                        lblSuccessEvento.Text = "Email cadastrado com sucesso!"
+                        Con.Fechar()
+                    Else
+                        divErroEvento.Visible = True
+                        lblErroEvento.Text = "Já existe email cadastrado para esse evento, selecione a opção de editar!"
+                        dgvEmailEvento.DataBind()
                     End If
-
-
-                    ddlPorto.SelectedValue = 0
-                    ddlEvento.SelectedValue = 0
-                    txtEmail.Text = ""
-                    dgvEmailEvento.DataBind()
-                    divSuccessEvento.Visible = True
-                    lblSuccessEvento.Text = "Email cadastrado com sucesso!"
-                    Con.Fechar()
-
                 End If
 
 

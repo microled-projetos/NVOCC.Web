@@ -2593,22 +2593,18 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
             divErroTaxa.Visible = True
 
         ElseIf ddlEstufagem.SelectedValue = 1 And (ddlOrigemPagamentoTaxa.SelectedValue = 0 Or ddlBaseCalculoTaxa.SelectedValue = 0 Or ddlMoedaCompraTaxa.SelectedValue = 0 Or txtValorTaxaCompra.Text = "" Or ddlTipoPagamentoTaxa.SelectedValue = 0) Then
-
             lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
             divErroTaxa.Visible = True
 
         ElseIf ddlEstufagem.SelectedValue = 1 And ddlItemDespesaTaxa.SelectedValue <> 71 And (ddlMoedaVendaTaxa.SelectedValue = 0 Or txtValorTaxaVenda.Text = "" Or ddlDestinatarioCobrancaTaxa.SelectedValue = 0) Then
-
             lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
             divErroTaxa.Visible = True
 
         ElseIf ddlEstufagem.SelectedValue = 2 And (ddlOrigemPagamentoTaxa.SelectedValue = 0 Or ddlBaseCalculoTaxa.SelectedValue = 0 Or ddlTipoPagamentoTaxa.SelectedValue = 0) Then
-
             lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
             divErroTaxa.Visible = True
 
         ElseIf ddlEstufagem.SelectedValue = 2 And ddlItemDespesaTaxa.SelectedValue <> 71 And (ddlMoedaVendaTaxa.SelectedValue = 0 Or txtValorTaxaVenda.Text = "" Or ddlDestinatarioCobrancaTaxa.SelectedValue = 0) Then
-
             lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
             divErroTaxa.Visible = True
 
