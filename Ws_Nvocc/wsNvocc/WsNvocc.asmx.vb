@@ -1745,12 +1745,14 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
 
                         If retCodErro = "A02" Then
+                            'Empresa já com uma consulta em andamento. - Favor aguardar o termino de uma consulta para efetuar outra.
                             sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                             Con.ExecutarQuery(sSql)
                             GoTo saida
                         End If
 
                         If retCodErro = "E4" Then
+                            'Esse RPS não foi enviado para a nossa base de dados
                             sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                             Con.ExecutarQuery(sSql)
                             GoTo saida
