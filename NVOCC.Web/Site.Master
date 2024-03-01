@@ -105,10 +105,10 @@
                                 <a href="ItemDespesa.aspx" runat="server" id="mnItemDespesa">Itens Despesa</a>
                             </li>
                             <li>
-                                <a href="TextoCotacao.aspx" runat="server" id="A1">Texto Cotação</a>
+                                <a href="TextoCotacao.aspx" runat="server" id="mnTextoCotacao">Texto Cotação</a>
                             </li>
                              <li>
-                                <a href="CadastroGerencial.aspx" runat="server" id="A3">Porto/Aeroporto</a>
+                                <a href="CadastroGerencial.aspx" runat="server" id="mnCadastroGerencial">Porto/Aeroporto</a>
                             </li>
                         </ul>
                     </li>
@@ -231,6 +231,9 @@
                             </li>
                             <li>
                                 <a href="ModuloDetention.aspx" runat="server" id="mnDetention">Detention</a>
+                            </li>
+                              <li>
+                                <a href="ControleBaixas.aspx" runat="server" id="mnControleBaixas">Baixa Personal</a>
                             </li>
                         </ul>
                     </li>

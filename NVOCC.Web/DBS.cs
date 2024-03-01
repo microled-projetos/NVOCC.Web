@@ -179,9 +179,34 @@ namespace ABAINFRA.Web
 
         }
 
+        public static string Json(string SQL)
+        {
+            using (SqlConnection Con = new SqlConnection(ConnectionString()))
+            {
+
+
+                using (SqlCommand command = new SqlCommand(SQL, Con))
+                {
+                    Con.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            reader.Read();
+                            string jsonString = reader[0].ToString(); // Obtém a representação JSON da consulta
+                            return jsonString;
+                        }
+                        reader.Close();
+                    }
+                    Con.Close();
+                }
+            }
+            return null;
+        }
+
         public static string ConnectionString()
         {
-            if (HttpContext.Current.Session != null)
+            /*if (HttpContext.Current.Session != null)
             {
                 Console.WriteLine(HttpContext.Current.Session);
                 string SQL = ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString.Substring(0, ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString.IndexOf("User"));
@@ -189,9 +214,9 @@ namespace ABAINFRA.Web
                 return SQL;
             }
             else
-            {
+            {*/
                 return ConfigurationManager.ConnectionStrings["NVOCC"].ConnectionString;
-            }
+            //s}
         }
     }
 }
