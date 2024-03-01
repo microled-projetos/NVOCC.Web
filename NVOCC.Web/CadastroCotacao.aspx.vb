@@ -4234,22 +4234,35 @@ Where A.ID_COTACAO = " & txtID.Text)
     End Sub
 
     Private Sub ddlItemDespesaTaxa_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlItemDespesaTaxa.SelectedIndexChanged
-        If ddlItemDespesaTaxa.SelectedValue = 71 Then
-            txtValorTaxaVenda.Enabled = False
-            txtValorTaxaVenda.Text = 0
-            txtValorTaxaVendaMin.Enabled = False
-            txtValorTaxaVendaMin.Text = 0
-            ddlMoedaVendaTaxa.Enabled = False
-            ddlMoedaVendaTaxa.SelectedValue = 0
-            ddlDestinatarioCobrancaTaxa.Enabled = False
-            ddlDestinatarioCobrancaTaxa.SelectedValue = 3
-            ddlFornecedor.SelectedValue = ddlIndicador.SelectedValue
-        Else
-            txtValorTaxaVenda.Enabled = True
-            txtValorTaxaVendaMin.Enabled = True
-            ddlMoedaVendaTaxa.Enabled = True
-            ddlDestinatarioCobrancaTaxa.Enabled = True
-        End If
+        Dim Con As New Conexao_sql
+        Dim ds As DataSet
+        Con.Conectar()
+        Dim Sb = New StringBuilder()
+        Sb.AppendLine("SELECT isnull(FL_PREMIACAO,0) as FL_PREMIACAO FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & ddlItemDespesaTaxa.SelectedValue)
+        ds = Con.ExecutarQuery(Sb.ToString)
+        Try
+            If ds.Tables(0).Rows.Count > 0 Then
+                If ds.Tables(0).Rows(0).Item("FL_PREMIACAO") = True Then
+                    txtValorTaxaVenda.Enabled = False
+                    txtValorTaxaVenda.Text = 0
+                    txtValorTaxaVendaMin.Enabled = False
+                    txtValorTaxaVendaMin.Text = 0
+                    ddlMoedaVendaTaxa.Enabled = False
+                    ddlMoedaVendaTaxa.SelectedValue = 0
+                    ddlDestinatarioCobrancaTaxa.Enabled = False
+                    ddlDestinatarioCobrancaTaxa.SelectedValue = 3
+                    ddlFornecedor.SelectedValue = ddlIndicador.SelectedValue
+                Else
+                    txtValorTaxaVenda.Enabled = True
+                    txtValorTaxaVendaMin.Enabled = True
+                    ddlMoedaVendaTaxa.Enabled = True
+                    ddlDestinatarioCobrancaTaxa.Enabled = True
+                End If
+            End If
+
+        Catch ex As Exception
+            Throw ex
+        End Try
     End Sub
 
     Private Sub ckbDeclaradoTaxa_CheckedChanged(sender As Object, e As EventArgs) Handles ckbDeclaradoTaxa.CheckedChanged
