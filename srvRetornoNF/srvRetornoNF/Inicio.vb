@@ -209,27 +209,9 @@ WHERE B.FL_EXPIRA = 1 AND DATEDIFF( DAY , DT_UPLOAD,GETDATE()) >= (SELECT QT_DIA
                 QtdDias = ds.Tables(0).Rows(0)("QT_DIAS_EXPURGO").ToString
             End If
 
-            DataParametro = DataAtual.AddDays(-QtdDias)
-            Mes = Month(DataParametro)
-            Ano = Year(DataParametro)
+
             Dim diretorio As String = "E:\PDF_NFe\PDF"
-
-            'If Mes < 10 Then
-            '    diretorio = "E:\PDF_NFe\PDF\" & Ano & "\0" & Mes
-            'Else
-            '    diretorio = "E:\PDF_NFe\PDF\" & Ano & "\" & Mes
-            'End If
-
-            'If Directory.Exists(diretorio) Then
-            '    di = New DirectoryInfo(diretorio)
-            '    For Each pastas As DirectoryInfo In di.GetDirectories
-            '        For Each file As FileInfo In pastas.GetFiles()
-            '            file.Delete()
-            '        Next
-            '        pastas.Delete()
-            '    Next
-            '    di.Delete()
-            'End If
+            DataParametro = DataAtual.AddDays(-QtdDias)
 
             If Directory.Exists(diretorio) Then
                 di = New DirectoryInfo(diretorio)
@@ -243,15 +225,43 @@ WHERE B.FL_EXPIRA = 1 AND DATEDIFF( DAY , DT_UPLOAD,GETDATE()) >= (SELECT QT_DIA
                                 End If
                             Next
 
-                            If PastaDia.GetFiles.Count = 0 Then
+                            If PastaDia.GetFiles.Count = 0 And PastaDia.GetDirectories.Count = 0 Then
                                 PastaDia.Delete()
                             End If
                         Next
-                        If PastaMes.GetFiles.Count = 0 Then
+                        If PastaMes.GetFiles.Count = 0 And PastaMes.GetDirectories.Count = 0 Then
                             PastaMes.Delete()
                         End If
                     Next
-                    If PastaAno.GetFiles.Count = 0 Then
+                    If PastaAno.GetFiles.Count = 0 And PastaAno.GetDirectories.Count = 0 Then
+                        PastaAno.Delete()
+                    End If
+                Next
+
+            End If
+
+            diretorio = "E:\PDF_NFe\LOGS"
+            If Directory.Exists(diretorio) Then
+                di = New DirectoryInfo(diretorio)
+                For Each PastaAno As DirectoryInfo In di.GetDirectories
+                    For Each PastaMes As DirectoryInfo In PastaAno.GetDirectories()
+
+                        For Each PastaDia As DirectoryInfo In PastaMes.GetDirectories()
+                            For Each file As FileInfo In PastaDia.GetFiles()
+                                If file.CreationTime < DataParametro Then
+                                    file.Delete()
+                                End If
+                            Next
+
+                            If PastaDia.GetFiles.Count = 0 And PastaDia.GetDirectories.Count = 0 Then
+                                PastaDia.Delete()
+                            End If
+                        Next
+                        If PastaMes.GetFiles.Count = 0 And PastaMes.GetDirectories.Count = 0 Then
+                            PastaMes.Delete()
+                        End If
+                    Next
+                    If PastaAno.GetFiles.Count = 0 And PastaAno.GetDirectories.Count = 0 Then
                         PastaAno.Delete()
                     End If
                 Next
