@@ -657,6 +657,7 @@
      <asp:AsyncPostBackTrigger  ControlID="txtConsulta" />
      <asp:AsyncPostBackTrigger  ControlID="ddlConsulta" />
      <asp:AsyncPostBackTrigger  ControlID="ddlComexConsulta" />
+     <asp:AsyncPostBackTrigger  ControlID="txtItemDespesa" />     
      <asp:PostBackTrigger ControlID="btnGerarCSV" />
 </Triggers>
    </asp:UpdatePanel>
@@ -695,11 +696,14 @@ LEFT JOIN TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX
 LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
 LEFT JOIN TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO
 LEFT JOIN TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA         
-        WHERE a.ID_TIPO_COMEX = @ComexConsulta  AND  ID_TRANSPORTADOR = @ID  ORDER BY B.NM_PORTO,A.ID_TAXA_LOCAL_TRANSPORTADOR">
+        WHERE a.ID_TIPO_COMEX = @ComexConsulta  
+        AND  ID_TRANSPORTADOR = @ID 
+
+        ORDER BY B.NM_PORTO,A.ID_TAXA_LOCAL_TRANSPORTADOR">
            <SelectParameters>
                 <asp:Parameter Name="ID" Type="Int32"  />
-                               <asp:ControlParameter Name="ComexConsulta" Type="Int32" ControlID="ddlComexConsulta" DefaultValue="1" />
-
+                 <asp:ControlParameter Name="ComexConsulta" Type="Int32" ControlID="ddlComexConsulta" DefaultValue="1" />
+               <%--<asp:ControlParameter Name="ItemDespesaConsulta" Type="Int32" ControlID="txtItemDespesa"  />      --%>         
             </SelectParameters>
 
 </asp:SqlDataSource>
