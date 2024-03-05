@@ -75,16 +75,17 @@
                                             <tr>
                                                 <th class="text-center" scope="col">SOLICITACAO</th>
                                                 <th class="text-center" scope="col">INSIDE</th>
+                                                <th class="text-center" scope="col">VENDEDOR</th>
                                                 <th class="text-center" scope="col">NR COTAÇÂO</th>
                                                 <th class="text-center" scope="col">PROCESSO</th>
                                                 <th class="text-center" scope="col">STATUS</th>
                                                 <th class="text-center" scope="col">MODAL</th>
+                                                <th class="text-center" scope="col">ESTUFAGEM</th>
                                                 <th class="text-center" scope="col">INCOTERM</th>
-                                                <th class="text-center" scope="col">CLIENTE</th>
-                                                <th class="text-center" scope="col">CLIENTE FINAL</th>
                                                 <th class="text-center" scope="col">ORIGEM</th>
                                                 <th class="text-center" scope="col">DESTINO</th>
-                                                <th class="text-center" scope="col">VENDEDOR</th>
+                                                <th class="text-center" scope="col">CLIENTE</th>
+                                                <th class="text-center" scope="col">CLIENTE FINAL</th>
                                                 <th class="text-center" scope="col">EXPORTADOR</th>
                                                 <th class="text-center" scope="col">IMPORTADOR</th>
                                                 <th class="text-center" scope="col">AGENTE INTERNACIONAL</th>
@@ -104,7 +105,6 @@
                                                 <th class="text-center" scope="col">TIPO CONTAINER</th>
                                                 <th class="text-center" scope="col">QUANTIDADE CONTAINER</th>
                                                 <th class="text-center" scope="col">FREETIME</th>
-                                                <th class="text-center" scope="col">ESTUFAGEM</th>
                                                 <th class="text-center" scope="col">MOTIVO CANCELAMENTO</th>
                                                 <th class="text-center" scope="col">OBS MOTIVO CANCELAMENTO</th>
                                             </tr>
@@ -300,6 +300,8 @@
 
                                     "<td class='text-center'>" + dado[i]["INSIDE"] + "</td>" +
 
+                                    "<td class='text-center'>" + dado[i]["VENDEDOR"] + "</td>" +
+
                                     "<td class='text-center'> " + dado[i]["NR_COTACAO"] + "</td>" +
 
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
@@ -308,17 +310,17 @@
 
                                     "<td class='text-center'>" + dado[i]["MODAL"] + "</td>" +
 
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>" +
+
                                     "<td class='text-center'>" + dado[i]["INCOTERM"] + "</td>" +
-
-                                    "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["CLIENTE"] + "'>" + dado[i]["CLIENTE"] + "</td>" +
-
-                                    "<td class='text-center' style='max-width: 14ch;' title='" + dado[i]["SUB_CLIENTE"] + "'>" + dado[i]["SUB_CLIENTE"] + "</td>" +
 
                                     "<td class='text-center'>" + dado[i]["ORIGEM"] + "</td>" +
 
                                     "<td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
 
-                                    "<td class='text-center'>" + dado[i]["VENDEDOR"] + "</td>" +
+                                    "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["CLIENTE"] + "'>" + dado[i]["CLIENTE"] + "</td>" +
+
+                                    "<td class='text-center' style='max-width: 14ch;' title='" + dado[i]["SUB_CLIENTE"] + "'>" + dado[i]["SUB_CLIENTE"] + "</td>" +
 
                                     "<td class='text-center'>" + dado[i]["EXPORTADOR"] + "</td>" +
 
@@ -357,8 +359,6 @@
                                     "<td class='text-center'>" + dado[i]["QTD_CONTAINER"] + "</td>" +
 
                                     "<td class='text-center'>" + dado[i]["FREETIME"] + "</td>" +
-
-                                    "<td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>" +
 
                                     "<td class='text-center'>" + dado[i]["MOTIVO"] + "</td>" +
 

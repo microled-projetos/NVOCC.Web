@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 21022024\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 01032024 hom\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -300,7 +300,9 @@
     <Content Include="CadastroMetas.aspx" />
     <Content Include="Classes\DetentionCls.cs" />
     <Content Include="Classes\FiltrosTaxasInativas.cs" />
+    <Content Include="Classes\PedidoCompra.cs" />
     <Content Include="Classes\TaxaPrestador.cs" />
+    <Content Include="Classes\TaxasPersonal.cs" />
     <Content Include="Classes\Variacao.cs" />
     <Content Include="ComissaoInsideSales.aspx" />
     <Content Include="ConsultaIntegracaoTOTVS.aspx" />
@@ -403,6 +405,9 @@
     <Content Include="Content\PDFAuxiliar.pdf" />
     <Content Include="Content\ScrollableGridPlugin.js" />
     <Content Include="Content\Site.css" />
+    <Content Include="ControleBaixas.aspx" />
+    <Content Include="ControleBaixas.aspx.cs" />
+    <Content Include="ControleBaixas.aspx.designer.cs" />
     <Content Include="Courrier.aspx" />
     <Content Include="CourrierPersonal.aspx" />
     <Content Include="CourrierPersonal.aspx.cs" />
@@ -651,6 +656,8 @@
     <Content Include="Scripts\WebUIValidation.js" />
     <Content Include="SelecionaPerfil.aspx" />
     <Content Include="ProcessosPeriodo.aspx" />
+    <Content Include="Services\Taxas.asmx" />
+    <Content Include="Services\Taxas.asmx.cs" />
     <Content Include="SOA_II.aspx" />
     <Content Include="SOA_I.aspx" />
     <Content Include="SolicitacaoPagamento.aspx" />
