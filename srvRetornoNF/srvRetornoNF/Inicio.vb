@@ -14,12 +14,12 @@ Module Inicio
 
             ''ROTINA RECUPERA NUMERO DA NF, CHAMA ROBO DO PATRICK E ENVIA EMAIL PARA O CLIENTE  
             WriteToFile($"{DateTime.Now.ToString()} - Principal: Chama TesteRetornoNF ")
-            TesteRetornoNF()
+            ' TesteRetornoNF()
 
 
             ''ROTINA RECUPERA NUMERO DA NF, CHAMA ROBO DO PATRICK E ENVIA EMAIL PARA O CLIENTE  
             WriteToFile($"{DateTime.Now.ToString()} - Principal: Chama RetornoNF ")
-            ' RetornoNF()
+            RetornoNF()
 
 
             ''ROTINA QUE ATUALIZA DATA DA BAIXA TOTVS NAS COMISSOES NACIONAIS - CHAMADO 3505
@@ -118,9 +118,9 @@ Module Inicio
             ''CHAMA ROBÔ DO PATRICK PASSANDO A VARIAVEL ARGS COM OS DADOS DAS NOTAS CONSULTADAS NO GINFES E ENVIA EMAIL
             If args <> "" Then
                 Process.Start("E:\PDF_NFe\EXEC\BaixaNF.exe ", args)
-                EnviaEmail()
             End If
 
+            EnviaEmail()
 
         Catch ex As Exception
             WriteToFile($"{DateTime.Now.ToString()} - RetornoNF Erro: " & ex.ToString)
@@ -304,11 +304,11 @@ WHERE B.FL_EXPIRA = 1 AND DATEDIFF( DAY , DT_UPLOAD,GETDATE()) >= (SELECT QT_DIA
 
             If rsParam.Tables(0).Rows.Count > 0 Then
 
-
                 rsDados = Con.ExecutarQuery(" SELECT A.ID_FATURAMENTO,A.NR_NOTA_FISCAL,A.VL_NOTA,A.COD_VER_NFSE,A.DT_NOTA_FISCAL,A.NM_CLIENTE,A.CNPJ,B.EMAIL_NF_ELETRONICA 
 FROM TB_FATURAMENTO A
 INNER JOIN TB_PARCEIRO B ON A.ID_PARCEIRO_CLIENTE = B.ID_PARCEIRO
-WHERE A.ID_STATUS_DOWNLOAD_NFE <> 0 AND A.FL_STATUS_EMAIL_NFE = 0 ")
+WHERE A.ID_STATUS_DOWNLOAD_NFE <> 0 AND A.FL_STATUS_EMAIL_NFE = 0 AND B.EMAIL_NF_ELETRONICA IS NOT NULL")
+
                 If rsParam.Tables(0).Rows.Count > 0 Then
 
                     For Each linhads As DataRow In rsDados.Tables(0).Rows
@@ -358,7 +358,7 @@ WHERE A.ID_STATUS_DOWNLOAD_NFE <> 0 AND A.FL_STATUS_EMAIL_NFE = 0 ")
 
 
                         'DESTINATARIO
-                        enderecos = "juliane@microled.com.br;" 'linhads.Item("EMAIL_NF_ELETRONICA").ToString
+                        enderecos = linhads.Item("EMAIL_NF_ELETRONICA").ToString
                         Dim palavras As String() = enderecos.Split(New String() _
                   {";"}, StringSplitOptions.RemoveEmptyEntries)
 
