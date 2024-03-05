@@ -5232,7 +5232,6 @@ namespace ABAINFRA.Web
             SQL += "AND BL.GRAU IN ('C') ";
             SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
             SQL += "AND (BL.DT_CHEGADA IS NULL OR M.DT_CHEGADA IS NULL) ";
-            //SQL += "OR (M.DT_RETIRADA_PERSONAL IS NULL OR BL.DT_RETIRADA_PERSONAL IS NOT NULL)) ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
@@ -5294,9 +5293,7 @@ namespace ABAINFRA.Web
             SQL += "" + listarCourrierFilter(dados) + " ";
             SQL += "" + idFilter + "";
             SQL += "" + tipo + "";
-            SQL += "AND BL.CD_RASTREAMENTO_HBL <> 'ORIGEM' AND BL.CD_RASTREAMENTO_HBL <> '' ";
             SQL += "AND BL.DT_CHEGADA IS NOT NULL AND M.DT_CHEGADA IS NOT NULL ";
-            SQL += "AND (M.DT_RETIRADA_PERSONAL IS NOT NULL AND BL.DT_RETIRADA_PERSONAL IS NOT NULL) ";
             SQL += "AND BL.GRAU IN ('C') ";
             SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
             DataTable listTable = new DataTable();
@@ -5361,23 +5358,27 @@ namespace ABAINFRA.Web
             SQL += "" + listarCourrierFilter(dados) + " ";
             SQL += "" + idFilter + "";
             SQL += "" + tipo + "";
-            SQL += "AND BL.CD_RASTREAMENTO_HBL <> 'ORIGEM' AND BL.CD_RASTREAMENTO_HBL <> '' ";
             SQL += "AND BL.DT_CHEGADA IS NOT NULL AND M.DT_CHEGADA IS NOT NULL ";
-            SQL += "AND (M.DT_RETIRADA_PERSONAL IS NOT NULL AND BL.DT_RETIRADA_PERSONAL IS NOT NULL) ";
             SQL += "AND BL.GRAU IN ('C') ";
             SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
             SQL += "AND ((BL.DS_TERMO IS NULL OR BL.DS_TERMO = '') ";
             SQL += "OR BL.FL_BLOQUEIO_DOCUMENTAL = 1) ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
-            listTable.Columns.Add("LOTE");
-            for (int x = 0; x < listTable.Rows.Count; x++)
+            if (listTable != null)
             {
-                SQL = "SELECT AUTONUM FROM TB_BL WHERE NUMERO = '" + listTable.Rows[x]["HOUSE"] + "' ";
-                listTable.Rows[x]["LOTE"] = DBE.ExecuteScalar(SQL);
+                listTable.Columns.Add("LOTE");
+                for (int x = 0; x < listTable.Rows.Count; x++)
+                {
+                    SQL = "SELECT AUTONUM FROM TB_BL WHERE NUMERO = '" + listTable.Rows[x]["HOUSE"] + "' ";
+                    listTable.Rows[x]["LOTE"] = DBE.ExecuteScalar(SQL);
+                }
             }
+
             return JsonConvert.SerializeObject(listTable);
+
         }
+
 
         [WebMethod(EnableSession = true)]
         public string listarCourrierConcluido(string idFilter, string Filter, string tipo, Filtro dados)
@@ -5443,9 +5444,7 @@ namespace ABAINFRA.Web
             SQL += "" + listarCourrierFilter(dados) + " ";
             SQL += "" + idFilter + "";
             SQL += "" + tipo + "";
-            SQL += "AND BL.CD_RASTREAMENTO_HBL <> 'ORIGEM' AND BL.CD_RASTREAMENTO_HBL <> '' ";
             SQL += "AND BL.DT_CHEGADA IS NOT NULL AND M.DT_CHEGADA IS NOT NULL ";
-            SQL += "AND (M.DT_RETIRADA_PERSONAL IS NOT NULL AND BL.DT_RETIRADA_PERSONAL IS NOT NULL) ";
             SQL += "AND BL.GRAU IN ('C') ";
             SQL += "AND BL.DT_CANCELAMENTO IS NULL ";
             SQL += "AND ((BL.DS_TERMO IS NOT NULL OR BL.DS_TERMO <> '') ";
