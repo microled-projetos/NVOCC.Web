@@ -293,27 +293,10 @@ INNER JOIN TB_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRA
 
     End Sub
     Sub Pesquisa()
-        msgerro.Text = ""
-        Dim FILTRO As String = ""
+        Try
+            msgerro.Text = ""
 
-        If txtConsulta.Text = "" Then
-            dsTaxas.SelectParameters("ID").DefaultValue = Request.QueryString("id")
-            dgvTaxas.DataBind()
-        Else
-
-            If ddlConsulta.SelectedValue = 1 Then
-                FILTRO = FILTRO & " And NM_PORTO Like '%" & txtConsulta.Text & "%' "
-            ElseIf ddlConsulta.SelectedValue = 2 Then
-                FILTRO = FILTRO & " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
-            End If
-
-            If Not String.IsNullOrEmpty(txtItemDespesa.Text) Then
-                FILTRO = FILTRO & "  AND F.NM_ITEM_DESPESA like '%" & txtItemDespesa.Text & "%'"
-            End If
-
-            If Not String.IsNullOrEmpty(txtDataInicial.Text) Then
-                FILTRO = FILTRO & " AND A.DT_VALIDADE_INICIAL BETWEEN Convert(Datetime, '" & txtDataInicial.Text & "',103) and Convert(Datetime, '" & txtDataFinal.Text & "', 103) "
-            End If
+            'dsTaxas.SelectParameters("ID").DefaultValue = Request.QueryString("id")
 
             Dim sb As New StringBuilder()
 
@@ -335,40 +318,40 @@ INNER JOIN TB_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRA
             sb.AppendLine(" LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA  ")
             sb.AppendLine(" LEFT JOIN TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO   ")
             sb.AppendLine(" LEFT JOIN TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA_COMPRA    ")
-            sb.AppendLine(" WHERE ")
-            sb.AppendLine(" a.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue)
+            sb.AppendLine(" WHERE  1 = 1")
+
+            If ddlConsulta.SelectedValue = 1 Then
+                sb.AppendLine(" And NM_PORTO Like '%" & txtConsulta.Text & "%' ")
+            ElseIf ddlConsulta.SelectedValue = 2 Then
+                sb.AppendLine(" AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' ")
+            End If
+
+            If ddlComexConsulta.SelectedValue <> "" Then
+                sb.AppendLine(" AND  a.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue)
+            End If
+
+            If Not String.IsNullOrEmpty(txtItemDespesa.Text) Then
+                sb.AppendLine("   AND F.NM_ITEM_DESPESA like '%" & txtItemDespesa.Text.ToString & "%'")
+            End If
+
+
+            If Not String.IsNullOrEmpty(txtDataInicial.Text) Then
+                sb.AppendLine("  AND A.DT_VALIDADE_INICIAL BETWEEN Convert(Datetime, '" & txtDataInicial.Text & "',103) and Convert(Datetime, '" & txtDataFinal.Text & "', 103) ")
+            End If
+
             sb.AppendLine(" AND ID_TRANSPORTADOR =  " & Request.QueryString("id"))
-            sb.AppendLine(FILTRO)
             sb.AppendLine(" ORDER BY B.NM_PORTO ")
 
-            '            dsTaxas.SelectCommand = "SELECT A.ID_TAXA_LOCAL_TRANSPORTADOR,
-            'A.ID_TRANSPORTADOR,
-            'A.ID_PORTO, CASE WHEN A.ID_PORTO = 0 THEN 'TODOS' ELSE B.NM_PORTO END NM_PORTO,
-            'A.ID_TIPO_COMEX, D.NM_TIPO_COMEX,
-            'A.ID_VIATRANSPORTE, C.NM_VIATRANSPORTE,
-            'A.ID_ITEM_DESPESA, F.NM_ITEM_DESPESA,
-            'A.VL_TAXA_LOCAL_COMPRA,
-            'A.DT_VALIDADE_INICIAL, E.NM_BASE_CALCULO_TAXA, G.SIGLA_MOEDA
-            'FROM
-            '            TB_TAXA_LOCAL_TRANSPORTADOR A 
-            'LEFT JOIN TB_PORTO B ON B.ID_PORTO = A.ID_PORTO
-            'LEFT JOIN TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
-            'LEFT JOIN TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX
-            'LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
-            'LEFT JOIN TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO
-            'LEFT JOIN TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA_COMPRA     
-            '        WHERE a.ID_TIPO_COMEX = " & ddlComexConsulta.SelectedValue & " AND ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO & " ORDER BY B.NM_PORTO"
-
-
-            dsTaxas.SelectCommand = sb.ToString
+            ''dsTaxas.SelectCommand = Nothing
+            dsTaxas.SelectCommand = sb.ToString()
+            'dgvTaxas.DataSource = sb.ToString
             dgvTaxas.DataBind()
-        End If
+        Catch ex As Exception
+            Throw ex
+        End Try
 
     End Sub
-    Private Sub txtConsulta_TextChanged(sender As Object, e As EventArgs) Handles txtConsulta.TextChanged
 
-        Pesquisa()
-    End Sub
 
 
     Private Sub btnSalvarNovo_Click(sender As Object, e As EventArgs) Handles btnSalvarNovo.Click
@@ -1125,9 +1108,7 @@ INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_STATUS_COTACAO
 
     End Sub
 
-    Private Sub dgvTaxas_Load(sender As Object, e As EventArgs) Handles dgvTaxas.Load
-        Pesquisa()
-    End Sub
+
 
     Private Sub ddlBaseCalculoNovo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlBaseCalculoNovo.SelectedIndexChanged
         If ddlBaseCalculoNovo.SelectedValue = 38 Or ddlBaseCalculoNovo.SelectedValue = 40 Or ddlBaseCalculoNovo.SelectedValue = 41 Then
@@ -1146,12 +1127,20 @@ INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_STATUS_COTACAO
             txtQtdBaseCalculo.Text = ""
         End If
     End Sub
-
+    Private Sub dgvTaxas_Load(sender As Object, e As EventArgs) Handles dgvTaxas.Load
+        Pesquisa()
+    End Sub
     Private Sub ddlComexConsulta_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlComexConsulta.SelectedIndexChanged
         Pesquisa()
     End Sub
 
     Private Sub ddlConsulta_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlConsulta.SelectedIndexChanged
+        Pesquisa()
+    End Sub
+    Private Sub txtItemDespesa_TextChanged(sender As Object, e As EventArgs) Handles txtItemDespesa.TextChanged
+        Pesquisa()
+    End Sub
+    Private Sub txtConsulta_TextChanged(sender As Object, e As EventArgs) Handles txtConsulta.TextChanged
         Pesquisa()
     End Sub
 

@@ -549,7 +549,7 @@
                                 <div class="col-sm-2" id="divItemFiltroDespesa" runat="server">
                                     <div class="form-group">   
                                         <label class="control-label">Filtrar item despesa </label>
-                                        <asp:TextBox ID="txtItemDespesa" runat="server" CssClass="form-control"></asp:TextBox>                                        
+                                        <asp:TextBox ID="txtItemDespesa" runat="server" AutoPostBack="true" CssClass="form-control"></asp:TextBox>                                        
                                     </div>                                   
                                 </div>
 
