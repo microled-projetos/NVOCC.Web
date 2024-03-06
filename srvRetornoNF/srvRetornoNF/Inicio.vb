@@ -53,7 +53,7 @@ Module Inicio
             Con.Conectar()
             Dim args As String = ""
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_FATURAMENTO,A.NR_NOTA_FISCAL,A.COD_VER_NFSE, B.CNPJ FROM TB_FATURAMENTO A CROSS JOIN TB_EMPRESAS B WHERE A.NR_RPS IS NOT NULL AND A.ID_STATUS_DOWNLOAD_NFE = 0 ")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_FATURAMENTO,A.NR_NOTA_FISCAL,A.COD_VER_NFSE, B.CNPJ FROM TB_FATURAMENTO A CROSS JOIN TB_EMPRESAS B WHERE A.NR_RPS IS NOT NULL AND A.ID_STATUS_DOWNLOAD_NFE = 0 ORDER BY A.ID_FATURAMENTO DESC ")
             If ds.Tables(0).Rows.Count > 0 Then
                 For Each linhads As DataRow In ds.Tables(0).Rows
                     args = args & " " & linhads.Item("NR_NOTA_FISCAL") & " " & linhads.Item("COD_VER_NFSE") & " " & linhads.Item("CNPJ") & " " & linhads.Item("ID_FATURAMENTO")
@@ -88,13 +88,16 @@ Module Inicio
             Con.Conectar()
             Dim args As String = ""
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE ISNULL(NR_RPS,0) <> 0 AND ISNULL(NR_LOTE,0) <> 0 AND ISNULL(STATUS_NFE,0) = 1 AND ISNULL(CANCELA_NFE,0) = 0 AND NR_NOTA_FISCAL IS NULL AND DT_CANCELAMENTO IS NULL ")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE ISNULL(NR_RPS,0) <> 0 AND ISNULL(NR_LOTE,0) <> 0 AND ISNULL(CANCELA_NFE,0) = 0 AND NR_NOTA_FISCAL IS NULL AND DT_CANCELAMENTO IS NULL ")
 
             If ds.Tables(0).Rows.Count > 0 Then
 
                 For Each linhads As DataRow In ds.Tables(0).Rows
 
+                    WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: For Each linhads As DataRow In ds.Tables(0).Rows  ")
+
                     Using ConsultaNF = New WsNVOCC.WsNvocc
+                        WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: Using ConsultaNF = New WsNVOCC.WsNvocc  ")
 
                         Dim consulta = ConsultaNF.ConsultaNFePrefeitura(linhads.Item("ID_FATURAMENTO").ToString(), 1, "SQL", "NVOCC")
 
@@ -103,10 +106,12 @@ Module Inicio
                     End Using
 
                     Con.ExecutarQuery("UPDATE TB_FATURAMENTO SET FL_SRV_RETORNO_NF =  1 WHERE ID_FATURAMENTO =  " & linhads.Item("ID_FATURAMENTO").ToString())
-
                     Dim dsDados As DataSet = Con.ExecutarQuery("SELECT A.ID_FATURAMENTO,A.NR_NOTA_FISCAL,A.COD_VER_NFSE, B.CNPJ FROM TB_FATURAMENTO A CROSS JOIN TB_EMPRESAS B WHERE A.ID_STATUS_DOWNLOAD_NFE = 0 AND A.ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())
+                    WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: If dsDados.Tables(0).Rows.Count > 0 Then")
                     If dsDados.Tables(0).Rows.Count > 0 Then
+                        WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: dentro do if ")
                         args = args & " " & dsDados.Tables(0).Rows(0).Item("NR_NOTA_FISCAL") & " " & dsDados.Tables(0).Rows(0).Item("COD_VER_NFSE") & " " & dsDados.Tables(0).Rows(0).Item("CNPJ") & " " & dsDados.Tables(0).Rows(0).Item("ID_FATURAMENTO")
+                        WriteToFile($"{DateTime.Now.ToString()} - args " & args.ToString())
                     End If
 
 
@@ -116,9 +121,12 @@ Module Inicio
             End If
 
             ''CHAMA ROBÔ DO PATRICK PASSANDO A VARIAVEL ARGS COM OS DADOS DAS NOTAS CONSULTADAS NO GINFES E ENVIA EMAIL
+            WriteToFile($"{DateTime.Now.ToString()} - antes do If args <>  Then")
             If args <> "" Then
-                Process.Start("E:\PDF_NFe\EXEC\BaixaNF.exe ", args)
+                WriteToFile($"{DateTime.Now.ToString()} - dentro do If args <>  Then  " & args.ToString())
+                Process.Start("E:\PDF_NFe\EXEC\BaixaNF.exe", args)
             End If
+            WriteToFile($"{DateTime.Now.ToString()} - depois do If args <>  Then")
 
             EnviaEmail()
 
@@ -144,7 +152,7 @@ Module Inicio
             Using myConnection As SqlConnection = New SqlConnection(cn)
                 WriteToFile($"{DateTime.Now.ToString()} - TotvsComissoes: Proc_Comissoes_Nacional_Totvs ")
                 Dim dataadapter As SqlDataAdapter = New SqlDataAdapter("[dbo].[Proc_Comissoes_Nacional_Totvs]", myConnection)
-                dataadapter.SelectCommand.CommandTimeout = 180
+                dataadapter.SelectCommand.CommandTimeout = 1800
                 myConnection.Open()
                 dataadapter.Fill(dsProc, "Authors_table")
             End Using

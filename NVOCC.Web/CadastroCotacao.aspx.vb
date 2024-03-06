@@ -2441,9 +2441,9 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
             lblErroTaxa.Text = "Selecione o item de despesa"
             divErroTaxa.Visible = True
 
-        ElseIf ddlItemDespesaTaxa.SelectedValue = 71 And (txtValorTaxaVenda.Text <> 0 Or txtValorTaxaVendaMin.Text <> 0) Then
-            lblErroTaxa.Text = "Não é possivel cadastrar taxa de venda de premiação!"
-            divErroTaxa.Visible = True
+            'ElseIf ddlItemDespesaTaxa.SelectedValue = 71 And (txtValorTaxaVenda.Text <> 0 Or txtValorTaxaVendaMin.Text <> 0) Then
+            '    lblErroTaxa.Text = "Não é possivel cadastrar taxa de venda de premiação!"
+            '    divErroTaxa.Visible = True
 
         ElseIf txtQtdBaseCalculo.Text = 0 And (ddlBaseCalculoTaxa.SelectedValue = 38 Or ddlBaseCalculoTaxa.SelectedValue = 40 Or ddlBaseCalculoTaxa.SelectedValue = 41) Then
             lblErroTaxa.Text = "Necessário informar quantidade para base de calculo selecionada!"
@@ -2455,31 +2455,61 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
             lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
             divErroTaxa.Visible = True
 
-        ElseIf ddlEstufagem.SelectedValue = 1 And ddlItemDespesaTaxa.SelectedValue <> 71 And (ddlMoedaVendaTaxa.SelectedValue = 0 Or txtValorTaxaVenda.Text = "" Or ddlDestinatarioCobrancaTaxa.SelectedValue = 0) Then
+            'ElseIf ddlEstufagem.SelectedValue = 1 And ddlItemDespesaTaxa.SelectedValue <> 71 And (ddlMoedaVendaTaxa.SelectedValue = 0 Or txtValorTaxaVenda.Text = "" Or ddlDestinatarioCobrancaTaxa.SelectedValue = 0) Then
 
-            lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
-            divErroTaxa.Visible = True
+            '    lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
+            '    divErroTaxa.Visible = True
 
         ElseIf ddlEstufagem.SelectedValue = 2 And (ddlOrigemPagamentoTaxa.SelectedValue = 0 Or ddlBaseCalculoTaxa.SelectedValue = 0 Or ddlTipoPagamentoTaxa.SelectedValue = 0) Then
 
             lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
             divErroTaxa.Visible = True
 
-        ElseIf ddlEstufagem.SelectedValue = 2 And ddlItemDespesaTaxa.SelectedValue <> 71 And (ddlMoedaVendaTaxa.SelectedValue = 0 Or txtValorTaxaVenda.Text = "" Or ddlDestinatarioCobrancaTaxa.SelectedValue = 0) Then
+            'ElseIf ddlEstufagem.SelectedValue = 2 And ddlItemDespesaTaxa.SelectedValue <> 71 And (ddlMoedaVendaTaxa.SelectedValue = 0 Or txtValorTaxaVenda.Text = "" Or ddlDestinatarioCobrancaTaxa.SelectedValue = 0) Then
 
-            lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
-            divErroTaxa.Visible = True
+            '    lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
+            '    divErroTaxa.Visible = True
 
 
         Else
 
-            If ddlItemDespesaTaxa.SelectedValue = 71 Then
-                txtValorTaxaVenda.Text = "0"
-                txtValorTaxaVendaCalc.Text = "0"
-                txtValorTaxaVendaMin.Text = "0"
-                ddlMoedaVendaTaxa.SelectedValue = 0
-                ddlDestinatarioCobrancaTaxa.SelectedValue = 3
+            'If ddlItemDespesaTaxa.SelectedValue = 71 Then
+            '    txtValorTaxaVenda.Text = "0"
+            '    txtValorTaxaVendaCalc.Text = "0"
+            '    txtValorTaxaVendaMin.Text = "0"
+            '    ddlMoedaVendaTaxa.SelectedValue = 0
+            '    ddlDestinatarioCobrancaTaxa.SelectedValue = 3
+            'End If
+
+            Dim dsPremiacao As DataSet = Con.ExecutarQuery("SELECT ISNULL(FL_PREMIACAO,0)FL_PREMIACAO,ID_ITEM_DESPESA   FROM TB_ITEM_DESPESA  WHERE ID_ITEM_DESPESA = " & ddlItemDespesaTaxa.SelectedValue)
+            If dsPremiacao.Tables(0).Rows.Count > 0 Then
+                If dsPremiacao.Tables(0).Rows(0).Item("FL_PREMIACAO") = False And (ddlMoedaVendaTaxa.SelectedValue = 0 Or txtValorTaxaVenda.Text = "" Or ddlDestinatarioCobrancaTaxa.SelectedValue = 0) Then
+                    lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
+                    divErroTaxa.Visible = True
+                    mpeNovoTaxa.Show()
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefaultTaxas()", True)
+                    Exit Sub
+                End If
+
+                If dsPremiacao.Tables(0).Rows(0).Item("FL_PREMIACAO") = True And (txtValorTaxaVenda.Text <> 0 Or txtValorTaxaVendaMin.Text <> 0) Then
+                    lblErroTaxa.Text = "Não é possivel cadastrar taxa de venda de premiação!"
+                    divErroTaxa.Visible = True
+                    mpeNovoTaxa.Show()
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefaultTaxas()", True)
+                    Exit Sub
+                End If
+
+                If dsPremiacao.Tables(0).Rows(0).Item("FL_PREMIACAO") = True Then
+                    txtValorTaxaVenda.Text = "0"
+                    txtValorTaxaVendaCalc.Text = "0"
+                    txtValorTaxaVendaMin.Text = "0"
+                    ddlMoedaVendaTaxa.SelectedValue = 0
+                    ddlDestinatarioCobrancaTaxa.SelectedValue = 3
+                End If
             End If
+
+
+
 
             txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace(".", "")
             txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace(",", ".")
