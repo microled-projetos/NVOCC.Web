@@ -106,7 +106,7 @@
                                 <div class="row flexdiv" style="padding: 0 15px;justify-content: center;">
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <input id="excelInput" class="form-control" type="file" required="required"/>
+                                            <input id="excelInput" class="form-control"  type="file" required="required"/>
                                         </div>
                                     </div>
                                 </div> 
