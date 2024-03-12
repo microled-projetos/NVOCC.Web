@@ -12,15 +12,17 @@ Module Inicio
     Public Sub Principal()
         Try
 
-            ''ROTINA RECUPERA NUMERO DA NF, CHAMA ROBO DO PATRICK E ENVIA EMAIL PARA O CLIENTE  
-            WriteToFile($"{DateTime.Now.ToString()} - Principal: Chama TesteRetornoNF ")
-            ' TesteRetornoNF()
-
-
-            ''ROTINA RECUPERA NUMERO DA NF, CHAMA ROBO DO PATRICK E ENVIA EMAIL PARA O CLIENTE  
+            ''ROTINA RECUPERA NUMERO DA NF
             WriteToFile($"{DateTime.Now.ToString()} - Principal: Chama RetornoNF ")
             RetornoNF()
 
+            ''CHAMA ROBO DE DOWNLOAD NF DO PATRICK - CHAMADO 10084
+            WriteToFile($"{DateTime.Now.ToString()} - Principal: Chama DownloadNF ")
+            DownloadNF()
+
+            ''ENVIA EMAIL DA NF PARA O CLIENTE - CHAMADO 10084
+            WriteToFile($"{DateTime.Now.ToString()} - Principal: Chama EnviaEmail ")
+            EnviaEmail()
 
             ''ROTINA QUE ATUALIZA DATA DA BAIXA TOTVS NAS COMISSOES NACIONAIS - CHAMADO 3505
             WriteToFile($"{DateTime.Now.ToString()} - Principal: Chama TotvsComissoes ")
@@ -43,41 +45,6 @@ Module Inicio
 
     End Sub
 
-    Public Sub TesteRetornoNF()
-
-        WriteToFile($"{DateTime.Now.ToString()} - TesteRetornoNF: Inicio ")
-
-        Try
-
-            Dim Con As New Conexao_sql
-            Con.Conectar()
-            Dim args As String = ""
-
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_FATURAMENTO,A.NR_NOTA_FISCAL,A.COD_VER_NFSE, B.CNPJ FROM TB_FATURAMENTO A CROSS JOIN TB_EMPRESAS B WHERE A.NR_RPS IS NOT NULL AND A.ID_STATUS_DOWNLOAD_NFE = 0 ORDER BY A.ID_FATURAMENTO DESC ")
-            If ds.Tables(0).Rows.Count > 0 Then
-                For Each linhads As DataRow In ds.Tables(0).Rows
-                    args = args & " " & linhads.Item("NR_NOTA_FISCAL") & " " & linhads.Item("COD_VER_NFSE") & " " & linhads.Item("CNPJ") & " " & linhads.Item("ID_FATURAMENTO")
-                    WriteToFile($"{DateTime.Now.ToString()} - TesteRetornoNF: args > " & args)
-                Next
-            End If
-
-            If args <> "" Then
-                Process.Start("E:\PDF_NFe\EXEC\BaixaNF.exe ", args)
-            End If
-
-            EnviaEmail()
-
-        Catch ex As Exception
-
-            WriteToFile($"{DateTime.Now.ToString()} - TesteRetornoNF Erro: " & ex.ToString)
-            FlagExecutando = False
-
-        End Try
-
-        WriteToFile($"{DateTime.Now.ToString()} - TesteRetornoNF: Fim ")
-
-    End Sub
-
     Public Sub RetornoNF()
 
         WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: Inicio ")
@@ -88,7 +55,7 @@ Module Inicio
             Con.Conectar()
             Dim args As String = ""
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE ISNULL(NR_RPS,0) <> 0 AND ISNULL(NR_LOTE,0) <> 0 AND ISNULL(CANCELA_NFE,0) = 0 AND NR_NOTA_FISCAL IS NULL AND DT_CANCELAMENTO IS NULL ")
+            Dim ds As DataSet = Con.ExecutarQuery(" SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE ISNULL(NR_RPS,0) <> 0 AND ISNULL(NR_LOTE,0) <> 0 AND ISNULL(CANCELA_NFE,0) = 0 AND NR_NOTA_FISCAL IS NULL AND DT_CANCELAMENTO IS NULL ")
 
             If ds.Tables(0).Rows.Count > 0 Then
 
@@ -106,15 +73,15 @@ Module Inicio
                     End Using
 
                     Con.ExecutarQuery("UPDATE TB_FATURAMENTO SET FL_SRV_RETORNO_NF =  1 WHERE ID_FATURAMENTO =  " & linhads.Item("ID_FATURAMENTO").ToString())
-                    Dim dsDados As DataSet = Con.ExecutarQuery("SELECT A.ID_FATURAMENTO,A.NR_NOTA_FISCAL,A.COD_VER_NFSE, B.CNPJ FROM TB_FATURAMENTO A CROSS JOIN TB_EMPRESAS B WHERE A.NR_NOTA_FISCAL IS NOT NULL AND A.COD_VER_NFSE IS NOT NULL AND A.ID_STATUS_DOWNLOAD_NFE = 0 AND A.ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())
-                    WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: If dsDados.Tables(0).Rows.Count > 0 Then")
-                    If dsDados.Tables(0).Rows.Count > 0 Then
-                        WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: dentro do if ")
+                    'Dim dsDados As DataSet = Con.ExecutarQuery("SELECT A.ID_FATURAMENTO,A.NR_NOTA_FISCAL,A.COD_VER_NFSE, B.CNPJ FROM TB_FATURAMENTO A CROSS JOIN TB_EMPRESAS B WHERE A.NR_NOTA_FISCAL IS NOT NULL AND A.COD_VER_NFSE IS NOT NULL AND A.ID_STATUS_DOWNLOAD_NFE = 0 AND A.ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())
+                    'WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: If dsDados.Tables(0).Rows.Count > 0 Then")
+                    'If dsDados.Tables(0).Rows.Count > 0 Then
+                    '    WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: dentro do if ")
 
-                        args = args & " " & dsDados.Tables(0).Rows(0).Item("NR_NOTA_FISCAL") & " " & dsDados.Tables(0).Rows(0).Item("COD_VER_NFSE") & " " & dsDados.Tables(0).Rows(0).Item("CNPJ") & " " & dsDados.Tables(0).Rows(0).Item("ID_FATURAMENTO")
+                    '    args = args & " " & dsDados.Tables(0).Rows(0).Item("NR_NOTA_FISCAL") & " " & dsDados.Tables(0).Rows(0).Item("COD_VER_NFSE") & " " & dsDados.Tables(0).Rows(0).Item("CNPJ") & " " & dsDados.Tables(0).Rows(0).Item("ID_FATURAMENTO")
 
-                        WriteToFile($"{DateTime.Now.ToString()} - args " & args.ToString())
-                    End If
+                    '    WriteToFile($"{DateTime.Now.ToString()} - args " & args.ToString())
+                    'End If
 
 
                 Next
@@ -122,15 +89,15 @@ Module Inicio
 
             End If
 
-            ''CHAMA ROBÔ DO PATRICK PASSANDO A VARIAVEL ARGS COM OS DADOS DAS NOTAS CONSULTADAS NO GINFES E ENVIA EMAIL
-            WriteToFile($"{DateTime.Now.ToString()} - antes do If args <>  Then")
-            If args <> "" Then
-                WriteToFile($"{DateTime.Now.ToString()} - dentro do If args <>  Then  " & args.ToString())
-                Process.Start("E:\PDF_NFe\EXEC\BaixaNF.exe", args)
-            End If
-            WriteToFile($"{DateTime.Now.ToString()} - depois do If args <>  Then")
+            '''CHAMA ROBÔ DO PATRICK PASSANDO A VARIAVEL ARGS COM OS DADOS DAS NOTAS CONSULTADAS NO GINFES E ENVIA EMAIL
+            'WriteToFile($"{DateTime.Now.ToString()} - antes do If args <>  Then")
+            'If args <> "" Then
+            '    WriteToFile($"{DateTime.Now.ToString()} - dentro do If args <>  Then  " & args.ToString())
+            '    Process.Start("E:\PDF_NFe\EXEC\BaixaNF.exe", args)
+            'End If
+            'WriteToFile($"{DateTime.Now.ToString()} - depois do If args <>  Then")
 
-            EnviaEmail()
+            'EnviaEmail()
 
         Catch ex As Exception
             WriteToFile($"{DateTime.Now.ToString()} - RetornoNF Erro: " & ex.ToString)
@@ -143,6 +110,42 @@ Module Inicio
         WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: Fim ")
 
     End Sub
+
+    Public Sub DownloadNF()
+
+        WriteToFile($"{DateTime.Now.ToString()} - DownloadNF: Inicio ")
+
+        Try
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim args As String = ""
+
+            Dim ds As DataSet = Con.ExecutarQuery(" SELECT A.ID_FATURAMENTO, A.NR_NOTA_FISCAL, A.COD_VER_NFSE, B.CNPJ FROM TB_FATURAMENTO A CROSS JOIN TB_EMPRESAS B WHERE A.NR_RPS IS NOT NULL AND A.ID_STATUS_DOWNLOAD_NFE = 0 AND A.NR_NOTA_FISCAL IS NOT NULL AND A.COD_VER_NFSE IS NOT NULL ORDER BY A.ID_FATURAMENTO DESC ")
+            If ds.Tables(0).Rows.Count > 0 Then
+                For Each linhads As DataRow In ds.Tables(0).Rows
+                    args = args & " " & linhads.Item("NR_NOTA_FISCAL") & " " & linhads.Item("COD_VER_NFSE") & " " & linhads.Item("CNPJ") & " " & linhads.Item("ID_FATURAMENTO")
+                    WriteToFile($"{DateTime.Now.ToString()} - DownloadNF: args > " & args)
+                Next
+            End If
+
+            If args <> "" Then
+                Process.Start("E:\PDF_NFe\EXEC\BaixaNF.exe ", args)
+            End If
+
+            EnviaEmail()
+
+        Catch ex As Exception
+
+            WriteToFile($"{DateTime.Now.ToString()} - DownloadNF Erro: " & ex.ToString)
+            FlagExecutando = False
+
+        End Try
+
+        WriteToFile($"{DateTime.Now.ToString()} - DownloadNF: Fim ")
+
+    End Sub
+
     Sub TotvsComissoes()
 
         WriteToFile($"{DateTime.Now.ToString()} - TotvsComissoes: Inicio ")
@@ -317,7 +320,7 @@ WHERE B.FL_EXPIRA = 1 AND DATEDIFF( DAY , DT_UPLOAD,GETDATE()) >= (SELECT QT_DIA
                 rsDados = Con.ExecutarQuery(" SELECT A.ID_FATURAMENTO,A.NR_NOTA_FISCAL,A.VL_NOTA,A.COD_VER_NFSE,A.DT_NOTA_FISCAL,A.NM_CLIENTE,A.CNPJ,B.EMAIL_NF_ELETRONICA 
 FROM TB_FATURAMENTO A
 INNER JOIN TB_PARCEIRO B ON A.ID_PARCEIRO_CLIENTE = B.ID_PARCEIRO
-WHERE A.ID_STATUS_DOWNLOAD_NFE <> 0 AND A.FL_STATUS_EMAIL_NFE = 0 AND B.EMAIL_NF_ELETRONICA IS NOT NULL")
+WHERE A.ID_STATUS_DOWNLOAD_NFE <> 0 AND A.FL_STATUS_EMAIL_NFE = 0 AND B.EMAIL_NF_ELETRONICA IS NOT NULL ")
 
                 If rsParam.Tables(0).Rows.Count > 0 Then
 
