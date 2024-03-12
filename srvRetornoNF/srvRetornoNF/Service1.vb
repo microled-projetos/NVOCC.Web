@@ -7,17 +7,13 @@ Public Class Service1
         Try
             ' Adicione código aqui para iniciar seu serviço. Este método deve ajustar
             ' o que é necessário para que seu serviço possa executar seu trabalho.
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} - Inicio")
+            Inicio.WriteToFile($"{DateTime.Now.ToString()} - Inicio OnStart ")
             FlagExecutando = False
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 12")
             tmr = New Timers.Timer()
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 14")
             tmr.Interval = 1000 * 60 * Val(ConfigurationManager.AppSettings("Minutos").ToString())
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 16")
             AddHandler tmr.Elapsed, AddressOf TimerTick
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 18")
             tmr.Enabled = True
-            Inicio.WriteToFile($"{DateTime.Now.ToString()} - OnStart: linha 20")
+            Inicio.WriteToFile($"{DateTime.Now.ToString()} - Fim OnStart ")
 
         Catch ex As Exception
             WriteToFile($"{DateTime.Now.ToString()} - Erro: " & ex.ToString)
@@ -28,7 +24,7 @@ Public Class Service1
     Private Sub TimerTick(obj As Object, e As EventArgs)
         Inicio.WriteToFile($"{DateTime.Now.ToString()} - TimerTick: Antes do IF")
         Inicio.WriteToFile($"{DateTime.Now.ToString()} - TimerTick: Chama Rotina Retorno NF")
-        Inicio.RetornoNF()
+        Inicio.Principal()
         Inicio.WriteToFile($"{DateTime.Now.ToString()} - TimerTick: Após o IF")
     End Sub
     Protected Overrides Sub OnStop()
