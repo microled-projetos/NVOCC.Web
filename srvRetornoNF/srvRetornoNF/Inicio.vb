@@ -73,15 +73,6 @@ Module Inicio
                     End Using
 
                     Con.ExecutarQuery("UPDATE TB_FATURAMENTO SET FL_SRV_RETORNO_NF =  1 WHERE ID_FATURAMENTO =  " & linhads.Item("ID_FATURAMENTO").ToString())
-                    'Dim dsDados As DataSet = Con.ExecutarQuery("SELECT A.ID_FATURAMENTO,A.NR_NOTA_FISCAL,A.COD_VER_NFSE, B.CNPJ FROM TB_FATURAMENTO A CROSS JOIN TB_EMPRESAS B WHERE A.NR_NOTA_FISCAL IS NOT NULL AND A.COD_VER_NFSE IS NOT NULL AND A.ID_STATUS_DOWNLOAD_NFE = 0 AND A.ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())
-                    'WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: If dsDados.Tables(0).Rows.Count > 0 Then")
-                    'If dsDados.Tables(0).Rows.Count > 0 Then
-                    '    WriteToFile($"{DateTime.Now.ToString()} - RetornoNF: dentro do if ")
-
-                    '    args = args & " " & dsDados.Tables(0).Rows(0).Item("NR_NOTA_FISCAL") & " " & dsDados.Tables(0).Rows(0).Item("COD_VER_NFSE") & " " & dsDados.Tables(0).Rows(0).Item("CNPJ") & " " & dsDados.Tables(0).Rows(0).Item("ID_FATURAMENTO")
-
-                    '    WriteToFile($"{DateTime.Now.ToString()} - args " & args.ToString())
-                    'End If
 
 
                 Next
@@ -89,15 +80,7 @@ Module Inicio
 
             End If
 
-            '''CHAMA ROBÔ DO PATRICK PASSANDO A VARIAVEL ARGS COM OS DADOS DAS NOTAS CONSULTADAS NO GINFES E ENVIA EMAIL
-            'WriteToFile($"{DateTime.Now.ToString()} - antes do If args <>  Then")
-            'If args <> "" Then
-            '    WriteToFile($"{DateTime.Now.ToString()} - dentro do If args <>  Then  " & args.ToString())
-            '    Process.Start("E:\PDF_NFe\EXEC\BaixaNF.exe", args)
-            'End If
-            'WriteToFile($"{DateTime.Now.ToString()} - depois do If args <>  Then")
 
-            'EnviaEmail()
 
         Catch ex As Exception
             WriteToFile($"{DateTime.Now.ToString()} - RetornoNF Erro: " & ex.ToString)
