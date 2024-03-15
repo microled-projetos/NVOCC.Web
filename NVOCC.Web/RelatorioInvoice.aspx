@@ -168,6 +168,8 @@
                         $("#grdInvoiceBody").append("<tr><td colspan='14'><div class='loader'></div></td></tr>");
                     },
                     success: function (dado) {
+                        arrayInvoice = [];
+
                         var dado = dado.d;
                         dado = $.parseJSON(dado);
                         $("#grdInvoiceBody").empty();
@@ -190,6 +192,8 @@
                                 result += "<td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td>";
                                 result += "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>";
                                 result += "</tr>";
+
+                                arrayInvoice.push(dado[i]["ID_ACCOUNT_INVOICE"]);
 
                             }
                             $("#grdInvoiceBody").append(result);

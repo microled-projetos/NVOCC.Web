@@ -5570,7 +5570,7 @@ namespace ABAINFRA.Web
                     break;
             }
 
-            SQL = "SELECT A.NR_INVOICE, C.NR_PROCESSO, D.NM_RAZAO AS AGENTE, ";
+            SQL = "SELECT A.ID_ACCOUNT_INVOICE, A.NR_INVOICE, C.NR_PROCESSO, D.NM_RAZAO AS AGENTE, ";
             SQL += "ISNULL(FORMAT(C.DT_EMBARQUE,'dd/MM/yyyy'),'') AS DT_EMBARQUE, ";
             SQL += "ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ";
             SQL += "ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
@@ -5602,7 +5602,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_CONTA_PAGAR_RECEBER I ON I.ID_CONTA_PAGAR_RECEBER = H.ID_CONTA_PAGAR_RECEBER ";
             SQL += "WHERE CONVERT(DATE,A.DT_VENCIMENTO,103) BETWEEN CONVERT(DATE,'" + dataI + "',103) AND CONVERT(DATE,'" + dataF + "',103) ";
             SQL += "" + nota + "";
-            SQL += "GROUP BY A.NR_INVOICE, C.NR_PROCESSO, D.NM_RAZAO, C.DT_EMBARQUE, ";
+            SQL += "GROUP BY A.ID_ACCOUNT_INVOICE, A.NR_INVOICE, C.NR_PROCESSO, D.NM_RAZAO, C.DT_EMBARQUE, ";
             SQL += "C.DT_PREVISAO_CHEGADA, C.DT_CHEGADA, C.ID_BL_MASTER, C.ID_BL, F.CD_SIGLA, F1.CD_SIGLA, G.NM_TIPO_ESTUFAGEM, ";
             SQL += "C.NR_BL, M.NR_BL ";
             DataTable listTable = new DataTable();
@@ -5906,7 +5906,7 @@ namespace ABAINFRA.Web
                     conf[i] += listTable.Rows[i]["NR_PROCESSO"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["NR_INVOICE"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["DT_LIQUIDACAO"].ToString() + ";";
-                    conf[i] += listTable.Rows[i]["VL_TAXA_CAMBIO"].ToString().Replace(".",",") + ";";
+                    conf[i] += listTable.Rows[i]["VL_TAXA_CAMBIO"].ToString().Replace(".", ",") + ";";
                     conf[i] += listTable.Rows[i]["MBL"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["FRETE_MASTER"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["HBL"].ToString() + ";";
