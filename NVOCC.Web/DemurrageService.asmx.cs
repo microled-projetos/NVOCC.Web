@@ -5279,7 +5279,8 @@ namespace ABAINFRA.Web
             SQL += "BL.FL_TROCA, ";
             SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ";
             SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER,";
-            SQL += "ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
+            SQL += "ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM, ";
+            SQL += "ISNULL(BL.OBS_COURRIER, '') AS OBS_COURRIER ";
             SQL += "FROM TB_BL BL ";
             SQL += "LEFT JOIN TB_COTACAO B ON BL.ID_COTACAO=B.ID_COTACAO ";
             SQL += "LEFT JOIN TB_CLIENTE_FINAL C ON B.ID_CLIENTE_FINAL = C.ID_CLIENTE_FINAL ";
@@ -5311,9 +5312,12 @@ namespace ABAINFRA.Web
                     idFilter = "AND BL.NR_PROCESSO LIKE '" + Filter + "%' ";
                     break;
                 case "2":
-                    idFilter = "AND BL.NR_BL LIKE '" + Filter + "%' ";
+                    idFilter = "AND M.NR_BL LIKE '" + Filter + "%' ";
                     break;
                 case "3":
+                    idFilter = "AND BL.NR_BL LIKE '" + Filter + "%' ";
+                    break;
+                case "4":
                     idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
                     break;
                 default:
@@ -5841,7 +5845,7 @@ namespace ABAINFRA.Web
                 string status = DBE.ExecuteScalar(SQL);
 
 
-                SQL = "EXEC dbo.PR_BLOQUEIO_DOCUMENTAL @IDBL = " + idbl + ", @STATUS = '" + status + "' ";
+                SQL = $@"UPDATE TB_BL SET FL_BLOQUEIO_DOCUMENTAL = 1 WHERE ID_BL = {idbl}";
                 DBS.ExecuteScalar(SQL);
 
                 return "1";
@@ -5869,7 +5873,7 @@ namespace ABAINFRA.Web
                 string status = DBE.ExecuteScalar(SQL);
 
 
-                SQL = "EXEC dbo.PR_BLOQUEIO_DOCUMENTAL @IDBL = " + idbl + ", @STATUS = '" + status + "' ";
+                SQL = $@"UPDATE TB_BL SET FL_BLOQUEIO_DOCUMENTAL = 0 WHERE ID_BL = {idbl}";
                 DBS.ExecuteScalar(SQL);
 
                 return "1";

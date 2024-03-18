@@ -411,6 +411,7 @@
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">TROCA</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RETIRADA CLIENTE</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">RETIRADO POR</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">OBS</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">AÇÕES</th>
                                         </tr>
                                     </thead>
@@ -1509,6 +1510,7 @@
                             result += "<td class='text-center'><input type='checkbox' name='' " + checked + " disabled='disable'></td>";
                             result += "<td class='text-center'>" + dado[i]["DT_RETIRADA_COURRIER"] + "</td>";
                             result += "<td class='text-center' title='" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "' style='max-width: 14ch;'>" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "</td>";
+                            result += "<td class='text-center'>" + dado[i]["OBS_COURRIER"] + "</td>";
                             result += "<td class='text-center'><div class='btn btn-primary' onclick='BuscarCourrierRetirada(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td>";
                             result += "</tr>";
                         }
