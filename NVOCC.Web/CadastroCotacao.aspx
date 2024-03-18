@@ -409,7 +409,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-
+                                        
 
                                         <div class="col-sm-2">
                                             <div class="form-group">
@@ -445,6 +445,17 @@
                                                 </asp:DropDownList>
                                             </div>
 
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+
+                                                <asp:TextBox ID="TextBox1" Style="display: none" runat="server" CssClass="form-control" MaxLength="18"></asp:TextBox>
+                                                <label class="control-label">Notify:</label>
+                                                <asp:DropDownList ID="ddlNotify" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataValueField="ID_PARCEIRO_NOTIFY" DataSourceID="dsNotify">
+                                                </asp:DropDownList>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -863,7 +874,7 @@
                                                                         </div>
                                                                         <div class="col-sm-3">
                                                                             <div class="form-group">
-                                                                                <label class="control-label">Tipo Divisão Profit:</label>
+                                                                                <label class="control-label">Tipo Divisão Profit Agente:</label>
                                                                                 <asp:DropDownList ID="ddlDivisaoProfit" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_DIVISAO_PROFIT" DataTextField="NM_TIPO_DIVISAO_PROFIT" DataSourceID="dsDivisaoProfit" AutoPostBack="true">
                                                                                 </asp:DropDownList>
                                                                             </div>
@@ -871,8 +882,24 @@
                                                                         </div>
                                                                         <div class="col-sm-3">
                                                                             <div class="form-group">
-                                                                                <label class="control-label">Valor Divisão Profit:</label>
+                                                                                <label class="control-label">Valor Divisão Profit Agente:</label>
                                                                                 <asp:TextBox ID="txtValorDivisaoProfit" runat="server" CssClass="form-control" MaxLength="100" enabled="false"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Tipo Divisão Profit Brooker:</label>
+                                                                                <asp:DropDownList ID="ddlDivisaoProfitBroker" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_DIVISAO_PROFIT" DataTextField="NM_TIPO_DIVISAO_PROFIT" DataSourceID="dsDivisaoProfit" AutoPostBack="true">
+                                                                                </asp:DropDownList>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor Divisão Profit Brooker:</label>
+                                                                                <asp:TextBox ID="txtValorDivisaoProfitBroker" runat="server" CssClass="form-control" MaxLength="100" enabled="false"></asp:TextBox>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2333,6 +2360,10 @@ union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE
 
         </SelectParameters>
     </asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsNotify" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %> "
+        SelectCommand="SELECT ID_PARCEIRO as ID_PARCEIRO_NOTIFY, NM_RAZAO + ' - ' + isnull(CNPJ, CPF) as NM_RAZAO FROM TB_PARCEIRO WHERE ISNULL(FL_NOTIFY, 0) = 1 union SELECT  0  as ID_PARCEIRO_NOTIFY, ' Selecione' as NM_RAZAO ORDER BY NM_RAZAO"></asp:SqlDataSource>
+   
 
 <%--    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT 

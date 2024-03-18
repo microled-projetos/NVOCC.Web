@@ -617,6 +617,24 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlMotivoCancelamento As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle TextBox1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlNotify.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlNotify As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle txtObsCliente.
     '''</summary>
     '''<remarks>
@@ -1281,6 +1299,24 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtValorDivisaoProfit As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlDivisaoProfitBroker.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlDivisaoProfitBroker As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtValorDivisaoProfitBroker.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValorDivisaoProfitBroker As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlMoedaFrete.
@@ -3135,6 +3171,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsRodoviario As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsNotify.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsNotify As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsMedidasAereo.

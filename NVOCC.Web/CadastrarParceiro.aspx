@@ -7,7 +7,7 @@
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">PARCEIROS
+                    <h3 class="panel-title">7PARCEIROS
                     </h3>
                 </div>
                 <div class="panel-body">
@@ -738,6 +738,11 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <asp:CheckBox ID="ckbCNEE" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;CNEE"></asp:CheckBox>
+                                            </div>
+                                        </div> 
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <asp:CheckBox ID="ckbNotify" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Notify"></asp:CheckBox>
                                             </div>
                                         </div> 
                                     </div>

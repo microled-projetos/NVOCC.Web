@@ -506,9 +506,13 @@
 
 
 
+                                                
+
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
-                                                        <label class="control-label">Tipo Divisão Profit:</label>
+                                                        <label class="control-label">Tipo Divisão Profit Agente:</label>
                                                         <asp:DropDownList ID="ddlDivisaoProfit_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_DIVISAO_PROFIT" DataTextField="NM_TIPO_DIVISAO_PROFIT" DataSourceID="dsDivisaoProfit">
                                                         </asp:DropDownList>
                                                     </div>
@@ -516,18 +520,40 @@
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
-                                                        <label class="control-label">Valor Divisão Profit:</label>
+                                                        <label class="control-label">Valor Divisão Profit Agente:</label>
                                                         <asp:TextBox ID="txtValorDivisaoProfit_BasicoMaritimo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
-                                                        <label class="control-label">Profit Calculado:</label>
+                                                        <label class="control-label">Profit Calculado Agente:</label>
                                                         <asp:TextBox ID="txtProfitCalculado_BasicoMaritimo" Enabled="false" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                     </div>
                                                 </div>
 
+
+                                                 <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Tipo Divisão Profit Broker:</label>
+                                                        <asp:DropDownList ID="ddlDivisaoProfitBroker_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_DIVISAO_PROFIT" DataTextField="NM_TIPO_DIVISAO_PROFIT" DataSourceID="dsDivisaoProfit">
+                                                        </asp:DropDownList>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Valor Divisão Profit Broker:</label>
+                                                        <asp:TextBox ID="txtValorDivisaoProfitBroker_BasicoMaritimo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Profit Calculado Broker:</label>
+                                                        <asp:TextBox ID="txtProfitCalculadoBroker_BasicoMaritimo" Enabled="false" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                    </div>
+                                                </div>
                                             </div>
+                                            
                                             <div class="row" style="display: none">
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
@@ -3439,7 +3465,7 @@ FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL">
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTaxasMaritimoVendas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [FN_TAXAS_BL](@ID_BL,'R') order by ID_BL_TAXA desc ">
+        SelectCommand="SELECT * FROM [FN_TAXAS_BL](@ID_BL,'R') where FL_NOTIFY = 1 order by ID_BL_TAXA desc ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
         </SelectParameters>
