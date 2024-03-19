@@ -193,6 +193,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnCadastroGerencial.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2072 And linha.Item("Acessar").ToString() = 0 Then
                         mnControleBaixas.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2073 And linha.Item("Acessar").ToString() = 0 Then
+                        mnSeguros.Visible = False
                     End If
 
 
@@ -222,7 +224,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuRelatoriosComercial.Visible = False
             End If
 
-            If mnFreteTransportador.Visible = False And mnCotacaoComercial.Visible = False And mnComissaoVendedor.Visible = False And MenuRelatoriosComercial.Visible = False And mnAtendimentoNegado.Visible = False And MenuComissoes2.Visible = False Then
+            If mnFreteTransportador.Visible = False And mnCotacaoComercial.Visible = False And mnComissaoVendedor.Visible = False And MenuRelatoriosComercial.Visible = False And mnAtendimentoNegado.Visible = False And MenuComissoes2.Visible = False And mnSeguros.Visible = False Then
                 MenuComercial.Visible = False
             End If
 
