@@ -526,7 +526,7 @@
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
-                                                        <label class="control-label">Profit Calculado Agente:</label>
+                                                        <label class="control-label">Profit Agente Calculado:</label>
                                                         <asp:TextBox ID="txtProfitCalculado_BasicoMaritimo" Enabled="false" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                     </div>
                                                 </div>
@@ -548,7 +548,7 @@
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
-                                                        <label class="control-label">Profit Calculado Broker:</label>
+                                                        <label class="control-label">Profit Broker Calculado:</label>
                                                         <asp:TextBox ID="txtProfitCalculadoBroker_BasicoMaritimo" Enabled="false" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                     </div>
                                                 </div>
