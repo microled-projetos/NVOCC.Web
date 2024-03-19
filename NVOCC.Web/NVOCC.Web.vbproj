@@ -597,6 +597,7 @@
     <Content Include="ProcessosBL.aspx.designer.cs" />
     <Content Include="RastreioHBL.aspx" />
     <Content Include="RastreioBL.aspx" />
+    <Content Include="ReciboDetention.aspx" />
     <Content Include="ReciboDemurrage.aspx" />
     <Content Include="ReciboPagamento.aspx" />
     <Content Include="ReciboProvisorioServico.aspx" />
@@ -1184,6 +1185,13 @@
     </Compile>
     <Compile Include="RastreioBL.aspx.vb">
       <DependentUpon>RastreioBL.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReciboDetention.aspx.designer.vb">
+      <DependentUpon>ReciboDetention.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReciboDetention.aspx.vb">
+      <DependentUpon>ReciboDetention.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ReciboDemurrage.aspx.designer.vb">

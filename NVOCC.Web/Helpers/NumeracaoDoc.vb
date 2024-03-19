@@ -41,6 +41,12 @@
             numero = ds.Tables(0).Rows(0).Item("NR_RECIBO")
             numeroFinal = numero.ToString.PadLeft(6, "0")
 
+        ElseIf Tipo_Doc = 5 Then
+            'NR_RECIBO_DETENTION
+            ds = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_Recibo_Detention NR_RECIBO")
+            numero = ds.Tables(0).Rows(0).Item("NR_RECIBO")
+            numeroFinal = numero.ToString.PadLeft(6, "0")
+
         End If
 
 
