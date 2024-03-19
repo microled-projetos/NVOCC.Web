@@ -117,8 +117,6 @@
                     <li class="dropdown">
                         <a href="#" id="MenuComercial" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-credit-card"></i>&nbsp;Comercial<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-
-
                             <li>
                                 <a href="FreteTransportador.aspx" runat="server" id="mnFreteTransportador">Frete Transportador</a>
                             </li>
@@ -141,6 +139,9 @@
                             </li>
                             <li>
                                 <a href="AtendimentoNegado.aspx" runat="server" id="mnAtendimentoNegado">Atendimentos Rejeitados</a>
+                            </li>
+                            <li>
+                                <a onClick="RedirecionaControleDeSeguros()" runat="server" id="mnSeguros">Seguros</a>
                             </li>
                         </ul>
                     </li>
@@ -365,6 +366,26 @@
     <script src="Content/js/jquery.tablesorter.min.js"></script>
     <script>
         var urlBase = '<%= Page.ResolveUrl("~") %>';
+
+        function RedirecionaControleDeSeguros() {
+            guid = "";
+
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/criaGuid",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado != null) {
+                        guid = dado[0]["SESSION_ID"];
+                        window.location.href = 'http://localhost:5173/' + guid;
+                    }
+                }
+            })
+        }
+
     </script>
 
     <asp:ContentPlaceHolder ID="Scripts" runat="server"></asp:ContentPlaceHolder>

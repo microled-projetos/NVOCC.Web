@@ -12331,5 +12331,38 @@ namespace ABAINFRA.Web
                 return new { success = false, message = $"Erro durante a atualização: {ex.Message}" };
             }
         }
+
+
+        [WebMethod(EnableSession = true)]
+        public string criaGuid()
+        {
+            string SQL;
+
+            SQL = $@"SELECT COUNT(*) FROM TB_AUTHENTICATION WHERE ID_USUARIO = '{Session["ID_USUARIO"]}'";
+
+            int count = Convert.ToInt32(DBS.ExecuteScalar(SQL));
+
+            if (count > 0)
+            {
+
+                SQL = $@"UPDATE TB_AUTHENTICATION SET SESSION_ID = NEWID() WHERE ID_USUARIO = '{Session["ID_USUARIO"]}'";
+            }
+            else
+            {
+                SQL = $@"INSERT INTO TB_AUTHENTICATION (ID_USUARIO, SESSION_ID) VALUES ('{Session["ID_USUARIO"]}', NEWID())";
+            }
+
+            DBS.ExecuteScalar(SQL);
+
+            SQL = "SELECT * FROM TB_AUTHENTICATION ";
+            SQL += $@"WHERE ID_USUARIO = {Session["ID_USUARIO"]}";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+
     }
 }

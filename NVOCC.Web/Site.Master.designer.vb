@@ -239,6 +239,15 @@ Partial Public Class SiteMaster
     Protected WithEvents mnAtendimentoNegado As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
+    '''Controle mnSeguros.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mnSeguros As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
     '''Controle MenuOperacao.
     '''</summary>
     '''<remarks>
