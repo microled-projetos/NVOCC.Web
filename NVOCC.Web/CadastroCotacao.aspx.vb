@@ -1550,8 +1550,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                             Else
 
                                 Dim RotinaUpdate As New RotinaUpdate
-                                RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text, Session("RefTaxado"))
-                                RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
+                                'trigger  RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text, Session("RefTaxado"))
+                                'trigger  RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
                                 RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
                                 Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
                                 If ds2.Tables(0).Rows.Count > 0 Then
@@ -1589,8 +1589,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                     If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
                         Dim RotinaUpdate As New RotinaUpdate
-                        RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text, Session("RefTaxado"))
-                        RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
+                        'trigger  RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text, Session("RefTaxado"))
+                        'trigger RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
                         RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
                         Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
                         If ds2.Tables(0).Rows.Count > 0 Then
@@ -1903,7 +1903,7 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
 
                 If Session("ID_STATUS") = 10 Then
                     Dim RotinaUpdate As New RotinaUpdate
-                    RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
+                    'trigger  RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
                     RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
 
                 End If
@@ -2427,7 +2427,7 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                                 RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
                             Next
                         End If
-                        RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text, Session("RefTaxado"))
+                        'trigger   RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text, Session("RefTaxado"))
 
                     End If
 
@@ -2534,7 +2534,7 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                                 RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
                             Next
                         End If
-                        RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text, Session("RefTaxado"))
+                        'trigger    RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text, Session("RefTaxado"))
 
                     End If
 
