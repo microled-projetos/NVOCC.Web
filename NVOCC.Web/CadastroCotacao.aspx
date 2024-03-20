@@ -891,7 +891,7 @@
                                                                         <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Tipo Divisão Profit Brooker:</label>
-                                                                                <asp:DropDownList ID="ddlDivisaoProfitBroker" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_DIVISAO_PROFIT" DataTextField="NM_TIPO_DIVISAO_PROFIT" DataSourceID="dsDivisaoProfit" AutoPostBack="true">
+                                                                                <asp:DropDownList ID="ddlDivisaoProfitBroker" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_DIVISAO_PROFIT" DataTextField="NM_TIPO_DIVISAO_PROFIT" DataSourceID="dsDivisaoProfitBroker" AutoPostBack="true">
                                                                                 </asp:DropDownList>
                                                                             </div>
 
@@ -970,7 +970,9 @@
                                                 <asp:AsyncPostBackTrigger ControlID="txtTTimeFreteFinal" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtTTimeFreteInicial" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlOrigemFrete" />
-                                                <asp:AsyncPostBackTrigger ControlID="ddlTransportadorFrete" /><asp:AsyncPostBackTrigger ControlID="ddlDivisaoProfit" />
+                                                <asp:AsyncPostBackTrigger ControlID="ddlTransportadorFrete" />
+                                                <asp:AsyncPostBackTrigger ControlID="ddlDivisaoProfit" />
+                                                <asp:AsyncPostBackTrigger ControlID="ddlDivisaoProfitBroker" />
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>
@@ -2327,6 +2329,10 @@ ORDER BY NM_RAZAO">
 union SELECT  0, '   Selecione' ORDER BY NM_BASE_CALCULO_TAXA"></asp:SqlDataSource>
    
     <asp:SqlDataSource ID="dsDivisaoProfit" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_TIPO_DIVISAO_PROFIT,NM_TIPO_DIVISAO_PROFIT FROM [dbo].TB_TIPO_DIVISAO_PROFIT
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT"></asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsDivisaoProfitBroker" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_DIVISAO_PROFIT,NM_TIPO_DIVISAO_PROFIT FROM [dbo].TB_TIPO_DIVISAO_PROFIT
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT"></asp:SqlDataSource>
   

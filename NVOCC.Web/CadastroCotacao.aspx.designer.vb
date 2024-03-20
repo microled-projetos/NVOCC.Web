@@ -3128,6 +3128,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents dsDivisaoProfit As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
+    '''Controle dsDivisaoProfitBroker.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsDivisaoProfitBroker As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Controle dsItemDespesa.
     '''</summary>
     '''<remarks>

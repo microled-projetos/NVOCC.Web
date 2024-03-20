@@ -669,8 +669,54 @@ FROM TB_COTACAO A where ID_CLIENTE = " & Session("ID_CLIENTE") & " AND ID_TIPO_E
             divErroFrete.Visible = False
             divSuccessFrete.Visible = False
             divInfoFrete.Visible = False
-            ds = Con.ExecutarQuery("
-SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TIPO_PAGAMENTO,ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN ,VL_TOTAL_FRETE_COMPRA_MIN,TRANSITTIME_TRUCKING_AEREO ,FINAL_DESTINATION,ISNULL(FL_FRETE_DECLARADO,0)FL_FRETE_DECLARADO,ISNULL(FL_FRETE_PROFIT,0)FL_FRETE_PROFIT,NR_CONTRATO_ARMADOR,ID_TIPO_AERONAVE, ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL FROM TB_COTACAO WHERE ID_COTACAO = " & ID)
+
+            Dim sb As New StringBuilder
+
+            sb.AppendLine(" SELECT  ")
+            sb.AppendLine(" ID_COTACAO,  ")
+            sb.AppendLine(" ID_PORTO_DESTINO,  ")
+            sb.AppendLine(" ID_PORTO_ESCALA1,  ")
+            sb.AppendLine(" ID_PORTO_ESCALA2,  ")
+            sb.AppendLine(" ID_PORTO_ESCALA3,  ")
+            sb.AppendLine(" ID_PORTO_ORIGEM,  ")
+            sb.AppendLine(" QT_TRANSITTIME_INICIAL,  ")
+            sb.AppendLine(" QT_TRANSITTIME_FINAL,  ")
+            sb.AppendLine(" ID_TIPO_FREQUENCIA,  ")
+            sb.AppendLine(" VL_FREQUENCIA,  ")
+            sb.AppendLine(" NM_TAXAS_INCLUDED,  ")
+            sb.AppendLine(" ID_FRETE_TRANSPORTADOR,   ")
+            sb.AppendLine(" VL_TIPO_DIVISAO_FRETE,   ")
+            sb.AppendLine(" VL_DIVISAO_FRETE,  ")
+            sb.AppendLine(" ID_TIPO_DIVISAO_FRETE,  ")
+            sb.AppendLine(" ID_TIPO_DIVISAO_FRETE_BROKER, ")
+            sb.AppendLine(" VL_DIVISAO_FRETE_BROKER,  ")
+            sb.AppendLine(" VL_PESO_TAXADO,   ")
+            sb.AppendLine(" ID_TIPO_BL,   ")
+            sb.AppendLine(" ID_TIPO_PAGAMENTO,  ")
+            sb.AppendLine(" ID_TRANSPORTADOR,  ")
+            sb.AppendLine(" ID_TIPO_CARGA,  ")
+            sb.AppendLine(" ID_VIA_ROTA,  ")
+            sb.AppendLine(" ID_TIPO_ESTUFAGEM,  ")
+            sb.AppendLine(" ID_PROCESSO,  ")
+            sb.AppendLine(" ID_MOEDA_FRETE,  ")
+            sb.AppendLine(" VL_TOTAL_FRETE_COMPRA,  ")
+            sb.AppendLine(" VL_TOTAL_FRETE_VENDA,  ")
+            sb.AppendLine(" VL_TOTAL_FRETE_VENDA_MIN,  ")
+            sb.AppendLine(" VL_TOTAL_FRETE_COMPRA_MIN,  ")
+            sb.AppendLine(" TRANSITTIME_TRUCKING_AEREO,  ")
+            sb.AppendLine(" FINAL_DESTINATION,  ")
+            sb.AppendLine(" ISNULL(FL_FRETE_DECLARADO,0)FL_FRETE_DECLARADO,  ")
+            sb.AppendLine(" ISNULL(FL_FRETE_PROFIT,0)FL_FRETE_PROFIT,  ")
+            sb.AppendLine(" NR_CONTRATO_ARMADOR,  ")
+            sb.AppendLine(" ID_TIPO_AERONAVE,   ")
+            sb.AppendLine(" ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL   ")
+            sb.AppendLine(" FROM   ")
+            sb.AppendLine(" TB_COTACAO   ")
+            sb.AppendLine(" WHERE   ")
+            sb.AppendLine(" ID_COTACAO = " & ID)
+
+
+            ds = Con.ExecutarQuery(sb.ToString)
             If ds.Tables(0).Rows.Count > 0 Then
 
                 'Frete
@@ -5497,20 +5543,21 @@ WHERE A.ID_COTACAO_TAXA =  " & PrimeiraTaxa)
 
     Private Sub ddlDivisaoProfit_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlDivisaoProfit.SelectedIndexChanged
         If ddlDivisaoProfit.SelectedValue = 0 Or ddlDivisaoProfit.SelectedValue = 11 Then
-            txtValorDivisaoProfit.Text = 0
-            txtValorDivisaoProfit.Enabled = False
+            Me.txtValorDivisaoProfit.Text = 0
+            Me.txtValorDivisaoProfit.Enabled = False
         Else
-            txtValorDivisaoProfit.Enabled = True
+            Me.txtValorDivisaoProfit.Enabled = True
         End If
     End Sub
 
     Private Sub ddlDivisaoProfitBroker_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlDivisaoProfitBroker.SelectedIndexChanged
         If ddlDivisaoProfitBroker.SelectedValue = 0 Or ddlDivisaoProfitBroker.SelectedValue = 11 Then
-            txtValorDivisaoProfitBroker.Text = 0
-            txtValorDivisaoProfitBroker.Enabled = False
+            Me.txtValorDivisaoProfitBroker.Text = 0
+            Me.txtValorDivisaoProfitBroker.Enabled = False
         Else
-            txtValorDivisaoProfitBroker.Enabled = True
+            Me.txtValorDivisaoProfitBroker.Enabled = True
         End If
+
     End Sub
 
     Private Sub btnCancelarDestinatarioCob_Click(sender As Object, e As EventArgs) Handles btnCancelarDestinatarioCob.Click
