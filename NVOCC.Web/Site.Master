@@ -380,7 +380,7 @@
                     dado = $.parseJSON(dado);
                     if (dado != null) {
                         guid = dado[0]["SESSION_ID"];
-                        window.location.href = 'http://localhost:5173/' + guid;
+                        window.location.href = 'http://localhost:5173/autenticacao/' + guid;
                     }
                 }
             })
