@@ -539,10 +539,10 @@ namespace ABAINFRA.Web
                     idFilter = "AND P2.NM_RAZAO LIKE '" + Filter + "%' ";
                     break;
                 case "5":
-                    idFilter = "AND PFCL.DS_STATUS_DETENTION LIKE '" + Filter + "%' ";
+                    idFilter = "AND B.NR_BL LIKE '" + Filter + "%' ";
                     break;
                 case "6":
-                    idFilter = "AND B.NR_BL LIKE '" + Filter + "%' ";
+                    idFilter = "AND PFCL.NR_BL LIKE '" + Filter + "%' ";
                     break;
                 default:
                     idFilter = "";
@@ -2504,14 +2504,16 @@ namespace ABAINFRA.Web
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE DT_COMPETENCIA = '" + idFatura + "' ";
                     string deleteContaPagarReceber = DBS.ExecuteScalar(SQL);
 
-
-                    for (int i = 0; i < listTable2.Rows.Count; i++)
+                    if (listTable2 != null)
                     {
-                        SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
-                        SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_CONTA_PAGAR_RECEBER = '" + listTable2.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "' ";
-                        SQL += "UPDATE TB_FATURAMENTO SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
-                        SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_CONTA_PAGAR_RECEBER = '" + listTable2.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "' ";
-                        DBS.ExecuteScalar(SQL);
+                        for (int i = 0; i < listTable2.Rows.Count; i++)
+                        {
+                            SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
+                            SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_CONTA_PAGAR_RECEBER = '" + listTable2.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "' ";
+                            SQL += "UPDATE TB_FATURAMENTO SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
+                            SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_CONTA_PAGAR_RECEBER = '" + listTable2.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "' ";
+                            DBS.ExecuteScalar(SQL);
+                        }
                     }
 
                     SQL = "UPDATE TB_DETENTION_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', DT_EXPORTACAO_DETENTION = NULL, ";
@@ -2555,13 +2557,16 @@ namespace ABAINFRA.Web
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE DT_COMPETENCIA = '" + idFatura + "' ";
                     string deleteContaPagarReceber = DBS.ExecuteScalar(SQL);
 
-                    for (int i = 0; i < listTable2.Rows.Count; i++)
+                    if (listTable2 != null)
                     {
-                        SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
-                        SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_CONTA_PAGAR_RECEBER = '" + listTable2.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "' ";
-                        SQL += "UPDATE TB_FATURAMENTO SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
-                        SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_CONTA_PAGAR_RECEBER = '" + listTable2.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "' ";
-                        DBS.ExecuteScalar(SQL);
+                        for (int i = 0; i < listTable2.Rows.Count; i++)
+                        {
+                            SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
+                            SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_CONTA_PAGAR_RECEBER = '" + listTable2.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "' ";
+                            SQL += "UPDATE TB_FATURAMENTO SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', ";
+                            SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_CONTA_PAGAR_RECEBER = '" + listTable2.Rows[i]["ID_CONTA_PAGAR_RECEBER"] + "' ";
+                            DBS.ExecuteScalar(SQL);
+                        }
                     }
 
                     SQL = "UPDATE TB_DETENTION_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + (Session["ID_USUARIO"] != null ? Session["ID_USUARIO"] : '3') + "', DT_EXPORTACAO_DETENTION_COMPRA = NULL, ";

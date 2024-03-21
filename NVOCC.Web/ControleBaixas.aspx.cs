@@ -11,6 +11,16 @@ namespace ABAINFRA.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            CarregarListaFiltros();
+        }
+
+        private void CarregarListaFiltros()
+        {
+            ddlTipoDocumento.DataBind();
+            ddlTipoDocumento.Items.Insert(0, new ListItem("Selecione", "0"));
+            ddlTipoDocumento.Items.Insert(1, new ListItem("NF", "NF"));
+            ddlTipoDocumento.Items.Insert(2, new ListItem("ND", "ND"));
+
 
         }
     }

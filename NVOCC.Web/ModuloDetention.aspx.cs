@@ -24,6 +24,7 @@ namespace ABAINFRA.Web
                 CarregarStatus();
                 CarregarContaBancaria();
                 CarregarFiltroFatura();
+                CarregarTamanhoContainer();
                 /*                CarregarArmador();
                 */
             }
@@ -37,10 +38,8 @@ namespace ABAINFRA.Web
             ddlFiltro.Items.Insert(2, new ListItem("Nº Container", "2"));
             ddlFiltro.Items.Insert(3, new ListItem("Cliente", "3"));
             ddlFiltro.Items.Insert(4, new ListItem("Transportador", "4"));
-            ddlFiltro.Items.Insert(5, new ListItem("Status Terc", "5"));
-            ddlFiltro.Items.Insert(6, new ListItem("Nº Master", "6"));
-
-
+            ddlFiltro.Items.Insert(5, new ListItem("MBL", "5"));
+            ddlFiltro.Items.Insert(6, new ListItem("HBL", "6"));
         }
 
 
@@ -66,6 +65,17 @@ namespace ABAINFRA.Web
             ddlTipoContainer.DataSource = Session["TaskTableTipoContainerDemurrage"];
             ddlTipoContainer.DataBind();
             ddlTipoContainer.Items.Insert(0, new ListItem("Selecione", ""));
+        }
+
+        protected void CarregarTamanhoContainer()
+        {
+            SQL = "SELECT * FROM TB_TAMANHO_CONTAINER ";
+            DataTable tamanhoContainerDemurrage = new DataTable();
+            tamanhoContainerDemurrage = DBS.List(SQL);
+            Session["TaskTableTamanhoContainerDemurrage"] = tamanhoContainerDemurrage;
+            ddlTamanhoContainer.DataSource = Session["TaskTableTamanhoContainerDemurrage"];
+            ddlTamanhoContainer.DataBind();
+            ddlTamanhoContainer.Items.Insert(0, new ListItem("Selecione", ""));
         }
 
         /*protected void CarregarArmador()

@@ -1499,8 +1499,8 @@
                                     <th class="text-center" scope="col">MBL</th>
                                     <th class="text-center" scope="col">Cliente</th>
                                     <th class="text-center" scope="col">Transportador</th>
-                                    <th class="text-center" scope="col">Data Limite Embarque</th>
-                                    <th class="text-center" scope="col">Data Embarque</th>
+                                    <th class="text-center" scope="col">Data Limite</th>
+                                    <th class="text-center" scope="col">Data Retirada</th>
                                     <th class="text-center" scope="col">FreeTime</th>
                                     <th class="text-center" scope="col">FreeTime Confirmado</th>
                                     <th class="text-center" scope="col">Data Entrega</th>

@@ -103,23 +103,100 @@ namespace ABAINFRA.Web.Services
         }
 
         [WebMethod(EnableSession = true)]
-        public string listarTaxas()
+        public string listarTaxas(string filter, string filterBy, FilterAdvanced dados)
         {
             string SQL;
+
+            switch (filterBy)
+            {
+                case "1":
+                    filterBy = "AND E.NR_DOCUMENTO LIKE '" + filter + "%' ";
+                    break;
+                case "2":
+                    filterBy = "AND E.NR_PEDIDO_COMPRA_TOTVS LIKE '" + filter + "%' ";
+                    break;
+                default:
+                    filterBy = "";
+                    break;
+            }
+
+            
+            
+
+            if (dados.TP_DOCUMENTO != "0" && dados.TP_DOCUMENTO != "") { filterBy += "AND D.TP_DOCUMENTO = '" + dados.TP_DOCUMENTO + "' "; }
+
+            if (dados.DT_PAGAMENTO_INICIO != "" && dados.DT_PAGAMENTO_INICIO != null)
+            {
+                if (dados.DT_PAGAMENTO_FIM != "" && dados.DT_PAGAMENTO_FIM != null)
+                {
+                    filterBy += "AND (E.DT_LIQUIDICAO >= '" + dados.DT_PAGAMENTO_INICIO + "' AND E.DT_LIQUIDICAO <= '" + dados.DT_PAGAMENTO_FIM + "') ";
+                }
+                else
+                {
+                    filterBy += "AND E.DT_LIQUIDICAO >= '" + dados.DT_PAGAMENTO_INICIO + "' ";
+                }
+            }
+            else
+            {
+                if (dados.DT_PAGAMENTO_FIM != "" && dados.DT_PAGAMENTO_FIM != null)
+                {
+                    filterBy += "AND E.DT_LIQUIDICAO >= '" + dados.DT_PAGAMENTO_FIM + "' ";
+                }
+            }
+
+            if (dados.DT_COMPETENCIA_INICIAL != "" && dados.DT_COMPETENCIA_INICIAL != null)
+            {
+                string compIni = dados.DT_COMPETENCIA_INICIAL.Substring(3, 4) + dados.DT_COMPETENCIA_INICIAL.Substring(0, 2);
+                if (dados.DT_COMPETENCIA_FINAL != "" && dados.DT_COMPETENCIA_FINAL != null)
+                {
+                    string compFim = dados.DT_COMPETENCIA_FINAL.Substring(3, 4) + dados.DT_COMPETENCIA_FINAL.Substring(0, 2);
+                    filterBy += "AND (RIGHT(E.DT_COMPETENCIA, 4) + LEFT(E.DT_COMPETENCIA,2)  >= '" + compIni + "' AND RIGHT(E.DT_COMPETENCIA, 4) + LEFT(E.DT_COMPETENCIA,2)  <= '" + compFim + "') ";
+                }
+                else
+                {
+                    filterBy += "AND RIGHT(E.DT_COMPETENCIA, 4) + LEFT(E.DT_COMPETENCIA,2)  >= '" + compIni + "' ";
+                }
+            }
+            else
+            {
+                if (dados.DT_COMPETENCIA_FINAL != "" && dados.DT_COMPETENCIA_FINAL != null)
+                {
+                    string compFim = dados.DT_COMPETENCIA_FINAL.Substring(3, 4) + dados.DT_COMPETENCIA_FINAL.Substring(0, 2);
+                    filterBy += "AND RIGHT(E.DT_COMPETENCIA, 4) + LEFT(E.DT_COMPETENCIA,2)  >= '" + compFim + "' ";
+                }
+            }
+
+
             try
             {
-                SQL = "SELECT D.ID_CONTA_PAGAR_RECEBER_ITENS, E.NR_DOCUMENTO, D.TP_DOCUMENTO, ISNULL(E.NR_PEDIDO_COMPRA_TOTVS,'') NR_PEDIDO_COMPRA_TOTVS, 'BAIXA TOTVS' AS BAIXA_TOTVS, FORMAT(A.DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA, A.NR_PROCESSO, M.NR_BL AS MASTER, A.NR_BL AS HOUSE, ISNULL(FORMAT(E.DT_LIQUIDACAO, 'dd/MM/yyyy'),'') AS DT_LIQUIDACAO, E.DT_COMPETENCIA, C.NM_ITEM_DESPESA, B.VL_TAXA_CALCULADO, ISNULL(E.DS_STATUS_TOTVS,'') AS DS_STATUS_TOTVS ";
+                SQL = "SELECT D.ID_CONTA_PAGAR_RECEBER, ";
+                SQL += "E.NR_DOCUMENTO, ";
+                SQL += "D.TP_DOCUMENTO, ";
+                SQL += "ISNULL(E.NR_PEDIDO_COMPRA_TOTVS, '') NR_PEDIDO_COMPRA_TOTVS, ";
+                SQL += "ISNULL(FORMAT(E.DT_BAIXA_TOTVS, 'dd/MM/yyyy'), '') AS BAIXA_TOTVS, ";
+                SQL += "ISNULL(FORMAT(E.DT_LIQUIDACAO, 'dd/MM/yyyy'), '') AS DT_LIQUIDACAO, ";
+                SQL += "E.DT_COMPETENCIA, ";
+                SQL += "SUM(B.VL_TAXA_CALCULADO) AS VL_TAXA_CALCULADO, ";
+                SQL += "ISNULL(E.DS_STATUS_TOTVS, '') AS DS_STATUS_TOTVS ";
                 SQL += "FROM TB_BL A ";
-                SQL += "JOIN TB_BL M ON A.ID_BL_MASTER=M.ID_BL ";
+                SQL += "JOIN TB_BL M ON A.ID_BL_MASTER = M.ID_BL ";
                 SQL += "JOIN TB_BL_TAXA B ON A.ID_BL = B.ID_BL ";
-                SQL += "JOIN TB_ITEM_DESPESA C ON B.ID_ITEM_DESPESA = C.ID_ITEM_DESPESA ";
                 SQL += "JOIN TB_CONTA_PAGAR_RECEBER_ITENS D ON B.ID_BL_TAXA = D.ID_BL_TAXA ";
                 SQL += "JOIN TB_CONTA_PAGAR_RECEBER E ON E.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGAR_RECEBER ";
                 SQL += "WHERE B.ID_PARCEIRO_EMPRESA = 238332 ";
-                SQL += "AND (E.NR_DOCUMENTO IS NOT NULL OR E.NR_DOCUMENTO <> '') ";
-                SQL += "AND (D.TP_DOCUMENTO IS NOT NULL OR D.TP_DOCUMENTO <> '') ";
-                SQL += "AND (E.DT_COMPETENCIA IS NOT NULL OR E.DT_COMPETENCIA <> '') ";
-                SQL += "ORDER BY NR_DOCUMENTO";
+                SQL += "AND(E.NR_DOCUMENTO IS NOT NULL OR E.NR_DOCUMENTO <> '') ";
+                SQL += "AND(D.TP_DOCUMENTO IS NOT NULL OR D.TP_DOCUMENTO <> '') ";
+                SQL += "AND(E.DT_COMPETENCIA IS NOT NULL OR E.DT_COMPETENCIA <> '') ";
+                SQL += "" + filterBy + " ";
+                SQL += "GROUP BY D.ID_CONTA_PAGAR_RECEBER, ";
+                SQL += "E.NR_DOCUMENTO, ";
+                SQL += "D.TP_DOCUMENTO, ";
+                SQL += "E.NR_PEDIDO_COMPRA_TOTVS, ";
+                SQL += "E.DT_LIQUIDACAO, ";
+                SQL += "E.DT_COMPETENCIA, ";
+                SQL += "E.DS_STATUS_TOTVS, ";
+                SQL += "E.DT_BAIXA_TOTVS ";
+
                 DataTable listTable = new DataTable();
                 listTable = DBS.List(SQL);
 
@@ -138,6 +215,125 @@ namespace ABAINFRA.Web.Services
             }
         }
 
+        [WebMethod(EnableSession = true)]
+        public string listarTaxasDocumento(int documento)
+        {
+            string SQL;
+            try
+            {
+                SQL = "SELECT D.ID_CONTA_PAGAR_RECEBER, ";
+                SQL += "A.NR_PROCESSO, ";
+                SQL += "E.NR_DOCUMENTO, ";
+                SQL += "D.TP_DOCUMENTO, ";
+                SQL += "ISNULL(E.NR_PEDIDO_COMPRA_TOTVS, '') NR_PEDIDO_COMPRA_TOTVS, ";
+                SQL += "E.DT_BAIXA_TOTVS AS BAIXA_TOTVS, ";
+                SQL += "FORMAT(A.DT_CHEGADA, 'dd/MM/yyyy') AS DT_CHEGADA, ";
+                SQL += "M.NR_BL AS MASTER, ";
+                SQL += "A.NR_BL AS HOUSE, ";
+                SQL += "ISNULL(FORMAT(E.DT_LIQUIDACAO, 'dd/MM/yyyy'), '') AS DT_LIQUIDACAO, ";
+                SQL += "E.DT_COMPETENCIA, ";
+                SQL += "C.NM_ITEM_DESPESA, ";
+                SQL += "B.VL_TAXA_CALCULADO, ";
+                SQL += "ISNULL(E.DS_STATUS_TOTVS, '') AS DS_STATUS_TOTVS ";
+                SQL += "FROM TB_BL A ";
+                SQL += "JOIN TB_BL M ON A.ID_BL_MASTER = M.ID_BL ";
+                SQL += "JOIN TB_BL_TAXA B ON A.ID_BL = B.ID_BL ";
+                SQL += "JOIN TB_ITEM_DESPESA C ON B.ID_ITEM_DESPESA = C.ID_ITEM_DESPESA ";
+                SQL += "JOIN TB_CONTA_PAGAR_RECEBER_ITENS D ON B.ID_BL_TAXA = D.ID_BL_TAXA ";
+                SQL += "JOIN TB_CONTA_PAGAR_RECEBER E ON E.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGAR_RECEBER ";
+                SQL += "WHERE B.ID_PARCEIRO_EMPRESA = 238332 ";
+                SQL += "AND(E.NR_DOCUMENTO IS NOT NULL OR E.NR_DOCUMENTO <> '') ";
+                SQL += "AND(D.TP_DOCUMENTO IS NOT NULL OR D.TP_DOCUMENTO <> '') ";
+                SQL += "AND(E.DT_COMPETENCIA IS NOT NULL OR E.DT_COMPETENCIA <> '') ";
+                SQL += "AND D.ID_CONTA_PAGAR_RECEBER = " + documento + " ";
+
+                DataTable listTable = new DataTable();
+                listTable = DBS.List(SQL);
+
+                if (listTable != null)
+                {
+                    return JsonConvert.SerializeObject(listTable);
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject("0");
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string InfoPedido(int documento)
+        {
+            string SQL;
+            try
+            {
+                SQL = "SELECT E.NR_DOCUMENTO, ";
+                SQL += "D.TP_DOCUMENTO, ";
+                SQL += "E.DT_COMPETENCIA, ";
+                SQL += "D.ID_CONTA_PAGAR_RECEBER ";
+                SQL += "FROM TB_CONTA_PAGAR_RECEBER_ITENS D ";
+                SQL += "JOIN TB_CONTA_PAGAR_RECEBER E ON E.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGAR_RECEBER ";
+                SQL += "WHERE D.ID_CONTA_PAGAR_RECEBER = " + documento + " ";
+                SQL += "GROUP BY E.NR_DOCUMENTO, D.TP_DOCUMENTO, E.DT_COMPETENCIA, D.ID_CONTA_PAGAR_RECEBER ";
+
+                DataTable listTable = new DataTable();
+                listTable = DBS.List(SQL);
+
+                if (listTable != null)
+                {
+                    return JsonConvert.SerializeObject(listTable);
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject("0");
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string EditarInfo(EditPedido dados)
+        {
+            string SQL;
+            try
+            {
+
+                SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET NR_DOCUMENTO = '" + dados.NR_DOCUMENTO + "', DT_COMPETENCIA = '" + dados.DT_COMPETENCIA + "' WHERE ID_CONTA_PAGAR_RECEBER = " + dados.ID_CONTA_PAGAR_RECEBER + "; ";
+                SQL += "UPDATE TB_CONTA_PAGAR_RECEBER_ITENS SET TP_DOCUMENTO = '" + dados.TP_DOCUMENTO + "' WHERE ID_CONTA_PAGAR_RECEBER = " + dados.ID_CONTA_PAGAR_RECEBER + "; ";
+                bool status = DBS.BeginTransaction(SQL);
+
+                if (!status) { return "400"; }
+                else { return "200"; }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public class FilterAdvanced
+        {
+            public string TP_DOCUMENTO { get; set; }
+            public string DT_PAGAMENTO_INICIO { get; set; }
+            public string DT_PAGAMENTO_FIM { get; set; }
+            public string DT_COMPETENCIA_INICIAL { get; set; }
+            public string DT_COMPETENCIA_FINAL { get; set; }
+        }
+
+        public class EditPedido
+        {
+            public string DT_COMPETENCIA { get; set; }
+            public string NR_DOCUMENTO { get; set; }
+            public int ID_CONTA_PAGAR_RECEBER { get; set; }
+            public string TP_DOCUMENTO { get; set; }
+        }
         public class ResultadoItem
         {
             public string code { get; set; }
@@ -156,24 +352,10 @@ namespace ABAINFRA.Web.Services
         }
 
         [WebMethod]
-        public string CriarPedido(List<int> dados)
+        public string CriarPedido(int documento)
         {
             string SQL;
-            string filter = "";
             var client = new HttpClient();
-
-            for (int i = 0; i < dados.Count; i++)
-            {
-                if (i == 0)
-                {
-                    filter += dados[i].ToString();
-                }
-                else
-                {
-                    filter += "," + dados[i].ToString();
-                }
-            }
-
 
             try
             {
@@ -230,7 +412,7 @@ namespace ABAINFRA.Web.Services
                 SQL += "AND (E.NR_DOCUMENTO IS NOT NULL OR E.NR_DOCUMENTO <> '') ";
                 SQL += "AND (D.TP_DOCUMENTO IS NOT NULL OR D.TP_DOCUMENTO <> '') ";
                 SQL += "AND (E.DT_COMPETENCIA IS NOT NULL OR E.DT_COMPETENCIA <> '') ";
-                SQL += "AND D.ID_CONTA_PAGAR_RECEBER_ITENS IN (" + filter + ") ";
+                SQL += "AND D.ID_CONTA_PAGAR_RECEBER = " + documento + " ";
                 SQL += "ORDER BY E.NR_DOCUMENTO ";
                 SQL += "FOR JSON PATH, ROOT ('PEDIDOS') ";
                 SQL += ") AS JSON ";
@@ -260,10 +442,9 @@ namespace ABAINFRA.Web.Services
                             Match match = Regex.Match(mensagem, @"\[(\d+)\]");
 
                             Console.WriteLine(responseObject.resultado[0]);
-                            string idConta = DBS.ExecuteScalar("SELECT MAX(ID_CONTA_PAGAR_RECEBER) AS ID_CONTA_PAGAR_RECEBER FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER_ITENS IN (" + filter + ")");
                             try
                             {
-                                SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET NR_PEDIDO_COMPRA_TOTVS = " + match.Groups[1].Value + " WHERE ID_CONTA_PAGAR_RECEBER = "+idConta+"";
+                                SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET NR_PEDIDO_COMPRA_TOTVS = " + match.Groups[1].Value + ", DS_STATUS_TOTVS = 'PEDIDO GERADO' WHERE ID_CONTA_PAGAR_RECEBER = " + documento  +"";
                                 DBS.BeginTransaction(SQL);
                                 string modifiedResponseContent = JsonConvert.SerializeObject(responseObject);
                                 return modifiedResponseContent;
@@ -299,13 +480,10 @@ namespace ABAINFRA.Web.Services
         }
 
         [WebMethod]
-        public string EstornarPedido(List<int> dados)
+        public string EstornarPedido(int documento)
         {
             try
             {
-                // Construir o filtro
-                string filter = string.Join(",", dados);
-
                 // Construir a consulta SQL
                 string SQL = @"
             SELECT (
@@ -361,7 +539,7 @@ namespace ABAINFRA.Web.Services
                     AND (E.NR_DOCUMENTO IS NOT NULL OR E.NR_DOCUMENTO <> '')
                     AND (D.TP_DOCUMENTO IS NOT NULL OR D.TP_DOCUMENTO <> '')
                     AND (E.DT_COMPETENCIA IS NOT NULL OR E.DT_COMPETENCIA <> '')
-                    AND D.ID_CONTA_PAGAR_RECEBER_ITENS IN (" + filter + @")
+                    AND D.ID_CONTA_PAGAR_RECEBER = " + documento + @"
                 ORDER BY E.NR_DOCUMENTO
                 FOR JSON PATH, ROOT ('PEDIDOS')
             ) AS JSON";
@@ -373,7 +551,7 @@ namespace ABAINFRA.Web.Services
                     var request = new HttpRequestMessage(HttpMethod.Delete, "http://abainfraestrutura144398.protheus.cloudtotvs.com.br:1116/api-rest/Pedidos");
                     request.Headers.Add("IdEmp", "01");
                     request.Headers.Add("IdFilial", "0602");
-                    var content = new StringContent("{\"PEDIDOS\":[{\"C7_FILIAL\":\"0602\",\"C7_TIPO\":1,\"C7_NUM\":\"000000\",\"C7_ITEM\":\"0001\",\"C7_PRODUTO\":\"\",\"C7_UM\":\" \",\"C7_QUANT\":1,\"C7_PRECO\":40.00,\"C7_TOTAL\":40.00,\"C7_LOCAL\":\"01\",\"C7_OBSM\":\"\",\"C7_FORNECE\":\"FOR1044\",\"C7_LOJA\":\"01\",\"C7_CONTA\":\"\",\"C7_ITEMCTA\":\"M18970523\",\"C7_CC\":\"\",\"C7_COND\":\"001\",\"C7_CONTATO\":\"\",\"C7_FILENT\":\"06\",\"C7_EMISSAO\":\"20240219\",\"C7_DESCRI\":\"DESCONSOLIDACAO\",\"C7_MSG\":\"\",\"C7_CONTROL\":\"I\",\"C7_DTIMP\":\"20240219\",\"C7_ALQCF2\":0,\"C7_ALQCOF\":0,\"C7_ALQPIS\":0,\"C7_ALQPS2\":0,\"C7_BASCOF\":0,\"C7_BASPIS\":0,\"C7_VALCOF\":0,\"C7_VALPIS\":0,\"C7_VALISS\":0,\"C7_FISCORI\":0,\"C7_XCODPRO\":55,\"C7_XDESPRO\":\"DESCONSOLIDACAO\",\"C7_XPEDLEG\":208677,\"C7_XCODFOR\":238332,\"C7_XLOJFOR\":\"01\",\"C7_XNFISC\":\"123456\",\"C7_XSERIE\":\"0\",\"C7_XTPDOC\":\"NF\"},{\"C7_FILIAL\":\"0602\",\"C7_TIPO\":1,\"C7_NUM\":\"000000\",\"C7_ITEM\":\"0002\",\"C7_PRODUTO\":\"\",\"C7_UM\":\" \",\"C7_QUANT\":1,\"C7_PRECO\":40.00,\"C7_TOTAL\":40.00,\"C7_LOCAL\":\"01\",\"C7_OBSM\":\"\",\"C7_FORNECE\":\"FOR1044\",\"C7_LOJA\":\"01\",\"C7_CONTA\":\"\",\"C7_ITEMCTA\":\"M19450523\",\"C7_CC\":\"\",\"C7_COND\":\"001\",\"C7_CONTATO\":\"\",\"C7_FILENT\":\"06\",\"C7_EMISSAO\":\"20240219\",\"C7_DESCRI\":\"DESCONSOLIDACAO\",\"C7_MSG\":\"\",\"C7_CONTROL\":\"I\",\"C7_DTIMP\":\"20240219\",\"C7_ALQCF2\":0,\"C7_ALQCOF\":0,\"C7_ALQPIS\":0,\"C7_ALQPS2\":0,\"C7_BASCOF\":0,\"C7_BASPIS\":0,\"C7_VALCOF\":0,\"C7_VALPIS\":0,\"C7_VALISS\":0,\"C7_FISCORI\":0,\"C7_XCODPRO\":55,\"C7_XDESPRO\":\"DESCONSOLIDACAO\",\"C7_XPEDLEG\":208677,\"C7_XCODFOR\":238332,\"C7_XLOJFOR\":\"01\",\"C7_XNFISC\":\"123456\",\"C7_XSERIE\":\"0\",\"C7_XTPDOC\":\"NF\"},{\"C7_FILIAL\":\"0602\",\"C7_TIPO\":1,\"C7_NUM\":\"000000\",\"C7_ITEM\":\"0003\",\"C7_PRODUTO\":\"\",\"C7_UM\":\" \",\"C7_QUANT\":1,\"C7_PRECO\":40.00,\"C7_TOTAL\":40.00,\"C7_LOCAL\":\"01\",\"C7_OBSM\":\"\",\"C7_FORNECE\":\"FOR1044\",\"C7_LOJA\":\"01\",\"C7_CONTA\":\"\",\"C7_ITEMCTA\":\"M19470523\",\"C7_CC\":\"\",\"C7_COND\":\"001\",\"C7_CONTATO\":\"\",\"C7_FILENT\":\"06\",\"C7_EMISSAO\":\"20240219\",\"C7_DESCRI\":\"DESCONSOLIDACAO\",\"C7_MSG\":\"\",\"C7_CONTROL\":\"I\",\"C7_DTIMP\":\"20240219\",\"C7_ALQCF2\":0,\"C7_ALQCOF\":0,\"C7_ALQPIS\":0,\"C7_ALQPS2\":0,\"C7_BASCOF\":0,\"C7_BASPIS\":0,\"C7_VALCOF\":0,\"C7_VALPIS\":0,\"C7_VALISS\":0,\"C7_FISCORI\":0,\"C7_XCODPRO\":55,\"C7_XDESPRO\":\"DESCONSOLIDACAO\",\"C7_XPEDLEG\":208677,\"C7_XCODFOR\":238332,\"C7_XLOJFOR\":\"01\",\"C7_XNFISC\":\"123456\",\"C7_XSERIE\":\"0\",\"C7_XTPDOC\":\"NF\"},{\"C7_FILIAL\":\"0602\",\"C7_TIPO\":1,\"C7_NUM\":\"000000\",\"C7_ITEM\":\"0004\",\"C7_PRODUTO\":\"\",\"C7_UM\":\" \",\"C7_QUANT\":1,\"C7_PRECO\":40.00,\"C7_TOTAL\":40.00,\"C7_LOCAL\":\"01\",\"C7_OBSM\":\"\",\"C7_FORNECE\":\"FOR1044\",\"C7_LOJA\":\"01\",\"C7_CONTA\":\"\",\"C7_ITEMCTA\":\"M19000523\",\"C7_CC\":\"\",\"C7_COND\":\"001\",\"C7_CONTATO\":\"\",\"C7_FILENT\":\"06\",\"C7_EMISSAO\":\"20240219\",\"C7_DESCRI\":\"DESCONSOLIDACAO\",\"C7_MSG\":\"\",\"C7_CONTROL\":\"I\",\"C7_DTIMP\":\"20240219\",\"C7_ALQCF2\":0,\"C7_ALQCOF\":0,\"C7_ALQPIS\":0,\"C7_ALQPS2\":0,\"C7_BASCOF\":0,\"C7_BASPIS\":0,\"C7_VALCOF\":0,\"C7_VALPIS\":0,\"C7_VALISS\":0,\"C7_FISCORI\":0,\"C7_XCODPRO\":55,\"C7_XDESPRO\":\"DESCONSOLIDACAO\",\"C7_XPEDLEG\":208677,\"C7_XCODFOR\":238332,\"C7_XLOJFOR\":\"01\",\"C7_XNFISC\":\"123456\",\"C7_XSERIE\":\"0\",\"C7_XTPDOC\":\"NF\"}]}\r\n", null, "application/json");
+                    var content = new StringContent(DBS.Json(SQL), null, "application/json");
                     request.Content = content;
 
 
@@ -403,10 +581,9 @@ namespace ABAINFRA.Web.Services
                                 Console.WriteLine(responseObject.resultado[0]);
 
                                 // Executar uma consulta SQL para atualizar um campo no banco de dados
-                                string idConta = DBS.ExecuteScalar("SELECT MAX(ID_CONTA_PAGAR_RECEBER) AS ID_CONTA_PAGAR_RECEBER FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER_ITENS IN (" + filter + ")");
                                 try
                                 {
-                                    SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET NR_PEDIDO_COMPRA_TOTVS = NULL WHERE ID_CONTA_PAGAR_RECEBER = "+idConta+"";
+                                    SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET NR_PEDIDO_COMPRA_TOTVS = NULL, DS_STATUS_TOTVS = 'PEDIDO ESTORNADO' WHERE ID_CONTA_PAGAR_RECEBER = " + documento +"";
                                     DBS.ExecuteScalar(SQL);
 
                                     // Serializar a resposta modificada de volta para uma string JSON
@@ -439,6 +616,27 @@ namespace ABAINFRA.Web.Services
                 {
                     return "Consulta SQL retornou nulo ou vazio.";
                 }
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+        }
+
+        [WebMethod]
+        public string DeletarPedido(int documento)
+        {
+            try
+            {
+                // Construir a consulta SQL
+                string SQL;
+
+                SQL = "DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " + documento + ";";
+                SQL += "DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " + documento + "; ";
+                DBS.BeginTransaction(SQL);
+
+                return "200";
+
             }
             catch (Exception e)
             {
