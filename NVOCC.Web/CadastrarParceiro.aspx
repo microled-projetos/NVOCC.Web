@@ -7,7 +7,7 @@
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">7PARCEIROS
+                    <h3 class="panel-title">PARCEIROS
                     </h3>
                 </div>
                 <div class="panel-body">
@@ -346,7 +346,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">FCL:</label>
-                                                <asp:TextBox ID="txtSpreadImpoFCL" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadImpoFCL" runat="server" CssClass="form-control spread" MaxLength="7" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -374,7 +374,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">LCL:</label>
-                                                <asp:TextBox ID="txtSpreadImpoLCL" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadImpoLCL" runat="server" CssClass="form-control spread" MaxLength="7" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -402,7 +402,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Aéreo:</label>
-                                                <asp:TextBox ID="txtSpreadImpoAereo" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadImpoAereo" runat="server" CssClass="form-control spread" MaxLength="7" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -430,7 +430,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Free Hand:</label>
-                                                <asp:TextBox ID="txtSpreadImpoFree" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadImpoFree" runat="server" CssClass="form-control spread" MaxLength="7" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -460,7 +460,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">FCL:</label>
-                                                <asp:TextBox ID="txtSpreadExpoFCL" runat="server" CssClass="form-control" MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadExpoFCL" runat="server" CssClass="form-control spread" MaxLength="7" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -488,7 +488,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">LCL:</label>
-                                                <asp:TextBox ID="txtSpreadExpoLCL" runat="server" CssClass="form-control" onkeypress="return nomeFuncao( this , event ) ;" MaxLength="6"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadExpoLCL" runat="server" CssClass="form-control spread" MaxLength="7" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -516,7 +516,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Aéreo:</label>
-                                                <asp:TextBox ID="txtSpreadExpoAereo" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadExpoAereo" runat="server" CssClass="form-control spread" MaxLength="7" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -544,7 +544,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Free Hand:</label>
-                                                <asp:TextBox ID="txtSpreadExpoFree" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                                <asp:TextBox ID="txtSpreadExpoFree" runat="server" CssClass="form-control spread" MaxLength="7" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -1137,12 +1137,6 @@ union SELECT  0, '  Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            $(".SPREAD").keyup(function () {
-                var valor = $(".SPREAD").val().replace(/[^0-9-,]+/g, '');
-            });
-        });
-
         function nomeFuncao(obj, e) {
             var tecla = (window.event) ? e.keyCode : e.which;
             if (tecla == 8 || tecla == 0)
@@ -1153,8 +1147,6 @@ union SELECT  0, '  Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
 
         function DadoBancarios() {
-
-
             var ID = document.getElementById('<%= txtID.ClientID %>').value;
             console.log(ID);
 
